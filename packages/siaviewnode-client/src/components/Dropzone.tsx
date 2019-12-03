@@ -16,7 +16,10 @@ function MyDropzone() {
       const url = API_ENDPOINT + "/siafile"
       fetch(url, {
         method: "POST",
-        body: fd
+        body: fd,
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
       }).then(res => {
         const readableStream = res.body
         const fileStream = streamSaver.createWriteStream("file.webm")
