@@ -17,7 +17,8 @@ function MyDropzone() {
   const onDrop = useCallback(acceptedFiles => {
     const file = R.head(acceptedFiles)
     const fd = new FormData()
-    const fileName = R.compose(splitFilename, pName(file as any))
+    const fileName = R.compose(splitFilename, pName)(file)
+    console.log("filename", fileName)
     fd.append("file", file)
     if (window) {
       const streamSaver = require("streamsaver")
