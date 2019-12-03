@@ -11,11 +11,13 @@ const API_ENDPOINT = "/api"
 
 const pName = R.prop("name")
 
+const splitFilename = R.compose(R.head, R.split(".sia"))
+
 function MyDropzone() {
   const onDrop = useCallback(acceptedFiles => {
     const file = R.head(acceptedFiles)
     const fd = new FormData()
-    const fileName = pName(file as any)
+    const fileName = R.compose(splitFilename, pName(file as any))
     fd.append("file", file)
     if (window) {
       const streamSaver = require("streamsaver")
