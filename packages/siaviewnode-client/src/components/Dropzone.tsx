@@ -4,7 +4,10 @@ import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { Box, Flex, jsx } from "theme-ui"
 
-const API_ENDPOINT = "http://144.76.136.122/api"
+/**
+ * nginx is setup to automatically handle and rewrite the url path.
+ */
+const API_ENDPOINT = "/api"
 
 const pName = R.prop("name")
 
