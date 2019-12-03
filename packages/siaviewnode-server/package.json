@@ -2,7 +2,7 @@
   "name": "siaviewnode-server",
   "version": "0.0.1",
   "scripts": {
-    "start": "node ./build/main.js",
+    "start": "PORT=4000 node ./build/main.js",
     "dev": "PORT=4000 backpack dev",
     "build": "backpack build"
   },
