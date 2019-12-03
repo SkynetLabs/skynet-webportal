@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es2015.promise", "dom"],
+    "strict": false,
+    "skipLibCheck": true
+  }
+}

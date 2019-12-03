@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+    "client-dev": "yarn workspace siaviewnode-client dev -p 3000",
+    "server-dev": "yarn workspace siaviewnode-server dev",
+    "dev": "concurrently \"yarn client-dev\" \"yarn server-dev\""
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "3.16.5"
+  },
+  "dependencies": {
+    "concurrently": "5.0.0"
+  }
+}
