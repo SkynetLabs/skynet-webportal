@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "siaviewer",
+      "script": "yarn",
+      "args": "start"
+    }
+  ]
+}
