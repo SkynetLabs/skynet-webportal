@@ -4,8 +4,6 @@ import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { Box, Flex, jsx } from "theme-ui"
 
-import { saveAs } from "file-saver"
-
 const API_ENDPOINT = "http://localhost:4000"
 
 function MyDropzone() {
