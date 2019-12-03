@@ -4,12 +4,15 @@ import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { Box, Flex, jsx } from "theme-ui"
 
-const API_ENDPOINT = "/api"
+const API_ENDPOINT = "http://144.76.136.122/api"
+
+const pName = R.prop("name")
 
 function MyDropzone() {
   const onDrop = useCallback(acceptedFiles => {
     const file = R.head(acceptedFiles)
     const fd = new FormData()
+    const fileName = pName(file as any)
     fd.append("file", file)
     if (window) {
       const streamSaver = require("streamsaver")
@@ -22,7 +25,7 @@ function MyDropzone() {
         }
       }).then(res => {
         const readableStream = res.body
-        const fileStream = streamSaver.createWriteStream("file.webm")
+        const fileStream = streamSaver.createWriteStream(fileName)
 
         // more optimized
         if (window.WritableStream && readableStream.pipeTo) {
