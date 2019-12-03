@@ -8,7 +8,7 @@ import { CircularProgress } from "@material-ui/core"
 /**
  * nginx is setup to automatically handle and rewrite the url path.
  */
-const API_ENDPOINT = "http://144.76.136.122/api"
+const API_ENDPOINT = "/api"
 
 const pName = R.prop("name")
 
