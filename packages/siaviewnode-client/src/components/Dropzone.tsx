@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import * as R from "ramda"
-import { useCallback, useState } from "react"
+import { useCallback, useState, useRef } from "react"
 import { useDropzone } from "react-dropzone"
 import { Box, Flex, jsx } from "theme-ui"
-import { CircularProgress } from "@material-ui/core"
-
+import { CircularProgress, Button } from "@material-ui/core"
+import { saveAs } from "file-saver"
 /**
  * nginx is setup to automatically handle and rewrite the url path.
  */
@@ -18,83 +18,62 @@ const splitFilename = R.compose(R.head, R.split(".sia"))
 function MyDropzone() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const formRef = useRef(null)
+  const inputRef = useRef(null)
+
   const onDrop = useCallback(
     acceptedFiles => {
       setLoading(true)
       const file = R.head(acceptedFiles)
-      const fd = new FormData()
+      const fd = new FormData(formRef.current)
       const fileName = R.compose(splitFilename, pName)(file)
 
-      fd.append("file", file)
-      if (window) {
-        const streamSaver = require("streamsaver")
-        console.log("streamSaver", streamSaver)
-        const url = API_ENDPOINT + "/siafile"
-        fetch(url, {
-          method: "POST",
-          body: fd,
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
-        })
-          .then(res => {
-            if (!res.ok) {
-              setLoading(false)
-              setError(res.status + " " + res.statusText)
-              return
-            }
-            const readableStream = res.body
-            const fileStream = streamSaver.createWriteStream(fileName)
+      const url = API_ENDPOINT + "/siafile"
 
-            // more optimized
-            if (window.WritableStream && readableStream.pipeTo) {
-              return readableStream.pipeTo(fileStream).then(() => {
-                setLoading(false)
-                console.log("done writing")
-              })
-            }
-            ;(window as any).writer = fileStream.getWriter()
-            const reader = res.body.getReader()
-            const pump = () =>
-              reader
-                .read()
-                .then(res =>
-                  res.done
-                    ? (window as any).writer.close()
-                    : (window as any).writer.write(res.value).then(pump)
-                )
-                .catch(e => {
-                  setLoading(false)
-                })
-            pump()
-          })
-          .catch(e => {
-            // setError(e)
-            console.log("error is", e)
-            setLoading(false)
-          })
-      }
+      // formRef.current.submit()
+
+      // fetch(url, {
+      //   method: "POST",
+      //   body: fd,
+      //   credentials: "include"
+      // })
+      //   .then(res => {
+      //     return res.headers
+      //   })
+      //   .then(headers => {
+      //     console.log("WE OUT HERE BOYS", document.cookie)
+      //     fetch(API_ENDPOINT + "/siafile/download", {
+      //       credentials: "include"
+      //     })
+      //       .then(res => res.blob())
+      //       .then(blob => saveAs(blob, fileName))
+      //     // saveAs(API_ENDPOINT + "/siafile/download", fileName)
+      //   })
+      //   .catch(e => {
+      //     console.log("error is", e)
+      //     setLoading(false)
+      //   })
     },
-    [loading, setLoading, error, setError]
+    [loading, setLoading, error, setError, formRef]
   )
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
     <Box>
       <Flex
-        {...getRootProps()}
         sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
       >
-        <input {...getInputProps()} />
-        {error && error}
-        {!error &&
-          (loading ? (
-            <CircularProgress color="secondary" />
-          ) : isDragActive ? (
-            <p>Drop to 🚀 ...</p>
-          ) : (
-            <p>Drag 'n' drop a Sia file here, or click to select a Sia file.</p>
-          ))}
+        <form
+          id="hidden-form"
+          action={`${API_ENDPOINT}/siafile`}
+          method="POST"
+          encType="multipart/form-data"
+          ref={formRef}
+        >
+          <input type="file" name="file" ref={inputRef} />
+          <Button type="submit"> Download</Button>
+        </form>
       </Flex>
     </Box>
   )

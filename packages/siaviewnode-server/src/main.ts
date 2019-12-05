@@ -52,16 +52,24 @@ export class Server {
   private getPort = (): number => parseInt(process.env.PORT, 10) || 3000
 
   private setRoutes = (): void => {
-    this.app.use(cors())
+    this.app.use(
+      cors({
+        origin: "http://localhost:*",
+        credentials: true
+      })
+    )
     this.app.use(
       fileUpload({
         limits: { fileSize: 10 * 1024 * 1024 }
       })
     )
-    this.app.post("/siafile", this.getSiaFile)
+    this.app.post("/siafile", this.postSiaFile)
+    this.app.get("/siafile/download", this.downloadSiaFile)
   }
 
-  private async getSiaFile(
+  private async downloadSiaFile(req, res) {}
+
+  private async postSiaFile(
     req: express.Request & any,
     res: express.Response
   ): Promise<express.Response> {
@@ -69,19 +77,33 @@ export class Server {
     try {
       const file: any = selectFile(req)
 
-      const { data: stream } = await siad.post("/renter/stream", file.data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        responseType: "stream"
-      })
+      const selectContentLength = R.path(["headers", "Content-Length"])
+      const cl = selectContentLength(req)
+      console.log("cl is", cl)
 
-      res.attachment(file.name)
-      res.set("Content-Type", "application/octet-stream")
+      console.log("file is", file)
 
+      const { data: stream, headers } = await siad.post(
+        "/renter/stream",
+        file.data,
+        {
+          responseType: "stream"
+        }
+      )
+      const contentLength = headers["Content-Length"]
+
+      const pName = R.prop("name")
+      const splitFilename = R.compose(R.head, R.split(".sia"))
+      const fileName = R.compose(splitFilename, pName)(file)
+
+      res.set(
+        "Content-Disposition",
+        `attachment; filename="${fileName}"; filename*="${fileName}"`
+      )
+      res.set("Content-Length", contentLength)
       stream.pipe(res)
     } catch (e) {
-      console.log("e is", e)
+      console.log("postSiaFile err:", e)
       return res.json({ error: e.message })
     }
   }
