@@ -8,7 +8,8 @@ import { CircularProgress } from "@material-ui/core"
 /**
  * nginx is setup to automatically handle and rewrite the url path.
  */
-const API_ENDPOINT = "/api"
+const API_ENDPOINT =
+  process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/api"
 
 const pName = R.prop("name")
 
@@ -27,6 +28,7 @@ function MyDropzone() {
       fd.append("file", file)
       if (window) {
         const streamSaver = require("streamsaver")
+        console.log("streamSaver", streamSaver)
         const url = API_ENDPOINT + "/siafile"
         fetch(url, {
           method: "POST",
@@ -67,7 +69,8 @@ function MyDropzone() {
             pump()
           })
           .catch(e => {
-            setError(e)
+            // setError(e)
+            console.log("error is", e)
             setLoading(false)
           })
       }

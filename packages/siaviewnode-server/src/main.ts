@@ -68,7 +68,6 @@ export class Server {
     const selectFile = R.path(["files", "file"])
     try {
       const file: any = selectFile(req)
-      console.log("file is", req.files)
 
       const { data: stream } = await siad.post("/renter/stream", file.data, {
         headers: {
@@ -80,14 +79,7 @@ export class Server {
       res.attachment(file.name)
       res.set("Content-Type", "application/octet-stream")
 
-      stream.on("data", chunk => {
-        console.log("chunk...")
-        res.write(chunk)
-      })
-      stream.on("end", () => {
-        console.log("end...")
-        res.end()
-      })
+      stream.pipe(res)
     } catch (e) {
       console.log("e is", e)
       return res.json({ error: e.message })
