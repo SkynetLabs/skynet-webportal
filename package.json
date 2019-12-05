@@ -6,7 +6,7 @@
     "client-prod": "yarn workspace siaviewnode-client build && yarn workspace siaviewnode-client start -p 3000",
     "server-prod": "yarn workspace siaviewnode-server build && yarn workspace siaviewnode-server start",
     "dev": "concurrently \"yarn client-dev\" \"yarn server-dev\"",
-    "start": "concurrently \"yarn client-prod\" \"yarn server-prod\""
+    "start": "NODE_ENV=production concurrently \"yarn client-prod\" \"yarn server-prod\""
   },
   "workspaces": {
     "packages": [
