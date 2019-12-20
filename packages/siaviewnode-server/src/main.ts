@@ -71,7 +71,7 @@ export class Server {
     // siafile
     this.app.post("/siafile", this.postSiaFile)
     // linkfile
-    this.app.post("/linkfile/upload", this.handleLinkUpload)
+    this.app.post("/linkfile", this.handleLinkUpload)
   }
 
   private async handleLinkUpload(

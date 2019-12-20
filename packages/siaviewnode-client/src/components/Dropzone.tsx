@@ -24,7 +24,7 @@ function MyDropzone() {
     acceptedFiles => {
       setLoading(true)
       const file = R.head(acceptedFiles)
-      const url = API_ENDPOINT + "/linkfile/upload"
+      const url = API_ENDPOINT + "/linkfile"
       const fd = new FormData()
       fd.append("file", file)
 
