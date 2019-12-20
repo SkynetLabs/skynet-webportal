@@ -64,10 +64,7 @@ export class Server {
       })
     )
     this.app.post("/siafile", this.postSiaFile)
-    this.app.get("/siafile/download", this.downloadSiaFile)
   }
-
-  private async downloadSiaFile(req, res) {}
 
   private async postSiaFile(
     req: express.Request & any,

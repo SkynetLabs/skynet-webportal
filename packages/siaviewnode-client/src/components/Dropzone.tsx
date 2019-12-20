@@ -25,34 +25,23 @@ function MyDropzone() {
     acceptedFiles => {
       setLoading(true)
       const file = R.head(acceptedFiles)
-      const fd = new FormData(formRef.current)
-      const fileName = R.compose(splitFilename, pName)(file)
+      const url = API_ENDPOINT + "/linkfile/upload"
+      console.log("file is", file)
 
-      const url = API_ENDPOINT + "/siafile"
-
-      // formRef.current.submit()
-
-      // fetch(url, {
-      //   method: "POST",
-      //   body: fd,
-      //   credentials: "include"
-      // })
-      //   .then(res => {
-      //     return res.headers
-      //   })
-      //   .then(headers => {
-      //     console.log("WE OUT HERE BOYS", document.cookie)
-      //     fetch(API_ENDPOINT + "/siafile/download", {
-      //       credentials: "include"
-      //     })
-      //       .then(res => res.blob())
-      //       .then(blob => saveAs(blob, fileName))
-      //     // saveAs(API_ENDPOINT + "/siafile/download", fileName)
-      //   })
-      //   .catch(e => {
-      //     console.log("error is", e)
-      //     setLoading(false)
-      //   })
+      fetch(url, {
+        method: "POST",
+        body: file
+      })
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          console.log("WE OUT HERE BOYS", data)
+        })
+        .catch(e => {
+          console.log("error is", e)
+          setLoading(false)
+        })
     },
     [loading, setLoading, error, setError, formRef]
   )
@@ -62,18 +51,15 @@ function MyDropzone() {
   return (
     <Box>
       <Flex
+        {...getRootProps()}
         sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
       >
-        <form
-          id="hidden-form"
-          action={`${API_ENDPOINT}/siafile`}
-          method="POST"
-          encType="multipart/form-data"
-          ref={formRef}
-        >
-          <input type="file" name="file" ref={inputRef} />
-          <Button type="submit"> Download</Button>
-        </form>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop file here ...</p>
+        ) : (
+          <p>Drag 'n' drop a file here, or click to select a file</p>
+        )}
       </Flex>
     </Box>
   )
