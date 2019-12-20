@@ -1,4 +1,5 @@
 import * as express from "express"
+import * as shortid from "shortid"
 import * as fileUpload from "express-fileupload"
 import * as R from "ramda"
 import * as cors from "cors"
@@ -18,6 +19,10 @@ const siad = axios.create({
     password: "d05bb024715aea0bb734ce057acbae27"
   }
 })
+
+// Ramda shared utility functions
+const selectFile = R.path(["files", "file"])
+const pName = R.prop("name")
 
 declare var __DEV__: boolean
 
@@ -63,14 +68,45 @@ export class Server {
         limits: { fileSize: 10 * 1024 * 1024 }
       })
     )
+    // siafile
     this.app.post("/siafile", this.postSiaFile)
+    // linkfile
+    this.app.post("/linkfile", this.handleLinkUpload)
+  }
+
+  private async handleLinkUpload(
+    req: express.Request,
+    res: express.Response
+  ): Promise<express.Response> {
+    const fileToUpload: any = selectFile(req)
+    console.log("file:", fileToUpload)
+    const filename = pName(fileToUpload)
+    console.log("filename:", filename)
+    const uid = shortid.generate()
+    console.log("uid:", uid)
+    try {
+      // TODO: add uuid so we don't collide
+      const { data } = await siad.post(
+        `/renter/linkfile/linkfiles/${uid}`,
+        fileToUpload.data,
+        {
+          params: {
+            name: filename
+          }
+        }
+      )
+      console.log("data is ", data)
+      return res.send(data)
+    } catch (err) {
+      console.log("err", err)
+      return res.sendStatus(500)
+    }
   }
 
   private async postSiaFile(
     req: express.Request & any,
     res: express.Response
   ): Promise<express.Response> {
-    const selectFile = R.path(["files", "file"])
     try {
       const file: any = selectFile(req)
 
@@ -89,7 +125,6 @@ export class Server {
       )
       const contentLength = headers["Content-Length"]
 
-      const pName = R.prop("name")
       const splitFilename = R.compose(R.head, R.split(".sia"))
       const fileName = R.compose(splitFilename, pName)(file)
 

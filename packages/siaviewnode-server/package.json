@@ -17,6 +17,7 @@
     "express-fileupload": "1.1.6",
     "express-session": "1.17.0",
     "ramda": "0.26.1",
+    "shortid": "2.2.15",
     "typescript": "^3.5.2"
   },
   "devDependencies": {
