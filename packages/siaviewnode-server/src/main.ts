@@ -59,7 +59,7 @@ export class Server {
   private setRoutes = (): void => {
     this.app.use(
       cors({
-        origin: "http://localhost:*",
+        origin: "*",
         credentials: true
       })
     )
@@ -71,7 +71,7 @@ export class Server {
     // siafile
     this.app.post("/siafile", this.postSiaFile)
     // linkfile
-    this.app.post("/linkfile", this.handleLinkUpload)
+    this.app.post("/linkfile/upload", this.handleLinkUpload)
   }
 
   private async handleLinkUpload(
@@ -98,7 +98,7 @@ export class Server {
       console.log("data is ", data)
       return res.send(data)
     } catch (err) {
-      console.log("err", err)
+      console.log("err", err.message)
       return res.sendStatus(500)
     }
   }

@@ -18,49 +18,64 @@ const splitFilename = R.compose(R.head, R.split(".sia"))
 function MyDropzone() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const formRef = useRef(null)
-  const inputRef = useRef(null)
+  const [link, setLink] = useState("")
 
   const onDrop = useCallback(
     acceptedFiles => {
       setLoading(true)
       const file = R.head(acceptedFiles)
       const url = API_ENDPOINT + "/linkfile/upload"
-      console.log("file is", file)
+      const fd = new FormData()
+      fd.append("file", file)
 
       fetch(url, {
         method: "POST",
-        body: file
+        body: fd,
+        mode: "cors"
       })
         .then(res => {
           return res.json()
         })
-        .then(data => {
-          console.log("WE OUT HERE BOYS", data)
+        .then(({ sialink }) => {
+          console.log("WE OUT HERE BOYS", sialink)
+          setLink(sialink)
+          setLoading(false)
         })
         .catch(e => {
-          console.log("error is", e)
+          console.log("Upload error:", e)
+          setError("An unexpected error occured. Check console for details.")
           setLoading(false)
         })
     },
-    [loading, setLoading, error, setError, formRef]
+    [loading, setLoading, error, setError]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
     <Box>
-      <Flex
-        {...getRootProps()}
-        sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop file here ...</p>
-        ) : (
-          <p>Drag 'n' drop a file here, or click to select a file</p>
-        )}
-      </Flex>
+      {link ? (
+        <Flex
+          sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
+        >
+          <h5>{link}</h5>
+        </Flex>
+      ) : (
+        <Flex
+          {...getRootProps()}
+          sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
+        >
+          <input {...getInputProps()} />
+          {isDragActive && !loading && !error && !link && (
+            <p>Drop file here ...</p>
+          )}
+          {!isDragActive && !loading && !error && !link && (
+            <p>Drag 'n' drop a file here, or click to select a file</p>
+          )}
+          {loading && <CircularProgress />}
+          {error && !loading && <h5>{error}</h5>}
+        </Flex>
+      )}
     </Box>
   )
 }
