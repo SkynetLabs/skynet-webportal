@@ -3,6 +3,7 @@ import * as shortid from "shortid"
 import * as fileUpload from "express-fileupload"
 import * as R from "ramda"
 import * as cors from "cors"
+import * as proxy from "express-http-proxy"
 import axios from "axios"
 
 const SIAD_ENDPOINT = "http://localhost:9980"
@@ -71,6 +72,19 @@ export class Server {
     // siafile
     this.app.post("/siafile", this.postSiaFile)
     // linkfile
+    this.app.get(
+      "/linkfile/:hash",
+      proxy("http://localhost:9980/renter/sialink", {
+        proxyReqOptDecorator: (opts, _) => {
+          opts.headers["User-Agent"] = "Sia-Agent"
+          return opts
+        },
+        proxyReqPathResolver: req => {
+          const { hash } = req.params
+          return `/renter/sialink/${hash}`
+        }
+      })
+    )
     this.app.post("/linkfile", this.handleLinkUpload)
   }
 
@@ -85,7 +99,6 @@ export class Server {
     const uid = shortid.generate()
     console.log("uid:", uid)
     try {
-      // TODO: add uuid so we don't collide
       const { data } = await siad.post(
         `/renter/linkfile/linkfiles/${uid}`,
         fileToUpload.data,
