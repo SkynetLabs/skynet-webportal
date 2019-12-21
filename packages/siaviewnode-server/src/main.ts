@@ -73,7 +73,7 @@ export class Server {
     this.app.post("/siafile", this.postSiaFile)
     // linkfile
     this.app.get(
-      "/linkfile/:hash",
+      "/sialink/:hash",
       proxy("http://localhost:9980/renter/sialink", {
         proxyReqOptDecorator: (opts, _) => {
           opts.headers["User-Agent"] = "Sia-Agent"
