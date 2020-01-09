@@ -1,10 +1,10 @@
-import * as express from "express"
-import * as shortid from "shortid"
-import * as fileUpload from "express-fileupload"
-import * as R from "ramda"
-import * as cors from "cors"
-import * as proxy from "express-http-proxy"
 import axios from "axios"
+import * as cors from "cors"
+import * as express from "express"
+import * as fileUpload from "express-fileupload"
+import * as proxy from "express-http-proxy"
+import * as R from "ramda"
+import * as shortid from "shortid"
 
 const SIAD_ENDPOINT = "http://localhost:9980"
 
@@ -103,6 +103,7 @@ export class Server {
         `/renter/linkfile/linkfiles/${uid}`,
         fileToUpload.data,
         {
+          maxContentLength: 1000 * 1024 * 1024,
           params: {
             name: filename
           }
