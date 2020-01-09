@@ -66,7 +66,7 @@ export class Server {
     )
     this.app.use(
       fileUpload({
-        limits: { fileSize: 10 * 1024 * 1024 }
+        limits: { fileSize: 1000 * 1024 * 1024 }
       })
     )
     // siafile
