@@ -1,11 +1,16 @@
 import axios from "axios"
-import * as cors from "cors"
-import * as express from "express"
-import * as fileUpload from "express-fileupload"
-import * as proxy from "express-http-proxy"
-import * as R from "ramda"
-import * as shortid from "shortid"
+import cors from "cors"
+import express, { Request, Response } from "express"
+import fileUpload, { UploadedFile } from "express-fileupload"
+import proxy from "express-http-proxy"
+import requestId from "express-request-id"
+import morgan from 'morgan'
+import R from "ramda"
+import shortid from "shortid"
+import { Logger } from "winston"
+import logger from "./logger"
 
+const MAX_UPLOAD_FILESIZE = 1000 * 1024 * 1024
 const SIAD_ENDPOINT = "http://localhost:9980"
 
 // simple siad connection with static strings
@@ -25,119 +30,101 @@ const siad = axios.create({
 const selectFile = R.path(["files", "file"])
 const pName = R.prop("name")
 
-declare var __DEV__: boolean
-
 export class Server {
   public app: express.Express
-  public port: number
 
-  constructor() {
+  constructor(private logger: Logger) { this.boot() }
+
+  private boot() {
     this.app = express()
-    this.port = this.getPort()
-    this.setRoutes()
-    this.start()
+
+    this.logger.info("Configuring middleware...")
+    this.configureMiddleware()
+
+    this.logger.info("Configuring routes...")
+    this.configureRoutes()
+
+    this.logger.info("Booting server...")
+    const port = parseInt(process.env.PORT, 10) || 3000
+    this.app.listen(port, () => {
+      this.logger.info(`Listening on port ${port}`)
+    })
   }
 
-  private start = (): void => {
-    this.app.listen(this.port, this.onListen)
-  }
-
-  private onListen = (err: any): void => {
-    if (err) {
-      console.error(err)
-      return
+  private configureMiddleware() {
+    // add morgan middleware (HTTP request logging)
+    const options = {
+      stream: {
+        write: (msg: string) => { this.logger.info(msg) }
+      }
     }
+    this.app.use(morgan("combined", options));
 
-    if (__DEV__) {
-      console.log("> in development")
-    }
+    // add request id middleware (add unique id to X-Request-Id header)
+    this.app.use(requestId())
 
-    console.log(`> listening on port ${this.port}`)
+    // configure CORS (simply enable all CORS requests)
+    this.app.use(cors())
+
+    // configure upload limits
+    this.app.use(fileUpload({ limits: { fileSize: MAX_UPLOAD_FILESIZE } }))
   }
 
-  private getPort = (): number => parseInt(process.env.PORT, 10) || 3000
-
-  private setRoutes = (): void => {
-    this.app.use(
-      cors({
-        origin: "*",
-        credentials: true
-      })
-    )
-    this.app.use(
-      fileUpload({
-        limits: { fileSize: 1000 * 1024 * 1024 }
-      })
-    )
-    // siafile
-    this.app.post("/siafile", this.postSiaFile)
-    // linkfile
-    this.app.get(
-      "/sialink/:hash",
-      proxy("http://localhost:9980/renter/sialink", {
-        proxyReqOptDecorator: (opts, _) => {
-          opts.headers["User-Agent"] = "Sia-Agent"
-          return opts
-        },
-        proxyReqPathResolver: req => {
-          const { hash } = req.params
-          return `/renter/sialink/${hash}`
-        }
-      })
-    )
-    this.app.post("/linkfile", this.handleLinkUpload)
+  private configureRoutes() {
+    this.app.get("/sialink/:hash", this.handleSialinkGET.bind(this))
+    this.app.post("/siafile", this.handleSiafilePOST.bind(this))
+    this.app.post("/linkfile", this.handleLinkfilePOST.bind(this))
   }
 
-  private async handleLinkUpload(
-    req: express.Request,
-    res: express.Response
-  ): Promise<express.Response> {
-    const fileToUpload: any = selectFile(req)
-    console.log("file:", fileToUpload)
-    const filename = pName(fileToUpload)
-    console.log("filename:", filename)
+  private handleSialinkGET() {
+    return proxy(`${SIAD_ENDPOINT}/renter/sialink`, {
+      proxyReqOptDecorator: (opts, _) => {
+        opts.headers["User-Agent"] = "Sia-Agent"
+        return opts
+      },
+      proxyReqPathResolver: req => {
+        const { hash } = req.params
+        return `/renter/sialink/${hash}`
+      }
+    })
+  }
+
+  private async handleLinkfilePOST(req: Request, res: Response): Promise<Response> {
+    const file = selectFile(req) as UploadedFile
     const uid = shortid.generate()
-    console.log("uid:", uid)
+
+    this.logger.info(`POST linkfile w/name ${file.name} and uid ${uid}`)
+
     try {
       const { data } = await siad.post(
         `/renter/linkfile/linkfiles/${uid}`,
-        fileToUpload.data,
+        file.data,
         {
-          maxContentLength: 1000 * 1024 * 1024,
-          params: {
-            name: filename
-          }
+          maxContentLength: MAX_UPLOAD_FILESIZE,
+          params: { name: file.name }
         }
       )
-      console.log("data is ", data)
       return res.send(data)
     } catch (err) {
-      console.log("err", err.message)
-      return res.sendStatus(500)
+      const { message } = err;
+      this.logger.error(message)
+      return res.status(500).send({ error: err.message })
     }
   }
 
-  private async postSiaFile(
-    req: express.Request & any,
-    res: express.Response
-  ): Promise<express.Response> {
+  private async handleSiafilePOST(req: Request, res: Response): Promise<Response> {
+    const file = selectFile(req) as UploadedFile
+    const selectContentLength = R.path(["headers", "Content-Length"])
+    const cl = selectContentLength(req)
+
+    this.logger.info(`POST siafile ${file.name} w/contentlength ${cl}`)
+
     try {
-      const file: any = selectFile(req)
-
-      const selectContentLength = R.path(["headers", "Content-Length"])
-      const cl = selectContentLength(req)
-      console.log("cl is", cl)
-
-      console.log("file is", file)
-
       const { data: stream, headers } = await siad.post(
         "/renter/stream",
         file.data,
-        {
-          responseType: "stream"
-        }
+        { responseType: "stream" }
       )
-      const contentLength = headers["Content-Length"]
 
       const splitFilename = R.compose(R.head, R.split(".sia"))
       const fileName = R.compose(splitFilename, pName)(file)
@@ -146,13 +133,14 @@ export class Server {
         "Content-Disposition",
         `attachment; filename="${fileName}"; filename*="${fileName}"`
       )
-      res.set("Content-Length", contentLength)
-      stream.pipe(res)
-    } catch (e) {
-      console.log("postSiaFile err:", e)
-      return res.json({ error: e.message })
+      res.set("Content-Length", headers["Content-Length"])
+      return stream.pipe(res)
+    } catch (err) {
+      const { message } = err;
+      this.logger.error(message)
+      return res.status(500).send({ error: err.message })
     }
   }
 }
 
-module.exports = new Server().app
+module.exports = new Server(logger).app
