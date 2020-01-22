@@ -49,6 +49,13 @@ export class Server {
     this.app.listen(port, () => {
       this.logger.info(`Listening on port ${port}`)
     })
+
+    this.logger.info("Verifying connection to siad...")
+    this.verifyConnection().then((version: string | null) => {
+      if (version) {
+        this.logger.info(`siad reachable, version ${version}`)
+      }
+    })
   }
 
   private configureMiddleware() {
@@ -74,6 +81,17 @@ export class Server {
     this.app.get("/sialink/:hash", this.handleSialinkGET.bind(this))
     this.app.post("/siafile", this.handleSiafilePOST.bind(this))
     this.app.post("/linkfile", this.handleLinkfilePOST.bind(this))
+  }
+
+  private async verifyConnection(): Promise<string | null> {
+    try {
+      const resp = await siad.get('/daemon/version')
+      return resp.data.version
+    } catch (err) {
+      const { message } = err;
+      this.logger.error(message)
+      return null
+    }
   }
 
   private handleSialinkGET() {
