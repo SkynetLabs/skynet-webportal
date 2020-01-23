@@ -1,10 +1,9 @@
 /** @jsx jsx */
+import { CircularProgress } from "@material-ui/core"
 import * as R from "ramda"
-import { useCallback, useState, useRef } from "react"
+import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { Box, Flex, jsx } from "theme-ui"
-import { CircularProgress, Button } from "@material-ui/core"
-import { saveAs } from "file-saver"
 /**
  * nginx is setup to automatically handle and rewrite the url path.
  */
@@ -38,7 +37,7 @@ function MyDropzone() {
         })
         .then(({ sialink }) => {
           console.log("WE OUT HERE BOYS", sialink)
-          setLink(sialink)
+          setLink(`sia://${sialink}`)
           setLoading(false)
         })
         .catch(e => {
@@ -61,21 +60,21 @@ function MyDropzone() {
           <h5>{link}</h5>
         </Flex>
       ) : (
-        <Flex
-          {...getRootProps()}
-          sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
-        >
-          <input {...getInputProps()} />
-          {isDragActive && !loading && !error && !link && (
-            <p>Drop file here ...</p>
-          )}
-          {!isDragActive && !loading && !error && !link && (
-            <p>Drag 'n' drop a file here, or click to select a file</p>
-          )}
-          {loading && <CircularProgress />}
-          {error && !loading && <h5>{error}</h5>}
-        </Flex>
-      )}
+          <Flex
+            {...getRootProps()}
+            sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
+          >
+            <input {...getInputProps()} />
+            {isDragActive && !loading && !error && !link && (
+              <p>Drop file here ...</p>
+            )}
+            {!isDragActive && !loading && !error && !link && (
+              <p>Drag 'n' drop a file here, or click to select a file</p>
+            )}
+            {loading && <CircularProgress />}
+            {error && !loading && <h5>{error}</h5>}
+          </Flex>
+        )}
     </Box>
   )
 }

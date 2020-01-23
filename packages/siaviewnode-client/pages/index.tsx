@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { AppBar, Button, Card, CardContent, Container, Input, Tab, Tabs, Typography } from "@material-ui/core"
+import * as R from "ramda"
 import { useState } from "react"
 import { Box, Flex, jsx } from "theme-ui"
 import Dropzone from "../src/components/Dropzone"
@@ -14,8 +15,10 @@ const Index = () => {
   }
 
   const directView = () => {
+    const removeHead = R.compose(R.tail, R.split("sia://"))
+    const hash = removeHead(linkfileUrl)[0]
     if (window) {
-      var win = window.open(`/direct/${linkfileUrl}`, "_blank")
+      var win = window.open(`/direct/${hash}`, "_blank")
       win.focus()
     }
   }
@@ -73,7 +76,7 @@ const Index = () => {
                 <p>Download a file by pasting in a Sia linkfile below:</p>
                 <Box sx={{ width: "60%" }}>
                   <Input
-                    // placeholder="sia://"
+                    placeholder="sia://"
                     value={linkfileUrl}
                     onChange={e => setInput(e.target.value)}
                     sx={{ width: "100%" }}
