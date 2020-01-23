@@ -1,22 +1,9 @@
 /** @jsx jsx */
-import { jsx, Box, Flex } from "theme-ui"
-import {
-  Container,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  makeStyles,
-  AppBar,
-  Tabs,
-  Tab,
-  Input
-} from "@material-ui/core"
-import Dropzone from "../src/components/Dropzone"
+import { AppBar, Button, Card, CardContent, Container, Input, Tab, Tabs, Typography } from "@material-ui/core"
 import { useState } from "react"
+import { Box, Flex, jsx } from "theme-ui"
+import Dropzone from "../src/components/Dropzone"
 import { TabPanel } from "../src/components/TabPanel"
-import * as R from "ramda"
 
 const Index = () => {
   const [value, setValue] = useState(1)
@@ -27,10 +14,8 @@ const Index = () => {
   }
 
   const directView = () => {
-    const removeHead = R.compose(R.tail, R.split("sia://"))
-    const hash = removeHead(linkfileUrl)[0]
     if (window) {
-      var win = window.open(`/direct/${hash}`, "_blank")
+      var win = window.open(`/direct/${linkfileUrl}`, "_blank")
       win.focus()
     }
   }
@@ -88,7 +73,7 @@ const Index = () => {
                 <p>Download a file by pasting in a Sia linkfile below:</p>
                 <Box sx={{ width: "60%" }}>
                   <Input
-                    placeholder="sia://"
+                    // placeholder="sia://"
                     value={linkfileUrl}
                     onChange={e => setInput(e.target.value)}
                     sx={{ width: "100%" }}
