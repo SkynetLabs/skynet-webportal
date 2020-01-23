@@ -1,4 +1,5 @@
 import axios from "axios"
+import * as AxiosLogger from 'axios-logger'
 import cors from "cors"
 import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
@@ -9,7 +10,6 @@ import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
-import * as AxiosLogger from 'axios-logger';
 
 
 const MAX_UPLOAD_FILESIZE = 1000 * 1024 * 1024
@@ -84,9 +84,22 @@ export class Server {
   }
 
   private configureRoutes() {
-    this.app.get("/sialink/:hash", this.handleSialinkGET.bind(this))
     this.app.post("/siafile", this.handleSiafilePOST.bind(this))
     this.app.post("/linkfile", this.handleLinkfilePOST.bind(this))
+
+    this.app.get(
+      "/sialink/:hash",
+      proxy("http://localhost:9980/renter/sialink", {
+        proxyReqOptDecorator: (opts, _) => {
+          opts.headers["User-Agent"] = "Sia-Agent"
+          return opts
+        },
+        proxyReqPathResolver: req => {
+          const { hash } = req.params
+          return `/renter/sialink/${hash}`
+        }
+      })
+    )
   }
 
   private async verifyConnection(): Promise<string | null> {
@@ -98,19 +111,6 @@ export class Server {
       this.logger.error(message)
       return null
     }
-  }
-
-  private handleSialinkGET() {
-    return proxy(`${SIAD_ENDPOINT}/renter/sialink`, {
-      proxyReqOptDecorator: (opts, _) => {
-        opts.headers["User-Agent"] = "Sia-Agent"
-        return opts
-      },
-      proxyReqPathResolver: req => {
-        const { hash } = req.params
-        return `/renter/sialink/${hash}`
-      }
-    })
   }
 
   private async handleLinkfilePOST(req: Request, res: Response): Promise<Response> {
