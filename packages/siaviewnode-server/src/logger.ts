@@ -9,8 +9,18 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console(),
-        new transports.File({ filename: './error.log', level: 'error' }),
-        new transports.File({ filename: './info.log', level: 'info' }),
+        new transports.File({
+            filename: './error.log',
+            level: 'error',
+            maxsize: 5242880,
+            maxFiles: 2
+        }),
+        new transports.File({
+            filename: './info.log',
+            level: 'info',
+            maxsize: 5242880,
+            maxFiles: 5
+        }),
     ],
     exitOnError: false,
 });

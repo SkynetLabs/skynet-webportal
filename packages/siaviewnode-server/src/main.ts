@@ -1,16 +1,33 @@
 import axios from "axios"
-import * as AxiosLogger from 'axios-logger'
 import cors from "cors"
 import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
 import proxy from "express-http-proxy"
 import requestId from "express-request-id"
 import morgan from 'morgan'
+import path from "path"
 import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
 
+// import * as AxiosLogger from 'axios-logger'
+// AxiosLogger.setGlobalConfig({
+//   prefixText: 'your prefix',
+//   dateFormat: 'HH:MM:ss',
+//   status: true,
+//   headers: false,
+//   data: false
+// });
+// // add interceptors
+// siad.interceptors.request.use(
+//   AxiosLogger.requestLogger,
+//   AxiosLogger.errorLogger
+// );
+// siad.interceptors.response.use(
+//   AxiosLogger.responseLogger,
+//   AxiosLogger.errorLogger
+// );
 
 const MAX_UPLOAD_FILESIZE = 1000 * 1024 * 1024
 const SIAD_ENDPOINT = "http://localhost:9980"
@@ -28,9 +45,6 @@ const siad = axios.create({
   }
 })
 
-// add interceptors
-siad.interceptors.request.use(AxiosLogger.requestLogger, AxiosLogger.errorLogger);
-siad.interceptors.response.use(AxiosLogger.responseLogger, AxiosLogger.errorLogger);
 
 // Ramda shared utility functions
 const selectFile = R.path(["files", "file"])
@@ -65,16 +79,18 @@ export class Server {
   }
 
   private configureMiddleware() {
+    // add request id middleware (add unique id to X-Request-Id header)
+    this.app.use(requestId())
+
     // add morgan middleware (HTTP request logging)
     const options = {
       stream: {
-        write: (msg: string) => { this.logger.info(msg) }
+        write: (msg: string) => {
+          this.logger.info(msg)
+        }
       }
     }
     this.app.use(morgan("combined", options));
-
-    // add request id middleware (add unique id to X-Request-Id header)
-    this.app.use(requestId())
 
     // configure CORS (simply enable all CORS requests)
     this.app.use(cors())
@@ -100,6 +116,87 @@ export class Server {
         }
       })
     )
+
+    this.app.get(
+      "/web/:hash", (req: Request, res: Response) => {
+        const { hash } = req.params
+        this.logger.info(`GET /web/:hash ->  ${hash}`)
+        res.sendFile(path.join(__dirname + '/testing.html'));
+      }
+    )
+
+    this.app.get(
+      "/:hash", (req: Request, res: Response) => {
+        const { hash } = req.params
+        this.logger.info(`GET /:hash ->  ${hash}`)
+        res.sendFile(path.join(__dirname + '/testing.html'));
+      }
+    )
+
+    this.app.get(
+      "/stats", this.handleStatsGET.bind(this)
+      // TODO: redirect to protalstats
+      // proxy("http://localhost:9980/renter/portalstats", {
+      //   proxyReqOptDecorator: (opts, _) => {
+      //     opts.headers["User-Agent"] = "Sia-Agent"
+      //     return opts
+      //   },
+      // })
+    )
+  }
+
+  private async handleStatsGET(req: Request, res: Response): Promise<Response> {
+    // + pSeries = p80-1, p95-1, p99-1, p80-24, p95-24, p99-24, p80-168, p95-168, p99-168
+    // + p80-1 means the p80 on all requests over the past 1 hour
+    // + pSeries on ttfb for downloads over 4 MiB in size
+    // + pSeries on total time to download a file under 256 KiB in size
+    // + p80, p95, p99 on total time to download a file under 1 MiB in size
+    // + p80, p95, p99 on download throughput
+    // + p80. p95, p99 on upload throughput
+    // + Total number of files pinned
+    // + Total number of sialink requests served in the past 1, 24, 168 hours
+    // + Total amount of data uploaded in past 1, 24, 168 hours
+    // + total amount of data downloaded in past 1, 24, 168 hours
+    // + total amount of money spent in the past 1, 24, 168, 720, 2160 hours (7,
+    //   30, 90 days for the last values)
+    const mockPSeries = {
+      'p80-1': 40,
+      'p95-1': 44,
+      'p99-1': 48,
+      'p80-24': 42,
+      'p95-24': 44,
+      'p99-24': 46,
+      'p80-168': 41,
+      'p95-168': 45,
+      'p99-168': 49,
+    }
+    const mockSeries = {
+      1: 22,
+      24: 438,
+      168: 2389,
+    }
+    const mockSeriesLarge = {
+      1: 22,
+      24: 438,
+      168: 2389,
+      720: 12045,
+      2160: 63900
+    }
+
+    const data = {
+      'ttfb': mockPSeries,
+      'download_small': mockPSeries,
+      'download_throughput': mockPSeries,
+      'download_total': mockSeries,
+      'upload_small': mockPSeries,
+      'upload_throughput': mockPSeries,
+      'upload_total': mockSeries,
+      'money_spent': mockSeriesLarge,
+      'total_files_pinned': 143,
+      'total_files_served': mockSeries,
+    }
+
+    return res.send(data)
   }
 
   private async verifyConnection(): Promise<string | null> {
@@ -165,6 +262,7 @@ export class Server {
       return res.status(500).send({ error: err.message })
     }
   }
+
 }
 
 module.exports = new Server(logger).app

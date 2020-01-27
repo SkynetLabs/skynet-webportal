@@ -1,10 +1,10 @@
 /** @jsx jsx */
-import { AppBar, Button, Card, CardContent, Container, Input, Tab, Tabs, Typography } from "@material-ui/core"
-import * as R from "ramda"
-import { useState } from "react"
-import { Box, Flex, jsx } from "theme-ui"
-import Dropzone from "../src/components/Dropzone"
-import { TabPanel } from "../src/components/TabPanel"
+import { AppBar, Button, Card, CardContent, Container, Input, Tab, Tabs, Typography } from "@material-ui/core";
+import * as R from "ramda";
+import { useState } from "react";
+import { Box, Flex, jsx } from "theme-ui";
+import Dropzone from "../src/components/Dropzone";
+import { TabPanel } from "../src/components/TabPanel";
 
 const Index = () => {
   const [value, setValue] = useState(1)
@@ -31,6 +31,9 @@ const Index = () => {
               <Typography sx={{ fontWeight: 700 }}>Sia Skynet</Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>
+              <Button href="/stats">
+                Statistics
+              </Button>
               <Button href="https://sia.tech/" target="_blank">
                 About Sia
               </Button>
