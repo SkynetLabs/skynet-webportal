@@ -5,7 +5,6 @@ import fileUpload, { UploadedFile } from "express-fileupload"
 import proxy from "express-http-proxy"
 import requestId from "express-request-id"
 import morgan from 'morgan'
-import path from "path"
 import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
@@ -132,7 +131,7 @@ export class Server {
       "/web/:hash", (req: Request, res: Response) => {
         const { hash } = req.params
         this.logger.info(`GET /web/:hash ->  ${hash}`)
-        res.sendFile(path.join(__dirname + '/testing.html'));
+        res.sendFile('testing.html', { root: __dirname });
       }
     )
 
@@ -140,7 +139,7 @@ export class Server {
       "/:hash", (req: Request, res: Response) => {
         const { hash } = req.params
         this.logger.info(`GET /:hash ->  ${hash}`)
-        res.sendFile(path.join(__dirname + '/testing.html'));
+        res.sendFile('testing.html', { root: __dirname });
       }
     )
 
