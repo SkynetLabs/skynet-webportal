@@ -118,6 +118,17 @@ export class Server {
     )
 
     this.app.get(
+      "/stats", this.handleStatsGET.bind(this)
+      // TODO: redirect to protalstats
+      // proxy("http://localhost:9980/renter/portalstats", {
+      //   proxyReqOptDecorator: (opts, _) => {
+      //     opts.headers["User-Agent"] = "Sia-Agent"
+      //     return opts
+      //   },
+      // })
+    )
+
+    this.app.get(
       "/web/:hash", (req: Request, res: Response) => {
         const { hash } = req.params
         this.logger.info(`GET /web/:hash ->  ${hash}`)
@@ -133,16 +144,6 @@ export class Server {
       }
     )
 
-    this.app.get(
-      "/stats", this.handleStatsGET.bind(this)
-      // TODO: redirect to protalstats
-      // proxy("http://localhost:9980/renter/portalstats", {
-      //   proxyReqOptDecorator: (opts, _) => {
-      //     opts.headers["User-Agent"] = "Sia-Agent"
-      //     return opts
-      //   },
-      // })
-    )
   }
 
   private async handleStatsGET(req: Request, res: Response): Promise<Response> {
