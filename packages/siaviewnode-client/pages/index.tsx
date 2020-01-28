@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { AppBar, Button, Card, CardContent, Container, Input, Tab, Tabs, Typography } from "@material-ui/core";
+import { AppBar, Button, Card, CardContent, Container, Input, Link, Tab, Tabs, Typography } from "@material-ui/core";
 import * as R from "ramda";
 import { useState } from "react";
 import { Box, Flex, jsx } from "theme-ui";
@@ -28,7 +28,11 @@ const Index = () => {
         <Container>
           <Flex sx={{ alignItems: "center", height: 120 }}>
             <Box>
-              <Typography sx={{ fontWeight: 700 }}>Sia Skynet</Typography>
+              <Typography sx={{ fontWeight: 700 }}>
+                <Link href="/">
+                  Sia Skynet
+                </Link>
+              </Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>
               <Button href="/stats">
