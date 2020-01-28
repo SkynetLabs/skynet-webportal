@@ -35,9 +35,9 @@ function MyDropzone() {
         .then(res => {
           return res.json()
         })
-        .then(({ sialink }) => {
-          console.log("WE OUT HERE BOYS", sialink)
-          setLink(`sia://${sialink}`)
+        .then(({ skylink }) => {
+          console.log("WE OUT HERE BOYS", skylink)
+          setLink(`sia://${skylink}`)
           setLoading(false)
         })
         .catch(e => {
