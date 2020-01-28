@@ -18,7 +18,7 @@ const Index = () => {
     const removeHead = R.compose(R.tail, R.split("sia://"))
     const hash = removeHead(linkfileUrl)[0]
     if (window) {
-      var win = window.open(`/direct/${hash}`, "_blank")
+      var win = window.open(`/${hash}`, "_blank")
       win.focus()
     }
   }
