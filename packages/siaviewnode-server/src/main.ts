@@ -104,14 +104,14 @@ export class Server {
 
     this.app.get(
       "/sialink/:hash",
-      proxy("http://localhost:9980/renter/sialink", {
+      proxy("http://localhost:9980/skynet/skyfile", {
         proxyReqOptDecorator: (opts, _) => {
           opts.headers["User-Agent"] = "Sia-Agent"
           return opts
         },
         proxyReqPathResolver: req => {
           const { hash } = req.params
-          return `/renter/sialink/${hash}`
+          return `/skynet/skyfile/${hash}`
         }
       })
     )
@@ -126,39 +126,9 @@ export class Server {
       //   },
       // })
     )
-
-    this.app.get(
-      "/web/:hash", (req: Request, res: Response) => {
-        const { hash } = req.params
-        this.logger.info(`GET /web/:hash ->  ${hash}`)
-        res.sendFile('testing.html', { root: __dirname });
-      }
-    )
-
-    this.app.get(
-      "/:hash", (req: Request, res: Response) => {
-        const { hash } = req.params
-        this.logger.info(`GET /:hash ->  ${hash}`)
-        res.sendFile('testing.html', { root: __dirname });
-      }
-    )
-
   }
 
   private async handleStatsGET(req: Request, res: Response): Promise<Response> {
-    // + pSeries = p80-1, p95-1, p99-1, p80-24, p95-24, p99-24, p80-168, p95-168, p99-168
-    // + p80-1 means the p80 on all requests over the past 1 hour
-    // + pSeries on ttfb for downloads over 4 MiB in size
-    // + pSeries on total time to download a file under 256 KiB in size
-    // + p80, p95, p99 on total time to download a file under 1 MiB in size
-    // + p80, p95, p99 on download throughput
-    // + p80. p95, p99 on upload throughput
-    // + Total number of files pinned
-    // + Total number of sialink requests served in the past 1, 24, 168 hours
-    // + Total amount of data uploaded in past 1, 24, 168 hours
-    // + total amount of data downloaded in past 1, 24, 168 hours
-    // + total amount of money spent in the past 1, 24, 168, 720, 2160 hours (7,
-    //   30, 90 days for the last values)
     const mockPSeries = {
       'p80-1': 40,
       'p95-1': 44,
@@ -218,7 +188,7 @@ export class Server {
 
     try {
       const { data } = await siad.post(
-        `/renter/linkfile/linkfiles/${uid}`,
+        `/skynet/skyfile/linkfiles/${uid}`,
         file.data,
         {
           maxContentLength: MAX_UPLOAD_FILESIZE,
