@@ -100,10 +100,10 @@ export class Server {
 
   private configureRoutes() {
     this.app.post("/siafile", this.handleSiafilePOST.bind(this))
-    this.app.post("/linkfile", this.handleLinkfilePOST.bind(this))
+    this.app.post("/skyfile", this.handleSkyfilePOST.bind(this))
 
     this.app.get(
-      "/sialink/:hash",
+      "/skylink/:hash",
       proxy("http://127.0.0.1:9980/skynet/skylink/", {
         proxyReqOptDecorator: (opts, _) => {
           opts.headers["User-Agent"] = "Sia-Agent"
@@ -111,7 +111,7 @@ export class Server {
         },
         proxyReqPathResolver: req => {
           const { hash } = req.params
-          return `/skynet/skyfile/${hash}`
+          return `/skynet/skylink/${hash}`
         }
       })
     )
@@ -180,15 +180,15 @@ export class Server {
     }
   }
 
-  private async handleLinkfilePOST(req: Request, res: Response): Promise<Response> {
+  private async handleSkyfilePOST(req: Request, res: Response): Promise<Response> {
     const file = selectFile(req) as UploadedFile
     const uid = shortid.generate()
 
-    this.logger.info(`POST linkfile w/name ${file.name} and uid ${uid}`)
+    this.logger.info(`POST skyfile w/name ${file.name} and uid ${uid}`)
 
     try {
       const { data } = await siad.post(
-        `/skynet/skyfile/linkfiles/${uid}`,
+        `/skynet/skyfile/${uid}`,
         file.data,
         {
           maxContentLength: MAX_UPLOAD_FILESIZE,
