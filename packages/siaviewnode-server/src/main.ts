@@ -104,7 +104,7 @@ export class Server {
 
     this.app.get(
       "/sialink/:hash",
-      proxy("http://localhost:9980/skynet/skyfile", {
+      proxy("http://127.0.0.1:9980/skynet/skylink/", {
         proxyReqOptDecorator: (opts, _) => {
           opts.headers["User-Agent"] = "Sia-Agent"
           return opts
