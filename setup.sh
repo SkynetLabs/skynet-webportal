@@ -15,7 +15,8 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 
 # Apt installations.
 sudo apt-get update
-sudo apt-get -y install tmux htop nload nginx nodejs gcc g++ make yarn git
+sudo apt-get -y install ufw tmux ranger htop nload nginx certbot \
+  python-certbot-nginx nodejs gcc g++ make yarn git
 
 # Install pm2
 sudo npm i -g pm2
@@ -36,3 +37,22 @@ go version
 # Install Sia
 git clone https://gitlab.com/NebulousLabs/Sia
 cd Sia && git checkout viewnode && make
+
+# Setup nginx config
+sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
+sudo nginx -t
+sudo systemctl reload nginx
+
+# Setup firewall
+sudo ufw enable
+sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 'Nginx HTTP'
+
+sudo certbot --nginx -d siasky.net -d www.siasky.net
+sudo certbot renew --dry-run
+sudo ln -s /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
+
+
+git clone https://gitlab.com/NebulousLabs/siawebviewer
+git checkout logging
+yarn
