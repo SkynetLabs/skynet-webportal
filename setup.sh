@@ -31,7 +31,7 @@ wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
 rm go1.13.7.linux-amd64.tar.gz
 
-# Sanity check that will pass if go installed correctly.
+# Sanity check that will pass if go was installed correctly.
 go version
 
 # Install Sia
@@ -52,7 +52,11 @@ sudo certbot --nginx -d siasky.net -d www.siasky.net
 sudo certbot renew --dry-run
 sudo ln -s /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
 
-
-git clone https://gitlab.com/NebulousLabs/siawebviewer
+# Setup skynet frontend.
+cd ~/
+git clone https://gitlab.com/NebulousLabs/siawebviewer && cd siawebviewer
 git checkout logging
 yarn
+
+# Start the frontend.
+pm2 --name skynet start npm -- start
