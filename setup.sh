@@ -16,7 +16,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 # Apt installations.
 sudo apt-get update
 sudo apt-get -y install ufw tmux ranger htop nload nginx certbot \
-  python-certbot-nginx nodejs gcc g++ make yarn git
+  python-certbot-nginx nodejs gcc g++ make yarn git vim
 
 # Install pm2
 sudo npm i -g pm2
@@ -37,6 +37,7 @@ go version
 
 # Install Sia
 cwd=$(pwd)
+cd ~/
 git clone https://gitlab.com/NebulousLabs/Sia
 cd Sia && git checkout viewnode && make
 
@@ -45,12 +46,16 @@ cd $cwd
 # Setup nginx config
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
 sudo nginx -t
+sudo ln -s /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
+sudo rm /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
 
 # Setup firewall
+# TODO: disable plain HTTP eventually
 sudo ufw enable
+sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
-sudo ufw delete allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTP'
 
 # Setup skynet frontend.
 cd ~/
