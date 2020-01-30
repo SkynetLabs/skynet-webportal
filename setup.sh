@@ -29,6 +29,7 @@ rm alacritty.info
 # Install Go 1.13.7.
 wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
+source ~/.bashrc
 rm go1.13.7.linux-amd64.tar.gz
 
 # Sanity check that will pass if go was installed correctly.
@@ -47,10 +48,6 @@ sudo systemctl reload nginx
 sudo ufw enable
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
-
-sudo certbot --nginx -d siasky.net -d www.siasky.net
-sudo certbot renew --dry-run
-sudo ln -s /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
 
 # Setup skynet frontend.
 cd ~/
