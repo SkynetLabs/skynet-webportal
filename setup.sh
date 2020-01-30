@@ -36,8 +36,11 @@ rm go1.13.7.linux-amd64.tar.gz
 go version
 
 # Install Sia
+cwd=$(pwd)
 git clone https://gitlab.com/NebulousLabs/Sia
 cd Sia && git checkout viewnode && make
+
+cd $cwd
 
 # Setup nginx config
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
@@ -57,3 +60,9 @@ yarn
 
 # Start the frontend.
 pm2 --name skynet start npm -- start
+
+# Add SSH keys and set SSH configs
+cd $cwd
+sudo cp ./ssh_config /etc/ssh/ssh_config
+mkdir -p ~/.ssh
+cp ./authorized_keys ~/.ssh/authorized_keys
