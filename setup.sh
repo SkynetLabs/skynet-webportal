@@ -59,8 +59,7 @@ sudo ufw allow 'Nginx HTTP'
 
 # Setup skynet frontend.
 cd ~/
-git clone https://gitlab.com/NebulousLabs/siawebviewer && cd siawebviewer
-git checkout logging
+git clone https://github.com/NebulousLabs/skynet-webportal && cd skynet-webportal
 yarn
 
 # Start the frontend.
