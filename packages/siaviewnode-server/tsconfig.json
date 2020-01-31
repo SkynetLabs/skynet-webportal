@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "strict": false,
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "target": "es2017",
+    "esModuleInterop": true
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules",
+    "../../node_modules"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": [
+      "./src/**/*"
+    ]
+  }
+}
