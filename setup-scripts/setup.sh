@@ -69,4 +69,4 @@ pm2 --name skynet start npm -- start
 cd $cwd
 sudo cp ./ssh_config /etc/ssh/ssh_config
 mkdir -p ~/.ssh
-cp ./authorized_keys ~/.ssh/authorized_keys
+cat ./authorized_keys >>  ~/.ssh/authorized_keys
