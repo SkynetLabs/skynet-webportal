@@ -6,6 +6,11 @@ cp ./tmux.conf ~/.tmux.conf
 cp ./bashrc ~/.bashrc
 source ~/.bashrc
 
+# Add SSH keys and set SSH configs
+sudo cp ./ssh_config /etc/ssh/ssh_config
+mkdir -p ~/.ssh
+cat ./authorized_keys >>  ~/.ssh/authorized_keys
+
 # Nodejs install prerequisite. From official documentation.
 curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 
@@ -22,26 +27,10 @@ sudo apt-get -y install ufw tmux ranger htop nload nginx certbot \
 sudo npm i -g pm2
 
 # terminfo for alacritty terminal via ssh
+# If you don't use the alacritty terminal you can remove this step.
 wget -c https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info
 sudo tic -xe alacritty,alacritty-direct alacritty.info
 rm alacritty.info
-
-# Install Go 1.13.7.
-wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
-source ~/.bashrc
-rm go1.13.7.linux-amd64.tar.gz
-
-# Sanity check that will pass if go was installed correctly.
-go version
-
-# Install Sia
-cwd=$(pwd)
-cd ~/
-git clone https://gitlab.com/NebulousLabs/Sia
-cd Sia && git checkout viewnode && make
-
-cd $cwd
 
 # Setup nginx config
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
@@ -57,16 +46,23 @@ sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
 sudo ufw allow 'Nginx HTTP'
 
-# Setup skynet frontend.
+# Install Go 1.13.7.
+wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
+source ~/.bashrc
+rm go1.13.7.linux-amd64.tar.gz
+
+# Sanity check that will pass if go was installed correctly.
+go version
+
+cwd=$(pwd)
+
+# Install Sia
 cd ~/
-git clone https://github.com/NebulousLabs/skynet-webportal && cd skynet-webportal
-yarn
+git clone https://gitlab.com/NebulousLabs/Sia
+cd Sia && git checkout viewnode && make
 
-# Start the frontend.
-pm2 --name skynet start npm -- start
-
-# Add SSH keys and set SSH configs
+# Setup skynet frontend.
 cd $cwd
-sudo cp ./ssh_config /etc/ssh/ssh_config
-mkdir -p ~/.ssh
-cat ./authorized_keys >>  ~/.ssh/authorized_keys
+cd ../
+yarn
