@@ -15,5 +15,7 @@ that we are working with a Debian Buster Minimal system or similar.
 6. ON LOCAL COMPUTER: `ssh user@ip-addr`
 7. (LOGGED IN AS USER): `sudo apt-get install git`
 8. `git clone https://github.com/NebulousLabs/skynet-webportal`
-9. `cd skynet-webportal/setup-scripts && ./setup.sh`
-10. Once DNS records are set you can run: `./letsencrypt-setup.sh`
+9. `cd skynet-webportal/setup-scripts`
+10. Add ssh pubkeys to `authorized_keys` file.
+11. `./setup.sh`
+12. Once DNS records are set you can run: `./letsencrypt-setup.sh`
