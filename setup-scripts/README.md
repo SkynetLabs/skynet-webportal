@@ -56,7 +56,7 @@ below:
 
 Once your allowance is set you need to set your node to be a viewnode with the
 following command:
-`siac renter setallowance --view-contract-initial-price 10SC`
+`siac renter setallowance --payment-contract-initial-price 10SC`
 
 Now your node will begin making 10 contracts per block with many hosts so it can
 potentially view the whole network's files.
