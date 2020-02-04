@@ -182,8 +182,11 @@ export class Server {
 
   private async handleSkyfilePOST(req: Request, res: Response): Promise<Response> {
     const file = selectFile(req) as UploadedFile
-    const uid = shortid.generate()
+    if (!file) {
+      res.status(400).send({ error: "Missing file" })
+    }
 
+    const uid = shortid.generate()
     this.logger.info(`POST skyfile w/name ${file.name} and uid ${uid}`)
 
     try {
@@ -192,7 +195,7 @@ export class Server {
         file.data,
         {
           maxContentLength: MAX_UPLOAD_FILESIZE,
-          params: { name: file.name }
+          params: { filename: file.name }
         }
       )
       return res.send(data)
