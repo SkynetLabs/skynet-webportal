@@ -4,11 +4,14 @@ import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
 import proxy from "express-http-proxy"
 import requestId from "express-request-id"
+import fs from "fs"
 import morgan from 'morgan'
+import { homedir } from "os"
 import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
+
 
 // import * as AxiosLogger from 'axios-logger'
 // AxiosLogger.setGlobalConfig({
@@ -40,7 +43,7 @@ const siad = axios.create({
   },
   auth: {
     username: "",
-    password: "d05bb024715aea0bb734ce057acbae27"
+    password: fs.readFileSync(homedir().concat("/.sia/apipassword"), "utf8").trim()
   }
 })
 
