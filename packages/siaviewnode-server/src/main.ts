@@ -1,16 +1,17 @@
 import axios from "axios"
 import cors from "cors"
 import express, { Request, Response } from "express"
-import fs from "fs";
 import fileUpload, { UploadedFile } from "express-fileupload"
-import { homedir } from "os"
 import proxy from "express-http-proxy"
 import requestId from "express-request-id"
+import fs from "fs"
 import morgan from 'morgan'
+import { homedir } from "os"
 import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
+
 
 // import * as AxiosLogger from 'axios-logger'
 // AxiosLogger.setGlobalConfig({
@@ -113,7 +114,9 @@ export class Server {
         },
         proxyReqPathResolver: req => {
           const { hash } = req.params
-          return `/skynet/skylink/${hash}`
+          return req.query && req.query.attachment
+            ? `/skynet/skylink/${hash}?attachment=true`
+            : `/skynet/skylink/${hash}`
         }
       })
     )
@@ -184,8 +187,11 @@ export class Server {
 
   private async handleSkyfilePOST(req: Request, res: Response): Promise<Response> {
     const file = selectFile(req) as UploadedFile
-    const uid = shortid.generate()
+    if (!file) {
+      res.status(400).send({ error: "Missing file" })
+    }
 
+    const uid = shortid.generate()
     this.logger.info(`POST skyfile w/name ${file.name} and uid ${uid}`)
 
     try {
@@ -194,7 +200,7 @@ export class Server {
         file.data,
         {
           maxContentLength: MAX_UPLOAD_FILESIZE,
-          params: { name: file.name }
+          params: { filename: file.name }
         }
       )
       return res.send(data)

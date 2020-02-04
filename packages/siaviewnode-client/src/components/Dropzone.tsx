@@ -22,8 +22,14 @@ function MyDropzone() {
   const onDrop = useCallback(
     acceptedFiles => {
       setLoading(true)
-      const file = R.head(acceptedFiles)
-      const url = API_ENDPOINT + "/skyfile"
+      const file = acceptedFiles[0]
+      if (!file) {
+        setError("An unexpected error occured. Check console for details.")
+        setLoading(false)
+        return
+      }
+
+      const url = `${API_ENDPOINT}/skyfile?filename=${file.name}`
       const fd = new FormData()
       fd.append("file", file)
 

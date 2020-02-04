@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Button, CircularProgress, Container, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Container, Link, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
 import { Box, Flex, jsx } from "theme-ui";
@@ -60,7 +60,11 @@ const Stats = () => {
                 <Container>
                     <Flex sx={{ alignItems: "center", height: 120 }}>
                         <Box>
-                            <Typography sx={{ fontWeight: 700 }}>Sia Skynet</Typography>
+                            <Typography sx={{ fontWeight: 700 }}>
+                                <Link href="/">
+                                    Sia Skynet
+                                </Link>
+                            </Typography>
                         </Box>
                         <Box sx={{ ml: "auto" }}>
                             <Button href="/stats">
