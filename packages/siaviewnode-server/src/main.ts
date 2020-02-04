@@ -111,7 +111,9 @@ export class Server {
         },
         proxyReqPathResolver: req => {
           const { hash } = req.params
-          return `/skynet/skylink/${hash}`
+          return req.query && req.query.attachement
+            ? `/skynet/skylink/${hash}?attachment=true`
+            : `/skynet/skylink/${hash}`
         }
       })
     )
