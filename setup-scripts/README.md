@@ -27,6 +27,9 @@ You a can now ssh into your machine as the user `user`.
 12. Once DNS records are set you can run: `./letsencrypt-setup.sh`
 13. You should also change the nginx configuration to listen on port 443
     instead.
+14. Finally make sure to check your nginx conf and reload nginx:
+  - `sudo nginx -t`
+  - `sudo systemctl reload nginx`
 
 ## Running siad
 
