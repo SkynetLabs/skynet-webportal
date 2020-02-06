@@ -25,11 +25,19 @@ You a can now ssh into your machine as the user `user`.
 9. `cd skynet-webportal/setup-scripts`
 11. `./setup.sh`
 12. Once DNS records are set you can run: `./letsencrypt-setup.sh`
-13. You should also change the nginx configuration to listen on port 443
+13. This should edit your nginx configuration for you. If not, you should check
+    that keys were created by letsencrypt in `/etc/letsencrypt/live/` and add
+    the following lines into your nginx configuration. Make sure to replace
+    `YOUR-DOMAIN` with your domain name.
+    ```
+    ssl_certificate /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem;
+    ```
+14. You should also change the nginx configuration to listen on port 443
     instead.
-14. Finally make sure to check your nginx conf and reload nginx:
-  - `sudo nginx -t`
-  - `sudo systemctl reload nginx`
+15. Finally make sure to check your nginx conf and reload nginx:
+    `sudo nginx -t`
+    `sudo systemctl reload nginx`
 
 ## Running siad
 
