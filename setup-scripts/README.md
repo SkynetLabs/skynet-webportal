@@ -28,10 +28,10 @@ You a can now ssh into your machine as the user `user`.
 13. You should also change the nginx configuration to listen on port 443
     instead.
 
-## Setting up siad
+## Running siad
 
-NOTE: You must be running `siad` and `siac` by building from the `viewnode`
-branch.
+NOTE: You must be running `siad` and `siac` by building from a version at least
+as recent as `v1.4.3`.
 
 You still need to setup `siad` for the backend to be complete.
 1. `cd ~/; mkdir siad`
@@ -39,7 +39,7 @@ You still need to setup `siad` for the backend to be complete.
 
 This will start syncing `siad` in the background.
 
-## ViewNode setup
+## Portal Setup
 
 When `siad` is done syncing, create a new wallet and unlock the wallet.
 
@@ -56,7 +56,7 @@ below:
 
 Once your allowance is set you need to set your node to be a viewnode with the
 following command:
-`siac renter setallowance --payment-contract-initial-price 10SC`
+`siac renter setallowance --payment-contract-initial-funding 10SC`
 
 Now your node will begin making 10 contracts per block with many hosts so it can
 potentially view the whole network's files.
