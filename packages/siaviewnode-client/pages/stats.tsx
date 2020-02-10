@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import { Button, CircularProgress, Container, Link, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Typography, Container } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
 import { Box, Flex, jsx } from "theme-ui";
+import { Dashboard } from "../src/components/Dashboard";
 
 const API_ENDPOINT = process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/api"
 
@@ -60,11 +61,7 @@ const Stats = () => {
                 <Container>
                     <Flex sx={{ alignItems: "center", height: 120 }}>
                         <Box>
-                            <Typography sx={{ fontWeight: 700 }}>
-                                <Link href="/">
-                                    Sia Skynet
-                                </Link>
-                            </Typography>
+                            <Typography sx={{ fontWeight: 700 }}>Sia Skynet</Typography>
                         </Box>
                         <Box sx={{ ml: "auto" }}>
                             <Button href="/stats">
@@ -80,14 +77,10 @@ const Stats = () => {
             <Box>
                 <Container>
                     <h2>Portal Statistics</h2>
-
-                    <Flex
-                        sx={{ height: 400, justifyContent: "center", alignItems: "center" }}
-                    >
+                    <Flex sx={{ minHeight: 400, justifyContent: "center", alignItems: "center", width: "100%"}}>
+                    
                         {loading && <CircularProgress />}
-                        {!loading &&
-                            JSON.stringify(stats)
-                        }
+                        {!loading && stats && <Dashboard api={stats}/>}
                     </Flex>
                 </Container>
             </Box>
