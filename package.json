@@ -17,8 +17,10 @@
     "lerna": "3.16.5"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.8",
     "concurrently": "5.0.0",
-    "react-bootstrap": "^1.0.0-beta.16",
     "react-grid-system": "^6.1.0",
     "recharts": "^2.0.0-beta.1"
   }
