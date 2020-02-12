@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/*"
+  to = "https://siasky.net/:splat"
+  status = 200
+  force = true
