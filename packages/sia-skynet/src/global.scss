@@ -1,41 +1,41 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 @font-face {
-  font-family: 'Haas Grot Disp';
-  src: url('/fonts/hinted-subset-HaasGrotDispR-55Roman.woff2') format('woff2'),
-    url('/fonts/hinted-subset-HaasGrotDispR-55Roman.woff') format('woff');
+  font-family: "Haas Grot Disp";
+  src: url("/fonts/hinted-subset-HaasGrotDispR-55Roman.woff2") format("woff2"),
+    url("/fonts/hinted-subset-HaasGrotDispR-55Roman.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Haas Grot Disp';
-  src: url('/fonts/hinted-subset-HaasGrotDispR-65Medium.woff2') format('woff2'),
-    url('/fonts/hinted-subset-HaasGrotDispR-65Medium.woff') format('woff');
+  font-family: "Haas Grot Disp";
+  src: url("/fonts/hinted-subset-HaasGrotDispR-65Medium.woff2") format("woff2"),
+    url("/fonts/hinted-subset-HaasGrotDispR-65Medium.woff") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Haas Grot Text';
-  src: url('/fonts/hinted-subset-HaasGrotTextR-75Bold.woff2') format('woff2'),
-    url('/fonts/hinted-subset-HaasGrotTextR-75Bold.woff') format('woff');
+  font-family: "Haas Grot Text";
+  src: url("/fonts/hinted-subset-HaasGrotTextR-75Bold.woff2") format("woff2"),
+    url("/fonts/hinted-subset-HaasGrotTextR-75Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Haas Grot Text';
-  src: url('/fonts/hinted-subset-HaasGrotTextR-65Medium.woff2') format('woff2'),
-    url('/fonts/hinted-subset-HaasGrotTextR-65Medium.woff') format('woff');
+  font-family: "Haas Grot Text";
+  src: url("/fonts/hinted-subset-HaasGrotTextR-65Medium.woff2") format("woff2"),
+    url("/fonts/hinted-subset-HaasGrotTextR-65Medium.woff") format("woff");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Haas Grot Text';
-  src: url('/fonts/hinted-subset-HaasGrotTextR-55Roman.woff2') format('woff2'),
-    url('/fonts/hinted-subset-HaasGrotTextR-55Roman.woff') format('woff');
+  font-family: "Haas Grot Text";
+  src: url("/fonts/hinted-subset-HaasGrotTextR-55Roman.woff2") format("woff2"),
+    url("/fonts/hinted-subset-HaasGrotTextR-55Roman.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -88,10 +88,10 @@ textarea {
   font-size: 16px;
 }
 
-input[type='email'],
-input[type='text'],
-input[type='password'],
-input[type='search'] {
+input[type="email"],
+input[type="text"],
+input[type="password"],
+input[type="search"] {
   display: block;
   width: 100%;
 }
@@ -99,9 +99,9 @@ input[type='search'] {
 a,
 button,
 label,
-input[type='submit'],
-input[type='checkbox'],
-input[type='radio'] {
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"] {
   cursor: pointer;
 }
 
@@ -181,7 +181,7 @@ svg {
 .fadeInUp {
   transform: translateY(40px);
   opacity: 0;
-  transition: 1s opacity, 1s transform;
+  transition: 0.7s opacity, 0.7s transform;
 
   .active & {
     opacity: 1;

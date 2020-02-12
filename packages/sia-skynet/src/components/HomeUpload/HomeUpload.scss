@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .home-upload {
   position: relative;
@@ -19,7 +19,8 @@
 .home-upload-box {
   background: $white;
   border-radius: 12px;
-  box-shadow: 0 8px 24px 0 rgba(90, 94, 91, 0.15), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px 0 rgba(90, 94, 91, 0.15),
+    0 2px 4px 0 rgba(0, 0, 0, 0.05);
   padding: 16px;
 }
 
@@ -97,9 +98,13 @@
 
 .home-uploaded-files {
   border: solid 1px #c5cec7;
-  padding: 0 40px;
+  padding: 0 20px;
   margin-top: 10px;
   border-radius: 4px;
+
+  @media (min-width: $largebp) {
+    padding: 0 40px;
+  }
 
   .upload-file + .upload-file {
     border-top: 1px solid rgba(197, 206, 199, 0.4);
