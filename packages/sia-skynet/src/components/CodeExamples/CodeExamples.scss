@@ -1,0 +1,64 @@
+@import '../../variables.scss';
+
+.code-examples-tabs {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  align-items: flex-end;
+  height: 65px;
+
+  li {
+    display: block;
+    flex: 1;
+    color: $white60;
+    line-height: 57px;
+    padding: 0 16px;
+    cursor: pointer;
+    user-select: none;
+    background-color: #343734;
+    transition: 0.2s line-height, 0.2s background-color, 0.2s color;
+    text-align: center;
+
+    @media (min-width: $largebp) {
+      padding: 0 32px;
+      font-size: 18px;
+    }
+  }
+
+  li:hover,
+  li.active {
+    color: $white;
+    background-color: #171917;
+    line-height: 65px;
+  }
+
+  li:first-child {
+    border-top-left-radius: 12px;
+  }
+
+  li:last-child {
+    border-top-right-radius: 12px;
+  }
+
+  li.filler,
+  li.filler:hover {
+    flex: 1;
+    height: 57px;
+    border-top-right-radius: 12px;
+    background-color: #343734;
+    cursor: default;
+  }
+}
+
+.code-examples-body {
+  padding: 24px;
+  background-color: #171917;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  font-size: 14px;
+}
+
+.react-syntax-highlighter-line-number {
+  color: $white50;
+  margin-right: 16px;
+}
