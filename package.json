@@ -6,7 +6,7 @@
     "build:client": "yarn workspace sia-skynet build",
     "build:server": "yarn workspace siaviewnode-server build && yarn workspace siaviewnode-server start",
     "dev": "concurrently \"yarn start:client\" \"yarn start:server\"",
-    "start": "NODE_ENV=production concurrently \"yarn client-prod\" \"yarn server-prod\""
+    "start": "NODE_ENV=production concurrently \"yarn build:client && npx http-server -p 3000 packages/sia-skynet/build\" \"yarn build:server\""
   },
   "workspaces": {
     "packages": [
