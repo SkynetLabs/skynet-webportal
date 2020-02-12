@@ -32,7 +32,7 @@ export default class HomeUpload extends Component {
           return { 
               files: [
               ...state.files.slice(0, index),
-              { ...state.files[index], status, url: `https://siasky.net/file/${skylink}` },
+              { ...state.files[index], status, url: `https://siasky.net/${skylink}` },
               ...state.files.slice(index + 1)
             ]
           }
