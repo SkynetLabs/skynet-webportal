@@ -37,7 +37,7 @@ const MAX_UPLOAD_FILESIZE = 1000 * 1024 * 1024
 const SIAD_ENDPOINT = "http://localhost:9980"
 
 // simple siad connection with static strings
-const siad = axios.create({
+const siad = curlirize(axios.create({
   baseURL: SIAD_ENDPOINT,
   headers: {
     "User-Agent": "Sia-Agent",
@@ -47,7 +47,7 @@ const siad = axios.create({
     username: "",
     password: fs.readFileSync(homedir().concat("/.sia/apipassword"), "utf8").trim()
   }
-})
+}))
 
 
 // Ramda shared utility functions
@@ -208,7 +208,6 @@ export class Server {
       return res.send(data)
     } catch (err) {
       const { message } = err;
-      this.logger.error(err)
       this.logger.error(message)
       return res.status(500).send({ error: err.message })
     }
