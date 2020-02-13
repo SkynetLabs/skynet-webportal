@@ -82,7 +82,11 @@
   }
 
   .button {
-    margin-top: 15px;
+    margin-top: 20px;
+
+    @media (min-width: $largebp) {
+      margin-top: 30px;
+    }
   }
 }
 
@@ -174,7 +178,11 @@
   width: 100%;
   margin-top: 3px;
   position: relative;
-  margin-top: 30px;
+  margin-top: 20px;
+
+  @media (min-width: $largebp) {
+    margin-top: 30px;
+  }
 
   input {
     border: 1px solid #cbd3cd;
