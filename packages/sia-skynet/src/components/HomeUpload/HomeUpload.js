@@ -21,7 +21,7 @@ export default class HomeUpload extends Component {
     });
 
     acceptedFiles.forEach(async file => {
-      const url = `https://siasky.net/api/skyfile?filename=${file.name}`;
+      const url = `/api/skyfile?filename=${file.name}`;
       const fd = new FormData();
       fd.append("file", file);
 
