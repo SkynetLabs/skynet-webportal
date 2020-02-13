@@ -1,0 +1,112 @@
+@import "../../variables.scss";
+
+.home-upload {
+  position: relative;
+
+  .bottom-text {
+    color: $lightGray;
+    font-size: 13px;
+    text-align: center;
+    max-width: 670px;
+    margin: 25px auto 0;
+
+    @media (min-width: $largebp) {
+      font-size: 14px;
+    }
+  }
+}
+
+.home-upload-box {
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px 0 rgba(90, 94, 91, 0.15),
+    0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  padding: 16px;
+}
+
+.home-upload-dashed {
+  border: 1px dashed #c5cec7;
+  border-radius: 4px;
+  padding: 0 20px;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  outline: none;
+  transition: 0.2s background-color, 0.2s border, 0.2s color;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+  }
+
+  &:hover .button {
+    background-color: $greenHover;
+    transform: translateY(-2px);
+  }
+
+  &.drop-active {
+    background-color: $green;
+    border: 1px solid $green;
+
+    .button {
+      display: none;
+    }
+  }
+
+  .button {
+    margin-top: 15px;
+  }
+}
+
+.home-upload-text {
+  color: $gray;
+  display: block;
+  transition: 0.2s color;
+
+  @media (min-width: $largebp) {
+    font-size: 18px;
+  }
+
+  .drop-active & {
+    color: $white;
+  }
+}
+
+.deco-3 {
+  position: absolute;
+  top: -70px;
+  left: -5px;
+  animation: 8s float infinite;
+}
+
+.deco-4 {
+  position: absolute;
+  top: -32px;
+  left: -90px;
+  animation: 6s float infinite;
+}
+
+.deco-5 {
+  position: absolute;
+  top: 52px;
+  left: -56px;
+  animation: 10s float infinite;
+}
+
+.home-uploaded-files {
+  border: solid 1px #c5cec7;
+  padding: 0 20px;
+  margin-top: 10px;
+  border-radius: 4px;
+
+  @media (min-width: $largebp) {
+    padding: 0 40px;
+  }
+
+  .upload-file + .upload-file {
+    border-top: 1px solid rgba(197, 206, 199, 0.4);
+  }
+}

@@ -1,0 +1,69 @@
+@import "../../variables.scss";
+
+.home-top {
+  text-align: center;
+  padding: 60px 0 50px;
+  position: relative;
+
+  @media (min-width: $largebp) {
+    padding: 60px 0 70px;
+  }
+
+  .logo {
+    margin: 0 auto 35px;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: 1s transform, 1s opacity;
+  }
+
+  &.active .logo {
+    transform: none;
+    opacity: 1;
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 1.14;
+    margin-bottom: 38px;
+
+    @media (min-width: $largebp) {
+      font-size: 56px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.33;
+    max-width: 560px;
+    margin: 0 auto;
+
+    @media (min-width: $largebp) {
+      font-size: 24px;
+      max-width: 670px;
+    }
+  }
+}
+
+.deco-1 {
+  position: absolute;
+  left: 100%;
+  bottom: 25%;
+  margin-left: 20px;
+  animation: 6s float infinite;
+
+  @media (min-width: 591px) {
+    margin-left: 100px;
+  }
+}
+
+.deco-2 {
+  position: absolute;
+  left: 100%;
+  bottom: 5%;
+  margin-left: -15px;
+  animation: 8s float infinite;
+
+  @media (min-width: 591px) {
+    margin-left: 50px;
+  }
+}

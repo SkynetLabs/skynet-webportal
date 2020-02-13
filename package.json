@@ -1,20 +1,17 @@
 {
   "private": true,
   "scripts": {
-    "client-dev": "yarn workspace siaviewnode-client dev -p 3000",
-    "server-dev": "yarn workspace siaviewnode-server dev",
-    "client-prod": "yarn workspace siaviewnode-client build && yarn workspace siaviewnode-client start -p 3000",
-    "server-prod": "yarn workspace siaviewnode-server build && yarn workspace siaviewnode-server start",
-    "dev": "concurrently \"yarn client-dev\" \"yarn server-dev\"",
-    "start": "NODE_ENV=production concurrently \"yarn client-prod\" \"yarn server-prod\""
+    "start:client": "yarn workspace sia-skynet start",
+    "start:server": "yarn workspace siaviewnode-server dev",
+    "build:client": "yarn workspace sia-skynet build",
+    "build:server": "yarn workspace siaviewnode-server build && yarn workspace siaviewnode-server start",
+    "dev": "concurrently \"yarn start:client\" \"yarn start:server\"",
+    "start": "NODE_ENV=production concurrently \"yarn build:client && npx http-server -p 3000 packages/sia-skynet/build\" \"yarn build:server\""
   },
   "workspaces": {
     "packages": [
       "packages/*"
     ]
-  },
-  "devDependencies": {
-    "lerna": "3.16.5"
   },
   "dependencies": {
     "concurrently": "5.0.0"
