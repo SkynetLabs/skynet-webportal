@@ -7,7 +7,7 @@ import { Download } from '../../svg'
 export default function Sample({ type, url, className }) {
   return (
     <div className={classNames('sample', className)}>
-      <a download href={url}>
+      <a href={url} target="_blank" rel="noopener noreferrer">
         <Download />
         <span className="sample-name">
           <strong>{type}</strong> Sample
