@@ -206,6 +206,7 @@ export class Server {
       return res.send(data)
     } catch (err) {
       const { message } = err;
+      this.logger.error(err)
       this.logger.error(message)
       return res.status(500).send({ error: err.message })
     }
