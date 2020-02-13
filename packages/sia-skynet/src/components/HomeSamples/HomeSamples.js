@@ -6,13 +6,13 @@ import "./HomeSamples.scss";
 import { Sample } from "../";
 
 const samples = [
-  { type: "HTML", url: "#" },
-  { type: "PDF", url: "/samples/sample.pdf" },
-  { type: "Image", url: "/samples/sample.pdf" },
-  { type: "Audio", url: "#" },
-  { type: "Video", url: "#" },
-  { type: "JSON", url: "#" },
-  { type: "Dapps", url: "#" }
+  { type: "HTML", url: "/file/PAJF7fi2dK0CpcrhcXXReyufMO2s8k25sWL_XQjBW5a0mA" },
+  { type: "PDF", url: "/file/XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg" },
+  { type: "Image", url: "/file/IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ" },
+  { type: "Audio", url: "/file/_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA" },
+  { type: "Video", url: "/file/CABtmZJhzqf2unWUxKndMtpRri8IyqS_QV5Xg4PIQhBgtQ" },
+  { type: "JSON", url: "/file/AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ" },
+  // { type: "Dapps", url: "#" }
 ];
 
 export default function HomeSamples() {
