@@ -7,7 +7,7 @@ import { Sample } from "../";
 
 const samples = [
   { type: "HTML", url: "#" },
-  { type: "PDF", url: "#" },
+  { type: "PDF", url: "/samples/sample.pdf" },
   { type: "Image", url: "#" },
   { type: "Audio", url: "#" },
   { type: "Video", url: "#" },
