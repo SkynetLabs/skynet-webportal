@@ -101,7 +101,7 @@ export default class HomeUpload extends Component {
 
               <div className="home-upload-retrieve">
                 <div className="home-upload-text">
-                  <h3>Have a File ID?</h3>
+                  <h3>Have a Skylink?</h3>
                   <p>Enter the ID to retrieve the file</p>
 
                   <form className="home-upload-retrieve-form">
