@@ -23,23 +23,23 @@ export default function Footer() {
 
               <ul>
                 <li>
-                  <a href="#">
+                  <a href="https://angel.co/company/nebulous/jobs" target="_blank" rel="noopener noreferrer">
                     Sia Jobs <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="https://skynet.luxor.tech">
+                  <a href="https://skynet.luxor.tech" target="_blank" rel="noopener noreferrer">
                     Luxor Tech
                     <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="https://sialoop.net">
+                  <a href="https://sialoop.net" target="_blank" rel="noopener noreferrer">
                     Sia Loop <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="https://skynet.tutemwesi.com">
+                  <a href="https://skynet.tutemwesi.com" target="_blank" rel="noopener noreferrer">
                     Tutem Wesi <Arrow />
                   </a>
                 </li>
@@ -52,23 +52,23 @@ export default function Footer() {
               <h2>Social</h2>
               <ul>
                 <li>
-                  <a href="#">
+                  <a href="https://www.reddit.com/r/siacoin/" target="_blank" rel="noopener noreferrer">
                     Reddit
                     <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://twitter.com/siatechhq" target="_blank" rel="noopener noreferrer">
                     Twitter <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://discord.gg/sia" target="_blank" rel="noopener noreferrer">
                     Discord <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://github.com/NebulousLabs" target="_blank" rel="noopener noreferrer">
                     Github <Arrow />
                   </a>
                 </li>
