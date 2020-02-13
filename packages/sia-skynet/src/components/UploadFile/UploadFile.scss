@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .upload-file {
   display: flex;
@@ -97,8 +97,36 @@
     top: 100%;
     left: 50%;
     margin-left: -6px;
-    content: '';
+    content: "";
     position: absolute;
     box-shadow: 0 2px 8px 0 rgba(23, 25, 23, 0.2);
+  }
+}
+
+.upload-file-copy-button {
+  border: 1px solid $green;
+  border-radius: 3px;
+  color: $green;
+  line-height: 40px;
+  font-size: 13px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  transition: 0.2s color, 0.2s background-color;
+
+  @media (min-width: $largebp) {
+    font-size: 14px;
+    padding: 0 15px;
+    line-height: 46px;
+  }
+
+  &:hover {
+    background-color: $green;
+    color: $white;
+  }
+
+  svg {
+    margin-left: 10px;
   }
 }

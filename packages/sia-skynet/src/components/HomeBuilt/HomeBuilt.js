@@ -1,15 +1,15 @@
-import React from 'react'
-import Fade from 'react-reveal/Fade'
+import React from "react";
+import Fade from "react-reveal/Fade";
 
-import './HomeBuilt.scss'
-import { CircleIcon, CodeExamples } from '../'
-import { Cylinder, SmallOrb } from '../../svg'
+import "./HomeBuilt.scss";
+import { CircleIcon, CodeExamples } from "../";
+import { Cylinder, SmallOrb } from "../../svg";
 
 export default function HomeBuilt() {
   return (
     <div className="home-built">
       <header className="home-built-header">
-        <Fade distance="40px" bottom>
+        <Fade duration={700} distance="40px" bottom>
           <div className="home-built-divider">
             <div className="small-divider" />
             <div className="divider" />
@@ -22,7 +22,7 @@ export default function HomeBuilt() {
             <div className="small-divider" />
           </div>
         </Fade>
-        <Fade distance="40px" bottom>
+        <Fade duration={700} distance="40px" bottom>
           <h2>
             Infrastructure built for
             <br />
@@ -31,9 +31,9 @@ export default function HomeBuilt() {
         </Fade>
       </header>
 
-      <Fade distance="40px" bottom>
+      <Fade duration={700} distance="40px" bottom>
         <CodeExamples />
       </Fade>
     </div>
-  )
+  );
 }

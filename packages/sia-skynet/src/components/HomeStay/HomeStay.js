@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import Fade from 'react-reveal/Fade'
+import React, { Component } from "react";
+import Fade from "react-reveal/Fade";
 
-import './HomeStay.scss'
-import { SocialLink, CircleIcon, Mailing } from '../'
-import { SmallOrb, Pyramid } from '../../svg'
+import "./HomeStay.scss";
+import { SocialLink, CircleIcon, Mailing } from "../";
+import { SmallOrb, Pyramid } from "../../svg";
 
 export default class HomeStay extends Component {
   render() {
     return (
       <div className="home-stay">
         <header className="home-stay-header">
-          <Fade distance="40px" bottom>
+          <Fade duration={700} distance="40px" bottom>
             <div className="home-stay-divider">
               <CircleIcon>
                 <Pyramid />
@@ -20,7 +20,7 @@ export default class HomeStay extends Component {
               <div className="small-divider" />
             </div>
           </Fade>
-          <Fade distance="40px" bottom>
+          <Fade duration={700} distance="40px" bottom>
             <h2>
               Stay up to date with
               <br />
@@ -31,27 +31,27 @@ export default class HomeStay extends Component {
 
         <div className="home-stay-flex">
           <div className="home-stay-left">
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <p>
-                Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac
-                facilisis in.
+                Integer posuere erat a ante venenatis dapibus posuere velit
+                aliquet. Cras justo odio, dapibus ac facilisis in.
               </p>
             </Fade>
 
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <Mailing id="check1" />
             </Fade>
 
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <p className="disclaimer-text">
-                Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac
-                facilisis in.
+                Integer posuere erat a ante venenatis dapibus posuere velit
+                aliquet. Cras justo odio, dapibus ac facilisis in.
               </p>
             </Fade>
           </div>
 
           <ul className="home-stay-right">
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <li>
                 <SocialLink
                   icon="github"
@@ -65,7 +65,7 @@ export default class HomeStay extends Component {
                 />
               </li>
             </Fade>
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <li>
                 <SocialLink
                   icon="discord"
@@ -75,7 +75,7 @@ export default class HomeStay extends Component {
                 />
               </li>
             </Fade>
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <li>
                 <SocialLink
                   icon="twitter"
@@ -88,6 +88,6 @@ export default class HomeStay extends Component {
           </ul>
         </div>
       </div>
-    )
+    );
   }
 }

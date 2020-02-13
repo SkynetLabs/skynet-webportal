@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .home-top {
   text-align: center;
@@ -47,8 +47,8 @@
 .deco-1 {
   position: absolute;
   left: 100%;
-  bottom: 54%;
-  margin-left: -20px;
+  bottom: 25%;
+  margin-left: 20px;
   animation: 6s float infinite;
 
   @media (min-width: 591px) {
@@ -59,8 +59,8 @@
 .deco-2 {
   position: absolute;
   left: 100%;
-  bottom: 34%;
-  margin-left: -40px;
+  bottom: 5%;
+  margin-left: -15px;
   animation: 8s float infinite;
 
   @media (min-width: 591px) {

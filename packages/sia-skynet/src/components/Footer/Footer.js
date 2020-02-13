@@ -1,24 +1,24 @@
-import React from 'react'
-import Fade from 'react-reveal/Fade'
-import Reveal from 'react-reveal/Reveal'
+import React from "react";
+import Fade from "react-reveal/Fade";
+import Reveal from "react-reveal/Reveal";
 
-import { Arrow, FooterOrb, FooterCube, Built } from '../../svg'
-import './Footer.scss'
-import { Mailing } from '..'
+import { Arrow, FooterOrb, FooterCube, Built } from "../../svg";
+import "./Footer.scss";
+import { Mailing } from "..";
 
 export default function Footer() {
   return (
     <Reveal effect="active">
       <footer className="footer">
         <div className="width">
-          <Fade distance="40px" bottom>
+          <Fade duration={700} distance="40px" bottom>
             <div className="footer-column">
               <Built />
             </div>
           </Fade>
 
           <div className="footer-column">
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <h2>Sia Elsewhere</h2>
 
               <ul>
@@ -48,7 +48,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-column">
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <h2>Social</h2>
               <ul>
                 <li>
@@ -77,7 +77,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-column">
-            <Fade distance="40px" bottom>
+            <Fade duration={700} distance="40px" bottom>
               <h2>Stay up-to-date with Skynet updates</h2>
               <Mailing id="check2" light />
             </Fade>
@@ -88,5 +88,5 @@ export default function Footer() {
         <FooterOrb className="footer-orb fadeInUp delay2" />
       </footer>
     </Reveal>
-  )
+  );
 }
