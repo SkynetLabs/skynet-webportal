@@ -2815,6 +2815,11 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.9.0.tgz#24390e6ad61386b0a747265754d2a17219de862c"
   integrity sha512-Uvq6hVe90D0B2WEnUqtdgY1bATGz3mw33nH9Y+dmA+w5DHvUmBgkr5rM/KCHpCsiFNRUfokW/szpPPgMK2hm4A==
 
+axios-curlirize@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/axios-curlirize/-/axios-curlirize-1.3.4.tgz#399ca88e2e4a3f39aefe9fd81576c4bb2124e872"
+  integrity sha512-IxZqHdzKZcPFye1B7saIXcs7zbObRCLNBQWKC+tCQgxl0K57XRosejWDdeVYf00LeLp0SVMZNel2GzL3XPFe1g==
+
 axios-logger@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/axios-logger/-/axios-logger-2.3.0.tgz#7c7b0891f71e691d72ef5ab143f2921fedec5196"

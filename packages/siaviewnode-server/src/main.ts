@@ -1,4 +1,5 @@
 import axios from "axios"
+import curlirize from 'axios-curlirize';
 import cors from "cors"
 import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
@@ -12,6 +13,7 @@ import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
 
+curlirize(axios);
 
 // import * as AxiosLogger from 'axios-logger'
 // AxiosLogger.setGlobalConfig({
