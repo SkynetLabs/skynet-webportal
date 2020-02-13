@@ -32,21 +32,7 @@ export default class HomeStay extends Component {
         <div className="home-stay-flex">
           <div className="home-stay-left">
             <Fade duration={700} distance="40px" bottom>
-              <p>
-                Integer posuere erat a ante venenatis dapibus posuere velit
-                aliquet. Cras justo odio, dapibus ac facilisis in.
-              </p>
-            </Fade>
-
-            <Fade duration={700} distance="40px" bottom>
               <Mailing id="check1" />
-            </Fade>
-
-            <Fade duration={700} distance="40px" bottom>
-              <p className="disclaimer-text">
-                Integer posuere erat a ante venenatis dapibus posuere velit
-                aliquet. Cras justo odio, dapibus ac facilisis in.
-              </p>
             </Fade>
           </div>
 
@@ -57,11 +43,7 @@ export default class HomeStay extends Component {
                   icon="github"
                   url="https://github.com/NebulousLabs/skynet-webportal"
                   greenText="View project on Github"
-                  title={
-                    <>
-                      NebulousLabs/<strong>Skynet-Webportal</strong>
-                    </>
-                  }
+                  title={<strong>/Skynet-Webportal</strong>}
                 />
               </li>
             </Fade>
