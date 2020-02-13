@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .button {
   display: inline-block;
@@ -18,5 +18,19 @@
   &:hover {
     background-color: $greenHover;
     transform: translateY(-2px);
+  }
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+
+  &.iconLeft svg {
+    margin-right: 12px;
+  }
+
+  &.iconRight svg {
+    margin-left: 12px;
   }
 }
