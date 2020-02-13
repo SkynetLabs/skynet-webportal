@@ -8,7 +8,7 @@ import { Sample } from "../";
 const samples = [
   { type: "HTML", url: "#" },
   { type: "PDF", url: "/samples/sample.pdf" },
-  { type: "Image", url: "#" },
+  { type: "Image", url: "/samples/sample.pdf" },
   { type: "Audio", url: "#" },
   { type: "Video", url: "#" },
   { type: "JSON", url: "#" },

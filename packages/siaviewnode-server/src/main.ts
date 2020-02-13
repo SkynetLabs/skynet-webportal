@@ -1,5 +1,4 @@
 import axios from "axios"
-import curlirize from 'axios-curlirize';
 import cors from "cors"
 import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
@@ -12,26 +11,6 @@ import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
-
-curlirize(axios);
-
-// import * as AxiosLogger from 'axios-logger'
-// AxiosLogger.setGlobalConfig({
-//   prefixText: 'your prefix',
-//   dateFormat: 'HH:MM:ss',
-//   status: true,
-//   headers: false,
-//   data: false
-// });
-// // add interceptors
-// siad.interceptors.request.use(
-//   AxiosLogger.requestLogger,
-//   AxiosLogger.errorLogger
-// );
-// siad.interceptors.response.use(
-//   AxiosLogger.responseLogger,
-//   AxiosLogger.errorLogger
-// );
 
 const MAX_UPLOAD_FILESIZE = 1000 * 1024 * 1024
 const SIAD_ENDPOINT = "http://localhost:9980"
@@ -48,8 +27,6 @@ const siad = axios.create({
     password: fs.readFileSync(homedir().concat("/.sia/apipassword"), "utf8").trim()
   }
 })
-
-curlirize(siad);
 
 // Ramda shared utility functions
 const selectFile = R.path(["files", "file"])
