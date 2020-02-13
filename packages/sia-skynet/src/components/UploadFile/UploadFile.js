@@ -10,8 +10,7 @@ export default class UploadFile extends Component {
   };
 
   getIcon = () => {
-    // const { status } = this.props;
-    const status = "complete";
+    const { status } = this.props;
 
     if (status === "uploading" || status === "processing") {
       return <File />;
@@ -37,10 +36,7 @@ export default class UploadFile extends Component {
   urlRef = React.createRef();
 
   render() {
-    const { file, url } = this.props;
-
-    const status = "complete";
-
+    const { file, url, status } = this.props;
     const copyText = this.state.copied ? "Copied!" : "Copy to clipboard";
     return (
       <div className="upload-file">
