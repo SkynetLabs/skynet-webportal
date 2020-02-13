@@ -58,6 +58,16 @@ export default class HomeUpload extends Component {
     });
   };
 
+  handleSkylink = (event) => {
+    event.preventDefault();
+
+    const skylink = event.target.skylink.value.replace('sia://', '');
+
+    if(skylink.length === 46) {
+      window.open(`/${event.target.skylink.value}`, '_blank');
+    }
+  }
+
   render() {
     return (
       <Reveal effect="active">
@@ -104,8 +114,8 @@ export default class HomeUpload extends Component {
                   <h3>Have a Skylink?</h3>
                   <p>Enter the ID to retrieve the file</p>
 
-                  <form className="home-upload-retrieve-form">
-                    <input type="text" placeholder="sia://" />
+                  <form className="home-upload-retrieve-form" onSubmit={this.handleSkylink}>
+                    <input name="skylink" type="text" placeholder="sia://" />
                     <button type="submit">
                       <DownArrow />
                     </button>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import classNames from 'classnames'
 
