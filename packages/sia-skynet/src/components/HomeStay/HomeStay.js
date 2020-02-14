@@ -54,7 +54,7 @@ export default class HomeStay extends Component {
                 <SocialLink
                   icon="discord"
                   url="https://discord.gg/sia"
-                  greenText="View project on Github"
+                  greenText="View project on Discord"
                   title={<strong>/Sia</strong>}
                 />
               </li>
@@ -63,8 +63,8 @@ export default class HomeStay extends Component {
               <li>
                 <SocialLink
                   icon="twitter"
-                  url="https://twitter.com/SiaTechHQ?s=20"
-                  greenText="View project on Github"
+                  url="https://twitter.com/SiaTechHQ"
+                  greenText="View project on Twitter"
                   title={<strong>@SiaTechHQ</strong>}
                 />
               </li>
