@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="width">
           <Fade duration={700} distance="40px" bottom>
             <div className="footer-column">
-              <Built />
+              <Built width={120} height={120} preserveAspectRatio={'xMinYMin'}/>
             </div>
           </Fade>
 
