@@ -2,9 +2,11 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import Reveal from "react-reveal/Reveal";
 
-import { Arrow, FooterOrb, FooterCube, Built } from "../../svg";
+import { FooterOrb, FooterCube, Built } from "../../svg";
 import "./Footer.scss";
 import { Mailing } from "..";
+
+const Arrow = () => null; // mock arrows temporarily
 
 export default function Footer() {
   return (
@@ -13,34 +15,38 @@ export default function Footer() {
         <div className="width">
           <Fade duration={700} distance="40px" bottom>
             <div className="footer-column">
-              <Built />
+              <Built width={120} height={120} preserveAspectRatio={'xMinYMin'}/>
             </div>
           </Fade>
 
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
-              <h2>Sia Elsewhere</h2>
+              <h2>Skynet webportals</h2>
 
               <ul>
                 <li>
-                  <a href="https://angel.co/company/nebulous/jobs" target="_blank" rel="noopener noreferrer">
-                    Sia Jobs <Arrow />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://skynet.luxor.tech" target="_blank" rel="noopener noreferrer">
-                    Luxor Tech
-                    <Arrow />
+                  <a href="https://skydrain.net" target="_blank" rel="noopener noreferrer">
+                    skydrain.net <Arrow />
                   </a>
                 </li>
                 <li>
                   <a href="https://sialoop.net" target="_blank" rel="noopener noreferrer">
-                    Sia Loop <Arrow />
+                    sialoop.net <Arrow />
                   </a>
                 </li>
                 <li>
                   <a href="https://skynet.tutemwesi.com" target="_blank" rel="noopener noreferrer">
-                    Tutem Wesi <Arrow />
+                    skynet.tutemwesi.com <Arrow />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://siacdn.com" target="_blank" rel="noopener noreferrer">
+                    siacdn.com <Arrow />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://vault.lightspeedhosting.com" target="_blank" rel="noopener noreferrer">
+                    vault.lightspeedhosting.com <Arrow />
                   </a>
                 </li>
               </ul>
@@ -52,12 +58,6 @@ export default function Footer() {
               <h2>Social</h2>
               <ul>
                 <li>
-                  <a href="https://www.reddit.com/r/siacoin/" target="_blank" rel="noopener noreferrer">
-                    Reddit
-                    <Arrow />
-                  </a>
-                </li>
-                <li>
                   <a href="https://twitter.com/siatechhq" target="_blank" rel="noopener noreferrer">
                     Twitter <Arrow />
                   </a>
@@ -68,8 +68,37 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/NebulousLabs" target="_blank" rel="noopener noreferrer">
-                    Github <Arrow />
+                  <a href="https://www.reddit.com/r/siacoin" target="_blank" rel="noopener noreferrer">
+                    Reddit <Arrow />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://blog.sia.tech" target="_blank" rel="noopener noreferrer">
+                    Blog <Arrow />
+                  </a>
+                </li>
+              </ul>
+            </Fade>
+          </div>
+
+          <div className="footer-column">
+            <Fade duration={700} distance="40px" bottom>
+              <h2>Sia</h2>
+
+              <ul>
+                <li>
+                  <a href="https://sia.tech/" target="_blank" rel="noopener noreferrer">
+                    Sia <Arrow />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://angel.co/company/nebulous/jobs" target="_blank" rel="noopener noreferrer">
+                    Jobs <Arrow />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://support.sia.tech" target="_blank" rel="noopener noreferrer">
+                    Support <Arrow />
                   </a>
                 </li>
               </ul>

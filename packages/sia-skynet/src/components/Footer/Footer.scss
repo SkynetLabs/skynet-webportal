@@ -11,6 +11,8 @@
   }
 
   .width {
+    max-width: 1200px;
+
     @media (min-width: $largebp) {
       display: flex;
       justify-content: space-between;

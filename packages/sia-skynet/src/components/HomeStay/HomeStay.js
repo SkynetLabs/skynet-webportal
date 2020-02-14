@@ -20,33 +20,21 @@ export default class HomeStay extends Component {
               <div className="small-divider" />
             </div>
           </Fade>
-          <Fade duration={700} distance="40px" bottom>
-            <h2>
-              Stay up to date with
-              <br />
-              <strong>Skynet updates</strong>
-            </h2>
-          </Fade>
         </header>
 
         <div className="home-stay-flex">
           <div className="home-stay-left">
-            <Fade duration={700} distance="40px" bottom>
-              <p>
-                Integer posuere erat a ante venenatis dapibus posuere velit
-                aliquet. Cras justo odio, dapibus ac facilisis in.
-              </p>
-            </Fade>
-
+            <header className="home-stay-header">
+              <Fade duration={700} distance="40px" bottom>
+                <h2>
+                  Stay up to date with
+                  <br />
+                  <strong>Skynet updates</strong>
+                </h2>
+              </Fade>
+            </header>
             <Fade duration={700} distance="40px" bottom>
               <Mailing id="check1" />
-            </Fade>
-
-            <Fade duration={700} distance="40px" bottom>
-              <p className="disclaimer-text">
-                Integer posuere erat a ante venenatis dapibus posuere velit
-                aliquet. Cras justo odio, dapibus ac facilisis in.
-              </p>
             </Fade>
           </div>
 
@@ -57,11 +45,7 @@ export default class HomeStay extends Component {
                   icon="github"
                   url="https://github.com/NebulousLabs/skynet-webportal"
                   greenText="View project on Github"
-                  title={
-                    <>
-                      NebulousLabs/<strong>Skynet-Webportal</strong>
-                    </>
-                  }
+                  title={<strong>/Skynet-Webportal</strong>}
                 />
               </li>
             </Fade>
