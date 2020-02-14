@@ -26,10 +26,10 @@ import (
 func main() {
 	skylink, err := skynet.UploadFile("./image.jpg", skynet.DefaultUploadOptions)
 	if err != nil {
-		fmt.Printf("Unable to upload: %v\n", err.Error())
+		fmt.Printf("Unable to upload: %v", err.Error())
 		return
 	}
-	fmt.Printf("Upload successful, skylink: %v\n", skylink)
+	fmt.Printf("Upload successful, skylink: %v", skylink)
 }`
 
 export const ruby = ``
