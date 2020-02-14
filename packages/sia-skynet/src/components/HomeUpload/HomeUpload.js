@@ -63,7 +63,7 @@ export default class HomeUpload extends Component {
 
     const skylink = event.target.skylink.value.replace('sia://', '');
 
-    if(skylink.length === 46) {
+    if(skylink.match(/^[a-zA-Z0-9_-]{46}$/)) {
       window.open(`/${event.target.skylink.value}`, '_blank');
     }
   }

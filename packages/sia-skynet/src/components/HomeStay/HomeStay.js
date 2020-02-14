@@ -20,17 +20,19 @@ export default class HomeStay extends Component {
               <div className="small-divider" />
             </div>
           </Fade>
-          <Fade duration={700} distance="40px" bottom>
-            <h2>
-              Stay up to date with
-              <br />
-              <strong>Skynet updates</strong>
-            </h2>
-          </Fade>
         </header>
 
         <div className="home-stay-flex">
           <div className="home-stay-left">
+            <header className="home-stay-header">
+              <Fade duration={700} distance="40px" bottom>
+                <h2>
+                  Stay up to date with
+                  <br />
+                  <strong>Skynet updates</strong>
+                </h2>
+              </Fade>
+            </header>
             <Fade duration={700} distance="40px" bottom>
               <Mailing id="check1" />
             </Fade>
