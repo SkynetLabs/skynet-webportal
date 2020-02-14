@@ -122,9 +122,7 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="What does pinning mean?">
                 <p>
-                  Lorem Ipsum has been the industry's standard dummy text ever
-                  since the 1500s, when an unknown printer took a galley of type
-                  and scrambled it to make.
+                  It means that you want the file to stay online and available. Anyone can re-pin a file on Skynet.
                 </p>
               </FAQ>
             </Fade>
@@ -132,8 +130,7 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="Is my data secure?">
                 <p>
-                  Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                  Sed posuere consectetur est at lobortis.
+                  Your data is incomparably secure on Skynet. Everything is split and (if you want) encrypted, which means files can’t be hacked, and data can’t be de-platformed.
                 </p>
               </FAQ>
             </Fade>
@@ -141,8 +138,7 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="How does Sia compare to other decentralized storage solutions?">
                 <p>
-                  Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                  Sed posuere consectetur est at lobortis.
+                  Some other blockchain cloud storage platforms are decentralized in name only. Sia is the only network with no central point of failure, and has the track record to prove it.
                 </p>
               </FAQ>
             </Fade>
@@ -150,9 +146,7 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="How long will my files be available?">
                 <p>
-                  Lorem Ipsum has been the industry's standard dummy text ever
-                  since the 1500s, when an unknown printer took a galley of type
-                  and scrambled it to make a type specimen book.
+                  As long as a file is being paid for, it stays on the network. That means, with minimal input, you can have your files stored on the decentralized web for as long as you want.
                 </p>
               </FAQ>
             </Fade>
