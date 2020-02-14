@@ -13,10 +13,10 @@ export default function CodeExamples() {
     <div className="code-examples">
       <ul className="code-examples-tabs">
         <li onClick={() => setActive(1)} className={classNames({ active: active === 1 })}>
-          Python
+          CURL
         </li>
         <li onClick={() => setActive(2)} className={classNames({ active: active === 2 })}>
-          CURL
+          Python
         </li>
         <li onClick={() => setActive(3)} className={classNames({ active: active === 3 })}>
           Node.js
@@ -28,14 +28,14 @@ export default function CodeExamples() {
 
       <div className="code-examples-body">
         {active === 1 && (
-          <SyntaxHighlighter wrapLines showLineNumbers={true} language="python" style={Colors}>
-            {python}
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="curl" style={Colors}>
+            {curl}
           </SyntaxHighlighter>
         )}
 
         {active === 2 && (
-          <SyntaxHighlighter wrapLines showLineNumbers={true} language="curl" style={Colors}>
-            {curl}
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="python" style={Colors}>
+            {python}
           </SyntaxHighlighter>
         )}
 
