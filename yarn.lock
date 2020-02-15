@@ -2005,10 +2005,10 @@
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
 
-"@types/express-fileupload@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@types/express-fileupload/-/express-fileupload-1.1.0.tgz#c2f0555be691b11f6cddaf8b23b0d41b3ef689c8"
-  integrity sha512-l7ElHOlTt3Dis1My3LvEwP4tDw/cYiM1sor5nQY8aRm8HPVwalG48lf7ym9k2/z/PwRGADABGgIhv0a6y7XzoA==
+"@types/express-fileupload@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@types/express-fileupload/-/express-fileupload-1.1.2.tgz#3cc420abd0614b71cc7f2743c9d0b70182025922"
+  integrity sha512-a2rhTcnF1NBphmp6/fKGW+udO0yYafUi6oDxYoutB6L5Hd9qBvlE0by4CB2mqTzXdp0qz+56Zt9SHOGN2TGhBQ==
   dependencies:
     "@types/express" "*"
 
