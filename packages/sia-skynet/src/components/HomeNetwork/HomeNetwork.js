@@ -120,41 +120,40 @@ export default class HomeNetwork extends Component {
           </div>
           <div className="home-network-column">
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="What does pinning mean?">
+              <FAQ title="How do I use Skynet?">
                 <p>
-                  It means that you want the file to stay online and available. Anyone can re-pin a file on Skynet.
+                  Anyone can access files that have been uploaded to Sia as long as they possess the corresponding skylink. You can use one of the webportals to download the files. <a href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="Is my data secure?">
+              <FAQ title="How do I integrate Skynet into applications?">
                 <p>
-                  Your data is incomparably secure on Skynet. Everything is split and (if you want) encrypted, which means files can’t be hacked, and data can’t be de-platformed.
+                  Applications can be deployed in under a minute and be immediately available globally. Skynet has an API as well as SDKs which integrate seamlessly with existing applications. <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="How does Sia compare to other decentralized storage solutions?">
+              <FAQ title="How fast is Skynet?">
                 <p>
-                  Some other blockchain cloud storage platforms are decentralized in name only. Sia is the only network with no central point of failure, and has the track record to prove it.
+                  Skynet has speeds that surpass any current decentralized tech. A typical throughput for larger downloads is around 1 gigabit per second. <a href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="How long will my files be available?">
+              <FAQ title="How expensive is using Skynet?">
                 <p>
-                  As long as a file is being paid for, it stays on the network. That means, with minimal input, you can have your files stored on the decentralized web for as long as you want.
+                  Storage costs are as much as 10x lower than traditional infrastructure, bandwidth costs as much as 100x lower, all without sacrificing performance or reliability. <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
               <a className="more more-faq" href="https://support.sia.tech/">
-                View more faq
-                <Arrow />
+                View more FAQ
               </a>
             </Fade>
           </div>
