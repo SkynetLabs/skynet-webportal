@@ -2012,13 +2012,6 @@
   dependencies:
     "@types/express" "*"
 
-"@types/express-http-proxy@^1.5.12":
-  version "1.5.12"
-  resolved "https://registry.yarnpkg.com/@types/express-http-proxy/-/express-http-proxy-1.5.12.tgz#077ab1ee9e0f20fa8a131f10dd96d7c72473b474"
-  integrity sha512-QnTNKXq3xqVU21iMtz1P1M+rhusjGqNqpcbmGzvnkrLNNCiFy6UNK/JDIYJjs3bu8AopFpnBn3wJC16K4nKSgQ==
-  dependencies:
-    "@types/express" "*"
-
 "@types/express-request-id@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@types/express-request-id/-/express-request-id-1.4.1.tgz#35988cbd21b3951b74235a0c840c2a72722c85d1"
@@ -2121,13 +2114,6 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
-
-"@types/ramda@0.26.36":
-  version "0.26.36"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.36.tgz#094f495c04f8876f583597ae73dce7eac94fc6ba"
-  integrity sha512-uo22Nf32Cc3EURp9tYlFttY8MVQZ1zoVum+D+yQ2jm4IqQFxDtwCQlP/WMwbuj4ey5kw1rJ7v6OacDszfWiqLA==
-  dependencies:
-    ts-toolbelt "^4.10.7"
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -4455,7 +4441,7 @@ debug@=3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@^3.0.0, debug@^3.0.1, debug@^3.1.1, debug@^3.2.5, debug@^3.2.6:
+debug@^3.0.0, debug@^3.1.1, debug@^3.2.5, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -4974,11 +4960,6 @@ es6-iterator@2.0.3, es6-iterator@~2.0.3:
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
 
-es6-promise@^4.1.1:
-  version "4.2.8"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
-  integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
-
 es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
@@ -5314,15 +5295,6 @@ express-fileupload@1.1.6:
   integrity sha512-w24zPWT8DkoIxSVkbxYPo9hkTiLpCQQzNsLRTCnecBhfbYv+IkIC5uLw2MIUAxBZ+7UMmXPjGxlhzUXo4RcbZw==
   dependencies:
     busboy "^0.3.1"
-
-express-http-proxy@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/express-http-proxy/-/express-http-proxy-1.6.0.tgz#8672b1093cc96b8a93e8e3da948dd111a668ef22"
-  integrity sha512-7Re6Lepg96NA2wiv7DC5csChAScn4K76/UgYnC71XiITCT1cgGTJUGK6GS0pIixudg3Fbx3Q6mmEW3mZv5tHFQ==
-  dependencies:
-    debug "^3.0.1"
-    es6-promise "^4.1.1"
-    raw-body "^2.3.0"
 
 express-request-id@^1.4.1:
   version "1.4.1"
@@ -6335,17 +6307,6 @@ http-errors@1.7.2:
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
 
-http-errors@1.7.3, http-errors@~1.7.2:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"
-  integrity sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
-  dependencies:
-    depd "~1.1.2"
-    inherits "2.0.4"
-    setprototypeof "1.1.1"
-    statuses ">= 1.5.0 < 2"
-    toidentifier "1.0.0"
-
 http-errors@~1.6.2:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.6.3.tgz#8b55680bb4be283a0b5bf4ea2e38580be1d9320d"
@@ -6355,6 +6316,17 @@ http-errors@~1.6.2:
     inherits "2.0.3"
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
+
+http-errors@~1.7.2:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"
+  integrity sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
+  dependencies:
+    depd "~1.1.2"
+    inherits "2.0.4"
+    setprototypeof "1.1.1"
+    statuses ">= 1.5.0 < 2"
+    toidentifier "1.0.0"
 
 "http-parser-js@>=0.4.0 <0.4.11":
   version "0.4.10"
@@ -10277,11 +10249,6 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
-ramda@0.27.0:
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.0.tgz#915dc29865c0800bf3f69b8fd6c279898b59de43"
-  integrity sha512-pVzZdDpWwWqEVVLshWUHjNwuVP7SfcmPraYuqocJp1yo2U1R7P+5QAfDhdItkuoGqIBnBYrtPp7rEPqDn9HlZA==
-
 ramda@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
@@ -10319,16 +10286,6 @@ raw-body@2.4.0:
   dependencies:
     bytes "3.1.0"
     http-errors "1.7.2"
-    iconv-lite "0.4.24"
-    unpipe "1.0.0"
-
-raw-body@^2.3.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.4.1.tgz#30ac82f98bb5ae8c152e67149dac8d55153b168c"
-  integrity sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA==
-  dependencies:
-    bytes "3.1.0"
-    http-errors "1.7.3"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
@@ -12245,11 +12202,6 @@ ts-pnp@1.1.5, ts-pnp@^1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.5.tgz#840e0739c89fce5f3abd9037bb091dbff16d9dec"
   integrity sha512-ti7OGMOUOzo66wLF3liskw6YQIaSsBgc4GOAlWRnIEj8htCxJUxskanMUoJOD6MDCRAXo36goXJZch+nOS0VMA==
-
-ts-toolbelt@^4.10.7:
-  version "4.12.13"
-  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-4.12.13.tgz#a2fb92f16ef6e5828c16a8f403e1eaf87703160b"
-  integrity sha512-tnMgohN582PAv9u5xX8tsbdTzawRwyhvrg2r1qOgiAUOXB8ABGwYQeOh0qfE43wKF0ygvbBrM/CTZMED6ow5ZQ==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"

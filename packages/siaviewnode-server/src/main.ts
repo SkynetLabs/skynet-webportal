@@ -2,12 +2,10 @@ import axios from "axios"
 import cors from "cors"
 import express, { Request, Response } from "express"
 import fileUpload, { UploadedFile } from "express-fileupload"
-import proxy from "express-http-proxy"
 import requestId from "express-request-id"
 import fs from "fs"
 import morgan from 'morgan'
 import { homedir } from "os"
-import R from "ramda"
 import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
@@ -28,13 +26,12 @@ const siad = axios.create({
   }
 })
 
-// Ramda shared utility functions
-const selectFile = R.path(["files", "file"])
-
 export class Server {
   public app: express.Express
 
-  constructor(private logger: Logger) { this.boot() }
+  constructor(private logger: Logger) { 
+    this.boot() 
+  }
 
   private boot() {
     this.app = express()
@@ -148,7 +145,8 @@ export class Server {
   }
 
   private async handleSkyfilePOST(req: Request, res: Response): Promise<Response> {
-    const file = selectFile(req) as UploadedFile
+    const file = req?.files?.file as UploadedFile
+
     if (!file) {
       res.status(400).send({ error: "Missing file" })
     }
