@@ -161,9 +161,8 @@ class Server {
         `/skynet/skyfile/${req.params.uuid}`,
         file.data,
         { 
-          params: { 
-            filename: file.name 
-          }
+          maxContentLength: MAX_UPLOAD_FILESIZE,
+          params: { filename: file.name }
         }
       )
       return res.send(data)
