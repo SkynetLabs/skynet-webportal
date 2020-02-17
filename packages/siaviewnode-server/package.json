@@ -33,6 +33,6 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/ramda": "0.26.36"
+    "@types/ramda": "0.26.41"
   }
 }
