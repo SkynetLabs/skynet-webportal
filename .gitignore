@@ -4,5 +4,4 @@ node_modules
 *.swo
 *.swp
 
-node_modules
-**/*/.next
+yarn-error.log
