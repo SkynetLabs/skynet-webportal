@@ -2,7 +2,7 @@
   "name": "siaviewnode-server",
   "version": "0.0.1",
   "scripts": {
-    "start": "PORT=4000 node ./build/main.js",
+    "start": "yarn build && PORT=4000 node ./build/main.js",
     "build": "tsc --sourceMap"
   },
   "license": "MIT",

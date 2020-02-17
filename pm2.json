@@ -1,9 +1,9 @@
 {
   "apps": [
     {
-      "name": "siaviewer",
+      "name": "skynet-api",
       "script": "yarn",
-      "args": "start",
+      "args": "start:server",
       "interpreter": "/bin/bash"
     }
   ]
