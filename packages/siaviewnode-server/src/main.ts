@@ -30,7 +30,6 @@ const siad = axios.create({
 
 // Ramda shared utility functions
 const selectFile = R.path(["files", "file"])
-const pName = R.prop("name")
 
 export class Server {
   public app: express.Express
@@ -82,7 +81,6 @@ export class Server {
   }
 
   private configureRoutes() {
-    this.app.post("/siafile", this.handleSiafilePOST.bind(this))
     this.app.post("/skyfile", this.handleSkyfilePOST.bind(this))
 
     this.app.get(
@@ -174,37 +172,6 @@ export class Server {
       return res.status(500).send({ error: err.message })
     }
   }
-
-  private async handleSiafilePOST(req: Request, res: Response): Promise<Response> {
-    const file = selectFile(req) as UploadedFile
-    const selectContentLength = R.path(["headers", "Content-Length"])
-    const cl = selectContentLength(req)
-
-    this.logger.info(`POST siafile ${file.name} w/contentlength ${cl}`)
-
-    try {
-      const { data: stream, headers } = await siad.post(
-        "/renter/stream",
-        file.data,
-        { responseType: "stream" }
-      )
-
-      const splitFilename = R.compose(R.head, R.split(".sia"))
-      const fileName = R.compose(splitFilename, pName)(file)
-
-      res.set(
-        "Content-Disposition",
-        `attachment; filename="${fileName}"; filename*="${fileName}"`
-      )
-      res.set("Content-Length", headers["Content-Length"])
-      return stream.pipe(res)
-    } catch (err) {
-      const { message } = err;
-      this.logger.error(message)
-      return res.status(500).send({ error: err.message })
-    }
-  }
-
 }
 
 module.exports = new Server(logger).app
