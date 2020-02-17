@@ -6,7 +6,6 @@ import requestId from "express-request-id"
 import fs from "fs"
 import morgan from 'morgan'
 import { homedir } from "os"
-import shortid from "shortid"
 import { Logger } from "winston"
 import logger from "./logger"
 
@@ -26,7 +25,7 @@ const siad = axios.create({
   }
 })
 
-export class Server {
+class Server {
   public app: express.Express
 
   constructor(private logger: Logger) { 
@@ -78,7 +77,7 @@ export class Server {
   }
 
   private configureRoutes() {
-    this.app.post("/skyfile", this.handleSkyfilePOST.bind(this))
+    this.app.post("/skynet/skyfile/:uuid", this.handleSkyfilePOST.bind(this))
 
     this.app.get(
       "/stats", this.handleStatsGET.bind(this)
@@ -151,16 +150,20 @@ export class Server {
       res.status(400).send({ error: "Missing file" })
     }
 
-    const uid = shortid.generate()
-    this.logger.info(`POST skyfile w/name ${file.name} and uid ${uid}`)
+    if( !req.params.uuid ) {
+      res.status(400).send({ error: "Missing uuid" })
+    }
+
+    this.logger.info(`POST skyfile w/name ${file.name} and uid ${req.params.uuid}`)
 
     try {
       const { data } = await siad.post(
-        `/skynet/skyfile/${uid}`,
+        `/skynet/skyfile/${req.params.uuid}`,
         file.data,
-        {
-          maxContentLength: MAX_UPLOAD_FILESIZE,
-          params: { filename: file.name }
+        { 
+          params: { 
+            filename: file.name 
+          }
         }
       )
       return res.send(data)
@@ -172,4 +175,4 @@ export class Server {
   }
 }
 
-module.exports = new Server(logger).app
+export default new Server(logger).app

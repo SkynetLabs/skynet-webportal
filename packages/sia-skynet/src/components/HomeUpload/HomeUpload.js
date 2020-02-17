@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import Dropzone from 'react-dropzone'
 import Reveal from 'react-reveal/Reveal'
-
+import shortid from 'shortid';
 import { Button, UploadFile } from '../'
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from '../../svg'
 import './HomeUpload.scss'
@@ -13,47 +13,41 @@ export default class HomeUpload extends Component {
   handleDrop = async acceptedFiles => {
     this.setState({
       files: [
-        ...acceptedFiles.map(file => {
-          return { file, status: 'uploading' }
-        }),
+        ...acceptedFiles.map(file => ({ file, status: 'uploading' })),
         ...this.state.files,
       ],
     })
 
+    const onComplete = (file, status, skylink) => {
+      this.setState(state => {
+        const index = state.files.findIndex(f => f.file === file)
+
+        return {
+          files: [
+            ...state.files.slice(0, index),
+            {
+              ...state.files[index],
+              status,
+              url: `https://siasky.net/${skylink}`,
+            },
+            ...state.files.slice(index + 1),
+          ],
+        }
+      })
+    }
+
     acceptedFiles.forEach(async file => {
-      const url = `/api/skyfile?filename=${file.name}`
-      const fd = new FormData()
-      fd.append('file', file)
-
-      const onComplete = (status, skylink) => {
-        this.setState(state => {
-          const index = state.files.findIndex(f => f.file === file)
-
-          return {
-            files: [
-              ...state.files.slice(0, index),
-              {
-                ...state.files[index],
-                status,
-                url: `https://siasky.net/${skylink}`,
-              },
-              ...state.files.slice(index + 1),
-            ],
-          }
-        })
-      }
-
       try {
-        const response = await fetch(url, {
-          method: 'POST',
-          body: fd,
-          mode: 'cors',
-        })
+        const fd = new FormData()
+        fd.append('file', file)
+        
+        const uuid = shortid.generate();
+        const response = await fetch(`/skynet/skyfile/${uuid}`, { method: 'POST', body: fd })
         const { skylink } = await response.json()
 
-        onComplete('complete', skylink)
+        onComplete(file, 'complete', skylink)
       } catch (error) {
-        onComplete('error')
+        onComplete(file, 'error')
       }
     })
   }

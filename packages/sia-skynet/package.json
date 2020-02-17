@@ -21,7 +21,8 @@
     "react-reveal": "^1.2.2",
     "react-scripts": "^3.4.0",
     "react-syntax-highlighter": "^12.2.1",
-    "react-visibility-sensor": "^5.1.1"
+    "react-visibility-sensor": "^5.1.1",
+    "shortid": "^2.2.15"
   },
   "scripts": {
     "predeploy": "npm run build",
