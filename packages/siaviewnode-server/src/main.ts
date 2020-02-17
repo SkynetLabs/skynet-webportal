@@ -86,22 +86,6 @@ export class Server {
     this.app.post("/skyfile", this.handleSkyfilePOST.bind(this))
 
     this.app.get(
-      "/skylink/:hash",
-      proxy("http://127.0.0.1:9980/skynet/skylink/", {
-        proxyReqOptDecorator: (opts, _) => {
-          opts.headers["User-Agent"] = "Sia-Agent"
-          return opts
-        },
-        proxyReqPathResolver: req => {
-          const { hash } = req.params
-          return req.query && req.query.attachment
-            ? `/skynet/skylink/${hash}?attachment=true`
-            : `/skynet/skylink/${hash}`
-        }
-      })
-    )
-
-    this.app.get(
       "/stats", this.handleStatsGET.bind(this)
       // TODO: redirect to protalstats
       // proxy("http://localhost:9980/renter/portalstats", {
