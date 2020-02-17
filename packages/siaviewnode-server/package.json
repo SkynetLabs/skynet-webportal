@@ -27,7 +27,7 @@
     "express-request-id": "^1.4.1",
     "express-session": "1.17.0",
     "morgan": "^1.9.1",
-    "ramda": "0.26.1",
+    "ramda": "0.27.0",
     "shortid": "2.2.15",
     "typescript": "^3.5.2",
     "winston": "^3.2.1"
