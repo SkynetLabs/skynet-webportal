@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "PORT=4000 node ./build/main.js",
-    "dev": "PORT=4000 backpack dev",
-    "build": "backpack build"
+    "build": "tsc --sourceMap"
   },
   "license": "MIT",
   "dependencies": {
@@ -15,10 +14,7 @@
     "@types/morgan": "^1.7.37",
     "@types/shortid": "0.0.29",
     "@types/winston": "^2.4.4",
-    "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.2",
-    "axios-logger": "^2.3.1",
-    "backpack-core": "^0.8.4",
     "cors": "2.8.5",
     "express": "^4.14.0",
     "express-fileupload": "1.1.6",

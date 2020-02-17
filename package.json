@@ -1,12 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start:client": "yarn workspace sia-skynet start",
-    "start:server": "yarn workspace siaviewnode-server dev",
     "build:client": "yarn workspace sia-skynet build",
-    "build:server": "yarn workspace siaviewnode-server build && yarn workspace siaviewnode-server start",
-    "dev": "concurrently \"yarn start:client\" \"yarn start:server\"",
-    "start": "NODE_ENV=production concurrently \"yarn build:client && npx http-server -p 3000 packages/sia-skynet/build\" \"yarn build:server\""
+    "start:client": "yarn workspace sia-skynet start",
+    "build:server": "yarn workspace siaviewnode-server build",
+    "start:server": "yarn workspace siaviewnode-server start",
+    "start": "concurrently \"yarn start:client\" \"yarn start:server\""
   },
   "workspaces": {
     "packages": [
