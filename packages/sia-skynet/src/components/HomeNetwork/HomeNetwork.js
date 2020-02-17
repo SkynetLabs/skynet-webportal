@@ -5,7 +5,7 @@ import Fade from "react-reveal/Fade";
 
 import "./HomeNetwork.scss";
 import { CircleIcon, FAQ } from "../";
-import { SmallOrb, LogoSolid, Arrow, Deco6, Deco7, Deco8 } from "../../svg";
+import { SmallOrb, LogoSolid, Deco6, Deco7, Deco8 } from "../../svg";
 
 const stats = [
   { name: "TB Used", value: 664 },
@@ -113,7 +113,7 @@ export default class HomeNetwork extends Component {
 
               <p>
                 <a className="more" href="https://sia.tech/">
-                  Learn more about Sia <Arrow />
+                  Learn more about Sia
                 </a>
               </p>
             </Fade>
