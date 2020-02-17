@@ -146,7 +146,7 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="How expensive is using Skynet?">
                 <p>
-                  Storage costs are as much as 10x lower than traditional infrastructure, bandwidth costs as much as 100x lower, all without sacrificing performance or reliability. <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  Storage costs are as much as 10x lower than traditional infrastructure, bandwidth costs as much as 100x lower, all without sacrificing performance or reliability.
                 </p>
               </FAQ>
             </Fade>
