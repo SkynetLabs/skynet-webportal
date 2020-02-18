@@ -103,9 +103,7 @@ export default class HomeNetwork extends Component {
                 signups, no servers, no trusted third parties. Sia leverages
                 blockchain technology to create a data storage marketplace that
                 is more robust and more affordable than traditional cloud
-                storage providers. Storage costs are as much as 10x lower than
-                traditional infrastructure, bandwidth costs as much as 100x
-                lower, all without sacrificing performance or reliability.
+                storage providers.
               </p>
 
               <p>
