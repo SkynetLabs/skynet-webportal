@@ -20,9 +20,9 @@ export default function HomeSamples() {
     <div className="home-samples">
       <Fade duration={700} distance="40px" bottom>
         <p>
-          Skynet has SDKs for popular programming languages which integrate
-          seamlessly with existing applications. Above are a few code snippets
-          for uploading and downloading data from Skynet.
+          Skynet includes SDKs for popular programming languages that integrate
+          seamlessly with your existing apps. Above are some code snippets
+          for uploading and retrieving data.
         </p>
       </Fade>
 

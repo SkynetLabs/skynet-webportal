@@ -10,11 +10,11 @@ export default function HomeTop() {
       <div className="home-top">
         <Skynet className="logo" />
 
-        <h1 className="fadeInUp delay2">Build the Future Web.</h1>
+        <h1 className="fadeInUp delay2">Build a Free Internet.</h1>
 
         <p className="fadeInUp delay3">
-          Skynet is a decentralized file sharing and content distribution
-          protocol.
+          The decentralized CDN and file sharing platform for devs.
+          Skynet is the storage foundation for a Free Internet!
         </p>
 
         <Deco1 className="deco-1 fadeInUp delay6" />
