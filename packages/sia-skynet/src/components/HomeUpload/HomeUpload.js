@@ -58,7 +58,7 @@ export default class HomeUpload extends Component {
     const skylink = event.target.skylink.value.replace('sia://', '')
 
     if (skylink.match(/^[a-zA-Z0-9_-]{46}$/)) {
-      window.open(`/${event.target.skylink.value}`, '_blank')
+      window.open(skylink, '_blank')
     }
   }
 
