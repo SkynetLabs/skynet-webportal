@@ -20,7 +20,7 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
 
   return (
     <form className={classNames('home-stay-form', { light })} onSubmit={e => e.preventDefault()}>
-      <input ref={node => (email = node)} type="email" placeholder="Email Address" validate />
+      <input ref={node => (email = node)} type="email" placeholder="Email Address" validate="true" />
       <div className="home-form-stay-existing">
         <input ref={node => (user = node)} type="checkbox" id={id} />
         <label htmlFor={id}>I have previous experience using Sia</label>

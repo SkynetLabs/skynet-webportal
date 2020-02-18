@@ -10,13 +10,23 @@
   }
 
   .logo {
+    display: inline-block;
+    width: 85px;
+    margin-bottom: 5px;
+    margin-right: 10px; // move it 10px so it looks like it's centered
+  }
+
+  .wordmark {
     margin: 0 auto 35px;
+  }
+
+  .wordmark, .logo {
     transform: translateY(40px);
     opacity: 0;
     transition: 1s transform, 1s opacity;
   }
 
-  &.active .logo {
+  &.active .wordmark, &.active .logo {
     transform: none;
     opacity: 1;
   }

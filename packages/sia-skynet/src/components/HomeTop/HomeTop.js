@@ -1,6 +1,6 @@
 import React from "react";
 import Reveal from "react-reveal/Reveal";
-
+import logo from '../../images/logo.svg';
 import "./HomeTop.scss";
 import { Skynet, Deco1, Deco2 } from "../../svg";
 
@@ -8,7 +8,8 @@ export default function HomeTop() {
   return (
     <Reveal effect="active">
       <div className="home-top">
-        <Skynet className="logo" />
+        <img src={logo} alt="Skynet logo" className="logo"/>
+        <Skynet className="wordmark" />
 
         <h1 className="fadeInUp delay2">Build a Free Internet.</h1>
 
