@@ -23,9 +23,9 @@ You a can now ssh into your machine as the user `user`.
 7. Now logged in as `user`: `sudo apt-get install git`
 8. `git clone https://github.com/NebulousLabs/skynet-webportal`
 9. `cd skynet-webportal/setup-scripts`
-11. `./setup.sh`
-12. Once DNS records are set you can run: `./letsencrypt-setup.sh`
-13. This should edit your nginx configuration for you. If not, you should check
+10. `./setup.sh`
+11. Once DNS records are set you can run: `./letsencrypt-setup.sh`
+12. This should edit your nginx configuration for you. If not, you should check
     that keys were created by letsencrypt in `/etc/letsencrypt/live/` and add
     the following lines into your nginx configuration. Make sure to replace
     `YOUR-DOMAIN` with your domain name.
@@ -33,9 +33,7 @@ You a can now ssh into your machine as the user `user`.
     ssl_certificate /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem;
     ```
-14. You should also change the nginx configuration to listen on port 443
-    instead.
-15. Finally make sure to check your nginx conf and reload nginx:
+13. Finally make sure to check your nginx conf and reload nginx:
     `sudo nginx -t`
     `sudo systemctl reload nginx`
 
@@ -75,12 +73,8 @@ potentially view the whole network's files.
 ## Running the Portal
 `cd` into the parent directory and run `yarn` to build dependencies.
 
-We recommend running the Portal through `pm2` (a nodejs process manager) in the background with the command:
-
-`pm2 --name skynet start npm -- start`
-
-`yarn start` will also work if not using `pm2`.
-
-The Protal which will automatically read your `siad` API password and startup a
-portal on `localhost:3000`. nginx will expose this to port 80 or 443 if you
-configured it for SSL.
+Skynet webportal consists of a client package and api package:
+    - run `yarn build:client` to build the client package - it will be picket up by nginx automatically
+    - run `pm2 start pm2.json` to start the api service (we recommend https://pm2.keymetrics.io/ for process management) 
+    
+If you don't want to use pm2, you can call `yarn start:server` directly.
