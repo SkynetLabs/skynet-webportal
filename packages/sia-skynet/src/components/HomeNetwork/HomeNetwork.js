@@ -86,23 +86,20 @@ export default class HomeNetwork extends Component {
           <div className="home-network-column left">
             <Fade duration={700} distance="40px" bottom>
               <p>
-                Skynet Webportal is a low cost server that sits between Skynet
+                <strong>Skynet Webportals</strong> are low cost servers that sit between Skynet
                 and everyday users, enabling them to access Skynet content
-                without needing to operate any special software. Once the
-                Skylinks are generated, they can be shared with anyone to fetch
-                data from Skynet. The original uploader does not need to stay
-                online in order for the file to remain available. The Sia
-                network handles all of the pinning, guaranteeing both high
-                speeds and excellent uptime. A typical Skynet download starts in
-                under 500 milliseconds and can stream at rates as high as 1
-                gigabit per second. The Sia network serves as the backend
-                storage layer for Skynet.
+                without needing to operate any special software. As
+                Skylinks are generated, they can be shared with anyone to retrieve
+                data from any Webportal. The original uploader does not need to stay
+                online in order for the file to remain available. The Sia network
+                serves as the backend storage layer for Skynet and handles all
+                of the pinning, guaranteeing both high speeds and excellent uptime.
               </p>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
               <p>
-                Sia is the leading decentralized cloud storage platform. No
+                <strong>Sia</strong> is the leading decentralized cloud storage platform. No
                 signups, no servers, no trusted third parties. Sia leverages
                 blockchain technology to create a data storage marketplace that
                 is more robust and more affordable than traditional cloud
@@ -112,7 +109,7 @@ export default class HomeNetwork extends Component {
               </p>
 
               <p>
-                <a className="more" href="https://sia.tech/">
+                <a className="more" href="https://sia.tech/" target="_blank">
                   Learn more about Sia
                 </a>
               </p>
@@ -122,15 +119,21 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="How do I use Skynet?">
                 <p>
-                  Anyone can access files that have been uploaded to Sia as long as they possess the corresponding skylink. You can use one of the webportals to download the files. <a href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  Anyone can access files that have been uploaded to Skynet as long
+                  as they possess the corresponding Skylinks. You can use any Webportal
+                  to download files!
+                  <a href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="How do I integrate Skynet into applications?">
+              <FAQ title="How do I integrate Skynet into my app?">
                 <p>
-                  Applications can be deployed in under a minute and be immediately available globally. Skynet has an API as well as SDKs which integrate seamlessly with existing applications. <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  Applications can be deployed in under a minute and be immediately
+                  available globally. Skynet includes an API and SDKs which integrate
+                  seamlessly with existing applications.
+                  <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
@@ -138,21 +141,24 @@ export default class HomeNetwork extends Component {
             <Fade duration={700} distance="40px" bottom>
               <FAQ title="How fast is Skynet?">
                 <p>
-                  Skynet has speeds that surpass any current decentralized tech. A typical throughput for larger downloads is around 1 gigabit per second. <a href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  Skynet's speeds rival centralized providers and surpass all decentralized offerings.
+                  A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!
+                  <a href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <FAQ title="How expensive is using Skynet?">
+              <FAQ title="How much does it cost to run a Webportal?">
                 <p>
-                  Storage costs are as much as 10x lower than traditional infrastructure, bandwidth costs as much as 100x lower, all without sacrificing performance or reliability.
+                  Storage costs 10x lower than centralized providers and bandwidth costs are 100x lower –
+                  without sacrificing performance or reliability.
                 </p>
               </FAQ>
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <a className="more more-faq" href="https://support.sia.tech/">
+              <a className="more more-faq" href="https://support.siasky.net" target="_blank">
                 View more FAQ
               </a>
             </Fade>

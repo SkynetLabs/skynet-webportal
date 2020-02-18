@@ -21,7 +21,7 @@ export default function Footer() {
 
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
-              <h2>Skynet webportals</h2>
+              <h2>Skynet Webportals</h2>
 
               <ul>
                 <li>
@@ -88,16 +88,16 @@ export default function Footer() {
               <ul>
                 <li>
                   <a href="https://sia.tech/" target="_blank" rel="noopener noreferrer">
-                    Sia <Arrow />
+                    Sia.tech <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="https://angel.co/company/nebulous/jobs" target="_blank" rel="noopener noreferrer">
+                  <a href="https://jobs.lever.co/nebulous" target="_blank" rel="noopener noreferrer">
                     Jobs <Arrow />
                   </a>
                 </li>
                 <li>
-                  <a href="https://support.sia.tech" target="_blank" rel="noopener noreferrer">
+                  <a href="https://support.siasky.net" target="_blank" rel="noopener noreferrer">
                     Support <Arrow />
                   </a>
                 </li>
@@ -107,7 +107,7 @@ export default function Footer() {
 
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
-              <h2>Stay up-to-date with Skynet updates</h2>
+              <h2>Stay up to date with Skynet updates</h2>
               <Mailing id="check2" light />
             </Fade>
           </div>

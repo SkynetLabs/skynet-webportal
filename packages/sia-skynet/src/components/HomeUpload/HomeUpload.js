@@ -40,7 +40,7 @@ export default class HomeUpload extends Component {
       try {
         const fd = new FormData()
         fd.append('file', file)
-        
+
         const uuid = shortid.generate();
         const response = await fetch(`/skynet/skyfile/${uuid}`, { method: 'POST', body: fd })
         const { skylink } = await response.json()
@@ -79,8 +79,8 @@ export default class HomeUpload extends Component {
                         {...getRootProps()}
                       >
                         <span className="home-upload-text">
-                          <h3>Pin a File</h3>
-                          Drag &amp; drop your file(s) here to pin
+                          <h3>Upload your Files</h3>
+                          Drop your files here to pin to Skynet
                         </span>
                         <Button iconLeft>
                           <Folder />
@@ -96,7 +96,7 @@ export default class HomeUpload extends Component {
               <div className="home-upload-retrieve">
                 <div className="home-upload-text">
                   <h3>Have a Skylink?</h3>
-                  <p>Enter the ID to retrieve the file</p>
+                  <p>Paste the link to retrieve your file</p>
 
                   <form className="home-upload-retrieve-form" onSubmit={this.handleSkylink}>
                     <input name="skylink" type="text" placeholder="sia://" />
@@ -118,8 +118,8 @@ export default class HomeUpload extends Component {
           </div>
 
           <p className="bottom-text fadeInUp delay5">
-            Once a file has been uploaded, a 46 byte link called a 'Skylink' is generated. That link can then be shared
-            with anyone to fetch the file from Skynet.
+            Upon uploading a file, Skynet generates a 46 byte link called a <strong>Skylink</strong>. This link can then be shared
+            with anyone to retrieve the file on any Skynet Webportal.
           </p>
 
           <Deco3 className="deco-3 fadeInUp delay6" />
