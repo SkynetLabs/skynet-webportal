@@ -21,7 +21,7 @@ import (
 func main() {
 	err = skynet.DownloadFile("./image.jpg", skylink, skynet.DefaultDownloadOptions)
 	if err != nil {
-		fmt.Printf("Unable to download: %v\n", err.Error())
+		fmt.Printf("Unable to download: %v", err.Error())
 		return
 	}
 	fmt.Println("Download successful")

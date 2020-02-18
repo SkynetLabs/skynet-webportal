@@ -3,7 +3,7 @@ path = "./image.jpg"
 skylink = Skynet.UploadFile(path)
 print("Upload successful, skylink: " + skylink)`
 
-export const curl = `curl -X POST "https://siasky.net/api/skyfile" -F file=@image.jpg`
+export const curl = `curl -X POST "https://siasky.net/api/skyfile/[uuid]" -F file=@image.jpg`
 
 export const node = `const skynet = require('@nebulous/skynet');
 
