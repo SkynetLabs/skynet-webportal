@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types';
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import classNames from 'classnames'
 
 import './CodeExamples.scss'
 import Colors from './Colors'
-import snippets from './snippets'
+import { python, curl, node, go } from './Code'
 
-export default function CodeExamples({ type }) {
+export default function CodeExamples() {
   const [active, setActive] = useState(1)
-  const { python, curl, node, go } = snippets[type];
 
   return (
     <div className="code-examples">
@@ -56,7 +54,3 @@ export default function CodeExamples({ type }) {
     </div>
   )
 }
-
-CodeExamples.propTypes = {
-  type: PropTypes.oneOf(['download', 'upload']).isRequired
-};
