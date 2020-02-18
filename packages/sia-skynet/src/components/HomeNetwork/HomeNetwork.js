@@ -122,7 +122,7 @@ export default class HomeNetwork extends Component {
                   Anyone can access files that have been uploaded to Skynet as long
                   as they possess the corresponding Skylinks. You can use any Webportal
                   to download files!
-                  <a href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  <a href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to" target="_blank" rel="noopener noreferrer" className="more read-more">read more</a>
                 </p>
               </FAQ>
             </Fade>
@@ -133,7 +133,7 @@ export default class HomeNetwork extends Component {
                   Applications can be deployed in under a minute and be immediately
                   available globally. Skynet includes an API and SDKs which integrate
                   seamlessly with existing applications.
-                  <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  <a href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet" target="_blank" rel="noopener noreferrer" className="more read-more">read more</a>
                 </p>
               </FAQ>
             </Fade>
@@ -143,7 +143,7 @@ export default class HomeNetwork extends Component {
                 <p>
                   Skynet's speeds rival centralized providers and surpass all decentralized offerings.
                   A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!
-                  <a href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed" target="_blank" rel="noopener noreferrer" className="more read-mode">read more</a>
+                  <a href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed" target="_blank" rel="noopener noreferrer" className="more read-more">read more</a>
                 </p>
               </FAQ>
             </Fade>
@@ -158,7 +158,7 @@ export default class HomeNetwork extends Component {
             </Fade>
 
             <Fade duration={700} distance="40px" bottom>
-              <a className="more more-faq" href="https://support.siasky.net" target="_blank">
+              <a className="more more-faq" href="https://support.siasky.net" target="_blank" rel="noopener noreferrer">
                 View more FAQ
               </a>
             </Fade>
