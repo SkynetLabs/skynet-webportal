@@ -1,6 +1,6 @@
 import React from "react";
 import Reveal from "react-reveal/Reveal";
-import logo from '../../images/logo.png';
+import logo from '../../images/logo.svg';
 import "./HomeTop.scss";
 import { Skynet, Deco1, Deco2 } from "../../svg";
 
