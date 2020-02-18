@@ -32,15 +32,7 @@ export default function HomeBuilt() {
       </header>
 
       <Fade duration={700} distance="40px" bottom>
-        <div className="code-examples">
-          <h3 className="code-examples-title">Uploading</h3>
-          <CodeExamples type="upload"/>
-        </div>
-
-        <div className="code-examples">
-          <h3 className="code-examples-title">Downloading</h3>
-          <CodeExamples type="download"/>
-        </div>
+        <CodeExamples />
       </Fade>
     </div>
   );

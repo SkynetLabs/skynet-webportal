@@ -8,12 +8,12 @@ export const curl = `curl -X POST "https://siasky.net/api/skyfile/[uuid]" -F fil
 export const node = `const skynet = require('@nebulous/skynet');
 
 (async () => {
-	const path = "./image.jpg";
+	const path = "./image.jpg"
 	const skylink = await skynet.UploadFile(
 		path,
 		skynet.DefaultUploadOptions
-	);
-	console.log(\`Upload successful, skylink: \${skylink}\`);
+	)
+	console.log(\`Upload successful, skylink: \${skylink}\`)
 })()`
 
 export const go = `package main
