@@ -75,7 +75,7 @@ potentially view the whole network's files.
 
 Skynet webportal consists of a client package and api package:
 
-    - run `yarn build:client` to build the client package - it will be picket up by nginx automatically
-    - run `pm2 start pm2.json` to start the api service (we recommend https://pm2.keymetrics.io/ for process management) 
+- run `yarn build:client` to build the client package - it will be picked up by nginx automatically
+- run `pm2 start pm2.json` to start the api service (we recommend https://pm2.keymetrics.io/ for process management) 
     
 If you don't want to use pm2, you can call `yarn start:server` directly.
