@@ -6,8 +6,6 @@ import { FooterOrb, FooterCube, Built } from "../../svg";
 import "./Footer.scss";
 import { Mailing } from "..";
 
-const Arrow = () => null; // mock arrows temporarily
-
 export default function Footer() {
   return (
     <Reveal effect="active">
@@ -26,27 +24,32 @@ export default function Footer() {
               <ul>
                 <li>
                   <a href="https://skydrain.net" target="_blank" rel="noopener noreferrer">
-                    skydrain.net <Arrow />
+                    skydrain.net
+                  </a>
+                </li>
+                <li>
+                  <a href="https://skynet.luxor.tech/" target="_blank" rel="noopener noreferrer">
+                    skynet.luxor.tech
                   </a>
                 </li>
                 <li>
                   <a href="https://sialoop.net" target="_blank" rel="noopener noreferrer">
-                    sialoop.net <Arrow />
+                    sialoop.net
                   </a>
                 </li>
                 <li>
                   <a href="https://skynet.tutemwesi.com" target="_blank" rel="noopener noreferrer">
-                    skynet.tutemwesi.com <Arrow />
+                    skynet.tutemwesi.com
                   </a>
                 </li>
                 <li>
                   <a href="https://siacdn.com" target="_blank" rel="noopener noreferrer">
-                    siacdn.com <Arrow />
+                    siacdn.com
                   </a>
                 </li>
                 <li>
                   <a href="https://vault.lightspeedhosting.com" target="_blank" rel="noopener noreferrer">
-                    vault.lightspeedhosting.com <Arrow />
+                    vault.lightspeedhosting.com
                   </a>
                 </li>
               </ul>
@@ -59,22 +62,22 @@ export default function Footer() {
               <ul>
                 <li>
                   <a href="https://twitter.com/siatechhq" target="_blank" rel="noopener noreferrer">
-                    Twitter <Arrow />
+                    Twitter
                   </a>
                 </li>
                 <li>
                   <a href="https://discord.gg/sia" target="_blank" rel="noopener noreferrer">
-                    Discord <Arrow />
+                    Discord
                   </a>
                 </li>
                 <li>
                   <a href="https://www.reddit.com/r/siacoin" target="_blank" rel="noopener noreferrer">
-                    Reddit <Arrow />
+                    Reddit
                   </a>
                 </li>
                 <li>
                   <a href="https://blog.sia.tech" target="_blank" rel="noopener noreferrer">
-                    Blog <Arrow />
+                    Blog
                   </a>
                 </li>
               </ul>
@@ -88,17 +91,27 @@ export default function Footer() {
               <ul>
                 <li>
                   <a href="https://sia.tech/" target="_blank" rel="noopener noreferrer">
-                    Sia.tech <Arrow />
+                    Sia.tech
                   </a>
                 </li>
                 <li>
                   <a href="https://jobs.lever.co/nebulous" target="_blank" rel="noopener noreferrer">
-                    Jobs <Arrow />
+                    Jobs
                   </a>
                 </li>
                 <li>
                   <a href="https://support.siasky.net" target="_blank" rel="noopener noreferrer">
-                    Support <Arrow />
+                    Support
+                  </a>
+                </li>
+                <li>
+                  <a href="terms.pdf" target="_blank" rel="noopener noreferrer">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href="privacy.pdf" target="_blank" rel="noopener noreferrer">
+                    Privacy
                   </a>
                 </li>
               </ul>
