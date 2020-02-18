@@ -80,6 +80,6 @@ You can check that with `node -v` and `yarn -v` commands respectively.
 
 - run `cd /home/user/skynet-webportal`
 - run `yarn` to build dependencies
-- run `yarn build:client` to build the client package
+- run `yarn build` to build the client package
 
 Client package will be outputted to `/build` and nginx configuration will pick it up automatically.

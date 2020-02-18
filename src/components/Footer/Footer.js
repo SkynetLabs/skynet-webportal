@@ -86,7 +86,7 @@ export default function Footer() {
 
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
-              <h2>Sia</h2>
+              <h2>Links</h2>
 
               <ul>
                 <li>
