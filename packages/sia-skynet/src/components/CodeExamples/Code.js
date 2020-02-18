@@ -1,32 +1,32 @@
 export const python = `from siaskynet import Skynet
 
 # upload
-skylink = Skynet.UploadFile("./upload.jpg")
+skylink = Skynet.UploadFile("./src.jpg")
 print("Upload successful, skylink: " + skylink)
 
 # download
-Skynet.DownloadFile("./download.jpg", skylink)
-print("Download successful)`
+Skynet.DownloadFile("./dst.jpg", skylink)
+print("Download successful")`
 
 export const curl = `# upload
-curl -X POST "https://siasky.net/skynet/skyfile/[uuid]" -F file=@upload.jpg
+curl -X POST "https://siasky.net/skynet/skyfile/[uuid]" -F file=@src.jpg
 
 # download
-curl "https://siasky.net/[skylink]" -o download.jpg`
+curl "https://siasky.net/[skylink]" -o dst.jpg`
 
 export const node = `const skynet = require('@nebulous/skynet');
 
 (async () => {
 	// upload
 	const skylink = await skynet.UploadFile(
-		"./upload.jpg",
+		"./src.jpg",
 		skynet.DefaultUploadOptions
 	);
 	console.log(\`Upload successful, skylink: \${skylink}\`);
         
 	// download
 	await skynet.DownloadFile(
-		"./download.jpg",
+		"./dst.jpg",
 		skylink,
 		skynet.DefaultDownloadOptions
 	);
@@ -42,15 +42,15 @@ import (
                         
 func main() {
 	// upload
-	skylink, err := skynet.UploadFile("./upload.jpg", skynet.DefaultUploadOptions)
+	skylink, err := skynet.UploadFile("./src.jpg", skynet.DefaultUploadOptions)
 	if err != nil {
 		fmt.Printf("Unable to upload: %v", err.Error())
 		return
 	}
-	fmt.Printf("Upload successful, skylink: %v", skylink)
+	fmt.Printf("Upload successful, skylink: %v\\n", skylink)
 
 	// download
-	err = skynet.DownloadFile("./download.jpg", skylink, skynet.DefaultDownloadOptions)
+	err = skynet.DownloadFile("./dst.jpg", skylink, skynet.DefaultDownloadOptions)
 	if err != nil {
 		fmt.Printf("Something went wrong, please try again.\\nError: %v", err.Error())
 		return
