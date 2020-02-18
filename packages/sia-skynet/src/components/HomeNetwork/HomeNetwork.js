@@ -109,7 +109,7 @@ export default class HomeNetwork extends Component {
               </p>
 
               <p>
-                <a className="more" href="https://sia.tech/" target="_blank">
+                <a className="more" href="https://sia.tech/" target="_blank" rel="noopener noreferrer">
                   Learn more about Sia
                 </a>
               </p>
