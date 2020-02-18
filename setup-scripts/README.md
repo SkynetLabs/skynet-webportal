@@ -4,7 +4,8 @@ This directory contains a setup guide and scripts that will install and
 configure some basic requirements for running a Skynet Portal. The assumption is
 that we are working with a Debian Buster Minimal system or similar.
 
-##  Initial Setup
+## Initial Setup
+
 (Assumes we are logged in as root on a fresh installation of Debian)
 
 You may want to fork this repository and add your ssh pubkey to
@@ -12,9 +13,9 @@ You may want to fork this repository and add your ssh pubkey to
 
 0. SSH in a freshly installed Debian machine.
 1. `apt-get update && apt-get install sudo`
-2. `adduser user`
-3. `usermod -a -G sudo user`
-4. Quit the ssh session.
+1. `adduser user`
+1. `usermod -a -G sudo user`
+1. Quit the ssh session.
 
 You a can now ssh into your machine as the user `user`.
 
@@ -43,6 +44,7 @@ NOTE: You must be running `siad` and `siac` by building from a version at least
 as recent as `v1.4.3`.
 
 You still need to setup `siad` for the backend to be complete.
+
 1. `cd ~/; mkdir siad`
 2. `nohup siad &>/dev/null &`
 
@@ -54,6 +56,7 @@ When `siad` is done syncing, create a new wallet and unlock the wallet.
 
 Then set an allowance (`siac renter setallowance`), with the suggested values
 below:
+
 - 10 KS (keep 25 KS in your wallet)
 - default period
 - default number of hosts
@@ -71,11 +74,12 @@ Now your node will begin making 10 contracts per block with many hosts so it can
 potentially view the whole network's files.
 
 ## Running the Portal
-`cd` into the parent directory and run `yarn` to build dependencies.
 
-Skynet webportal consists of a client package and api package:
+Make sure you have [nodejs](https://nodejs.org/en/download/package-manager/) and [yarn](https://yarnpkg.com/getting-started/install) installed.
+You can check that with `node -v` and `yarn -v` commands respectively.
 
-- run `yarn build:client` to build the client package - it will be picked up by nginx automatically
-- run `pm2 start pm2.json` to start the api service (we recommend https://pm2.keymetrics.io/ for process management) 
-    
-If you don't want to use pm2, you can call `yarn start:server` directly.
+- run `cd /home/user/skynet-webportal`
+- run `yarn` to build dependencies
+- run `yarn build:client` to build the client package
+
+Client package will be outputted to `/build` and nginx configuration will pick it up automatically.
