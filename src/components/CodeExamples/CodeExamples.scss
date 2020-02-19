@@ -7,7 +7,7 @@
   align-items: flex-end;
   height: 65px;
 
-  li {
+  button {
     display: block;
     flex: 1;
     color: $white60;
@@ -30,23 +30,23 @@
     }
   }
 
-  li:hover,
-  li.active {
+  button:hover,
+  button.active {
     color: $white;
     background-color: #171917;
     line-height: 65px;
   }
 
-  li:first-child {
+  button:first-child {
     border-top-left-radius: 12px;
   }
 
-  li:last-child {
+  button:last-child {
     border-top-right-radius: 12px;
   }
 
-  li.filler,
-  li.filler:hover {
+  button.filler,
+  button.filler:hover {
     flex: 1;
     height: 57px;
     border-top-right-radius: 12px;

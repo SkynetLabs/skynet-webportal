@@ -11,20 +11,20 @@ export default function CodeExamples() {
 
   return (
     <div className="code-examples">
-      <ul className="code-examples-tabs">
-        <li onClick={() => setActive(1)} className={classNames({ active: active === 1 })}>
+      <div className="code-examples-tabs">
+        <button type="button" onClick={() => setActive(1)} className={classNames({ active: active === 1 })}>
           CURL
-        </li>
-        <li onClick={() => setActive(2)} className={classNames({ active: active === 2 })}>
+        </button>
+        <button type="button" onClick={() => setActive(2)} className={classNames({ active: active === 2 })}>
           Python
-        </li>
-        <li onClick={() => setActive(3)} className={classNames({ active: active === 3 })}>
+        </button>
+        <button type="button" onClick={() => setActive(3)} className={classNames({ active: active === 3 })}>
           Node.js
-        </li>
-        <li onClick={() => setActive(4)} className={classNames({ active: active === 4 })}>
+        </button>
+        <button type="button" onClick={() => setActive(4)} className={classNames({ active: active === 4 })}>
           Go
-        </li>
-      </ul>
+        </button>
+      </div>
 
       <div className="code-examples-body">
         {active === 1 && (
