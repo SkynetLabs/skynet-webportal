@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import SyntaxHighlighter from "react-syntax-highlighter";
 import classNames from "classnames";
-
-import "./CodeExamples.scss";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import { javascript, go, python, bash } from 'react-syntax-highlighter/dist/esm/languages/hljs';
 import Colors from "./Colors";
-import { python, curl, node, go } from "./Code";
+import * as snippets from "./Code";
+import "./CodeExamples.scss";
+
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('go', go);
+SyntaxHighlighter.registerLanguage('python', python);
+SyntaxHighlighter.registerLanguage('bash', bash);
 
 export default function CodeExamples() {
   const [active, setActive] = useState(1);
@@ -28,26 +33,26 @@ export default function CodeExamples() {
 
       <div className="code-examples-body">
         {active === 1 && (
-          <SyntaxHighlighter wrapLines showLineNumbers={true} language="curl" style={Colors}>
-            {curl}
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="bash" style={Colors}>
+            {snippets.curl}
           </SyntaxHighlighter>
         )}
 
         {active === 2 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="python" style={Colors}>
-            {python}
+            {snippets.python}
           </SyntaxHighlighter>
         )}
 
         {active === 3 && (
-          <SyntaxHighlighter wrapLines showLineNumbers={true} language="node" style={Colors}>
-            {node}
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="javascript" style={Colors}>
+            {snippets.node}
           </SyntaxHighlighter>
         )}
 
         {active === 4 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="go" style={Colors}>
-            {go}
+            {snippets.go}
           </SyntaxHighlighter>
         )}
       </div>
