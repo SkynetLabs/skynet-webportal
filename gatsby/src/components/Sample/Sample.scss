@@ -1,0 +1,48 @@
+@import '../../variables.scss';
+
+.sample {
+  display: block;
+  text-align: center;
+
+  a {
+    transition: 0.2s transform;
+    display: block;
+  }
+
+  a:hover {
+    transform: translateY(5px);
+  }
+
+  svg {
+    margin: 0 auto;
+    width: 34px;
+    height: 46px;
+  }
+}
+
+.sample-name {
+  color: $darkGray;
+  display: block;
+
+  @media (min-width: $largebp) {
+    font-size: 18px;
+  }
+
+  a:hover & {
+    color: $black;
+  }
+}
+
+.sample-download {
+  display: block;
+  color: $green;
+  font-size: 13px;
+
+  @media (min-width: $largebp) {
+    font-size: 14px;
+  }
+
+  a:hover & {
+    color: $greenHover;
+  }
+}

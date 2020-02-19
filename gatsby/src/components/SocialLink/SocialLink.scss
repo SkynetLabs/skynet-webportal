@@ -1,0 +1,42 @@
+@import '../../variables.scss';
+
+.social-link {
+  display: flex;
+  color: $darkGray;
+}
+
+.social-link-icon {
+  width: 32px;
+  transition: 0.2s transform;
+
+  a:hover & {
+    transform: scale(1.07);
+  }
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.social-link-text {
+  flex: 1;
+  margin-left: 16px;
+  transition: 0.2s color;
+}
+
+.social-link-title {
+  display: block;
+}
+
+.social-link-green {
+  color: $green;
+  font-size: 14px;
+  display: inline-flex;
+
+  transition: 0.2s color;
+
+  a:hover & {
+    color: $darkGray;
+  }
+}

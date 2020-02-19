@@ -1,0 +1,36 @@
+@import '../../variables.scss';
+
+.home-samples {
+  text-align: center;
+  margin: 0;
+  padding: 60px 0;
+
+  @media (min-width: $largebp) {
+    padding: 65px 0 100px;
+  }
+
+  p {
+    margin: 0 auto 48px;
+    max-width: 460px;
+
+    @media (min-width: $largebp) {
+      font-size: 18px;
+      max-width: 500px;
+    }
+  }
+
+  .sample {
+    display: inline-block;
+    margin: 10px;
+    min-width: 124px;
+    text-align: center;
+
+    @media (min-width: $tinybp) {
+      margin: 10px 20px;
+    }
+
+    @media (min-width: $smallbp) {
+      margin: 10px 40px;
+    }
+  }
+}
