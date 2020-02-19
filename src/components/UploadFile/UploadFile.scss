@@ -4,13 +4,18 @@
   display: flex;
   align-items: center;
   padding: 20px 0;
+  flex-wrap: wrap;
 }
 
 .upload-file-icon {
-  display: block;
-  min-width: 36px;
-  width: 36px;
-  max-width: 36px;
+  display: none;
+
+  @media (min-width: $largebp) {
+    display: block;
+    min-width: 36px;
+    width: 36px;
+    max-width: 36px;
+  }
 }
 
 .upload-file-text {
@@ -22,6 +27,7 @@
     margin-bottom: 5px;
     font-size: 16px;
     font-weight: 400;
+    word-break: break-all;
 
     @media (min-width: $largebp) {
       font-size: 18px;
@@ -38,7 +44,7 @@
   }
 
   .url {
-    word-break: break-word;
+    word-break: break-all;
 
     &:hover {
       text-decoration: underline;
@@ -53,6 +59,11 @@
 
 .upload-file-copy {
   position: relative;
+
+  @media (max-width: $largebp) {
+    flex-basis: 100%;
+    text-align: right;
+  }
 
   &:hover {
     color: $green;
