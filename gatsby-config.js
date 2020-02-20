@@ -2,7 +2,8 @@ module.exports = {
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol.`,
-    author: `Nebulous`
+    author: `Nebulous`,
+    siteUrl: 'https://siasky.net'
   },
   plugins: [
     `gatsby-plugin-sass`,
@@ -16,6 +17,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-robots-txt`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
