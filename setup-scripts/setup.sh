@@ -11,10 +11,10 @@ sudo cp ./ssh_config /etc/ssh/ssh_config
 mkdir -p ~/.ssh
 cat ./authorized_keys >>  ~/.ssh/authorized_keys
 
-# Nodejs install prerequisite. From official documentation.
+# Nodejs install prerequisite https://nodejs.org/en/download/package-manager/
 curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 
-# Yarn install prerequisite.
+# Yarn install prerequisite https://classic.yarnpkg.com/en/docs/install
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
@@ -22,9 +22,6 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 sudo apt-get update
 sudo apt-get -y install ufw tmux ranger htop nload nginx certbot \
   python-certbot-nginx nodejs gcc g++ make yarn git vim
-
-# Install pm2
-sudo npm i -g pm2
 
 # terminfo for alacritty terminal via ssh
 # If you don't use the alacritty terminal you can remove this step.
@@ -66,3 +63,4 @@ cd Sia && git checkout viewnode && make
 cd $cwd
 cd ../
 yarn
+yarn build
