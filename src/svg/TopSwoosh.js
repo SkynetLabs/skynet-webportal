@@ -10,29 +10,10 @@ export default function TopSwoosh({ ...props }) {
       {...props}
     >
       <defs>
-        <filter
-          id="a"
-          width="103.4%"
-          height="103.4%"
-          x="-1.7%"
-          y="-1.7%"
-          filterUnits="objectBoundingBox"
-        >
-          <feMorphology
-            in="SourceAlpha"
-            operator="dilate"
-            radius="1"
-            result="shadowSpreadOuter1"
-          ></feMorphology>
-          <feOffset
-            in="shadowSpreadOuter1"
-            result="shadowOffsetOuter1"
-          ></feOffset>
-          <feMorphology
-            in="SourceAlpha"
-            radius="1"
-            result="shadowInner"
-          ></feMorphology>
+        <filter id="a" width="103.4%" height="103.4%" x="-1.7%" y="-1.7%" filterUnits="objectBoundingBox">
+          <feMorphology in="SourceAlpha" operator="dilate" radius="1" result="shadowSpreadOuter1"></feMorphology>
+          <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+          <feMorphology in="SourceAlpha" radius="1" result="shadowInner"></feMorphology>
           <feOffset in="shadowInner" result="shadowInner"></feOffset>
           <feComposite
             in="shadowOffsetOuter1"
@@ -40,11 +21,7 @@ export default function TopSwoosh({ ...props }) {
             operator="out"
             result="shadowOffsetOuter1"
           ></feComposite>
-          <feGaussianBlur
-            in="shadowOffsetOuter1"
-            result="shadowBlurOuter1"
-            stdDeviation="4"
-          ></feGaussianBlur>
+          <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="4"></feGaussianBlur>
           <feColorMatrix
             in="shadowBlurOuter1"
             values="0 0 0 0 0.341176471 0 0 0 0 0.709803922 0 0 0 0 0.376470588 0 0 0 0.3 0"

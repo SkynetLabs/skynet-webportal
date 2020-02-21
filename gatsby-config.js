@@ -3,7 +3,7 @@ module.exports = {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol.`,
     author: `Nebulous`,
-    siteUrl: 'https://siasky.net'
+    siteUrl: `https://siasky.net`
   },
   plugins: [
     `gatsby-plugin-sass`,

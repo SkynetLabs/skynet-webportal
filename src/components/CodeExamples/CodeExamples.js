@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { javascript, go, python, bash } from 'react-syntax-highlighter/dist/esm/languages/hljs';
+import { javascript, go, python, bash } from "react-syntax-highlighter/dist/esm/languages/hljs";
 import Colors from "./Colors";
 import * as snippets from "./Code";
 import "./CodeExamples.scss";
 
-SyntaxHighlighter.registerLanguage('javascript', javascript);
-SyntaxHighlighter.registerLanguage('go', go);
-SyntaxHighlighter.registerLanguage('python', python);
-SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage("javascript", javascript);
+SyntaxHighlighter.registerLanguage("go", go);
+SyntaxHighlighter.registerLanguage("python", python);
+SyntaxHighlighter.registerLanguage("bash", bash);
 
 export default function CodeExamples() {
   const [active, setActive] = useState(1);
