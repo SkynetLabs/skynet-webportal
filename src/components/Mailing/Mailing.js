@@ -9,6 +9,9 @@ const url = "https://tech.us11.list-manage.com/subscribe/post?u=5df238d9e852f980
 const CustomForm = ({ status, message, onValidated, light, id }) => {
   let email, user;
 
+  const checkboxId = `${id}-check`;
+  const submitId = `${id}-submit`;
+
   const submit = () => {
     if ((email, user, email.value.indexOf("@") > -1)) {
       onValidated({
@@ -25,13 +28,13 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
         type="email"
         placeholder="Email Address"
         validate="true"
-        aria-labelledby="newsletter-subscribe"
+        aria-labelledby={submitId}
       />
       <div className="home-form-stay-existing">
-        <input ref={node => (user = node)} type="checkbox" id={id} />
-        <label htmlFor={id}>I have previous experience using Sia</label>
+        <input ref={node => (user = node)} type="checkbox" id={checkboxId} />
+        <label htmlFor={checkboxId}>I have previous experience using Sia</label>
       </div>
-      <button className="button" onClick={submit} id="newsletter-subscribe">
+      <button className="button" onClick={submit} id={submitId}>
         Get Updates
       </button>
 

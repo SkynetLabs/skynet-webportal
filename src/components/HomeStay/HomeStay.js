@@ -34,7 +34,7 @@ export default class HomeStay extends Component {
               </Fade>
             </header>
             <Fade duration={700} distance="40px" bottom>
-              <Mailing id="check1" />
+              <Mailing id="mailing-top" />
             </Fade>
           </div>
 

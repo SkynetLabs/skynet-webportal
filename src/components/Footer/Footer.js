@@ -121,7 +121,7 @@ export default function Footer() {
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
               <h2>Stay up to date with Skynet updates</h2>
-              <Mailing id="check2" light />
+              <Mailing id="mailing-bottom" light />
             </Fade>
           </div>
         </div>
