@@ -92,11 +92,11 @@ export default class HomeUpload extends Component {
 
               <div className="home-upload-retrieve">
                 <div className="home-upload-text">
-                  <h3>Have a Skylink?</h3>
+                  <h3 id="skylink-retrieve-title">Have a Skylink?</h3>
                   <p>Paste the link to retrieve your file</p>
 
                   <form className="home-upload-retrieve-form" onSubmit={this.handleSkylink}>
-                    <input name="skylink" type="text" placeholder="sia://" aria-labelledby="Skylink" />
+                    <input name="skylink" type="text" placeholder="sia://" aria-labelledby="skylink-retrieve-title" />
                     <button type="submit" aria-label="Retrieve file">
                       <DownArrow />
                     </button>

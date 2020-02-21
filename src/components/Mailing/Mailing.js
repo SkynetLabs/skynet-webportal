@@ -25,13 +25,13 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
         type="email"
         placeholder="Email Address"
         validate="true"
-        aria-labelledby="Email Address"
+        aria-labelledby="newsletter-subscribe"
       />
       <div className="home-form-stay-existing">
         <input ref={node => (user = node)} type="checkbox" id={id} />
         <label htmlFor={id}>I have previous experience using Sia</label>
       </div>
-      <button className="button" onClick={submit}>
+      <button className="button" onClick={submit} id="newsletter-subscribe">
         Get Updates
       </button>
 
