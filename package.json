@@ -31,6 +31,8 @@
     "shortid": "^2.2.15"
   },
   "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
     "prettier": "^1.19.1"
   },
   "keywords": [
@@ -45,10 +47,18 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,html,css}\"",
     "start": "yarn run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,html,css}": "prettier --write"
   },
   "repository": {
     "type": "git",
