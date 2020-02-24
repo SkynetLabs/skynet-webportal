@@ -47,7 +47,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,html,css}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,html,css,scss}\"",
     "start": "yarn run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -58,7 +58,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,md,html,css}": "prettier --write"
+    "*.{js,jsx,ts,tsx,md,html,css,scss}": "prettier --write"
   },
   "repository": {
     "type": "git",

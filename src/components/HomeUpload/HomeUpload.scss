@@ -20,8 +20,7 @@
   transition: 0.2s background-color, 0.2s border, 0.2s color;
   background: $white;
   border-radius: 12px;
-  box-shadow: 0 8px 24px 0 rgba(90, 94, 91, 0.15),
-    0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px 0 rgba(90, 94, 91, 0.15), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
   padding: 16px;
   opacity: 0;
   transform: translateY(40px);

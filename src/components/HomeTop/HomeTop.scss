@@ -20,13 +20,15 @@
     margin: 0 auto 35px;
   }
 
-  .wordmark, .logo {
+  .wordmark,
+  .logo {
     transform: translateY(40px);
     opacity: 0;
     transition: 1s transform, 1s opacity;
   }
 
-  &.active .wordmark, &.active .logo {
+  &.active .wordmark,
+  &.active .logo {
     transform: none;
     opacity: 1;
   }

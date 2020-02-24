@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .home-stay-form {
   max-width: 342px;
@@ -18,7 +18,7 @@
     }
   }
 
-  input[type='email'] {
+  input[type="email"] {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(90, 94, 91, 0.1);
     border: solid 1px #cbd3cd;
@@ -34,7 +34,7 @@
     }
   }
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     width: 20px;
     height: 20px;
     border-radius: 3px;
@@ -43,7 +43,7 @@
     display: inline-block;
     vertical-align: middle;
     margin: -2px 8px 0 0;
-    background-image: url('../../images/green-check.svg');
+    background-image: url("../../images/green-check.svg");
     background-repeat: no-repeat;
     background-size: 28px;
     background-position: top -300px center;
@@ -69,7 +69,7 @@
 }
 
 .home-stay-form.light {
-  input[type='email'] {
+  input[type="email"] {
     box-shadow: 0 2px 4px 0 rgba(90, 94, 91, 0.1);
     border-color: $white50;
     color: $white;
@@ -83,7 +83,7 @@
     }
   }
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     border-color: $white50;
   }
 
