@@ -65,6 +65,21 @@
   }
 }
 
+.home-network-stats-provider {
+  text-align: right;
+  color: $green;
+  font-size: 13px;
+  margin-right: 12px; // keep the same as the border radius of .home-network-stats
+
+  a {
+    color: $green;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
 .deco-6 {
   position: absolute;
   top: -185px;
