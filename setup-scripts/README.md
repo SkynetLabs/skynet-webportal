@@ -45,10 +45,16 @@ as recent as `v1.4.3`.
 
 You still need to setup `siad` for the backend to be complete.
 
-1. `cd ~/; mkdir siad`
-2. `nohup siad &>/dev/null &`
+The setup script creates a systemd user service that will run `siad` in the
+background and automatically restart upon failure. The `siad.service` file must
+be placed in `~/.config/systemd/user/`
 
-This will start syncing `siad` in the background.
+To start the service: `systemctl --user start siad`
+To stop it: `systemctl --user stop siad`
+To check the status of it: `systemctl --user status siad`
+
+To check standard err/standard out: `journalctl --user-unit siad`
+
 
 ## Portal Setup
 
