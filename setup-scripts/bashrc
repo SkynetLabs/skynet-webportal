@@ -112,3 +112,6 @@ if ! shopt -oq posix; then
   fi
 fi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/user/go/bin
+
+export SIA_DATA_DIR=/home/user/siad
+export SIA_API_PASSWORD=$(cat /home/user/.sia/apipassword)
