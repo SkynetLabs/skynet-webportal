@@ -1,0 +1,13 @@
+[Unit]
+Description=siad
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/siad
+EnvironmentFile=/home/user/.sia/sia.env
+ExecStart=/home/user/go/bin/siad
+ExecStop=/home/user/go/bin/siac stop
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

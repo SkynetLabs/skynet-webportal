@@ -46,7 +46,7 @@ sudo ufw allow 'Nginx HTTP'
 # Install Go 1.13.7.
 wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
-source ~/.bashrc
+export PATH=$PATH:$HOME/go/bin
 rm go1.13.7.linux-amd64.tar.gz
 
 # Sanity check that will pass if go was installed correctly.
@@ -57,10 +57,18 @@ cwd=$(pwd)
 # Install Sia
 cd ~/
 git clone https://gitlab.com/NebulousLabs/Sia
-cd Sia && git checkout viewnode && make
+cd Sia && git checkout v1.4.3 && make
 
 # Setup skynet frontend.
 cd $cwd
 cd ../
 yarn
 yarn build
+
+# Enable the systemd service
+cd $cwd
+mkdir -p ~/.config/systemd/user
+cp siad.service ~/.config/systemd/user/siad.service
+
+mkdir -p ~/.sia
+cp sia.env ~/.sia/
