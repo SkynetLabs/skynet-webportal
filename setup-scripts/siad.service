@@ -4,9 +4,7 @@ Description=siad
 [Service]
 Type=simple
 WorkingDirectory=/home/user/siad
-Environment="SIA_DATA_DIR=/home/user/siad"
-Environment="SIA_API_PASSWORD=$(cat /home/user/.sia/apipassword)"
-Environment="SIA_WALLET_PASSWORD=$(cat /home/user/.sia/walletpassword)"
+EnvironmentFile=/home/user/.sia/sia.env
 ExecStart=/home/user/go/bin/siad
 ExecStop=/home/user/go/bin/siac stop
 Restart=on-failure

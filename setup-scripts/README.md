@@ -49,6 +49,13 @@ The setup script creates a systemd user service that will run `siad` in the
 background and automatically restart upon failure. The `siad.service` file must
 be placed in `~/.config/systemd/user/`
 
+To use the `siad.service`, first fill out `~/.sia/sia.env` environment variables with the
+correct values. You will need to initialize your wallet if you have not already
+done so.
+
+To enable the service: `systemctl --user enable siad.service`
+
+### Useful Commands
 To start the service: `systemctl --user start siad`
 To stop it: `systemctl --user stop siad`
 To check the status of it: `systemctl --user status siad`

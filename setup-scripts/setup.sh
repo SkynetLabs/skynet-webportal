@@ -67,7 +67,8 @@ yarn build
 
 # Enable the systemd service
 cd $cwd
-mkdir -p $HOME/.config/systemd/user
-cp siad.service $HOME/.config/systemd/user/siad.service
+mkdir -p ~/.config/systemd/user
+cp siad.service ~/.config/systemd/user/siad.service
 
-systemctl --user enable siad.service
+mkdir -p ~/.sia
+cp sia.env ~/.sia/
