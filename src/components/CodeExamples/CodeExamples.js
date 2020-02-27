@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import classNames from "classnames";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { javascript, go, python, bash } from "react-syntax-highlighter/dist/esm/languages/hljs";
 import Colors from "./Colors";
 import * as snippets from "./Code";
 import "./CodeExamples.scss";
+import LocationContext from "../../LocationContext";
 
 SyntaxHighlighter.registerLanguage("javascript", javascript);
 SyntaxHighlighter.registerLanguage("go", go);
@@ -13,6 +14,9 @@ SyntaxHighlighter.registerLanguage("bash", bash);
 
 export default function CodeExamples() {
   const [active, setActive] = useState(1);
+  const location = useContext(LocationContext);
+  const interpolateRegExp = new RegExp("https://siasky.net", "g");
+  const interpolateSnippet = snippet => snippet.replace(interpolateRegExp, location.origin);
 
   return (
     <div className="code-examples">
@@ -34,25 +38,25 @@ export default function CodeExamples() {
       <div className="code-examples-body">
         {active === 1 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="bash" style={Colors}>
-            {snippets.curl}
+            {interpolateSnippet(snippets.curl)}
           </SyntaxHighlighter>
         )}
 
         {active === 2 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="python" style={Colors}>
-            {snippets.python}
+            {interpolateSnippet(snippets.python)}
           </SyntaxHighlighter>
         )}
 
         {active === 3 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="javascript" style={Colors}>
-            {snippets.node}
+            {interpolateSnippet(snippets.node)}
           </SyntaxHighlighter>
         )}
 
         {active === 4 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="go" style={Colors}>
-            {snippets.go}
+            {interpolateSnippet(snippets.go)}
           </SyntaxHighlighter>
         )}
       </div>
