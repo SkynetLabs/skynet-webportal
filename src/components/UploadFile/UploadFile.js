@@ -67,7 +67,7 @@ export default class UploadFile extends Component {
               Copy Link
               <Copy />
             </div>
-            <textarea value={url} ref={this.urlRef} />
+            <textarea value={url} ref={this.urlRef} readOnly={true} />
           </button>
         )}
       </div>
