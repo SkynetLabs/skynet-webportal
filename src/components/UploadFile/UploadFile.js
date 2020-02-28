@@ -27,7 +27,7 @@ export default function UploadFile({ file, url, status }) {
     }
   };
 
-  const copyToClipboard = e => {
+  const copyToClipboard = (e) => {
     urlRef.current.select();
     document.execCommand("copy");
     e.target.focus();

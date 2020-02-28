@@ -22,16 +22,16 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
   };
 
   return (
-    <form className={classNames("home-stay-form", { light })} onSubmit={e => e.preventDefault()}>
+    <form className={classNames("home-stay-form", { light })} onSubmit={(e) => e.preventDefault()}>
       <input
-        ref={node => (email = node)}
+        ref={(node) => (email = node)}
         type="email"
         placeholder="Email Address"
         validate="true"
         aria-labelledby={submitId}
       />
       <div className="home-form-stay-existing">
-        <input ref={node => (user = node)} type="checkbox" id={checkboxId} />
+        <input ref={(node) => (user = node)} type="checkbox" id={checkboxId} />
         <label htmlFor={checkboxId}>I have previous experience using Sia</label>
       </div>
       <button className="button" onClick={submit} id={submitId}>
@@ -63,7 +63,7 @@ export default function Mailing({ light, id }) {
           status={status}
           message={message}
           light={light}
-          onValidated={formData => subscribe(formData)}
+          onValidated={(formData) => subscribe(formData)}
         />
       )}
     />

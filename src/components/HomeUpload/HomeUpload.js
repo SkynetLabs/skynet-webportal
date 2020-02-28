@@ -12,12 +12,12 @@ export default function HomeUpload() {
   const [files, setFiles] = useState([]);
   const { apiUrl } = useContext(AppContext);
 
-  const handleDrop = async acceptedFiles => {
-    setFiles(previousFiles => [...acceptedFiles.map(file => ({ file, status: "uploading" })), ...previousFiles]);
+  const handleDrop = async (acceptedFiles) => {
+    setFiles((previousFiles) => [...acceptedFiles.map((file) => ({ file, status: "uploading" })), ...previousFiles]);
 
     const onComplete = (file, status, skylink) => {
-      setFiles(previousFiles => {
-        const index = previousFiles.findIndex(f => f.file === file);
+      setFiles((previousFiles) => {
+        const index = previousFiles.findIndex((f) => f.file === file);
 
         return [
           ...previousFiles.slice(0, index),
@@ -31,7 +31,7 @@ export default function HomeUpload() {
       });
     };
 
-    acceptedFiles.forEach(async file => {
+    acceptedFiles.forEach(async (file) => {
       try {
         const fd = new FormData();
         fd.append("file", file);
@@ -47,7 +47,7 @@ export default function HomeUpload() {
     });
   };
 
-  const handleSkylink = event => {
+  const handleSkylink = (event) => {
     event.preventDefault();
 
     const skylink = event.target.skylink.value.replace("sia://", "");

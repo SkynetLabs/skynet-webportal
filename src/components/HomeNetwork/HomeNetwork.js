@@ -20,7 +20,7 @@ const STATS_MAP = [
 export default function HomeNetwork() {
   const [visible, setVisible] = useState(false);
   const stats = useStats();
-  const onChange = isVisible => {
+  const onChange = (isVisible) => {
     if (isVisible && !visible) {
       setVisible(true);
     }

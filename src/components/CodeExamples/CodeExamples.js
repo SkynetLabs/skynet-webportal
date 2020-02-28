@@ -16,7 +16,7 @@ export default function CodeExamples() {
   const [active, setActive] = useState(1);
   const { apiUrl } = useContext(AppContext);
   const interpolateRegExp = new RegExp("https://siasky.net", "g");
-  const interpolateSnippet = snippet => snippet.replace(interpolateRegExp, apiUrl);
+  const interpolateSnippet = (snippet) => snippet.replace(interpolateRegExp, apiUrl);
 
   return (
     <div className="code-examples">
