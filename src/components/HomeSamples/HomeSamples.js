@@ -6,7 +6,7 @@ import "./HomeSamples.scss";
 import { Sample } from "../";
 
 const samples = [
-  { type: "HTML", url: "/PAJF7fi2dK0CpcrhcXXReyufMO2s8k25sWL_XQjBW5a0mA" },
+  { type: "HTML", url: "/PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw" },
   { type: "PDF", url: "/XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg" },
   { type: "Image", url: "/IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ" },
   { type: "Audio", url: "/_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA" },
