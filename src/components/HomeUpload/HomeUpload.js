@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
-import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import Reveal from "react-reveal/Reveal";
 import shortid from "shortid";
 import { Button, UploadFile } from "../";
@@ -12,8 +12,33 @@ import axios from "axios";
 export default function HomeUpload() {
   const [files, setFiles] = useState([]);
   const { apiUrl } = useContext(AppContext);
+  const [directoryMode, setDirectoryMode] = useState(false);
+
+  useEffect(() => {
+    if (directoryMode) {
+      inputRef.current.setAttribute("webkitdirectory", "true");
+    } else {
+      inputRef.current.removeAttribute("webkitdirectory");
+    }
+  }, [directoryMode]);
+
+  const getFilePath = (file) => {
+    const filePath = file.path || file.webkitRelativePath || file.name;
+    const directories = filePath.split("/").filter(Boolean);
+
+    return {
+      rootDir: directories[0],
+      filePath: directories.slice(1).join("/")
+    };
+  };
 
   const handleDrop = async (acceptedFiles) => {
+    if (directoryMode && acceptedFiles.length) {
+      const { rootDir } = getFilePath(acceptedFiles[0]); // get the file path from the first file
+
+      acceptedFiles = [{ name: rootDir, directory: true, files: acceptedFiles }];
+    }
+
     setFiles((previousFiles) => [...acceptedFiles.map((file) => ({ file, status: "uploading" })), ...previousFiles]);
 
     const onFileStateChange = (file, state) => {
@@ -31,29 +56,49 @@ export default function HomeUpload() {
       });
     };
 
-    const onProgress = (file, { loaded, total }) => {
-      const progress = loaded / total;
-      const status = progress === 1 ? "processing" : "uploading";
+    const upload = async (formData, directory, file) => {
+      const uploadUrl = `${apiUrl}/skynet/skyfile/${directory ? `?filename=${encodeURIComponent(directory)}` : ""}`;
+      const { data } = await axios.post(uploadUrl, formData, {
+        onUploadProgress: ({ loaded, total }) => {
+          const progress = loaded / total;
+          const status = progress === 1 ? "processing" : "uploading";
 
-      onFileStateChange(file, { status, progress });
+          onFileStateChange(file, { status, progress });
+        }
+      });
+
+      return data;
     };
 
     acceptedFiles.forEach(async (file) => {
       try {
-        const fd = new FormData();
-        fd.append("file", file);
+        const formData = new FormData();
 
-        const uuid = shortid.generate();
-        const { data } = await axios.post(`${apiUrl}/skynet/skyfile/${uuid}`, fd, {
-          onUploadProgress: (event) => onProgress(file, event)
-        });
+        if (file.directory) {
+          file.files.forEach((directoryFile) => {
+            const { filePath } = getFilePath(file);
 
-        onFileStateChange(file, { status: "complete", url: `${apiUrl}/${data.skylink}` });
+            Object.defineProperty(directoryFile, "name", {
+              writable: true,
+              value: filePath
+            });
+
+            formData.append("files[]", directoryFile);
+          });
+        } else {
+          formData.append("file", file);
+        }
+
+        const { skylink } = await upload(formData, directoryMode && file.name, file);
+
+        onFileStateChange(file, { status: "complete", url: `${apiUrl}/${skylink}` });
       } catch (error) {
         onFileStateChange(file, { status: "error" });
       }
     });
   };
+
+  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({ onDrop: handleDrop });
 
   const handleSkylink = (event) => {
     event.preventDefault();
@@ -71,28 +116,44 @@ export default function HomeUpload() {
         <div className="home-upload-white fadeInUp delay4">
           <div className="home-upload-split">
             <div className="home-upload-box ">
-              <Dropzone onDrop={handleDrop}>
-                {({ getRootProps, getInputProps, isDragActive }) => (
-                  <>
-                    <div
-                      className={classNames("home-upload-dropzone", {
-                        "drop-active": isDragActive
-                      })}
-                      {...getRootProps()}
-                    >
-                      <span className="home-upload-text">
-                        <h3>Upload your Files</h3>
-                        Drop your files here to pin to Skynet
-                      </span>
-                      <Button iconLeft>
-                        <Folder />
-                        Browse
-                      </Button>
-                    </div>
-                    <input {...getInputProps()} className="offscreen" />
-                  </>
-                )}
-              </Dropzone>
+              <div
+                className={classNames("home-upload-dropzone", {
+                  "drop-active": isDragActive
+                })}
+                {...getRootProps()}
+              >
+                <span className="home-upload-text">
+                  <h3>Upload your {directoryMode ? "Directory" : "Files"}</h3>
+                  Drop your {directoryMode ? "directory" : "files"} here to pin to Skynet
+                </span>
+                <Button iconLeft>
+                  <Folder />
+                  Browse
+                </Button>
+              </div>
+              <input {...getInputProps()} className="offscreen" />
+              <button
+                type="button"
+                className="home-upload-mode-switch link"
+                onClick={() => setDirectoryMode(!directoryMode)}
+              >
+                {directoryMode ? "⇐ Switch back to uploading files" : "Do you want to upload entire directory?"}
+              </button>
+              {directoryMode && (
+                <p className="home-upload-directory-mode-notice">
+                  Please note that directory upload is not a standard browser feature and the browser support is
+                  limited. To check whether your browser is compatible, visit{" "}
+                  <a
+                    href="https://caniuse.com/#feat=mdn-api_htmlinputelement_webkitdirectory"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link"
+                  >
+                    caniuse.com
+                  </a>
+                  .
+                </p>
+              )}
             </div>
 
             <div className="home-upload-retrieve">

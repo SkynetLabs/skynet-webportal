@@ -89,6 +89,24 @@
   }
 }
 
+.home-upload-mode-switch {
+  display: block;
+  font-size: 13px;
+  margin: 10px auto 0;
+
+  @media (min-width: $largebp) {
+    font-size: 14px;
+  }
+}
+
+.home-upload-directory-mode-notice {
+  color: $lightGray;
+  font-size: 13px;
+  line-height: 1.2em;
+  margin-top: 20px;
+  text-align: center;
+}
+
 .home-upload-text {
   color: $gray;
   display: block;
