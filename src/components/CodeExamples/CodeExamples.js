@@ -5,7 +5,7 @@ import { javascript, go, python, bash } from "react-syntax-highlighter/dist/esm/
 import Colors from "./Colors";
 import * as snippets from "./Code";
 import "./CodeExamples.scss";
-import LocationContext from "../../LocationContext";
+import AppContext from "../../AppContext";
 
 SyntaxHighlighter.registerLanguage("javascript", javascript);
 SyntaxHighlighter.registerLanguage("go", go);
@@ -14,9 +14,9 @@ SyntaxHighlighter.registerLanguage("bash", bash);
 
 export default function CodeExamples() {
   const [active, setActive] = useState(1);
-  const location = useContext(LocationContext);
+  const { apiUrl } = useContext(AppContext);
   const interpolateRegExp = new RegExp("https://siasky.net", "g");
-  const interpolateSnippet = snippet => snippet.replace(interpolateRegExp, location.origin);
+  const interpolateSnippet = snippet => snippet.replace(interpolateRegExp, apiUrl);
 
   return (
     <div className="code-examples">

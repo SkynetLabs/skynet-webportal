@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import SEO from "../components/seo";
 import { App } from "../components";
 import "../global.scss";
-import LocationContext from "../LocationContext";
+import AppContext from "../AppContext";
 
 export default function IndexPage({ location }) {
+  const context = useMemo(
+    () => ({
+      apiUrl: process.env.GATSBY_API_URL ?? location.origin
+    }),
+    [location.origin]
+  );
+
   return (
-    <LocationContext.Provider value={location}>
+    <AppContext.Provider value={context}>
       <SEO />
       <App />
-    </LocationContext.Provider>
+    </AppContext.Provider>
   );
 }
 

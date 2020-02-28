@@ -6,11 +6,11 @@ import shortid from "shortid";
 import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";
-import LocationContext from "../../LocationContext";
+import AppContext from "../../AppContext";
 
 export default function HomeUpload() {
   const [files, setFiles] = useState([]);
-  const location = useContext(LocationContext);
+  const { apiUrl } = useContext(AppContext);
 
   const handleDrop = async acceptedFiles => {
     setFiles(previousFiles => [...acceptedFiles.map(file => ({ file, status: "uploading" })), ...previousFiles]);
@@ -24,7 +24,7 @@ export default function HomeUpload() {
           {
             ...previousFiles[index],
             status,
-            url: `${location.origin}/${skylink}`
+            url: `${apiUrl}/${skylink}`
           },
           ...previousFiles.slice(index + 1)
         ];
@@ -37,7 +37,7 @@ export default function HomeUpload() {
         fd.append("file", file);
 
         const uuid = shortid.generate();
-        const response = await fetch(`${location.origin}/skynet/skyfile/${uuid}`, { method: "POST", body: fd });
+        const response = await fetch(`${apiUrl}/skynet/skyfile/${uuid}`, { method: "POST", body: fd });
         const { skylink } = await response.json();
 
         onComplete(file, "complete", skylink);
