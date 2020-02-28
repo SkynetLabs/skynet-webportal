@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Logo({ className }) {
   return (
@@ -13,3 +14,7 @@ export default function Logo({ className }) {
     </svg>
   );
 }
+
+Logo.propTypes = {
+  className: PropTypes.string
+};

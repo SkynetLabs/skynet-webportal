@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function SmallOrb({ className }) {
   return (
@@ -14,3 +15,7 @@ export default function SmallOrb({ className }) {
     </svg>
   );
 }
+
+SmallOrb.propTypes = {
+  className: PropTypes.string
+};

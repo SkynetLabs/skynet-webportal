@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Github({ className }) {
   return (
@@ -11,3 +12,7 @@ export default function Github({ className }) {
     </svg>
   );
 }
+
+Github.propTypes = {
+  className: PropTypes.string
+};

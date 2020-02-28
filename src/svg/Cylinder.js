@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Cylinder({ className }) {
   return (
@@ -14,3 +15,7 @@ export default function Cylinder({ className }) {
     </svg>
   );
 }
+
+Cylinder.propTypes = {
+  className: PropTypes.string
+};

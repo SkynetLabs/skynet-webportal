@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function DoubleRight({ className }) {
   return (
@@ -14,3 +15,7 @@ export default function DoubleRight({ className }) {
     </svg>
   );
 }
+
+DoubleRight.propTypes = {
+  className: PropTypes.string
+};

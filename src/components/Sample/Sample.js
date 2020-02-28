@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
-
 import "./Sample.scss";
 import { Download } from "../../svg";
 
@@ -17,3 +17,9 @@ export default function Sample({ type, url, className }) {
     </div>
   );
 }
+
+Sample.propTypes = {
+  type: PropTypes.string,
+  url: PropTypes.string,
+  className: PropTypes.string
+};

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Twitter({ className }) {
   return (
@@ -11,3 +12,7 @@ export default function Twitter({ className }) {
     </svg>
   );
 }
+
+Twitter.propTypes = {
+  className: PropTypes.string
+};

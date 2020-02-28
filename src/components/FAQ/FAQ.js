@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import "./FAQ.scss";
 
 export default function FAQ({ title, children }) {
@@ -13,3 +13,8 @@ export default function FAQ({ title, children }) {
     </div>
   );
 }
+
+FAQ.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.node
+};

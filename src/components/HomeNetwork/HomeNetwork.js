@@ -142,8 +142,8 @@ export default function HomeNetwork() {
           <Fade duration={700} distance="40px" bottom>
             <FAQ title="How fast is Skynet?">
               <p>
-                Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet
-                download starts in under 500 ms and can stream at rates as high as 1 Gbps!
+                Skynet&apos;s speeds rival centralized providers and surpass all decentralized offerings. A typical
+                Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!
                 <a
                   href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed"
                   target="_blank"

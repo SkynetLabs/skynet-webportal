@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Discord({ className }) {
   return (
@@ -11,3 +12,7 @@ export default function Discord({ className }) {
     </svg>
   );
 }
+
+Discord.propTypes = {
+  className: PropTypes.string
+};

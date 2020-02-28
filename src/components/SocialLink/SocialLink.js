@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import "./SocialLink.scss";
 import { Github, Discord, Twitter } from "../../svg";
 
@@ -24,3 +24,10 @@ export default function SocialLink({ icon, title, greenText, url }) {
     </a>
   );
 }
+
+SocialLink.propTypes = {
+  icon: PropTypes.string,
+  title: PropTypes.node,
+  greenText: PropTypes.string,
+  url: PropTypes.string
+};

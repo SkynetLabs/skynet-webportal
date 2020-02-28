@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Download({ className }) {
   return (
@@ -21,3 +22,7 @@ export default function Download({ className }) {
     </svg>
   );
 }
+
+Download.propTypes = {
+  className: PropTypes.string
+};

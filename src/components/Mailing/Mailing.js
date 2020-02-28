@@ -1,7 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import classNames from "classnames";
-
 import "./Mailing.scss";
 
 const url = "https://tech.us11.list-manage.com/subscribe/post?u=5df238d9e852f9801b5f2c92e&amp;id=ab6bea4cc2";
@@ -45,6 +45,14 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
   );
 };
 
+CustomForm.propTypes = {
+  status: PropTypes.string,
+  message: PropTypes.string,
+  onValidated: PropTypes.func,
+  light: PropTypes.bool,
+  id: PropTypes.string
+};
+
 export default function Mailing({ light, id }) {
   return (
     <MailchimpSubscribe
@@ -61,3 +69,8 @@ export default function Mailing({ light, id }) {
     />
   );
 }
+
+Mailing.propTypes = {
+  light: PropTypes.bool,
+  id: PropTypes.string
+};

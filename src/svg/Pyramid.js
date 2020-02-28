@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function Pyramid({ className }) {
   return (
@@ -15,3 +16,7 @@ export default function Pyramid({ className }) {
     </svg>
   );
 }
+
+Pyramid.propTypes = {
+  className: PropTypes.string
+};
