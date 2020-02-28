@@ -56,12 +56,12 @@ done so.
 To enable the service: `systemctl --user enable siad.service`
 
 ### Useful Commands
+
 To start the service: `systemctl --user start siad`
 To stop it: `systemctl --user stop siad`
 To check the status of it: `systemctl --user status siad`
 
 To check standard err/standard out: `journalctl --user-unit siad`
-
 
 ## Portal Setup
 
