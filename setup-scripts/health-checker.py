@@ -3,11 +3,16 @@
 from urllib.request import urlopen, Request
 import urllib, json, os, traceback, discord
 
-portal_name  = os.environ["PORTAL_NAME"]
+# Get a port or use default
+port = os.getenv("API_PORT")
+if not port:
+    port = "9980"
+
+api_endpoint = "http://localhost:{}".format(port)
+portal_name  = os.getenv("PORTAL_NAME")
 
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
-api_endpoint = "http://localhost:9980" # TODO get port from env/param
 
 # Discord bot initialization
 bot_token = os.environ["DISCORD_BOT_TOKEN"]
