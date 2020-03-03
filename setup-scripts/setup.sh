@@ -65,10 +65,13 @@ cd ../
 yarn
 yarn build
 
-# Enable the systemd service
+# Setup systemd files
 cd $cwd
 mkdir -p ~/.config/systemd/user
 cp siad.service ~/.config/systemd/user/siad.service
+cp siad-upload.service ~/.config/systemd/user/siad-upload.service
 
+# Setup files for storing environment variables
 mkdir -p ~/.sia
 cp sia.env ~/.sia/
+cp sia.env ~/.sia/sia-upload.env

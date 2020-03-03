@@ -1,0 +1,13 @@
+[Unit]
+Description=siad-upload
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/siad-upload
+EnvironmentFile=/home/user/.sia/sia-upload.env
+ExecStart=/home/user/go/bin/siad --api-addr "localhost:9970" --host-addr ":9972" --rpc-addr ":9971"
+ExecStop=/home/user/go/bin/siac --api-addr "localhost:9970" --host-addr ":9972" --rpc-addr ":9971" stop
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
