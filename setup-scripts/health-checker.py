@@ -1,7 +1,25 @@
 #!/usr/bin/env python3
 
 from urllib.request import urlopen, Request
-import urllib, json, os, traceback, discord
+from dotenv import load_dotenv
+from pathlib import Path
+
+import urllib, json, os, traceback, discord, sys
+
+
+# sc_precision is the number of hastings per siacoin
+sc_precision = 10 ** 24
+
+# Environment variable globals
+api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
+
+# Load dotenv file if possible.
+if len(sys.argv) > 1:
+    env_path = Path(sys.argv[1])
+    load_dotenv(dotenv_path=env_path)
+
+bot_token = os.environ["DISCORD_BOT_TOKEN"]
+portal_name  = os.getenv("PORTAL_NAME")
 
 # Get a port or use default
 port = os.getenv("API_PORT")
@@ -9,13 +27,9 @@ if not port:
     port = "9980"
 
 api_endpoint = "http://localhost:{}".format(port)
-portal_name  = os.getenv("PORTAL_NAME")
 
-# sc_precision is the number of hastings per siacoin
-sc_precision = 10 ** 24
 
 # Discord bot initialization
-bot_token = os.environ["DISCORD_BOT_TOKEN"]
 client = discord.Client()
 channel_name = "skynet-portal-health-check"
 
