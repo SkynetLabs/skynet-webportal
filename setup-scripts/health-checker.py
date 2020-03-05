@@ -68,9 +68,14 @@ class siac:
 
     @staticmethod
     def get_password():
-        password_file = open("/home/marcin/.sia/apipassword")
-        password = password_file.readlines()
-        return password[0].strip()
+        # Get a port or use default
+        password = os.getenv("API_PASSWORD")
+        if not password:
+            home = os.getenv("HOME")
+            password_file = open(home+"/.sia/apipassword")
+            password = password_file.readlines()[0].strip()
+
+        return password
 
     # load_json reads the http response and decodes the JSON value
     @staticmethod
@@ -121,7 +126,7 @@ async def check_health():
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        await send_msg("Wallet balance running low: {}".format(balance), force_notify=True)
+        await send_msg("Wallet balance running low. Balance: `{}SC` Allowance Funds: `{}SC`".format(balance/sc_precision, allowance_funds/sc_precision), force_notify=True)
         return
 
     # Alert devs when 1/2 the allowance is gone
@@ -131,8 +136,7 @@ async def check_health():
 
     # Send an informational heartbeat if all checks passed.
     pretty_renter_get = json.dumps(siac.get_renter(), indent=4)
-    pretty_renter_contracts = json.dumps(siac.get_renter_contracts(), indent=4)
-    await send_msg("Health checks passed:\n\nRenter Info:\n```\n{}\n```\n\nContract Info:\n```\n{}\n```\n".format(pretty_renter_get, pretty_renter_contracts))
+    await send_msg("Health checks passed:\n\nWallet Balance: `{}SC`\n\n Renter Info:\n```\n{}\n```".format(balance/sc_precision, pretty_renter_get))
 
 
 async def run_checks():
