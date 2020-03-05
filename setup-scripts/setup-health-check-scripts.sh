@@ -9,5 +9,5 @@ pip3 install discord.py
 downloadCheck="0 0,8,16 * * * ~/skynet-webportal/setup-scripts/health-checker.py ~/.sia/sia.env"
 uploadCheck="0 0,8,16 * * * ~/skynet-webportal/setup-scripts/health-checker.py ~/.sia/sia-upload.env"
 
-(crontab -u userhere -l; echo "$downloadCheck" ) | crontab -u userhere -
-(crontab -u userhere -l; echo "$uploadCheck" ) | crontab -u userhere -
+(crontab -u user -l; echo "$downloadCheck" ) | crontab -u user -
+(crontab -u user- l; echo "$uploadCheck" ) | crontab -u user -
