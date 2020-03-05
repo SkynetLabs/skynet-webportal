@@ -9,8 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 13.x]
-
+        node-version: [10.x, 12.x]
+    
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -18,4 +18,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn
-    - run: yarn build
+    - name: Build production bundle
+      run: yarn build
+      env:
+        GATSBY_API_URL: "https://siasky.net"
+    - name: Cypress run
+      uses: cypress-io/github-action@v1
+      with:
+        start: npx http-server public --port 8000
+        wait-on: "http://localhost:8000"

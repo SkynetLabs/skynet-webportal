@@ -56,6 +56,7 @@ done so.
 To enable the service: `systemctl --user enable siad.service`
 
 ### Running 2 siad instances
+
 In some cases, portal operators may want to run 2 `siad` nodes on the same
 server. One node to prioritize downloads and one to prioritze uploads The
 scripts here also do the initial setup for a 2nd `siad` instance running as a
@@ -63,7 +64,7 @@ systemd service `siad-upload.service` in the `~/siad-upload/` directory with
 environment variables in `sia-upload.env`. You must fill out the correct values
 for those environment variables.
 
-The `bashrc` file in this repository  also provides an alias `siac-upload` that
+The `bashrc` file in this repository also provides an alias `siac-upload` that
 loads the correct environment variables and sets the correct ports to interact
 with the 2nd `siad` node.
 

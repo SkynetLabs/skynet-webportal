@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./UploadFile.scss";
 import { LoadingSpinner } from "../";
 import { File, FileCheck, FileError, Copy } from "../../svg";
@@ -71,3 +72,11 @@ export default function UploadFile({ file, url, status }) {
     </div>
   );
 }
+
+UploadFile.propTypes = {
+  file: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  }),
+  status: PropTypes.string.isRequired,
+  url: PropTypes.string
+};

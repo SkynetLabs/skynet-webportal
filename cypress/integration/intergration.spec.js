@@ -1,0 +1,34 @@
+/// <reference types="cypress" />
+
+context("Skynet", () => {
+  beforeEach(() => {
+    cy.visit("");
+  });
+
+  it("should render key website elements", () => {
+    cy.contains("Build a Free Internet");
+    cy.contains("Upload your Files");
+    cy.contains("Have a Skylink?");
+  });
+
+  it("should be able to upload a file", () => {
+    const fileName = "check.json";
+
+    cy.fixture(fileName).then((fileContent) => {
+      cy.get('.home-upload input[type="file"]').upload({ fileContent, fileName, mimeType: "application/json" });
+    });
+
+    cy.get(".home-uploaded-files")
+      .children()
+      .should("have.length", 1);
+    cy.contains(".upload-file", fileName).within(() => {
+      cy.get(".url")
+        .invoke("text")
+        .should("match", /\/[a-zA-Z0-9-_]{46}/);
+
+      cy.contains("Copy Link").click();
+      cy.contains("Copied!").should("be.visible");
+      cy.contains("Copied!").should("not.be.visible");
+    });
+  });
+});
