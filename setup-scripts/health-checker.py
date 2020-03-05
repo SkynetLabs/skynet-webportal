@@ -69,7 +69,7 @@ class siac:
     @staticmethod
     def get_password():
         # Get a port or use default
-        password = os.getenv("API_PASSWORD")
+        password = os.getenv("SIA_API_PASSWORD")
         if not password:
             home = os.getenv("HOME")
             password_file = open(home+"/.sia/apipassword")
