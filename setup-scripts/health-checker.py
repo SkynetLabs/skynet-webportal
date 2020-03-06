@@ -16,7 +16,7 @@ api_endpoint, port, portal_name, bot_token, password = None, None, None, None, N
 # Load dotenv file if possible.
 if len(sys.argv) > 1:
     env_path = Path(sys.argv[1])
-    load_dotenv(dotenv_path=env_path)
+    load_dotenv(dotenv_path=env_path, override=True)
 
 bot_token = os.environ["DISCORD_BOT_TOKEN"]
 portal_name  = os.getenv("PORTAL_NAME")
