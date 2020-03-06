@@ -135,22 +135,22 @@ async def check_health():
 
     allowance = renter_get['settings']['allowance']
     allowance_funds = int(allowance['funds'])
-    unspent_funds = int(renter_get['financialmetrics']['unspent'])
-    spent_funds = allowance_funds - unspent_funds
+    allocated_funds = int(renter_get['financialmetrics']['totalallocated'])
+    unallocated_funds = allowance_funds - allocated_funds
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        await send_msg("Wallet balance running low. Balance: `{}SC` Allowance Funds: `{}SC`".format(balance/sc_precision, allowance_funds/sc_precision), force_notify=True)
+        await send_msg("Wallet balance running low. Balance: `{} SC` Allowance Funds: `{} SC`".format(round(balance/sc_precision), round(allowance_funds/sc_precision)), force_notify=True)
         return
 
     # Alert devs when 1/2 the allowance is gone
-    if spent_funds >= unspent_funds:
-        await send_msg("Allowance half spent: \nUnspent: {}\nSpent: {}".format(unspent_funds/sc_precision, spent_funds/sc_precision), force_notify=True)
+    if allocated_funds  >= unallocated_funds:
+        await send_msg("Allowance half spent: \nUnallocated: `{} SC`\nAllocated: `{} SC`".format(round(unallocated_funds/sc_precision), round(allocated_funds/sc_precision)), force_notify=True)
         return
 
     # Send an informational heartbeat if all checks passed.
     pretty_renter_get = json.dumps(siac.get_renter(), indent=4)
-    await send_msg("Health checks passed:\n\nWallet Balance: `{}SC`\n\n Renter Info:\n```\n{}\n```".format(balance/sc_precision, pretty_renter_get))
+    await send_msg("Health checks passed:\n\nWallet Balance: `{} SC`\n\n Renter Info:\n```\n{}\n```".format(round(balance/sc_precision), pretty_renter_get))
 
 
 async def run_checks():
