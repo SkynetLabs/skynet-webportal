@@ -22,7 +22,7 @@ export default function HomeUpload() {
   }, [directoryMode]);
 
   const getFilePath = (file) => {
-    const filePath = file.path || file.webkitRelativePath || file.name;
+    const filePath = file.webkitRelativePath || file.path || file.name;
     const directories = filePath.split("/").filter(Boolean);
 
     return {
