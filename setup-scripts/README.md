@@ -115,3 +115,20 @@ You can check that with `node -v` and `yarn -v` commands respectively.
 - run `yarn build` to build the client package
 
 Client package will be outputted to `/public` and nginx configuration will pick it up automatically.
+
+## Health Check Scripts.
+
+There are 2 optional health check scripts that can be setup using
+`setup-health-check-scripts.sh`. That command will install the necesary Python
+dependencies and setup 2 cronjobs for each script: one for a downloading `siad`
+and for an uploading `siad` service.
+
+To use the scripts you must setup a Discord bot and provide a bot token. The bot
+scripts take in 1 or more arguments, the first always being the path to an
+`.env` file.
+
+`funds-checker` checks that the wallet balance and allowance settings are
+sufficient for portal usage.
+
+`log-checker` checks if there are any critical warnings in the journal for the
+running services.
