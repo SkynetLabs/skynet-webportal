@@ -30,6 +30,14 @@ module.exports = {
         icon: `src/images/logo.svg` // This path is relative to the root of the site.
       }
     },
+    {
+      resolve: "gatsby-plugin-matomo",
+      options: {
+        siteId: 3,
+        matomoUrl: "https://surveillance.sia.tech",
+        siteUrl: "https://siasky.net"
+      }
+    },
     `gatsby-plugin-remove-serviceworker`
   ]
 };
