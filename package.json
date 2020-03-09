@@ -9,7 +9,7 @@
     "gatsby-image": "^2.2.43",
     "gatsby-plugin-manifest": "^2.2.44",
     "gatsby-plugin-matomo": "^0.8.1",
-    "gatsby-plugin-react-helmet": "^3.1.22",
+    "gatsby-plugin-react-helmet": "^3.1.23",
     "gatsby-plugin-remove-serviceworker": "^1.0.0",
     "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sass": "^2.1.30",
