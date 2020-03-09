@@ -54,13 +54,13 @@ async def check_journal():
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
-        await send_msg(client, "Error reading journalctl output: {}".format(std_err))
+        await send_msg(client, "Error reading journalctl output: {}".format(std_err), force_notify=True)
         return
 
     # If there are any critical errors. upload the whole log file.
     if "Critical" in std_out:
         upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(service_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name))
+        await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
 
     # No critical errors, return a heartbeat type message.
