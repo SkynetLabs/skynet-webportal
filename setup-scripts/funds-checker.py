@@ -31,7 +31,7 @@ async def run_checks():
 # allowance worth of money left, and if more than hald the allowance is spent. If
 # all checks pass it sends a informational message.
 async def check_health():
-    print("\nChecking health...")
+    print("\nChecking wallet/funds health...")
     wallet_get = siad.get_wallet()
     renter_get = siad.get_renter()
 
