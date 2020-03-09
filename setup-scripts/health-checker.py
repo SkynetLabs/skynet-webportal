@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
-import discord
+"""
+health-checker runs simple health checks on a portal node using the siad API and
+dispatches messages to a Discord channel.
+"""
+
+import discord, traceback
 from bot_utils import setup, send_msg, siad, sc_precision
 
 bot_token = setup()

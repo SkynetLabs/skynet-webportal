@@ -45,7 +45,7 @@ def setup():
     return bot_token
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
-async def send_msg(client, msg, force_notify=False):
+async def send_msg(client, msg, force_notify=False, file=None):
     await client.wait_until_ready()
 
     guild = client.guilds[0]
@@ -64,7 +64,7 @@ async def send_msg(client, msg, force_notify=False):
 
     if force_notify:
         msg = "@here: \n{}".format(msg)
-    await chan.send(msg)
+    await chan.send(msg, file=file)
 
 
 #siad class provides wrappers for the necessary siad commands.
