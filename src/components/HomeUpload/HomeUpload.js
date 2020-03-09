@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
 import { useDropzone } from "react-dropzone";
 import Reveal from "react-reveal/Reveal";
-import shortid from "shortid";
 import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";

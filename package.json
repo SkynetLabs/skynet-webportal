@@ -29,8 +29,7 @@
     "react-mailchimp-subscribe": "^2.1.0",
     "react-reveal": "^1.2.2",
     "react-syntax-highlighter": "^12.2.1",
-    "react-visibility-sensor": "^5.1.1",
-    "shortid": "^2.2.15"
+    "react-visibility-sensor": "^5.1.1"
   },
   "devDependencies": {
     "cypress": "^4.1.0",
