@@ -13,6 +13,11 @@ Arguments:
     1. path to a .env file (default is none so env variables can already be
     preset)
 
+    2. systemd service name (default: "siad")
+
+    3. number of hours to look back in log (used as --since value in journalctl
+    command) (default: 1 hour)
+
 """
 
 DEFAULT_CHECK_INTERVAL = timedelta(hours=1)
@@ -40,14 +45,19 @@ async def run_checks():
 async def check_journal():
     print("\nChecking journal...")
 
-    now = datetime.now()
-    time = now - DEFAULT_CHECK_INTERVAL
-    time_string = "{}-{}-{} {}:{}:{}".format(time.year, time.month, time.day, time.hour, time.minute, time.second)
-
     # Get the systemd service name as an argument, or use "siad" as default.
     service_name = "siad"
     if len(sys.argv) > 2:
         service_name = sys.argv[2]
+
+    # Get the systemd service name as an argument, or use "siad" as default.
+    check_interval = DEFAULT_CHECK_INTERVAL
+    if len(sys.argv) > 3:
+        check_interval = timedelta(hours=int(sys.argv[3]))
+
+    now = datetime.now()
+    time = now - check_interval
+    time_string = "{}-{}-{} {}:{}:{}".format(time.year, time.month, time.day, time.hour, time.minute, time.second)
 
     # Open the journal.
     proc = Popen(["journalctl", "--user-unit", service_name, "--since", time_string], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
@@ -63,8 +73,10 @@ async def check_journal():
         await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
 
-    # No critical errors, return a heartbeat type message.
-    await send_msg(client, "No critical warnings in log (size of log portion checked: {})".format(len(std_out)))
+    # No critical errors, return a heartbeat type messagej
+    pretty_before = time.strftime("%I:%M%p")
+    pretty_now = now.strftime("%I:%M%p")
+    await send_msg(client, "No critical warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
 
 
 client.run(bot_token)
