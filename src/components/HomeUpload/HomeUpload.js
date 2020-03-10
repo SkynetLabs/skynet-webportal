@@ -7,6 +7,7 @@ import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";
 import AppContext from "../../AppContext";
+import axios from "axios";
 
 export default function HomeUpload() {
   const [files, setFiles] = useState([]);
@@ -15,7 +16,7 @@ export default function HomeUpload() {
   const handleDrop = async (acceptedFiles) => {
     setFiles((previousFiles) => [...acceptedFiles.map((file) => ({ file, status: "uploading" })), ...previousFiles]);
 
-    const onComplete = (file, status, skylink) => {
+    const onFileStateChange = (file, state) => {
       setFiles((previousFiles) => {
         const index = previousFiles.findIndex((f) => f.file === file);
 
@@ -23,12 +24,18 @@ export default function HomeUpload() {
           ...previousFiles.slice(0, index),
           {
             ...previousFiles[index],
-            status,
-            url: `${apiUrl}/${skylink}`
+            ...state
           },
           ...previousFiles.slice(index + 1)
         ];
       });
+    };
+
+    const onProgress = (file, { loaded, total }) => {
+      const progress = loaded / total;
+      const status = progress === 1 ? "processing" : "uploading";
+
+      onFileStateChange(file, { status, progress });
     };
 
     acceptedFiles.forEach(async (file) => {
@@ -37,12 +44,13 @@ export default function HomeUpload() {
         fd.append("file", file);
 
         const uuid = shortid.generate();
-        const response = await fetch(`${apiUrl}/skynet/skyfile/${uuid}`, { method: "POST", body: fd });
-        const { skylink } = await response.json();
+        const { data } = await axios.post(`${apiUrl}/skynet/skyfile/${uuid}`, fd, {
+          onUploadProgress: (event) => onProgress(file, event)
+        });
 
-        onComplete(file, "complete", skylink);
+        onFileStateChange(file, { status: "complete", url: `${apiUrl}/${data.skylink}` });
       } catch (error) {
-        onComplete(file, "error");
+        onFileStateChange(file, { status: "error" });
       }
     });
   };

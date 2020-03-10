@@ -4,7 +4,7 @@ import "./UploadFile.scss";
 import { LoadingSpinner } from "../";
 import { File, FileCheck, FileError, Copy } from "../../svg";
 
-export default function UploadFile({ file, url, status }) {
+export default function UploadFile({ file, url, status, progress }) {
   const [copied, setCopied] = useState(false);
   const urlRef = useRef(null);
 
@@ -43,7 +43,7 @@ export default function UploadFile({ file, url, status }) {
       <div className="upload-file-text">
         <h3>{file.name}</h3>
         <p>
-          {status === "uploading" && "Uploading..."}
+          {status === "uploading" && (progress ? `Uploading ${Math.round(progress * 100)}%` : "Uploading...")}
           {status === "processing" && "Processing..."}
           {status === "error" && <span className="red-text">Error processing file.</span>}
           {status === "complete" && (
@@ -78,5 +78,6 @@ UploadFile.propTypes = {
     name: PropTypes.string.isRequired
   }),
   status: PropTypes.string.isRequired,
-  url: PropTypes.string
+  url: PropTypes.string,
+  progress: PropTypes.number
 };
