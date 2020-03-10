@@ -18,6 +18,7 @@ setup_done = False
 
 def setup():
     # Load dotenv file if possible.
+    # TODO: change all scripts to use named flags/params
     if len(sys.argv) > 1:
         env_path = Path(sys.argv[1])
         load_dotenv(dotenv_path=env_path, override=True)
