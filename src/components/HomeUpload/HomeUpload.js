@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import classNames from "classnames";
+import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import Reveal from "react-reveal/Reveal";
 import { Button, UploadFile } from "../";
@@ -21,19 +22,33 @@ export default function HomeUpload() {
     }
   }, [directoryMode]);
 
-  const getFilePath = (file) => {
-    const filePath = file.webkitRelativePath || file.path || file.name;
-    const directories = filePath.split("/").filter(Boolean);
+  const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
-    return {
-      rootDir: directories[0],
-      filePath: directories.slice(1).join("/")
-    };
+  const getRelativeFilePath = (file) => {
+    const filePath = getFilePath(file);
+    const { root, dir, base } = path.parse(filePath);
+    const relative = path
+      .normalize(dir)
+      .slice(root.length)
+      .split(path.sep)
+      .slice(1);
+
+    return path.join(...relative, base);
+  };
+
+  const getRootDirectory = (file) => {
+    const filePath = getFilePath(file);
+    const { root, dir } = path.parse(filePath);
+
+    return path
+      .normalize(dir)
+      .slice(root.length)
+      .split(path.sep)[0];
   };
 
   const handleDrop = async (acceptedFiles) => {
     if (directoryMode && acceptedFiles.length) {
-      const { rootDir } = getFilePath(acceptedFiles[0]); // get the file path from the first file
+      const rootDir = getRootDirectory(acceptedFiles[0]); // get the file path from the first file
 
       acceptedFiles = [{ name: rootDir, directory: true, files: acceptedFiles }];
     }
@@ -75,14 +90,9 @@ export default function HomeUpload() {
 
         if (file.directory) {
           file.files.forEach((directoryFile) => {
-            const { filePath } = getFilePath(file);
+            const relativeFilePath = getRelativeFilePath(directoryFile);
 
-            Object.defineProperty(directoryFile, "name", {
-              writable: true,
-              value: filePath
-            });
-
-            formData.append("files[]", directoryFile);
+            formData.append("files[]", directoryFile, relativeFilePath);
           });
         } else {
           formData.append("file", file);
