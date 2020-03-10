@@ -9,7 +9,7 @@ Skynet.download_file("./dst.jpg", skylink)
 print("Download successful")`;
 
 export const curl = `# upload
-curl -X POST "https://siasky.net/skynet/skyfile/[uuid]" -F file=@src.jpg
+curl -X POST "https://siasky.net/skynet/skyfile" -F file=@src.jpg
 
 # download
 curl "https://siasky.net/[skylink]" -o dst.jpg`;
