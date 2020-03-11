@@ -58,6 +58,43 @@ export default function Footer() {
 
           <div className="footer-column">
             <Fade duration={700} distance="40px" bottom>
+              <h2>For Developers</h2>
+
+              <ul>
+                <li>
+                  <a href="https://blog.sia.tech/skynet-bdf0209d6d34" target="_blank" rel="noopener noreferrer">
+                    Skynet Overview
+                  </a>
+                </li>
+                <li>
+                  <a href="https://sia.tech/docs/" target="_blank" rel="noopener noreferrer">
+                    API Docs
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/NebulousLabs/skynet-webportal/blob/master/setup-scripts/README.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Portal Setup
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Sia Node Setup
+                  </a>
+                </li>
+              </ul>
+            </Fade>
+          </div>
+
+          <div className="footer-column">
+            <Fade duration={700} distance="40px" bottom>
               <h2>Social</h2>
               <ul>
                 <li>
