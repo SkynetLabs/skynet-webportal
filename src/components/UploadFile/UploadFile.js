@@ -47,7 +47,7 @@ export default function UploadFile({ file, url, status, progress }) {
           {status === "processing" && "Processing..."}
           {status === "error" && <span className="red-text">Error processing file.</span>}
           {status === "complete" && (
-            <a href={url} className="url green-text">
+            <a href={url} className="url green-text" target="_blank" rel="noopener noreferrer">
               {url}
             </a>
           )}
