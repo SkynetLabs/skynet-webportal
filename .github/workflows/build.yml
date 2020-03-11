@@ -26,6 +26,7 @@ jobs:
       uses: cypress-io/github-action@v1
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         record: true
         start: npx http-server public --port 8000
