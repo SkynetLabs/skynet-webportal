@@ -7,21 +7,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
-    
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: yarn
+        node-version: 12.x
+    
+    - name: Install dependencies
+      run: yarn
+
     - name: Build production bundle
       run: yarn build
       env:
         GATSBY_API_URL: "https://siasky.net"
+
     - name: Cypress run
       uses: cypress-io/github-action@v1
       env:
