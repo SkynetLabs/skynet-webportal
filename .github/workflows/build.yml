@@ -24,6 +24,9 @@ jobs:
         GATSBY_API_URL: "https://siasky.net"
     - name: Cypress run
       uses: cypress-io/github-action@v1
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       with:
+        record: true
         start: npx http-server public --port 8000
         wait-on: "http://localhost:8000"
