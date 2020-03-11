@@ -12,6 +12,9 @@ context("Skynet", () => {
   });
 
   it("should be able to upload a file", () => {
+    cy.server();
+    cy.route("POST", "/skynet/skyfile").as("upload");
+
     const fileName = "check.json";
 
     cy.fixture(fileName).then((fileContent) => {
@@ -21,6 +24,9 @@ context("Skynet", () => {
     cy.get(".home-uploaded-files")
       .children()
       .should("have.length", 1);
+
+    cy.wait("@upload");
+
     cy.contains(".upload-file", fileName).within(() => {
       cy.get(".url")
         .invoke("text")
