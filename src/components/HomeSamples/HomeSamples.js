@@ -25,6 +25,25 @@ export default function HomeSamples() {
         </p>
       </Fade>
 
+      <Fade duration={700} distance="40px" bottom>
+        <p>
+          To get started with development, check out the{" "}
+          <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
+            Skynet API Docs
+          </a>{" "}
+          and follow the{" "}
+          <a
+            href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            Sia Node Setup
+          </a>
+          .
+        </p>
+      </Fade>
+
       <Reveal effect="active">
         <div className="home-samples-samples">
           {samples.map((sample, i) => (
