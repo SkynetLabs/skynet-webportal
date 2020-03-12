@@ -80,7 +80,10 @@ To stop it: `systemctl --user stop siad`
 
 To check the status of it: `systemctl --user status siad`
 
-To check standard err/standard out: `journalctl --user-unit siad`
+To check standard err/standard out: `journalctl --user-unit siad`. In addition you can add:
+
+- `-r` to view journal from the newest entry
+- `-f` to follow and `-n INTEGER` to specify number of lines
 
 ## Portal Setup
 

@@ -8,6 +8,9 @@ EnvironmentFile=/home/user/.sia/sia.env
 ExecStart=/home/user/go/bin/siad
 ExecStop=/home/user/go/bin/siac stop
 Restart=on-failure
+SyslogIdentifier=siad
+StandardOutput=file:/home/user/siad/output.log
+StandardError=file:/home/user/siad/error.log
 
 [Install]
 WantedBy=default.target
