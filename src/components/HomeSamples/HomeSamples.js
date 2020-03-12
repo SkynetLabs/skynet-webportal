@@ -19,28 +19,31 @@ export default function HomeSamples() {
   return (
     <div className="home-samples">
       <Fade duration={700} distance="40px" bottom>
+        <p>Above are some code snippets for uploading and retrieving data.</p>
         <p>
-          Skynet includes SDKs for popular programming languages that integrate seamlessly with your existing apps.
-          Above are some code snippets for uploading and retrieving data.
-        </p>
-      </Fade>
-
-      <Fade duration={700} distance="40px" bottom>
-        <p>
-          To get started with development, check out the{" "}
-          <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
-            Skynet API Docs
+          Skynet includes{" "}
+          <a
+            href="https://support.siasky.net/article/hrshqsn9wz-integrating-skynet"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            SDKs
           </a>{" "}
-          and follow the{" "}
+          for popular programming languages and{" "}
+          <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
+            APIs
+          </a>{" "}
+          that integrate seamlessly with your existing apps. You can follow this{" "}
           <a
             href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
             target="_blank"
             rel="noopener noreferrer"
             className="link"
           >
-            Sia Node Setup
-          </a>
-          .
+            guide
+          </a>{" "}
+          to setup a Sia Node.
         </p>
       </Fade>
 

@@ -10,16 +10,16 @@
   }
 
   p {
-    margin: 0 auto 48px;
+    margin: 0 auto 24px;
     max-width: 460px;
 
     @media (min-width: $largebp) {
       font-size: 18px;
-      max-width: 500px;
+      max-width: 600px;
     }
 
-    a {
-      white-space: nowrap;
+    &:last-of-type {
+      margin-bottom: 48px;
     }
   }
 
