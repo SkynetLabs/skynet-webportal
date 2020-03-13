@@ -75,3 +75,8 @@ cp siad-upload.service ~/.config/systemd/user/siad-upload.service
 mkdir -p ~/.sia
 cp sia.env ~/.sia/
 cp sia.env ~/.sia/sia-upload.env
+
+# Setup persistent journal
+sudo mkdir -p /var/log/journal
+sudo cp journald.conf /etc/systemd/journald.conf
+sudo systemctl restart systemd-journald

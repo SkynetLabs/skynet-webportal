@@ -9,8 +9,6 @@ ExecStart=/home/user/go/bin/siad --api-addr "localhost:9970" --rpc-addr ":9971" 
 ExecStop=/home/user/go/bin/siac --addr "localhost:9970" stop
 Restart=on-failure
 SyslogIdentifier=siad-upload
-StandardOutput=file:/home/user/siad-upload/output.log
-StandardError=file:/home/user/siad-upload/error.log
 
 [Install]
 WantedBy=default.target
