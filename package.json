@@ -15,7 +15,7 @@
     "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sass": "^2.1.30",
     "gatsby-plugin-sharp": "^2.4.10",
-    "gatsby-source-filesystem": "^2.1.52",
+    "gatsby-source-filesystem": "^2.1.55",
     "gatsby-transformer-sharp": "^2.3.18",
     "jsonp": "^0.2.1",
     "node-sass": "^4.13.1",
