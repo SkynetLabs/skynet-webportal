@@ -8,7 +8,7 @@
     "classnames": "^2.2.6",
     "gatsby": "^2.19.37",
     "gatsby-image": "^2.2.43",
-    "gatsby-plugin-manifest": "^2.2.46",
+    "gatsby-plugin-manifest": "^2.2.47",
     "gatsby-plugin-matomo": "^0.8.1",
     "gatsby-plugin-react-helmet": "^3.1.23",
     "gatsby-plugin-remove-serviceworker": "^1.0.0",
