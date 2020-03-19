@@ -52,21 +52,11 @@ rm go1.13.7.linux-amd64.tar.gz
 # Sanity check that will pass if go was installed correctly.
 go version
 
-cwd=$(pwd)
-
 # Install Sia
-cd ~/
-git clone https://gitlab.com/NebulousLabs/Sia
-cd Sia && git checkout v1.4.3 && make
-
-# Setup skynet frontend.
-cd $cwd
-cd ../
-yarn
-yarn build
+git clone -b v1.4.4 https://gitlab.com/NebulousLabs/Sia ~/Sia
+make --directory ~/Sia
 
 # Setup systemd files
-cd $cwd
 mkdir -p ~/.config/systemd/user
 cp siad.service ~/.config/systemd/user/siad.service
 cp siad-upload.service ~/.config/systemd/user/siad-upload.service
@@ -80,3 +70,8 @@ cp sia.env ~/.sia/sia-upload.env
 sudo mkdir -p /var/log/journal
 sudo cp journald.conf /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald
+
+# Setup skynet frontend.
+cd ..
+yarn
+yarn build
