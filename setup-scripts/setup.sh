@@ -32,7 +32,7 @@ rm alacritty.info
 # Setup nginx config
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
 sudo nginx -t
-sudo ln -s /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
+sudo ln -sf /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
 sudo rm /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
 
