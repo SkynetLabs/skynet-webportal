@@ -61,7 +61,7 @@ func main() {
 export const ruby = `require 'skynet'
 
 # Upload
-upload = Skynet.upload_file('src.jpg')
+upload = Skynet.upload_file("./src.jpg")
 puts upload #=> Upload successful, skylink: ABC123
 
 # Download
