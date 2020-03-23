@@ -3746,10 +3746,12 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-cypress-file-upload@^3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-3.5.3.tgz#cd706485de3fb2cbd4a8c2dd90fe96d537bb4311"
-  integrity sha512-S/czzqAj1BYz6Xxnfpx2aSc6hXsj76fd8/iuycJ2RxoxCcQMliw8eQV0ugzVlkzr1GD5dKGviNFGYqv3nRJ+Tg==
+cypress-file-upload@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-4.0.3.tgz#143011a3bd51c98d158eea1cd106c78244bfeb17"
+  integrity sha512-Q7cl2IN4Sw0sJbdoX6Zdz0CTCP7rg8VVmYPrmSv2aURw86xi7PInKlT8HZILirVRxmxfaLZDXGU4/ILeMc14DA==
+  dependencies:
+    mime "^2.4.4"
 
 cypress@^4.2.0:
   version "4.2.0"
