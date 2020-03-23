@@ -24,5 +24,5 @@ export default function Download({ className }) {
 }
 
 Download.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

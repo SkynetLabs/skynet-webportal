@@ -6,7 +6,7 @@ export const AVAILABLE_STATS = {
   STORAGE_USED_TB: "storageUsedTB",
   NETWORK_CAPACITY_TB: "networkCapacityTB",
   STORAGE_COST_USD: "storageCostUSD",
-  BANDWIDTH_DOWN_COST_USD: "bandwidthDownCostUSD"
+  BANDWIDTH_DOWN_COST_USD: "bandwidthDownCostUSD",
 };
 
 export default function useStats() {
@@ -15,7 +15,7 @@ export default function useStats() {
     [AVAILABLE_STATS.STORAGE_USED_TB]: null,
     [AVAILABLE_STATS.NETWORK_CAPACITY_TB]: null,
     [AVAILABLE_STATS.STORAGE_COST_USD]: null,
-    [AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD]: null
+    [AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD]: null,
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ async function getBandwidthStats() {
   const current = data.reverse().find((entry) => "downusd" in entry);
 
   return {
-    [AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD]: current.downusd
+    [AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD]: current.downusd,
   };
 }
 
@@ -49,7 +49,7 @@ async function getPriceStats() {
   const current = data.reverse().find((entry) => "usd" in entry);
 
   return {
-    [AVAILABLE_STATS.STORAGE_COST_USD]: current.usd
+    [AVAILABLE_STATS.STORAGE_COST_USD]: current.usd,
   };
 }
 
@@ -63,6 +63,6 @@ async function getStorageStats() {
   return {
     [AVAILABLE_STATS.ONLINE_HOSTS_COUNT]: data.online_hosts,
     [AVAILABLE_STATS.STORAGE_USED_TB]: data.used_storage_TB,
-    [AVAILABLE_STATS.NETWORK_CAPACITY_TB]: data.network_capacity_TB
+    [AVAILABLE_STATS.NETWORK_CAPACITY_TB]: data.network_capacity_TB,
   };
 }

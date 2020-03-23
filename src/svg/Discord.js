@@ -14,5 +14,5 @@ export default function Discord({ className }) {
 }
 
 Discord.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

@@ -16,5 +16,5 @@ export default function FAQ({ title, children }) {
 
 FAQ.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };

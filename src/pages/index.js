@@ -8,7 +8,7 @@ import AppContext from "../AppContext";
 export default function IndexPage({ location }) {
   const context = useMemo(
     () => ({
-      apiUrl: process.env.GATSBY_API_URL || location.origin
+      apiUrl: process.env.GATSBY_API_URL || location.origin,
     }),
     [location.origin]
   );
@@ -22,5 +22,5 @@ export default function IndexPage({ location }) {
 }
 
 IndexPage.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };

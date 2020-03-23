@@ -7,5 +7,5 @@ export default function CircleIcon({ children }) {
 }
 
 CircleIcon.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

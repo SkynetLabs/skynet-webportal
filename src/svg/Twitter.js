@@ -14,5 +14,5 @@ export default function Twitter({ className }) {
 }
 
 Twitter.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

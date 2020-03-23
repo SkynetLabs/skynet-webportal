@@ -28,42 +28,42 @@ function SEO({ lang, meta }) {
   return (
     <Helmet
       htmlAttributes={{
-        lang
+        lang,
       }}
       title={site.siteMetadata.title}
       meta={[
         {
           name: `description`,
-          content: site.siteMetadata.description
+          content: site.siteMetadata.description,
         },
         {
           property: `og:title`,
-          content: site.siteMetadata.title
+          content: site.siteMetadata.title,
         },
         {
           property: `og:description`,
-          content: site.siteMetadata.description
+          content: site.siteMetadata.description,
         },
         {
           property: `og:type`,
-          content: `website`
+          content: `website`,
         },
         {
           name: `twitter:card`,
-          content: `summary`
+          content: `summary`,
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata.author
+          content: site.siteMetadata.author,
         },
         {
           name: `twitter:title`,
-          content: site.siteMetadata.title
+          content: site.siteMetadata.title,
         },
         {
           name: `twitter:description`,
-          content: site.siteMetadata.description
-        }
+          content: site.siteMetadata.description,
+        },
       ].concat(meta)}
     />
   );
@@ -72,12 +72,12 @@ function SEO({ lang, meta }) {
 SEO.defaultProps = {
   lang: `en`,
   meta: [],
-  description: ``
+  description: ``,
 };
 
 SEO.propTypes = {
   lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object)
+  meta: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default SEO;

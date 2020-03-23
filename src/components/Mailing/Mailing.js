@@ -16,7 +16,7 @@ const CustomForm = ({ status, message, onValidated, light, id }) => {
     if ((email, user, email.value.indexOf("@") > -1)) {
       onValidated({
         EMAIL: email.value,
-        USER: user.checked ? "Yes" : "No"
+        USER: user.checked ? "Yes" : "No",
       });
     }
   };
@@ -50,7 +50,7 @@ CustomForm.propTypes = {
   message: PropTypes.string,
   onValidated: PropTypes.func,
   light: PropTypes.bool,
-  id: PropTypes.string
+  id: PropTypes.string,
 };
 
 export default function Mailing({ light, id }) {
@@ -72,5 +72,5 @@ export default function Mailing({ light, id }) {
 
 Mailing.propTypes = {
   light: PropTypes.bool,
-  id: PropTypes.string
+  id: PropTypes.string,
 };

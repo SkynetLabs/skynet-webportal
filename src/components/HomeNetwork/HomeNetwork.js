@@ -14,7 +14,7 @@ const STATS_MAP = [
   { name: "TB Capacity", key: AVAILABLE_STATS.NETWORK_CAPACITY_TB },
   { name: "Hosts", key: AVAILABLE_STATS.ONLINE_HOSTS_COUNT },
   { name: "Storage/TB", key: AVAILABLE_STATS.STORAGE_COST_USD, currency: true },
-  { name: "Bandwidth/TB", key: AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD, currency: true }
+  { name: "Bandwidth/TB", key: AVAILABLE_STATS.BANDWIDTH_DOWN_COST_USD, currency: true },
 ];
 
 export default function HomeNetwork() {
@@ -193,7 +193,7 @@ StatValue.propTypes = {
   stat: PropTypes.shape({
     key: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    currency: PropTypes.bool
+    currency: PropTypes.bool,
   }).isRequired,
-  value: PropTypes.number.isRequired
+  value: PropTypes.number.isRequired,
 };

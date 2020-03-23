@@ -10,5 +10,5 @@ export default function Arrow({ className }) {
 }
 
 Arrow.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

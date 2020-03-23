@@ -18,5 +18,5 @@ export default function Pyramid({ className }) {
 }
 
 Pyramid.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

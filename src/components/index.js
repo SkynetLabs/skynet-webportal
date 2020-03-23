@@ -34,5 +34,5 @@ export {
   UploadFile,
   LoadingSpinner,
   Footer,
-  Mailing
+  Mailing,
 };
