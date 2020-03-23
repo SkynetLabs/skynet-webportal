@@ -33,7 +33,7 @@ rm alacritty.info
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
 sudo nginx -t
 sudo ln -sf /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
-sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/default --force
 sudo systemctl reload nginx
 
 # Setup firewall
