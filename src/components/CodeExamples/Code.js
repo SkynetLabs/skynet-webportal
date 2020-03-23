@@ -58,7 +58,7 @@ func main() {
 	fmt.Println("Download successful")
 }`;
 
-export const ruby = `require 'skynet'
+export const ruby = `require "skynet"
 
 # Upload
 upload = Skynet.upload_file("./src.jpg")
