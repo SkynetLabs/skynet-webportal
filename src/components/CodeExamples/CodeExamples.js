@@ -7,8 +7,9 @@ import * as snippets from "./Code";
 import "./CodeExamples.scss";
 import AppContext from "../../AppContext";
 
-SyntaxHighlighter.registerLanguage("javascript", javascript);
+SyntaxHighlighter.registerLanguage("ruby", ruby);
 SyntaxHighlighter.registerLanguage("go", go);
+SyntaxHighlighter.registerLanguage("javascript", javascript);
 SyntaxHighlighter.registerLanguage("python", python);
 SyntaxHighlighter.registerLanguage("bash", bash);
 
@@ -32,6 +33,9 @@ export default function CodeExamples() {
         </button>
         <button type="button" onClick={() => setActive(4)} className={classNames({ active: active === 4 })}>
           Go
+        </button>
+        <button type="button" onClick={() => setActive(5)} className={classNames({ active: active === 5 })}>
+          Ruby
         </button>
       </div>
 
@@ -57,6 +61,12 @@ export default function CodeExamples() {
         {active === 4 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="go" style={Colors}>
             {interpolateSnippet(snippets.go)}
+          </SyntaxHighlighter>
+        )}
+        
+        {active === 5 && (
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="ruby" style={Colors}>
+            {interpolateSnippet(snippets.ruby)}
           </SyntaxHighlighter>
         )}
       </div>
