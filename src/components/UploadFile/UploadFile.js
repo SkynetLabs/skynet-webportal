@@ -75,9 +75,9 @@ export default function UploadFile({ file, url, status, progress }) {
 
 UploadFile.propTypes = {
   file: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }),
   status: PropTypes.string.isRequired,
   url: PropTypes.string,
-  progress: PropTypes.number
+  progress: PropTypes.number,
 };

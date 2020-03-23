@@ -27,11 +27,7 @@ export default function HomeUpload() {
   const getRelativeFilePath = (file) => {
     const filePath = getFilePath(file);
     const { root, dir, base } = path.parse(filePath);
-    const relative = path
-      .normalize(dir)
-      .slice(root.length)
-      .split(path.sep)
-      .slice(1);
+    const relative = path.normalize(dir).slice(root.length).split(path.sep).slice(1);
 
     return path.join(...relative, base);
   };
@@ -40,10 +36,7 @@ export default function HomeUpload() {
     const filePath = getFilePath(file);
     const { root, dir } = path.parse(filePath);
 
-    return path
-      .normalize(dir)
-      .slice(root.length)
-      .split(path.sep)[0];
+    return path.normalize(dir).slice(root.length).split(path.sep)[0];
   };
 
   const handleDrop = async (acceptedFiles) => {
@@ -63,9 +56,9 @@ export default function HomeUpload() {
           ...previousFiles.slice(0, index),
           {
             ...previousFiles[index],
-            ...state
+            ...state,
           },
-          ...previousFiles.slice(index + 1)
+          ...previousFiles.slice(index + 1),
         ];
       });
     };
@@ -78,7 +71,7 @@ export default function HomeUpload() {
           const status = progress === 1 ? "processing" : "uploading";
 
           onFileStateChange(file, { status, progress });
-        }
+        },
       });
 
       return data;
@@ -127,7 +120,7 @@ export default function HomeUpload() {
             <div className="home-upload-box ">
               <div
                 className={classNames("home-upload-dropzone", {
-                  "drop-active": isDragActive
+                  "drop-active": isDragActive,
                 })}
                 {...getRootProps()}
               >

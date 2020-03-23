@@ -60,5 +60,5 @@ export {
   Deco5,
   Deco6,
   Deco7,
-  Deco8
+  Deco8,
 };

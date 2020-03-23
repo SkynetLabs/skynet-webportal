@@ -29,5 +29,5 @@ SocialLink.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.node,
   greenText: PropTypes.string,
-  url: PropTypes.string
+  url: PropTypes.string,
 };

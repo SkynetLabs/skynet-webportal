@@ -16,5 +16,5 @@ export default function Logo({ className }) {
 }
 
 Logo.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

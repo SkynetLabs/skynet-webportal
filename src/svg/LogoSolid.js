@@ -14,5 +14,5 @@ export default function LogoSolid({ className }) {
 }
 
 LogoSolid.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

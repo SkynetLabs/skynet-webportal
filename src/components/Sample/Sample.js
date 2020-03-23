@@ -21,5 +21,5 @@ export default function Sample({ type, url, className }) {
 Sample.propTypes = {
   type: PropTypes.string,
   url: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
 };

@@ -17,5 +17,5 @@ export default function Cylinder({ className }) {
 }
 
 Cylinder.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

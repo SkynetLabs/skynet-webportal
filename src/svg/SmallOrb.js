@@ -17,5 +17,5 @@ export default function SmallOrb({ className }) {
 }
 
 SmallOrb.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

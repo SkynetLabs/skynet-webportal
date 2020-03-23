@@ -21,9 +21,7 @@ context("Skynet", () => {
       cy.get('.home-upload input[type="file"]').upload({ fileContent, fileName, mimeType: "application/json" });
     });
 
-    cy.get(".home-uploaded-files")
-      .children()
-      .should("have.length", 1);
+    cy.get(".home-uploaded-files").children().should("have.length", 1);
 
     cy.wait("@upload");
 

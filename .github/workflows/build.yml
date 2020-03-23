@@ -4,30 +4,32 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    
-    - name: Install dependencies
-      run: yarn
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
 
-    - name: Build production bundle
-      run: yarn build
-      env:
-        GATSBY_API_URL: "https://siasky.net"
+      - name: Install dependencies
+        run: yarn
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v1
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        record: true
-        start: npx http-server public --port 8000
-        wait-on: "http://localhost:8000"
+      - name: Static code analysis
+        run: yarn prettier --check .
+
+      - name: Build production bundle
+        run: yarn build
+        env:
+          GATSBY_API_URL: "https://siasky.net"
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          record: true
+          start: npx http-server public --port 8000
+          wait-on: "http://localhost:8000"

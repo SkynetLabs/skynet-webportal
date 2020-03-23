@@ -17,5 +17,5 @@ export default function DoubleRight({ className }) {
 }
 
 DoubleRight.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

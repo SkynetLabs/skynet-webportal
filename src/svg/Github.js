@@ -14,5 +14,5 @@ export default function Github({ className }) {
 }
 
 Github.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
