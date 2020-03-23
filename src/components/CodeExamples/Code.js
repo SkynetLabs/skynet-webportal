@@ -58,6 +58,14 @@ func main() {
 	fmt.Println("Download successful")
 }`;
 
-export const ruby = ``;
+export const ruby = `require 'skynet'
+
+# Upload
+upload = Skynet.upload_file('src.jpg')
+puts upload #=> Upload successful, skylink: ABC123
+
+# Download
+download = Skynet.download_file("test/src.jpg", skylink)
+puts download #=> Download successful!`;
 
 export const php = ``;
