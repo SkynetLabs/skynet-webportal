@@ -68,7 +68,7 @@ async def check_journal():
         return
 
     # If there are any critical errors. upload the whole log file.
-    if "Critical" in std_out:
+    if "Critical" or "panic" in std_out:
         upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(service_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
         await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
