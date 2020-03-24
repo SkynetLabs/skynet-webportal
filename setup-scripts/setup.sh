@@ -33,7 +33,7 @@ rm alacritty.info
 sudo cp ./skynet-nginx.conf /etc/nginx/sites-available/skynet
 sudo nginx -t
 sudo ln -sf /etc/nginx/sites-available/skynet /etc/nginx/sites-enabled/skynet
-sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/default --force
 sudo systemctl reload nginx
 
 # Setup firewall
@@ -46,7 +46,7 @@ sudo ufw allow 'Nginx HTTP'
 # Install Go 1.13.7.
 wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
-export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:/usr/local/go/bin
 rm go1.13.7.linux-amd64.tar.gz
 
 # Sanity check that will pass if go was installed correctly.
