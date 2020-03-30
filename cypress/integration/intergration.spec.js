@@ -17,9 +17,7 @@ context("Skynet", () => {
 
     const fileName = "check.json";
 
-    cy.fixture(fileName).then((fileContent) => {
-      cy.get('.home-upload input[type="file"]').upload({ fileContent, fileName, mimeType: "application/json" });
-    });
+    cy.get('.home-upload input[type="file"]').attachFile(fileName);
 
     cy.get(".home-uploaded-files").children().should("have.length", 1);
 
