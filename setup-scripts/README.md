@@ -11,6 +11,9 @@ that we are working with a Debian Buster Minimal system or similar.
 You may want to fork this repository and add your ssh pubkey to
 `authorized_keys` and optionally edit the `tmux` and `bash` configurations.
 
+NOTE: nginx version 1.11.0 or higher is required.
+If you use the install script below, the correct version should be installed.
+
 0. SSH in a freshly installed Debian machine.
 1. `apt-get update && apt-get install sudo`
 1. `adduser user`
