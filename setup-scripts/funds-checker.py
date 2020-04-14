@@ -60,9 +60,9 @@ async def check_health():
         return
 
     # Alert devs when only a fraction of the allowance is remaining.
-    UNALLOC_THRESHOLD = 0.2
-    if allocated_funds  >= UNALLOC_THRESHOLD * allowance_funds :
-        await send_msg(client, "{} of allowance spent: \n{}".format(UNALLOC_THRESHOLD, alloc_msg), force_notify=True)
+    SPEND_THRESHOLD = 0.8
+    if allocated_funds  >= SPEND_THRESHOLD * allowance_funds :
+        await send_msg(client, "More than {:.0%} of allowance spent: \n{}".format(SPEND_THRESHOLD, alloc_msg), force_notify=True)
         return
 
     # Send an informational heartbeat if all checks passed.
