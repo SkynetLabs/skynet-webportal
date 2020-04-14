@@ -9,7 +9,8 @@ import urllib, json, os, traceback, discord, sys
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
 
-channel_name = "skynet-portal-health-check"
+CHANNEL_NAME = "skynet-portal-health-check"
+ROLE_NAME = "skynet-prod"
 
 # Environment variable globals
 api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
@@ -50,21 +51,28 @@ async def send_msg(client, msg, force_notify=False, file=None):
     await client.wait_until_ready()
 
     guild = client.guilds[0]
-    channels = guild.channels
 
     chan = None
-    for c in channels:
-        if c.name == channel_name:
+    for c in guild.channels:
+        if c.name == CHANNEL_NAME:
             chan = c
+            break
 
     if chan is None:
-        print("Can't find channel {}".format(channel_name))
+        print("Can't find channel {}".format(CHANNEL_NAME))
+
+    # Get the prod team role
+    role = None
+    for r in guild.roles:
+        if r.name == ROLE_NAME:
+            role = r
+            break
 
     # Add the portal name.
     msg = "`{}`: {}".format(portal_name, msg)
 
     if force_notify:
-        msg = "@here: \n{}".format(msg)
+        msg = "{}: \n{}".format(role.mention, msg)
     await chan.send(msg, file=file)
 
 
