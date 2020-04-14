@@ -39,7 +39,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-react": "^7.19.0",
-    "husky": "^4.2.3",
+    "husky": "^4.2.5",
     "lint-staged": "^10.1.3",
     "prettier": "^2.0.4"
   },
