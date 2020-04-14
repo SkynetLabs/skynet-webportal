@@ -56,12 +56,13 @@ async def check_health():
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        await send_msg(client, "Wallet balance running low. \n{}`".format(balance_msg), force_notify=True)
+        await send_msg(client, "Wallet balance running low. \n{}".format(balance_msg), force_notify=True)
         return
 
-    # Alert devs when 1/2 the allowance is gone
-    if allocated_funds  >= unallocated_funds:
-        await send_msg(client, "Allowance half spent: \n{}".format(alloc_msg), force_notify=True)
+    # Alert devs when only a fraction of the allowance is remaining.
+    UNALLOC_THRESHOLD = 0.2
+    if allocated_funds  >= UNALLOC_THRESHOLD * allowance_funds :
+        await send_msg(client, "{} of allowance spent: \n{}".format(UNALLOC_THRESHOLD, alloc_msg), force_notify=True)
         return
 
     # Send an informational heartbeat if all checks passed.
