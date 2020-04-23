@@ -18,7 +18,7 @@
     "gatsby-source-filesystem": "^2.2.4",
     "gatsby-transformer-sharp": "^2.4.6",
     "jsonp": "^0.2.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.0",
     "path-browserify": "^1.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
