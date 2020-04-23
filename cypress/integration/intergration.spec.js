@@ -21,7 +21,8 @@ context("Skynet", () => {
 
     cy.get(".home-uploaded-files").children().should("have.length", 1);
 
-    cy.wait("@upload");
+    // wait max 2 minutes, the portal might be slow at times
+    cy.wait("@upload", { responseTimeout: 2 * 60 * 1000 });
 
     cy.contains(".upload-file", fileName).within(() => {
       cy.get(".url")
