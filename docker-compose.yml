@@ -1,0 +1,79 @@
+version: "3.7"
+
+networks:
+  shared:
+    driver: bridge
+
+services:
+  docker-host:
+    image: qoomon/docker-host
+    container_name: docker-host
+    restart: on-failure
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      - shared
+
+  openresty:
+    image: openresty/openresty
+    container_name: nginx
+    restart: on-failure
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./public:/etc/nginx/html/client
+      - ./docker/data/nginx/cache:/data/nginx/cache
+    networks:
+      - shared
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - docker-host
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/server/Dockerfile
+  #   working_dir: /usr/src
+  #   entrypoint: ["node", "server/index.js"]
+  #   container_name: server
+  #   restart: on-failure
+  #   volumes:
+  #     - ./server:/usr/src/server
+  #     - ./package.json:/usr/src/package.json
+  #     - ./yarn.lock:/usr/src/yarn.lock
+  #   env_file: .env
+  #   expose:
+  #     - 8080
+  #   depends_on:
+  #     - mongo
+  #   networks:
+  #     - shared
+  # mongo-express:
+  #   image: mongo-express
+  #   container_name: admin
+  #   restart: on-failure
+  #   expose:
+  #     - 8081
+  #   networks:
+  #     - shared
+  #   depends_on:
+  #     - mongo
+  #   env_file: .env
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  # mongo:
+  #   image: mongo
+  #   container_name: mongo
+  #   restart: on-failure
+  #   volumes:
+  #     - ./docker/data/db:/data/db
+  #   expose:
+  #     - 27017
+  #   networks:
+  #     - shared
+  #   env_file: .env
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
