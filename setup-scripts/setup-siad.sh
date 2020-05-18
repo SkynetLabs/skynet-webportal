@@ -13,7 +13,7 @@ go version
 
 # Install Sia
 rm -rf ~/Sia
-git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia ~/Sia
+git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia.git ~/Sia
 make --directory ~/Sia
 
 # Setup systemd files and restart daemon
