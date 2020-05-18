@@ -17,15 +17,15 @@ make --directory ~/Sia
 
 # Setup systemd files
 mkdir -p ~/.config/systemd/user
-cp siad.service ~/.config/systemd/user/siad.service
-cp siad-upload.service ~/.config/systemd/user/siad-upload.service
+cp setup-scripts/siad.service ~/.config/systemd/user/siad.service
+cp setup-scripts/siad-upload.service ~/.config/systemd/user/siad-upload.service
 
 # Setup files for storing environment variables
 mkdir -p ~/.sia
-cp sia.env ~/.sia/
-cp sia.env ~/.sia/sia-upload.env
+cp setup-scripts/sia.env ~/.sia/
+cp setup-scripts/sia.env ~/.sia/sia-upload.env
 
 # Setup persistent journal
 sudo mkdir -p /var/log/journal
-sudo cp journald.conf /etc/systemd/journald.conf
+sudo cp setup-scripts/journald.conf /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald
