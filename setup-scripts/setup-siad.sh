@@ -12,6 +12,7 @@ rm go1.13.7.linux-amd64.tar.gz
 go version
 
 # Install Sia
+rm -rf ~/Sia
 git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia ~/Sia
 make --directory ~/Sia
 
