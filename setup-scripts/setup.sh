@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
-set -e
+
+set -e # exit on first error
 
 # Copy over basic configuration files.
 cp ./tmux.conf ~/.tmux.conf
