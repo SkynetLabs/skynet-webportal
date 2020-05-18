@@ -19,10 +19,12 @@ docker-compose --version # sanity check
 
 # Install node and yarn
 brew install node yarn
+node --version # sanity check
+yarn --version # sanity check
 
 # Install dependencies and build production bundle
 yarn --frozen-lockfile
 yarn build
 
 # Start docker container with nginx and client
-docker-compose -f docker-compose.yml up --build -d
+sudo docker-compose -f docker-compose.yml up --build -d
