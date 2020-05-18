@@ -16,7 +16,7 @@ services:
       - shared
 
   openresty:
-    image: openresty/openresty
+    build: .
     container_name: nginx
     restart: on-failure
     volumes:
