@@ -16,10 +16,14 @@ rm -rf ~/Sia
 git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia ~/Sia
 make --directory ~/Sia
 
-# Setup systemd files
+# Setup systemd files and restart daemon
 mkdir -p ~/.config/systemd/user
 cp setup-scripts/siad.service ~/.config/systemd/user/siad.service
 cp setup-scripts/siad-upload.service ~/.config/systemd/user/siad-upload.service
+
+# Create siad data directories
+mkdir -p ~/siad
+mkdir -p ~/siad-upload
 
 # Setup files for storing environment variables
 mkdir -p ~/.sia
@@ -30,3 +34,8 @@ cp setup-scripts/sia.env ~/.sia/sia-upload.env
 sudo mkdir -p /var/log/journal
 sudo cp setup-scripts/journald.conf /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald
+
+# Restart a daemon and start both siad nodes
+systemctl --user daemon-reload
+systemctl --user start siad
+systemctl --user start siad-upload
