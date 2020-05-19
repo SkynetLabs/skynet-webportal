@@ -9,6 +9,7 @@ ExecStart=/home/user/go/bin/siad
 ExecStop=/home/user/go/bin/siac stop
 Restart=on-failure
 SyslogIdentifier=siad
+LimitNOFILE=10000
 
 [Install]
 WantedBy=default.target

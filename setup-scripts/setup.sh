@@ -43,17 +43,17 @@ sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
 sudo ufw allow 'Nginx HTTP'
 
-# Install Go 1.13.7.
-wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
+# Install Go 1.13.11.
+wget -c https://dl.google.com/go/go1.13.11.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.13.11.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
-rm go1.13.7.linux-amd64.tar.gz
+rm go1.13.11.linux-amd64.tar.gz
 
 # Sanity check that will pass if go was installed correctly.
 go version
 
 # Install Sia
-git clone -b v1.4.4 https://gitlab.com/NebulousLabs/Sia ~/Sia
+git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia ~/Sia
 make --directory ~/Sia
 
 # Setup systemd files
@@ -70,6 +70,9 @@ cp sia.env ~/.sia/sia-upload.env
 sudo mkdir -p /var/log/journal
 sudo cp journald.conf /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald
+
+# Set up file limits.
+sudo cp limits.conf /etc/security/limits.conf
 
 # Setup periodical /tmp cleanup so we don't run out of disk space
 # - deletes anything older than 10 days from /tmp, crontab is set to run it every day at midnight
