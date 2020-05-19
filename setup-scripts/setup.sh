@@ -71,6 +71,9 @@ sudo mkdir -p /var/log/journal
 sudo cp journald.conf /etc/systemd/journald.conf
 sudo systemctl restart systemd-journald
 
+# Set up file limits.
+sudo cp limits.conf /etc/security/limits.conf
+
 # Setup periodical /tmp cleanup so we don't run out of disk space
 # - deletes anything older than 10 days from /tmp, crontab is set to run it every day at midnight
 (sudo crontab -l 2>/dev/null; echo "0 0 * * * find /tmp -type f -atime +10 -delete >/dev/null 2>&1") | sudo crontab -
