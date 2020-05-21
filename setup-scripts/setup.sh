@@ -53,7 +53,7 @@ rm go1.13.7.linux-amd64.tar.gz
 go version
 
 # Install Sia
-git clone -b v1.4.4 https://gitlab.com/NebulousLabs/Sia ~/Sia
+git clone -b v1.4.8 https://gitlab.com/NebulousLabs/Sia ~/Sia
 make --directory ~/Sia
 
 # Setup systemd files
