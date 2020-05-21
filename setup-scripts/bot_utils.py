@@ -10,7 +10,7 @@ import urllib, json, os, traceback, discord, sys
 sc_precision = 10 ** 24
 
 CHANNEL_NAME = "skynet-portal-health-check"
-ROLE_NAME = "skynet-prod"
+ROLE_NAME = "everyone"
 
 # Environment variable globals
 api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
@@ -71,7 +71,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
     # Add the portal name.
     msg = "`{}`: {}".format(portal_name, msg)
 
-    if force_notify:
+    if force_notify and role is not None:
         msg = "{}: \n{}".format(role.mention, msg)
     await chan.send(msg, file=file)
 
