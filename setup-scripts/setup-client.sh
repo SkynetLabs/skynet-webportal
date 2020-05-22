@@ -3,7 +3,7 @@
 set -e # exit on first error
 
 # Install docker (cleans up old docker installation)
-sudo apt-get remove -y docker docker-engine docker.io containerd runc
+# sudo apt-get remove -y docker docker-engine docker.io containerd runc # fails if it is the first installation
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -16,11 +16,6 @@ docker --version # sanity check
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version # sanity check
-
-# Install node and yarn
-brew install node yarn
-node --version # sanity check
-yarn --version # sanity check
 
 # Install dependencies and build production bundle
 yarn --frozen-lockfile

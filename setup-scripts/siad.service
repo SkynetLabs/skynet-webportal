@@ -5,7 +5,7 @@ Description=siad
 Type=simple
 WorkingDirectory=/home/user/siad
 EnvironmentFile=/home/user/.sia/sia.env
-ExecStart=/home/user/go/bin/siad --disable-api-security --api-addr=:9980
+ExecStart=/home/user/go/bin/siad -m cgtwrf --disable-api-security --api-addr=:9980
 ExecStop=/home/user/go/bin/siac stop
 Restart=on-failure
 SyslogIdentifier=siad
