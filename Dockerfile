@@ -12,7 +12,4 @@ RUN chown nobody /etc/dhparam
 RUN mkdir /etc/resty-auto-ssl
 RUN chown nobody /etc/resty-auto-ssl
 
-RUN cp $HOME/.sia/apipassword /etc/apipassword
-RUN chown nobody /etc/apipassword
-
 ENTRYPOINT ["/usr/local/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
