@@ -31,7 +31,7 @@ mkdir -p ~/siad-upload
 # Setup files for storing environment variables
 mkdir -p ~/.sia
 cp setup-scripts/sia.env ~/.sia/
-cp setup-scripts/sia.env ~/.sia/sia-upload.env
+cp setup-scripts/sia-upload.env ~/.sia/
 
 # Setup persistent journal
 sudo mkdir -p /var/log/journal
