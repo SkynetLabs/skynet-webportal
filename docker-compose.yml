@@ -23,7 +23,7 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./public:/etc/nginx/html/client
       - ./docker/data/nginx/cache:/data/nginx/cache
-      - $HOME/.sia/apipassword:/etc/.sia/apipassword
+      - $HOME/.sia/apipassword:/etc/nginx/.sia/apipassword:ro
     networks:
       - shared
     ports:
