@@ -6,6 +6,6 @@ RUN openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj '/CN=sni-sup
 
 # source: https://ssl-config.mozilla.org/#server=nginx&version=1.17.7&config=intermediate&openssl=1.1.1d&ocsp=false&guideline=5.4
 # RUN curl https://ssl-config.mozilla.org/ffdhe2048.txt > /etc/dhparam
-# RUN chown nobody /etc/dhparam
+# RUN chown www /etc/dhparam
 
 ENTRYPOINT ["/usr/local/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
