@@ -37,5 +37,5 @@ sudo systemctl restart systemd-journald
 
 # Restart a daemon and start both siad nodes
 systemctl --user daemon-reload
-systemctl --user start siad
-systemctl --user start siad-upload
+systemctl --user enable siad --now
+systemctl --user enable siad-upload --now
