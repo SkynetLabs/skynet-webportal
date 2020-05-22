@@ -23,6 +23,7 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./public:/etc/nginx/html/client
       - ./docker/data/nginx/cache:/data/nginx/cache
+      - ./docker/data/nginx/resty-auto-ssl:/etc/resty-auto-ssl
     networks:
       - shared
     ports:
