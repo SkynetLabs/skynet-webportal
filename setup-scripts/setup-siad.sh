@@ -44,7 +44,9 @@ systemctl --user enable siad
 systemctl --user enable siad-upload
 
 # download siastats bootstrap (consensus and transactionpool) and apply it
-wget -ncq -O ~/consensus.zip https://siastats.info/bootstrap/bootstrap.zip
+if ! [ -f ~/consensus.zip ]; then
+    curl https://siastats.info/bootstrap/bootstrap.zip -o ~/consensus.zip
+fi
 unzip -o ~/consensus.zip -d ~/siad
 unzip -o ~/consensus.zip -d ~/siad-upload
 
