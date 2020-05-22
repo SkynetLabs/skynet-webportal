@@ -5,7 +5,7 @@ set -e # exit on first error
 # Install Go 1.13.7.
 wget -c https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/go/bin:/home/user/go/bin
 rm go1.13.7.linux-amd64.tar.gz
 
 # Sanity check that will pass if go was installed correctly.

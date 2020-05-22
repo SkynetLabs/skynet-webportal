@@ -7,11 +7,10 @@ sudo apt-get update
 sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim
 
 # Setup firewall
-# TODO: disable plain HTTP eventually
-# sudo ufw enable
-# sudo ufw allow ssh
-# sudo ufw allow 'Nginx Full'
-# sudo ufw allow 'Nginx HTTP'
+sudo ufw --force enable
+sudo ufw allow ssh
+sudo ufw allow 80,443/tcp
+sudo ufw allow proto tcp from any to 172.0.0.0/8 port 9970,9980
 
 # Install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
