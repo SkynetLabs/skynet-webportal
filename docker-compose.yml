@@ -20,7 +20,7 @@ services:
     container_name: nginx
     restart: on-failure
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./public:/etc/nginx/html/client
       - ./docker/data/nginx/cache:/data/nginx/cache
