@@ -25,7 +25,7 @@ services:
       - ./public:/etc/nginx/html/client
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/resty-auto-ssl:/etc/resty-auto-ssl
-      - $HOME/.sia/apipassword:/etc/.sia/apipassword
+      - /home/user/.sia/apipassword:/etc/.sia/apipassword:ro
     networks:
       - shared
     ports:
