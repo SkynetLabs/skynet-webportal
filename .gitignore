@@ -74,3 +74,6 @@ cypress/videos
 
 # Docker data
 docker/data
+
+# Cache files
+__pycache__
