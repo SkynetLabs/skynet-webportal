@@ -21,6 +21,7 @@ sudo ufw --force enable
 sudo ufw allow ssh
 sudo ufw allow 80,443/tcp
 sudo ufw allow proto tcp from any to 172.0.0.0/8 port 9970,9980
+sudo ufw allow proto tcp from any to 192.168.0.0/16 port 9970,9980
 
 # Install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
