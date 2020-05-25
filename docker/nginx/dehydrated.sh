@@ -1,0 +1,1 @@
+CHALLENGETYPE="dns-01"
