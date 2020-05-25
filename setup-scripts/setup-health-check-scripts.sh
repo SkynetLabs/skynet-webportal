@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
-set -e
+
+set -e # exit on first error
 
 sudo apt-get update
 sudo apt-get -y install python3-pip

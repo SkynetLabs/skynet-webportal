@@ -30,8 +30,9 @@ mkdir -p ~/siad-upload
 
 # Setup files for storing environment variables
 mkdir -p ~/.sia
-cp setup-scripts/sia.env ~/.sia/
-cp setup-scripts/sia-upload.env ~/.sia/
+# use -n flag to not override because these files store wallet information
+cp -n setup-scripts/sia.env ~/.sia/sia.env
+cp -n setup-scripts/sia-upload.env ~/.sia/sia-upload.env
 
 # Setup persistent journal
 sudo mkdir -p /var/log/journal

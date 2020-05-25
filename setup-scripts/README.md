@@ -11,40 +11,38 @@ that we are working with a Debian Buster Minimal system or similar.
 You may want to fork this repository and add your ssh pubkey to
 `authorized_keys` and optionally edit the `tmux` and `bash` configurations.
 
-NOTE: nginx version 1.11.0 or higher is required.
-If you use the install script below, the correct version should be installed.
+### Step 1: setting up server user
 
-0. SSH in a freshly installed Debian machine.
-1. `apt-get update && apt-get install sudo`
-1. `adduser user`
-1. `usermod -a -G sudo user`
-1. Quit the ssh session.
+1. SSH in a freshly installed Debian machine.
+2. `apt-get update && apt-get install sudo`
+3. `adduser user`
+4. `usermod -a -G sudo user`
+5. Quit the ssh session.
 
 You a can now ssh into your machine as the user `user`.
 
-5. On your local machine: `ssh-copy-id user@ip-addr`
-6. On your local machine: `ssh user@ip-addr`
-7. Now logged in as `user`: `sudo apt-get install git`
-8. `git clone https://github.com/NebulousLabs/skynet-webportal`
-9. `cd skynet-webportal/setup-scripts`
-10. `./setup.sh`
-11. Once DNS records are set you can run: `./letsencrypt-setup.sh`
-12. This should edit your nginx configuration for you. If not, you should check
-    that keys were created by letsencrypt in `/etc/letsencrypt/live/` and add
-    the following lines into your nginx configuration. Make sure to replace
-    `YOUR-DOMAIN` with your domain name.
-    ```
-    ssl_certificate /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem;
-    ```
-13. Finally make sure to check your nginx conf and reload nginx:
-    `sudo nginx -t`
-    `sudo systemctl reload nginx`
+### Step 2: setting up environment
+
+1. On your local machine: `ssh-copy-id user@ip-addr`
+2. On your local machine: `ssh user@ip-addr`
+3. Now logged in as `user`
+
+**Following step will be executed on remote host logged in as a `user`:**
+
+1. `sudo apt-get install git`
+2. `git clone https://github.com/NebulousLabs/skynet-webportal`
+3. `cd skynet-webportal`
+4. edit `docker/nginx/conf.d/client.conf` line `server_name siasky.dev;` and replace `siasky.dev` with your domain name - it will be required for the SSL to generate successfully
+5. run setup scripts in the exact order, if one of them fails, you can retry just this one before proceesing
+   1. `setup-scripts/setup-server.sh`
+   2. `setup-scripts/setup-siad.sh`
+   3. `setup-scripts/setup-client.sh`
+   4. `setup-scripts/setup-health-check-scripts.sh`
 
 ## Running siad
 
 NOTE: You must be running `siad` and `siac` by building from a version at least
-as recent as `v1.4.4`.
+as recent as `v1.4.8`.
 
 You still need to setup `siad` for the backend to be complete.
 
@@ -82,16 +80,12 @@ To enable the 2nd service: `systemctl --user enable siad-upload.service`
 
 ### Useful Commands
 
-To start the service: `systemctl --user start siad`
-
-To stop it: `systemctl --user stop siad`
-
-To check the status of it: `systemctl --user status siad`
-
-To check standard err/standard out: `journalctl --user-unit siad`. In addition you can add:
-
-- `-r` to view journal from the newest entry
-- `-f` to follow and `-n INTEGER` to specify number of lines
+- To start the service: `systemctl --user start siad`
+- To stop it: `systemctl --user stop siad`
+- To check the status of it: `systemctl --user status siad`
+- To check standard err/standard out: `journalctl --user-unit siad`. In addition you can add:
+  - `-f` to follow and `-n INTEGER` to specify number of lines
+  - `-r` to reverse the log and view journal starting from the newest entry
 
 ## Portal Setup
 
@@ -110,8 +104,9 @@ below:
 - default redundancy
 
 Once your allowance is set you need to set your node to be a viewnode with the
-following command:
-`siac renter setallowance --payment-contract-initial-funding 10SC`
+following command (just on the download node if you are using two-node setup):
+
+> `siac renter setallowance --payment-contract-initial-funding 10SC`
 
 Now your node will begin making 10 contracts per block with many hosts so it can
 potentially view the whole network's files.
@@ -127,7 +122,7 @@ You can check that with `node -v` and `yarn -v` commands respectively.
 
 Client package will be outputted to `/public` and nginx configuration will pick it up automatically.
 
-## Health Check Scripts.
+## Health Check Scripts
 
 There are 2 optional health check scripts that can be setup using
 `setup-health-check-scripts.sh`. That command will install the necesary Python
