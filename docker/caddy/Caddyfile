@@ -2,7 +2,7 @@
     debug
 }
 
-siasky.dev {
+localhost {
     root * /home/user/public_html
     file_server
     encode zstd gzip
@@ -21,7 +21,7 @@ siasky.dev {
 
     reverse_proxy /stats nginx:80
     reverse_proxy /statsdown nginx:80
-    reverse_proxy /skynet/skyfile nginx:80
+    reverse_proxy /skynet/skyfile/ nginx:80
     reverse_proxy @skylink nginx:80
     reverse_proxy @skylink_file nginx:80
 }
