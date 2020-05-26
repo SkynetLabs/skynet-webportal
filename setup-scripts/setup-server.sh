@@ -17,19 +17,12 @@ sudo apt-get update
 sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip
 
 # Setup firewall
-sudo ufw --force enable
-sudo ufw allow ssh
-sudo ufw allow 80,443/tcp
-sudo ufw allow proto tcp from any to 172.0.0.0/8 port 9970,9980
-sudo ufw allow proto tcp from any to 192.168.0.0/16 port 9970,9980
-
-# Install homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-sudo apt-get install -y build-essential node yarn
-
-# add brew to PATH and persist it in /etc/profile
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-/home/linuxbrew/.linuxbrew/bin/brew shellenv | sudo tee /etc/profile.d/brew_path.sh
+sudo ufw --force enable # --force to make it non-interactive
+sudo ufw logging low # enable logging for debugging purpose: tail -f /var/log/ufw.log
+sudo ufw allow ssh # allow ssh connection to server
+sudo ufw allow 80,443/tcp # allow http and https ports
+sudo ufw allow proto tcp from any to 172.0.0.0/8 port 9970,9980 # expose siad api ports to local network
+sudo ufw allow proto tcp from any to 192.168.0.0/16 port 9970,9980 # expose siad api ports to local network
 
 # Setup periodical /tmp cleanup so we don't run out of disk space
 # - deletes anything older than 10 days from /tmp, crontab is set to run it every day at midnight

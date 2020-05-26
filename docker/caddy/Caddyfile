@@ -25,6 +25,9 @@
 	    path_regexp skylink_file ^/file/([a-zA-Z0-9-_]{46}(/.*)?)$
     }
 
+    reverse_proxy /portals nginx:80 {
+        header_up User-Agent Sia-Agent;
+    }
     reverse_proxy /stats nginx:80 {
         header_up User-Agent Sia-Agent;
     }

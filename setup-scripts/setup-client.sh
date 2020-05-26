@@ -17,9 +17,5 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version # sanity check
 
-# Install dependencies and build production bundle
-yarn --frozen-lockfile
-yarn build
-
 # Start docker container with nginx and client
 sudo docker-compose -f docker-compose.yml up --build -d
