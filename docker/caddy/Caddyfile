@@ -1,0 +1,27 @@
+{
+    debug
+}
+
+siasky.dev {
+    root * /home/user/public_html
+    file_server
+    encode zstd gzip
+
+    # tls {
+    #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+    # }
+
+    @skylink {
+	    path_regexp skylink ^/([a-zA-Z0-9-_]{46}(/.*)?)$
+    }
+
+    @skylink_file {
+	    path_regexp skylink_file ^/file/([a-zA-Z0-9-_]{46}(/.*)?)$
+    }
+
+    reverse_proxy /stats nginx:80
+    reverse_proxy /statsdown nginx:80
+    reverse_proxy /skynet/skyfile nginx:80
+    reverse_proxy @skylink nginx:80
+    reverse_proxy @skylink_file nginx:80
+}
