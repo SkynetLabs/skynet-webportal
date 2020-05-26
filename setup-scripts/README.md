@@ -17,7 +17,8 @@ You may want to fork this repository and add your ssh pubkey to
 2. `apt-get update && apt-get install sudo`
 3. `adduser user`
 4. `usermod -a -G sudo user`
-5. Quit the ssh session.
+5. `usermod -a -G systemd-journal user`
+6. Quit the ssh session.
 
 You a can now ssh into your machine as the user `user`.
 
