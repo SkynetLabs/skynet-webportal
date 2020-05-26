@@ -2,7 +2,7 @@
     debug
 }
 
-siasky.dev {
+{env.HOSTNAME} {
     root * /home/user/public_html
     file_server
     encode zstd gzip
@@ -33,9 +33,11 @@ siasky.dev {
     }
     reverse_proxy @skylink nginx:80 {
         header_up User-Agent Sia-Agent;
+        header_up Access-Control-Expose-Headers skynet-file-metadata;
     }
     reverse_proxy @skylink_file nginx:80 {
         header_up User-Agent Sia-Agent;
+        header_up Access-Control-Expose-Headers skynet-file-metadata;
     }
     reverse_proxy /skynet/skyfile/ nginx:80 {
         header_up User-Agent Sia-Agent;

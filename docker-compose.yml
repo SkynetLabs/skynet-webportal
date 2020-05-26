@@ -59,21 +59,12 @@ services:
     restart: on-failure
     volumes:
       - public:/etc/nginx/html/client
-      # - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-      # - ./docker/nginx/ffdhe2048.txt:/etc/nginx/ffdhe2048.txt:ro
-      # - ./docker/resty-auto-ssl/dehydrated.sh:/etc/resty-auto-ssl/letsencrypt/conf.d/dehydrated.sh
-      # - ./docker/resty-auto-ssl/hooks/cloudfront.sh:/etc/resty-auto-ssl/hooks/cloudfront.sh:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
-      # - ./docker/data/resty-auto-ssl:/etc/resty-auto-ssl
-      # - /home/user/.sia/apipassword:/etc/.sia/apipassword:ro
     networks:
       - shared
     expose:
       - 80
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
     depends_on:
       - docker-host
       - node
