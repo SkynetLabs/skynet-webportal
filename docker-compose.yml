@@ -21,7 +21,7 @@ services:
   node:
     build:
       context: .
-      dockerfile: Dockerfile.node
+      dockerfile: ./docker/node/Dockerfile
     container_name: node
     restart: on-failure
     tty: true
@@ -31,7 +31,7 @@ services:
   caddy:
     build:
       context: .
-      dockerfile: Dockerfile.caddy
+      dockerfile: ./docker/caddy/Dockerfile
     container_name: caddy
     restart: on-failure
     env_file:
@@ -52,9 +52,7 @@ services:
       - node
 
   nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
+    image: openresty/openresty:1.15.8.3-2-xenial
     container_name: nginx
     restart: on-failure
     volumes:
