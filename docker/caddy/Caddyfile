@@ -2,7 +2,7 @@
     debug
 }
 
-localhost {
+siasky.dev {
     root * /home/user/public_html
     file_server
     encode zstd gzip
