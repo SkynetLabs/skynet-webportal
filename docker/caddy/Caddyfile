@@ -21,7 +21,9 @@ localhost {
 
     reverse_proxy /stats nginx:80
     reverse_proxy /statsdown nginx:80
-    reverse_proxy /skynet/skyfile/ nginx:80
     reverse_proxy @skylink nginx:80
     reverse_proxy @skylink_file nginx:80
+    reverse_proxy /skynet/skyfile/ nginx:80 {
+        header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
+    }
 }
