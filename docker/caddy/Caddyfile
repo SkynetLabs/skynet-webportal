@@ -1,31 +1,33 @@
 # TODO: this redirect is not needed here I think
 # I will test it out and remove if needed
-:80 {
-  redir https://siasky.net{uri} permanent
-}
+# :80 {
+#     redir https://siasky.net{uri} permanent
+# }
 
 # :443 with self signed tls is required by cloudfront loadbalancer
-:443 {
-  tls internal {
-    on_demand
-  }
-  respond "ok"
-}
+# :443 {
+#     tls internal {
+#         on_demand
+#     }
+#     respond "ok"
+# }
 
 {env.HOSTNAME} {
     root * /home/user/public_html
     file_server
     encode zstd gzip
 
-    # TODO: confirm whether this CORS header is required
-    # header {
-    #     Access-Control-Allow-Origin *;
-    # }
+    @options {
+	    method OPTIONS
+    }
 
-    # TODO: enable once we have cloudflare auth token available
-    # tls {
-    #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
-    # }
+    @get {
+        method GET
+    }
+
+    @post {
+        method POST
+    }
 
     @skylink {
 	    path_regexp skylink ^/([a-zA-Z0-9-_]{46}(/.*)?)$
@@ -34,6 +36,34 @@
     @skylink_file {
 	    path_regexp skylink_file ^/file/([a-zA-Z0-9-_]{46}(/.*)?)$
     }
+
+    header @get {
+        Access-Control-Allow-Origin *;
+        Access-Control-Allow-Methods GET, POST, OPTIONS;
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
+        Access-Control-Expose-Headers Content-Length,Content-Range;
+    }
+
+    header @post {
+        Access-Control-Allow-Origin *;
+        Access-Control-Allow-Methods GET, POST, OPTIONS;
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
+        Access-Control-Expose-Headers Content-Length,Content-Range;
+    }
+
+    header @options {
+        Access-Control-Allow-Origin *;
+        Access-Control-Allow-Methods GET,POST,OPTIONS;
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
+        Access-Control-Max-Age 1728000;
+        Content-Type "text/plain; charset=utf-8";
+        Content-Length 0;
+        respond 204;
+    }
+
+    # tls {
+    #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+    # }
 
     reverse_proxy /portals nginx:80 {
         header_up User-Agent Sia-Agent;
