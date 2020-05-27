@@ -37,3 +37,6 @@ rm alacritty.info
 
 # Set up file limits - siad uses a lot so we need to adjust so it doesn't choke up
 sudo cp setup-scripts/limits.conf /etc/security/limits.conf
+
+# Enable lingering services, it prevents services shutdown when you log out of the server
+loginctl enable-linger user
