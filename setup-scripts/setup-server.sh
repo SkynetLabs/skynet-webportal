@@ -14,7 +14,7 @@ cat setup-scripts/authorized_keys >>  ~/.ssh/authorized_keys
 
 # Install apt packages
 sudo apt-get update
-sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip
+sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip curl
 
 # Setup firewall
 sudo ufw --force enable # --force to make it non-interactive
