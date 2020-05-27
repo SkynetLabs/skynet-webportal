@@ -3,14 +3,14 @@
 set -e # exit on first error
 
 # Copy over basic configuration files
-cp react-scripts/tmux.conf ~/.tmux.conf
-cp react-scripts/bashrc ~/.bashrc
+cp setup-scripts/tmux.conf ~/.tmux.conf
+cp setup-scripts/bashrc ~/.bashrc
 source ~/.bashrc
 
 # Add SSH keys and set SSH configs
-sudo cp react-scripts/ssh_config /etc/ssh/ssh_config
+sudo cp setup-scripts/ssh_config /etc/ssh/ssh_config
 mkdir -p ~/.ssh
-cat react-scripts/authorized_keys >>  ~/.ssh/authorized_keys
+cat setup-scripts/authorized_keys >>  ~/.ssh/authorized_keys
 
 # Install apt packages
 sudo apt-get update
