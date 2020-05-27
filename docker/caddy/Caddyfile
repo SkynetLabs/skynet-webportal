@@ -37,28 +37,12 @@
 	    path_regexp skylink_file ^/file/([a-zA-Z0-9-_]{46}(/.*)?)$
     }
 
-    # header @get {
-    #     Access-Control-Allow-Origin *
-    #     Access-Control-Allow-Methods GET, POST, OPTIONS
-    #     Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
-    #     Access-Control-Expose-Headers Content-Length,Content-Range
-    # }
-
-    # header @post {
-    #     Access-Control-Allow-Origin *
-    #     Access-Control-Allow-Methods GET, POST, OPTIONS
-    #     Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
-    #     Access-Control-Expose-Headers Content-Length,Content-Range
-    # }
-
-    header @options {
-        Access-Control-Allow-Origin *
-        Access-Control-Allow-Methods GET,POST,OPTIONS
-        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
-        Access-Control-Max-Age 1728000
+    respond @options 204 {
+        header_up Access-Control-Allow-Origin *
+        header_up Access-Control-Allow-Methods GET,POST,OPTIONS
+        header_up Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+        header_up Access-Control-Max-Age 1728000
     }
-
-    respond @options 204
 
     # tls {
     #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
