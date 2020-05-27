@@ -38,27 +38,27 @@
     }
 
     header @get {
-        Access-Control-Allow-Origin *;
-        Access-Control-Allow-Methods GET, POST, OPTIONS;
-        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
-        Access-Control-Expose-Headers Content-Length,Content-Range;
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods GET, POST, OPTIONS
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+        Access-Control-Expose-Headers Content-Length,Content-Range
     }
 
     header @post {
-        Access-Control-Allow-Origin *;
-        Access-Control-Allow-Methods GET, POST, OPTIONS;
-        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
-        Access-Control-Expose-Headers Content-Length,Content-Range;
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods GET, POST, OPTIONS
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+        Access-Control-Expose-Headers Content-Length,Content-Range
     }
 
     header @options {
-        Access-Control-Allow-Origin *;
-        Access-Control-Allow-Methods GET,POST,OPTIONS;
-        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
-        Access-Control-Max-Age 1728000;
-        Content-Type "text/plain; charset=utf-8";
-        Content-Length 0;
-        respond 204;
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods GET,POST,OPTIONS
+        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+        Access-Control-Max-Age 1728000
+        Content-Type "text/plain; charset=utf-8"
+        Content-Length 0
+        respond 204
     }
 
     # tls {
@@ -66,24 +66,24 @@
     # }
 
     reverse_proxy /portals nginx:80 {
-        header_up User-Agent Sia-Agent;
+        header_up User-Agent Sia-Agent
     }
     reverse_proxy /stats nginx:80 {
-        header_up User-Agent Sia-Agent;
+        header_up User-Agent Sia-Agent
     }
     reverse_proxy /statsdown nginx:80 {
-        header_up User-Agent Sia-Agent;
+        header_up User-Agent Sia-Agent
     }
     reverse_proxy @skylink nginx:80 {
-        header_up User-Agent Sia-Agent;
-        header_up Access-Control-Expose-Headers skynet-file-metadata;
+        header_up User-Agent Sia-Agent
+        header_up Access-Control-Expose-Headers skynet-file-metadata
     }
     reverse_proxy @skylink_file nginx:80 {
-        header_up User-Agent Sia-Agent;
-        header_up Access-Control-Expose-Headers skynet-file-metadata;
+        header_up User-Agent Sia-Agent
+        header_up Access-Control-Expose-Headers skynet-file-metadata
     }
     reverse_proxy /skynet/skyfile/ nginx:80 {
-        header_up User-Agent Sia-Agent;
+        header_up User-Agent Sia-Agent
         header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
     }
 }
