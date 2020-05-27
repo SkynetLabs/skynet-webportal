@@ -45,7 +45,7 @@
     }
 
     header @post {
-        # Access-Control-Allow-Origin *
+        Access-Control-Allow-Origin *
         Access-Control-Allow-Methods GET, POST, OPTIONS
         Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
         Access-Control-Expose-Headers Content-Length,Content-Range
@@ -56,10 +56,9 @@
         Access-Control-Allow-Methods GET,POST,OPTIONS
         Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
         Access-Control-Max-Age 1728000
-        Content-Type "text/plain; charset=utf-8"
-        Content-Length 0
-        respond 204
     }
+
+    respond @options 204
 
     # tls {
     #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
