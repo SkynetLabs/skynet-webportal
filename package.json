@@ -33,7 +33,7 @@
     "react-visibility-sensor": "^5.1.1"
   },
   "devDependencies": {
-    "cypress": "^4.6.0",
+    "cypress": "^4.7.0",
     "cypress-file-upload": "^4.0.7",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
