@@ -23,8 +23,6 @@ services:
       context: .
       dockerfile: ./docker/node/Dockerfile
     container_name: node
-    restart: on-failure
-    tty: true
     volumes:
       - public:/usr/app/public
 
