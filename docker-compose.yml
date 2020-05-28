@@ -4,9 +4,6 @@ networks:
   shared:
     driver: bridge
 
-volumes:
-  public:
-
 services:
   docker-host:
     image: qoomon/docker-host
@@ -18,15 +15,6 @@ services:
     networks:
       - shared
 
-  node:
-    build:
-      context: .
-      dockerfile: ./docker/node/Dockerfile
-    container_name: node
-    tty: true
-    volumes:
-      - public:/usr/app/public
-
   caddy:
     build:
       context: .
@@ -36,7 +24,6 @@ services:
     env_file:
       - .env
     volumes:
-      - public:/home/user/public_html:ro
       - ./docker/data/caddy/data:/data
       - ./docker/data/caddy/config:/config
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
@@ -48,7 +35,6 @@ services:
     depends_on:
       - docker-host
       - nginx
-      - node
 
   nginx:
     image: openresty/openresty:1.15.8.3-2-xenial
@@ -63,7 +49,6 @@ services:
       - 80
     depends_on:
       - docker-host
-      - node
   # server:
   #   build:
   #     context: .
