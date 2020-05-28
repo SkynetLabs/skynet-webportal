@@ -1,9 +1,3 @@
-# TODO: this redirect is not needed here I think
-# I will test it out and remove if needed
-# :80 {
-#     redir https://siasky.net{uri} permanent
-# }
-
 # :443 with self signed tls is required by cloudfront loadbalancer
 # :443 {
 #     tls internal {
