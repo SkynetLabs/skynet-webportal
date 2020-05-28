@@ -41,24 +41,46 @@
     }
     respond @options 204
 
+    @get {
+	    method GET
+    }
+
+    @post {
+	    method POST
+    }
+
+    header @get {
+        Access-Control-Allow-Origin *
+    }
+
+    header @post {
+        Access-Control-Allow-Origin *
+    }
+
     reverse_proxy /portals nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
     }
     reverse_proxy /stats nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
     }
     reverse_proxy /statsdown nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
     }
     reverse_proxy @skylink nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Access-Control-Expose-Headers skynet-file-metadata
     }
     reverse_proxy @skylink_file nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Access-Control-Expose-Headers skynet-file-metadata
     }
-    reverse_proxy /skynet/skyfile/ nginx:80 {
+    reverse_proxy /skynet/skyfile nginx:80 {
+        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
     }
