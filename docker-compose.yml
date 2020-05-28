@@ -23,6 +23,7 @@ services:
       context: .
       dockerfile: ./docker/node/Dockerfile
     container_name: node
+    tty: true
     volumes:
       - public:/usr/app/public
 
@@ -35,7 +36,7 @@ services:
     env_file:
       - .env
     volumes:
-      - public:/home/user/public_html
+      - public:/home/user/public_html:ro
       - ./docker/data/caddy/data:/data
       - ./docker/data/caddy/config:/config
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
@@ -54,7 +55,6 @@ services:
     container_name: nginx
     restart: on-failure
     volumes:
-      - public:/etc/nginx/html/client
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
     networks:
