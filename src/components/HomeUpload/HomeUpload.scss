@@ -245,4 +245,31 @@
       border-color: $green;
     }
   }
+
+  &.invalid {
+    input {
+      border-color: $red;
+    }
+
+    input:hover,
+    input:hover + button {
+      border-color: $red;
+    }
+
+    input:focus,
+    input:focus + button {
+      border-color: $red;
+    }
+
+    button {
+      border-color: $red;
+
+      &:hover {
+        background: $red;
+        // color: #cbd3cd;
+        border-color: $red;
+        // cursor: auto;
+      }
+    }
+  }
 }

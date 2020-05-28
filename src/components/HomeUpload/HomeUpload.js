@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
+import bytes from "bytes";
 import classNames from "classnames";
+import HttpStatus from "http-status-codes";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import Reveal from "react-reveal/Reveal";
@@ -7,12 +9,69 @@ import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";
 import AppContext from "../../AppContext";
-import axios from "axios";
+import SkynetClient, { parseSkylink } from "skynet-js";
+
+const isValidSkylink = (skylink) => {
+  try {
+    parseSkylink(skylink); // try to parse the skylink, it will throw on error
+  } catch (error) {
+    return false;
+  }
+
+  return true;
+};
+
+const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
+
+const getRelativeFilePath = (file) => {
+  const filePath = getFilePath(file);
+  const { root, dir, base } = path.parse(filePath);
+  const relative = path.normalize(dir).slice(root.length).split(path.sep).slice(1);
+
+  return path.join(...relative, base);
+};
+
+const getRootDirectory = (file) => {
+  const filePath = getFilePath(file);
+  const { root, dir } = path.parse(filePath);
+
+  return path.normalize(dir).slice(root.length).split(path.sep)[0];
+};
+
+const createUploadErrorMessage = (error) => {
+  // The request was made and the server responded with a status code that falls out of the range of 2xx
+  if (error.response) {
+    if (error.response.data.message) {
+      return `Upload failed with error: ${error.response.data.message}`;
+    }
+
+    const statusCode = error.response.status;
+    const statusText = HttpStatus.getStatusText(error.response.status);
+
+    return `Upload failed, our server received your request but failed with status code: ${statusCode} ${statusText}`;
+  }
+
+  // The request was made but no response was received. The best we can do is detect whether browser is online.
+  // This will be triggered mostly if the server is offline or misconfigured and doesn't respond to valid request.
+  if (error.request) {
+    if (!navigator.onLine) {
+      return "You are offline, please connect to the internet and try again";
+    }
+
+    // TODO: We should add a note "our team has been notified" and have some kind of notification with this error.
+    return "Server failed to respond to your request, please try again later.";
+  }
+
+  // TODO: We should add a note "our team has been notified" and have some kind of notification with this error.
+  return `Critical error, please refresh the application and try again. ${error.message}`;
+};
 
 export default function HomeUpload() {
   const [files, setFiles] = useState([]);
+  const [skylink, setSkylink] = useState("");
   const { apiUrl } = useContext(AppContext);
   const [directoryMode, setDirectoryMode] = useState(false);
+  const client = new SkynetClient(apiUrl);
 
   useEffect(() => {
     if (directoryMode) {
@@ -21,23 +80,6 @@ export default function HomeUpload() {
       inputRef.current.removeAttribute("webkitdirectory");
     }
   }, [directoryMode]);
-
-  const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
-
-  const getRelativeFilePath = (file) => {
-    const filePath = getFilePath(file);
-    const { root, dir, base } = path.parse(filePath);
-    const relative = path.normalize(dir).slice(root.length).split(path.sep).slice(1);
-
-    return path.join(...relative, base);
-  };
-
-  const getRootDirectory = (file) => {
-    const filePath = getFilePath(file);
-    const { root, dir } = path.parse(filePath);
-
-    return path.normalize(dir).slice(root.length).split(path.sep)[0];
-  };
 
   const handleDrop = async (acceptedFiles) => {
     if (directoryMode && acceptedFiles.length) {
@@ -63,39 +105,35 @@ export default function HomeUpload() {
       });
     };
 
-    const upload = async (formData, directory, file) => {
-      const uploadUrl = `${apiUrl}/skynet/skyfile/${directory ? `?filename=${encodeURIComponent(directory)}` : ""}`;
-      const { data } = await axios.post(uploadUrl, formData, {
-        onUploadProgress: ({ loaded, total }) => {
-          const progress = loaded / total;
-          const status = progress === 1 ? "processing" : "uploading";
-
-          onFileStateChange(file, { status, progress });
-        },
-      });
-
-      return data;
-    };
-
     acceptedFiles.forEach(async (file) => {
+      const onUploadProgress = ({ loaded, total }) => {
+        const progress = loaded / total;
+        const status = progress === 1 ? "processing" : "uploading";
+
+        onFileStateChange(file, { status, progress });
+      };
+
+      // Reject files larger than our hard limit of 1 GB with proper message
+      if (file.size > bytes("1 GB")) {
+        onFileStateChange(file, { status: "error", error: "This file size exceeds the maximum allowed size of 1 GB." });
+
+        return;
+      }
+
       try {
-        const formData = new FormData();
+        let response;
 
         if (file.directory) {
-          file.files.forEach((directoryFile) => {
-            const relativeFilePath = getRelativeFilePath(directoryFile);
+          const directory = file.files.reduce((acc, file) => ({ ...acc, [getRelativeFilePath(file)]: file }), {});
 
-            formData.append("files[]", directoryFile, relativeFilePath);
-          });
+          response = await client.uploadDirectory(directory, encodeURIComponent(file.name), { onUploadProgress });
         } else {
-          formData.append("file", file);
+          response = await client.upload(file, { onUploadProgress });
         }
 
-        const { skylink } = await upload(formData, directoryMode && file.name, file);
-
-        onFileStateChange(file, { status: "complete", url: `${apiUrl}/${skylink}` });
+        onFileStateChange(file, { status: "complete", url: client.getUrl(response.skylink) });
       } catch (error) {
-        onFileStateChange(file, { status: "error" });
+        onFileStateChange(file, { status: "error", error: createUploadErrorMessage(error) });
       }
     });
   };
@@ -105,10 +143,9 @@ export default function HomeUpload() {
   const handleSkylink = (event) => {
     event.preventDefault();
 
-    const skylink = event.target.skylink.value.replace("sia://", "");
-
-    if (skylink.match(/^[a-zA-Z0-9_-]{46}$/)) {
-      window.open(skylink, "_blank");
+    // only try to open a valid skylink
+    if (isValidSkylink(skylink)) {
+      client.open(skylink);
     }
   };
 
@@ -163,8 +200,17 @@ export default function HomeUpload() {
                 <h3 id="skylink-retrieve-title">Have a Skylink?</h3>
                 <p>Paste the link to retrieve your file</p>
 
-                <form className="home-upload-retrieve-form" onSubmit={handleSkylink}>
-                  <input name="skylink" type="text" placeholder="sia://" aria-labelledby="skylink-retrieve-title" />
+                <form
+                  className={classNames("home-upload-retrieve-form", { invalid: skylink && !isValidSkylink(skylink) })}
+                  onSubmit={handleSkylink}
+                >
+                  <input
+                    name="skylink"
+                    type="text"
+                    placeholder="sia://"
+                    aria-labelledby="skylink-retrieve-title"
+                    onChange={(event) => setSkylink(event.target.value)}
+                  />
                   <button type="submit" aria-label="Retrieve file">
                     <DownArrow />
                   </button>
