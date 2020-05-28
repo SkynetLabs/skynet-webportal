@@ -16,6 +16,10 @@ cat setup-scripts/authorized_keys >>  ~/.ssh/authorized_keys
 sudo apt-get update
 sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip curl
 
+# Setup GIT credentials (so commands like git stash would work)
+git config --global user.email "devs@nebulous.tech"
+git config --global user.name "Sia Dev"
+
 # Setup firewall
 sudo ufw --force enable # --force to make it non-interactive
 sudo ufw logging low # enable logging for debugging purpose: tail -f /var/log/ufw.log

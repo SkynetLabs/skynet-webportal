@@ -9,7 +9,7 @@
 #     tls internal {
 #         on_demand
 #     }
-#     respond "ok"
+#     respond 200
 # }
 
 {env.HOSTNAME} {
