@@ -36,6 +36,14 @@ export default function UploadFile({ file, url, status, progress, error }) {
   };
 
   const copyText = copied ? "Copied!" : "Copy to clipboard";
+  const getProgressText = (progress) => {
+    if (progress === -1) {
+      return "Waiting...";
+    } else if (progress > 0) {
+      return `Uploading ${Math.round(progress * 100)}%`;
+    }
+    return "Uploading...";
+  };
 
   return (
     <div className="upload-file">
@@ -43,7 +51,7 @@ export default function UploadFile({ file, url, status, progress, error }) {
       <div className="upload-file-text">
         <h3>{file.name}</h3>
         <p>
-          {status === "uploading" && (progress ? `Uploading ${Math.round(progress * 100)}%` : "Uploading...")}
+          {status === "uploading" && getProgressText(progress)}
           {status === "processing" && "Processing..."}
           {status === "error" && <span className="red-text">{error || "Upload failed."}</span>}
           {status === "complete" && (
