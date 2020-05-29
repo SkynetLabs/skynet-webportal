@@ -16,56 +16,42 @@
     }
 
     # OPTIONS headers to allow CORS https://enable-cors.org
-    header @options {
-        Access-Control-Allow-Origin *
-        Access-Control-Allow-Methods GET,POST,OPTIONS
-        Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
-        Access-Control-Max-Age 1728000
-    }
-    respond @options 204
-
-    @get {
-	    method GET
-    }
-
-    @post {
-	    method POST
-    }
-
-    header @get {
-        Access-Control-Allow-Origin *
-    }
-
-    header @post {
-        Access-Control-Allow-Origin *
+    handle @options {
+        header {
+            Access-Control-Allow-Origin *
+            Access-Control-Allow-Methods GET,POST,OPTIONS
+            Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+            Access-Control-Max-Age 1728000
+        }
+        respond 204
     }
 
     reverse_proxy /portals nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
+        header_down Access-Control-Allow-Origin *
     }
     reverse_proxy /stats nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
+        header_down Access-Control-Allow-Origin *
     }
     reverse_proxy /statsdown nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
+        header_down Access-Control-Allow-Origin *
     }
     reverse_proxy @skylink nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Access-Control-Expose-Headers skynet-file-metadata
+        header_down Access-Control-Allow-Origin *
     }
     reverse_proxy @skylink_file nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Access-Control-Expose-Headers skynet-file-metadata
+        header_down Access-Control-Allow-Origin *
     }
     reverse_proxy /skynet/skyfile nginx:80 {
-        header_down Access-Control-Allow-Origin *
         header_up User-Agent Sia-Agent
         header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
+        header_down Access-Control-Allow-Origin *
     }
 }
 
