@@ -2,10 +2,14 @@
 
 set -e # exit on first error
 
-# Install Go 1.13.11
-wget -c https://dl.google.com/go/go1.13.11.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.13.11.linux-amd64.tar.gz
-rm go1.13.11.linux-amd64.tar.gz
+# Setup constants
+GO_VERSION=1.13.11
+SIA_VERSION=1.4.8
+
+# Install Go
+wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+rm go${GO_VERSION}.linux-amd64.tar.gz
 
 # add gopath to PATH and persist it in /etc/profile
 export PATH="${PATH}:/usr/local/go/bin:/home/user/go/bin"
@@ -16,7 +20,7 @@ go version
 
 # Install Sia
 rm -rf ~/Sia
-git clone --depth 1 -b v1.4.8 https://gitlab.com/NebulousLabs/Sia.git ~/Sia
+git clone --depth 1 -b v${SIA_VERSION} https://gitlab.com/NebulousLabs/Sia.git ~/Sia
 make --directory ~/Sia
 
 # Setup systemd files and restart daemon
