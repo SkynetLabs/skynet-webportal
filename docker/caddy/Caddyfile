@@ -1,18 +1,7 @@
-# :443 with self signed tls is required by cloudfront loadbalancer
-# :443 {
-#     tls internal {
-#         on_demand
-#     }
-#     respond 200
-# }
-
-{env.HOSTNAME} {
+(webserver) {
     root * /home/user/public_html
     file_server
     encode zstd gzip
-    # tls {
-    #     dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
-    # }
 
     @skylink {
 	    path_regexp skylink ^/([a-zA-Z0-9-_]{46}(/.*)?)$
@@ -79,3 +68,31 @@
         header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
     }
 }
+
+(siasky.net) {
+    siasky.net, *.siasky.net {
+        tls {
+            dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+        }
+        import webserver
+    }
+}
+
+(siasky.dev) {
+    siasky.dev {
+        tls {
+            dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+        }
+        import webserver
+    }
+}
+
+:443 {
+    tls internal {
+        on_demand
+    }
+    import webserver
+}
+
+# import siasky.dev
+# import siasky.net
