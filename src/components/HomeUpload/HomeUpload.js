@@ -105,7 +105,7 @@ export default function HomeUpload() {
       });
     };
 
-    acceptedFiles.forEach(async (file) => {
+    acceptedFiles.forEach((file) => {
       const onUploadProgress = ({ loaded, total }) => {
         const progress = loaded / total;
         const status = progress === 1 ? "processing" : "uploading";
@@ -120,21 +120,31 @@ export default function HomeUpload() {
         return;
       }
 
-      try {
-        let response;
+      const upload = async () => {
+        try {
+          let response;
 
-        if (file.directory) {
-          const directory = file.files.reduce((acc, file) => ({ ...acc, [getRelativeFilePath(file)]: file }), {});
+          if (file.directory) {
+            const directory = file.files.reduce((acc, file) => ({ ...acc, [getRelativeFilePath(file)]: file }), {});
 
-          response = await client.uploadDirectory(directory, encodeURIComponent(file.name), { onUploadProgress });
-        } else {
-          response = await client.upload(file, { onUploadProgress });
+            response = await client.uploadDirectory(directory, encodeURIComponent(file.name), { onUploadProgress });
+          } else {
+            response = await client.upload(file, { onUploadProgress });
+          }
+
+          onFileStateChange(file, { status: "complete", url: client.getUrl(response.skylink) });
+        } catch (error) {
+          if (error.response && error.response.status === HttpStatus.TOO_MANY_REQUESTS) {
+            onFileStateChange(file, { progress: -1 });
+
+            return new Promise((resolve) => setTimeout(() => resolve(upload()), 3000));
+          }
+
+          onFileStateChange(file, { status: "error", error: createUploadErrorMessage(error) });
         }
+      };
 
-        onFileStateChange(file, { status: "complete", url: client.getUrl(response.skylink) });
-      } catch (error) {
-        onFileStateChange(file, { status: "error", error: createUploadErrorMessage(error) });
-      }
+      upload();
     });
   };
 
