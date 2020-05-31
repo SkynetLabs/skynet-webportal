@@ -14167,10 +14167,10 @@ sisteransi@^1.0.4:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-skynet-js@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-0.0.5.tgz#f2bd8a70c50263d461486f490b3b3d0856d1e0d0"
-  integrity sha512-XJ2vWCe3PUsvKhebdgM3FGZxqkAtLBz6xQ3HSbwqNWJDgHtyKWwIBb6vE2GqSC684zBT1MfxlTPgxBkbpx8hpg==
+skynet-js@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-0.0.6.tgz#e7252c295c3a270169b8bdfcd9b60ef589d023bb"
+  integrity sha512-+9eezapUhMXZm3eQTLThd8cyayVRxYIPMZ76uN2hXRaj5CoXPxYz1EQHiF2W9ixYeaj/KCKqfnLJDB6H0EiyUA==
   dependencies:
     axios "^0.19.2"
     url-parse "^1.4.7"
