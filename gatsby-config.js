@@ -1,3 +1,5 @@
+const { defaultIcons } = require("gatsby-plugin-manifest/common");
+
 module.exports = {
   siteMetadata: {
     title: `Skynet`,
@@ -29,6 +31,17 @@ module.exports = {
         theme_color: `#f1f7f2`,
         display: `minimal-ui`,
         icon: `src/images/logo.svg`, // This path is relative to the root of the site.
+        icons: [
+          ...defaultIcons,
+          // when we're serving content from the portal on our pathnames that do not have
+          // favicon defined (basically all non-html content), we want the browsers to be
+          // able to fall back to favicon.ico (firefox does that)
+          {
+            src: `favicon.ico`,
+            sizes: `32x32`,
+            type: `image/x-icon`,
+          },
+        ],
       },
     },
     {
