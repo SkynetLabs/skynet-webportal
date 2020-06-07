@@ -52,8 +52,12 @@ systemctl --user enable siad-upload
 if ! [ -f ~/consensus.zip ]; then
     curl https://siastats.info/bootstrap/bootstrap.zip -o ~/consensus.zip
 fi
-unzip -o ~/consensus.zip -d ~/siad
-unzip -o ~/consensus.zip -d ~/siad-upload
+if ! [ -f ~/siad/consensus/consensus.db ]; then
+    unzip -o ~/consensus.zip -d ~/siad
+fi
+if ! [ -f ~/siad-upload/consensus/consensus.db ]; then
+    unzip -o ~/consensus.zip -d ~/siad-upload
+fi
 
 # start siad after the consesnsus has beed bootstraped
 systemctl --user start siad
