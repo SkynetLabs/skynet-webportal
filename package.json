@@ -7,7 +7,7 @@
     "axios": "^0.19.2",
     "bytes": "^3.1.0",
     "classnames": "^2.2.6",
-    "gatsby": "^2.22.15",
+    "gatsby": "^2.23.1",
     "gatsby-image": "^2.4.5",
     "gatsby-plugin-manifest": "^2.4.9",
     "gatsby-plugin-matomo": "^0.8.3",
@@ -38,12 +38,12 @@
   "devDependencies": {
     "cypress": "^4.7.0",
     "cypress-file-upload": "^4.0.7",
-    "eslint": "^7.1.0",
+    "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.7",
+    "lint-staged": "^10.2.9",
     "prettier": "^2.0.5"
   },
   "keywords": [
