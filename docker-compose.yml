@@ -43,6 +43,7 @@ services:
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
+      - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
     networks:
       - shared
     expose:
