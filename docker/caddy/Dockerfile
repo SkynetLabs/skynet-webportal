@@ -1,4 +1,4 @@
-FROM node:12.17.0 AS client-builder
+FROM node:12.18.0 AS client-builder
 
 COPY src ./src
 COPY static ./static
