@@ -15155,6 +15155,11 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
+typeface-metropolis@^0.0.74:
+  version "0.0.74"
+  resolved "https://registry.yarnpkg.com/typeface-metropolis/-/typeface-metropolis-0.0.74.tgz#4201ff1e3b86f55825eed53662c49dff54c461f3"
+  integrity sha512-8qJnWwD5GkFqoNkv0t068jXziJHoIayq7dNl9a0BRy30/VznqmEgrQWkMDG8KxH2hRXXAWZfayXM9L6sZEkaaw==
+
 typescript@^3.9.3:
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.3.tgz#d3ac8883a97c26139e42df5e93eeece33d610b8a"
