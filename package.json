@@ -27,16 +27,17 @@
     "react-countup": "^4.3.3",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
-    "react-helmet": "^6.0.0",
+    "react-helmet": "^6.1.0",
     "react-mailchimp-form": "^1.0.2",
     "react-mailchimp-subscribe": "^2.1.0",
     "react-reveal": "^1.2.2",
     "react-syntax-highlighter": "^12.2.1",
     "react-visibility-sensor": "^5.1.1",
-    "skynet-js": "^0.0.6"
+    "skynet-js": "^0.0.6",
+    "typeface-metropolis": "^0.0.74"
   },
   "devDependencies": {
-    "cypress": "^4.7.0",
+    "cypress": "^4.8.0",
     "cypress-file-upload": "^4.0.7",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
