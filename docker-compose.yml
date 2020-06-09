@@ -50,6 +50,27 @@ services:
       - 80
     depends_on:
       - docker-host
+
+  health-check:
+    build:
+      context: .
+      dockerfile: ./docker/health-check/Dockerfile
+    container_name: health-check
+    restart: on-failure
+    volumes:
+      - ./health-check:/usr/app/health-check
+      - ./docker/data/health-check/state:/usr/app/state
+    networks:
+      - shared
+    environment:
+      - PORTAL_URL=caddy
+      - HOSTNAME=health-check
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    expose:
+      - 3100
+    depends_on:
+      - docker-host
+      - caddy
   # server:
   #   build:
   #     context: .
