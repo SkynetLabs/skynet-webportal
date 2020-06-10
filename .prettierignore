@@ -1,4 +1,5 @@
-.cache
-package.json
-package-lock.json
-public
+/.cache
+/package.json
+/package-lock.json
+/public
+/docker/data
