@@ -4,7 +4,7 @@ set -e # exit on first error
 
 # Setup constants
 GO_VERSION=1.13.11
-SIA_VERSION=1.4.8
+SIA_VERSION=1.4.11
 
 # Install Go
 wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz

@@ -43,7 +43,7 @@ You a can now ssh into your machine as the user `user`.
 ## Running siad
 
 NOTE: You must be running `siad` and `siac` by building from a version at least
-as recent as `v1.4.8`.
+as recent as `v1.4.11`.
 
 You still need to setup `siad` for the backend to be complete.
 
