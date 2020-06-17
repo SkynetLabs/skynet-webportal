@@ -66,10 +66,10 @@
     }
 }
 
-(siasky.dev) {
-    siasky.dev {
-        tls {
-            dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+(custom.domain) {
+    {$DOMAIN_NAME} {
+        tls internal {
+            on_demand
         }
         import webserver
     }
@@ -82,5 +82,5 @@
     import webserver
 }
 
-# import siasky.dev
 # import siasky.net
+import custom.domain

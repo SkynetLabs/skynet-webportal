@@ -3,14 +3,14 @@
 set -e # exit on first error
 
 # Copy over basic configuration files
-cp setup-scripts/tmux.conf ~/.tmux.conf
-cp setup-scripts/bashrc ~/.bashrc
-source ~/.bashrc
+cp /home/user/skynet-webportal/setup-scripts/support/tmux.conf /home/user/.tmux.conf
+cp /home/user/skynet-webportal/setup-scripts/support/bashrc /home/user/.bashrc
+source /home/user/.bashrc
 
 # Add SSH keys and set SSH configs
-sudo cp setup-scripts/ssh_config /etc/ssh/ssh_config
-mkdir -p ~/.ssh
-cat setup-scripts/authorized_keys >>  ~/.ssh/authorized_keys
+sudo cp /home/user/skynet-webportal/setup-scripts/support/ssh_config /etc/ssh/ssh_config
+mkdir -p /home/user/.ssh
+cat /home/user/skynet-webportal/setup-scripts/support/authorized_keys >>  /home/user/.ssh/authorized_keys
 
 # Install apt packages
 sudo apt-get update
@@ -40,7 +40,7 @@ sudo tic -xe alacritty,alacritty-direct alacritty.info
 rm alacritty.info
 
 # Set up file limits - siad uses a lot so we need to adjust so it doesn't choke up
-sudo cp setup-scripts/limits.conf /etc/security/limits.conf
+sudo cp /home/user/skynet-webportal/setup-scripts/support/limits.conf /etc/security/limits.conf
 
 # Enable lingering services, it prevents services shutdown when you log out of the server
 loginctl enable-linger user

@@ -7,10 +7,10 @@ SIA_PORT=${SIA_PORT:-9980}
 # You should probably run it using crontab, most likely as a root due to access_log read restrictions.
 #
 # basic usage:
-# setup-scripts/stats-logger.sh public/logs.json
+# /home/user/skynet-webportal/setup-scripts/stats-logger.sh public/logs.json
 #
 # usage with custom sia port:
-# SIA_PORT=9970 setup-scripts/stats-logger.sh public/logs.json
+# SIA_PORT=9970 /home/user/skynet-webportal/setup-scripts/stats-logger.sh public/logs.json
 #
 # configuring hourly logging with crontab (run crontab -e)
 # 0 * * * * /home/user/skynet-webportal/setup-scripts/stats-logger.sh /home/user/skynet-webportal/public/stats.json >/dev/null 2>&1

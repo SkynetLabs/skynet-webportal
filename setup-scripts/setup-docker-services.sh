@@ -19,3 +19,11 @@ docker-compose --version # sanity check
 
 # Start docker container with nginx and client
 sudo docker-compose -f docker-compose.yml up --build -d
+
+# Create dummy .env file for docker-compose usage with veriables
+# DOMAIN_NAME - the domain name your server is using ie. example.com
+# SIA_API_AUTHORIZATION - the base64 encoded :apipassword string
+# CLOUDFLARE_AUTH_TOKEN - cloudflare auth token for ssl generation (just for siasky.net)
+if ! [ -f /home/user/skynet-webportal/.env ]; then
+    printf "DOMAIN_NAME=example.com\nSIA_API_AUTHORIZATION=\nCLOUDFLARE_AUTH_TOKEN=\n" > /home/user/skynet-webportal/.env
+fi
