@@ -83,7 +83,7 @@ At this point we have almost everything set up. We have 2 siad instances running
    - `SIA_API_AUTHORIZATION` is token you just generated in the previous point
    - `CLOUDFLARE_AUTH_TOKEN` if using cloudflare as dns loadbalancer (just for siasky.net)
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net` and comment out `import custom.domain`
-1. `sudo docker-compose restart` to restart the services so they pick up new configuration
+1. `sudo docker-compose up -d` to restart the services so they pick up new configuration
 
 ### Useful Commands
 

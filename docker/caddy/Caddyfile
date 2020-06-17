@@ -57,21 +57,17 @@
     }
 }
 
+(custom.domain) {
+    {$DOMAIN_NAME} {
+        tls email@example.com
+    }
+}
+
 (siasky.net) {
     siasky.net, *.siasky.net {
         tls {
             dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
         }
-        import webserver
-    }
-}
-
-(custom.domain) {
-    {$DOMAIN_NAME} {
-        tls internal {
-            on_demand
-        }
-        import webserver
     }
 }
 
@@ -82,5 +78,5 @@
     import webserver
 }
 
-# import siasky.net
 import custom.domain
+# import siasky.net
