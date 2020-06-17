@@ -59,7 +59,8 @@
 
 (custom.domain) {
     {$DOMAIN_NAME} {
-        tls email@example.com
+        tls {$EMAIL_ADDRESS}
+        import webserver
     }
 }
 
@@ -68,15 +69,19 @@
         tls {
             dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
         }
+        import webserver
     }
 }
 
-:443 {
-    tls internal {
-        on_demand
+(localhost) {
+    :443 {
+        tls internal {
+            on_demand
+        }
+        import webserver
     }
-    import webserver
 }
 
+import localhost
 import custom.domain
 # import siasky.net

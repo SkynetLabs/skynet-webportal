@@ -80,6 +80,7 @@ At this point we have almost everything set up. We have 2 siad instances running
 1. generate and copy sia api token `printf ":$(cat /home/user/.sia/apipassword)" | base64`
 1. edit `/home/user/skynet-webportal/.env` and add following environment variables separate by enter
    - `DOMAIN_NAME` is your domain name
+   - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification
    - `SIA_API_AUTHORIZATION` is token you just generated in the previous point
    - `CLOUDFLARE_AUTH_TOKEN` if using cloudflare as dns loadbalancer (just for siasky.net)
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net` and comment out `import custom.domain`
