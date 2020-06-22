@@ -9,6 +9,21 @@ that we are working with a Debian Buster Minimal system or similar.
 You may want to fork this repository and replace ssh keys in
 `setup-scripts/support/authorized_keys` and optionally edit the `setup-scripts/support/tmux.conf` and `setup-scripts/support/bashrc` configurations to fit your needs.
 
+### Step 0: stack overview
+
+- dockerized services inside `docker-compose.yml`
+  - [docker-host](https://github.com/qoomon/docker-host) ([docker hub](https://hub.docker.com/r/qoomon/docker-host)): service that exposes server ip to docker container so we could access siad from within the nginx container
+  - [caddy](https://caddyserver.com) ([docker hub](https://hub.docker.com/r/caddy/caddy)): reverse proxy (similar to nginx) that handles ssl out of a box and acts as an entry point
+  - [openresty](https://openresty.org) ([docker hub](https://hub.docker.com/r/openresty/openresty)): nginx custom build, acts as a cached proxy to siad (we only use it because caddy doesn't support proxy caching, otherwise we could drop it)
+  - health-check: this is a simple service that runs periodically and collects health data about the server (status and response times) and exposes `/health-check` api endpoint that is deliberately delayed based on the response times of the server so potential load balancer could prioritize servers based on that (we use it with cloudflare)
+- siad setup: we use "double siad" setup that has one node solely for download and one for upload to improve performance
+  - we use systemd to manage siad services
+  - siad is not installed as docker service for improved performance
+- discord integration
+  - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
+  - [log-checker](log-checker.py): script that scans siad logs for critical errors and reports them to discord periodically
+- [blacklist-skylink](blacklist-skylink.sh): script that can be run locally from a machine that has access to all your skynet portal servers that blacklists provided skylink and prunes nginx cache to ensure it's not available any more (that is a bit much but that's the best we can do right now without paid nginx version) - if you want to use it, make sure to adjust the server addresses
+
 ### Step 1: setting up server user
 
 1. SSH in a freshly installed Debian machine on a user with sudo access (can be root)
@@ -78,7 +93,7 @@ At this point we have almost everything set up. We have 2 siad instances running
 ### Step 4: configuring docker services
 
 1. generate and copy sia api token `printf ":$(cat /home/user/.sia/apipassword)" | base64`
-1. edit `/home/user/skynet-webportal/.env` and add following environment variables separate by enter
+1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
    - `DOMAIN_NAME` is your domain name
    - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification
    - `SIA_API_AUTHORIZATION` is token you just generated in the previous point
