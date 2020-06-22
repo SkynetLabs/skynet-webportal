@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# /home/user/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -74,7 +74,7 @@ esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    test -r /home/user/.dircolors && eval "$(dircolors -b /home/user/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -94,11 +94,11 @@ fi
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
+# /home/user/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f /home/user/.bash_aliases ]; then
+    . /home/user/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -114,7 +114,7 @@ fi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/user/go/bin
 
 set -o allexport
-source ~/.sia/sia.env
+source /home/user/.sia/sia.env
 set +o allexport
 
-alias siac-upload="source ~/.sia/source-upload.sh; siac --addr 'localhost:9970'"
+alias siac-upload="source /home/user/.sia/source-upload.sh; siac --addr 'localhost:9970'"

@@ -1,0 +1,73 @@
+version: "3.7"
+
+networks:
+  shared:
+    driver: bridge
+
+services:
+  docker-host:
+    image: qoomon/docker-host
+    container_name: docker-host
+    restart: on-failure
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      - shared
+
+  caddy:
+    build:
+      context: .
+      dockerfile: ./docker/caddy/Dockerfile
+    container_name: caddy
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/caddy/data:/data
+      - ./docker/data/caddy/config:/config
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - shared
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - docker-host
+      - nginx
+
+  nginx:
+    image: openresty/openresty:1.15.8.3-2-xenial
+    container_name: nginx
+    restart: on-failure
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/data/nginx/cache:/data/nginx/cache
+      - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
+    networks:
+      - shared
+    expose:
+      - 80
+    depends_on:
+      - docker-host
+
+  health-check:
+    build:
+      context: .
+      dockerfile: ./docker/health-check/Dockerfile
+    container_name: health-check
+    restart: on-failure
+    volumes:
+      - ./health-check:/usr/app/health-check
+      - ./docker/data/health-check/state:/usr/app/state
+    networks:
+      - shared
+    environment:
+      - PORTAL_URL=caddy
+      - HOSTNAME=health-check
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    expose:
+      - 3100
+    depends_on:
+      - docker-host
+      - caddy

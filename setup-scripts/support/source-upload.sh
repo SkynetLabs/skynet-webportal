@@ -2,5 +2,5 @@
 set -e
 
 set -o allexport
-source ~/.sia/sia-upload.env
+source /home/user/.sia/sia-upload.env
 set +o allexport

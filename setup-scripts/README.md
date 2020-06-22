@@ -6,140 +6,123 @@ that we are working with a Debian Buster Minimal system or similar.
 
 ## Initial Setup
 
-(Assumes we are logged in as root on a fresh installation of Debian)
+You may want to fork this repository and replace ssh keys in
+`setup-scripts/support/authorized_keys` and optionally edit the `setup-scripts/support/tmux.conf` and `setup-scripts/support/bashrc` configurations to fit your needs.
 
-You may want to fork this repository and add your ssh pubkey to
-`authorized_keys` and optionally edit the `tmux` and `bash` configurations.
+### Step 0: stack overview
 
-NOTE: nginx version 1.11.0 or higher is required.
-If you use the install script below, the correct version should be installed.
+- dockerized services inside `docker-compose.yml`
+  - [docker-host](https://github.com/qoomon/docker-host) ([docker hub](https://hub.docker.com/r/qoomon/docker-host)): service that exposes server ip to docker container so we could access siad from within the nginx container
+  - [caddy](https://caddyserver.com) ([docker hub](https://hub.docker.com/r/caddy/caddy)): reverse proxy (similar to nginx) that handles ssl out of a box and acts as an entry point
+  - [openresty](https://openresty.org) ([docker hub](https://hub.docker.com/r/openresty/openresty)): nginx custom build, acts as a cached proxy to siad (we only use it because caddy doesn't support proxy caching, otherwise we could drop it)
+  - health-check: this is a simple service that runs periodically and collects health data about the server (status and response times) and exposes `/health-check` api endpoint that is deliberately delayed based on the response times of the server so potential load balancer could prioritize servers based on that (we use it with cloudflare)
+- siad setup: we use "double siad" setup that has one node solely for download and one for upload to improve performance
+  - we use systemd to manage siad services
+  - siad is not installed as docker service for improved performance
+- discord integration
+  - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
+  - [log-checker](log-checker.py): script that scans siad logs for critical errors and reports them to discord periodically
+- [blacklist-skylink](blacklist-skylink.sh): script that can be run locally from a machine that has access to all your skynet portal servers that blacklists provided skylink and prunes nginx cache to ensure it's not available any more (that is a bit much but that's the best we can do right now without paid nginx version) - if you want to use it, make sure to adjust the server addresses
 
-0. SSH in a freshly installed Debian machine.
-1. `apt-get update && apt-get install sudo`
-1. `adduser user`
-1. `usermod -a -G sudo user`
-1. Quit the ssh session.
+### Step 1: setting up server user
+
+1. SSH in a freshly installed Debian machine on a user with sudo access (can be root)
+1. `apt-get update && apt-get install sudo` to make sure `sudo` is available
+1. `adduser user` to create user called `user` (creates `/home/user` directory)
+1. `usermod -a -G sudo user` to add this new user to sudo group
+1. `usermod -a -G systemd-journal user` to add this new user to systemd-journal group
+1. Quit the ssh session with `exit` command
 
 You a can now ssh into your machine as the user `user`.
 
-5. On your local machine: `ssh-copy-id user@ip-addr`
-6. On your local machine: `ssh user@ip-addr`
-7. Now logged in as `user`: `sudo apt-get install git`
-8. `git clone https://github.com/NebulousLabs/skynet-webportal`
-9. `cd skynet-webportal/setup-scripts`
-10. `./setup.sh`
-11. Once DNS records are set you can run: `./letsencrypt-setup.sh`
-12. This should edit your nginx configuration for you. If not, you should check
-    that keys were created by letsencrypt in `/etc/letsencrypt/live/` and add
-    the following lines into your nginx configuration. Make sure to replace
-    `YOUR-DOMAIN` with your domain name.
-    ```
-    ssl_certificate /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem;
-    ```
-13. Finally make sure to check your nginx conf and reload nginx:
-    `sudo nginx -t`
-    `sudo systemctl reload nginx`
+### Step 2: setting up environment
 
-## Running siad
+1. On your local machine: `ssh-copy-id user@ip-addr` to copy over your ssh key to server
+1. On your local machine: `ssh user@ip-addr` to log in to server as user `user`
+1. You are now logged in as `user`
 
-NOTE: You must be running `siad` and `siac` by building from a version at least
-as recent as `v1.4.4`.
+**Following step will be executed on remote host logged in as a `user`:**
 
-You still need to setup `siad` for the backend to be complete.
+1. `sudo apt-get install git` to install git
+1. `git clone https://github.com/NebulousLabs/skynet-webportal`
+1. run setup scripts in the exact order and provide sudo password when asked (if one of them fails, you can retry just this one before proceeding further)
+   1. `/home/user/skynet-webportal/setup-scripts/setup-server.sh`
+   1. `/home/user/skynet-webportal/setup-scripts/setup-siad.sh`
+   1. `/home/user/skynet-webportal/setup-scripts/setup-docker-services.sh`
+   1. `/home/user/skynet-webportal/setup-scripts/setup-health-check-scripts.sh` (optional)
 
-The setup script creates a systemd user service that will run `siad` in the
-background and automatically restart upon failure. The `siad.service` file must
-be placed in `~/.config/systemd/user/`
+### Step 3: configuring siad
 
-To use the `siad.service`, first fill out `~/.sia/sia.env` environment variables with the
-correct values. You will need to initialize your wallet if you have not already
-done so.
+At this point we have almost everything set up. We have 2 siad instances running as services and we need to set up the wallets and allowance on those.
 
-To enable the service: `systemctl --user enable siad.service`
+1. Create new wallet for both siad instances (remember to save the seeds)
+   1. `siac wallet init` to init download node wallet
+   1. `siac-upload wallet init` to init upload node wallet
+1. Unlock both wallets
+   1. `siac wallet unlock` to unlock download node wallet (use seed as password)
+   1. `siac-upload wallet unlock` to unlock upload node wallet (use seed as password)
+1. Generate wallet addresses for both siad instances (save them for later to transfer the funds)
+   1. `siac wallet address` to generate address for download node wallet
+   1. `siac-upload wallet address` to generate address for upload node wallet
+1. Set up allowance on both siad instances
+   1. `siac renter setallowance` to set allowance on download node
+      1. 10 KS (keep 25 KS in your wallet)
+      1. default period
+      1. default number of hosts
+      1. 8 week renewal time
+      1. 500 GB expected storage
+      1. 500 GB expected upload
+      1. 5 TB expected download
+      1. default redundancy
+   1. `siac-upload renter setallowance` to set allowance on upload node
+      1. use the same allowance settings as download node
+1. Run `siac renter setallowance --payment-contract-initial-funding 10SC` so that your download node will start making 10 contracts per block with many hosts to potentially view the whole network's files
+1. Copy over apipassword from `/home/user/.sia/apipassword` and save it for the next step
+1. Edit environment files for both siad instances
+   1. `/home/user/.sia/sia.env` for the download node
+      1. `SIA_API_PASSWORD` to previously copied apipassword (same for both instances)
+      1. `SIA_WALLET_PASSWORD` to be the wallet seed
+      1. `PORTAL_NAME` xxxxed part to some meaningful name like `warsaw.siasky.net`
+      1. `DISCORD_BOT_TOKEN` for discord health check scripts integration
+   1. `/home/user/.sia/sia-upload.env` for the upload node
+      1. `SIA_API_PASSWORD` to previously copied apipassword (same for both instances)
+      1. `SIA_WALLET_PASSWORD` to be the wallet seed
+      1. `PORTAL_NAME` xxxxed part to some meaningful name like `warsaw.siasky.net`
+      1. `DISCORD_BOT_TOKEN` for discord health check scripts integration
 
-### Running 2 siad instances
+### Step 4: configuring docker services
 
-It is recommended to run 2 `siad` nodes on the same server. One node to
-prioritize downloads and one to prioritze uploads. This will drastically improve
-performance of both up - and download. The setup scripts assume this double siad
-setup and perform the initial setup for a 2nd `siad` instance running as a
-systemd service `siad-upload.service` in the `~/siad-upload/` directory with
-environment variables in `sia-upload.env`. You must fill out the correct values
-for those environment variables.
-
-Note that running 2 `siad` nodes is not obligatory. You can run a portal with
-just one `siad` node just fine. If you choose to do so, simply ignore the second
-`siad` node and point everything to your single node instead.
-
-The `bashrc` file in this repository also provides an alias `siac-upload` that
-loads the correct environment variables and sets the correct ports to interact
-with the 2nd `siad` node.
-
-`siac` is used to operate node 1, and `siac-upload` is used to operate node 2.
-
-To enable the 2nd service: `systemctl --user enable siad-upload.service`
+1. generate and copy sia api token `printf ":$(cat /home/user/.sia/apipassword)" | base64`
+1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
+   - `DOMAIN_NAME` is your domain name
+   - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification
+   - `SIA_API_AUTHORIZATION` is token you just generated in the previous point
+   - `CLOUDFLARE_AUTH_TOKEN` if using cloudflare as dns loadbalancer (just for siasky.net)
+1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net` and comment out `import custom.domain`
+1. `sudo docker-compose up -d` to restart the services so they pick up new configuration
 
 ### Useful Commands
 
-To start the service: `systemctl --user start siad`
-
-To stop it: `systemctl --user stop siad`
-
-To check the status of it: `systemctl --user status siad`
-
-To check standard err/standard out: `journalctl --user-unit siad`. In addition you can add:
-
-- `-r` to view journal from the newest entry
-- `-f` to follow and `-n INTEGER` to specify number of lines
-
-## Portal Setup
-
-When `siad` is done syncing, create a new wallet and unlock the wallet.
-
-Then set an allowance (`siac renter setallowance`), with the suggested values
-below:
-
-- 10 KS (keep 25 KS in your wallet)
-- default period
-- default number of hosts
-- 8 week renewal time
-- 500 GB expected storage
-- 500 GB expected upload
-- 5 TB expected download
-- default redundancy
-
-Once your allowance is set you need to set your node to be a viewnode with the
-following command:
-`siac renter setallowance --payment-contract-initial-funding 10SC`
-
-Now your node will begin making 10 contracts per block with many hosts so it can
-potentially view the whole network's files.
-
-## Running the Portal
-
-Make sure you have [nodejs](https://nodejs.org/en/download/package-manager/) and [yarn](https://yarnpkg.com/getting-started/install) installed.
-You can check that with `node -v` and `yarn -v` commands respectively.
-
-- run `cd /home/user/skynet-webportal`
-- run `yarn` to build dependencies
-- run `yarn build` to build the client package
-
-Client package will be outputted to `/public` and nginx configuration will pick it up automatically.
-
-## Health Check Scripts.
-
-There are 2 optional health check scripts that can be setup using
-`setup-health-check-scripts.sh`. That command will install the necesary Python
-dependencies and setup 2 cronjobs for each script: one for a downloading `siad`
-and for an uploading `siad` service.
-
-To use the scripts you must setup a Discord bot and provide a bot token. The bot
-scripts take in 1 or more arguments, the first always being the path to an
-`.env` file.
-
-`funds-checker` checks that the wallet balance and allowance settings are
-sufficient for portal usage.
-
-`log-checker` checks if there are any critical warnings in the journal for the
-running services.
+- Accessing siac for both nodes
+  - `siac` for download node
+  - `siac-upload` for upload node
+- Checking status of siad service
+  - `systemctl --user status siad` for download node
+  - `systemctl --user status siad-upload` for upload node
+- Stopping siad service
+  - `systemctl --user stop siad` for download node
+  - `systemctl --user stop siad-upload` for upload node
+- Starting siad service
+  - `systemctl --user start siad` for download node
+  - `systemctl --user start siad-upload` for upload node
+- Restarting siad service
+  - `systemctl --user restart siad` for download node
+  - `systemctl --user restart siad-upload` for upload node
+- Checking siad service logs (follow last 50 lines)
+  - `journalctl -f -n 50 --user-unit siad` for download node
+  - `journalctl -f -n 50 --user-unit siad-upload` for upload node
+- Checking caddy logs (for example in case ssl certificate fails)
+  - `sudo docker logs caddy -f`
+- Checking nginx logs (nginx handles all communication to siad instances)
+  - `tail -n 50 docker/data/nginx/logs/access.log` to follow last 50 lines of access log
+  - `tail -n 50 docker/data/nginx/logs/error.log` to follow last 50 lines of error log
