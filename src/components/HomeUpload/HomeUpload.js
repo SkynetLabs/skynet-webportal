@@ -106,8 +106,7 @@ export default function HomeUpload() {
     };
 
     acceptedFiles.forEach((file) => {
-      const onUploadProgress = ({ loaded, total }) => {
-        const progress = loaded / total;
+      const onUploadProgress = (progress) => {
         const status = progress === 1 ? "processing" : "uploading";
 
         onFileStateChange(file, { status, progress });
