@@ -6602,12 +6602,12 @@ gatsby-plugin-robots-txt@^1.5.1:
     "@babel/runtime" "^7.10.0"
     generate-robotstxt "^8.0.3"
 
-gatsby-plugin-sass@^2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sass/-/gatsby-plugin-sass-2.3.4.tgz#0403edfda69f7e96d0686e238635a3fdd6c9bf84"
-  integrity sha512-ftGnw+rfvM8645lbd7vzPaEGoZ/HXqTQjlhoe3fNOGWMNkzLYmiJKAKiQIhmeki4lH4NKVz6c7ZiAxTmtnd5uw==
+gatsby-plugin-sass@^2.3.10:
+  version "2.3.10"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sass/-/gatsby-plugin-sass-2.3.10.tgz#a6aec4a218318c613cf09de8defa42300283f6b9"
+  integrity sha512-ZF/+SNMogv6C+UksTLGCwQxeA5224fmp1ojJ/wOkmwMM83HClQ5wwcs0utQZmIOCAszEn+wi2wul1Tyiyh4YBg==
   dependencies:
-    "@babel/runtime" "^7.10.2"
+    "@babel/runtime" "^7.10.3"
     sass-loader "^7.3.1"
 
 gatsby-plugin-sharp@^2.6.12:
