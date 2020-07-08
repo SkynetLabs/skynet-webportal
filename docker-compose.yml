@@ -5,15 +5,33 @@ networks:
     driver: bridge
 
 services:
-  docker-host:
-    image: qoomon/docker-host
-    container_name: docker-host
+  sia:
+    image: nebulouslabs/sia:dev
+    container_name: sia
     restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
+    environment:
+      - SIA_MODULES=gctwr
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/sia:/sia-data
     networks:
       - shared
+    expose:
+      - 9980
+
+  # sia-upload-legacy:
+  #   image: nebulouslabs/sia:dev
+  #   container_name: sia-upload-legacy
+  #   restart: unless-stopped
+  #   environment:
+  #     - SIA_MODULES=gctwr
+  #   volumes:
+  #     - ./docker/data/sia-upload-legacy:/sia-data
+  #   networks:
+  #     - shared
+  #   expose:
+  #     - 9980
 
   caddy:
     build:
@@ -33,7 +51,6 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - docker-host
       - nginx
 
   nginx:
@@ -45,16 +62,18 @@ services:
     env_file:
       - .env
     volumes:
-      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
+      - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
     networks:
       - shared
     expose:
       - 80
     depends_on:
-      - docker-host
+      - sia
+      - health-check
+      - handshake-api
 
   handshake:
     build:
@@ -94,7 +113,6 @@ services:
       - 3100
     depends_on:
       - handshake
-      - nginx
 
   health-check:
     build:
@@ -111,6 +129,3 @@ services:
       - PORTAL_URL=nginx
     expose:
       - 3100
-    depends_on:
-      - docker-host
-      - nginx

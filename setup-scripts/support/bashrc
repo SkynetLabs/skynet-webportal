@@ -113,6 +113,4 @@ if ! shopt -oq posix; then
 fi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/go/bin:/home/user/go/bin
 
-set -o allexport
-source /home/user/.sia/sia.env
-set +o allexport
+alias siac="docker exec -it sia siac"
