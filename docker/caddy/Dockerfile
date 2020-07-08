@@ -6,6 +6,7 @@ COPY gatsby-config.js .
 COPY package.json .
 COPY yarn.lock .
 
+ENV CYPRESS_INSTALL_BINARY 0
 RUN yarn --frozen-lockfile
 RUN yarn build
 
