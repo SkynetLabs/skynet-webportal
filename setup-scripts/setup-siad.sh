@@ -4,7 +4,7 @@ set -e # exit on first error
 
 # Setup constants
 GO_VERSION=1.13.11
-SIA_VERSION=1.4.11
+SIA_BRANCH_OR_TAG=v1.4.11
 
 # Install Go
 wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz
@@ -20,7 +20,8 @@ go version
 
 # Install Sia
 rm -rf /home/user/Sia
-git clone -b v${SIA_VERSION} https://gitlab.com/NebulousLabs/Sia.git /home/user/Sia
+git clone https://gitlab.com/NebulousLabs/Sia.git /home/user/Sia
+git -C /home/user/Sia checkout ${SIA_BRANCH_OR_TAG}
 make --directory /home/user/Sia
 
 # Setup systemd files and restart daemon
