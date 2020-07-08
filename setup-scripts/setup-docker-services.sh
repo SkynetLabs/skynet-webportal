@@ -17,9 +17,6 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version # sanity check
 
-# Start docker container with nginx and client
-sudo docker-compose -f docker-compose.yml up --build -d
-
 # Create dummy .env file for docker-compose usage with veriables
 # DOMAIN_NAME - the domain name your server is using ie. example.com
 # EMAIL_ADDRESS - this is the administrator contact email you need to supply for communication regarding SSL certification
@@ -28,3 +25,6 @@ sudo docker-compose -f docker-compose.yml up --build -d
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     printf "DOMAIN_NAME=example.com\nEMAIL_ADDRESS=email@example.com\nSIA_API_AUTHORIZATION=\nCLOUDFLARE_AUTH_TOKEN=\n" > /home/user/skynet-webportal/.env
 fi
+
+# Start docker container with nginx and client
+sudo docker-compose -f docker-compose.yml up --build -d
