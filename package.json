@@ -37,7 +37,7 @@
     "typeface-metropolis": "^0.0.74"
   },
   "devDependencies": {
-    "cypress": "^4.9.0",
+    "cypress": "^4.10.0",
     "cypress-file-upload": "^4.0.7",
     "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
