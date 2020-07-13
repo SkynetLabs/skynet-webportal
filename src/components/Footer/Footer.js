@@ -9,7 +9,7 @@ import { Mailing } from "..";
 export default function Footer() {
   return (
     <Reveal effect="active">
-      <footer className="footer">
+      <footer className="footer" id="footer">
         <div className="width">
           <Fade duration={700} distance="40px" bottom>
             <div className="footer-column">

@@ -1,0 +1,24 @@
+@import "../../variables.scss";
+
+.sticky-top-message {
+  position: sticky;
+  top: 0;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  z-index: 999;
+  background-color: #fbe6e6;
+  border-bottom: 1px solid #e65c5c;
+  color: $red;
+
+  a {
+    color: $red;
+    text-decoration: underline;
+
+    &:hover {
+      color: darken($red, 15%);
+      transition: color 0.2s ease;
+    }
+  }
+}
