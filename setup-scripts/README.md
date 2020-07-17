@@ -94,12 +94,14 @@ At this point we have almost everything set up. We have 2 siad instances running
 
 1. generate and copy sia api token `printf ":$(cat /home/user/.sia/apipassword)" | base64`
 1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
-   - `DOMAIN_NAME` is your domain name
-   - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification
-   - `SIA_API_AUTHORIZATION` is token you just generated in the previous point
-   - `CLOUDFLARE_AUTH_TOKEN` if using cloudflare as dns loadbalancer (just for siasky.net)
-1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net` and comment out `import custom.domain`
-1. `sudo docker-compose up -d` to restart the services so they pick up new configuration
+   - `DOMAIN_NAME` (optional) is your domain name if you have it
+   - `EMAIL_ADDRESS` (required) is your email address used for communication regarding SSL certification (required)
+   - `SIA_API_AUTHORIZATION` (required) is token you just generated in the previous point
+   - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (it's just for siasky.net configuration)
+1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
+1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
+1. `sudo docker-compose up -d` to restart the services so they pick up new env variables
+1. `sudo docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
 
 ### Useful Commands
 
@@ -118,6 +120,10 @@ At this point we have almost everything set up. We have 2 siad instances running
 - Restarting siad service
   - `systemctl --user restart siad` for download node
   - `systemctl --user restart siad-upload` for upload node
+- Restarting caddy gracefully after making changes to Caddyfile
+  - `sudo docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
+- Restarting nginx gracefully after making changes to nginx configs
+  - `sudo docker exec nginx openresty -s reload`
 - Checking siad service logs (follow last 50 lines)
   - `journalctl -f -n 50 --user-unit siad` for download node
   - `journalctl -f -n 50 --user-unit siad-upload` for upload node
