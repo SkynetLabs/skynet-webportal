@@ -39,7 +39,7 @@
   "devDependencies": {
     "cypress": "^4.10.0",
     "cypress-file-upload": "^4.0.7",
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-react": "^7.20.3",
