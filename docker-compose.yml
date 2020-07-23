@@ -51,6 +51,43 @@ services:
     depends_on:
       - docker-host
 
+  handshake:
+    build:
+      context: ./docker/handshake
+      dockerfile: Dockerfile
+    container_name: handshake
+    restart: on-failure
+    environment:
+      - HSD_HTTP_HOST=0.0.0.0
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/handshake/.hsd:/root/.hsd
+    networks:
+      - shared
+    expose:
+      - 12037
+
+  handshake-api:
+    build:
+      context: .
+      dockerfile: ./docker/handshake-api/Dockerfile
+    container_name: handshake-api
+    restart: on-failure
+    networks:
+      - shared
+    environment:
+      - PORTAL=https://siasky.net
+      - HSD_HOST=handshake
+      - HOST=0.0.0.0
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    env_file:
+      - .env
+    expose:
+      - 3100
+    depends_on:
+      - handshake
+
   health-check:
     build:
       context: .
