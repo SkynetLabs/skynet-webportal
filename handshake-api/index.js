@@ -33,19 +33,19 @@ const resolveDomain = async (name) => {
 const resolveDomainHandler = async (req, res, redirect = false) => {
   try {
     const response = await resolveDomain(req.params.name);
-    const resolved = response.records.find((r) => Boolean(r.address));
+    const record = response.records.find(({ txt }) => txt && txt.some((entry) => isValidSkylink(entry)));
 
-    if (!resolved) throw new Error(`No address found for ${req.params.name}`);
-
-    if (isValidSkylink(resolved.address)) {
-      if (redirect) {
-        res.redirect(`${portal}/${resolved.address}`);
-      } else {
-        res.send({ skylink: resolved.address });
-      }
-    } else {
-      res.status(404).send(`${resolved.address} is not a valid skylink`);
+    if (!record) {
+      return res.status(404).send(`No skylink found for ${req.params.name}`);
     }
+
+    const skylink = record.txt.find((entry) => isValidSkylink(entry));
+
+    if (redirect) {
+      return res.redirect(`${portal}/${skylink}`);
+    }
+
+    return res.send({ skylink });
   } catch (error) {
     res.status(500).send(`Handshake error: ${error.message}`);
   }
