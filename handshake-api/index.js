@@ -20,14 +20,19 @@ const clientOptions = {
 };
 const client = new NodeClient(clientOptions);
 
-const hsdHandler = async (req, res) => {
+const resolveDomain = async (name) => {
+  const response = await client.execute("getnameresource", [name]);
+
+  if (!response) throw new Error("API not responding");
+
+  console.log(`${name} => ${JSON.stringify(response.records)}`);
+
+  return response;
+};
+
+const resolveDomainAndRedirectHandler = async (req, res) => {
   try {
-    const response = await client.execute("getnameresource", [req.params.name]);
-
-    if (!response) throw new Error("API not responding");
-
-    console.log(`${req.params.name} => ${JSON.stringify(response.records)}`);
-
+    const response = await resolveDomain(req.params.name);
     const resolved = response.records.find((r) => Boolean(r.address));
 
     if (!resolved) throw new Error(`No address found for ${req.params.name}`);
@@ -37,6 +42,16 @@ const hsdHandler = async (req, res) => {
     } else {
       res.status(404).send(`${resolved.address} is not a valid skylink`);
     }
+  } catch (error) {
+    res.status(500).send(`Handshake error: ${error.message}`);
+  }
+};
+
+const resolveDomainHandler = async (req, res) => {
+  try {
+    const response = await resolveDomain(req.params.name);
+
+    req.send(response);
   } catch (error) {
     res.status(500).send(`Handshake error: ${error.message}`);
   }
@@ -57,7 +72,8 @@ const server = express();
 server.use(bodyparser.urlencoded({ extended: false }));
 server.use(bodyparser.json());
 
-server.get("/hns/:name", hsdHandler);
+server.get("/hns/:name", resolveDomainAndRedirectHandler);
+server.get("/hnsres/:name", resolveDomainHandler);
 
 server.listen(port, host, (error) => {
   if (error) throw error;
