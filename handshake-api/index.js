@@ -5,8 +5,6 @@ const { NodeClient } = require("hs-client");
 const host = process.env.HOST || "localhost";
 const port = Number(process.env.PORT) || 3100;
 
-const portal = process.env.PORTAL || "https://siasky.net";
-
 const hsdNetworkType = process.env.HSD_NETWORK || "regtest";
 const hsdHost = process.env.HSD_HOST || "localhost";
 const hsdPort = Number(process.env.HSD_PORT) || 12037;
@@ -42,7 +40,7 @@ const resolveDomainHandler = async (req, res, redirect = false) => {
     const skylink = record.txt.find((entry) => isValidSkylink(entry));
 
     if (redirect) {
-      return res.redirect(`${portal}/${skylink}`);
+      return res.redirect(`/${skylink}`);
     }
 
     return res.send({ skylink });
