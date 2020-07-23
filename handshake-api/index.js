@@ -30,7 +30,7 @@ const resolveDomain = async (name) => {
   return response;
 };
 
-const resolveDomainAndRedirectHandler = async (req, res) => {
+const resolveDomainHandler = async (req, res, redirect = false) => {
   try {
     const response = await resolveDomain(req.params.name);
     const resolved = response.records.find((r) => Boolean(r.address));
@@ -38,20 +38,14 @@ const resolveDomainAndRedirectHandler = async (req, res) => {
     if (!resolved) throw new Error(`No address found for ${req.params.name}`);
 
     if (isValidSkylink(resolved.address)) {
-      res.redirect(`${portal}/${resolved.address}`);
+      if (redirect) {
+        res.redirect(`${portal}/${resolved.address}`);
+      } else {
+        res.send({ skylink: resolved.address });
+      }
     } else {
       res.status(404).send(`${resolved.address} is not a valid skylink`);
     }
-  } catch (error) {
-    res.status(500).send(`Handshake error: ${error.message}`);
-  }
-};
-
-const resolveDomainHandler = async (req, res) => {
-  try {
-    const response = await resolveDomain(req.params.name);
-
-    req.send(response);
   } catch (error) {
     res.status(500).send(`Handshake error: ${error.message}`);
   }
@@ -72,8 +66,8 @@ const server = express();
 server.use(bodyparser.urlencoded({ extended: false }));
 server.use(bodyparser.json());
 
-server.get("/hns/:name", resolveDomainAndRedirectHandler);
-server.get("/hnsres/:name", resolveDomainHandler);
+server.get("/hns/:name", (req, res) => resolveDomainHandler(req, res, true));
+server.get("/hnsres/:name", (req, res) => resolveDomainHandler(req, res, false));
 
 server.listen(port, host, (error) => {
   if (error) throw error;
