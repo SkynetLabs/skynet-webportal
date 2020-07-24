@@ -77,3 +77,4 @@ docker/data
 
 # Cache files
 __pycache__
+/.idea/

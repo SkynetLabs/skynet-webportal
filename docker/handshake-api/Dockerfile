@@ -2,8 +2,8 @@ FROM node:14.5
 
 WORKDIR /usr/app
 
-RUN yarn init -y
-RUN yarn add express express-http-proxy hs-client
+RUN yarn init -y &&
+    yarn add express express-http-proxy hs-client
 
 COPY handshake-api/index.js ./
 

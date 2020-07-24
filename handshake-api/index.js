@@ -29,11 +29,11 @@ const resolveDomain = async (name) => {
 };
 
 const findSkylinkRecord = (records) => {
-  return records.find(({ txt }) => txt && txt.some((entry) => isValidSkylink(entry)));
+  return records?.find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
 };
 
 const getSkylinkFromRecord = (record) => {
-  return record.txt.find((entry) => isValidSkylink(entry));
+  return record?.txt?.find((entry) => isValidSkylink(entry));
 };
 
 const resolveDomainHandler = async (req, res) => {
