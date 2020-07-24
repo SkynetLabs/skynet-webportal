@@ -77,7 +77,6 @@ services:
     networks:
       - shared
     environment:
-      - PORTAL=https://siasky.net
       - HSD_HOST=handshake
       - HOST=0.0.0.0
       - NODE_TLS_REJECT_UNAUTHORIZED=0
@@ -87,6 +86,7 @@ services:
       - 3100
     depends_on:
       - handshake
+      - caddy
 
   health-check:
     build:

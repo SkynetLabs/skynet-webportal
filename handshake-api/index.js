@@ -1,5 +1,5 @@
-const bodyparser = require("body-parser");
 const express = require("express");
+const proxy = require("express-http-proxy");
 const { NodeClient } = require("hs-client");
 
 const host = process.env.HOST || "localhost";
@@ -28,22 +28,21 @@ const resolveDomain = async (name) => {
   return response;
 };
 
-const resolveDomainHandler = async (req, res, redirect = false) => {
+const findSkylinkRecord = (records) => {
+  return records.find(({ txt }) => txt && txt.some((entry) => isValidSkylink(entry)));
+};
+
+const getSkylinkFromRecord = (record) => {
+  return record.txt.find((entry) => isValidSkylink(entry));
+};
+
+const resolveDomainHandler = async (req, res) => {
   try {
     const response = await resolveDomain(req.params.name);
-    const record = response.records.find(({ txt }) => txt && txt.some((entry) => isValidSkylink(entry)));
-
-    if (!record) {
-      return res.status(404).send(`No skylink found for ${req.params.name}`);
-    }
-
-    const skylink = record.txt.find((entry) => isValidSkylink(entry));
-
-    if (redirect) {
-      return res.redirect(`/${skylink}`);
-    }
-
-    return res.send({ skylink });
+    const record = findSkylinkRecord(response.records);
+    if (!record) return res.status(404).send(`No skylink found for ${req.params.name}`);
+    const skylink = getSkylinkFromRecord(record);
+    return res.json({ skylink });
   } catch (error) {
     res.status(500).send(`Handshake error: ${error.message}`);
   }
@@ -61,11 +60,28 @@ function isValidSkylink(link) {
 
 const server = express();
 
-server.use(bodyparser.urlencoded({ extended: false }));
-server.use(bodyparser.json());
+server.use(
+  "/hns/:name",
+  proxy("caddy:443", {
+    https: true,
+    proxyReqPathResolver: async (req) => {
+      const response = await resolveDomain(req.params.name);
+      const record = findSkylinkRecord(response.records);
+      if (!record) throw new Error(`No skylink found for ${req.params.name}`);
+      const skylink = getSkylinkFromRecord(record);
 
-server.get("/hns/:name", (req, res) => resolveDomainHandler(req, res, true));
-server.get("/hnsres/:name", (req, res) => resolveDomainHandler(req, res, false));
+      // if this is exact domain call, do not append anything to skylink entry
+      if (req.url === "" || req.url === "/") return `/${skylink}`;
+
+      // drop any index.html or trailing slash from the skylink entry
+      const path = skylink.split("/").slice(0, -1).join("/");
+
+      return `/${path}${req.url}`;
+    },
+  })
+);
+
+server.get("/hnsres/:name", resolveDomainHandler);
 
 server.listen(port, host, (error) => {
   if (error) throw error;
