@@ -37,6 +37,8 @@
     }
 
     reverse_proxy /health-check health-check:3100
+    reverse_proxy /hns/* handshake-api:3100
+    reverse_proxy /hnsres/* handshake-api:3100
 
     reverse_proxy @blacklist nginx:80 {
         header_up User-Agent Sia-Agent
