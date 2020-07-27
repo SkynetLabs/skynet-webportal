@@ -5,7 +5,7 @@ async function uploadCheck(done) {
   const time = process.hrtime();
 
   superagent
-    .post(`${process.env.PORTAL_URL}/skynet/skyfile`)
+    .post(`http://${process.env.PORTAL_URL}/skynet/skyfile`)
     .attach("file", "package.json", "package.json")
     .end((err, res) => {
       const statusCode = (res && res.statusCode) || (err && err.statusCode) || null;
@@ -22,7 +22,7 @@ async function uploadCheck(done) {
 function downloadCheck(done) {
   const time = process.hrtime();
 
-  superagent.get(`${process.env.PORTAL_URL}`).end((err, res) => {
+  superagent.get(`http://${process.env.PORTAL_URL}`).end((err, res) => {
     const statusCode = (res && res.statusCode) || (err && err.statusCode) || null;
 
     done({
