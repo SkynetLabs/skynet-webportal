@@ -9,7 +9,7 @@ const bodyparser = require("body-parser");
 
 require("./schedule");
 
-const host = process.env.HOSTNAME || "localhost";
+const host = process.env.HOSTNAME || "0.0.0.0";
 const port = process.env.PORT || 3100;
 
 const server = express();

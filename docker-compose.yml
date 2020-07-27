@@ -110,7 +110,6 @@ services:
       - shared
     environment:
       - PORTAL_URL=nginx
-      - HOSTNAME=health-check
     expose:
       - 3100
     depends_on:
