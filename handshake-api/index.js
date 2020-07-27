@@ -62,8 +62,7 @@ const server = express();
 
 server.use(
   "/hns/:name",
-  proxy("caddy:443", {
-    https: true,
+  proxy("nginx", {
     proxyReqPathResolver: async (req) => {
       const response = await resolveDomain(req.params.name);
       const record = findSkylinkRecord(response.records);

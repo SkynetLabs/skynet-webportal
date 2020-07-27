@@ -98,6 +98,7 @@ At this point we have almost everything set up. We have 2 siad instances running
    - `EMAIL_ADDRESS` (required) is your email address used for communication regarding SSL certification (required)
    - `SIA_API_AUTHORIZATION` (required) is token you just generated in the previous point
    - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (it's just for siasky.net configuration)
+   - `HSD_API_KEY` (optional) this is a random security key for an optional handshake integration that gets generated automatically
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `sudo docker-compose up -d` to restart the services so they pick up new env variables

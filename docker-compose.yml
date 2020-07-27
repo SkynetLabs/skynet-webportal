@@ -59,6 +59,8 @@ services:
     restart: on-failure
     environment:
       - HSD_HTTP_HOST=0.0.0.0
+      - HSD_NETWORK=main
+      - HSD_PORT=12037
     env_file:
       - .env
     volumes:
@@ -78,6 +80,8 @@ services:
       - shared
     environment:
       - HSD_HOST=handshake
+      - HSD_NETWORK=main
+      - HSD_PORT=12037
       - HOST=0.0.0.0
       - NODE_TLS_REJECT_UNAUTHORIZED=0
     env_file:
