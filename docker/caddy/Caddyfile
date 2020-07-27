@@ -1,82 +1,7 @@
-(webserver) {
-    root * /home/user/public_html
-    file_server
-    encode zstd gzip
-
-    @skylink {
-	    path_regexp skylink ^/([a-zA-Z0-9-_]{46}(/.*)?)$
-    }
-
-    @skylink_file {
-	    path_regexp skylink_file ^/file/([a-zA-Z0-9-_]{46}(/.*)?)$
-    }
-
-    @options {
-	    method OPTIONS
-    }
-
-    @blacklist {
-        method GET
-        path /blacklist
-    }
-
-    @portals {
-        method GET
-        path /portals
-    }
-
-    # OPTIONS headers to allow CORS https://enable-cors.org
-    handle @options {
-        header {
-            Access-Control-Allow-Origin *
-            Access-Control-Allow-Methods GET,POST,OPTIONS
-            Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
-            Access-Control-Max-Age 1728000
-        }
-        respond 204
-    }
-
-    reverse_proxy /health-check health-check:3100
-    reverse_proxy /hns/* handshake-api:3100
-    reverse_proxy /hnsres/* handshake-api:3100
-
-    reverse_proxy @blacklist nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy @portals nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy /stats nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy /statsdown nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy @skylink nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_up Access-Control-Expose-Headers skynet-file-metadata
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy @skylink_file nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_up Access-Control-Expose-Headers skynet-file-metadata
-        header_down Access-Control-Allow-Origin *
-    }
-    reverse_proxy /skynet/skyfile* nginx:80 {
-        header_up User-Agent Sia-Agent
-        header_up Authorization "Basic {env.SIA_API_AUTHORIZATION}"
-        header_down Access-Control-Allow-Origin *
-    }
-}
-
 (custom.domain) {
     {$DOMAIN_NAME} {
         tls {$EMAIL_ADDRESS}
-        import webserver
+        reverse_proxy nginx:80
     }
 }
 
@@ -85,7 +10,7 @@
         tls {
             dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
         }
-        import webserver
+        reverse_proxy nginx:80
     }
 }
 
@@ -94,7 +19,7 @@
         tls internal {
             on_demand
         }
-        import webserver
+        reverse_proxy nginx:80
     }
 }
 
