@@ -8,7 +8,7 @@
 (siasky.net) {
     siasky.net, *.siasky.net {
         tls {
-            dns cloudflare {env.CLOUDFLARE_AUTH_TOKEN}
+            dns route53
         }
         reverse_proxy nginx:80
     }
