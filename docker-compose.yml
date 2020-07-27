@@ -111,7 +111,6 @@ services:
     environment:
       - PORTAL_URL=nginx
       - HOSTNAME=health-check
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
     expose:
       - 3100
     depends_on:
