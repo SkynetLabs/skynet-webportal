@@ -58,12 +58,12 @@
     }
     reverse_proxy @skylink nginx:80 {
         header_up User-Agent Sia-Agent
-        header_up Access-Control-Expose-Headers skynet-file-metadata
+        header_down Access-Control-Expose-Headers skynet-file-metadata
         header_down Access-Control-Allow-Origin *
     }
     reverse_proxy @skylink_file nginx:80 {
         header_up User-Agent Sia-Agent
-        header_up Access-Control-Expose-Headers skynet-file-metadata
+        header_down Access-Control-Expose-Headers skynet-file-metadata
         header_down Access-Control-Allow-Origin *
     }
     reverse_proxy /skynet/skyfile* nginx:80 {
