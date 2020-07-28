@@ -17,7 +17,7 @@ You may want to fork this repository and replace ssh keys in
   - [openresty](https://openresty.org) ([docker hub](https://hub.docker.com/r/openresty/openresty)): nginx custom build, acts as a cached proxy to siad (we only use it because caddy doesn't support proxy caching, otherwise we could drop it)
   - health-check: this is a simple service that runs periodically and collects health data about the server (status and response times) and exposes `/health-check` api endpoint that is deliberately delayed based on the response times of the server so potential load balancer could prioritize servers based on that (we use it with cloudflare)
 - siad setup: we use "double siad" setup that has one node solely for download and one for upload to improve performance
-  - we use systemd to manage siad services
+  - we use systemd to manage siad service
   - siad is not installed as docker service for improved performance
 - discord integration
   - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
@@ -55,40 +55,28 @@ You a can now ssh into your machine as the user `user`.
 
 At this point we have almost everything set up. We have 2 siad instances running as services and we need to set up the wallets and allowance on those.
 
-1. Create new wallet for both siad instances (remember to save the seeds)
-   1. `siac wallet init` to init download node wallet
-   1. `siac-upload wallet init` to init upload node wallet
-1. Unlock both wallets
-   1. `siac wallet unlock` to unlock download node wallet (use seed as password)
-   1. `siac-upload wallet unlock` to unlock upload node wallet (use seed as password)
-1. Generate wallet addresses for both siad instances (save them for later to transfer the funds)
-   1. `siac wallet address` to generate address for download node wallet
-   1. `siac-upload wallet address` to generate address for upload node wallet
-1. Set up allowance on both siad instances
-   1. `siac renter setallowance` to set allowance on download node
-      1. 10 KS (keep 25 KS in your wallet)
-      1. default period
-      1. default number of hosts
-      1. 8 week renewal time
-      1. 500 GB expected storage
-      1. 500 GB expected upload
-      1. 5 TB expected download
-      1. default redundancy
-   1. `siac-upload renter setallowance` to set allowance on upload node
-      1. use the same allowance settings as download node
-1. Run `siac renter setallowance --payment-contract-initial-funding 10SC` so that your download node will start making 10 contracts per block with many hosts to potentially view the whole network's files
+1. Create new wallet (remember to save the seeds)
+   > `siac wallet init`
+1. Unlock wallet (use seed as password)
+   > `siac wallet unlock`
+1. Generate wallet addresse (save them for later to transfer the funds)
+   > `siac wallet address`
+1. Set up allowance by running `siac renter setallowance`
+   1. 10 KS (keep 25 KS in your wallet)
+   1. default period
+   1. default number of hosts
+   1. 8 week renewal time
+   1. 500 GB expected storage
+   1. 500 GB expected upload
+   1. 5 TB expected download
+   1. default redundancy
+1. Run `siac renter setallowance --payment-contract-initial-funding 10SC` so siad will start making 10 contracts per block with many hosts to potentially view the whole network's files
 1. Copy over apipassword from `/home/user/.sia/apipassword` and save it for the next step
-1. Edit environment files for both siad instances
-   1. `/home/user/.sia/sia.env` for the download node
-      1. `SIA_API_PASSWORD` to previously copied apipassword (same for both instances)
-      1. `SIA_WALLET_PASSWORD` to be the wallet seed
-      1. `PORTAL_NAME` xxxxed part to some meaningful name like `warsaw.siasky.net`
-      1. `DISCORD_BOT_TOKEN` for discord health check scripts integration
-   1. `/home/user/.sia/sia-upload.env` for the upload node
-      1. `SIA_API_PASSWORD` to previously copied apipassword (same for both instances)
-      1. `SIA_WALLET_PASSWORD` to be the wallet seed
-      1. `PORTAL_NAME` xxxxed part to some meaningful name like `warsaw.siasky.net`
-      1. `DISCORD_BOT_TOKEN` for discord health check scripts integration
+1. Edit environment file for siad `/home/user/.sia/sia.env` and set:
+   1. `SIA_API_PASSWORD` to previously copied apipassword (same for both instances)
+   1. `SIA_WALLET_PASSWORD` to be the wallet seed
+   1. `PORTAL_NAME` (optional) only for bot utils, set it to something meaningful name like `warsaw.siasky.net`
+   1. `DISCORD_BOT_TOKEN` for discord health check scripts integration
 
 ### Step 4: configuring docker services
 
@@ -97,8 +85,10 @@ At this point we have almost everything set up. We have 2 siad instances running
    - `DOMAIN_NAME` (optional) is your domain name if you have it
    - `EMAIL_ADDRESS` (required) is your email address used for communication regarding SSL certification (required)
    - `SIA_API_AUTHORIZATION` (required) is token you just generated in the previous point
-   - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (it's just for siasky.net configuration)
    - `HSD_API_KEY` (optional) this is a random security key for an optional handshake integration that gets generated automatically
+   - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
+   - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
+   - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `sudo docker-compose up -d` to restart the services so they pick up new env variables
@@ -106,30 +96,24 @@ At this point we have almost everything set up. We have 2 siad instances running
 
 ### Useful Commands
 
-- Accessing siac for both nodes
-  - `siac` for download node
-  - `siac-upload` for upload node
+- Accessing siac
+  > `siac`
 - Checking status of siad service
-  - `systemctl --user status siad` for download node
-  - `systemctl --user status siad-upload` for upload node
+  > `systemctl --user status siad`
 - Stopping siad service
-  - `systemctl --user stop siad` for download node
-  - `systemctl --user stop siad-upload` for upload node
+  > `systemctl --user stop siad`
 - Starting siad service
-  - `systemctl --user start siad` for download node
-  - `systemctl --user start siad-upload` for upload node
+  > `systemctl --user start siad`
 - Restarting siad service
-  - `systemctl --user restart siad` for download node
-  - `systemctl --user restart siad-upload` for upload node
+  > `systemctl --user restart siad`
 - Restarting caddy gracefully after making changes to Caddyfile
-  - `sudo docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
+  > `sudo docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
 - Restarting nginx gracefully after making changes to nginx configs
-  - `sudo docker exec nginx openresty -s reload`
+  > `sudo docker exec nginx openresty -s reload`
 - Checking siad service logs (follow last 50 lines)
-  - `journalctl -f -n 50 --user-unit siad` for download node
-  - `journalctl -f -n 50 --user-unit siad-upload` for upload node
+  > `journalctl -f -n 50 --user-unit siad`
 - Checking caddy logs (for example in case ssl certificate fails)
-  - `sudo docker logs caddy -f`
+  > `sudo docker logs caddy -f`
 - Checking nginx logs (nginx handles all communication to siad instances)
-  - `tail -n 50 docker/data/nginx/logs/access.log` to follow last 50 lines of access log
-  - `tail -n 50 docker/data/nginx/logs/error.log` to follow last 50 lines of error log
+  > `tail -n 50 docker/data/nginx/logs/access.log` to follow last 50 lines of access log
+  > `tail -n 50 docker/data/nginx/logs/error.log` to follow last 50 lines of error log
