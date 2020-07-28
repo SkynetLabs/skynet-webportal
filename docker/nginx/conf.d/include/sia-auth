@@ -1,0 +1,10 @@
+rewrite_by_lua_block {
+    -- local b64 = require("ngx.base64")
+    -- pull apipassword from SIA_API_AUTHORIZATION environment variable
+    -- local apipassword = os.getenv("SIA_API_AUTHORIZATION")
+    -- encode the user:password authorization string
+    -- (in our case user is empty so it is just :password)
+    -- local content = b64.encode_base64url(":" .. apipassword)
+    -- set authorization header with proper base64 encoded string
+    ngx.req.set_header("Authorization", "Basic " .. os.getenv("SIA_API_AUTHORIZATION"))
+}
