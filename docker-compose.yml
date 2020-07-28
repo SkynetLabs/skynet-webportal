@@ -17,8 +17,8 @@ services:
 
   caddy:
     build:
-      context: .
-      dockerfile: ./docker/caddy/Dockerfile
+      context: ./docker/caddy
+      dockerfile: Dockerfile
     container_name: caddy
     restart: on-failure
     env_file:
@@ -37,10 +37,15 @@ services:
       - nginx
 
   nginx:
-    image: openresty/openresty:1.15.8.3-2-xenial
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     container_name: nginx
     restart: on-failure
+    env_file:
+      - .env
     volumes:
+      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
@@ -57,6 +62,7 @@ services:
       dockerfile: Dockerfile
     container_name: handshake
     restart: on-failure
+    command: hnd --log-console=false
     environment:
       - HSD_HTTP_HOST=0.0.0.0
       - HSD_NETWORK=main
@@ -90,7 +96,7 @@ services:
       - 3100
     depends_on:
       - handshake
-      - caddy
+      - nginx
 
   health-check:
     build:
@@ -104,11 +110,9 @@ services:
     networks:
       - shared
     environment:
-      - PORTAL_URL=caddy
-      - HOSTNAME=health-check
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - PORTAL_URL=nginx
     expose:
       - 3100
     depends_on:
       - docker-host
-      - caddy
+      - nginx
