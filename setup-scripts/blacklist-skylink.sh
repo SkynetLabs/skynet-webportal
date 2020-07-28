@@ -11,7 +11,6 @@ do
     echo "⌁ Blacklisting on ${server}"
     ssh -q -t user@${server} 'curl -A Sia-Agent --user "":$(cat /home/user/.sia/apipassword) --data '"'"'{"add":["'$1'"]}'"'"' "localhost:9980/skynet/blacklist"'
     ssh -q -t user@${server} 'rm -rf /home/user/skynet_webportal/docker/data/nginx/cache' # remove cache from docker-managed portals
-    ssh -q -t user@${server} 'sudo rm -rf /tmp/nginx' # remove cache from legacy non-docker portals
 done
 
 echo "✓ All portals succesfully blacklisted provided skylink"

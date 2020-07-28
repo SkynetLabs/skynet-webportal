@@ -116,5 +116,3 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/
 set -o allexport
 source /home/user/.sia/sia.env
 set +o allexport
-
-alias siac-upload="source /home/user/.sia/source-upload.sh; siac --addr 'localhost:9970'"

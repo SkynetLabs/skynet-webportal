@@ -8,14 +8,8 @@ sudo apt-get -y install python3-pip
 pip3 install discord.py
 pip3 install python-dotenv
 
-downloadCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/funds-checker.py /home/user/.sia/sia.env"
-uploadCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/funds-checker.py /home/user/.sia/sia-upload.env"
+fundsCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/funds-checker.py /home/user/.sia/sia.env"
+logsCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/log-checker.py /home/user/.sia/sia.env siad 8"
 
-logCheck1="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/log-checker.py /home/user/.sia/sia.env siad 8"
-logCheck2="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/log-checker.py /home/user/.sia/sia-upload.env siad-upload 8"
-
-(crontab -u user -l; echo "$downloadCheck" ) | crontab -u user -
-(crontab -u user -l; echo "$uploadCheck" ) | crontab -u user -
-
-(crontab -u user -l; echo "$logCheck1" ) | crontab -u user -
-(crontab -u user -l; echo "$logCheck2" ) | crontab -u user -
+(crontab -u user -l; echo "$fundsCheck" ) | crontab -u user -
+(crontab -u user -l; echo "$logsCheck" ) | crontab -u user -
