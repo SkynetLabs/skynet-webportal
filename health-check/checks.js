@@ -21,8 +21,9 @@ async function uploadCheck(done) {
 
 function downloadCheck(done) {
   const time = process.hrtime();
+  const skylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
-  superagent.get(`http://${process.env.PORTAL_URL}`).end((err, res) => {
+  superagent.get(`http://${process.env.PORTAL_URL}/${skylink}?nocache=true`).end((err, res) => {
     const statusCode = (res && res.statusCode) || (err && err.statusCode) || null;
 
     done({
