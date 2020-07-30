@@ -11,4 +11,6 @@ const job = schedule.scheduleJob("*/5 * * * *", async () => {
   db.get("entries").push(entry).write();
 });
 
-job.invoke();
+setTimeout(() => {
+  job.invoke();
+}, 60 * 1000); // delay for 60s to give other services time to start up

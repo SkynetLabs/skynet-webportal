@@ -2,7 +2,7 @@ const express = require("express");
 const proxy = require("express-http-proxy");
 const { NodeClient } = require("hs-client");
 
-const host = process.env.HOST || "localhost";
+const host = process.env.HOSTNAME || "0.0.0.0";
 const port = Number(process.env.PORT) || 3100;
 
 const hsdNetworkType = process.env.HSD_NETWORK || "regtest";

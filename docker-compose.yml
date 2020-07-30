@@ -8,7 +8,7 @@ services:
   docker-host:
     image: qoomon/docker-host
     container_name: docker-host
-    restart: on-failure
+    restart: unless-stopped
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -20,7 +20,7 @@ services:
       context: ./docker/caddy
       dockerfile: Dockerfile
     container_name: caddy
-    restart: on-failure
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
@@ -41,7 +41,7 @@ services:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
     container_name: nginx
-    restart: on-failure
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
@@ -61,9 +61,9 @@ services:
       context: ./docker/handshake
       dockerfile: Dockerfile
     container_name: handshake
-    restart: on-failure
-    command: hnd --log-console=false
+    restart: unless-stopped
     environment:
+      - HSD_LOG_CONSOLE=false
       - HSD_HTTP_HOST=0.0.0.0
       - HSD_NETWORK=main
       - HSD_PORT=12037
@@ -81,17 +81,15 @@ services:
       context: .
       dockerfile: ./docker/handshake-api/Dockerfile
     container_name: handshake-api
-    restart: on-failure
-    networks:
-      - shared
+    restart: unless-stopped
     environment:
       - HSD_HOST=handshake
       - HSD_NETWORK=main
       - HSD_PORT=12037
-      - HOST=0.0.0.0
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
     env_file:
       - .env
+    networks:
+      - shared
     expose:
       - 3100
     depends_on:
@@ -103,7 +101,7 @@ services:
       context: .
       dockerfile: ./docker/health-check/Dockerfile
     container_name: health-check
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./health-check:/usr/app/health-check
       - ./docker/data/health-check/state:/usr/app/state
