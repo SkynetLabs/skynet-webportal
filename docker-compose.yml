@@ -6,7 +6,11 @@ networks:
 
 services:
   sia:
-    image: nebulouslabs/sia:dev
+    build:
+      context: ./docker/sia
+      dockerfile: Dockerfile
+      args:
+        branch: master
     container_name: sia
     restart: unless-stopped
     environment:
@@ -21,7 +25,7 @@ services:
       - 9980
 
   sia-upload-legacy:
-    image: nebulouslabs/sia:dev
+    image: nebulouslabs/sia:alpine-latest
     container_name: sia-upload-legacy
     restart: unless-stopped
     environment:
