@@ -4,6 +4,9 @@ networks:
   shared:
     driver: bridge
 
+volumes:
+  webapp:
+
 services:
   sia:
     build:
@@ -25,7 +28,7 @@ services:
       - 9980
 
   sia-upload-legacy:
-    image: nebulouslabs/sia:alpine-latest
+    image: nebulouslabs/sia:dev
     container_name: sia-upload-legacy
     restart: unless-stopped
     environment:
@@ -58,9 +61,7 @@ services:
       - nginx
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
+    image: openresty/openresty:1.15.8.3-2-xenial
     container_name: nginx
     restart: unless-stopped
     env_file:
@@ -70,6 +71,7 @@ services:
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
+      - webapp:/var/www/webportal:ro
     networks:
       - shared
     expose:
@@ -78,6 +80,16 @@ services:
       - sia
       - health-check
       - handshake-api
+
+  webapp:
+    build:
+      context: ./packages/webapp
+      dockerfile: Dockerfile
+    container_name: webapp
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - webapp:/usr/app/public
 
   handshake:
     build:
@@ -101,7 +113,7 @@ services:
 
   handshake-api:
     build:
-      context: ./docker/handshake-api
+      context: ./packages/handshake-api
       dockerfile: Dockerfile
     container_name: handshake-api
     restart: unless-stopped
@@ -120,12 +132,11 @@ services:
 
   health-check:
     build:
-      context: ./docker/health-check
+      context: ./packages/health-check
       dockerfile: Dockerfile
     container_name: health-check
     restart: unless-stopped
     volumes:
-      - ./health-check:/usr/app/health-check
       - ./docker/data/health-check/state:/usr/app/state
     networks:
       - shared
