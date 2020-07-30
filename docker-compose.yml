@@ -20,18 +20,18 @@ services:
     expose:
       - 9980
 
-  # sia-upload-legacy:
-  #   image: nebulouslabs/sia:dev
-  #   container_name: sia-upload-legacy
-  #   restart: unless-stopped
-  #   environment:
-  #     - SIA_MODULES=gctwr
-  #   volumes:
-  #     - ./docker/data/sia-upload-legacy:/sia-data
-  #   networks:
-  #     - shared
-  #   expose:
-  #     - 9980
+  sia-upload-legacy:
+    image: nebulouslabs/sia:dev
+    container_name: sia-upload-legacy
+    restart: unless-stopped
+    environment:
+      - SIA_MODULES=gctwr
+    volumes:
+      - ./docker/data/sia-upload-legacy:/sia-data
+    networks:
+      - shared
+    expose:
+      - 9980
 
   caddy:
     build:
