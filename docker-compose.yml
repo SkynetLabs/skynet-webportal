@@ -21,7 +21,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /Users/karol/Library/ApplicationSupport/Sia-UI/sia:/sia-data
+      - ./docker/data/sia:/sia-data
     networks:
       - shared
     expose:
