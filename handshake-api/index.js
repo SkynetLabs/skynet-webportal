@@ -1,3 +1,4 @@
+const url = require("url");
 const express = require("express");
 const proxy = require("express-http-proxy");
 const { NodeClient } = require("hs-client");
@@ -18,14 +19,15 @@ const clientOptions = {
 };
 const client = new NodeClient(clientOptions);
 
-const resolveDomain = async (name) => {
+const startsWithSkylinkRegExp = /^[a-zA-Z0-9_-]{46}/;
+
+const getDomainRecords = async (name) => {
   const response = await client.execute("getnameresource", [name]);
+  const records = response?.records ?? null;
 
-  if (!response) throw new Error("API not responding");
+  console.log(`${name} => ${JSON.stringify(records)}`);
 
-  console.log(`${name} => ${JSON.stringify(response.records)}`);
-
-  return response;
+  return records;
 };
 
 const findSkylinkRecord = (records) => {
@@ -38,9 +40,12 @@ const getSkylinkFromRecord = (record) => {
 
 const resolveDomainHandler = async (req, res) => {
   try {
-    const response = await resolveDomain(req.params.name);
-    const record = findSkylinkRecord(response.records);
-    if (!record) return res.status(404).send(`No skylink found for ${req.params.name}`);
+    const records = await getDomainRecords(req.params.name);
+    if (!records) return res.status(404).send(`No records found for ${req.params.name}`);
+
+    const record = findSkylinkRecord(records);
+    if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
+
     const skylink = getSkylinkFromRecord(record);
     return res.json({ skylink });
   } catch (error) {
@@ -48,14 +53,12 @@ const resolveDomainHandler = async (req, res) => {
   }
 };
 
-const SIA_LINK_RE = /^([a-zA-Z0-9-_]{46}.*)$/;
-
 // Checks if the given string is a valid Sia link.
 function isValidSkylink(link) {
   if (!link || link.length === 0) {
     return false;
   }
-  return Boolean(link.match(SIA_LINK_RE));
+  return Boolean(link.match(startsWithSkylinkRegExp));
 }
 
 const server = express();
@@ -63,19 +66,34 @@ const server = express();
 server.use(
   "/hns/:name",
   proxy("nginx", {
+    // eslint-disable-next-line no-unused-vars
+    userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+      if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
+        headers.location = headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
+      }
+
+      return headers;
+    },
     proxyReqPathResolver: async (req) => {
-      const response = await resolveDomain(req.params.name);
-      const record = findSkylinkRecord(response.records);
-      if (!record) throw new Error(`No skylink found for ${req.params.name}`);
+      const records = await getDomainRecords(req.params.name);
+      if (!records) throw new Error(`No records found for ${req.params.name}`);
+
+      const record = findSkylinkRecord(records);
+      if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
+
       const skylink = getSkylinkFromRecord(record);
+      const basepath = url.resolve("/", skylink); // make the url absolute
+      const subpath = req.url.slice(1); // drop the leading slash
 
-      // if this is exact domain call, do not append anything to skylink entry
-      if (req.url === "" || req.url === "/") return `/${skylink}`;
+      // if the skylink from handshake does not contain a subpath but subpath
+      // is defined in request, join the skylink and subpath together (do not
+      // use url.resolve because it will replace skylink with subapth thinking
+      // it is relative)
+      if (skylink.length === 46 && subpath) {
+        return `${basepath}/${subpath}`;
+      }
 
-      // drop any index.html or trailing slash from the skylink entry
-      const path = skylink.split("/").slice(0, -1).join("/");
-
-      return `/${path}${req.url}`;
+      return url.resolve(basepath, subpath);
     },
   })
 );
