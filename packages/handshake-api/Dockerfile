@@ -13,4 +13,4 @@ ENV HSD_API_KEY="foo"
 
 EXPOSE 3100
 ENV NODE_ENV production
-CMD [ "node", "src/index.js" ]
+CMD [ "node", "--max-http-header-size=64000", "src/index.js" ]
