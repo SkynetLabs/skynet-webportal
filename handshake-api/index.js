@@ -85,14 +85,12 @@ server.use(
       const basepath = url.resolve("/", skylink); // make the url absolute
       const subpath = req.url.slice(1); // drop the leading slash
 
-      // if the skylink from handshake does not contain a subpath but subpath
-      // is defined in request, join the skylink and subpath together (do not
-      // use url.resolve because it will replace skylink with subapth thinking
-      // it is relative)
-      if (skylink.length === 46 && subpath) {
-        return `${basepath}/${subpath}`;
+      // if the record is just a raw skylink, replace baseUrl with /skylink
+      if (skylink.length === 46) {
+        return req.originalUrl.replace(req.baseUrl, basepath);
       }
 
+      // if the record contains more than a skylink then it needs to be resolved
       return url.resolve(basepath, subpath);
     },
   })
