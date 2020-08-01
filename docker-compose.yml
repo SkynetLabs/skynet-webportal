@@ -55,6 +55,8 @@ services:
       - 80
     depends_on:
       - docker-host
+      - health-check
+      - handshake-api
 
   handshake:
     build:
@@ -83,6 +85,7 @@ services:
     container_name: handshake-api
     restart: unless-stopped
     environment:
+      - HOSTNAME=0.0.0.0
       - HSD_HOST=handshake
       - HSD_NETWORK=main
       - HSD_PORT=12037
@@ -94,7 +97,6 @@ services:
       - 3100
     depends_on:
       - handshake
-      - nginx
 
   health-check:
     build:
@@ -108,9 +110,9 @@ services:
     networks:
       - shared
     environment:
+      - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
     expose:
       - 3100
     depends_on:
       - docker-host
-      - nginx
