@@ -31,7 +31,7 @@
     "react-mailchimp-form": "^1.0.2",
     "react-mailchimp-subscribe": "^2.1.0",
     "react-reveal": "^1.2.2",
-    "react-syntax-highlighter": "^12.2.1",
+    "react-syntax-highlighter": "^13.2.1",
     "react-visibility-sensor": "^5.1.1",
     "skynet-js": "0.0.8",
     "typeface-metropolis": "^0.0.74"
