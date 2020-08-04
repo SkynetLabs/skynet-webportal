@@ -68,9 +68,6 @@ server.use(
   proxy("nginx", {
     // eslint-disable-next-line no-unused-vars
     userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-      if (!userReq.path.endsWith("/")) {
-        userRes.redirect(307, `${userReq.path}/`);
-      }
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
         headers.location = headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
       }
@@ -99,20 +96,6 @@ server.use(
   })
 );
 
-// server.get("/hns/:name", async (req, res) => {
-//   if (!req.path.endsWith('/')) {
-//     res.redirect(307, `${req.path}/`);
-//   }
-//   console.log(" > ", req.path)
-//   if (req.headers.location && req.headers.location.match(startsWithSkylinkRegExp)) {
-//     req.headers.location = req.headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
-//     console.log(" > to ", req.headers.location)
-//   }
-//
-//   // res.redirect(307, '/to');
-//
-//   return req.headers;
-// });
 server.get("/hnsres/:name", resolveDomainHandler);
 
 server.listen(port, host, (error) => {
