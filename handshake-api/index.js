@@ -79,7 +79,10 @@ server.use(
         userRes.redirect(307, `${userReq.path}/`);
       }
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
-        headers.location = headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
+        headers.location = headers.location.replace(
+          startsWithSkylinkRegExp,
+          `/hns/${userReq.params.name.replace("sia://", "")}`
+        );
       }
 
       return headers;
