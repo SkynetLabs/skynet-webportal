@@ -75,8 +75,8 @@ server.use(
   proxy("nginx", {
     // eslint-disable-next-line no-unused-vars
     userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-      if (!userReq.path.endsWith("/")) {
-        userRes.redirect(307, `${userReq.path}/`);
+      if (!userReq.url.endsWith("/")) {
+        userRes.redirect(307, `${userReq.url}/`);
       }
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
         headers.location = headers.location.replace(
