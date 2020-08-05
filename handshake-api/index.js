@@ -19,7 +19,8 @@ const clientOptions = {
 };
 const client = new NodeClient(clientOptions);
 
-const startsWithSkylinkRegExp = /^sia:\/\/[a-zA-Z0-9_-]{46}/;
+// Match both `sia://HASH` and `HASH` links.
+const startsWithSkylinkRegExp = /^(sia:\/\/){0,1}[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
   const response = await client.execute("getnameresource", [name]);
