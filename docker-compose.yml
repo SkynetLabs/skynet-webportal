@@ -116,3 +116,6 @@ services:
       - 3100
     depends_on:
       - docker-host
+      - handshake
+      - handshake-api
+      - caddy
