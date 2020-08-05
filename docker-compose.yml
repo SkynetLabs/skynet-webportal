@@ -55,7 +55,6 @@ services:
       - 80
     depends_on:
       - docker-host
-      - health-check
       - handshake-api
 
   handshake:
@@ -115,7 +114,6 @@ services:
     expose:
       - 3100
     depends_on:
-      - docker-host
+      - caddy
       - handshake
       - handshake-api
-      - caddy
