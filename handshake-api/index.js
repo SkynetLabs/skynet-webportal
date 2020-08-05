@@ -32,7 +32,13 @@ const getDomainRecords = async (name) => {
 };
 
 const findSkylinkRecord = (records) => {
-  return records?.find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
+  // Find the last one, so people can update their domains in a non-destructive
+  // way by simply adding a new link. This will also allow keeping links to
+  // older versions for backwards compatibility.
+  return records
+    ?.slice()
+    .reverse()
+    .find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
 };
 
 const getSkylinkFromRecord = (record) => {
