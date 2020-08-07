@@ -20,7 +20,7 @@ const clientOptions = {
 const client = new NodeClient(clientOptions);
 
 // Match both `sia://HASH` and `HASH` links.
-const startsWithSkylinkRegExp = /^(sia:\/\/){0,1}[a-zA-Z0-9_-]{46}/;
+const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
   const response = await client.execute("getnameresource", [name]);
@@ -75,9 +75,6 @@ server.use(
   proxy("nginx", {
     // eslint-disable-next-line no-unused-vars
     userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-      // if (!userReq.url.endsWith('/')) {
-      //   userRes.redirect(307, `${userReq.url}/`);
-      // }
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
         headers.location = headers.location.replace(
           startsWithSkylinkRegExp,
