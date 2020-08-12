@@ -43,8 +43,7 @@ export default function HomeSamples() {
           >
             the Skynet CLI
           </a>{" "}
-          and
-          {" "}
+          and{" "}
           <a
             href="https://blog.sia.tech/the-skynet-sdks-751b35578b20"
             target="_blank"
