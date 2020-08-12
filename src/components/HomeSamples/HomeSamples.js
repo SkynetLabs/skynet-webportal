@@ -23,7 +23,7 @@ export default function HomeSamples() {
         <p>
           Skynet includes{" "}
           <a
-            href="https://support.siasky.net/article/hrshqsn9wz-integrating-skynet"
+            href="https://nebulouslabs.github.io/skynet-docs/?shell--curl#introduction"
             target="_blank"
             rel="noopener noreferrer"
             className="link"
@@ -34,16 +34,7 @@ export default function HomeSamples() {
           <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
             APIs
           </a>{" "}
-          that integrate seamlessly with your existing apps. You can follow this{" "}
-          <a
-            href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link"
-          >
-            guide
-          </a>{" "}
-          to setup a Sia Node.
+          that integrate seamlessly with your existing apps.
         </p>
       </Fade>
 
