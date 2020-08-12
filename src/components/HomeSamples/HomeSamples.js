@@ -23,7 +23,7 @@ export default function HomeSamples() {
         <p>
           Skynet includes{" "}
           <a
-            href="https://nebulouslabs.github.io/skynet-docs/?shell--curl#introduction"
+            href="https://nebulouslabs.github.io/skynet-docs"
             target="_blank"
             rel="noopener noreferrer"
             className="link"
