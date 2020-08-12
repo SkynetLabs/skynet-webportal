@@ -34,7 +34,26 @@ export default function HomeSamples() {
           <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
             APIs
           </a>{" "}
-          that integrate seamlessly with your existing apps.
+          that integrate seamlessly with your existing apps. You can follow these guides to start using Skynet with{" "}
+          <a
+            href="https://github.com/NebulousLabs/skynet-cli"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            the Skynet CLI
+          </a>{" "}
+          and
+          {" "}
+          <a
+            href="https://blog.sia.tech/the-skynet-sdks-751b35578b20"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            integrate Skynet
+          </a>{" "}
+          into your application.
         </p>
       </Fade>
 
