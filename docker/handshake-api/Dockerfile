@@ -17,4 +17,4 @@ ENV HSD_API_KEY="foo"
 
 EXPOSE $PORT
 
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["node", "--max-http-header-size=64000", "index.js"]

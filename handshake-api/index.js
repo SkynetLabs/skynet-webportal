@@ -19,7 +19,8 @@ const clientOptions = {
 };
 const client = new NodeClient(clientOptions);
 
-const startsWithSkylinkRegExp = /^[a-zA-Z0-9_-]{46}/;
+// Match both `sia://HASH` and `HASH` links.
+const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
   const response = await client.execute("getnameresource", [name]);
@@ -31,7 +32,13 @@ const getDomainRecords = async (name) => {
 };
 
 const findSkylinkRecord = (records) => {
-  return records?.find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
+  // Find the last one, so people can update their domains in a non-destructive
+  // way by simply adding a new link. This will also allow keeping links to
+  // older versions for backwards compatibility.
+  return records
+    ?.slice()
+    .reverse()
+    .find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
 };
 
 const getSkylinkFromRecord = (record) => {
@@ -69,7 +76,10 @@ server.use(
     // eslint-disable-next-line no-unused-vars
     userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
-        headers.location = headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
+        headers.location = headers.location.replace(
+          startsWithSkylinkRegExp,
+          `/hns/${userReq.params.name.replace("sia://", "")}`
+        );
       }
 
       return headers;
@@ -81,18 +91,16 @@ server.use(
       const record = findSkylinkRecord(records);
       if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
 
-      const skylink = getSkylinkFromRecord(record);
+      const skylink = getSkylinkFromRecord(record).replace("sia://", ""); // get skylink and strip sia:// prefix
       const basepath = url.resolve("/", skylink); // make the url absolute
       const subpath = req.url.slice(1); // drop the leading slash
 
-      // if the skylink from handshake does not contain a subpath but subpath
-      // is defined in request, join the skylink and subpath together (do not
-      // use url.resolve because it will replace skylink with subapth thinking
-      // it is relative)
-      if (skylink.length === 46 && subpath) {
-        return `${basepath}/${subpath}`;
+      // if the record is just a raw skylink, replace baseUrl with /skylink
+      if (skylink.length === 46) {
+        return req.originalUrl.replace(req.baseUrl, basepath);
       }
 
+      // if the record contains more than a skylink then it needs to be resolved
       return url.resolve(basepath, subpath);
     },
   })
