@@ -19,7 +19,8 @@ const clientOptions = {
 };
 const client = new NodeClient(clientOptions);
 
-const startsWithSkylinkRegExp = /^[a-zA-Z0-9_-]{46}/;
+// Match both `sia://HASH` and `HASH` links.
+const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
   const response = await client.execute("getnameresource", [name]);
@@ -31,7 +32,13 @@ const getDomainRecords = async (name) => {
 };
 
 const findSkylinkRecord = (records) => {
-  return records?.find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
+  // Find the last one, so people can update their domains in a non-destructive
+  // way by simply adding a new link. This will also allow keeping links to
+  // older versions for backwards compatibility.
+  return records
+    ?.slice()
+    .reverse()
+    .find(({ txt }) => txt?.some((entry) => isValidSkylink(entry)));
 };
 
 const getSkylinkFromRecord = (record) => {
@@ -69,7 +76,10 @@ server.use(
     // eslint-disable-next-line no-unused-vars
     userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
       if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
-        headers.location = headers.location.replace(startsWithSkylinkRegExp, `/hns/${userReq.params.name}`);
+        headers.location = headers.location.replace(
+          startsWithSkylinkRegExp,
+          `/hns/${userReq.params.name.replace("sia://", "")}`
+        );
       }
 
       return headers;
