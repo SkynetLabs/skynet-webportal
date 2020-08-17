@@ -91,7 +91,7 @@ server.use(
       const record = findSkylinkRecord(records);
       if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
 
-      const skylink = getSkylinkFromRecord(record);
+      const skylink = getSkylinkFromRecord(record).replace("sia://", ""); // get skylink and strip sia:// prefix
       const basepath = url.resolve("/", skylink); // make the url absolute
       const subpath = req.url.slice(1); // drop the leading slash
 
