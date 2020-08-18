@@ -13,7 +13,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
-        branch: master
+        branch: pj/combo-no-cors-metrics-subdomain
     container_name: sia
     restart: unless-stopped
     environment:
@@ -145,3 +145,16 @@ services:
       - PORTAL_URL=nginx
     expose:
       - 3100
+
+  # filebeat:
+  #   image: docker.elastic.co/beats/filebeat:7.8.0
+  #  container_name: filebeat
+  #  hostname: "{{.Node.Hostname}}-filebeat"
+  #  restart: on-failure
+  #  networks:
+  #    - shared
+  #  environment:
+  #    - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-144.76.136.122:9200}
+  #    - KIBANA_HOST=${KIBANA_HOST:-144.76.136.122:5601}
+  #    - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
+  #    - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
