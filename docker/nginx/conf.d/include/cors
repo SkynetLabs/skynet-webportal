@@ -2,9 +2,9 @@ if ($request_method = 'OPTIONS') {
     more_set_headers 'Access-Control-Allow-Origin: *';
     more_set_headers 'Access-Control-Allow-Methods: GET, POST, OPTIONS';
     more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-    more_set_headers 'Access-Control-Max-Age: 1728000';
-    add_header 'Content-Type' 'text/plain; charset=utf-8';
-    add_header 'Content-Length' 0;
+    more_set_headers 'Access-Control-Max-Age: 1728001';
+    more_set_headers 'Content-Type: text/plain; charset=utf-8';
+    more_set_headers 'Content-Length: 0';
     return 204;
 }
 
