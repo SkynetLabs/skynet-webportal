@@ -27,14 +27,14 @@ services:
     expose:
       - 9980
 
-  sia-upload-legacy:
-    image: nebulouslabs/sia:dev
-    container_name: sia-upload-legacy
+  sia-upload:
+    image: nebulouslabs/sia:alpine-1.5.0
+    container_name: sia-upload
     restart: unless-stopped
     environment:
       - SIA_MODULES=gctwr
     volumes:
-      - ./docker/data/sia-upload-legacy:/sia-data
+      - ./docker/data/sia-upload:/sia-data
     networks:
       - shared
     expose:
@@ -79,7 +79,6 @@ services:
       - 80
     depends_on:
       - sia
-      - health-check
       - handshake-api
 
   webapp:
@@ -119,6 +118,7 @@ services:
     container_name: handshake-api
     restart: unless-stopped
     environment:
+      - HOSTNAME=0.0.0.0
       - HSD_HOST=handshake
       - HSD_NETWORK=main
       - HSD_PORT=12037
@@ -142,10 +142,15 @@ services:
     networks:
       - shared
     environment:
+      - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
     expose:
       - 3100
-
+    depends_on:
+      - caddy
+      - handshake
+      - handshake-api
+      
   # filebeat:
   #   image: docker.elastic.co/beats/filebeat:7.8.0
   #  container_name: filebeat
@@ -158,3 +163,4 @@ services:
   #    - KIBANA_HOST=${KIBANA_HOST:-144.76.136.122:5601}
   #    - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
   #    - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
+  
