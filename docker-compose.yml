@@ -27,14 +27,14 @@ services:
     expose:
       - 9980
 
-  sia-upload-legacy:
-    image: nebulouslabs/sia:dev
-    container_name: sia-upload-legacy
+  sia-upload:
+    image: nebulouslabs/sia:alpine-latest
+    container_name: sia-upload
     restart: unless-stopped
     environment:
       - SIA_MODULES=gctwr
     volumes:
-      - ./docker/data/sia-upload-legacy:/sia-data
+      - ./docker/data/sia-upload:/sia-data
     networks:
       - shared
     expose:
