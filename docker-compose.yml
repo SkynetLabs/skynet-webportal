@@ -13,6 +13,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
+        builder: alpine-1.5.0
         branch: master
     container_name: sia
     restart: unless-stopped
@@ -28,7 +29,7 @@ services:
       - 9980
 
   sia-upload:
-    image: nebulouslabs/sia:alpine-latest
+    image: nebulouslabs/sia:alpine-1.5.0
     container_name: sia-upload
     restart: unless-stopped
     environment:
