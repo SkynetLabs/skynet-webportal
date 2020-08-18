@@ -28,7 +28,7 @@ jobs:
       - name: "Build webapp"
         run: yarn workspace webapp build
         env:
-          GATSBY_API_URL: "https://siasky.net"
+          GATSBY_API_URL: "https://siasky.dev"
 
       - name: Cypress run
         uses: cypress-io/github-action@v1
