@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import discord, sys, traceback, io, os
+import discord, sys, traceback, io, os, asyncio
 from bot_utils import setup, send_msg, sc_precision
 from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
@@ -24,9 +24,16 @@ DEFAULT_CHECK_INTERVAL = 1
 bot_token = setup()
 client = discord.Client()
 
+
+async def exit_after(delay):
+    await asyncio.sleep(delay)
+    exit(0)
+
+
 @client.event
 async def on_ready():
     await run_checks()
+    asyncio.create_task(exit_after(10))
     await client.close()
 
 
