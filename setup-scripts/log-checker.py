@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import discord, sys, traceback, io, os, asyncio
-from bot_utils import setup, send_msg, sc_precision
+from bot_utils import setup, send_msg
 from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
 
@@ -33,7 +33,7 @@ async def exit_after(delay):
 @client.event
 async def on_ready():
     await run_checks()
-    asyncio.create_task(exit_after(10))
+    asyncio.create_task(exit_after(30))
     await client.close()
 
 

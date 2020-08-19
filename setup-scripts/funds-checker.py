@@ -5,17 +5,22 @@ health-checker runs simple health checks on a portal node using the siad API and
 dispatches messages to a Discord channel.
 """
 
-import discord, traceback
+import discord, traceback, asyncio
 from bot_utils import setup, send_msg, siad, sc_precision
 
 bot_token = setup()
 client = discord.Client()
 
 
+async def exit_after(delay):
+    await asyncio.sleep(delay)
+    exit(0)
+
+
 @client.event
 async def on_ready():
     await run_checks()
-    asyncio.create_task(exit_after(10))
+    asyncio.create_task(exit_after(30))
     await client.close()
 
 
