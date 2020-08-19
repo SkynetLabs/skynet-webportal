@@ -104,8 +104,8 @@ At this point we have almost everything running, we just need to set up your wal
   > `docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
 - Restarting nginx gracefully after making changes to nginx configs
   > `docker exec nginx openresty -s reload`
-- Checking siad service logs (follow last 50 lines)
-  > `journalctl -f -n 50 --user-unit siad`
+- Checking siad service logs (last hour)
+  > `docker logs --since 1h $(docker ps -q --filter "name=^sia$")`
 - Checking caddy logs (for example in case ssl certificate fails)
   > `docker logs caddy -f`
 - Checking nginx logs (nginx handles all communication to siad instances)
