@@ -1,7 +1,23 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: "/"
+    directory: "/packages/handshake-api"
+    schedule:
+      interval: weekly
+      time: "10:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - kwypchlo
+  - package-ecosystem: npm
+    directory: "/packages/health-check"
+    schedule:
+      interval: weekly
+      time: "10:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - kwypchlo
+  - package-ecosystem: npm
+    directory: "/packages/webapp"
     schedule:
       interval: weekly
       time: "10:00"

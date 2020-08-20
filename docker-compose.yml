@@ -4,16 +4,41 @@ networks:
   shared:
     driver: bridge
 
+volumes:
+  webapp:
+
 services:
-  docker-host:
-    image: qoomon/docker-host
-    container_name: docker-host
+  sia:
+    build:
+      context: ./docker/sia
+      dockerfile: Dockerfile
+      args:
+        branch: v1.5.0
+    container_name: sia
     restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
+    environment:
+      - SIA_MODULES=gctwr
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/sia:/sia-data
     networks:
       - shared
+    expose:
+      - 9980
+
+  sia-upload:
+    image: nebulouslabs/sia:alpine-1.5.0
+    container_name: sia-upload
+    restart: unless-stopped
+    environment:
+      - SIA_MODULES=gctwr
+    volumes:
+      - ./docker/data/sia-upload:/sia-data
+    networks:
+      - shared
+    expose:
+      - 9980
 
   caddy:
     build:
@@ -33,13 +58,10 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - docker-host
       - nginx
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
+    image: openresty/openresty:1.15.8.3-2-xenial
     container_name: nginx
     restart: unless-stopped
     env_file:
@@ -49,12 +71,25 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
+      - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
+      - webapp:/var/www/webportal:ro
     networks:
       - shared
     expose:
       - 80
     depends_on:
-      - docker-host
+      - sia
+      - handshake-api
+
+  webapp:
+    build:
+      context: ./packages/webapp
+      dockerfile: Dockerfile
+    container_name: webapp
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - webapp:/usr/app/public
 
   handshake:
     build:
@@ -78,11 +113,12 @@ services:
 
   handshake-api:
     build:
-      context: .
-      dockerfile: ./docker/handshake-api/Dockerfile
+      context: ./packages/handshake-api
+      dockerfile: Dockerfile
     container_name: handshake-api
     restart: unless-stopped
     environment:
+      - HOSTNAME=0.0.0.0
       - HSD_HOST=handshake
       - HSD_NETWORK=main
       - HSD_PORT=12037
@@ -94,23 +130,23 @@ services:
       - 3100
     depends_on:
       - handshake
-      - nginx
 
   health-check:
     build:
-      context: .
-      dockerfile: ./docker/health-check/Dockerfile
+      context: ./packages/health-check
+      dockerfile: Dockerfile
     container_name: health-check
     restart: unless-stopped
     volumes:
-      - ./health-check:/usr/app/health-check
       - ./docker/data/health-check/state:/usr/app/state
     networks:
       - shared
     environment:
+      - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
     expose:
       - 3100
     depends_on:
-      - docker-host
-      - nginx
+      - caddy
+      - handshake
+      - handshake-api

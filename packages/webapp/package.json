@@ -1,0 +1,86 @@
+{
+  "name": "webapp",
+  "description": "Sia Skynet",
+  "version": "1.0.0",
+  "author": "Nebulous",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bytes": "^3.1.0",
+    "classnames": "^2.2.6",
+    "gatsby": "^2.24.47",
+    "gatsby-image": "^2.4.16",
+    "gatsby-plugin-manifest": "^2.4.23",
+    "gatsby-plugin-matomo": "^0.8.3",
+    "gatsby-plugin-react-helmet": "^3.3.10",
+    "gatsby-plugin-remove-serviceworker": "^1.0.0",
+    "gatsby-plugin-robots-txt": "^1.5.1",
+    "gatsby-plugin-sass": "^2.3.12",
+    "gatsby-plugin-sharp": "^2.6.27",
+    "gatsby-source-filesystem": "^2.3.24",
+    "gatsby-transformer-sharp": "^2.5.13",
+    "http-status-codes": "^1.4.0",
+    "jsonp": "^0.2.1",
+    "node-sass": "^4.14.0",
+    "path-browserify": "^1.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-countup": "^4.3.3",
+    "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.2",
+    "react-helmet": "^6.1.0",
+    "react-mailchimp-form": "^1.0.2",
+    "react-mailchimp-subscribe": "^2.1.0",
+    "react-reveal": "^1.2.2",
+    "react-syntax-highlighter": "^13.5.0",
+    "react-visibility-sensor": "^5.1.1",
+    "skynet-js": "0.0.8",
+    "typeface-metropolis": "^0.0.74"
+  },
+  "devDependencies": {
+    "cypress": "^4.10.0",
+    "cypress-file-upload": "^4.0.7",
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-cypress": "^2.11.1",
+    "eslint-plugin-react": "^7.20.6",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  },
+  "keywords": [
+    "sia",
+    "skynet",
+    "nebulous",
+    "blockchain",
+    "decentralized",
+    "cloud storage"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "start": "gatsby develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,html,css,scss}": [
+      "prettier --write"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NebulousLabs/skynet-webportal"
+  },
+  "bugs": {
+    "url": "https://github.com/NebulousLabs/skynet-webportal/issues"
+  }
+}

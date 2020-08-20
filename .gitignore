@@ -69,8 +69,8 @@ yarn-error.log
 .yarn-integrity
 
 # Cypress
-cypress/screenshots
-cypress/videos
+packages/webapp/cypress/screenshots
+packages/webapp/cypress/videos
 
 # Docker data
 docker/data
@@ -78,3 +78,4 @@ docker/data
 # Cache files
 __pycache__
 /.idea/
+/venv/

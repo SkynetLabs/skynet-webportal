@@ -1,9 +1,14 @@
 if ($request_method = 'OPTIONS') {
-    add_header 'Access-Control-Allow-Origin' '*';
-    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-    add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-    add_header 'Access-Control-Max-Age' 1728000; # valid for 20 days
-    add_header 'Content-Type' 'text/plain; charset=utf-8';
-    add_header 'Content-Length' 0;
+    more_set_headers 'Access-Control-Allow-Origin: *';
+    more_set_headers 'Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE';
+    more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+    more_set_headers 'Access-Control-Max-Age: 1728000';
+    more_set_headers 'Content-Type: text/plain; charset=utf-8';
+    more_set_headers 'Content-Length: 0';
     return 204;
 }
+
+more_set_headers 'Access-Control-Allow-Origin: *';
+more_set_headers 'Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE';
+more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+more_set_headers 'Access-Control-Expose-Headers: Content-Length,Content-Range,Skynet-File-Metadata';

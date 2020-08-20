@@ -11,18 +11,24 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - name: Install dependencies
         run: yarn
 
-      - name: Static code analysis
-        run: yarn prettier --check .
+      - name: "Static code analysis: handshake-api"
+        run: yarn workspace handshake-api prettier --check .
 
-      - name: Build production bundle
-        run: yarn build
+      - name: "Static code analysis: health-check"
+        run: yarn workspace health-check prettier --check .
+
+      - name: "Static code analysis: webapp"
+        run: yarn workspace webapp prettier --check .
+
+      - name: "Build webapp"
+        run: yarn workspace webapp build
         env:
-          GATSBY_API_URL: "https://siasky.net"
+          GATSBY_API_URL: "https://siasky.dev"
 
       - name: Cypress run
         uses: cypress-io/github-action@v1
@@ -30,6 +36,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          working-directory: packages/webapp
           record: true
           start: npx http-server public --port 8000
           wait-on: "http://localhost:8000"
