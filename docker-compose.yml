@@ -33,6 +33,8 @@ services:
     restart: unless-stopped
     environment:
       - SIA_MODULES=gctwr
+    env_file:
+      - .env-upload
     volumes:
       - ./docker/data/sia-upload:/sia-data
     networks:
