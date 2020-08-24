@@ -57,7 +57,9 @@ async def check_docker_logs():
         container_name = sys.argv[2]
 
     # Get the container id for siad.
-    stream = os.popen('docker ps -q --filter name=^{}$'.format(container_name))
+    cmd = 'docker ps -q --filter name=^{}$'.format(container_name)
+    print("[DEBUG] will run `{}`".format(cmd))
+    stream = os.popen(cmd)
     image_id = stream.read().strip()
 
     # Get the number of hours to look back in the logs or use 1 as default.
@@ -70,11 +72,12 @@ async def check_docker_logs():
     time_string = "{}h".format(check_hours)
 
     # Read the logs.
+    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, image_id))
     proc = Popen(["docker", "logs", "--since", time_string, image_id], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
-        await send_msg(client, "Error reading docker logs output: {}".format(std_err), force_notify=True)
+        await send_msg(client, "Error(s) found in log: {}".format(std_err), force_notify=True)
         return
 
     # If there are any critical errors. upload the whole log file.
