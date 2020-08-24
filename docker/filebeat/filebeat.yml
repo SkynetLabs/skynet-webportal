@@ -12,6 +12,8 @@ filebeat.modules:
     error:
       enabled: true
       var.paths: ["/var/log/nginx/error.log"]
+    ingress_controller:
+      enabled: false
 
 # filebeat.inputs:
 #   - type: log

@@ -157,6 +157,8 @@ services:
     image: docker.elastic.co/beats/filebeat:7.9.0
     container_name: filebeat
     hostname: "${HOSTNAME}-filebeat"
+    user: root
+    command: ["--strict.perms=false"]
     restart: unless-stopped
     env_file:
       - .env
