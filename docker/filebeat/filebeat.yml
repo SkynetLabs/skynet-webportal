@@ -1,0 +1,31 @@
+filebeat.config:
+  name: ${HOSTNAME}
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.modules:
+  - module: nginx
+    access:
+      enabled: true
+      var.paths: ["/var/log/nginx/access.log"]
+    error:
+      enabled: true
+      var.paths: ["/var/log/nginx/error.log"]
+
+# filebeat.inputs:
+#   - type: log
+#     paths:
+#       - /var/log/nginx/access.log
+
+output.logstash:
+  hosts: ["${LOGSTASH_HOST}"]
+
+#output.elasticsearch:
+#  hosts: ["144.76.136.122:9200"]
+#  username: "elastic"
+#  password: "changeme"
+#  ssl.enabled: false
+
+setup.kibana:
+  host: "${KIBANA_HOST}"

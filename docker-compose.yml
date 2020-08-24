@@ -152,3 +152,17 @@ services:
       - caddy
       - handshake
       - handshake-api
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.9.0
+    container_name: filebeat
+    hostname: "${HOSTNAME}-filebeat"
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./docker/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./docker/data/filebeat/data:/usr/share/filebeat/data
+      - ./docker/data/nginx/logs:/var/log/nginx:ro
+    networks:
+      - shared
