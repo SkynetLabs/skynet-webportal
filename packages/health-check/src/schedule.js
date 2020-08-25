@@ -13,7 +13,7 @@ const basicJob = schedule.scheduleJob("*/5 * * * *", async () => {
 });
 
 // execute the verbose health-check script once a day at 3am
-const verboseJob = schedule.scheduleJob("* * 3 * * *", async () => {
+const verboseJob = schedule.scheduleJob("* 3 * * *", async () => {
   const entry = { date: new Date().toISOString(), checks: [] };
 
   entry.checks = await Promise.all(verboseChecks.map((check) => new Promise(check)));

@@ -227,7 +227,7 @@ function skylinkVerification(done, linkInfo) {
   const time = process.hrtime();
 
   // Create the query for the skylink
-  let query = `http://${process.env.PORTAL_URL}/${linkInfo.skylink}?nocache=true`;
+  const query = `http://${process.env.PORTAL_URL}/${linkInfo.skylink}?nocache=true`;
 
   // Get the Skylink
   superagent
@@ -243,10 +243,10 @@ function skylinkVerification(done, linkInfo) {
       if (up) {
         // Check if the response body is valid by checking against the known
         // hash
-        let validBody = hash(res.body) === linkInfo.bodyHash;
+        const validBody = hash(res.body) === linkInfo.bodyHash;
         // Check if the metadata is valid by checking against the known
         // hash
-        let validMetadata = hash(res.header["skynet-file-metadata"]) === linkInfo.metadataHash;
+        const validMetadata = hash(res.header["skynet-file-metadata"]) === linkInfo.metadataHash;
         // Redetermine if the Skylink is up based on the results from the body
         // and metadata hash checks
         up = up && validBody && validMetadata;
