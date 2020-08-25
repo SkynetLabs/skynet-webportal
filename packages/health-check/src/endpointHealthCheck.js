@@ -1,4 +1,4 @@
-const HttpStatus = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { sum, sumBy } = require("lodash");
 const db = require("./db");
 
@@ -6,14 +6,14 @@ function getStatus() {
   const entry = db.get("entries").orderBy("date", "desc").head().value();
 
   if (entry && entry.checks.every(({ up }) => up)) {
-    return HttpStatus.OK;
+    return StatusCodes.OK;
   }
 
-  return HttpStatus.SERVICE_UNAVAILABLE;
+  return StatusCodes.SERVICE_UNAVAILABLE;
 }
 
 function getTimeout() {
-  if (getStatus() === HttpStatus.SERVICE_UNAVAILABLE) {
+  if (getStatus() === StatusCodes.SERVICE_UNAVAILABLE) {
     return 0;
   }
 
