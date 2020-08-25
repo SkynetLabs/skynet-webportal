@@ -15,19 +15,11 @@ filebeat.modules:
     ingress_controller:
       enabled: false
 
-# filebeat.inputs:
-#   - type: log
-#     paths:
-#       - /var/log/nginx/access.log
-
-output.logstash:
-  hosts: ["${LOGSTASH_HOST}"]
-
-#output.elasticsearch:
-#  hosts: ["144.76.136.122:9200"]
-#  username: "elastic"
-#  password: "changeme"
-#  ssl.enabled: false
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOST}"]
+  username: "${ELASTICSEARCH_USERNAME}"
+  password: "${ELASTICSEARCH_PASSWORD}"
+  ssl.enabled: false
 
 setup.kibana:
   host: "${KIBANA_HOST}"
