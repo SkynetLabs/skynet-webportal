@@ -1,4 +1,4 @@
-const HttpStatus = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { sum, sumBy } = require("lodash");
 const db = require("./db");
 
@@ -9,18 +9,17 @@ function getStatus() {
 
   // Check that every critical check entry is up
   if (entry && entry.checks.every(({ up, critical }) => up && critical)) {
-    return HttpStatus.OK;
+    return StatusCodes.OK;
   }
 
   // At least one check failed
-  return HttpStatus.SERVICE_UNAVAILABLE;
+  return StatusCodes.SERVICE_UNAVAILABLE;
 }
 
 // getTimeout returns the average time out from a sample of 10 health check
 // entries.
 function getTimeout() {
-  // Check status of the Health Check
-  if (getStatus() === HttpStatus.SERVICE_UNAVAILABLE) {
+  if (getStatus() === StatusCodes.SERVICE_UNAVAILABLE) {
     return 0;
   }
 

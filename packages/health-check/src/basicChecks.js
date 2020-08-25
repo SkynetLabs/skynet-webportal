@@ -1,5 +1,5 @@
 const superagent = require("superagent");
-const HttpStatus = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
@@ -13,7 +13,7 @@ async function uploadCheck(done) {
 
       done({
         name: "upload_file",
-        up: statusCode === HttpStatus.OK,
+        up: statusCode === StatusCodes.OK,
         statusCode,
         time: catchRequestTime(time),
         critical: true,

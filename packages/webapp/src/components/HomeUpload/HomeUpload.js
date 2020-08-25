@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import bytes from "bytes";
 import classNames from "classnames";
-import HttpStatus from "http-status-codes";
+import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import Reveal from "react-reveal/Reveal";
@@ -46,7 +46,7 @@ const createUploadErrorMessage = (error) => {
     }
 
     const statusCode = error.response.status;
-    const statusText = HttpStatus.getStatusText(error.response.status);
+    const statusText = getReasonPhrase(error.response.status);
 
     return `Upload failed, our server received your request but failed with status code: ${statusCode} ${statusText}`;
   }
@@ -133,7 +133,7 @@ export default function HomeUpload() {
 
           onFileStateChange(file, { status: "complete", url: client.getUrl(response.skylink) });
         } catch (error) {
-          if (error.response && error.response.status === HttpStatus.TOO_MANY_REQUESTS) {
+          if (error.response && error.response.status === StatusCodes.TOO_MANY_REQUESTS) {
             onFileStateChange(file, { progress: -1 });
 
             return new Promise((resolve) => setTimeout(() => resolve(upload()), 3000));
