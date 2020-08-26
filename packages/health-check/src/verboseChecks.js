@@ -235,6 +235,7 @@ function skylinkVerification(done, linkInfo) {
     .end((err, res) => {
       // Record the statusCode
       const statusCode = (res && res.statusCode) || (err && err.statusCode) || null;
+      let info = null;
 
       // Determine if the skylink is up. Start with checking if there was an
       // error in the request.
@@ -249,9 +250,9 @@ function skylinkVerification(done, linkInfo) {
         // Redetermine if the Skylink is up based on the results from the body
         // and metadata hash checks
         up = up && validBody && validMetadata;
-      }
 
-      const info = { validBody, validMetadata };
+        info = { validBody, validMetadata };
+      }
 
       // Return the entry information
       done({
