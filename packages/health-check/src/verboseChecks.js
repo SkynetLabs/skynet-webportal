@@ -251,18 +251,15 @@ function skylinkVerification(done, linkInfo) {
         up = up && validBody && validMetadata;
       }
 
-      let info = "";
-      if (!up) {
-        info = "validBody: " + validBody + "\nvalidMetadata: " + validMetadata;
-      }
+      const info = { validBody, validMetadata };
 
       // Return the entry information
       done({
         name: linkInfo.description,
-        up: up,
+        up,
+        info,
         statusCode,
         time: checks.catchRequestTime(time),
-        info: info,
         critical: true,
       });
     });
