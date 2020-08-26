@@ -77,7 +77,13 @@ async def check_docker_logs():
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
-        await send_msg(client, "Error(s) found in log: {}".format(std_err), force_notify=True)
+        # Send at most 1900 characters of logs, rounded down to the nearest new line.
+        # This is a limitation in the size of Discord messages - they can be at most
+        # 2000 characters long (and we send some extra characters before the error log).
+        if len(std_err) > 1900:
+            pos = std_err.find("\n", -1900)
+            std_err = std_err[pos+1:]
+        await send_msg(client, "Error(s) found in log:\n{}".format(std_err), force_notify=True)
         return
 
     # If there are any critical errors. upload the whole log file.
