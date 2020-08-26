@@ -1,5 +1,5 @@
 const superagent = require("superagent");
-const HttpStatus = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 async function uploadCheck(done) {
   const time = process.hrtime();
@@ -12,7 +12,7 @@ async function uploadCheck(done) {
 
       done({
         name: "upload_file",
-        up: statusCode === HttpStatus.OK,
+        up: statusCode === StatusCodes.OK,
         statusCode,
         time: catchRequestTime(time),
       });

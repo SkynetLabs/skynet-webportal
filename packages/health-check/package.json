@@ -6,7 +6,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "http-status-codes": "^1.4.0",
+    "http-status-codes": "^2.1.2",
     "lodash": "^4.17.19",
     "lowdb": "^1.0.0",
     "node-schedule": "^1.3.2",
