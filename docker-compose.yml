@@ -28,7 +28,7 @@ services:
       - 9980
 
   sia-upload:
-    image: nebulouslabs/sia:alpine-1.5.0
+    image: nebulouslabs/sia:1.5.0.1
     container_name: sia-upload
     restart: unless-stopped
     environment:
