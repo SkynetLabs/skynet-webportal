@@ -150,6 +150,5 @@ services:
     expose:
       - 3100
     depends_on:
-      - caddy
       - handshake
       - handshake-api
