@@ -81,6 +81,7 @@ services:
       - 80
     depends_on:
       - sia
+      - health-check
       - handshake-api
 
   webapp:
@@ -149,6 +150,5 @@ services:
     expose:
       - 3100
     depends_on:
-      - caddy
       - handshake
       - handshake-api
