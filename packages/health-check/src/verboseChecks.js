@@ -518,16 +518,16 @@ function skylinkVerification(done, linkInfo) {
         // Check if the response body is valid by checking against the known
         // hash
         const validBody = hash(res.body) === linkInfo.bodyHash;
-        // Check if the metadata is valid by checking against the known
-        // hash
-        const validMetadata = isEqual(res.header["skynet-file-metadata"], linkInfo.metadata);
+        // Check if the metadata is valid
+        const metadata = res.header["skynet-file-metadata"] ? JSON.parse(res.header["skynet-file-metadata"]) : null;
+        const validMetadata = isEqual(metadata, linkInfo.metadata);
         // Redetermine if the Skylink is up based on the results from the body
         // and metadata hash checks
         up = up && validBody && validMetadata;
 
         info = {
           body: { valid: validBody },
-          metadata: { valid: validMetadata, diff: detailedDiff(res.header["skynet-file-metadata"], linkInfo.metadata) },
+          metadata: { valid: validMetadata, diff: detailedDiff(metadata, linkInfo.metadata) },
         };
       }
 
