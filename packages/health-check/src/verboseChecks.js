@@ -251,7 +251,7 @@ function skylinkVerification(done, linkInfo) {
         // and metadata hash checks
         up = up && validBody && validMetadata;
 
-        info = { validBody, validMetadata };
+        info = { validBody, validMetadata, metadata: res.header["skynet-file-metadata"] };
       }
 
       // Return the entry information
