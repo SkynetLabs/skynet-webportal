@@ -1,5 +1,4 @@
 const superagent = require("superagent");
-const HttpStatus = require("http-status-codes");
 const hash = require("object-hash");
 const checks = require("./basicChecks");
 
