@@ -31,7 +31,7 @@ function downloadCheck(done) {
 
     done({
       name: "download_file",
-      up: statusCode === HttpStatus.OK,
+      up: statusCode === StatusCodes.OK,
       statusCode,
       time: catchRequestTime(time),
       critical: true,
