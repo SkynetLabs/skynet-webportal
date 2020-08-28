@@ -8,10 +8,10 @@ filebeat.modules:
   - module: nginx
     access:
       enabled: true
-      var.paths: ["/var/log/nginx/access.log"]
+      var.paths: ["/var/log/nginx/access.log*"]
     error:
       enabled: true
-      var.paths: ["/var/log/nginx/error.log"]
+      var.paths: ["/var/log/nginx/error.log*"]
     ingress_controller:
       enabled: false
 
