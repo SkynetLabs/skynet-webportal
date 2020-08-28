@@ -55,9 +55,9 @@ async def check_load_average():
     uptime_string = os.popen("uptime").read().strip()
     # pattern = ""
     if sys.platform == "Darwin":
-        pattern = "^.*load averages: (\d*\.\d*) \d*\.\d* \d*\.\d*$"
+        pattern = "^.*load averages: \d*\.\d* \d*\.\d* (\d*\.\d*)$"
     else:
-        pattern = "^.*load average: (\d*\.\d*), \d*\.\d*, \d*\.\d*$"
+        pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
         await send_msg(client, "High system load detected: `{}`".format(uptime_string), force_notify=True)
