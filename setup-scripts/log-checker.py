@@ -60,7 +60,7 @@ async def check_load_average():
         pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
-        await send_msg(client, "High system load detected: `{}`".format(uptime_string), force_notify=True)
+        await send_msg(client, "High system load detected: `uptime: {}`".format(uptime_string), force_notify=True)
 
 # check_docker_logs checks the docker logs by filtering on the docker image name
 async def check_docker_logs():
