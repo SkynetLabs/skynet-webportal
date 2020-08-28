@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import discord, sys, traceback, io, os, asyncio
+import discord, sys, traceback, io, os, asyncio, re
 from bot_utils import setup, send_msg
 from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
@@ -25,6 +25,7 @@ bot_token = setup()
 client = discord.Client()
 
 
+# exit_after kills the script if it hasn't exited on its own after `delay` seconds
 async def exit_after(delay):
     await asyncio.sleep(delay)
     exit(0)
@@ -40,12 +41,26 @@ async def on_ready():
 async def run_checks():
     print("Running Skynet portal log checks")
     try:
+        await check_load_average()
         await check_docker_logs()
 
     except: # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
 
+
+# check_load_average monitors the system's load average value and issues a
+# warning message if it exceeds 10.
+async def check_load_average():
+    uptime_string = os.popen("uptime").read().strip()
+    # pattern = ""
+    if sys.platform == "Darwin":
+        pattern = "^.*load averages: (\d*\.\d*) \d*\.\d* \d*\.\d*$"
+    else:
+        pattern = "^.*load average: (\d*\.\d*), \d*\.\d*, \d*\.\d*$"
+    load_av = re.match(pattern, uptime_string).group(1)
+    if float(load_av) > 10:
+        await send_msg(client, "High system load detected: `{}`".format(uptime_string), force_notify=True)
 
 # check_docker_logs checks the docker logs by filtering on the docker image name
 async def check_docker_logs():
