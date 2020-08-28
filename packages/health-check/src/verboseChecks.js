@@ -17,6 +17,41 @@ function audioExampleCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+// covid19PaperCheck returns the result of trying to download the skylink
+// for a known Covid19 paper
+function covid19PaperCheck(done) {
+  const linkInfo = {
+    description: "Covid-19 Paper",
+    skylink: "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
+    bodyHash: "81b9fb74829a96ceafa429840d1ef0ce44376ddd",
+    metadata: {
+      filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
+      subfiles: {
+        "An Effective Treatment for Coronavirus (COVID-19).pdf": {
+          filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
+          contenttype: "application/pdf",
+          len: 474803,
+        },
+      },
+    },
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// covid19CoroNopePaperCheck returns the result of trying to download the skylink
+// for another known Covid19 paper
+function covid19CoroNopePaperCheck(done) {
+  const linkInfo = {
+    description: "Covid-19 CoroNope Paper",
+    skylink: "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
+    bodyHash: "901f6fd65ef595f70b6bfebbb2d05942351ef2b3",
+    metadata: { filename: "coronope.pdf" },
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // dappExampleCheck returns the result of trying to download the skylink
 // for the Example Dapp on siasky.net
 function dappExampleCheck(done) {
@@ -477,6 +512,28 @@ function skyGalleryRedirectCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+// uncensoredLibraryCheck returns the result of trying to download the skylink
+// for the uncensored library skylink
+function uncensoredLibraryCheck(done) {
+  const linkInfo = {
+    description: "Uncensored Library",
+    skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
+    bodyHash: "60da6cb958699c5acd7f2a2911656ff32fca89a7",
+    metadata: {
+      filename: "Unzip_The_Uncensored_Library_Map.zip",
+      subfiles: {
+        "Unzip_The_Uncensored_Library_Map.zip": {
+          filename: "Unzip_The_Uncensored_Library_Map.zip",
+          contenttype: "application/zip",
+          len: 76744822,
+        },
+      },
+    },
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // uniswapIndexFileCheck returns the result of trying to download the skylink
 // for the Uniswap Application with a trailing /index.html
 function uniswapIndexFileCheck(done) {
@@ -545,6 +602,8 @@ function skylinkVerification(done, linkInfo) {
 
 module.exports.verboseChecks = [
   audioExampleCheck,
+  covid19PaperCheck,
+  covid19CoroNopePaperCheck,
   dappExampleCheck,
   developMomentumIndexFileCheck,
   htmlExampleCheck,
@@ -560,5 +619,6 @@ module.exports.verboseChecks = [
   skyGalleryCheck,
   skyGalleryIndexFileCheck,
   skyGalleryRedirectCheck,
+  uncensoredLibraryCheck,
   uniswapIndexFileCheck,
 ];
