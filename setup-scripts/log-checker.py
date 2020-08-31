@@ -28,14 +28,13 @@ client = discord.Client()
 # exit_after kills the script if it hasn't exited on its own after `delay` seconds
 async def exit_after(delay):
     await asyncio.sleep(delay)
-    exit(0)
+    os._exit(0)
 
 
 @client.event
 async def on_ready():
     await run_checks()
-    asyncio.create_task(exit_after(30))
-    await client.close()
+    asyncio.create_task(exit_after(3))
 
 
 async def run_checks():
@@ -71,12 +70,6 @@ async def check_docker_logs():
     if len(sys.argv) > 2:
         container_name = sys.argv[2]
 
-    # Get the container id for siad.
-    cmd = 'docker ps -q --filter name=^{}$'.format(container_name)
-    print("[DEBUG] will run `{}`".format(cmd))
-    stream = os.popen(cmd)
-    image_id = stream.read().strip()
-
     # Get the number of hours to look back in the logs or use 1 as default.
     check_hours = DEFAULT_CHECK_INTERVAL
     if len(sys.argv) > 3:
@@ -87,8 +80,8 @@ async def check_docker_logs():
     time_string = "{}h".format(check_hours)
 
     # Read the logs.
-    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, image_id))
-    proc = Popen(["docker", "logs", "--since", time_string, image_id], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, container_name))
+    proc = Popen(["docker", "logs", "--since", time_string, container_name], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
@@ -109,7 +102,7 @@ async def check_docker_logs():
         return
 
     # If there are any critical errors. upload the whole log file.
-    if "Critical" in std_out or "panic" in std_out:
+    if 'Critical' in std_out or 'panic' in std_out:
         upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(container_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
         await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
@@ -118,5 +111,6 @@ async def check_docker_logs():
     pretty_before = time.strftime("%I:%M%p")
     pretty_now = now.strftime("%I:%M%p")
     await send_msg(client, "No critical warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
+
 
 client.run(bot_token)
