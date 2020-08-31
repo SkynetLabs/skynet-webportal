@@ -3,8 +3,9 @@ const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const checks = require("./basicChecks");
-const uniswapMetadata = require("./metadata");
 const developMomentumMetadata = require("./metadata");
+const skyGalleryMetadata = require("./metadata");
+const uniswapMetadata = require("./metadata");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -258,134 +259,15 @@ function skyBinRedirectCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const skyGalleryBodyHash = "077e54054748d278114f1870f8045a162eb73641";
+
 // skyGalleryCheck returns the result of trying to download the skylink for the SkyGallery Application.
 function skyGalleryCheck(done) {
   const linkInfo = {
     description: "SkyGallery",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
-    metadata: {
-      filename: "skygallery-v0.1.1-76c4c115fcb526716b2564568850f433",
-      subfiles: {
-        "css/app.84a130ed.css": { filename: "css/app.84a130ed.css", contenttype: "text/css", len: 698 },
-        "css/chunk-5ce44031.d4e78528.css": {
-          filename: "css/chunk-5ce44031.d4e78528.css",
-          contenttype: "text/css",
-          offset: 698,
-          len: 45,
-        },
-        "css/chunk-6bef839b.593aa2be.css": {
-          filename: "css/chunk-6bef839b.593aa2be.css",
-          contenttype: "text/css",
-          offset: 743,
-          len: 5013,
-        },
-        "css/chunk-8ed50a48.8ba8c09d.css": {
-          filename: "css/chunk-8ed50a48.8ba8c09d.css",
-          contenttype: "text/css",
-          offset: 5756,
-          len: 7204,
-        },
-        "css/chunk-eb4c1efc.2a7e25ed.css": {
-          filename: "css/chunk-eb4c1efc.2a7e25ed.css",
-          contenttype: "text/css",
-          offset: 12960,
-          len: 45,
-        },
-        "css/chunk-vendors.b4f58487.css": {
-          filename: "css/chunk-vendors.b4f58487.css",
-          contenttype: "text/css",
-          offset: 13005,
-          len: 382063,
-        },
-        "img/skygallery_logo.2336197e.svg": {
-          filename: "img/skygallery_logo.2336197e.svg",
-          contenttype: "image/svg+xml",
-          offset: 395068,
-          len: 923,
-        },
-        "img/skynet-logo-animated.4d24345c.svg": {
-          filename: "img/skynet-logo-animated.4d24345c.svg",
-          contenttype: "image/svg+xml",
-          offset: 395991,
-          len: 2600,
-        },
-        "index.html": { filename: "index.html", contenttype: "text/html", offset: 398591, len: 2534 },
-        "js/app.cff1e0a4.js": {
-          filename: "js/app.cff1e0a4.js",
-          contenttype: "application/javascript",
-          offset: 401125,
-          len: 15604,
-        },
-        "js/app.cff1e0a4.js.map": {
-          filename: "js/app.cff1e0a4.js.map",
-          contenttype: "application/json",
-          offset: 416729,
-          len: 54424,
-        },
-        "js/chunk-5ce44031.7fb55da9.js": {
-          filename: "js/chunk-5ce44031.7fb55da9.js",
-          contenttype: "application/javascript",
-          offset: 471153,
-          len: 3644,
-        },
-        "js/chunk-5ce44031.7fb55da9.js.map": {
-          filename: "js/chunk-5ce44031.7fb55da9.js.map",
-          contenttype: "application/json",
-          offset: 474797,
-          len: 13494,
-        },
-        "js/chunk-6bef839b.b543fe7d.js": {
-          filename: "js/chunk-6bef839b.b543fe7d.js",
-          contenttype: "application/javascript",
-          offset: 488291,
-          len: 13349,
-        },
-        "js/chunk-6bef839b.b543fe7d.js.map": {
-          filename: "js/chunk-6bef839b.b543fe7d.js.map",
-          contenttype: "application/json",
-          offset: 501640,
-          len: 46690,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js",
-          contenttype: "application/javascript",
-          offset: 548330,
-          len: 130329,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js.map": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js.map",
-          contenttype: "application/json",
-          offset: 678659,
-          len: 507145,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js",
-          contenttype: "application/javascript",
-          offset: 1185804,
-          len: 4407,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js.map": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js.map",
-          contenttype: "application/json",
-          offset: 1190211,
-          len: 15355,
-        },
-        "js/chunk-vendors.1fd55121.js": {
-          filename: "js/chunk-vendors.1fd55121.js",
-          contenttype: "application/javascript",
-          offset: 1205566,
-          len: 749829,
-        },
-        "js/chunk-vendors.1fd55121.js.map": {
-          filename: "js/chunk-vendors.1fd55121.js.map",
-          contenttype: "application/json",
-          offset: 1955395,
-          len: 2793251,
-        },
-      },
-      defaultpath: "/index.html",
-    },
+    bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
   };
 
   skylinkVerification(done, linkInfo);
@@ -397,7 +279,7 @@ function skyGalleryIndexFileCheck(done) {
   const linkInfo = {
     description: "SkyGallery Index File",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
+    bodyHash: skyGalleryBodyHash,
     metadata: {
       filename: "/index.html",
       length: 2534,
@@ -414,129 +296,8 @@ function skyGalleryRedirectCheck(done) {
   const linkInfo = {
     description: "SkyGallery Redirect",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
-    metadata: {
-      filename: "skygallery-v0.1.1-76c4c115fcb526716b2564568850f433",
-      subfiles: {
-        "css/app.84a130ed.css": { filename: "css/app.84a130ed.css", contenttype: "text/css", len: 698 },
-        "css/chunk-5ce44031.d4e78528.css": {
-          filename: "css/chunk-5ce44031.d4e78528.css",
-          contenttype: "text/css",
-          offset: 698,
-          len: 45,
-        },
-        "css/chunk-6bef839b.593aa2be.css": {
-          filename: "css/chunk-6bef839b.593aa2be.css",
-          contenttype: "text/css",
-          offset: 743,
-          len: 5013,
-        },
-        "css/chunk-8ed50a48.8ba8c09d.css": {
-          filename: "css/chunk-8ed50a48.8ba8c09d.css",
-          contenttype: "text/css",
-          offset: 5756,
-          len: 7204,
-        },
-        "css/chunk-eb4c1efc.2a7e25ed.css": {
-          filename: "css/chunk-eb4c1efc.2a7e25ed.css",
-          contenttype: "text/css",
-          offset: 12960,
-          len: 45,
-        },
-        "css/chunk-vendors.b4f58487.css": {
-          filename: "css/chunk-vendors.b4f58487.css",
-          contenttype: "text/css",
-          offset: 13005,
-          len: 382063,
-        },
-        "img/skygallery_logo.2336197e.svg": {
-          filename: "img/skygallery_logo.2336197e.svg",
-          contenttype: "image/svg+xml",
-          offset: 395068,
-          len: 923,
-        },
-        "img/skynet-logo-animated.4d24345c.svg": {
-          filename: "img/skynet-logo-animated.4d24345c.svg",
-          contenttype: "image/svg+xml",
-          offset: 395991,
-          len: 2600,
-        },
-        "index.html": { filename: "index.html", contenttype: "text/html", offset: 398591, len: 2534 },
-        "js/app.cff1e0a4.js": {
-          filename: "js/app.cff1e0a4.js",
-          contenttype: "application/javascript",
-          offset: 401125,
-          len: 15604,
-        },
-        "js/app.cff1e0a4.js.map": {
-          filename: "js/app.cff1e0a4.js.map",
-          contenttype: "application/json",
-          offset: 416729,
-          len: 54424,
-        },
-        "js/chunk-5ce44031.7fb55da9.js": {
-          filename: "js/chunk-5ce44031.7fb55da9.js",
-          contenttype: "application/javascript",
-          offset: 471153,
-          len: 3644,
-        },
-        "js/chunk-5ce44031.7fb55da9.js.map": {
-          filename: "js/chunk-5ce44031.7fb55da9.js.map",
-          contenttype: "application/json",
-          offset: 474797,
-          len: 13494,
-        },
-        "js/chunk-6bef839b.b543fe7d.js": {
-          filename: "js/chunk-6bef839b.b543fe7d.js",
-          contenttype: "application/javascript",
-          offset: 488291,
-          len: 13349,
-        },
-        "js/chunk-6bef839b.b543fe7d.js.map": {
-          filename: "js/chunk-6bef839b.b543fe7d.js.map",
-          contenttype: "application/json",
-          offset: 501640,
-          len: 46690,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js",
-          contenttype: "application/javascript",
-          offset: 548330,
-          len: 130329,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js.map": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js.map",
-          contenttype: "application/json",
-          offset: 678659,
-          len: 507145,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js",
-          contenttype: "application/javascript",
-          offset: 1185804,
-          len: 4407,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js.map": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js.map",
-          contenttype: "application/json",
-          offset: 1190211,
-          len: 15355,
-        },
-        "js/chunk-vendors.1fd55121.js": {
-          filename: "js/chunk-vendors.1fd55121.js",
-          contenttype: "application/javascript",
-          offset: 1205566,
-          len: 749829,
-        },
-        "js/chunk-vendors.1fd55121.js.map": {
-          filename: "js/chunk-vendors.1fd55121.js.map",
-          contenttype: "application/json",
-          offset: 1955395,
-          len: 2793251,
-        },
-      },
-      defaultpath: "/index.html",
-    },
+    bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
   };
 
   skylinkVerification(done, linkInfo);
