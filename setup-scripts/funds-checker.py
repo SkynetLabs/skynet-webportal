@@ -20,7 +20,7 @@ async def exit_after(delay):
 @client.event
 async def on_ready():
     await run_checks()
-    asyncio.create_task(exit_after(30))
+    asyncio.create_task(exit_after(3))
     await client.close()
 
 
