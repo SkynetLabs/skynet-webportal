@@ -28,7 +28,7 @@ client = discord.Client()
 # exit_after kills the script if it hasn't exited on its own after `delay` seconds
 async def exit_after(delay):
     await asyncio.sleep(delay)
-    sys.exit(0)
+    os._exit(0)
 
 
 @client.event
