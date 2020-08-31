@@ -3,6 +3,8 @@ const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const checks = require("./basicChecks");
+const uniswapMetadata = require("./metadata");
+const developMomentumMetadata = require("./metadata");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -69,13 +71,41 @@ function dappExampleCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const developMomentumBodyHash = "53b44a9d3cfa9b3d66ce5c29976f4383725d3652";
+
+// developMomentumCheck returns the result of trying to download the skylink
+// for the Develop Momentum Application
+function developMomentumCheck(done) {
+  const linkInfo = {
+    description: "Develop Momentum Index File",
+    skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/",
+    bodyHash: developMomentumBodyHash,
+    metadata: developMomentumMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// developMomentumRedirectCheck returns the result of trying to download the skylink
+// for the Develop Momentum Application without the tailing slash
+function developMomentumRedirectCheck(done) {
+  const linkInfo = {
+    description: "Develop Momentum Index File",
+    skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
+    bodyHash: developMomentumBodyHash,
+    metadata: developMomentumMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // developMomentumIndexFileCheck returns the result of trying to download the skylink
 // for the Develop Momentum Application with a trailing /index.html
 function developMomentumIndexFileCheck(done) {
   const linkInfo = {
     description: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html",
-    bodyHash: "53b44a9d3cfa9b3d66ce5c29976f4383725d3652",
+    bodyHash: developMomentumBodyHash,
     metadata: {
       filename: "/index.html",
       length: 4981,
@@ -534,18 +564,99 @@ function uncensoredLibraryCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const uniswapBodyHash = "3965f9a7def085b3a764ddc76a528eda38d72359";
+
+// uniswapCheck returns the result of trying to download the skylink
+// for the Uniswap Application
+function uniswapCheck(done) {
+  const linkInfo = {
+    description: "Uniswap",
+    skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application without a trailing slash
+function uniswapRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap",
+    skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // uniswapIndexFileCheck returns the result of trying to download the skylink
 // for the Uniswap Application with a trailing /index.html
 function uniswapIndexFileCheck(done) {
   const linkInfo = {
     description: "Uniswap Skylink Index File",
     skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/index.html",
-    bodyHash: "3965f9a7def085b3a764ddc76a528eda38d72359",
+    bodyHash: uniswapBodyHash,
     metadata: {
       filename: "/index.html",
       length: 3268,
       subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 3268 } },
     },
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSCheck returns the result of trying to download the skylink
+// for the Uniswap Application with the HNS domain
+function uniswapHNSCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS",
+    skylink: "hns/doesn/",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application with the HNS domain and without a trailing slash
+function uniswapHNSRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Redirect",
+    skylink: "hns/doesn",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSResolverCheck returns the result of trying to download the skylink
+// for the Uniswap Application via the HNS resolver endpoint
+function uniswapHNSResolverCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Resolver",
+    skylink: "hnsres/doesn/",
+    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+    metadata: null,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSResolverRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application via the HNS resolver endpoint without the
+// trailing slash
+function uniswapHNSResolverRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Resolver Redirect",
+    skylink: "hnsres/doesn",
+    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+    metadata: null,
   };
 
   skylinkVerification(done, linkInfo);
@@ -606,6 +717,8 @@ module.exports.verboseChecks = [
   covid19CoroNopePaperCheck,
   dappExampleCheck,
   developMomentumIndexFileCheck,
+  developMomentumCheck,
+  developMomentumRedirectCheck,
   htmlExampleCheck,
   imageExampleCheck,
   jsonExampleCheck,
@@ -621,4 +734,10 @@ module.exports.verboseChecks = [
   skyGalleryRedirectCheck,
   uncensoredLibraryCheck,
   uniswapIndexFileCheck,
+  uniswapCheck,
+  uniswapRedirectCheck,
+  uniswapHNSCheck,
+  uniswapHNSRedirectCheck,
+  uniswapHNSResolverCheck,
+  uniswapHNSResolverRedirectCheck,
 ];
