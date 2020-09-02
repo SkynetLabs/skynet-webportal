@@ -1,0 +1,322 @@
+{
+  "filename": "output",
+  "subfiles": {
+    ".well-known/brave-rewards-verification.txt": {
+      "filename": ".well-known/brave-rewards-verification.txt",
+      "contenttype": "text/plain",
+      "len": 154
+    },
+    "404.html": { "filename": "404.html", "contenttype": "text/html", "offset": 154, "len": 5482 },
+    "assets/bootstrap/bootstrap-grid.css": {
+      "filename": "assets/bootstrap/bootstrap-grid.css",
+      "contenttype": "text/css",
+      "offset": 5636,
+      "len": 49901
+    },
+    "assets/bootstrap/bootstrap-reboot.css": {
+      "filename": "assets/bootstrap/bootstrap-reboot.css",
+      "contenttype": "text/css",
+      "offset": 55537,
+      "len": 4187
+    },
+    "assets/bootstrap/bootstrap.css": {
+      "filename": "assets/bootstrap/bootstrap.css",
+      "contenttype": "text/css",
+      "offset": 59724,
+      "len": 172594
+    },
+    "assets/css/styles.css": {
+      "filename": "assets/css/styles.css",
+      "contenttype": "text/css",
+      "offset": 232318,
+      "len": 4887
+    },
+    "assets/fonts/dm-serif-display-v4-latin-regular.woff": {
+      "filename": "assets/fonts/dm-serif-display-v4-latin-regular.woff",
+      "contenttype": "application/font-woff",
+      "offset": 237205,
+      "len": 29916
+    },
+    "assets/fonts/dm-serif-display-v4-latin-regular.woff2": {
+      "filename": "assets/fonts/dm-serif-display-v4-latin-regular.woff2",
+      "contenttype": "application/octet-stream",
+      "offset": 267121,
+      "len": 24980
+    },
+    "assets/fonts/open-sans-v16-latin-regular.woff": {
+      "filename": "assets/fonts/open-sans-v16-latin-regular.woff",
+      "contenttype": "application/font-woff",
+      "offset": 292101,
+      "len": 18100
+    },
+    "assets/fonts/open-sans-v16-latin-regular.woff2": {
+      "filename": "assets/fonts/open-sans-v16-latin-regular.woff2",
+      "contenttype": "application/octet-stream",
+      "offset": 310201,
+      "len": 14380
+    },
+    "assets/fonts/questrial-v9-latin-regular.woff": {
+      "filename": "assets/fonts/questrial-v9-latin-regular.woff",
+      "contenttype": "application/font-woff",
+      "offset": 324581,
+      "len": 23048
+    },
+    "assets/fonts/questrial-v9-latin-regular.woff2": {
+      "filename": "assets/fonts/questrial-v9-latin-regular.woff2",
+      "contenttype": "application/octet-stream",
+      "offset": 347629,
+      "len": 13776
+    },
+    "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 361405,
+      "len": 79551
+    },
+    "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667-w960-h720.jpg": {
+      "filename": "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 440956,
+      "len": 31700
+    },
+    "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667.jpg": {
+      "filename": "assets/images/blog/2a40df99-1847-4726-9c5b-af4779eeb667.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 472656,
+      "len": 69094
+    },
+    "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 541750,
+      "len": 219602
+    },
+    "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3-w960-h720.jpg": {
+      "filename": "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 761352,
+      "len": 67741
+    },
+    "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3.jpg": {
+      "filename": "assets/images/blog/512e4dd1-6b3d-41aa-80a1-b96c3370b3c3.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 829093,
+      "len": 226910
+    },
+    "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 1056003,
+      "len": 258292
+    },
+    "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab-w960-h720.jpg": {
+      "filename": "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 1314295,
+      "len": 93250
+    },
+    "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab.jpg": {
+      "filename": "assets/images/blog/823a7764-af7c-4687-a42e-bd70768068ab.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 1407545,
+      "len": 236722
+    },
+    "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 1644267,
+      "len": 285727
+    },
+    "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b-w960-h720.jpg": {
+      "filename": "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 1929994,
+      "len": 115524
+    },
+    "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b.jpg": {
+      "filename": "assets/images/blog/9aeea0d6-737c-4be8-8b63-5ec38cbf394b.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2045518,
+      "len": 338905
+    },
+    "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2384423,
+      "len": 66608
+    },
+    "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932-w960-h720.jpg": {
+      "filename": "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2451031,
+      "len": 23239
+    },
+    "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932.jpg": {
+      "filename": "assets/images/blog/a1ee6dcf-55ef-43cd-ae05-682d2e28e932.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2474270,
+      "len": 82334
+    },
+    "assets/images/blog/content/17343f27-a62f-4193-a0e5-4190d948eb2e.png": {
+      "filename": "assets/images/blog/content/17343f27-a62f-4193-a0e5-4190d948eb2e.png",
+      "contenttype": "image/png",
+      "offset": 2556604,
+      "len": 8571
+    },
+    "assets/images/blog/content/1748cc9c-9ea0-47b8-a110-ad3a114408d1.png": {
+      "filename": "assets/images/blog/content/1748cc9c-9ea0-47b8-a110-ad3a114408d1.png",
+      "contenttype": "image/png",
+      "offset": 2565175,
+      "len": 19776
+    },
+    "assets/images/blog/content/27b98c5e-ba57-47e6-9fe7-9b82fb89868b.jpg": {
+      "filename": "assets/images/blog/content/27b98c5e-ba57-47e6-9fe7-9b82fb89868b.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2584951,
+      "len": 68054
+    },
+    "assets/images/blog/content/39374de9-f24a-46f6-9955-982687607c6d.png": {
+      "filename": "assets/images/blog/content/39374de9-f24a-46f6-9955-982687607c6d.png",
+      "contenttype": "image/png",
+      "offset": 2653005,
+      "len": 30305
+    },
+    "assets/images/blog/content/5c660f5c-04fb-46cd-9846-edccb9a7b778.jpg": {
+      "filename": "assets/images/blog/content/5c660f5c-04fb-46cd-9846-edccb9a7b778.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2683310,
+      "len": 10409
+    },
+    "assets/images/blog/content/5cb6fb87-75d0-4aa4-99c7-b7815ca7ea70.png": {
+      "filename": "assets/images/blog/content/5cb6fb87-75d0-4aa4-99c7-b7815ca7ea70.png",
+      "contenttype": "image/png",
+      "offset": 2693719,
+      "len": 123977
+    },
+    "assets/images/blog/content/765827f6-192b-48c9-b3e1-cb7b33e3b881.png": {
+      "filename": "assets/images/blog/content/765827f6-192b-48c9-b3e1-cb7b33e3b881.png",
+      "contenttype": "image/png",
+      "offset": 2817696,
+      "len": 110297
+    },
+    "assets/images/blog/content/7b39a2f8-8060-43e7-a439-43f799d3e069.jpg": {
+      "filename": "assets/images/blog/content/7b39a2f8-8060-43e7-a439-43f799d3e069.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 2927993,
+      "len": 24372
+    },
+    "assets/images/blog/content/8af4faff-e011-4e31-ba28-5023f65d1003.png": {
+      "filename": "assets/images/blog/content/8af4faff-e011-4e31-ba28-5023f65d1003.png",
+      "contenttype": "image/png",
+      "offset": 2952365,
+      "len": 106400
+    },
+    "assets/images/blog/content/ae29cd58-f28f-4a0e-bffb-a7e4e1235797.png": {
+      "filename": "assets/images/blog/content/ae29cd58-f28f-4a0e-bffb-a7e4e1235797.png",
+      "contenttype": "image/png",
+      "offset": 3058765,
+      "len": 33357
+    },
+    "assets/images/blog/content/b3be6c1c-725a-4af2-a85f-e47e09bbceef.png": {
+      "filename": "assets/images/blog/content/b3be6c1c-725a-4af2-a85f-e47e09bbceef.png",
+      "contenttype": "image/png",
+      "offset": 3092122,
+      "len": 37074
+    },
+    "assets/images/blog/content/b4e772a3-effb-4a5d-82d9-db9596ccfe51.png": {
+      "filename": "assets/images/blog/content/b4e772a3-effb-4a5d-82d9-db9596ccfe51.png",
+      "contenttype": "image/png",
+      "offset": 3129196,
+      "len": 79662
+    },
+    "assets/images/blog/content/d2731109-b50f-4c1f-b4f9-7ab8cac196da.png": {
+      "filename": "assets/images/blog/content/d2731109-b50f-4c1f-b4f9-7ab8cac196da.png",
+      "contenttype": "image/png",
+      "offset": 3208858,
+      "len": 104535
+    },
+    "assets/images/blog/content/fed0e592-d063-497b-9a3b-2bfc29b04d1a.jpg": {
+      "filename": "assets/images/blog/content/fed0e592-d063-497b-9a3b-2bfc29b04d1a.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 3313393,
+      "len": 9535
+    },
+    "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3-w1920-h1440.jpg": {
+      "filename": "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3-w1920-h1440.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 3322928,
+      "len": 402770
+    },
+    "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3-w960-h720.jpg": {
+      "filename": "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3-w960-h720.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 3725698,
+      "len": 143539
+    },
+    "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3.jpg": {
+      "filename": "assets/images/blog/e4956336-3662-46ae-bea2-7fd3059919c3.jpg",
+      "contenttype": "image/jpeg",
+      "offset": 3869237,
+      "len": 375170
+    },
+    "assets/images/logo.svg": {
+      "filename": "assets/images/logo.svg",
+      "contenttype": "image/svg+xml",
+      "offset": 4244407,
+      "len": 2183
+    },
+    "assets/js/themes.js": {
+      "filename": "assets/js/themes.js",
+      "contenttype": "text/javascript",
+      "offset": 4246590,
+      "len": 779
+    },
+    "blog/building_a_web_farm_with_docker_and_raspberry_pi.html": {
+      "filename": "blog/building_a_web_farm_with_docker_and_raspberry_pi.html",
+      "contenttype": "text/html",
+      "offset": 4247369,
+      "len": 23111
+    },
+    "blog/continuously_deploy_a_static_website_with_azure_pipelines.html": {
+      "filename": "blog/continuously_deploy_a_static_website_with_azure_pipelines.html",
+      "contenttype": "text/html",
+      "offset": 4270480,
+      "len": 24738
+    },
+    "blog/decentralise_your_website_as_much_as_possible.html": {
+      "filename": "blog/decentralise_your_website_as_much_as_possible.html",
+      "contenttype": "text/html",
+      "offset": 4295218,
+      "len": 14825
+    },
+    "blog/developing_smart_contracts_for_business.html": {
+      "filename": "blog/developing_smart_contracts_for_business.html",
+      "contenttype": "text/html",
+      "offset": 4310043,
+      "len": 25783
+    },
+    "blog/getting_to_grips_with_jwt_in_asp_net_core.html": {
+      "filename": "blog/getting_to_grips_with_jwt_in_asp_net_core.html",
+      "contenttype": "text/html",
+      "offset": 4335826,
+      "len": 20915
+    },
+    "blog/index.html": { "filename": "blog/index.html", "contenttype": "text/html", "offset": 4356741, "len": 7345 },
+    "blog/setting_up_an_asp_net_core_web_farm.html": {
+      "filename": "blog/setting_up_an_asp_net_core_web_farm.html",
+      "contenttype": "text/html",
+      "offset": 4364086,
+      "len": 11464
+    },
+    "favicon-16x16.png": { "filename": "favicon-16x16.png", "contenttype": "image/png", "offset": 4375550, "len": 430 },
+    "favicon-32x32.png": { "filename": "favicon-32x32.png", "contenttype": "image/png", "offset": 4375980, "len": 540 },
+    "favicon.ico": { "filename": "favicon.ico", "contenttype": "image/x-icon", "offset": 4376520, "len": 15086 },
+    "feed.atom": {
+      "filename": "feed.atom",
+      "contenttype": "application/octet-stream",
+      "offset": 4391606,
+      "len": 95092
+    },
+    "index.html": { "filename": "index.html", "contenttype": "text/html", "offset": 4486698, "len": 4981 }
+  }
+}
