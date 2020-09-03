@@ -1,11 +1,11 @@
-export const python = `from siaskynet import Skynet
+export const python = `import siaskynet
 
 # upload
-skylink = Skynet.upload_file("./src.jpg")
+skylink = siaskynet.upload_file("./src.jpg")
 print("Upload successful, skylink: " + skylink)
 
 # download
-Skynet.download_file("./dst.jpg", skylink)
+siaskynet.download_file("./dst.jpg", skylink)
 print("Download successful")`;
 
 export const curl = `# upload
