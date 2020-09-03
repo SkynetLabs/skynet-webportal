@@ -101,16 +101,16 @@ async def check_docker_logs():
         await send_msg(client, "Error(s) preview:\n{}".format(std_err), force_notify=True)
         return
 
-    # If there are any critical errors. upload the whole log file.
-    if 'Critical' in std_out or 'panic' in std_out:
+    # If there are any critical or severe errors. upload the whole log file.
+    if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:
         upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(container_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
+        await send_msg(client, "Critical or Severe error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
 
-    # No critical errors, return a heartbeat type message
+    # No critical or severe errors, return a heartbeat type message
     pretty_before = time.strftime("%I:%M%p")
     pretty_now = now.strftime("%I:%M%p")
-    await send_msg(client, "No critical warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
+    await send_msg(client, "No critical or severe warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
 
 
 client.run(bot_token)
