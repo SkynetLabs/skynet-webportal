@@ -1,6 +1,7 @@
 const url = require("url");
 const express = require("express");
 const proxy = require("express-http-proxy");
+const NodeCache = require("node-cache");
 const { NodeClient } = require("hs-client");
 
 const host = process.env.HOSTNAME || "0.0.0.0";
@@ -18,15 +19,20 @@ const clientOptions = {
   apiKey: hsdApiKey,
 };
 const client = new NodeClient(clientOptions);
+const cache = new NodeCache({ stdTTL: 300 }); // cache for 5 minutes
 
 // Match both `sia://HASH` and `HASH` links.
 const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
+  if (cache.has(name)) return cache.get(name);
+
   const response = await client.execute("getnameresource", [name]);
   const records = response?.records ?? null;
 
   console.log(`${name} => ${JSON.stringify(records)}`);
+
+  cache.set(name, records);
 
   return records;
 };
