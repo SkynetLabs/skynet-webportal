@@ -6,7 +6,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2",
-    "hs-client": "^0.0.9"
+    "hs-client": "^0.0.9",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
