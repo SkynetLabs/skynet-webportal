@@ -2,9 +2,7 @@
 
 set -e # exit on first error
 
-cwd
-
-# get current working directory (pwd doesn't cut it)
+# get running script directory
 cwd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
 # run the sia-stop script
