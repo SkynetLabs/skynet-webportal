@@ -16,20 +16,6 @@ bot_token = setup()
 client = discord.Client()
 
 
-# get_hostname reads the HOSTNAME from the .env file passed as first argument
-# to the script
-async def get_hostname():
-    if len(sys.argv) > 1:
-        env_file = sys.argv[1]
-    with open(env_file, 'r') as file:
-        for line in file.read().split('\n'):
-            pair = line.split("=")
-            if pair[0] == "HOSTNAME":
-                return pair[1]
-    await send_msg(client, "HOSTNAME not found, cannot check health status", force_notify=True)
-    os.exit(0)
-
-
 # exit_after kills the script if it hasn't exited on its own after `delay` seconds
 async def exit_after(delay):
     await asyncio.sleep(delay)
@@ -52,7 +38,7 @@ async def run_checks():
         if len(trace) < 1900:
             await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
         else:
-            await send_msg(client, "Failed to run the checks!", file=discord.File(io.BytesIO(trace), filename="failed_checks.log"), force_notify=True)
+            await send_msg(client, "Failed to run the checks!", file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"), force_notify=True)
 
 
 # check_health checks /health-check endpoint and reports recent issues
@@ -60,15 +46,14 @@ async def check_health():
     print("\nChecking wallet/funds health...")
 
     try:
-        hostname = await get_hostname()
-        res = requests.get("http://"+hostname+"/health-check")
+        res = requests.get("http://localhost/health-check", verify=False)
     except: # catch all exceptions
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
         if len(trace) < 1900:
             await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
         else:
-            await send_msg(client, "Failed to run the checks!", file=discord.File(io.BytesIO(trace), filename="failed_checks.log"), force_notify=True)
+            await send_msg(client, "Failed to run the checks!", file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"), force_notify=True)
         return
 
     # Get the number of hours to look back in the logs or use 1 as default.
