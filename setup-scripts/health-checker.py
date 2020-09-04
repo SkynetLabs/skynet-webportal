@@ -17,8 +17,13 @@ health-checker reads the /health-check endpoint of the portal and dispatches
 messages to a Discord channel.
 """
 
-# The default check interval in hours.
-DEFAULT_CHECK_INTERVAL = 1
+# Get the number of hours to look back in the logs or use 1 as default.
+CHECK_HOURS = 1
+if len(sys.argv) > 3:
+    CHECK_HOURS = int(sys.argv[3])
+
+# Discord messages have a limit on their length set at 2000 bytes. We use
+# a lower limit in order to leave some space for additional message text.
 DISCORD_MAX_MESSAGE_LENGTH = 1900
 
 bot_token = setup()
@@ -69,17 +74,12 @@ async def check_health():
                            force_notify=True)
         return
 
-    # Get the number of hours to look back in the logs or use 1 as default.
-    check_hours = DEFAULT_CHECK_INTERVAL
-    if len(sys.argv) > 3:
-        check_hours = int(sys.argv[3])
-
     # Check the health records.
     failed_records = []
     failed_checks = 0
     failed_critical = 0
     passed_checks_counter = 0
-    time_limit = datetime.now() - timedelta(hours=check_hours)
+    time_limit = datetime.now() - timedelta(hours=CHECK_HOURS)
     for rec in res.json():
         time = datetime.strptime(rec['date'], '%Y-%m-%dT%H:%M:%S.%fZ')
         if time < time_limit:
