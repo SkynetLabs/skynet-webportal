@@ -98,9 +98,10 @@ async def check_health():
 
     if len(failed_records) > 0:
         message = "Found {} failed checks ({} critical) over the last {} hours!".format(failed_checks, failed_critical,
-                                                                                        check_hours)
-        await send_msg(client, message, file=discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()),
-                                                          filename="failed_checks.log"), force_notify=True)
+                                                                                        CHECK_HOURS)
+        file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
+        notifyTeam = failed_critical > 0
+        await send_msg(client, message, file=file, force_notify=notifyTeam)
         return
 
     # Send an informational heartbeat if all checks passed.
