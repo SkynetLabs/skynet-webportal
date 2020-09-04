@@ -18,8 +18,19 @@ Arguments:
 
 """
 
-# The default check interval in hours.
-DEFAULT_CHECK_INTERVAL = 1
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
+
+# Get the number of hours to look back in the logs or use 1 as default.
+CHECK_HOURS = 1
+if len(sys.argv) > 3:
+    CHECK_HOURS = int(sys.argv[3])
+
+# Discord messages have a limit on their length set at 2000 bytes. We use
+# a lower limit in order to leave some space for additional message text.
+DISCORD_MAX_MESSAGE_LENGTH = 1900
 
 bot_token = setup()
 client = discord.Client()
@@ -65,23 +76,13 @@ async def check_load_average():
 async def check_docker_logs():
     print("\nChecking docker logs...")
 
-    # Get the container name as an argument or use "sia" as default.
-    container_name = "sia"
-    if len(sys.argv) > 2:
-        container_name = sys.argv[2]
-
-    # Get the number of hours to look back in the logs or use 1 as default.
-    check_hours = DEFAULT_CHECK_INTERVAL
-    if len(sys.argv) > 3:
-        check_hours = int(sys.argv[3])
-
     now = datetime.now()
-    time = now - timedelta(hours=check_hours)
-    time_string = "{}h".format(check_hours)
+    time = now - timedelta(hours=CHECK_HOURS)
+    time_string = "{}h".format(CHECK_HOURS)
 
     # Read the logs.
-    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, container_name))
-    proc = Popen(["docker", "logs", "--since", time_string, container_name], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, CONTAINER_NAME))
+    proc = Popen(["docker", "logs", "--since", time_string, CONTAINER_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
@@ -90,20 +91,21 @@ async def check_docker_logs():
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
             std_err = std_err[pos+1:]
-        upload_name = "{}-{}-{}-{}-{}:{}:{}_err.log".format(container_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
+        upload_name = "{}-{}-{}-{}-{}:{}:{}_err.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
         await send_msg(client, "Error(s) found in log!", file=discord.File(io.BytesIO(std_err.encode()), filename=upload_name), force_notify=True)
-        # Send at most 1900 characters of logs, rounded down to the nearest new line.
-        # This is a limitation in the size of Discord messages - they can be at most
-        # 2000 characters long (and we send some extra characters before the error log).
-        if len(std_err) > 1900:
-            pos = std_err.find("\n", -1900)
+        # Send at most DISCORD_MAX_MESSAGE_LENGTH characters of logs, rounded
+        # down to the nearest new line. This is a limitation in the size of
+        # Discord messages - they can be at most 2000 characters long (and we
+        # send some extra characters before the error log).
+        if len(std_err) > DISCORD_MAX_MESSAGE_LENGTH:
+            pos = std_err.find("\n", -DISCORD_MAX_MESSAGE_LENGTH)
             std_err = std_err[pos+1:]
         await send_msg(client, "Error(s) preview:\n{}".format(std_err), force_notify=True)
         return
 
     # If there are any critical or severe errors. upload the whole log file.
     if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:
-        upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(container_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
+        upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
         await send_msg(client, "Critical or Severe error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
 
