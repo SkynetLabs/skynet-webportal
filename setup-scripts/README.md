@@ -90,16 +90,23 @@ At this point we have almost everything running, we just need to set up your wal
 
 ## Useful Commands
 
+- Starting the whole stack
+  > `docker-compose up -d`
+- Stopping the whole stack
+  > `docker-compose down`
 - Accessing siac
   > `docker exec -it sia siac`
-- Checking status of siad service
-  > `systemctl --user status siad`
-- Stopping siad service
-  > `systemctl --user stop siad`
-- Starting siad service
-  > `systemctl --user start siad`
-- Restarting siad service
-  > `systemctl --user restart siad`
+- Stopping sia service
+  - safe method - stops health-check service and wait for dns propagation
+    > `setup-scripts/sia-stop.sh`
+  - unsafe (force stop)
+    > `docker-compose down sia`
+- Restarting sia service
+  - safe method - stops health-check service and wait for dns propagation
+    > `setup-scripts/sia-restart.sh`
+  - unsafe (force restart)
+    > `docker-compose down sia`
+    > `docker compose up -d sia`
 - Restarting caddy gracefully after making changes to Caddyfile
   > `docker exec caddy caddy reload --config /etc/caddy/Caddyfile`
 - Restarting nginx gracefully after making changes to nginx configs
