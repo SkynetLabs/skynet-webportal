@@ -43,7 +43,7 @@ async def run_checks():
 
 # check_health checks /health-check endpoint and reports recent issues
 async def check_health():
-    print("\nChecking wallet/funds health...")
+    print("\nChecking portal health status...")
 
     try:
         res = requests.get("http://localhost/health-check", verify=False)
