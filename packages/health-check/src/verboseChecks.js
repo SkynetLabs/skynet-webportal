@@ -3,7 +3,6 @@ const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const checks = require("./basicChecks");
-const fs = require("fs");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -71,7 +70,7 @@ function dappExampleCheck(done) {
 }
 
 const developMomentumBodyHash = "53b44a9d3cfa9b3d66ce5c29976f4383725d3652";
-const developMomentumMetadata = JSON.parse(fs.readFileSync("./fixtures/developMomentumMetadata.json"));
+const developMomentumMetadata = require("./fixtures/developMomentumMetadata.json");
 
 // developMomentumCheck returns the result of trying to download the skylink
 // for the Develop Momentum Application
@@ -259,7 +258,7 @@ function skyBinRedirectCheck(done) {
 }
 
 const skyGalleryBodyHash = "077e54054748d278114f1870f8045a162eb73641";
-const skyGalleryMetadata = JSON.parse(fs.readFileSync("./fixtures/skygalleryMetadata.json"));
+const skyGalleryMetadata = require("./fixtures/skygalleryMetadata.json");
 
 // skyGalleryCheck returns the result of trying to download the skylink for the SkyGallery Application.
 function skyGalleryCheck(done) {
@@ -326,7 +325,7 @@ function uncensoredLibraryCheck(done) {
 }
 
 const uniswapBodyHash = "3965f9a7def085b3a764ddc76a528eda38d72359";
-const uniswapMetadata = JSON.parse(fs.readFileSync("./fixtures/uniswapMetadata.json"));
+const uniswapMetadata = require("./fixtures/uniswapMetadata.json");
 
 // uniswapCheck returns the result of trying to download the skylink
 // for the Uniswap Application
