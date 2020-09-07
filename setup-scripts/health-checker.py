@@ -80,8 +80,9 @@ async def check_load_average():
 
 
 # check_disk checks the amount of free space on the /home partition and issues
-# a warning message if it's under 10GB.
+# a warning message if it's under FREE_DISK_SPACE_THRESHOLD GB.
 async def check_disk():
+    # We check free disk space in 1024 byte units, so it's easy to convert.
     df = os.popen("df --block-size=1024").read().strip()
     volumes = {}
     for line in df.split("\n")[1:]:
