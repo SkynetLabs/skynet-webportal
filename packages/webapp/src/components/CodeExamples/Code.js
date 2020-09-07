@@ -1,11 +1,14 @@
-export const python = `import siaskynet
+export const python = `import siaskynet as skynet
+
+# create a client
+client = skynet.SkynetClient()
 
 # upload
-skylink = siaskynet.upload_file("./src.jpg")
+skylink = client.upload_file("./src.jpg")
 print("Upload successful, skylink: " + skylink)
 
 # download
-siaskynet.download_file("./dst.jpg", skylink)
+client.download_file("./dst.jpg", skylink)
 print("Download successful")`;
 
 export const curl = `# upload
@@ -14,22 +17,18 @@ curl -X POST "https://siasky.net/skynet/skyfile" -F file=@src.jpg
 # download
 curl "https://siasky.net/[skylink]" -o dst.jpg`;
 
-export const node = `const skynet = require('@nebulous/skynet');
+export const node = `const { SkynetClient } = require('@nebulous/skynet');
+
+// create a client
+const client = new SkynetClient();
 
 (async () => {
 	// upload
-	const skylink = await skynet.UploadFile(
-		"./src.jpg",
-		skynet.DefaultUploadOptions
-	);
+	const skylink = await client.UploadFile("./src.jpg");
 	console.log(\`Upload successful, skylink: \${skylink}\`);
-        
+
 	// download
-	await skynet.DownloadFile(
-		"./dst.jpg",
-		skylink,
-		skynet.DefaultDownloadOptions
-	);
+	await client.DownloadFile("./dst.jpg", skylink);
 	console.log('Download successful');
 })()`;
 
@@ -39,21 +38,21 @@ import (
 	"fmt"
 	skynet "github.com/NebulousLabs/go-skynet"
 )
-                        
+
+var client = skynet.New()
+
 func main() {
 	// upload
-	skylink, err := skynet.UploadFile("./src.jpg", skynet.DefaultUploadOptions)
+	skylink, err := client.UploadFile("./src.jpg", skynet.DefaultUploadOptions)
 	if err != nil {
-		fmt.Printf("Unable to upload: %v", err.Error())
-		return
+		panic("Unable to upload: %v", err.Error())
 	}
 	fmt.Printf("Upload successful, skylink: %v\\n", skylink)
 
 	// download
-	err = skynet.DownloadFile("./dst.jpg", skylink, skynet.DefaultDownloadOptions)
+	err = client.DownloadFile("./dst.jpg", skylink, skynet.DefaultDownloadOptions)
 	if err != nil {
-		fmt.Printf("Something went wrong, please try again.\\nError: %v", err.Error())
-		return
+		panic("Something went wrong, please try again.\\nError: %v", err.Error())
 	}
 	fmt.Println("Download successful")
 }`;
