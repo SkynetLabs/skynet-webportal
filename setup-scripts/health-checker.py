@@ -4,6 +4,7 @@ import asyncio
 import io
 import json
 import os
+import re
 import sys
 import traceback
 from datetime import datetime, timedelta
@@ -26,6 +27,12 @@ if len(sys.argv) > 3:
 # a lower limit in order to leave some space for additional message text.
 DISCORD_MAX_MESSAGE_LENGTH = 1900
 
+GB = 1 << 20 # converts from KiB to GiB
+# We are going to issue Discord warnings if the free space on a server falls
+# under this threshold.
+FREE_DISK_SPACE_THRESHOLD = 50 * GB  # 50 GiB
+
+
 bot_token = setup()
 client = discord.Client()
 
@@ -45,6 +52,8 @@ async def on_ready():
 async def run_checks():
     print("Running Skynet portal health checks")
     try:
+        await check_load_average()
+        await check_disk()
         await check_health()
     except:
         trace = traceback.format_exc()
@@ -55,6 +64,48 @@ async def run_checks():
             await send_msg(client, "Failed to run the portal health checks!",
                            file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"),
                            force_notify=True)
+
+
+# check_load_average monitors the system's load average value and issues a
+# warning message if it exceeds 10.
+async def check_load_average():
+    uptime_string = os.popen("uptime").read().strip()
+    if sys.platform == "Darwin":
+        pattern = "^.*load averages: \d*\.\d* \d*\.\d* (\d*\.\d*)$"
+    else:
+        pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
+    load_av = re.match(pattern, uptime_string).group(1)
+    if float(load_av) > 10:
+        await send_msg(client, "High system load detected: `uptime: {}`".format(uptime_string), force_notify=True)
+
+
+# check_disk checks the amount of free space on the /home partition and issues
+# a warning message if it's under FREE_DISK_SPACE_THRESHOLD GB.
+async def check_disk():
+    # We check free disk space in 1024 byte units, so it's easy to convert.
+    df = os.popen("df --block-size=1024").read().strip()
+    volumes = {}
+    for line in df.split("\n")[1:]:
+        fields = list(filter(None, line.split(" ")))
+        # -1 is "mounted on", 3 is "available space"
+        volumes[fields[-1]] = fields[3]
+    # List of mount point, longest to shortest. We'll use that to find the best
+    # fit for the volume we want to check.
+    mount_points = sorted(volumes.keys(), key=len, reverse=True)
+    wd = os.popen("pwd").read().strip()
+    vol = ""
+    for mp in mount_points:
+        if wd.startswith(mp):
+            vol = mp
+            break
+    if vol == "":
+        msg = "Failed to check free disk space! Didn't find a suitable mount point to check.\ndf output:\n{}".format(df)
+        await send_msg(client, msg)
+        return
+    if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
+        free_space_gb = "{:.2f}".format(int(volumes[vol])/ GB)
+        await send_msg(client, "WARNING! Low disk space: {}GiB".format(free_space_gb), force_notify=True)
+        return
 
 
 # check_health checks /health-check endpoint and reports recent issues
