@@ -45,14 +45,14 @@ func main() {
 	// upload
 	skylink, err := client.UploadFile("./src.jpg", skynet.DefaultUploadOptions)
 	if err != nil {
-		panic("Unable to upload: %v", err.Error())
+		panic("Unable to upload: " + err.Error())
 	}
 	fmt.Printf("Upload successful, skylink: %v\\n", skylink)
 
 	// download
 	err = client.DownloadFile("./dst.jpg", skylink, skynet.DefaultDownloadOptions)
 	if err != nil {
-		panic("Something went wrong, please try again.\\nError: %v", err.Error())
+		panic("Something went wrong, please try again.\\nError: " + err.Error())
 	}
 	fmt.Println("Download successful")
 }`;
