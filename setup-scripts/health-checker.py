@@ -159,8 +159,10 @@ async def check_health():
         await send_msg(client, message, file=file, force_notify=notifyTeam)
         return
 
-    # Send an informational heartbeat if all checks passed.
-    await send_msg(client, "Health checks passed: {}/{}\n".format(passed_checks, checks))
+    # Send an informational heartbeat if all checks passed but only if it's in
+    # the first CHECK_HOURS hours of the day, essentially the first call.
+    if datetime.now().hour < CHECK_HOURS:
+        await send_msg(client, "Health checks passed: {}/{}\n".format(passed_checks, checks))
 
 
 client.run(bot_token)
