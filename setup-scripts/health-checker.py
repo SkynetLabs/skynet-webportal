@@ -10,8 +10,10 @@ import traceback
 from datetime import datetime, timedelta
 
 import discord
+import pytz.reference
 import requests
 from bot_utils import setup, send_msg
+from tzlocal import get_localzone
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -27,11 +29,10 @@ if len(sys.argv) > 3:
 # a lower limit in order to leave some space for additional message text.
 DISCORD_MAX_MESSAGE_LENGTH = 1900
 
-GB = 1 << 20 # converts from KiB to GiB
+GB = 1 << 30  # 1 GiB in bytes
 # We are going to issue Discord warnings if the free space on a server falls
 # under this threshold.
-FREE_DISK_SPACE_THRESHOLD = 50 * GB  # 50 GiB
-
+FREE_DISK_SPACE_THRESHOLD = 50 * GB
 
 bot_token = setup()
 client = discord.Client()
@@ -87,8 +88,8 @@ async def check_disk():
     volumes = {}
     for line in df.split("\n")[1:]:
         fields = list(filter(None, line.split(" ")))
-        # -1 is "mounted on", 3 is "available space"
-        volumes[fields[-1]] = fields[3]
+        # -1 is "mounted on", 3 is "available space" in KiB which we want in bytes
+        volumes[fields[-1]] = fields[3] * 1024
     # List of mount point, longest to shortest. We'll use that to find the best
     # fit for the volume we want to check.
     mount_points = sorted(volumes.keys(), key=len, reverse=True)
@@ -103,7 +104,7 @@ async def check_disk():
         await send_msg(client, msg)
         return
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
-        free_space_gb = "{:.2f}".format(int(volumes[vol])/ GB)
+        free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
         await send_msg(client, "WARNING! Low disk space: {}GiB".format(free_space_gb), force_notify=True)
         return
 
@@ -126,13 +127,15 @@ async def check_health():
         return
 
     # Check the health records.
-    failed_records = []
+    passed_checks = 0
     failed_checks = 0
     failed_critical = 0
-    passed_checks_counter = 0
-    time_limit = datetime.now() - timedelta(hours=CHECK_HOURS)
+    failed_records = []
+    time_limit_unaware = datetime.now() - timedelta(hours=CHECK_HOURS)  # local time
+    time_limit = time_limit_unaware.astimezone(get_localzone())  # time with time zone
     for rec in res.json():
-        time = datetime.strptime(rec['date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        time_unaware = datetime.strptime(rec['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
+        time = pytz.utc.localize(time_unaware)  # time with time zone
         if time < time_limit:
             continue
         bad = False
@@ -145,18 +148,19 @@ async def check_health():
         if bad:
             # We append the entire record, so we can get the full context.
             failed_records.append(rec)
-        passed_checks_counter += 1
+        passed_checks += 1
 
+    checks = passed_checks + failed_checks
     if len(failed_records) > 0:
-        message = "Found {} failed checks ({} critical) over the last {} hours!".format(failed_checks, failed_critical,
-                                                                                        CHECK_HOURS)
+        message = "Found {}/{} failed checks ({} critical) over the last {} hours!".format(failed_checks, checks,
+                                                                                           failed_critical, CHECK_HOURS)
         file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
         notifyTeam = failed_critical > 0
         await send_msg(client, message, file=file, force_notify=notifyTeam)
         return
 
     # Send an informational heartbeat if all checks passed.
-    await send_msg(client, "Health checks passed: {}\n".format(passed_checks_counter))
+    await send_msg(client, "Health checks passed: {}/{}\n".format(passed_checks, checks))
 
 
 client.run(bot_token)
