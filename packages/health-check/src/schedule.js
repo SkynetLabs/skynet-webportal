@@ -1,13 +1,13 @@
 const schedule = require("node-schedule");
 const db = require("./db");
-const { basicChecks } = require("./basicChecks");
-const { verboseChecks } = require("./verboseChecks");
+const { criticalChecks } = require("./checks/critical");
+const { verboseChecks } = require("./checks/verbose");
 
-// execute the basic health-check script every 5 minutes
+// execute the critical health-check script every 5 minutes
 const basicJob = schedule.scheduleJob("*/5 * * * *", async () => {
   const entry = { date: new Date().toISOString(), checks: [] };
 
-  entry.checks = await Promise.all(basicChecks.map((check) => new Promise(check)));
+  entry.checks = await Promise.all(criticalChecks.map((check) => new Promise(check)));
 
   db.get("entries").push(entry).write();
 });

@@ -1,14 +1,14 @@
 const superagent = require("superagent");
 const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
-const { isEqual } = require("lodash");
-const checks = require("./basicChecks");
+const { isEqual, isEmpty } = require("lodash");
+const { getTimeDiff } = require("../utils");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
 function audioExampleCheck(done) {
   const linkInfo = {
-    description: "Audio Example",
+    name: "Audio Example",
     skylink: "_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA",
     bodyHash: "be335f5ad9bc357248f3d35c7e49df491afb6b12",
     metadata: { filename: "feel-good.mp3" },
@@ -21,7 +21,7 @@ function audioExampleCheck(done) {
 // for a known Covid19 paper
 function covid19PaperCheck(done) {
   const linkInfo = {
-    description: "Covid-19 Paper",
+    name: "Covid-19 Paper",
     skylink: "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
     bodyHash: "81b9fb74829a96ceafa429840d1ef0ce44376ddd",
     metadata: {
@@ -43,7 +43,7 @@ function covid19PaperCheck(done) {
 // for another known Covid19 paper
 function covid19CoroNopePaperCheck(done) {
   const linkInfo = {
-    description: "Covid-19 CoroNope Paper",
+    name: "Covid-19 CoroNope Paper",
     skylink: "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
     bodyHash: "901f6fd65ef595f70b6bfebbb2d05942351ef2b3",
     metadata: { filename: "coronope.pdf" },
@@ -56,8 +56,8 @@ function covid19CoroNopePaperCheck(done) {
 // for the Example Dapp on siasky.net
 function dappExampleCheck(done) {
   const linkInfo = {
-    description: "Dapp Example (UniSwap)",
-    skylink: "EAC5HJr5Pu086EAZG4fP_r6Pnd7Ft366vt6t2AnjkoFb9Q/index.html",
+    name: "Dapp Example (UniSwap)",
+    skylink: "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
     bodyHash: "d6ad2506590bb45b5acc6a8a964a3da4d657354f",
     metadata: {
       filename: "/index.html",
@@ -73,7 +73,7 @@ function dappExampleCheck(done) {
 // for the Develop Momentum Application with a trailing /index.html
 function developMomentumIndexFileCheck(done) {
   const linkInfo = {
-    description: "Develop Momentum Index File",
+    name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html",
     bodyHash: "53b44a9d3cfa9b3d66ce5c29976f4383725d3652",
     metadata: {
@@ -90,7 +90,7 @@ function developMomentumIndexFileCheck(done) {
 // for the Example HTML file on siasky.net
 function htmlExampleCheck(done) {
   const linkInfo = {
-    description: "HTML Example",
+    name: "HTML Example",
     skylink: "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw",
     bodyHash: "c932fd56f98b6db589e56be8018817f13bb29f72",
     metadata: { filename: "introduction â Sia API Documentation.html" },
@@ -103,7 +103,7 @@ function htmlExampleCheck(done) {
 // for the Example image on siasky.net
 function imageExampleCheck(done) {
   const linkInfo = {
-    description: "Image Example",
+    name: "Image Example",
     skylink: "IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ",
     bodyHash: "313207978d0a88bf2b961f098804e9ab0f82837f",
     metadata: { filename: "sia-lm.png" },
@@ -116,7 +116,7 @@ function imageExampleCheck(done) {
 // for the Example JSON file on siasky.net
 function jsonExampleCheck(done) {
   const linkInfo = {
-    description: "JSON Example",
+    name: "JSON Example",
     skylink: "AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ",
     bodyHash: "198771c3d07d5c7302aadcc0697a7298e5e8ccc3",
     metadata: { filename: "consensus.json" },
@@ -129,7 +129,7 @@ function jsonExampleCheck(done) {
 // for the Example PDF file on siasky.net
 function pdfExampleCheck(done) {
   const linkInfo = {
-    description: "PDF Example",
+    name: "PDF Example",
     skylink: "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
     bodyHash: "9bd8162e1575569a9041972f7f62d65887063dc3",
     metadata: { filename: "sia.pdf" },
@@ -142,7 +142,7 @@ function pdfExampleCheck(done) {
 // a Random Image.
 function randomImageCheck(done) {
   const linkInfo = {
-    description: "Random Image",
+    name: "Random Image",
     skylink: "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ/",
     bodyHash: "4c73c5a0eddd5823be677d7f93bf80cc9338ee9f",
     metadata: {
@@ -159,7 +159,7 @@ function randomImageCheck(done) {
 // a Random Image with no trailing slash.
 function randomImageRedirectCheck(done) {
   const linkInfo = {
-    description: "Random Image Redirect",
+    name: "Random Image Redirect",
     skylink: "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ",
     bodyHash: "4c73c5a0eddd5823be677d7f93bf80cc9338ee9f",
     metadata: {
@@ -175,7 +175,7 @@ function randomImageRedirectCheck(done) {
 // skyBayCheck returns the result of trying to download the skylink for the SkyBay Application.
 function skyBayCheck(done) {
   const linkInfo = {
-    description: "SkyBay",
+    name: "SkyBay",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA/",
     bodyHash: "25d63937c9734fb08d2749c6517d1b3de8ecb856",
     metadata: {
@@ -191,7 +191,7 @@ function skyBayCheck(done) {
 // for the SkyBay Application with no trailing slash.
 function skyBayRedirectCheck(done) {
   const linkInfo = {
-    description: "SkyBay Redirect",
+    name: "SkyBay Redirect",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
     bodyHash: "25d63937c9734fb08d2749c6517d1b3de8ecb856",
     metadata: {
@@ -206,7 +206,7 @@ function skyBayRedirectCheck(done) {
 // skyBinCheck returns the result of trying to download the skylink for the SkyBin Application.
 function skyBinCheck(done) {
   const linkInfo = {
-    description: "SkyBin",
+    name: "SkyBin",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA/",
     bodyHash: "767ec67c417e11b97c5db7dad9ea3b6b27cb0d39",
     metadata: { filename: "skybin.html" },
@@ -219,7 +219,7 @@ function skyBinCheck(done) {
 // for the SkyBin Application with no trailing slash.
 function skyBinRedirectCheck(done) {
   const linkInfo = {
-    description: "SkyBin Redirect",
+    name: "SkyBin Redirect",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
     bodyHash: "767ec67c417e11b97c5db7dad9ea3b6b27cb0d39",
     metadata: { filename: "skybin.html" },
@@ -231,7 +231,7 @@ function skyBinRedirectCheck(done) {
 // skyGalleryCheck returns the result of trying to download the skylink for the SkyGallery Application.
 function skyGalleryCheck(done) {
   const linkInfo = {
-    description: "SkyGallery",
+    name: "SkyGallery",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/",
     bodyHash: "077e54054748d278114f1870f8045a162eb73641",
     metadata: {
@@ -365,7 +365,7 @@ function skyGalleryCheck(done) {
 // for the SkyGallery Application with a trailing /index.html
 function skyGalleryIndexFileCheck(done) {
   const linkInfo = {
-    description: "SkyGallery Index File",
+    name: "SkyGallery Index File",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html",
     bodyHash: "077e54054748d278114f1870f8045a162eb73641",
     metadata: {
@@ -382,7 +382,7 @@ function skyGalleryIndexFileCheck(done) {
 // for the SkyGallery Application with no trailing slash.
 function skyGalleryRedirectCheck(done) {
   const linkInfo = {
-    description: "SkyGallery Redirect",
+    name: "SkyGallery Redirect",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
     bodyHash: "077e54054748d278114f1870f8045a162eb73641",
     metadata: {
@@ -516,7 +516,7 @@ function skyGalleryRedirectCheck(done) {
 // for the uncensored library skylink
 function uncensoredLibraryCheck(done) {
   const linkInfo = {
-    description: "Uncensored Library",
+    name: "Uncensored Library",
     skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
     bodyHash: "60da6cb958699c5acd7f2a2911656ff32fca89a7",
     metadata: {
@@ -538,7 +538,7 @@ function uncensoredLibraryCheck(done) {
 // for the Uniswap Application with a trailing /index.html
 function uniswapIndexFileCheck(done) {
   const linkInfo = {
-    description: "Uniswap Skylink Index File",
+    name: "Uniswap Skylink Index File",
     skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/index.html",
     bodyHash: "3965f9a7def085b3a764ddc76a528eda38d72359",
     metadata: {
@@ -551,53 +551,47 @@ function uniswapIndexFileCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
-// skylinkVerification verifies a skylink against known information provided in
-// the linkInfo.
-function skylinkVerification(done, linkInfo) {
+// verifies a skylink against provided information
+function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
   const time = process.hrtime();
 
   // Create the query for the skylink
-  const query = `http://${process.env.PORTAL_URL}/${linkInfo.skylink}?nocache=true`;
+  const query = `http://${process.env.PORTAL_URL}/${skylink}?nocache=true`;
 
   // Get the Skylink
   superagent
     .get(query)
     .responseType("blob")
-    .end((err, res) => {
-      // Record the statusCode
-      const statusCode = (res && res.statusCode) || (err && err.statusCode) || null;
-      let info = null;
+    .then(
+      (response) => {
+        const entry = { name, up: true, statusCode: response.statusCode, time: getTimeDiff(time) };
+        const info = {};
 
-      // Determine if the skylink is up. Start with checking if there was an
-      // error in the request.
-      let up = err === null;
-      if (up) {
-        // Check if the response body is valid by checking against the known
-        // hash
-        const validBody = hash(res.body) === linkInfo.bodyHash;
-        // Check if the metadata is valid
-        const metadata = res.header["skynet-file-metadata"] ? JSON.parse(res.header["skynet-file-metadata"]) : null;
-        const validMetadata = isEqual(metadata, linkInfo.metadata);
-        // Redetermine if the Skylink is up based on the results from the body
-        // and metadata hash checks
-        up = up && validBody && validMetadata;
+        // Check if the response body is valid by checking against the known hash
+        if (hash(response.body) !== bodyHash) {
+          entry.up = false;
+          info.body = { valid: false, hash: { expected: bodyHash, current: hash(response.body) } };
+        }
 
-        info = {
-          body: { valid: validBody },
-          metadata: { valid: validMetadata, diff: detailedDiff(metadata, linkInfo.metadata) },
-        };
+        // Check if the metadata is valid by deep comparing expected value with response
+        const expectedMetadata =
+          response.header["skynet-file-metadata"] && JSON.parse(response.header["skynet-file-metadata"]);
+        if (!isEqual(expectedMetadata, metadata)) {
+          entry.up = false;
+          info.metadata = { valid: false, diff: detailedDiff(expectedMetadata, metadata) };
+        }
+
+        if (!isEmpty(info)) entry.info = info; // add info only if it exists
+
+        done(entry); // Return the entry information
+      },
+      (error) => {
+        const statusCode = error.statusCode || error.status;
+        const entry = { name, up: false, statusCode, time: getTimeDiff(time) };
+
+        done(entry); // Return the entry information
       }
-
-      // Return the entry information
-      done({
-        name: linkInfo.description,
-        up,
-        info,
-        statusCode,
-        time: checks.catchRequestTime(time),
-        critical: true,
-      });
-    });
+    );
 }
 
 module.exports.verboseChecks = [
