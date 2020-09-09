@@ -20,6 +20,7 @@ server.use(bodyparser.json());
 server.get("/health-check", require("./api/index"));
 server.get("/health-check/recent", require("./api/recent"));
 server.get("/health-check/all", require("./api/all"));
+server.get("/health-check/disabled", require("./api/disabled"));
 
 server.listen(port, host, (error) => {
   if (error) throw error;

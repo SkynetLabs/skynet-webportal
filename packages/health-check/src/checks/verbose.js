@@ -1,8 +1,8 @@
 const superagent = require("superagent");
 const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
-const { isEqual, isEmpty } = require("lodash");
-const { getTimeDiff } = require("../utils");
+const { isEqual } = require("lodash");
+const { calculateElapsedTime } = require("../utils");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -564,30 +564,31 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
     .responseType("blob")
     .then(
       (response) => {
-        const entry = { name, up: true, statusCode: response.statusCode, time: getTimeDiff(time) };
+        const entry = { name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
         const info = {};
 
         // Check if the response body is valid by checking against the known hash
-        if (hash(response.body) !== bodyHash) {
+        const currentBodyHash = hash(response.body);
+        if (currentBodyHash !== bodyHash) {
           entry.up = false;
-          info.body = { valid: false, hash: { expected: bodyHash, current: hash(response.body) } };
+          info.bodyHash = { expected: bodyHash, current: currentBodyHash };
         }
 
         // Check if the metadata is valid by deep comparing expected value with response
-        const expectedMetadata =
+        const currentMetadata =
           response.header["skynet-file-metadata"] && JSON.parse(response.header["skynet-file-metadata"]);
-        if (!isEqual(expectedMetadata, metadata)) {
+        if (!isEqual(currentMetadata, metadata)) {
           entry.up = false;
-          info.metadata = { valid: false, diff: detailedDiff(expectedMetadata, metadata) };
+          info.metadata = detailedDiff(currentMetadata, metadata);
         }
 
-        if (!isEmpty(info)) entry.info = info; // add info only if it exists
+        if (Object.keys(info).length) entry.info = info; // add info only if it exists
 
         done(entry); // Return the entry information
       },
       (error) => {
         const statusCode = error.statusCode || error.status;
-        const entry = { name, up: false, statusCode, time: getTimeDiff(time) };
+        const entry = { name, up: false, statusCode, time: calculateElapsedTime(time) };
 
         done(entry); // Return the entry information
       }

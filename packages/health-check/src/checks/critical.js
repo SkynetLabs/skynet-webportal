@@ -1,6 +1,6 @@
 const superagent = require("superagent");
 const { StatusCodes } = require("http-status-codes");
-const { getTimeDiff } = require("../utils");
+const { calculateElapsedTime } = require("../utils");
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
@@ -16,7 +16,7 @@ async function uploadCheck(done) {
         name: "upload_file",
         up: statusCode === StatusCodes.OK,
         statusCode,
-        time: getTimeDiff(time),
+        time: calculateElapsedTime(time),
         critical: true,
       });
     });
@@ -40,7 +40,7 @@ async function downloadCheck(done) {
     name: "download_file",
     up: statusCode === StatusCodes.OK,
     statusCode,
-    time: getTimeDiff(time),
+    time: calculateElapsedTime(time),
     critical: true,
   });
 }
