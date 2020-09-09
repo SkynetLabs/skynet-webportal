@@ -1,9 +1,15 @@
 const { StatusCodes } = require("http-status-codes");
 const { sum, sumBy } = require("lodash");
-const db = require("./db");
+const db = require("../db");
 
 // getStatus returns the server's current health check status
 function getStatus() {
+  const disabled = db.get("disabled").value();
+
+  if (disabled) {
+    return StatusCodes.SERVICE_UNAVAILABLE;
+  }
+
   // Grab entry element from DB
   const entry = db.get("entries").orderBy("date", "desc").head().value();
 
