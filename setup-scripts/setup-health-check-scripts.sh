@@ -5,7 +5,7 @@ set -e # exit on first error
 sudo apt-get update
 sudo apt-get -y install python3-pip
 
-pip3 install discord.py python-dotenv requests
+pip3 install discord.py python-dotenv requests pytz tzlocal
 
 fundsCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/funds-checker.py /home/user/skynet-webportal/.env"
 logsCheck="0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/log-checker.py /home/user/skynet-webportal/.env sia 8"
