@@ -177,4 +177,5 @@ services:
       - ./docker/data/filebeat/data:/usr/share/filebeat/data
       - ./docker/data/nginx/logs:/var/log/nginx:ro
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.99
