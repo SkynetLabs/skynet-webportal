@@ -1,36 +1,42 @@
 #!/usr/bin/env python3
 
 """
-health-checker runs simple health checks on a portal node using the siad API and
+funds-checker runs simple checks on a portal node using the siad API and
 dispatches messages to a Discord channel.
 """
 
-import discord, traceback
+import discord, traceback, asyncio, os
 from bot_utils import setup, send_msg, siad, sc_precision
 
 bot_token = setup()
 client = discord.Client()
 
+
+async def exit_after(delay):
+    await asyncio.sleep(delay)
+    os._exit(0)
+
+
 @client.event
 async def on_ready():
     await run_checks()
-    await client.close()
+    asyncio.create_task(exit_after(3))
 
 
 async def run_checks():
-    print("Running Skynet portal health checks")
+    print("Running Skynet portal funds checks")
     try:
-        await check_health()
+        await check_funds()
 
     except: # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=True)
 
 
-# check_health checks that the wallet is unlocked, that it has at least 1
-# allowance worth of money left, and if more than hald the allowance is spent. If
-# all checks pass it sends a informational message.
-async def check_health():
+# check_funds checks that the wallet is unlocked, that it has at least 1
+# allowance worth of money left, and if less than half the allowance is spent.
+# If all checks pass it sends an informational message.
+async def check_funds():
     print("\nChecking wallet/funds health...")
     wallet_get = siad.get_wallet()
     renter_get = siad.get_renter()
@@ -66,6 +72,7 @@ async def check_health():
         return
 
     # Send an informational heartbeat if all checks passed.
-    await send_msg(client, "Health checks passed:\n{} \n{}".format(balance_msg, alloc_msg))
+    await send_msg(client, "Funds checks passed:\n{} \n{}".format(balance_msg, alloc_msg))
+
 
 client.run(bot_token)

@@ -1,82 +1,103 @@
 #!/usr/bin/env python3
 
-import discord, sys, traceback, io
-from bot_utils import setup, send_msg, sc_precision
-
+import discord, sys, traceback, io, os, asyncio
+from bot_utils import setup, send_msg
 from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
 
 """
-log-checker checks journal logs for siad.
+log-checker checks the docker logs for siad.
 
 Arguments:
     1. path to a .env file (default is none so env variables can already be
     preset)
 
-    2. systemd service name (default: "siad")
+    2. docker container name name (default: "sia")
 
-    3. number of hours to look back in log (used as --since value in journalctl
-    command) (default: 1 hour)
+    3. number of hours to look back in log (default: 1 hour)
 
 """
 
-DEFAULT_CHECK_INTERVAL = timedelta(hours=1)
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
+
+# Get the number of hours to look back in the logs or use 1 as default.
+CHECK_HOURS = 1
+if len(sys.argv) > 3:
+    CHECK_HOURS = int(sys.argv[3])
+
+# Discord messages have a limit on their length set at 2000 bytes. We use
+# a lower limit in order to leave some space for additional message text.
+DISCORD_MAX_MESSAGE_LENGTH = 1900
 
 bot_token = setup()
 client = discord.Client()
 
+
+# exit_after kills the script if it hasn't exited on its own after `delay` seconds
+async def exit_after(delay):
+    await asyncio.sleep(delay)
+    os._exit(0)
+
+
 @client.event
 async def on_ready():
     await run_checks()
-    await client.close()
+    asyncio.create_task(exit_after(3))
 
 
 async def run_checks():
     print("Running Skynet portal log checks")
     try:
-        await check_journal()
-
+        await check_docker_logs()
     except: # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
 
 
-# check_journal checks the journal
-async def check_journal():
-    print("\nChecking journal...")
-
-    # Get the systemd service name as an argument, or use "siad" as default.
-    service_name = "siad"
-    if len(sys.argv) > 2:
-        service_name = sys.argv[2]
-
-    # Get the systemd service name as an argument, or use "siad" as default.
-    check_interval = DEFAULT_CHECK_INTERVAL
-    if len(sys.argv) > 3:
-        check_interval = timedelta(hours=int(sys.argv[3]))
+# check_docker_logs checks the docker logs by filtering on the docker image name
+async def check_docker_logs():
+    print("\nChecking docker logs...")
 
     now = datetime.now()
-    time = now - check_interval
-    time_string = "{}-{}-{} {}:{}:{}".format(time.year, time.month, time.day, time.hour, time.minute, time.second)
+    time = now - timedelta(hours=CHECK_HOURS)
+    time_string = "{}h".format(CHECK_HOURS)
 
-    # Open the journal.
-    proc = Popen(["journalctl", "--user-unit", service_name, "--since", time_string], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    # Read the logs.
+    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, CONTAINER_NAME))
+    proc = Popen(["docker", "logs", "--since", time_string, CONTAINER_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
-        await send_msg(client, "Error reading journalctl output: {}".format(std_err), force_notify=True)
+        # Trim the error log to under 1MB.
+        one_mb = 1024*1024
+        if len(std_err) > one_mb:
+            pos = std_err.find("\n", -one_mb)
+            std_err = std_err[pos+1:]
+        upload_name = "{}-{}-{}-{}-{}:{}:{}_err.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
+        await send_msg(client, "Error(s) found in log!", file=discord.File(io.BytesIO(std_err.encode()), filename=upload_name), force_notify=True)
+        # Send at most DISCORD_MAX_MESSAGE_LENGTH characters of logs, rounded
+        # down to the nearest new line. This is a limitation in the size of
+        # Discord messages - they can be at most 2000 characters long (and we
+        # send some extra characters before the error log).
+        if len(std_err) > DISCORD_MAX_MESSAGE_LENGTH:
+            pos = std_err.find("\n", -DISCORD_MAX_MESSAGE_LENGTH)
+            std_err = std_err[pos+1:]
+        await send_msg(client, "Error(s) preview:\n{}".format(std_err), force_notify=True)
         return
 
-    # If there are any critical errors. upload the whole log file.
-    if "Critical" in std_out or "panic" in std_out:
-        upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(service_name, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Critical error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
+    # If there are any critical or severe errors. upload the whole log file.
+    if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:
+        upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
+        await send_msg(client, "Critical or Severe error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
         return
 
-    # No critical errors, return a heartbeat type messagej
+    # No critical or severe errors, return a heartbeat type message
     pretty_before = time.strftime("%I:%M%p")
     pretty_now = now.strftime("%I:%M%p")
-    await send_msg(client, "No critical warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
+    await send_msg(client, "No critical or severe warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
 
 
 client.run(bot_token)

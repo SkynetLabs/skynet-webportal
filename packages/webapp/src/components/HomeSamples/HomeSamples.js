@@ -12,7 +12,7 @@ const samples = [
   { type: "Audio", url: "/_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA" },
   { type: "Video", url: "/CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg" },
   { type: "JSON", url: "/AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ" },
-  { type: "Dapp", url: "/EAC5HJr5Pu086EAZG4fP_r6Pnd7Ft366vt6t2AnjkoFb9Q/index.html" },
+  { type: "Dapp", url: "/IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/" },
 ];
 
 export default function HomeSamples() {
@@ -23,7 +23,7 @@ export default function HomeSamples() {
         <p>
           Skynet includes{" "}
           <a
-            href="https://support.siasky.net/article/hrshqsn9wz-integrating-skynet"
+            href="https://nebulouslabs.github.io/skynet-docs"
             target="_blank"
             rel="noopener noreferrer"
             className="link"
@@ -34,16 +34,25 @@ export default function HomeSamples() {
           <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
             APIs
           </a>{" "}
-          that integrate seamlessly with your existing apps. You can follow this{" "}
+          that integrate seamlessly with your existing apps. You can follow these guides to start using Skynet with{" "}
           <a
-            href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
+            href="https://github.com/NebulousLabs/skynet-cli"
             target="_blank"
             rel="noopener noreferrer"
             className="link"
           >
-            guide
+            the Skynet CLI
           </a>{" "}
-          to setup a Sia Node.
+          and{" "}
+          <a
+            href="https://blog.sia.tech/the-skynet-sdks-751b35578b20"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            integrate Skynet
+          </a>{" "}
+          into your application.
         </p>
       </Fade>
 
