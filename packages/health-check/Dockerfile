@@ -4,8 +4,8 @@ WORKDIR /usr/app
 
 COPY package.json .
 RUN yarn --no-lockfile
-COPY src/* src/
-COPY cli/* cli/
+COPY src src
+COPY cli cli
 
 EXPOSE 3100
 ENV NODE_ENV production
