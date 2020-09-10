@@ -16,7 +16,7 @@ function getStatusCode() {
   }
 
   // grab the most recent critical entry element from DB
-  const entry = getCurrentCriticalEntry();
+  const entry = getMostRecentCriticalEntry();
 
   // in case there is no entry yet or at least one check failed in the most recent entry
   if (!entry || entry.checks.some(({ up }) => !up)) {
@@ -46,7 +46,7 @@ function getAverageResponseTime() {
 /**
  * Get one, most current critical entry
  */
-function getCurrentCriticalEntry() {
+function getMostRecentCriticalEntry() {
   return db.get("critical").orderBy("date", "desc").head().value();
 }
 
@@ -67,7 +67,7 @@ module.exports = (req, res) => {
   // failures, hence 0 timeout on those.
   setTimeout(() => {
     // include some health information in the response body
-    const entry = getCurrentCriticalEntry();
+    const entry = getMostRecentCriticalEntry();
     const disabled = getDisabled();
 
     res.status(statusCode).send({ disabled, entry });
