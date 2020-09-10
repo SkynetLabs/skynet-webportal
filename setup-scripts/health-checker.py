@@ -55,7 +55,7 @@ async def run_checks():
     try:
         await check_load_average()
         await check_disk()
-        await check_health()
+        # await check_health() # FIXME: adjust it to work with https://github.com/NebulousLabs/skynet-webportal/pull/389
     except:
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
