@@ -15,7 +15,7 @@ function getStatusCode() {
     return StatusCodes.SERVICE_UNAVAILABLE;
   }
 
-  // grab one most recent critical entry element from DB
+  // grab the most recent critical entry element from DB
   const entry = getCurrentCriticalEntry();
 
   // find out whether every check in the entry is up
@@ -63,7 +63,7 @@ module.exports = (req, res) => {
   const timeout = statusCode === StatusCodes.OK ? getAvarageResponseTime() : 0;
 
   // We want to delay the response for the load balancer to be able to prioritize
-  // servers based on the successful response time of thid endpoint. Load balancer
+  // servers based on the successful response time of this endpoint. Load balancer
   // will pull the server if the response is an error so there is no point in delaying
   // failures, hence 0 timeout on those.
   setTimeout(() => {

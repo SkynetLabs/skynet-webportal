@@ -25,4 +25,4 @@ const verboseJob = schedule.scheduleJob("0 * * * *", async () => {
 setTimeout(() => {
   criticalJob.invoke();
   verboseJob.invoke();
-}, 60 * 0); // delay for 60s to give other services time to start up
+}, 60 * 1000); // delay for 60s to give other services time to start up
