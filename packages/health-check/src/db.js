@@ -5,9 +5,9 @@ const Memory = require("lowdb/adapters/Memory");
 
 if (!fs.existsSync("state")) fs.mkdirSync("state");
 
-const adapter = process.env.NODE_ENV === "production" ? new FileSync("state/state.json") : new Memory();
+const adapter = new FileSync("state/state.json");
 const db = low(adapter);
 
-db.defaults({ disabled: false, entries: [] }).write();
+db.defaults({ disabled: false, critical: [], verbose: [] }).write();
 
 module.exports = db;
