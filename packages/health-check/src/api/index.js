@@ -2,61 +2,74 @@ const { StatusCodes } = require("http-status-codes");
 const { sum, sumBy } = require("lodash");
 const db = require("../db");
 
-// getStatus returns the server's current health check status
-function getStatus() {
-  const disabled = db.get("disabled").value();
+/**
+ * Get status code that should be returned in the API response.
+ * - OK (200) in case everything is healthy
+ * - SERVICE_UNAVAILABLE (503) in case of any failures or if disabled
+ */
+function getStatusCode() {
+  // check whether the portal has been manually disabled
+  const disabled = getDisabled();
 
   if (disabled) {
     return StatusCodes.SERVICE_UNAVAILABLE;
   }
 
-  // Grab entry element from DB
-  const entry = db.get("entries").orderBy("date", "desc").head().value();
+  // grab the most recent critical entry element from DB
+  const entry = getMostRecentCriticalEntry();
 
-  // Check that every critical check entry is up
-  if (entry && entry.checks.every(({ up, critical }) => up && critical)) {
-    return StatusCodes.OK;
+  // in case there is no entry yet or at least one check failed in the most recent entry
+  if (!entry || entry.checks.some(({ up }) => !up)) {
+    return StatusCodes.SERVICE_UNAVAILABLE;
   }
 
-  // At least one check failed
-  return StatusCodes.SERVICE_UNAVAILABLE;
+  return StatusCodes.OK;
 }
 
-// getTimeout returns the average time out from a sample of 10 health check
-// entries.
-function getTimeout() {
-  if (getStatus() === StatusCodes.SERVICE_UNAVAILABLE) {
-    return 0;
-  }
-
-  // Grab 10 entries from the database as a sample to determine the average
-  // timeout for the server.
+/**
+ * Get the sample of most recent critical entries and
+ * calculate the average response time of all of them
+ */
+function getAverageResponseTime() {
+  // get most recent 10 successfull checks for the calculation
   const sample = db
-    .get("entries")
+    .get("critical")
     .orderBy("date", "desc")
-    .filter(({ checks }) => checks.every(({ up, critical }) => up && critical))
+    .filter(({ checks }) => checks.every(({ up }) => up))
     .take(10)
     .value();
 
-  // Return average timeout
+  // calculate average time of response
   return Math.round(sum(sample.map(({ checks }) => sumBy(checks, "time"))) / sample.size);
 }
 
-// getEntriesSinceYesterday gets the health check entries since yesterday
-function getEntriesSinceYesterday() {
-  const yesterday = new Date();
+/**
+ * Get one, most current critical entry
+ */
+function getMostRecentCriticalEntry() {
+  return db.get("critical").orderBy("date", "desc").head().value();
+}
 
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  return db
-    .get("entries")
-    .orderBy("date", "desc")
-    .filter(({ date }) => date >= yesterday.toISOString())
-    .value();
+/**
+ * Get the disabled flag state (manual portal disable)
+ */
+function getDisabled() {
+  return db.get("disabled").value();
 }
 
 module.exports = (req, res) => {
+  const statusCode = getStatusCode();
+  const timeout = statusCode === StatusCodes.OK ? getAverageResponseTime() : 0;
+
+  // We want to delay the response for the load balancer to be able to prioritize
+  // servers based on the successful response time of this endpoint. Load balancer
+  // will pull the server if the response is an error so there is no point in delaying
+  // failures, hence 0 timeout on those.
   setTimeout(() => {
-    res.status(getStatus()).send(getEntriesSinceYesterday());
-  }, getTimeout());
+    // include some health information in the response body
+    const entry = getMostRecentCriticalEntry();
+    const disabled = getDisabled();
+
+    res.status(statusCode).send({ disabled, entry });
+  }, timeout);
 };

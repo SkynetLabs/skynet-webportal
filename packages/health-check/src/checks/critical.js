@@ -17,7 +17,6 @@ async function uploadCheck(done) {
         up: statusCode === StatusCodes.OK,
         statusCode,
         time: calculateElapsedTime(time),
-        critical: true,
       });
     });
 }
@@ -41,7 +40,6 @@ async function downloadCheck(done) {
     up: statusCode === StatusCodes.OK,
     statusCode,
     time: calculateElapsedTime(time),
-    critical: true,
   });
 }
 
