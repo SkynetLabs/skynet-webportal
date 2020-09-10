@@ -18,8 +18,8 @@ server.use(bodyparser.urlencoded({ extended: false }));
 server.use(bodyparser.json());
 
 server.get("/health-check", require("./api/index"));
-server.get("/health-check/recent", require("./api/recent"));
-server.get("/health-check/all", require("./api/all"));
+server.get("/health-check/critical", require("./api/critical"));
+server.get("/health-check/verbose", require("./api/verbose"));
 server.get("/health-check/disabled", require("./api/disabled"));
 
 server.listen(port, host, (error) => {
