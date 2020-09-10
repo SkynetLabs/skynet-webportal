@@ -28,9 +28,9 @@ function getStatusCode() {
 
 /**
  * Get the sample of most recent critical entries and
- * calculate the avarage response time of all of them
+ * calculate the average response time of all of them
  */
-function getAvarageResponseTime() {
+function getAverageResponseTime() {
   // get most recent 10 successfull checks for the calculation
   const sample = db
     .get("critical")
@@ -39,7 +39,7 @@ function getAvarageResponseTime() {
     .take(10)
     .value();
 
-  // calculate avarage time of response
+  // calculate average time of response
   return Math.round(sum(sample.map(({ checks }) => sumBy(checks, "time"))) / sample.size);
 }
 
@@ -59,7 +59,7 @@ function getDisabled() {
 
 module.exports = (req, res) => {
   const statusCode = getStatusCode();
-  const timeout = statusCode === StatusCodes.OK ? getAvarageResponseTime() : 0;
+  const timeout = statusCode === StatusCodes.OK ? getAverageResponseTime() : 0;
 
   // We want to delay the response for the load balancer to be able to prioritize
   // servers based on the successful response time of this endpoint. Load balancer
