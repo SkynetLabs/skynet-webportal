@@ -18,13 +18,12 @@ function getStatusCode() {
   // grab the most recent critical entry element from DB
   const entry = getCurrentCriticalEntry();
 
-  // find out whether every check in the entry is up
-  if (entry && entry.checks.every(({ up }) => up)) {
-    return StatusCodes.OK;
+  // in case there is no entry yet or at least one check failed in the most recent entry
+  if (!entry || entry.checks.some(({ up }) => !up)) {
+    return StatusCodes.SERVICE_UNAVAILABLE;
   }
 
-  // in case at least one check failed
-  return StatusCodes.SERVICE_UNAVAILABLE;
+  return StatusCodes.OK;
 }
 
 /**
