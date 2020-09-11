@@ -4,10 +4,6 @@ const client = new Client();
 
 const { DISCORD_BOT_TOKEN, PORTAL_NAME = "PORTAL_NAME not defined" } = process.env;
 
-const CHANNEL_IDS = {
-  "skynet-portal-health-check": "684543533155352599",
-};
-
 client.on("ready", () => {
   sendMessageToHealthCheckChannel(`${PORTAL_NAME}: reporting for duty!`);
 });
@@ -26,10 +22,10 @@ client.on("ready", () => {
 })();
 
 function sendMessage(message, channelName) {
-  const channel = client.channels.cache.get(CHANNEL_IDS[channelName]);
+  const channel = client.channels.cache.find((channel) => channel.name === channelName);
 
   if (!channel) {
-    console.log(`Channel ${channelName} (id: ${CHANNEL_IDS[channelName]}) not found!`);
+    console.log(`Channel ${channelName} not found!`);
 
     return;
   }
@@ -51,4 +47,4 @@ function getRoleByName(roleName) {
   return guild.roles.cache.find(({ name }) => name === roleName);
 }
 
-module.exports = { sendMessage, sendMessageToHealthCheckChannel, getGuildByName, getRoleByName, CHANNEL_IDS };
+module.exports = { sendMessage, sendMessageToHealthCheckChannel, getGuildByName, getRoleByName };
