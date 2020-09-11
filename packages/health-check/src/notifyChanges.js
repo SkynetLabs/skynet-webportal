@@ -1,7 +1,7 @@
 const db = require("./db");
 const { sendMessageToHealthCheckChannel, getRoleByName } = require("./discord");
 
-const { PORTAL_NAME } = process.env;
+const { PORTAL_NAME = "PORTAL_NAME not defined" } = process.env;
 
 const notificationTimestamps = { critical: 0, verbose: 0 };
 const notificationUnchangedInterval = 24 * 60 * 60 * 1000; // 24 hours

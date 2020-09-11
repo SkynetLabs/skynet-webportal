@@ -2,7 +2,7 @@ const { Client, MessageMentions } = require("discord.js");
 
 const client = new Client();
 
-const { DISCORD_BOT_TOKEN, PORTAL_NAME } = process.env;
+const { DISCORD_BOT_TOKEN, PORTAL_NAME = "PORTAL_NAME not defined" } = process.env;
 
 const CHANNEL_IDS = {
   "skynet-portal-health-check": "684543533155352599",
@@ -13,6 +13,11 @@ client.on("ready", () => {
 });
 
 (async () => {
+  if (!DISCORD_BOT_TOKEN) {
+    console.log(`DISCORD_BOT_TOKEN environment variable not available, skipping discord integration`);
+    return;
+  }
+
   try {
     await client.login(DISCORD_BOT_TOKEN);
   } catch (error) {
