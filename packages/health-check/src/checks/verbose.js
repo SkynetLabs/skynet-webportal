@@ -1047,7 +1047,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
         const currentMetadata = metadataHeader && JSON.parse(metadataHeader);
         if (!isEqual(currentMetadata, metadata)) {
           entry.up = false;
-          info.metadata = detailedDiff(currentMetadata, metadata);
+          info.metadata = detailedDiff(metadata, currentMetadata);
         }
 
         if (Object.keys(info).length) entry.info = info; // add info only if it exists
