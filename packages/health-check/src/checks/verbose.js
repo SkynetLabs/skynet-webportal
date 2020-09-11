@@ -1,6 +1,6 @@
 const superagent = require("superagent");
 const hash = require("object-hash");
-const { diffJson } = require("diff");
+const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime } = require("../utils");
 
@@ -1047,7 +1047,17 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
         const currentMetadata = metadataHeader && JSON.parse(metadataHeader);
         if (!isEqual(currentMetadata, metadata)) {
           entry.up = false;
-          info.metadata = diffJson(metadata, currentMetadata);
+
+          const diff = detailedDiff(metadata, currentMetadata);
+          const diffString = JSON.stringify(diff);
+
+          info.metadata = JSON.parse(diffString, (key, value) => {
+            if (value === undefined) {
+              return "undefined";
+            }
+
+            return value;
+          });
         }
 
         if (Object.keys(info).length) entry.info = info; // add info only if it exists
