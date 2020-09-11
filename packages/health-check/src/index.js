@@ -17,7 +17,10 @@ const server = express();
 server.use(bodyparser.urlencoded({ extended: false }));
 server.use(bodyparser.json());
 
-server.get("/health-check", require("./endpointHealthCheck"));
+server.get("/health-check", require("./api/index"));
+server.get("/health-check/critical", require("./api/critical"));
+server.get("/health-check/verbose", require("./api/verbose"));
+server.get("/health-check/disabled", require("./api/disabled"));
 
 server.listen(port, host, (error) => {
   if (error) throw error;

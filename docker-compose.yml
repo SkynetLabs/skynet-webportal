@@ -2,7 +2,10 @@ version: "3.7"
 
 networks:
   shared:
-    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/24
 
 volumes:
   webapp:
@@ -23,7 +26,8 @@ services:
     volumes:
       - ./docker/data/sia:/sia-data
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.10
     expose:
       - 9980
 
@@ -38,7 +42,8 @@ services:
     volumes:
       - ./docker/data/sia-upload:/sia-data
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.11
     expose:
       - 9980
 
@@ -55,7 +60,8 @@ services:
       - ./docker/data/caddy/config:/config
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.20
     ports:
       - "80:80"
       - "443:443"
@@ -76,7 +82,8 @@ services:
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - webapp:/var/www/webportal:ro
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.30
     expose:
       - 80
     depends_on:
@@ -110,7 +117,8 @@ services:
     volumes:
       - ./docker/data/handshake/.hsd:/root/.hsd
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.40
     expose:
       - 12037
 
@@ -128,7 +136,8 @@ services:
     env_file:
       - .env
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.50
     expose:
       - 3100
     depends_on:
@@ -143,7 +152,8 @@ services:
     volumes:
       - ./docker/data/health-check/state:/usr/app/state
     networks:
-      - shared
+      shared:
+        ipv4_address: 192.168.0.60
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
