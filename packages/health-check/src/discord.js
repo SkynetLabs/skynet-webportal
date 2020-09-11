@@ -1,6 +1,6 @@
-const Discord = require("discord.js");
+const { Client, MessageMentions } = require("discord.js");
 
-const client = new Discord.Client();
+const client = new Client();
 
 const { DISCORD_BOT_TOKEN, PORTAL_NAME } = process.env;
 
@@ -29,11 +29,21 @@ function sendMessage(message, channelName) {
     return;
   }
 
-  channel.send({ content: message });
+  channel.send(message);
 }
 
 function sendMessageToHealthCheckChannel(message) {
   return sendMessage(message, "skynet-portal-health-check");
 }
 
-module.exports = { sendMessage, sendMessageToHealthCheckChannel, CHANNEL_IDS };
+function getGuildByName(guildName) {
+  return client.guilds.cache.find(({ name }) => name === guildName);
+}
+
+function getRoleByName(roleName) {
+  const guild = getGuildByName("Nebulous");
+
+  return guild.roles.cache.find(({ name }) => name === roleName);
+}
+
+module.exports = { sendMessage, sendMessageToHealthCheckChannel, getGuildByName, getRoleByName, CHANNEL_IDS };

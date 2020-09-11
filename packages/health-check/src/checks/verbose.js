@@ -1049,15 +1049,12 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
           entry.up = false;
 
           const diff = detailedDiff(metadata, currentMetadata);
-          const diffString = JSON.stringify(diff);
-
-          info.metadata = JSON.parse(diffString, (key, value) => {
-            if (value === undefined) {
-              return "undefined";
-            }
-
-            return value;
+          const diffString = JSON.stringify(diff, (key, value) => {
+            // replace undefined with a string "undefined", otherwise JSON will drop this key
+            return value === undefined ? "undefined" : value;
           });
+
+          info.metadata = JSON.parse(diffString);
         }
 
         if (Object.keys(info).length) entry.info = info; // add info only if it exists
