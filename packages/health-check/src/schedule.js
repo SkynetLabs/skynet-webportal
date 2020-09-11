@@ -6,6 +6,13 @@ const { verboseChecks } = require("./checks/verbose");
 
 const { PORTAL_NAME } = process.env;
 
+function notifyChanges(entry, type) {
+  const passing = entry.checks.filter(({ up }) => up).length;
+  const total = entry.checks.length;
+
+  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: ${passing} / ${total} ${type} checks passing`);
+}
+
 // execute the critical health-check script every 5 minutes
 const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
   const entry = {
@@ -15,10 +22,7 @@ const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
 
   db.get("critical").push(entry).write();
 
-  const passing = entry.checks.filter(({ up }) => up).length;
-  const total = entry.checks.length;
-
-  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: ${passing} / ${total} critical checks passing`);
+  notifyChanges(entry, "critical");
 });
 
 // execute the verbose health-check script once per hour
@@ -30,10 +34,7 @@ const verboseJob = schedule.scheduleJob("0 * * * *", async () => {
 
   db.get("verbose").push(entry).write();
 
-  const passing = entry.checks.filter(({ up }) => up).length;
-  const total = entry.checks.length;
-
-  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: ${passing} / ${total} verbose checks passing`);
+  notifyChanges(entry, "verbose");
 });
 
 // Launch Health check jobs
