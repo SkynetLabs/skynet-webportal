@@ -22,8 +22,13 @@ function notifyChanges(type) {
 
     const role = getRoleByName("skynet-prod");
     const allowedMentions = { roles: [role.id] };
+    const failedChecks = currentEntry.checks.filter(({ up }) => !up);
+    const embed = {
+      title: `${type} check failures`,
+      description: `\`\`\`${JSON.stringify(failedChecks, null, 2)}\`\`\``,
+    };
 
-    sendMessageToHealthCheckChannel({ content: `${message} /cc <@&${role.id}>`, allowedMentions });
+    sendMessageToHealthCheckChannel({ content: `${message} /cc <@&${role.id}>`, allowedMentions, embed });
   };
 
   if (!previousEntry) {
