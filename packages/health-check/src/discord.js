@@ -9,7 +9,7 @@ const CHANNEL_IDS = {
 };
 
 client.on("ready", () => {
-  sendMessageToHealthCheckChannel("hello there");
+  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: reporting for duty!`);
 });
 
 (async () => {
