@@ -4,7 +4,7 @@ const { sendMessageToHealthCheckChannel } = require("./discord");
 const { criticalChecks } = require("./checks/critical");
 const { verboseChecks } = require("./checks/verbose");
 
-const { HOSTNAME } = process.env;
+const { PORTAL_NAME } = process.env;
 
 // execute the critical health-check script every 5 minutes
 const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
@@ -18,7 +18,7 @@ const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
   const passing = entry.checks.filter(({ up }) => up).length;
   const total = entry.checks.length;
 
-  sendMessageToHealthCheckChannel(`${HOSTNAME}: ${passing} / ${total} critical checks passing`);
+  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: ${passing} / ${total} critical checks passing`);
 });
 
 // execute the verbose health-check script once per hour
@@ -33,7 +33,7 @@ const verboseJob = schedule.scheduleJob("0 * * * *", async () => {
   const passing = entry.checks.filter(({ up }) => up).length;
   const total = entry.checks.length;
 
-  sendMessageToHealthCheckChannel(`${HOSTNAME}: ${passing} / ${total} verbose checks passing`);
+  sendMessageToHealthCheckChannel(`${PORTAL_NAME}: ${passing} / ${total} verbose checks passing`);
 });
 
 // Launch Health check jobs
