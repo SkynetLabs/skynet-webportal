@@ -157,6 +157,8 @@ services:
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
+    env_file:
+      - .env
     expose:
       - 3100
     depends_on:
