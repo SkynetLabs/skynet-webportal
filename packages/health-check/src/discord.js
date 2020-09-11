@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 const client = new Discord.Client();
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_BOT_TOKEN, PORTAL_NAME } = process.env;
 
 const CHANNEL_IDS = {
   "skynet-portal-health-check": "684543533155352599",
