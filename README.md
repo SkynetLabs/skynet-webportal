@@ -18,11 +18,13 @@ List of available parameters:
 ## Contributing
 
 ### Testing you Code
-Before pushing your code you should verify that it will pass our online test
-suite. 
 
-**Cypress Tests**  
+Before pushing your code you should verify that it will pass our online test
+suite.
+
+**Cypress Tests**
 Verify the Cypress test suite by doing the following:
+
 1. In one terminal screen run `GATSBY_API_URL=https://siasky.net yarn workspace webapp start`
 1. In a second terminal screen run `yarn workspace webapp cypress run`
 
