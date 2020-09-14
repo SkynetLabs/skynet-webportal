@@ -4,7 +4,6 @@ import classNames from "classnames";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
-import Reveal from "react-reveal/Reveal";
 import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";
@@ -159,93 +158,91 @@ export default function HomeUpload() {
   };
 
   return (
-    <Reveal effect="active">
-      <div className="home-upload">
-        <div className="home-upload-white fadeInUp delay4">
-          <div className="home-upload-split">
-            <div className="home-upload-box ">
-              <div
-                className={classNames("home-upload-dropzone", {
-                  "drop-active": isDragActive,
-                })}
-                {...getRootProps()}
-              >
-                <span className="home-upload-text">
-                  <h3>Upload your {directoryMode ? "Directory" : "Files"}</h3>
-                  Drop your {directoryMode ? "directory" : "files"} here to pin to Skynet
-                </span>
-                <Button iconLeft>
-                  <Folder />
-                  Browse
-                </Button>
-              </div>
-              <input {...getInputProps()} className="offscreen" />
-              <button
-                type="button"
-                className="home-upload-mode-switch link"
-                onClick={() => setDirectoryMode(!directoryMode)}
-              >
-                {directoryMode ? "⇐ Switch back to uploading files" : "Do you want to upload entire directory?"}
-              </button>
-              {directoryMode && (
-                <p className="home-upload-directory-mode-notice">
-                  Please note that directory upload is not a standard browser feature and the browser support is
-                  limited. To check whether your browser is compatible, visit{" "}
-                  <a
-                    href="https://caniuse.com/#feat=mdn-api_htmlinputelement_webkitdirectory"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link"
-                  >
-                    caniuse.com
-                  </a>
-                  .
-                </p>
-              )}
+    <div className="home-upload">
+      <div className="home-upload-white">
+        <div className="home-upload-split">
+          <div className="home-upload-box ">
+            <div
+              className={classNames("home-upload-dropzone", {
+                "drop-active": isDragActive,
+              })}
+              {...getRootProps()}
+            >
+              <span className="home-upload-text">
+                <h3>Upload your {directoryMode ? "Directory" : "Files"}</h3>
+                Drop your {directoryMode ? "directory" : "files"} here to pin to Skynet
+              </span>
+              <Button iconLeft>
+                <Folder />
+                Browse
+              </Button>
             </div>
-
-            <div className="home-upload-retrieve">
-              <div className="home-upload-text">
-                <h3 id="skylink-retrieve-title">Have a Skylink?</h3>
-                <p>Paste the link to retrieve your file</p>
-
-                <form
-                  className={classNames("home-upload-retrieve-form", { invalid: skylink && !isValidSkylink(skylink) })}
-                  onSubmit={handleSkylink}
+            <input {...getInputProps()} className="offscreen" />
+            <button
+              type="button"
+              className="home-upload-mode-switch link"
+              onClick={() => setDirectoryMode(!directoryMode)}
+            >
+              {directoryMode ? "⇐ Switch back to uploading files" : "Do you want to upload entire directory?"}
+            </button>
+            {directoryMode && (
+              <p className="home-upload-directory-mode-notice">
+                Please note that directory upload is not a standard browser feature and the browser support is limited.
+                To check whether your browser is compatible, visit{" "}
+                <a
+                  href="https://caniuse.com/#feat=mdn-api_htmlinputelement_webkitdirectory"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link"
                 >
-                  <input
-                    name="skylink"
-                    type="text"
-                    placeholder="sia://"
-                    aria-labelledby="skylink-retrieve-title"
-                    onChange={(event) => setSkylink(event.target.value)}
-                  />
-                  <button type="submit" aria-label="Retrieve file">
-                    <DownArrow />
-                  </button>
-                </form>
-              </div>
-            </div>
+                  caniuse.com
+                </a>
+                .
+              </p>
+            )}
           </div>
 
-          {files.length > 0 && (
-            <div className="home-uploaded-files">
-              {files.map((file, i) => {
-                return <UploadFile key={i} {...file} />;
-              })}
+          <div className="home-upload-retrieve">
+            <div className="home-upload-text">
+              <h3 id="skylink-retrieve-title">Have a Skylink?</h3>
+              <p>Paste the link to retrieve your file</p>
+
+              <form
+                className={classNames("home-upload-retrieve-form", { invalid: skylink && !isValidSkylink(skylink) })}
+                onSubmit={handleSkylink}
+              >
+                <input
+                  name="skylink"
+                  type="text"
+                  placeholder="sia://"
+                  aria-labelledby="skylink-retrieve-title"
+                  onChange={(event) => setSkylink(event.target.value)}
+                />
+                <button type="submit" aria-label="Retrieve file">
+                  <DownArrow />
+                </button>
+              </form>
             </div>
-          )}
+          </div>
         </div>
 
-        <p className="bottom-text fadeInUp delay5">
-          Upon uploading a file, Skynet generates a 46 byte link called a <strong>Skylink</strong>. This link can then
-          be shared with anyone to retrieve the file on any Skynet Webportal.
-        </p>
-
-        <Deco3 className="deco-3 fadeInUp delay6" />
-        <Deco4 className="deco-4 fadeInUp delay6" />
-        <Deco5 className="deco-5 fadeInUp delay6" />
+        {files.length > 0 && (
+          <div className="home-uploaded-files">
+            {files.map((file, i) => {
+              return <UploadFile key={i} {...file} />;
+            })}
+          </div>
+        )}
       </div>
-    </Reveal>
+
+      <p className="bottom-text">
+        Upon uploading a file, Skynet generates a 46 byte link called a <strong>Skylink</strong>. This link can then be
+        shared with anyone to retrieve the file on any Skynet Webportal.
+      </p>
+
+      <Deco3 className="deco-3" />
+      <Deco4 className="deco-4" />
+      <Deco5 className="deco-5" />
+    </div>
   );
 }
