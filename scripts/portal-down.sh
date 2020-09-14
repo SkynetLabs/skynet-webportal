@@ -11,11 +11,8 @@ countdown() {
     done
 }
 
-# first stop healh-check so the server is taken our of load balancer
-docker-compose stop health-check
+# stop healh-check so the server is taken our of load balancer
+docker exec health-check cli/disable
 
 # then wait 5 minutes for the load balancer to propagate the dns records
 countdown 300
-
-# now stop sia process
-docker-compose stop sia
