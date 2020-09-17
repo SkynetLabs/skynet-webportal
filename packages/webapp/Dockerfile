@@ -9,5 +9,5 @@ COPY package.json .
 
 ENV CYPRESS_INSTALL_BINARY 0
 ENV GATSBY_TELEMETRY_DISABLED 1
-RUN yarn --no-lockfile
-RUN yarn build
+RUN yarn --no-lockfile  --network-timeout 100000
+RUN yarn build 

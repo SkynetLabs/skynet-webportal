@@ -5,7 +5,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 192.168.0.0/24
+        - subnet: 10.0.0.0/24
 
 volumes:
   webapp:
@@ -17,6 +17,9 @@ services:
       dockerfile: Dockerfile
       args:
         branch: v1.5.0
+    image: sia
+    deploy:
+      mode: global
     container_name: sia
     restart: unless-stopped
     environment:
@@ -24,30 +27,10 @@ services:
     env_file:
       - .env
     volumes:
-      - ./docker/data/sia:/sia-data
+      - /media/sf_sia_data:/sia-data
     networks:
       shared:
-        ipv4_address: 192.168.0.10
-    expose:
-      - 9980
-
-  sia-upload:
-    build:
-      context: ./docker/sia
-      dockerfile: Dockerfile
-      args:
-        branch: v1.5.0
-    container_name: sia-upload
-    restart: unless-stopped
-    environment:
-      - SIA_MODULES=gctwr
-    env_file:
-      - .env-upload
-    volumes:
-      - ./docker/data/sia-upload:/sia-data
-    networks:
-      shared:
-        ipv4_address: 192.168.0.11
+        ipv4_address: 10.0.0.10
     expose:
       - 9980
 
@@ -55,6 +38,9 @@ services:
     build:
       context: ./docker/caddy
       dockerfile: Dockerfile
+    image: caddy
+    deploy:
+      mode: global
     container_name: caddy
     restart: unless-stopped
     env_file:
@@ -65,7 +51,7 @@ services:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
     networks:
       shared:
-        ipv4_address: 192.168.0.20
+        ipv4_address: 10.0.0.20
     ports:
       - "80:80"
       - "443:443"
@@ -74,6 +60,8 @@ services:
 
   nginx:
     image: openresty/openresty:1.15.8.3-2-xenial
+    deploy:
+      mode: global
     container_name: nginx
     restart: unless-stopped
     env_file:
@@ -87,7 +75,7 @@ services:
       - webapp:/var/www/webportal:ro
     networks:
       shared:
-        ipv4_address: 192.168.0.30
+        ipv4_address: 10.0.0.30
     expose:
       - 80
     depends_on:
@@ -99,6 +87,9 @@ services:
     build:
       context: ./packages/webapp
       dockerfile: Dockerfile
+    image: webapp
+    deploy:
+      mode: global
     container_name: webapp
     restart: unless-stopped
     tty: true
@@ -109,6 +100,9 @@ services:
     build:
       context: ./docker/handshake
       dockerfile: Dockerfile
+    image: handhsake
+    deploy:
+      mode: global
     container_name: handshake
     restart: unless-stopped
     environment:
@@ -122,7 +116,7 @@ services:
       - ./docker/data/handshake/.hsd:/root/.hsd
     networks:
       shared:
-        ipv4_address: 192.168.0.40
+        ipv4_address: 10.0.0.40
     expose:
       - 12037
 
@@ -130,6 +124,9 @@ services:
     build:
       context: ./packages/handshake-api
       dockerfile: Dockerfile
+    image: handshake-api
+    deploy:
+      mode: global
     container_name: handshake-api
     restart: unless-stopped
     environment:
@@ -141,7 +138,7 @@ services:
       - .env
     networks:
       shared:
-        ipv4_address: 192.168.0.50
+        ipv4_address: 10.0.0.50
     expose:
       - 3100
     depends_on:
@@ -151,13 +148,16 @@ services:
     build:
       context: ./packages/health-check
       dockerfile: Dockerfile
+    image: health-check
+    deploy:
+      mode: global
     container_name: health-check
     restart: unless-stopped
     volumes:
       - ./docker/data/health-check/state:/usr/app/state
     networks:
       shared:
-        ipv4_address: 192.168.0.60
+        ipv4_address: 10.0.0.60
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
@@ -166,3 +166,4 @@ services:
     depends_on:
       - handshake
       - handshake-api
+
