@@ -10,7 +10,7 @@ const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
     checks: await Promise.all(criticalChecks.map((check) => new Promise(check))),
   };
 
-  db.get("critical").push(entry).write();
+  db.read().get("critical").push(entry).write();
 });
 
 // execute the verbose health-check script once per hour
@@ -20,7 +20,7 @@ const verboseJob = schedule.scheduleJob("0 * * * *", async () => {
     checks: await Promise.all(verboseChecks.map((check) => new Promise(check))),
   };
 
-  db.get("verbose").push(entry).write();
+  db.read().get("verbose").push(entry).write();
 });
 
 // Launch Health check jobs
