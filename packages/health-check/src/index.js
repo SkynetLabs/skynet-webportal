@@ -20,7 +20,7 @@ server.use(bodyparser.json());
 server.use((req, res, next) => {
   db.read();
   next();
-})
+});
 
 server.get("/health-check", require("./api/index"));
 server.get("/health-check/critical", require("./api/critical"));
