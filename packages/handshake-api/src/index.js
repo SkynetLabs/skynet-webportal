@@ -1,6 +1,4 @@
-const url = require("url");
 const express = require("express");
-const proxy = require("express-http-proxy");
 const NodeCache = require("node-cache");
 const { NodeClient } = require("hs-client");
 
@@ -75,42 +73,6 @@ function isValidSkylink(link) {
 }
 
 const server = express();
-
-server.use(
-  "/hns/:name",
-  proxy("nginx", {
-    // eslint-disable-next-line no-unused-vars
-    userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-      if (headers.location && headers.location.match(startsWithSkylinkRegExp)) {
-        headers.location = headers.location.replace(
-          startsWithSkylinkRegExp,
-          `/hns/${userReq.params.name.replace("sia://", "")}`
-        );
-      }
-
-      return headers;
-    },
-    proxyReqPathResolver: async (req) => {
-      const records = await getDomainRecords(req.params.name);
-      if (!records) throw new Error(`No records found for ${req.params.name}`);
-
-      const record = findSkylinkRecord(records);
-      if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
-
-      const skylink = getSkylinkFromRecord(record).replace("sia://", ""); // get skylink and strip sia:// prefix
-      const basepath = url.resolve("/", skylink); // make the url absolute
-      const subpath = req.url.slice(1); // drop the leading slash
-
-      // if the record is just a raw skylink, replace baseUrl with /skylink
-      if (skylink.length === 46) {
-        return req.originalUrl.replace(req.baseUrl, basepath);
-      }
-
-      // if the record contains more than a skylink then it needs to be resolved
-      return url.resolve(basepath, subpath);
-    },
-  })
-);
 
 server.get("/hnsres/:name", resolveDomainHandler);
 

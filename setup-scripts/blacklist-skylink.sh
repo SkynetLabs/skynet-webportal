@@ -9,7 +9,7 @@ fi
 for server in "germany.siasky.net" "us-east.siasky.net" "us-west.siasky.net" "helsinki.siasky.net" "siasky.dev";
 do
     echo "⌁ Blacklisting on ${server}"
-    ssh -q -t user@${server} 'docker exec sia siac skynet blacklist '$1''
+    ssh -q -t user@${server} 'docker exec sia siac skynet blacklist add '$1''
     ssh -q -t user@${server} 'rm -rf /home/user/skynet_webportal/docker/data/nginx/cache' # prune nginx cache
 done
 

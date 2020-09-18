@@ -2,7 +2,7 @@ proxy_cache skynet;
 slice 1m;
 proxy_http_version 1.1; # upgrade if necessary because 1.0 does not support byte-range requests
 proxy_set_header Range $slice_range; # pass slice range to proxy
-proxy_cache_key $uri$slice_range; # include $slice_range in the cache key
+proxy_cache_key $subdomain$uri$slice_range; # include both the $subdomain and $slice_range in the cache key
 proxy_cache_min_uses 3; # cache responses after 3 requests of the same file
 proxy_cache_valid 200 206 24h; # cache 200 and 206 responses for 24 hours
 proxy_cache_bypass $cookie_nocache $arg_nocache; # add cache bypass option
