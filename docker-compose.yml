@@ -20,7 +20,6 @@ services:
     image: sia
     deploy:
       mode: global
-    container_name: sia
     restart: unless-stopped
     environment:
       - SIA_MODULES=gctwr
@@ -31,8 +30,6 @@ services:
     networks:
       shared:
         ipv4_address: 10.0.0.10
-    expose:
-      - 9980
 
   caddy:
     build:
@@ -41,7 +38,6 @@ services:
     image: caddy
     deploy:
       mode: global
-    container_name: caddy
     restart: unless-stopped
     env_file:
       - .env
@@ -62,7 +58,6 @@ services:
     image: openresty/openresty:1.15.8.3-2-xenial
     deploy:
       mode: global
-    container_name: nginx
     restart: unless-stopped
     env_file:
       - .env
@@ -76,8 +71,6 @@ services:
     networks:
       shared:
         ipv4_address: 10.0.0.30
-    expose:
-      - 80
     depends_on:
       - sia
       - health-check
@@ -90,7 +83,6 @@ services:
     image: webapp
     deploy:
       mode: global
-    container_name: webapp
     restart: unless-stopped
     tty: true
     volumes:
@@ -103,7 +95,6 @@ services:
     image: handhsake
     deploy:
       mode: global
-    container_name: handshake
     restart: unless-stopped
     environment:
       - HSD_LOG_CONSOLE=false
@@ -117,8 +108,6 @@ services:
     networks:
       shared:
         ipv4_address: 10.0.0.40
-    expose:
-      - 12037
 
   handshake-api:
     build:
@@ -127,7 +116,6 @@ services:
     image: handshake-api
     deploy:
       mode: global
-    container_name: handshake-api
     restart: unless-stopped
     environment:
       - HOSTNAME=0.0.0.0
@@ -139,8 +127,6 @@ services:
     networks:
       shared:
         ipv4_address: 10.0.0.50
-    expose:
-      - 3100
     depends_on:
       - handshake
 
@@ -151,7 +137,6 @@ services:
     image: health-check
     deploy:
       mode: global
-    container_name: health-check
     restart: unless-stopped
     volumes:
       - ./docker/data/health-check/state:/usr/app/state
@@ -161,8 +146,6 @@ services:
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
-    expose:
-      - 3100
     depends_on:
       - handshake
       - handshake-api
