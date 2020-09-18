@@ -6,6 +6,7 @@ if (!process.env.PORTAL_URL) {
 
 const express = require("express");
 const bodyparser = require("body-parser");
+const db = require("./db");
 
 require("./schedule");
 
@@ -16,6 +17,10 @@ const server = express();
 
 server.use(bodyparser.urlencoded({ extended: false }));
 server.use(bodyparser.json());
+server.use((req, res, next) => {
+  db.read();
+  next();
+})
 
 server.get("/health-check", require("./api/index"));
 server.get("/health-check/critical", require("./api/critical"));
