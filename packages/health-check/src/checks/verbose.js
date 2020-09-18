@@ -537,13 +537,42 @@ function dappExampleCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const developMomentumBodyHash = "53b44a9d3cfa9b3d66ce5c29976f4383725d3652";
+const developMomentumMetadata = require("../fixtures/developMomentumMetadata.json");
+
+// developMomentumCheck returns the result of trying to download the skylink
+// for the Develop Momentum Application
+function developMomentumCheck(done) {
+  const linkInfo = {
+    description: "Develop Momentum Index File",
+    skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/",
+    bodyHash: developMomentumBodyHash,
+    metadata: developMomentumMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// developMomentumRedirectCheck returns the result of trying to download the skylink
+// for the Develop Momentum Application without the tailing slash
+function developMomentumRedirectCheck(done) {
+  const linkInfo = {
+    description: "Develop Momentum Index File",
+    skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
+    bodyHash: developMomentumBodyHash,
+    metadata: developMomentumMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // developMomentumIndexFileCheck returns the result of trying to download the skylink
 // for the Develop Momentum Application with a trailing /index.html
 function developMomentumIndexFileCheck(done) {
   const linkInfo = {
     name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html",
-    bodyHash: "53b44a9d3cfa9b3d66ce5c29976f4383725d3652",
+    bodyHash: developMomentumBodyHash,
     metadata: {
       filename: "/index.html",
       length: 4981,
@@ -696,134 +725,16 @@ function skyBinRedirectCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const skyGalleryBodyHash = "077e54054748d278114f1870f8045a162eb73641";
+const skyGalleryMetadata = require("../fixtures/skygalleryMetadata.json");
+
 // skyGalleryCheck returns the result of trying to download the skylink for the SkyGallery Application.
 function skyGalleryCheck(done) {
   const linkInfo = {
     name: "SkyGallery",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
-    metadata: {
-      filename: "skygallery-v0.1.1-76c4c115fcb526716b2564568850f433",
-      subfiles: {
-        "css/app.84a130ed.css": { filename: "css/app.84a130ed.css", contenttype: "text/css", len: 698 },
-        "css/chunk-5ce44031.d4e78528.css": {
-          filename: "css/chunk-5ce44031.d4e78528.css",
-          contenttype: "text/css",
-          offset: 698,
-          len: 45,
-        },
-        "css/chunk-6bef839b.593aa2be.css": {
-          filename: "css/chunk-6bef839b.593aa2be.css",
-          contenttype: "text/css",
-          offset: 743,
-          len: 5013,
-        },
-        "css/chunk-8ed50a48.8ba8c09d.css": {
-          filename: "css/chunk-8ed50a48.8ba8c09d.css",
-          contenttype: "text/css",
-          offset: 5756,
-          len: 7204,
-        },
-        "css/chunk-eb4c1efc.2a7e25ed.css": {
-          filename: "css/chunk-eb4c1efc.2a7e25ed.css",
-          contenttype: "text/css",
-          offset: 12960,
-          len: 45,
-        },
-        "css/chunk-vendors.b4f58487.css": {
-          filename: "css/chunk-vendors.b4f58487.css",
-          contenttype: "text/css",
-          offset: 13005,
-          len: 382063,
-        },
-        "img/skygallery_logo.2336197e.svg": {
-          filename: "img/skygallery_logo.2336197e.svg",
-          contenttype: "image/svg+xml",
-          offset: 395068,
-          len: 923,
-        },
-        "img/skynet-logo-animated.4d24345c.svg": {
-          filename: "img/skynet-logo-animated.4d24345c.svg",
-          contenttype: "image/svg+xml",
-          offset: 395991,
-          len: 2600,
-        },
-        "index.html": { filename: "index.html", contenttype: "text/html", offset: 398591, len: 2534 },
-        "js/app.cff1e0a4.js": {
-          filename: "js/app.cff1e0a4.js",
-          contenttype: "application/javascript",
-          offset: 401125,
-          len: 15604,
-        },
-        "js/app.cff1e0a4.js.map": {
-          filename: "js/app.cff1e0a4.js.map",
-          contenttype: "application/json",
-          offset: 416729,
-          len: 54424,
-        },
-        "js/chunk-5ce44031.7fb55da9.js": {
-          filename: "js/chunk-5ce44031.7fb55da9.js",
-          contenttype: "application/javascript",
-          offset: 471153,
-          len: 3644,
-        },
-        "js/chunk-5ce44031.7fb55da9.js.map": {
-          filename: "js/chunk-5ce44031.7fb55da9.js.map",
-          contenttype: "application/json",
-          offset: 474797,
-          len: 13494,
-        },
-        "js/chunk-6bef839b.b543fe7d.js": {
-          filename: "js/chunk-6bef839b.b543fe7d.js",
-          contenttype: "application/javascript",
-          offset: 488291,
-          len: 13349,
-        },
-        "js/chunk-6bef839b.b543fe7d.js.map": {
-          filename: "js/chunk-6bef839b.b543fe7d.js.map",
-          contenttype: "application/json",
-          offset: 501640,
-          len: 46690,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js",
-          contenttype: "application/javascript",
-          offset: 548330,
-          len: 130329,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js.map": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js.map",
-          contenttype: "application/json",
-          offset: 678659,
-          len: 507145,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js",
-          contenttype: "application/javascript",
-          offset: 1185804,
-          len: 4407,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js.map": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js.map",
-          contenttype: "application/json",
-          offset: 1190211,
-          len: 15355,
-        },
-        "js/chunk-vendors.1fd55121.js": {
-          filename: "js/chunk-vendors.1fd55121.js",
-          contenttype: "application/javascript",
-          offset: 1205566,
-          len: 749829,
-        },
-        "js/chunk-vendors.1fd55121.js.map": {
-          filename: "js/chunk-vendors.1fd55121.js.map",
-          contenttype: "application/json",
-          offset: 1955395,
-          len: 2793251,
-        },
-      },
-      defaultpath: "/index.html",
-    },
+    bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
   };
 
   skylinkVerification(done, linkInfo);
@@ -835,7 +746,7 @@ function skyGalleryIndexFileCheck(done) {
   const linkInfo = {
     name: "SkyGallery Index File",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
+    bodyHash: skyGalleryBodyHash,
     metadata: {
       filename: "/index.html",
       length: 2534,
@@ -852,129 +763,8 @@ function skyGalleryRedirectCheck(done) {
   const linkInfo = {
     name: "SkyGallery Redirect",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-    bodyHash: "077e54054748d278114f1870f8045a162eb73641",
-    metadata: {
-      filename: "skygallery-v0.1.1-76c4c115fcb526716b2564568850f433",
-      subfiles: {
-        "css/app.84a130ed.css": { filename: "css/app.84a130ed.css", contenttype: "text/css", len: 698 },
-        "css/chunk-5ce44031.d4e78528.css": {
-          filename: "css/chunk-5ce44031.d4e78528.css",
-          contenttype: "text/css",
-          offset: 698,
-          len: 45,
-        },
-        "css/chunk-6bef839b.593aa2be.css": {
-          filename: "css/chunk-6bef839b.593aa2be.css",
-          contenttype: "text/css",
-          offset: 743,
-          len: 5013,
-        },
-        "css/chunk-8ed50a48.8ba8c09d.css": {
-          filename: "css/chunk-8ed50a48.8ba8c09d.css",
-          contenttype: "text/css",
-          offset: 5756,
-          len: 7204,
-        },
-        "css/chunk-eb4c1efc.2a7e25ed.css": {
-          filename: "css/chunk-eb4c1efc.2a7e25ed.css",
-          contenttype: "text/css",
-          offset: 12960,
-          len: 45,
-        },
-        "css/chunk-vendors.b4f58487.css": {
-          filename: "css/chunk-vendors.b4f58487.css",
-          contenttype: "text/css",
-          offset: 13005,
-          len: 382063,
-        },
-        "img/skygallery_logo.2336197e.svg": {
-          filename: "img/skygallery_logo.2336197e.svg",
-          contenttype: "image/svg+xml",
-          offset: 395068,
-          len: 923,
-        },
-        "img/skynet-logo-animated.4d24345c.svg": {
-          filename: "img/skynet-logo-animated.4d24345c.svg",
-          contenttype: "image/svg+xml",
-          offset: 395991,
-          len: 2600,
-        },
-        "index.html": { filename: "index.html", contenttype: "text/html", offset: 398591, len: 2534 },
-        "js/app.cff1e0a4.js": {
-          filename: "js/app.cff1e0a4.js",
-          contenttype: "application/javascript",
-          offset: 401125,
-          len: 15604,
-        },
-        "js/app.cff1e0a4.js.map": {
-          filename: "js/app.cff1e0a4.js.map",
-          contenttype: "application/json",
-          offset: 416729,
-          len: 54424,
-        },
-        "js/chunk-5ce44031.7fb55da9.js": {
-          filename: "js/chunk-5ce44031.7fb55da9.js",
-          contenttype: "application/javascript",
-          offset: 471153,
-          len: 3644,
-        },
-        "js/chunk-5ce44031.7fb55da9.js.map": {
-          filename: "js/chunk-5ce44031.7fb55da9.js.map",
-          contenttype: "application/json",
-          offset: 474797,
-          len: 13494,
-        },
-        "js/chunk-6bef839b.b543fe7d.js": {
-          filename: "js/chunk-6bef839b.b543fe7d.js",
-          contenttype: "application/javascript",
-          offset: 488291,
-          len: 13349,
-        },
-        "js/chunk-6bef839b.b543fe7d.js.map": {
-          filename: "js/chunk-6bef839b.b543fe7d.js.map",
-          contenttype: "application/json",
-          offset: 501640,
-          len: 46690,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js",
-          contenttype: "application/javascript",
-          offset: 548330,
-          len: 130329,
-        },
-        "js/chunk-8ed50a48.35f8ef35.js.map": {
-          filename: "js/chunk-8ed50a48.35f8ef35.js.map",
-          contenttype: "application/json",
-          offset: 678659,
-          len: 507145,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js",
-          contenttype: "application/javascript",
-          offset: 1185804,
-          len: 4407,
-        },
-        "js/chunk-eb4c1efc.57b6e01c.js.map": {
-          filename: "js/chunk-eb4c1efc.57b6e01c.js.map",
-          contenttype: "application/json",
-          offset: 1190211,
-          len: 15355,
-        },
-        "js/chunk-vendors.1fd55121.js": {
-          filename: "js/chunk-vendors.1fd55121.js",
-          contenttype: "application/javascript",
-          offset: 1205566,
-          len: 749829,
-        },
-        "js/chunk-vendors.1fd55121.js.map": {
-          filename: "js/chunk-vendors.1fd55121.js.map",
-          contenttype: "application/json",
-          offset: 1955395,
-          len: 2793251,
-        },
-      },
-      defaultpath: "/index.html",
-    },
+    bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
   };
 
   skylinkVerification(done, linkInfo);
@@ -1002,13 +792,42 @@ function uncensoredLibraryCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+const uniswapBodyHash = "3965f9a7def085b3a764ddc76a528eda38d72359";
+const uniswapMetadata = require("../fixtures/uniswapMetadata.json");
+
+// uniswapCheck returns the result of trying to download the skylink
+// for the Uniswap Application
+function uniswapCheck(done) {
+  const linkInfo = {
+    description: "Uniswap",
+    skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application without a trailing slash
+function uniswapRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap",
+    skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
 // uniswapIndexFileCheck returns the result of trying to download the skylink
 // for the Uniswap Application with a trailing /index.html
 function uniswapIndexFileCheck(done) {
   const linkInfo = {
     name: "Uniswap Skylink Index File",
     skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/index.html",
-    bodyHash: "3965f9a7def085b3a764ddc76a528eda38d72359",
+    bodyHash: uniswapBodyHash,
     metadata: {
       filename: "/index.html",
       length: 3268,
@@ -1019,7 +838,58 @@ function uniswapIndexFileCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
-// verifies a skylink against provided information
+// uniswapHNSCheck returns the result of trying to download the skylink
+// for the Uniswap Application with the HNS domain
+function uniswapHNSCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS",
+    skylink: "hns/uniswap-dex/",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application with the HNS domain and without a trailing slash
+function uniswapHNSRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Redirect",
+    skylink: "hns/uniswap-dex",
+    bodyHash: uniswapBodyHash,
+    metadata: uniswapMetadata,
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSResolverCheck returns the result of trying to download the skylink
+// for the Uniswap Application via the HNS resolver endpoint
+function uniswapHNSResolverCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Resolver",
+    skylink: "hnsres/uniswap-dex/",
+    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// uniswapHNSResolverRedirectCheck returns the result of trying to download the skylink
+// for the Uniswap Application via the HNS resolver endpoint without the
+// trailing slash
+function uniswapHNSResolverRedirectCheck(done) {
+  const linkInfo = {
+    description: "Uniswap HNS Resolver Redirect",
+    skylink: "hnsres/uniswap-dex",
+    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+// skylinkVerification verifies a skylink against provided information.
 function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
   const time = process.hrtime();
 
@@ -1047,6 +917,12 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
         const currentMetadata = metadataHeader && JSON.parse(metadataHeader);
         if (!isEqual(currentMetadata, metadata)) {
           entry.up = false;
+
+          console.log(metadata);
+          console.log(currentMetadata);
+          console.log(metadataHeader);
+          console.log(response.header);
+
           info.metadata = detailedDiff(metadata, currentMetadata);
         }
 
@@ -1069,6 +945,8 @@ module.exports.verboseChecks = [
   covid19CoroNopePaperCheck,
   dappExampleCheck,
   developMomentumIndexFileCheck,
+  developMomentumCheck,
+  developMomentumRedirectCheck,
   htmlExampleCheck,
   imageExampleCheck,
   jsonExampleCheck,
@@ -1084,4 +962,10 @@ module.exports.verboseChecks = [
   skyGalleryRedirectCheck,
   uncensoredLibraryCheck,
   uniswapIndexFileCheck,
+  uniswapCheck,
+  uniswapRedirectCheck,
+  uniswapHNSCheck,
+  uniswapHNSRedirectCheck,
+  uniswapHNSResolverCheck,
+  uniswapHNSResolverRedirectCheck,
 ];
