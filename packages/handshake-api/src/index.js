@@ -19,11 +19,8 @@ const clientOptions = {
 const client = new NodeClient(clientOptions);
 const cache = new NodeCache({ stdTTL: 300 }); // cache for 5 minutes
 
-// skylink matcher with named capturing groups:
-// - prefix: skylink sia:// prefix, optional
-// - skylink: 46 characters skylink
-// - rest: anything after the skylink, optional
-const skylinkRegExp = /^(?<prefix>sia:\/\/)?(?<skylink>[a-zA-Z0-9_-]{46})(?<rest>.+)?/;
+// Match both `sia://HASH` and `HASH` links.
+const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
 
 const getDomainRecords = async (name) => {
   if (cache.has(name)) return cache.get(name);
@@ -61,8 +58,6 @@ const resolveDomainHandler = async (req, res) => {
     if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
 
     const skylink = getSkylinkFromRecord(record);
-    const groups = skylink.match(skylinkRegExp);
-
     return res.json({ skylink });
   } catch (error) {
     res.status(500).send(`Handshake error: ${error.message}`);
@@ -74,7 +69,7 @@ function isValidSkylink(link) {
   if (!link || link.length === 0) {
     return false;
   }
-  return Boolean(link.match(skylinkRegExp));
+  return Boolean(link.match(startsWithSkylinkRegExp));
 }
 
 const server = express();
