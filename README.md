@@ -17,7 +17,7 @@ List of available parameters:
 
 ## Contributing
 
-### Testing you Code
+### Testing Your Code
 
 Before pushing your code you should verify that it will pass our online test
 suite.

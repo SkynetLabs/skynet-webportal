@@ -1,3 +1,30 @@
+export const curl = `# upload
+curl -X POST "https://siasky.net/skynet/skyfile" -F file=@src.jpg
+
+# download
+curl "https://siasky.net/[skylink]" -o dst.jpg`;
+
+export const browserjs = `import { SkynetClient } from "skynet-js";
+
+// create a client
+const client = new SkynetClient();
+
+// Assume we have a file from an input form.
+
+async function example() {
+  try {
+    // upload
+    const { skylink } = await client.uploadFile(file);
+	console.log(\`Upload successful, skylink: \${skylink}\`);
+
+    // download
+    await client.downloadFile(skylink);
+	console.log('Download successful');
+  } catch (error) {
+    console.log(error)
+  }
+}`;
+
 export const python = `import siaskynet as skynet
 
 # create a client
@@ -10,12 +37,6 @@ print("Upload successful, skylink: " + skylink)
 # download
 client.download_file("./dst.jpg", skylink)
 print("Download successful")`;
-
-export const curl = `# upload
-curl -X POST "https://siasky.net/skynet/skyfile" -F file=@src.jpg
-
-# download
-curl "https://siasky.net/[skylink]" -o dst.jpg`;
 
 export const node = `const { SkynetClient } = require('@nebulous/skynet');
 
@@ -39,6 +60,7 @@ import (
 	skynet "github.com/NebulousLabs/go-skynet"
 )
 
+// create a client
 var client = skynet.New()
 
 func main() {
@@ -56,7 +78,3 @@ func main() {
 	}
 	fmt.Println("Download successful")
 }`;
-
-export const ruby = ``;
-
-export const php = ``;

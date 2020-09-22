@@ -25,12 +25,15 @@ export default function CodeExamples() {
           CURL
         </button>
         <button type="button" onClick={() => setActive(2)} className={classNames({ active: active === 2 })}>
-          Python
+          BrowserJS
         </button>
         <button type="button" onClick={() => setActive(3)} className={classNames({ active: active === 3 })}>
-          Node.js
+          Python
         </button>
         <button type="button" onClick={() => setActive(4)} className={classNames({ active: active === 4 })}>
+          Node.js
+        </button>
+        <button type="button" onClick={() => setActive(5)} className={classNames({ active: active === 5 })}>
           Go
         </button>
       </div>
@@ -43,18 +46,24 @@ export default function CodeExamples() {
         )}
 
         {active === 2 && (
+          <SyntaxHighlighter wrapLines showLineNumbers={true} language="javascript" style={Colors}>
+            {interpolateSnippet(snippets.browserjs)}
+          </SyntaxHighlighter>
+        )}
+
+        {active === 3 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="python" style={Colors}>
             {interpolateSnippet(snippets.python)}
           </SyntaxHighlighter>
         )}
 
-        {active === 3 && (
+        {active === 4 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="javascript" style={Colors}>
             {interpolateSnippet(snippets.node)}
           </SyntaxHighlighter>
         )}
 
-        {active === 4 && (
+        {active === 5 && (
           <SyntaxHighlighter wrapLines showLineNumbers={true} language="go" style={Colors}>
             {interpolateSnippet(snippets.go)}
           </SyntaxHighlighter>
