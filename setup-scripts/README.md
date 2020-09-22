@@ -96,7 +96,7 @@ would be accessible through `https://[skylink_base32].portal`. We call this
 subdomains and it is made possible by encoding Skylinks using a base32 encoding.
 We have to use a base32 encoding scheme because subdomains have to be all lower
 case and the base64 encoded Skylink is case sensitive and thus might contain
-uppercase characters. You can convert Skylinks, are see how we do the encoding,
+uppercase characters. You can convert Skylinks, and see how we do the encoding,
 using this [converter
 skapp](https://siasky.net/_AIPM3F3T2MJ93q3TD2QqoKnSaXv2kMc-tQBAs-stDGa0w/) To
 configure this on your portal, you have to make sure to configure the following:
@@ -112,11 +112,13 @@ achieved using Caddy.
     siasky.net, *.siasky.net {
         tls {
 ```
+
 (see `../docker/caddy/Caddyfile`)
 
 ### Nginx configuration
 
 In Nginx two things need to happen:
+
 - parse the subdomain from the url
 - proxy_pass the request to the appropriate location
 
@@ -143,6 +145,7 @@ Siad is able to make the conversion and treat this as a regular Skylink.
     ...
   }
 ```
+
 (see `../docker/nginx/nginx.conf`)
 
 ## Useful Commands
