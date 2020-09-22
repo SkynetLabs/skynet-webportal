@@ -101,8 +101,9 @@ uppercase characters.
 You can convert Skylinks using this [converter
 skapp](https://siasky.net/hns/convert-skylink/), to
 see how the encoding and decoding works, please follow the link to the repo in
-the application itself. To configure this on your portal, you have to make sure to configure the
-following:
+the application itself. 
+
+To configure this on your portal, you have to make sure to configure the following:
 
 ### Wildcard SSL Certificate
 
