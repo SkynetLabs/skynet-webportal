@@ -99,9 +99,10 @@ case and the base64 encoded Skylink is case sensitive and thus might contain
 uppercase characters.
 
 You can convert Skylinks using this [converter
-skapp](https://siasky.net/_AIPM3F3T2MJ93q3TD2QqoKnSaXv2kMc-tQBAs-stDGa0w/), to
-see how the encoding and decoding works, please refer to [this
-repo](https://github.com/kwypchlo/base32). To configure this on your portal, you have to make sure to configure the following:
+skapp](https://siasky.net/hns/convert-skylink/), to
+see how the encoding and decoding works, please follow the link to the repo in
+the application itself. To configure this on your portal, you have to make sure to configure the
+following:
 
 ### Wildcard SSL Certificate
 
