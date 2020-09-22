@@ -88,6 +88,70 @@ At this point we have almost everything running, we just need to set up your wal
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
 
+## Subdomains
+
+It might prove useful for certain skapps to be accessible through a custom
+subdomain. So instead of being accessed through `https://portal/[skylink]`, it
+would be accessible through `https://[skylink_base32].portal`. We call this
+subdomains and it is made possible by encoding Skylinks using a base32 encoding.
+We have to use a base32 encoding scheme because subdomains have to be all lower
+case and the base64 encoded Skylink is case sensitive and thus might contain
+uppercase characters.
+
+You can convert Skylinks using this [converter
+skapp](https://siasky.net/hns/convert-skylink/), to
+see how the encoding and decoding works, please follow the link to the repo in
+the application itself. 
+
+To configure this on your portal, you have to make sure to configure the following:
+
+### Wildcard SSL Certificate
+
+We need to ensure SSL encryption for skapps that are accessed through their
+subdomain, therefore we need to have a wildcard certificate. This is very easily
+achieved using Caddy.
+
+```
+(siasky.net) {
+    siasky.net, *.siasky.net {
+        tls {
+```
+
+(see `../docker/caddy/Caddyfile`)
+
+### Nginx configuration
+
+In Nginx two things need to happen:
+
+- parse the subdomain from the url
+- proxy_pass the request to the appropriate location
+
+Siad is able to make the conversion and treat this as a regular Skylink.
+
+```
+  # parse subdomain (a base32 encoded Skylink) into custom variable
+  server_name "~^([a-z0-9]{55})\..*$";
+  set $subdomain $1;
+
+  ...
+
+  location / {
+    ...
+    error_page 418 = @subdomain;
+    recursive_error_pages on;
+    if ($subdomain  != "") {
+      return 418;
+    }
+    ...
+  }
+  ...
+  location @subdomain {
+    ...
+  }
+```
+
+(see `../docker/nginx/nginx.conf`)
+
 ## Useful Commands
 
 - Starting the whole stack
