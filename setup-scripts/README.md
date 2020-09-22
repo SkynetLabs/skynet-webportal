@@ -96,10 +96,12 @@ would be accessible through `https://[skylink_base32].portal`. We call this
 subdomains and it is made possible by encoding Skylinks using a base32 encoding.
 We have to use a base32 encoding scheme because subdomains have to be all lower
 case and the base64 encoded Skylink is case sensitive and thus might contain
-uppercase characters. You can convert Skylinks, and see how we do the encoding,
-using this [converter
-skapp](https://siasky.net/_AIPM3F3T2MJ93q3TD2QqoKnSaXv2kMc-tQBAs-stDGa0w/) To
-configure this on your portal, you have to make sure to configure the following:
+uppercase characters.
+
+You can convert Skylinks using this [converter
+skapp](https://siasky.net/_AIPM3F3T2MJ93q3TD2QqoKnSaXv2kMc-tQBAs-stDGa0w/), to
+see how the encoding and decoding works, please refer to [this
+repo](https://github.com/kwypchlo/base32). To configure this on your portal, you have to make sure to configure the following:
 
 ### Wildcard SSL Certificate
 
