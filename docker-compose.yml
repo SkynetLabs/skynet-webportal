@@ -31,26 +31,6 @@ services:
     expose:
       - 9980
 
-  sia-upload:
-    build:
-      context: ./docker/sia
-      dockerfile: Dockerfile
-      args:
-        branch: v1.5.0
-    container_name: sia-upload
-    restart: unless-stopped
-    environment:
-      - SIA_MODULES=gctwr
-    env_file:
-      - .env-upload
-    volumes:
-      - ./docker/data/sia-upload:/sia-data
-    networks:
-      shared:
-        ipv4_address: 192.168.0.11
-    expose:
-      - 9980
-
   caddy:
     build:
       context: ./docker/caddy
