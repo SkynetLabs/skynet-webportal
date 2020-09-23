@@ -27,9 +27,6 @@ services:
       - .env
     volumes:
       - /media/sf_sia_data:/sia-data
-    networks:
-      shared:
-        ipv4_address: 10.0.0.10
 
   caddy:
     build:
@@ -45,9 +42,6 @@ services:
       - ./docker/data/caddy/data:/data
       - ./docker/data/caddy/config:/config
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
-    networks:
-      shared:
-        ipv4_address: 10.0.0.20
     ports:
       - "80:80"
       - "443:443"
@@ -68,9 +62,6 @@ services:
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - webapp:/var/www/webportal:ro
-    networks:
-      shared:
-        ipv4_address: 10.0.0.30
     depends_on:
       - sia
       - health-check
@@ -105,9 +96,6 @@ services:
       - .env
     volumes:
       - ./docker/data/handshake/.hsd:/root/.hsd
-    networks:
-      shared:
-        ipv4_address: 10.0.0.40
 
   handshake-api:
     build:
@@ -124,9 +112,6 @@ services:
       - HSD_PORT=12037
     env_file:
       - .env
-    networks:
-      shared:
-        ipv4_address: 10.0.0.50
     depends_on:
       - handshake
 
@@ -140,9 +125,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/data/health-check/state:/usr/app/state
-    networks:
-      shared:
-        ipv4_address: 10.0.0.60
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
