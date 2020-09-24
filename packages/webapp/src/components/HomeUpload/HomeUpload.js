@@ -8,7 +8,7 @@ import { Button, UploadFile } from "../";
 import { Deco3, Deco4, Deco5, Folder, DownArrow } from "../../svg";
 import "./HomeUpload.scss";
 import AppContext from "../../AppContext";
-import SkynetClient, { parseSkylink } from "skynet-js";
+import { SkynetClient, parseSkylink } from "skynet-js";
 
 const isValidSkylink = (skylink) => {
   try {
@@ -127,10 +127,10 @@ export default function HomeUpload() {
 
             response = await client.uploadDirectory(directory, encodeURIComponent(file.name), { onUploadProgress });
           } else {
-            response = await client.upload(file, { onUploadProgress });
+            response = await client.uploadFile(file, { onUploadProgress });
           }
 
-          onFileStateChange(file, { status: "complete", url: client.getUrl(response.skylink) });
+          onFileStateChange(file, { status: "complete", url: client.getSkylinkUrl(response) });
         } catch (error) {
           if (error.response && error.response.status === StatusCodes.TOO_MANY_REQUESTS) {
             onFileStateChange(file, { progress: -1 });
@@ -153,7 +153,7 @@ export default function HomeUpload() {
 
     // only try to open a valid skylink
     if (isValidSkylink(skylink)) {
-      client.open(skylink);
+      client.openFile(skylink);
     }
   };
 
