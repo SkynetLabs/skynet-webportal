@@ -57,7 +57,7 @@ export const go = `package main
 
 import (
 	"fmt"
-	skynet "github.com/NebulousLabs/go-skynet"
+	skynet "github.com/NebulousLabs/go-skynet/v2"
 )
 
 // create a client
