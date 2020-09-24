@@ -16,6 +16,10 @@ docker-compose down
 # building them again
 docker system prune --force
 
+# prune all volumes to make sure there is no leftovers
+# important for webapp container, otherwise html files will not be updated)
+docker volume rm $(docker volume ls -q)
+
 # build all container without cache
 docker-compose build --no-cache
 
