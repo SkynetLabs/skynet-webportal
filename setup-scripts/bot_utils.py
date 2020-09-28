@@ -89,7 +89,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
             msg = "{} {}".format(msg, skylink) # append skylink to message
             file = None # clean file reference
         else:
-            file = discord.File(io.BytesIO(file)) # wrap text into discord file wrapper
+            file = discord.File(file) # wrap text into discord file wrapper
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
