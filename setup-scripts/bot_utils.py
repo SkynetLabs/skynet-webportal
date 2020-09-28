@@ -84,12 +84,13 @@ async def send_msg(client, msg, force_notify=False, file=None):
     msg = "**{}**: {}".format(portal_name, msg)
 
     if isinstance(file, str):
-        skylink = upload_to_skynet(file, datetime.utcnow() + ".txt", "text/plain")
+        filename = "{}-{}.txt".format(CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"))
+        skylink = upload_to_skynet(file, filename, "text/plain")
         if skylink:
             msg = "{} {}".format(msg, skylink) # append skylink to message
-            file = None # clean file reference
+            file = None # clean file reference, we're using a skylink
         else:
-            file = discord.File(io.BytesIO(file.encode())) # wrap text into discord file wrapper
+            file = discord.File(io.BytesIO(file.encode()), filename=filename) # wrap text into discord file wrapper
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
