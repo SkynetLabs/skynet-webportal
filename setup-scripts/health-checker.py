@@ -176,7 +176,7 @@ async def check_health():
         bad = False
         for check in verbose['checks']:
             verbose_checks_total += 1
-            if verbose['up'] == False:
+            if check['up'] == False:
                 verbose_checks_failed += 1
                 bad = True
         if bad:
