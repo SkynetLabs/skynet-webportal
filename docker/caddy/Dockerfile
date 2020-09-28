@@ -1,7 +1,8 @@
-FROM caddy:2.1.1-builder AS caddy-builder
+FROM caddy:2.2.0-builder AS caddy-builder
 
-RUN caddy-builder github.com/caddy-dns/cloudflare github.com/caddy-dns/route53
+# available dns resolvers: https://github.com/caddy-dns
+RUN xcaddy build --with github.com/caddy-dns/route53
 
-FROM caddy:2.1.1
+FROM caddy:2.2.0
 
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
