@@ -4,7 +4,7 @@ from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
 
-import urllib, json, os, traceback, discord, sys, re, subprocess
+import urllib, json, os, traceback, discord, sys, re, subprocess, requests
 
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
@@ -86,6 +86,14 @@ async def send_msg(client, msg, force_notify=False, file=None):
         msg = "{} /cc {}".format(msg, role.mention)
         
     await chan.send(msg, file=file)
+
+def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
+    files = {"file": (filename, contents, content_type)}
+    res = requests.post("https://siasky.net/skynet/skyfile", files=files)
+    if res.status_code == requests.codes.ok:
+        res_json = res.json()
+        return "https://siasky.net/" + res_json["skylink"]
+    return None
 
 
 #siad class provides wrappers for the necessary siad commands.

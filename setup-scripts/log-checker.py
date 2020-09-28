@@ -76,8 +76,10 @@ async def check_docker_logs():
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
             std_err = std_err[pos+1:]
+
         upload_name = "{}-{}-{}-{}-{}:{}:{}_err.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Error(s) found in log!", file=discord.File(io.BytesIO(std_err.encode()), filename=upload_name), force_notify=True)
+        skylink = upload_to_skynet(std_err.encode(), upload_name)
+        await send_msg(client, "Error(s) found in log! " + skylink, file=discord.File(io.BytesIO(std_err.encode()), filename=upload_name), force_notify=False)
         return
 
     # If there are any critical or severe errors. upload the whole log file.
