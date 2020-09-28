@@ -130,7 +130,6 @@ async def check_health():
                            force_notify=True)
         return
 
-    # Check the health records.
     critical_checks_total = 0
     critical_checks_failed = 0
 
@@ -138,17 +137,10 @@ async def check_health():
     verbose_checks_failed = 0
 
     failed_records = []
+    failed_records_file = None
 
     time_limit_unaware = datetime.now() - timedelta(hours=CHECK_HOURS)  # local time
     time_limit = time_limit_unaware.astimezone(get_localzone())  # time with time zone
-
-    message = ""
-
-    if res_check.status_code is not requests.codes.ok:
-        message += "PORTAL DOWN! "
-
-    if json_check["disabled"]:
-        message += "(portal manually disabled) "
 
     for critical in json_critical:
         time_unaware = datetime.strptime(critical['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
@@ -164,9 +156,6 @@ async def check_health():
         if bad:
             failed_records.append(critical["checks"])
             notifyTeam = True
-    
-    if critical_checks_failed:
-        message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(critical_checks_failed, critical_checks_total, CHECK_HOURS)
 
     for verbose in json_verbose:
         time_unaware = datetime.strptime(verbose['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
@@ -182,17 +171,34 @@ async def check_health():
         if bad:
             failed_records.append(verbose["checks"])
 
+    ################################################################################
+    ################ create a message
+    ################################################################################
+
+    message = ""
+
+    if res_check.status_code is not requests.codes.ok:
+        message += "PORTAL DOWN! "
+        notifyTeam = True
+
+    if json_check["disabled"]:
+        message += "(portal manually disabled) "
+        notifyTeam = True
+    
+    if critical_checks_failed:
+        message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(critical_checks_failed, critical_checks_total, CHECK_HOURS)
+    else:
+        message += "All {} critical checks passed. ".format(critical_checks_total)
+
     if verbose_checks_failed:
         message += "{}/{} verbose checks failed over the last {} hours! ".format(verbose_checks_failed, verbose_checks_total, CHECK_HOURS)
+    else:
+        message += "All {} verbose checks passed. ".format(verbose_checks_total)
 
     if len(failed_records):
-        file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
-        return await send_msg(client, message, file=file, force_notify=notifyTeam)
+        failed_records_file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
 
-    # Send an informational heartbeat if all checks passed but only if it's in
-    # the first CHECK_HOURS hours of the day, essentially the first call.
-    # if datetime.now().hour < CHECK_HOURS:
-    await send_msg(client, message + "All checks passed: {} critical and {} verbose\n".format(critical_checks_total, verbose_checks_total))
+    await send_msg(client, message, file=failed_records_file, force_notify=notifyTeam)
 
 
 client.run(bot_token)
