@@ -57,22 +57,22 @@ async def check_funds():
     unallocated_funds = allowance_funds - allocated_funds
 
 
-    balance_msg = "Balance: `{} SC` Allowance Funds: `{} SC`".format(round(balance/sc_precision), round(allowance_funds/sc_precision))
-    alloc_msg = "Unallocated: `{} SC`\nAllocated: `{} SC`".format(round(unallocated_funds/sc_precision), round(allocated_funds/sc_precision))
+    balance_msg = "Balance: {} SC, Allowance Funds: {} SC".format(round(balance/sc_precision), round(allowance_funds/sc_precision))
+    alloc_msg = "Unallocated: {} SC, Allocated: {} SC".format(round(unallocated_funds/sc_precision), round(allocated_funds/sc_precision))
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        await send_msg(client, "Wallet balance running low. \n{}".format(balance_msg), force_notify=True)
+        await send_msg(client, "__Wallet balance running low!__ {}".format(balance_msg), force_notify=True)
         return
 
     # Alert devs when only a fraction of the allowance is remaining.
     SPEND_THRESHOLD = 0.8
     if allocated_funds  >= SPEND_THRESHOLD * allowance_funds :
-        await send_msg(client, "More than {:.0%} of allowance spent: \n{}".format(SPEND_THRESHOLD, alloc_msg), force_notify=True)
+        await send_msg(client, "__More than {:.0%} of allowance spent!__ {}".format(SPEND_THRESHOLD, alloc_msg), force_notify=True)
         return
 
     # Send an informational heartbeat if all checks passed.
-    await send_msg(client, "Funds checks passed:\n{} \n{}".format(balance_msg, alloc_msg))
+    await send_msg(client, "Funds checks passed. {} {}".format(balance_msg, alloc_msg))
 
 
 client.run(bot_token)
