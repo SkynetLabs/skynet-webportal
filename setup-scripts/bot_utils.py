@@ -3,8 +3,9 @@
 from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
+from datetime import datetime
 
-import urllib, json, os, traceback, discord, sys, re, subprocess, requests
+import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
@@ -81,6 +82,14 @@ async def send_msg(client, msg, force_notify=False, file=None):
 
     # Add the portal name.
     msg = "**{}**: {}".format(portal_name, msg)
+
+    if isinstance(file, str):
+        skylink = upload_to_skynet(file, datetime.utcnow() + ".txt", "text/plain")
+        if skylink:
+            msg = "{} {}".format(msg, skylink) # append skylink to message
+            file = None # clean file reference
+        else:
+            file = discord.File(io.BytesIO(file)) # wrap text into discord file wrapper
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
