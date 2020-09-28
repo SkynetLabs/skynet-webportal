@@ -115,22 +115,14 @@ async def check_health():
 
     try:
         api = "http://localhost"
-
         res_check = requests.get(api + "/health-check", verify=False)
         json_check = res_check.json()
-        
         json_critical = requests.get(api + "/health-check/critical", verify=False).json()
         json_verbose = requests.get(api + "/health-check/verbose", verify=False).json()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
-        
-        if len(trace) < DISCORD_MAX_MESSAGE_LENGTH:
-            await send_msg(client, "```\n{}\n```".format(trace))
-        else:
-            file = discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log")
-            await send_msg(client, "Failed to run the checks!", file=file, force_notify=True)
-        return
+        return await send_msg(client, "Failed to run the checks!", file=trace, force_notify=True)
 
     critical_checks_total = 0
     critical_checks_failed = 0
@@ -197,7 +189,7 @@ async def check_health():
         message += "All {} verbose checks passed. ".format(verbose_checks_total)
 
     if len(failed_records):
-        failed_records_file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
+        failed_records_file = json.dumps(failed_records, indent=2)
 
     # send a message if portal is down, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
     if force_notify or failed_records_file or datetime.now().hour < CHECK_HOURS:
