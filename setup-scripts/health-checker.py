@@ -183,7 +183,7 @@ async def check_health():
         message += "**Portal manually disabled!** "
         force_notify = True
     elif res_check.status_code is not requests.codes.ok:
-        message += "**Portal down!** "
+        message += "__Portal down!!!__ "
         force_notify = True
     
     if critical_checks_failed:

@@ -69,7 +69,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
             break
 
     # Add the portal name.
-    msg = "__{}__: {}".format(portal_name, msg)
+    msg = "**{}**: {}".format(portal_name, msg)
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
