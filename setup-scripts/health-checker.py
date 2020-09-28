@@ -191,8 +191,8 @@ async def check_health():
 
     # Send an informational heartbeat if all checks passed but only if it's in
     # the first CHECK_HOURS hours of the day, essentially the first call.
-    if datetime.now().hour < CHECK_HOURS:
-        await send_msg(client, message + "All checks passed: {} critical and {} verbose\n".format(critical_checks_total, verbose_checks_total))
+    # if datetime.now().hour < CHECK_HOURS:
+    await send_msg(client, message + "All checks passed: {} critical and {} verbose\n".format(critical_checks_total, verbose_checks_total))
 
 
 client.run(bot_token)
