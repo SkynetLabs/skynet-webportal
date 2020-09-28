@@ -4,7 +4,7 @@ from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
 
-import urllib, json, os, traceback, discord, sys
+import urllib, json, os, traceback, discord, sys, re, subprocess
 
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
@@ -16,6 +16,16 @@ ROLE_NAME = "skynet-prod"
 api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
 discord_client = None
 setup_done = False
+
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
+
+def get_api_ip():
+    ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
+    output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia", shell=True).decode("utf-8")
+    return ip_regex.findall(output)[0]
 
 def setup():
     # Load dotenv file if possible.
@@ -37,7 +47,7 @@ def setup():
         port = "9980"
 
     global api_endpoint
-    api_endpoint = "http://localhost:{}".format(port)
+    api_endpoint = "http://{}:{}".format(get_api_ip(), port)
 
     siad.initialize()
 
