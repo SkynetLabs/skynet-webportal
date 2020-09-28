@@ -114,20 +114,22 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        res_check = requests.get("http://localhost/health-check", verify=False)
+        api = "http://localhost"
+
+        res_check = requests.get(api + "/health-check", verify=False)
         json_check = res_check.json()
         
-        json_critical = requests.get("http://localhost/health-check/critical", verify=False).json()
-        json_verbose = requests.get("http://localhost/health-check/verbose", verify=False).json()
+        json_critical = requests.get(api + "/health-check/critical", verify=False).json()
+        json_verbose = requests.get(api + "/health-check/verbose", verify=False).json()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
+        
         if len(trace) < DISCORD_MAX_MESSAGE_LENGTH:
-            await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
+            await send_msg(client, "```\n{}\n```".format(trace))
         else:
-            await send_msg(client, "Failed to run the checks!",
-                           file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"),
-                           force_notify=True)
+            file = discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log")
+            await send_msg(client, "Failed to run the checks!", file=file, force_notify=True)
         return
 
     critical_checks_total = 0
@@ -175,15 +177,15 @@ async def check_health():
     ################################################################################
 
     message = ""
-    notifyTeam = False
+    force_notify = False
 
     if res_check.status_code is not requests.codes.ok:
         message += "PORTAL DOWN! "
-        notifyTeam = True
+        force_notify = True
 
     if json_check["disabled"]:
         message += "(portal manually disabled) "
-        notifyTeam = True
+        force_notify = True
     
     if critical_checks_failed:
         message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(critical_checks_failed, critical_checks_total, CHECK_HOURS)
@@ -198,7 +200,9 @@ async def check_health():
     if len(failed_records):
         failed_records_file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
 
-    await send_msg(client, message, file=failed_records_file, force_notify=notifyTeam)
+    # send a message if portal is down, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
+    if force_notify or failed_records_file or datetime.now().hour < CHECK_HOURS:
+        await send_msg(client, message, file=failed_records_file, force_notify=force_notify)
 
 
 client.run(bot_token)
