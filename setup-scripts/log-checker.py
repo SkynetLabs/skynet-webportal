@@ -70,13 +70,14 @@ async def check_docker_logs():
     proc = Popen(["docker", "logs", "--since", time_string, CONTAINER_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
     std_out, std_err = proc.communicate()
 
+    print(std_out)
+
     if len(std_err) > 0:
         # Trim the error log to under 1MB.
         one_mb = 1024*1024
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
             std_err = std_err[pos+1:]
-            print(std_out)
             return await send_msg(client, "Error(s) found in log!", file=std_out, force_notify=False)
 
     # If there are any critical or severe errors. upload the whole log file.
