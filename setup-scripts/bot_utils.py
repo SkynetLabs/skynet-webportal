@@ -69,14 +69,12 @@ async def send_msg(client, msg, force_notify=False, file=None):
             break
 
     # Add the portal name.
-    msg = "__**{}**__: {}".format(portal_name, msg)
+    msg = "__{}__: {}".format(portal_name, msg)
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
-
-    embed = discord.Embed(title="Health check status", author=portal_name)
-
-    await chan.send(embed=embed)
+        
+    await chan.send(msg, file=file)
 
 
 #siad class provides wrappers for the necessary siad commands.
