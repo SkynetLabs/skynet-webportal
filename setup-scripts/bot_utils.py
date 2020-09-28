@@ -84,7 +84,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
     msg = "**{}**: {}".format(portal_name, msg)
 
     if isinstance(file, str):
-        is_json = is_json_string(str)
+        is_json = is_json_string(file)
         content_type = "application/json" if is_json else "text/plain"
         ext = "json" if is_json else "txt"
         filename = "{}-{}.{}".format(CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext)
