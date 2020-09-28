@@ -9,6 +9,7 @@
     siasky.net, *.siasky.net, *.hns.siasky.net {
         tls {
             dns route53
+            ttl 2m
         }
         reverse_proxy nginx:80
     }
