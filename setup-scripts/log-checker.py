@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import discord, sys, traceback, io, os, asyncio
-from bot_utils import setup, send_msg
+from bot_utils import setup, send_msg, upload_to_skynet
 from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
 
