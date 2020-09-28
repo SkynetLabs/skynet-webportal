@@ -155,7 +155,6 @@ async def check_health():
                 bad = True
         if bad:
             failed_records.append(critical["checks"])
-            notifyTeam = True
 
     for verbose in json_verbose:
         time_unaware = datetime.strptime(verbose['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
@@ -176,6 +175,7 @@ async def check_health():
     ################################################################################
 
     message = ""
+    notifyTeam = False
 
     if res_check.status_code is not requests.codes.ok:
         message += "PORTAL DOWN! "
