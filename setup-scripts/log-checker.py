@@ -71,6 +71,7 @@ async def check_docker_logs():
     std_out, std_err = proc.communicate()
 
     print(std_out)
+    print(len(std_err))
 
     if len(std_err) > 0:
         # Trim the error log to under 1MB.
