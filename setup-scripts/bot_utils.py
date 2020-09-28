@@ -110,7 +110,7 @@ def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
 
 def is_json_string(str):
     try:
-        json.load(str)
+        json.loads(str)
         return True
     except ValueError:
         return False
