@@ -22,6 +22,7 @@ CONTAINER_NAME = "sia"
 if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
 
+# find out local siad ip by inspecting it's docker container
 def get_api_ip():
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
     output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' " + CONTAINER_NAME, shell=True).decode("utf-8")
