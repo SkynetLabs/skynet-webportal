@@ -76,7 +76,7 @@ async def check_docker_logs():
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
             std_err = std_err[pos+1:]
-            return await send_msg(client, "Error(s) found in log!", file=std_err, force_notify=False)
+            return await send_msg(client, "Error(s) found in log!", file=std_err, force_notify=True)
 
     # If there are any critical or severe errors. upload the whole log file.
     if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:

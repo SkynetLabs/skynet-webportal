@@ -84,8 +84,11 @@ async def send_msg(client, msg, force_notify=False, file=None):
     msg = "**{}**: {}".format(portal_name, msg)
 
     if isinstance(file, str):
-        filename = "{}-{}.txt".format(CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"))
-        skylink = upload_to_skynet(file, filename, "text/plain")
+        is_json = is_json_string(str)
+        content_type = "application/json" if is_json else "text/plain"
+        ext = "json" if is_json else "txt"
+        filename = "{}-{}.{}".format(CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext)
+        skylink = upload_to_skynet(file, filename, content_type=content_type)
         if skylink:
             msg = "{} {}".format(msg, skylink) # append skylink to message
             file = None # clean file reference, we're using a skylink
@@ -105,6 +108,12 @@ def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
         return "https://siasky.net/" + res_json["skylink"]
     return None
 
+def is_json_string(str):
+    try:
+        json.load(str)
+        return True
+    except ValueError:
+        return False
 
 #siad class provides wrappers for the necessary siad commands.
 class siad:
