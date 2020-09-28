@@ -24,7 +24,7 @@ if len(sys.argv) > 2:
 
 def get_api_ip():
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-    output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia", shell=True).decode("utf-8")
+    output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' " + CONTAINER_NAME, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
 
 def setup():
