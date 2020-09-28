@@ -69,10 +69,10 @@ async def send_msg(client, msg, force_notify=False, file=None):
             break
 
     # Add the portal name.
-    msg = "`{}`: {}".format(portal_name, msg)
+    msg = "__**{}**__: {}".format(portal_name, msg)
 
     if force_notify:
-        msg = "{}: \n{}".format(role.mention, msg)
+        msg = "{} /cc {}".format(msg, role.mention)
     await chan.send(msg, file=file)
 
 
