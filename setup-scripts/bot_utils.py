@@ -23,7 +23,7 @@ CONTAINER_NAME = "sia"
 if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
 
-# find out local siad ip by inspecting it's docker container
+# find out local siad ip by inspecting its docker container
 def get_api_ip():
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
     docker_cmd = (
