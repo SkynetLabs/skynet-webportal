@@ -28,7 +28,7 @@ async def run_checks():
     try:
         await check_funds()
 
-    except: # catch all exceptions
+    except:  # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=True)
 
@@ -41,35 +41,40 @@ async def check_funds():
     wallet_get = siad.get_wallet()
     renter_get = siad.get_renter()
 
-    if not wallet_get['unlocked']:
+    if not wallet_get["unlocked"]:
         await send_msg(client, "Wallet locked", force_notify=True)
         return
 
-    confirmed_coins = int(wallet_get['confirmedsiacoinbalance'])
-    unconfirmed_coins = int(wallet_get['unconfirmedincomingsiacoins'])
-    unconfirmed_outgoing_coins = int(wallet_get['unconfirmedoutgoingsiacoins'])
+    confirmed_coins = int(wallet_get["confirmedsiacoinbalance"])
+    unconfirmed_coins = int(wallet_get["unconfirmedincomingsiacoins"])
+    unconfirmed_outgoing_coins = int(wallet_get["unconfirmedoutgoingsiacoins"])
     balance = confirmed_coins + unconfirmed_coins - unconfirmed_outgoing_coins
     print("Balance: ", balance / sc_precision)
 
-    allowance = renter_get['settings']['allowance']
-    allowance_funds = int(allowance['funds'])
-    allocated_funds = int(renter_get['financialmetrics']['totalallocated'])
+    allowance = renter_get["settings"]["allowance"]
+    allowance_funds = int(allowance["funds"])
+    allocated_funds = int(renter_get["financialmetrics"]["totalallocated"])
     unallocated_funds = allowance_funds - allocated_funds
 
-
-    balance_msg = "Balance: {} SC, Allowance Funds: {} SC".format(round(balance/sc_precision), round(allowance_funds/sc_precision))
-    alloc_msg = "Unallocated: {} SC, Allocated: {} SC".format(round(unallocated_funds/sc_precision), round(allocated_funds/sc_precision))
+    balance_msg = "Balance: {} SC, Allowance Funds: {} SC".format(
+        round(balance / sc_precision), round(allowance_funds / sc_precision)
+    )
+    alloc_msg = "Unallocated: {} SC, Allocated: {} SC".format(
+        round(unallocated_funds / sc_precision), round(allocated_funds / sc_precision)
+    )
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        await send_msg(client, "__Wallet balance running low!__ {}".format(balance_msg), force_notify=True)
-        return
+        message = "__Wallet balance running low!__ {}".format(balance_msg)
+        return await send_msg(client, message, force_notify=True)
 
     # Alert devs when only a fraction of the allowance is remaining.
     SPEND_THRESHOLD = 0.8
-    if allocated_funds  >= SPEND_THRESHOLD * allowance_funds :
-        await send_msg(client, "__More than {:.0%} of allowance spent!__ {}".format(SPEND_THRESHOLD, alloc_msg), force_notify=True)
-        return
+    if allocated_funds >= SPEND_THRESHOLD * allowance_funds:
+        message = "__More than {:.0%} of allowance spent!__ {}".format(
+            SPEND_THRESHOLD, alloc_msg
+        )
+        return await send_msg(client, message, force_notify=True)
 
     # Send an informational heartbeat if all checks passed.
     await send_msg(client, "Funds checks passed. {} {}".format(balance_msg, alloc_msg))

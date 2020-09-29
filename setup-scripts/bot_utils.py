@@ -26,8 +26,13 @@ if len(sys.argv) > 2:
 # find out local siad ip by inspecting it's docker container
 def get_api_ip():
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-    output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' " + CONTAINER_NAME, shell=True).decode("utf-8")
+    docker_cmd = (
+        "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "
+        + CONTAINER_NAME
+    )
+    output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
+
 
 def setup():
     # Load dotenv file if possible.
@@ -58,6 +63,7 @@ def setup():
 
     return bot_token
 
+
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
 async def send_msg(client, msg, force_notify=False, file=None):
     await client.wait_until_ready()
@@ -87,26 +93,32 @@ async def send_msg(client, msg, force_notify=False, file=None):
         is_json = is_json_string(file)
         content_type = "application/json" if is_json else "text/plain"
         ext = "json" if is_json else "txt"
-        filename = "{}-{}.{}".format(CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext)
+        filename = "{}-{}.{}".format(
+            CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
+        )
         skylink = upload_to_skynet(file, filename, content_type=content_type)
         if skylink:
-            msg = "{} {}".format(msg, skylink) # append skylink to message
-            file = None # clean file reference, we're using a skylink
+            msg = "{} {}".format(msg, skylink)  # append skylink to message
+            file = None  # clean file reference, we're using a skylink
         else:
-            file = discord.File(io.BytesIO(file.encode()), filename=filename) # wrap text into discord file wrapper
+            file = discord.File(
+                io.BytesIO(file.encode()), filename=filename
+            )  # wrap text into discord file wrapper
 
     if force_notify:
         msg = "{} /cc {}".format(msg, role.mention)
-        
+
     await chan.send(msg, file=file)
+
 
 def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
     files = {"file": (filename, contents, content_type)}
     res = requests.post("https://siasky.net/skynet/skyfile", files=files)
-    if res.status_code == requests.codes.ok:
+    if res.status_code == requests.codes["ok"]:
         res_json = res.json()
         return "https://siasky.net/" + res_json["skylink"]
     return None
+
 
 def is_json_string(str):
     try:
@@ -115,7 +127,8 @@ def is_json_string(str):
     except ValueError:
         return False
 
-#siad class provides wrappers for the necessary siad commands.
+
+# siad class provides wrappers for the necessary siad commands.
 class siad:
     # initializes values for using the API (password and
     # user-agent) so that all calls to urllib.request.urlopen have these set.
@@ -129,7 +142,7 @@ class siad:
 
         # Setup an opener with the correct user agent
         opener = urllib.request.build_opener(handler)
-        opener.addheaders = [('User-agent', 'Sia-Agent')]
+        opener.addheaders = [("User-agent", "Sia-Agent")]
 
         # Install the opener.
         # Now all calls to urllib.request.urlopen use our opener.
@@ -141,7 +154,7 @@ class siad:
         password = os.getenv("SIA_API_PASSWORD")
         if not password:
             home = os.getenv("HOME")
-            password_file = open(home+"/.sia/apipassword")
+            password_file = open(home + "/.sia/apipassword")
             password = password_file.readlines()[0].strip()
         return password
 
@@ -150,26 +163,26 @@ class siad:
     def load_json(resp):
         return json.loads(resp.decode("utf-8"))
 
-
     @staticmethod
     def get_wallet():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/wallet").read()
         return siad.load_json(resp)
 
-
     @staticmethod
     def get_renter():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/renter").read()
         return siad.load_json(resp)
 
-
     @staticmethod
     def get_renter_contracts():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/renter/contracts").read()
         return siad.load_json(resp)

@@ -59,15 +59,15 @@ async def run_checks():
     except:
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
-        if len(trace) < DISCORD_MAX_MESSAGE_LENGTH:
-            await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
-        else:
-            await send_msg(client, "Failed to run the portal health checks!",
-                           file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"),
-                           force_notify=True)
+        await send_msg(
+            client,
+            "Failed to run the portal health checks!",
+            file=trace,
+            force_notify=True,
+        )
 
 
-# check_load_average monitors the system's load average value and issues a
+# check_load_average monitors the system load average value and issues a
 # warning message if it exceeds 10.
 async def check_load_average():
     uptime_string = os.popen("uptime").read().strip()
@@ -77,7 +77,8 @@ async def check_load_average():
         pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
-        await send_msg(client, "High system load detected: `uptime: {}`".format(uptime_string), force_notify=True)
+        message = "High system load detected in uptime output: {}".format(uptime_string)
+        await send_msg(client, message, force_notify=True)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
@@ -100,13 +101,12 @@ async def check_disk():
             vol = mp
             break
     if vol == "":
-        msg = "Failed to check free disk space! Didn't find a suitable mount point to check.\ndf output:\n{}".format(df)
-        await send_msg(client, msg)
-        return
+        message = "Failed to check free disk space! Didn't find a suitable mount point to check."
+        return await send_msg(client, message, file=df)
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
-        await send_msg(client, "WARNING! Low disk space: {}GiB".format(free_space_gb), force_notify=True)
-        return
+        message = "WARNING! Low disk space: {}GiB".format(free_space_gb)
+        return await send_msg(client, message, force_notify=True)
 
 
 # check_health checks /health-check endpoint and reports recent issues
@@ -117,12 +117,16 @@ async def check_health():
         api = "http://localhost"
         res_check = requests.get(api + "/health-check", verify=False)
         json_check = res_check.json()
-        json_critical = requests.get(api + "/health-check/critical", verify=False).json()
+        json_critical = requests.get(
+            api + "/health-check/critical", verify=False
+        ).json()
         json_verbose = requests.get(api + "/health-check/verbose", verify=False).json()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
-        return await send_msg(client, "Failed to run the checks!", file=trace, force_notify=True)
+        return await send_msg(
+            client, "Failed to run the checks!", file=trace, force_notify=True
+        )
 
     critical_checks_total = 0
     critical_checks_failed = 0
@@ -137,28 +141,32 @@ async def check_health():
     time_limit = time_limit_unaware.astimezone(get_localzone())  # time with time zone
 
     for critical in json_critical:
-        time_unaware = datetime.strptime(critical['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
+        time_unaware = datetime.strptime(
+            critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ"
+        )  # time in UTC
         time = pytz.utc.localize(time_unaware)  # time with time zone
         if time < time_limit:
             continue
         bad = False
-        for check in critical['checks']:
+        for check in critical["checks"]:
             critical_checks_total += 1
-            if check['up'] == False:
+            if check["up"] == False:
                 critical_checks_failed += 1
                 bad = True
         if bad:
             failed_records.append(critical["checks"])
 
     for verbose in json_verbose:
-        time_unaware = datetime.strptime(verbose['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
+        time_unaware = datetime.strptime(
+            verbose["date"], "%Y-%m-%dT%H:%M:%S.%fZ"
+        )  # time in UTC
         time = pytz.utc.localize(time_unaware)  # time with time zone
         if time < time_limit:
             continue
         bad = False
-        for check in verbose['checks']:
+        for check in verbose["checks"]:
             verbose_checks_total += 1
-            if check['up'] == False:
+            if check["up"] == False:
                 verbose_checks_failed += 1
                 bad = True
         if bad:
@@ -174,17 +182,21 @@ async def check_health():
     if json_check["disabled"]:
         message += "__Portal manually disabled!__ "
         force_notify = True
-    elif res_check.status_code is not requests.codes.ok:
+    elif res_check.status_code is not requests.codes["ok"]:
         message += "__Portal down!!!__ "
         force_notify = True
-    
+
     if critical_checks_failed:
-        message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(critical_checks_failed, critical_checks_total, CHECK_HOURS)
+        message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(
+            critical_checks_failed, critical_checks_total, CHECK_HOURS
+        )
     else:
         message += "All {} critical checks passed. ".format(critical_checks_total)
 
     if verbose_checks_failed:
-        message += "{}/{} verbose checks failed over the last {} hours! ".format(verbose_checks_failed, verbose_checks_total, CHECK_HOURS)
+        message += "{}/{} verbose checks failed over the last {} hours! ".format(
+            verbose_checks_failed, verbose_checks_total, CHECK_HOURS
+        )
     else:
         message += "All {} verbose checks passed. ".format(verbose_checks_total)
 
@@ -193,7 +205,9 @@ async def check_health():
 
     # send a message if portal is down, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
     if force_notify or failed_records_file or datetime.now().hour < CHECK_HOURS:
-        await send_msg(client, message, file=failed_records_file, force_notify=force_notify)
+        return await send_msg(
+            client, message, file=failed_records_file, force_notify=force_notify
+        )
 
 
 client.run(bot_token)

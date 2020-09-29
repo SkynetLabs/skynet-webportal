@@ -52,7 +52,7 @@ async def run_checks():
     print("Running Skynet portal log checks")
     try:
         await check_docker_logs()
-    except: # catch all exceptions
+    except:  # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
 
@@ -66,26 +66,48 @@ async def check_docker_logs():
     time_string = "{}h".format(CHECK_HOURS)
 
     # Read the logs.
-    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, CONTAINER_NAME))
-    proc = Popen(["docker", "logs", "--since", time_string, CONTAINER_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    print(
+        "[DEBUG] Will run `docker logs --since {} {}`".format(
+            time_string, CONTAINER_NAME
+        )
+    )
+    proc = Popen(
+        ["docker", "logs", "--since", time_string, CONTAINER_NAME],
+        stdin=PIPE,
+        stdout=PIPE,
+        stderr=PIPE,
+        text=True,
+    )
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
         # Trim the error log to under 1MB.
-        one_mb = 1024*1024
+        one_mb = 1024 * 1024
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
-            std_err = std_err[pos+1:]
-            return await send_msg(client, "Error(s) found in log!", file=std_err, force_notify=True)
+            std_err = std_err[pos + 1 :]
+            return await send_msg(
+                client, "Error(s) found in log!", file=std_err, force_notify=True
+            )
 
     # If there are any critical or severe errors. upload the whole log file.
-    if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:
-        return await send_msg(client, "Critical or Severe error found in log!", file=std_out, force_notify=True)
+    if "Critical" in std_out or "Severe" in std_out or "panic" in std_out:
+        return await send_msg(
+            client,
+            "Critical or Severe error found in log!",
+            file=std_out,
+            force_notify=True,
+        )
 
     # No critical or severe errors, return a heartbeat type message
     pretty_before = time.strftime("%I:%M%p")
     pretty_now = now.strftime("%I:%M%p")
-    await send_msg(client, "No critical or severe warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
+    return await send_msg(
+        client,
+        "No critical or severe warnings in log from `{}` to `{}`".format(
+            pretty_before, pretty_now
+        ),
+    )
 
 
 client.run(bot_token)
