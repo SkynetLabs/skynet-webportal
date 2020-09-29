@@ -1,19 +1,8 @@
 #!/usr/bin/env python3
 
-import asyncio
-import io
-import json
-import os
-import re
-import sys
-import traceback
+import asyncio, json, os, re, sys, traceback, discord, requests
 from datetime import datetime, timedelta
-
-import discord
-import pytz.reference
-import requests
 from bot_utils import setup, send_msg
-from tzlocal import get_localzone
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -55,19 +44,19 @@ async def run_checks():
     try:
         await check_load_average()
         await check_disk()
-        # await check_health() # FIXME: adjust it to work with https://github.com/NebulousLabs/skynet-webportal/pull/389
+        await check_health()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
-        if len(trace) < DISCORD_MAX_MESSAGE_LENGTH:
-            await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
-        else:
-            await send_msg(client, "Failed to run the portal health checks!",
-                           file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"),
-                           force_notify=True)
+        await send_msg(
+            client,
+            "Failed to run the portal health checks!",
+            file=trace,
+            force_notify=True,
+        )
 
 
-# check_load_average monitors the system's load average value and issues a
+# check_load_average monitors the system load average value and issues a
 # warning message if it exceeds 10.
 async def check_load_average():
     uptime_string = os.popen("uptime").read().strip()
@@ -77,7 +66,8 @@ async def check_load_average():
         pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
-        await send_msg(client, "High system load detected: `uptime: {}`".format(uptime_string), force_notify=True)
+        message = "High system load detected in uptime output: {}".format(uptime_string)
+        await send_msg(client, message, force_notify=True)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
@@ -100,13 +90,12 @@ async def check_disk():
             vol = mp
             break
     if vol == "":
-        msg = "Failed to check free disk space! Didn't find a suitable mount point to check.\ndf output:\n{}".format(df)
-        await send_msg(client, msg)
-        return
+        message = "Failed to check free disk space! Didn't find a suitable mount point to check."
+        return await send_msg(client, message, file=df)
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
-        await send_msg(client, "WARNING! Low disk space: {}GiB".format(free_space_gb), force_notify=True)
-        return
+        message = "WARNING! Low disk space: {}GiB".format(free_space_gb)
+        return await send_msg(client, message, force_notify=True)
 
 
 # check_health checks /health-check endpoint and reports recent issues
@@ -114,55 +103,94 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        res = requests.get("http://localhost/health-check", verify=False)
+        res_check = requests.get("http://localhost/health-check", verify=False)
+        json_check = res_check.json()
+        json_critical = requests.get(
+            "http://localhost/health-check/critical", verify=False
+        ).json()
+        json_verbose = requests.get(
+            "http://localhost/health-check/verbose", verify=False
+        ).json()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
-        if len(trace) < DISCORD_MAX_MESSAGE_LENGTH:
-            await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
-        else:
-            await send_msg(client, "Failed to run the checks!",
-                           file=discord.File(io.BytesIO(trace.encode()), filename="failed_checks.log"),
-                           force_notify=True)
-        return
+        return await send_msg(
+            client, "Failed to run the checks!", file=trace, force_notify=True
+        )
 
-    # Check the health records.
-    passed_checks = 0
-    failed_checks = 0
-    failed_critical = 0
+    critical_checks_total = 0
+    critical_checks_failed = 0
+
+    verbose_checks_total = 0
+    verbose_checks_failed = 0
+
     failed_records = []
-    time_limit_unaware = datetime.now() - timedelta(hours=CHECK_HOURS)  # local time
-    time_limit = time_limit_unaware.astimezone(get_localzone())  # time with time zone
-    for rec in res.json():
-        time_unaware = datetime.strptime(rec['date'], '%Y-%m-%dT%H:%M:%S.%fZ')  # time in UTC
-        time = pytz.utc.localize(time_unaware)  # time with time zone
+    failed_records_file = None
+
+    time_limit = datetime.utcnow() - timedelta(hours=CHECK_HOURS)
+
+    for critical in json_critical:
+        time = datetime.strptime(critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
         if time < time_limit:
             continue
         bad = False
-        for check in rec['checks']:
-            if check['up'] == False:
+        for check in critical["checks"]:
+            critical_checks_total += 1
+            if check["up"] == False:
+                critical_checks_failed += 1
                 bad = True
-                failed_checks += 1
-                if check['critical']:
-                    failed_critical += 1
         if bad:
-            # We append the entire record, so we can get the full context.
-            failed_records.append(rec)
-        passed_checks += 1
+            failed_records.append(critical)
 
-    checks = passed_checks + failed_checks
-    if len(failed_records) > 0:
-        message = "Found {}/{} failed checks ({} critical) over the last {} hours!".format(failed_checks, checks,
-                                                                                           failed_critical, CHECK_HOURS)
-        file = discord.File(io.BytesIO(json.dumps(failed_records, indent=2).encode()), filename="failed_checks.log")
-        notifyTeam = failed_critical > 0
-        await send_msg(client, message, file=file, force_notify=notifyTeam)
-        return
+    for verbose in json_verbose:
+        time = datetime.strptime(verbose["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        if time < time_limit:
+            continue
+        bad = False
+        for check in verbose["checks"]:
+            verbose_checks_total += 1
+            if check["up"] == False:
+                verbose_checks_failed += 1
+                bad = True
+        if bad:
+            failed_records.append(verbose)
 
-    # Send an informational heartbeat if all checks passed but only if it's in
-    # the first CHECK_HOURS hours of the day, essentially the first call.
-    if datetime.now().hour < CHECK_HOURS:
-        await send_msg(client, "Health checks passed: {}/{}\n".format(passed_checks, checks))
+    ################################################################################
+    ################ create a message
+    ################################################################################
+
+    message = ""
+    force_notify = False
+
+    if json_check["disabled"]:
+        message += "__Portal manually disabled!__ "
+        force_notify = True
+    elif res_check.status_code is not requests.codes["ok"]:
+        message += "__Portal down!!!__ "
+        force_notify = True
+
+    if critical_checks_failed:
+        message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(
+            critical_checks_failed, critical_checks_total, CHECK_HOURS
+        )
+    else:
+        message += "All {} critical checks passed. ".format(critical_checks_total)
+
+    if verbose_checks_failed:
+        message += "{}/{} verbose checks failed over the last {} hours! ".format(
+            verbose_checks_failed, verbose_checks_total, CHECK_HOURS
+        )
+    else:
+        message += "All {} verbose checks passed. ".format(verbose_checks_total)
+
+    if len(failed_records):
+        failed_records_file = json.dumps(failed_records, indent=2)
+
+    # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
+    if force_notify or failed_records_file or datetime.utcnow().hour == 1:
+        return await send_msg(
+            client, message, file=failed_records_file, force_notify=force_notify
+        )
 
 
 client.run(bot_token)

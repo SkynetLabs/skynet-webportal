@@ -3,8 +3,9 @@
 from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
+from datetime import datetime
 
-import urllib, json, os, traceback, discord, sys
+import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
@@ -16,6 +17,22 @@ ROLE_NAME = "skynet-prod"
 api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
 discord_client = None
 setup_done = False
+
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
+
+# find out local siad ip by inspecting its docker container
+def get_api_ip():
+    ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
+    docker_cmd = (
+        "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "
+        + CONTAINER_NAME
+    )
+    output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
+    return ip_regex.findall(output)[0]
+
 
 def setup():
     # Load dotenv file if possible.
@@ -37,7 +54,7 @@ def setup():
         port = "9980"
 
     global api_endpoint
-    api_endpoint = "http://localhost:{}".format(port)
+    api_endpoint = "http://{}:{}".format(get_api_ip(), port)
 
     siad.initialize()
 
@@ -45,6 +62,7 @@ def setup():
     setup_done = True
 
     return bot_token
+
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
 async def send_msg(client, msg, force_notify=False, file=None):
@@ -69,14 +87,48 @@ async def send_msg(client, msg, force_notify=False, file=None):
             break
 
     # Add the portal name.
-    msg = "`{}`: {}".format(portal_name, msg)
+    msg = "**{}**: {}".format(portal_name, msg)
+
+    if isinstance(file, str):
+        is_json = is_json_string(file)
+        content_type = "application/json" if is_json else "text/plain"
+        ext = "json" if is_json else "txt"
+        filename = "{}-{}.{}".format(
+            CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
+        )
+        skylink = upload_to_skynet(file, filename, content_type=content_type)
+        if skylink:
+            msg = "{} {}".format(msg, skylink)  # append skylink to message
+            file = None  # clean file reference, we're using a skylink
+        else:
+            file = discord.File(
+                io.BytesIO(file.encode()), filename=filename
+            )  # wrap text into discord file wrapper
 
     if force_notify:
-        msg = "{}: \n{}".format(role.mention, msg)
+        msg = "{} /cc {}".format(msg, role.mention)
+
     await chan.send(msg, file=file)
 
 
-#siad class provides wrappers for the necessary siad commands.
+def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
+    files = {"file": (filename, contents, content_type)}
+    res = requests.post("https://siasky.net/skynet/skyfile", files=files)
+    if res.status_code == requests.codes["ok"]:
+        res_json = res.json()
+        return "https://siasky.net/" + res_json["skylink"]
+    return None
+
+
+def is_json_string(str):
+    try:
+        json.loads(str)
+        return True
+    except ValueError:
+        return False
+
+
+# siad class provides wrappers for the necessary siad commands.
 class siad:
     # initializes values for using the API (password and
     # user-agent) so that all calls to urllib.request.urlopen have these set.
@@ -90,7 +142,7 @@ class siad:
 
         # Setup an opener with the correct user agent
         opener = urllib.request.build_opener(handler)
-        opener.addheaders = [('User-agent', 'Sia-Agent')]
+        opener.addheaders = [("User-agent", "Sia-Agent")]
 
         # Install the opener.
         # Now all calls to urllib.request.urlopen use our opener.
@@ -102,7 +154,7 @@ class siad:
         password = os.getenv("SIA_API_PASSWORD")
         if not password:
             home = os.getenv("HOME")
-            password_file = open(home+"/.sia/apipassword")
+            password_file = open(home + "/.sia/apipassword")
             password = password_file.readlines()[0].strip()
         return password
 
@@ -111,26 +163,26 @@ class siad:
     def load_json(resp):
         return json.loads(resp.decode("utf-8"))
 
-
     @staticmethod
     def get_wallet():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/wallet").read()
         return siad.load_json(resp)
 
-
     @staticmethod
     def get_renter():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/renter").read()
         return siad.load_json(resp)
 
-
     @staticmethod
     def get_renter_contracts():
-        if not setup_done: setup()
+        if not setup_done:
+            setup()
 
         resp = urllib.request.urlopen(api_endpoint + "/renter/contracts").read()
         return siad.load_json(resp)

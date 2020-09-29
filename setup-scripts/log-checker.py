@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 import discord, sys, traceback, io, os, asyncio
-from bot_utils import setup, send_msg
-from datetime import datetime, timedelta
+from bot_utils import setup, send_msg, upload_to_skynet
 from subprocess import Popen, PIPE
 
 """
@@ -52,7 +51,7 @@ async def run_checks():
     print("Running Skynet portal log checks")
     try:
         await check_docker_logs()
-    except: # catch all exceptions
+    except:  # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
 
@@ -61,43 +60,47 @@ async def run_checks():
 async def check_docker_logs():
     print("\nChecking docker logs...")
 
-    now = datetime.now()
-    time = now - timedelta(hours=CHECK_HOURS)
-    time_string = "{}h".format(CHECK_HOURS)
+    since_string = "{}h".format(CHECK_HOURS)
 
     # Read the logs.
-    print("[DEBUG] Will run `docker logs --since {} {}`".format(time_string, CONTAINER_NAME))
-    proc = Popen(["docker", "logs", "--since", time_string, CONTAINER_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+    print(
+        "[DEBUG] Will run `docker logs --since {} {}`".format(
+            since_string, CONTAINER_NAME
+        )
+    )
+    proc = Popen(
+        ["docker", "logs", "--since", since_string, CONTAINER_NAME],
+        stdin=PIPE,
+        stdout=PIPE,
+        stderr=PIPE,
+        text=True,
+    )
     std_out, std_err = proc.communicate()
 
     if len(std_err) > 0:
         # Trim the error log to under 1MB.
-        one_mb = 1024*1024
+        one_mb = 1024 * 1024
         if len(std_err) > one_mb:
             pos = std_err.find("\n", -one_mb)
-            std_err = std_err[pos+1:]
-        upload_name = "{}-{}-{}-{}-{}:{}:{}_err.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Error(s) found in log!", file=discord.File(io.BytesIO(std_err.encode()), filename=upload_name), force_notify=True)
-        # Send at most DISCORD_MAX_MESSAGE_LENGTH characters of logs, rounded
-        # down to the nearest new line. This is a limitation in the size of
-        # Discord messages - they can be at most 2000 characters long (and we
-        # send some extra characters before the error log).
-        if len(std_err) > DISCORD_MAX_MESSAGE_LENGTH:
-            pos = std_err.find("\n", -DISCORD_MAX_MESSAGE_LENGTH)
-            std_err = std_err[pos+1:]
-        await send_msg(client, "Error(s) preview:\n{}".format(std_err), force_notify=True)
-        return
+            std_err = std_err[pos + 1 :]
+            return await send_msg(
+                client, "Error(s) found in log!", file=std_err, force_notify=True
+            )
 
     # If there are any critical or severe errors. upload the whole log file.
-    if 'Critical' in std_out or 'Severe' in std_out or 'panic' in std_out:
-        upload_name = "{}-{}-{}-{}-{}:{}:{}.log".format(CONTAINER_NAME, time.year, time.month, time.day, time.hour, time.minute, time.second)
-        await send_msg(client, "Critical or Severe error found in log!", file=discord.File(io.BytesIO(std_out.encode()), filename=upload_name), force_notify=True)
-        return
+    if "Critical" in std_out or "Severe" in std_out or "panic" in std_out:
+        return await send_msg(
+            client,
+            "Critical or Severe error found in log!",
+            file=std_out,
+            force_notify=True,
+        )
 
     # No critical or severe errors, return a heartbeat type message
-    pretty_before = time.strftime("%I:%M%p")
-    pretty_now = now.strftime("%I:%M%p")
-    await send_msg(client, "No critical or severe warnings in log from `{}` to `{}`".format(pretty_before, pretty_now))
+    return await send_msg(
+        client,
+        "No critical or severe warnings in log since `{}` hours".format(CHECK_HOURS),
+    )
 
 
 client.run(bot_token)
