@@ -34,6 +34,14 @@ def get_api_ip():
     return ip_regex.findall(output)[0]
 
 
+# find siad api password by getting it out of the docker container
+def get_api_password():
+    api_password_regex = re.compile(r"^\w+$")
+    docker_cmd = "docker exec {} cat /sia-data/apipassword".format(CONTAINER_NAME)
+    output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
+    return api_password_regex.findall(output)[0]
+
+
 def setup():
     # Load dotenv file if possible.
     # TODO: change all scripts to use named flags/params
@@ -137,7 +145,7 @@ class siad:
         # Setup a handler with the API password
         username = ""
         password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-        password_mgr.add_password(None, api_endpoint, username, siad.get_password())
+        password_mgr.add_password(None, api_endpoint, username, get_api_password())
         handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
 
         # Setup an opener with the correct user agent
@@ -147,16 +155,6 @@ class siad:
         # Install the opener.
         # Now all calls to urllib.request.urlopen use our opener.
         urllib.request.install_opener(opener)
-
-    @staticmethod
-    def get_password():
-        # Get a port or use default
-        password = os.getenv("SIA_API_PASSWORD")
-        if not password:
-            home = os.getenv("HOME")
-            password_file = open(home + "/.sia/apipassword")
-            password = password_file.readlines()[0].strip()
-        return password
 
     # load_json reads the http response and decodes the JSON value
     @staticmethod
