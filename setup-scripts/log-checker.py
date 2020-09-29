@@ -99,7 +99,7 @@ async def check_docker_logs():
     # No critical or severe errors, return a heartbeat type message
     return await send_msg(
         client,
-        "No critical or severe warnings in log since `{}` hours".format(CHECK_HOURS),
+        "No critical or severe warnings in log since {} hours".format(CHECK_HOURS),
     )
 
 
