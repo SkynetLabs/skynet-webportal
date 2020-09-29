@@ -90,18 +90,11 @@ At this point we have almost everything running, we just need to set up your wal
 
 ## Subdomains
 
-It might prove useful for certain skapps to be accessible through a custom
-subdomain. So instead of being accessed through `https://portal/[skylink]`, it
-would be accessible through `https://[skylink_base32].portal`. We call this
-subdomains and it is made possible by encoding Skylinks using a base32 encoding.
-We have to use a base32 encoding scheme because subdomains have to be all lower
-case and the base64 encoded Skylink is case sensitive and thus might contain
-uppercase characters.
+It might prove useful for certain skapps to be accessible through a custom subdomain. So instead of being accessed through `https://portal.com/[skylink]`, it would be accessible through `https://[skylink_base32].portal.com`. We call this "subdomain access" and it is made possible by encoding Skylinks using a base32 encoding. We have to use a base32 encoding scheme because subdomains have to be all lower case and the base64 encoded Skylink is case sensitive and thus might contain uppercase characters.
 
-You can convert Skylinks using this [converter
-skapp](https://siasky.net/hns/convert-skylink/), to
-see how the encoding and decoding works, please follow the link to the repo in
-the application itself. 
+You can convert Skylinks using this [converter skapp](https://convert-skylink.hns.siasky.net). To see how the encoding and decoding works, please follow the link to the repo in the application itself.
+
+There is also an option to access handshake domain through the subdomain using `https://[domain_name].hns.portal.com`.
 
 To configure this on your portal, you have to make sure to configure the following:
 
@@ -113,44 +106,68 @@ achieved using Caddy.
 
 ```
 (siasky.net) {
-    siasky.net, *.siasky.net {
-        tls {
+    siasky.net, *.siasky.net, *.hns.siasky.net {
+        ...
+    }
+}
 ```
 
-(see `../docker/caddy/Caddyfile`)
+(see [docker/caddy/Caddyfile](../docker/Caddy/Caddyfile))
 
 ### Nginx configuration
 
 In Nginx two things need to happen:
 
-- parse the subdomain from the url
-- proxy_pass the request to the appropriate location
-
-Siad is able to make the conversion and treat this as a regular Skylink.
+#### Match the specific parts of the uri
 
 ```
-  # parse subdomain (a base32 encoded Skylink) into custom variable
-  server_name "~^([a-z0-9]{55})\..*$";
-  set $subdomain $1;
-
-  ...
-
-  location / {
-    ...
-    error_page 418 = @subdomain;
-    recursive_error_pages on;
-    if ($subdomain  != "") {
-      return 418;
-    }
-    ...
-  }
-  ...
-  location @subdomain {
-    ...
-  }
+# understand the regex https://regex101.com/r/BGQvi6/5
+server_name "~^(((?<base32_skylink>([a-z0-9]{55}))|(?<hns_domain>[^\.]+)\.hns)\.)?((?<portal_domain>[^.]+)\.)?(?<domain>[^.]+)\.(?<tld>[^.]+)$";
 ```
 
-(see `../docker/nginx/nginx.conf`)
+#### Redirect the requests to the appropriate location
+
+First you need to redirect the requests based on the regex above matching either `base32_subdomain` or `hns_domain`.
+
+```
+location / {
+  # This is only safe workaround to reroute based on some conditions
+  # See https://www.nginx.com/resources/wiki/start/topics/depth/ifisevil/
+  recursive_error_pages on;
+
+  # redirect links with base32 encoded skylink in subdomain
+  error_page 418 = @base32_subdomain;
+  if ($base32_subdomain != "") {
+    return 418;
+  }
+
+  # redirect links with handshake domain on hns subdomain
+  error_page 419 = @hns_domain;
+  if ($hns_domain  != "") {
+    return 419;
+  }
+
+  ...
+}
+```
+
+Define locations for `@base32_subdomain` and `@hns_domain` redirects.
+
+```
+location @base32_subdomain {
+  include /etc/nginx/conf.d/include/proxy-buffer;
+
+  proxy_pass http://127.0.0.1/$base32_subdomain/$request_uri;
+}
+
+location @hns_domain {
+  include /etc/nginx/conf.d/include/proxy-buffer;
+
+  proxy_pass http://127.0.0.1/hns/$hns_domain/$request_uri;
+}
+```
+
+(see [docker/nginx/nginx.conf](../docker/nginx/nginx.conf))
 
 ## Useful Commands
 
