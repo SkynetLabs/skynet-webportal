@@ -131,7 +131,7 @@ First you need to redirect the requests based on the regex above matching either
 
 ```
 location / {
-  # This is only safe workaround to reroute based on some conditions
+  # This is the only safe workaround to reroute based on some conditions
   # See https://www.nginx.com/resources/wiki/start/topics/depth/ifisevil/
   recursive_error_pages on;
 
