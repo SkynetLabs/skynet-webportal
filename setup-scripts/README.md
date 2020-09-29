@@ -121,8 +121,8 @@ In Nginx two things need to happen:
 #### Match the specific parts of the uri
 
 ```
-# understand the regex https://regex101.com/r/BGQvi6/5
-server_name "~^(((?<base32_skylink>([a-z0-9]{55}))|(?<hns_domain>[^\.]+)\.hns)\.)?((?<portal_domain>[^.]+)\.)?(?<domain>[^.]+)\.(?<tld>[^.]+)$";
+# understand the regex https://regex101.com/r/BGQvi6/6
+server_name "~^(((?<base32_subdomain>([a-z0-9]{55}))|(?<hns_domain>[^\.]+)\.hns)\.)?((?<portal_domain>[^.]+)\.)?(?<domain>[^.]+)\.(?<tld>[^.]+)$";
 ```
 
 #### Redirect the requests to the appropriate location
