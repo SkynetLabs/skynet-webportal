@@ -27,7 +27,6 @@ async def run_checks():
     print("Running Skynet portal funds checks")
     try:
         await check_funds()
-
     except:  # catch all exceptions
         trace = traceback.format_exc()
         await send_msg(client, "```\n{}\n```".format(trace), force_notify=True)

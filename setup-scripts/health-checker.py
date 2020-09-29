@@ -1,19 +1,8 @@
 #!/usr/bin/env python3
 
-import asyncio
-import io
-import json
-import os
-import re
-import sys
-import traceback
+import asyncio, json, os, re, sys, traceback, discord, requests
 from datetime import datetime, timedelta
-
-import discord
-import pytz.reference
-import requests
 from bot_utils import setup, send_msg
-from tzlocal import get_localzone
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -138,14 +127,10 @@ async def check_health():
     failed_records = []
     failed_records_file = None
 
-    time_limit_unaware = datetime.now() - timedelta(hours=CHECK_HOURS)  # local time
-    time_limit = time_limit_unaware.astimezone(get_localzone())  # time with time zone
+    time_limit = datetime.utcnow() - timedelta(hours=CHECK_HOURS)
 
     for critical in json_critical:
-        time_unaware = datetime.strptime(
-            critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        )  # time in UTC
-        time = pytz.utc.localize(time_unaware)  # time with time zone
+        time = datetime.strptime(critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
         if time < time_limit:
             continue
         bad = False
@@ -158,10 +143,7 @@ async def check_health():
             failed_records.append(critical)
 
     for verbose in json_verbose:
-        time_unaware = datetime.strptime(
-            verbose["date"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        )  # time in UTC
-        time = pytz.utc.localize(time_unaware)  # time with time zone
+        time = datetime.strptime(verbose["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
         if time < time_limit:
             continue
         bad = False
@@ -204,8 +186,8 @@ async def check_health():
     if len(failed_records):
         failed_records_file = json.dumps(failed_records, indent=2)
 
-    # send a message if we force notification, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
-    if force_notify or failed_records_file or datetime.now().hour < CHECK_HOURS:
+    # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
+    if force_notify or failed_records_file or datetime.utcnow().hour == 1:
         return await send_msg(
             client, message, file=failed_records_file, force_notify=force_notify
         )

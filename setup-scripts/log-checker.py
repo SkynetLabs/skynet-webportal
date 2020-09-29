@@ -2,7 +2,6 @@
 
 import discord, sys, traceback, io, os, asyncio
 from bot_utils import setup, send_msg, upload_to_skynet
-from datetime import datetime, timedelta
 from subprocess import Popen, PIPE
 
 """
@@ -61,18 +60,16 @@ async def run_checks():
 async def check_docker_logs():
     print("\nChecking docker logs...")
 
-    now = datetime.now()
-    time = now - timedelta(hours=CHECK_HOURS)
-    time_string = "{}h".format(CHECK_HOURS)
+    since_string = "{}h".format(CHECK_HOURS)
 
     # Read the logs.
     print(
         "[DEBUG] Will run `docker logs --since {} {}`".format(
-            time_string, CONTAINER_NAME
+            since_string, CONTAINER_NAME
         )
     )
     proc = Popen(
-        ["docker", "logs", "--since", time_string, CONTAINER_NAME],
+        ["docker", "logs", "--since", since_string, CONTAINER_NAME],
         stdin=PIPE,
         stdout=PIPE,
         stderr=PIPE,
@@ -100,13 +97,9 @@ async def check_docker_logs():
         )
 
     # No critical or severe errors, return a heartbeat type message
-    pretty_before = time.strftime("%I:%M%p")
-    pretty_now = now.strftime("%I:%M%p")
     return await send_msg(
         client,
-        "No critical or severe warnings in log from `{}` to `{}`".format(
-            pretty_before, pretty_now
-        ),
+        "No critical or severe warnings in log since `{}` hours".format(CHECK_HOURS),
     )
 
 
