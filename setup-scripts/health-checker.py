@@ -114,13 +114,14 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        api = "http://localhost"
-        res_check = requests.get(api + "/health-check", verify=False)
+        res_check = requests.get("http://localhost/health-check", verify=False)
         json_check = res_check.json()
         json_critical = requests.get(
-            api + "/health-check/critical", verify=False
+            "http://localhost/health-check/critical", verify=False
         ).json()
-        json_verbose = requests.get(api + "/health-check/verbose", verify=False).json()
+        json_verbose = requests.get(
+            "http://localhost/health-check/verbose", verify=False
+        ).json()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] check_health() failed.")
@@ -154,7 +155,7 @@ async def check_health():
                 critical_checks_failed += 1
                 bad = True
         if bad:
-            failed_records.append(critical["checks"])
+            failed_records.append(critical)
 
     for verbose in json_verbose:
         time_unaware = datetime.strptime(
@@ -170,7 +171,7 @@ async def check_health():
                 verbose_checks_failed += 1
                 bad = True
         if bad:
-            failed_records.append(verbose["checks"])
+            failed_records.append(verbose)
 
     ################################################################################
     ################ create a message
@@ -203,7 +204,7 @@ async def check_health():
     if len(failed_records):
         failed_records_file = json.dumps(failed_records, indent=2)
 
-    # send a message if portal is down, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
+    # send a message if we force notification, there is a failures dump or just once daily (heartbeat) based on CHECK_HOURS
     if force_notify or failed_records_file or datetime.now().hour < CHECK_HOURS:
         return await send_msg(
             client, message, file=failed_records_file, force_notify=force_notify
