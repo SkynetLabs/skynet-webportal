@@ -173,6 +173,7 @@ async def check_health():
         message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(
             critical_checks_failed, critical_checks_total, CHECK_HOURS
         )
+        force_notify = True
     else:
         message += "All {} critical checks passed. ".format(critical_checks_total)
 
@@ -180,6 +181,7 @@ async def check_health():
         message += "{}/{} verbose checks failed over the last {} hours! ".format(
             verbose_checks_failed, verbose_checks_total, CHECK_HOURS
         )
+        force_notify = True
     else:
         message += "All {} verbose checks passed. ".format(verbose_checks_total)
 
