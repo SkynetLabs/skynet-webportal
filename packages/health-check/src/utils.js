@@ -23,14 +23,14 @@ function getYesterdayISOString() {
  */
 function getResponseContent(response) {
   try {
-    return JSON.parse(response?.text)
+    return JSON.parse(response?.text);
   } catch {
-    return response?.text
+    return response?.text;
   }
 }
 
 module.exports = {
   calculateElapsedTime,
   getYesterdayISOString,
-  getResponseContent
+  getResponseContent,
 };

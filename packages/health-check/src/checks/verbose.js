@@ -931,7 +931,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
           up: false,
           statusCode: error.statusCode || error.status,
           errorResponseContent: getResponseContent(error.response),
-          time: calculateElapsedTime(time)
+          time: calculateElapsedTime(time),
         });
       }
     );
