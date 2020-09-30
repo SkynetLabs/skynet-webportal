@@ -1,5 +1,12 @@
 version: "3.7"
 
+x-logging:
+  &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 networks:
   shared:
     ipam:
@@ -19,6 +26,7 @@ services:
         branch: v1.5.0
     container_name: sia
     restart: unless-stopped
+    logging: *default-logging
     environment:
       - SIA_MODULES=gctwr
     env_file:
@@ -37,6 +45,7 @@ services:
       dockerfile: Dockerfile
     container_name: caddy
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     volumes:
@@ -56,6 +65,7 @@ services:
     image: openresty/openresty:1.15.8.3-2-xenial
     container_name: nginx
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     volumes:
@@ -81,6 +91,7 @@ services:
       dockerfile: Dockerfile
     container_name: webapp
     restart: unless-stopped
+    logging: *default-logging
     tty: true
     volumes:
       - webapp:/usr/app/public
@@ -91,6 +102,7 @@ services:
       dockerfile: Dockerfile
     container_name: handshake
     restart: unless-stopped
+    logging: *default-logging
     environment:
       - HSD_LOG_CONSOLE=false
       - HSD_HTTP_HOST=0.0.0.0
@@ -112,6 +124,7 @@ services:
       dockerfile: Dockerfile
     container_name: handshake-api
     restart: unless-stopped
+    logging: *default-logging
     environment:
       - HOSTNAME=0.0.0.0
       - HSD_HOST=handshake
@@ -133,6 +146,7 @@ services:
       dockerfile: Dockerfile
     container_name: health-check
     restart: unless-stopped
+    logging: *default-logging
     volumes:
       - ./docker/data/health-check/state:/usr/app/state
     networks:
