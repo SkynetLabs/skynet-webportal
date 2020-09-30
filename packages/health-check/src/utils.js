@@ -18,4 +18,19 @@ function getYesterdayISOString() {
   return date.toISOString();
 }
 
-module.exports = { calculateElapsedTime, getYesterdayISOString };
+/**
+ * Get response from response object if available
+ */
+function getResponseContent(response) {
+  try {
+    return JSON.parse(response?.text);
+  } catch {
+    return response?.text;
+  }
+}
+
+module.exports = {
+  calculateElapsedTime,
+  getYesterdayISOString,
+  getResponseContent,
+};

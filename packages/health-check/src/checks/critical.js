@@ -1,6 +1,6 @@
 const superagent = require("superagent");
 const { StatusCodes } = require("http-status-codes");
-const { calculateElapsedTime } = require("../utils");
+const { calculateElapsedTime, getResponseContent } = require("../utils");
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
@@ -16,6 +16,7 @@ async function uploadCheck(done) {
         name: "upload_file",
         up: statusCode === StatusCodes.OK,
         statusCode,
+        errorResponseContent: getResponseContent(error?.response),
         time: calculateElapsedTime(time),
       });
     });
@@ -25,7 +26,7 @@ async function uploadCheck(done) {
 async function downloadCheck(done) {
   const time = process.hrtime();
   const skylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
-  let statusCode;
+  let statusCode, errorResponseContent;
 
   try {
     const response = await superagent.get(`http://${process.env.PORTAL_URL}/${skylink}?nocache=true`);
@@ -33,12 +34,14 @@ async function downloadCheck(done) {
     statusCode = response.statusCode;
   } catch (error) {
     statusCode = error.statusCode || error.status;
+    errorResponseContent = getResponseContent(error.response);
   }
 
   done({
     name: "download_file",
     up: statusCode === StatusCodes.OK,
     statusCode,
+    errorResponseContent,
     time: calculateElapsedTime(time),
   });
 }
