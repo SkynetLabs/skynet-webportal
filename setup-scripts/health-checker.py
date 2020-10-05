@@ -79,7 +79,7 @@ async def check_disk():
     for line in df.split("\n")[1:]:
         fields = list(filter(None, line.split(" ")))
         # -1 is "mounted on", 3 is "available space" in KiB which we want in bytes
-        volumes[fields[-1]] = fields[3] * 1024
+        volumes[fields[-1]] = int(fields[3]) * 1024
     # List of mount point, longest to shortest. We'll use that to find the best
     # fit for the volume we want to check.
     mount_points = sorted(volumes.keys(), key=len, reverse=True)
