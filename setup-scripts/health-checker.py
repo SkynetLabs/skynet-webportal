@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, json, os, re, sys, traceback, discord, requests, subprocess
+import asyncio, json, os, re, sys, traceback, discord, requests, time
 from datetime import datetime, timedelta
 from bot_utils import setup, send_msg
 
@@ -98,14 +98,13 @@ async def check_disk():
     # and shut down sia container so it doesn't get corrupted
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD_CRITICAL:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
-        message = "CRITICAL! Very low disk space: {}GiB".format(free_space_gb)
+        message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(free_space_gb)
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
         if inspect_json[0]["State"]["Running"] == True:
-            message += ", **stopping siad container**!"
-            subprocess.Popen('/home/user/skynet-webportal/scripts/portal-down.sh')
-        else:
-            message += ", siad container is already stopped!"
+            os.popen("docker exec health-check cli/disable") # mark portal as unhealthy
+            time.sleep(300) # wait 5 minutes to propagate dns changes
+            os.popen("docker stop sia") # stop sia container
         return await send_msg(client, message, force_notify=True)
 
     # if we're reached a free disk space threshold we need to send proper notice
