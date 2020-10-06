@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, json, os, re, sys, traceback, discord, requests
+import asyncio, json, os, re, sys, traceback, discord, requests, time
 from datetime import datetime, timedelta
 from bot_utils import setup, send_msg
 
@@ -19,9 +19,10 @@ if len(sys.argv) > 3:
 DISCORD_MAX_MESSAGE_LENGTH = 1900
 
 GB = 1 << 30  # 1 GiB in bytes
-# We are going to issue Discord warnings if the free space on a server falls
-# under this threshold.
+
+# Free disk space threshold used for notices and shutting down siad.
 FREE_DISK_SPACE_THRESHOLD = 50 * GB
+FREE_DISK_SPACE_THRESHOLD_CRITICAL = 20 * GB
 
 bot_token = setup()
 client = discord.Client()
@@ -92,6 +93,21 @@ async def check_disk():
     if vol == "":
         message = "Failed to check free disk space! Didn't find a suitable mount point to check."
         return await send_msg(client, message, file=df)
+
+    # if we've reached a critical free disk space threshold we need to send proper notice 
+    # and shut down sia container so it doesn't get corrupted
+    if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD_CRITICAL:
+        free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
+        message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(free_space_gb)
+        inspect = os.popen("docker inspect sia").read().strip()
+        inspect_json = json.loads(inspect)
+        if inspect_json[0]["State"]["Running"] == True:
+            os.popen("docker exec health-check cli/disable") # mark portal as unhealthy
+            time.sleep(300) # wait 5 minutes to propagate dns changes
+            os.popen("docker stop sia") # stop sia container
+        return await send_msg(client, message, force_notify=True)
+
+    # if we're reached a free disk space threshold we need to send proper notice
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
         message = "WARNING! Low disk space: {}GiB".format(free_space_gb)
