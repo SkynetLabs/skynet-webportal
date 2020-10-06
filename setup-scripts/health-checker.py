@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, json, os, re, sys, traceback, discord, requests, time, subprocess
+import asyncio, json, os, re, sys, traceback, discord, requests, subprocess
 from datetime import datetime, timedelta
 from bot_utils import setup, send_msg
 
