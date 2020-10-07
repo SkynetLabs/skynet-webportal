@@ -31,9 +31,10 @@ jobs:
           GATSBY_API_URL: "https://siasky.net"
 
       - name: "Upload to Skynet"
-        uses: kwypchlo/deploy-to-skynet-action@v1.2
+        uses: kwypchlo/deploy-to-skynet-action@v1.4
         with:
           upload-dir: packages/webapp/public
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v1
