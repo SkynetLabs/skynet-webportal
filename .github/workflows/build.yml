@@ -30,6 +30,11 @@ jobs:
         env:
           GATSBY_API_URL: "https://siasky.net"
 
+      - name: "Upload to Skynet"
+        uses: kwypchlo/deploy-to-skynet-action@v1
+        with:
+          upload-dir: packages/webapp/public
+
       - name: Cypress run
         uses: cypress-io/github-action@v1
         env:
