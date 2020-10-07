@@ -31,7 +31,7 @@ jobs:
           GATSBY_API_URL: "https://siasky.net"
 
       - name: "Upload to Skynet"
-        uses: kwypchlo/deploy-to-skynet-action@v1
+        uses: kwypchlo/deploy-to-skynet-action@v1.1
         with:
           upload-dir: packages/webapp/public
 
