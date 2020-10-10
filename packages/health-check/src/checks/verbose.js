@@ -2,7 +2,7 @@ const superagent = require("superagent");
 const hash = require("object-hash");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent } = require("../utils");
+const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -918,7 +918,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, metadata }) {
         if (!isEqual(currentMetadata, metadata)) {
           entry.up = false;
 
-          info.metadata = detailedDiff(metadata, currentMetadata);
+          info.metadata = ensureValidJSON(detailedDiff(metadata, currentMetadata));
         }
 
         if (Object.keys(info).length) entry.info = info; // add info only if it exists

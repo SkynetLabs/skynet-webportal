@@ -29,8 +29,19 @@ function getResponseContent(response) {
   }
 }
 
+/**
+ * Ensures that the object serializes to JSON properly
+ */
+function ensureValidJSON(object) {
+  const replacer = (key, value) => (value === undefined ? "--undefined--" : value);
+  const stringified = JSON.stringify(object, replacer);
+
+  return JSON.parse(stringified);
+}
+
 module.exports = {
   calculateElapsedTime,
   getYesterdayISOString,
   getResponseContent,
+  ensureValidJSON,
 };
