@@ -1,30 +1,45 @@
-const schedule = require("node-schedule");
+const { CronJob } = require("cron");
+const ms = require("ms");
 const db = require("./db");
 const { criticalChecks } = require("./checks/critical");
 const { verboseChecks } = require("./checks/verbose");
 
-// execute the critical health-check script every 5 minutes
-const criticalJob = schedule.scheduleJob("*/5 * * * *", async () => {
+// use this timezone to run all cron instances at the same time regardless of the server location
+const timezone = "UTC";
+
+// critical health checks job definition
+const criticalJobSchedule = "*/5 * * * *"; // on every 5 minute mark
+const criticalJobOnTick = async () => {
   const entry = {
     date: new Date().toISOString(),
     checks: await Promise.all(criticalChecks.map((check) => new Promise(check))),
   };
 
+  // read before writing to make sure no external changes are overwritten
   db.read().get("critical").push(entry).write();
-});
+};
+const criticalJob = new CronJob(criticalJobSchedule, criticalJobOnTick, null, false, timezone);
 
-// execute the verbose health-check script once per hour
-const verboseJob = schedule.scheduleJob("0 * * * *", async () => {
+// verbose health checks job definition
+const verboseJobSchedule = "0 * * * *"; // on every full hour mark
+const verboseJobOnTick = async () => {
   const entry = {
     date: new Date().toISOString(),
     checks: await Promise.all(verboseChecks.map((check) => new Promise(check))),
   };
 
+  // read before writing to make sure no external changes are overwritten
   db.read().get("verbose").push(entry).write();
-});
+};
+const verboseJob = new CronJob(verboseJobSchedule, verboseJobOnTick, null, false, timezone);
 
-// Launch Health check jobs
+// fire all health checks on startup (with delay for other services to boot)
 setTimeout(() => {
-  criticalJob.invoke();
-  verboseJob.invoke();
-}, 60 * 1000); // delay for 60s to give other services time to start up
+  // fire first run manually
+  criticalJob.fireOnTick();
+  verboseJob.fireOnTick();
+
+  // start cron schedule
+  criticalJob.start();
+  verboseJob.start();
+}, ms("1 minute"));
