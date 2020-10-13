@@ -1,4 +1,6 @@
-FROM node:14.13.1
+FROM node:14.13.1-alpine
+
+RUN apk add --no-cache autoconf automake libtool gcc make g++ zlib-dev file nasm util-linux
 
 WORKDIR /usr/app
 
