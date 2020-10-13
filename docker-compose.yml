@@ -12,7 +12,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 192.168.0.0/24
+        - subnet: 10.10.10.0/24
 
 volumes:
   webapp:
@@ -35,7 +35,7 @@ services:
       - ./docker/data/sia:/sia-data
     networks:
       shared:
-        ipv4_address: 192.168.0.10
+        ipv4_address: 10.10.10.10
     expose:
       - 9980
 
@@ -54,7 +54,7 @@ services:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
     networks:
       shared:
-        ipv4_address: 192.168.0.20
+        ipv4_address: 10.10.10.20
     ports:
       - "80:80"
       - "443:443"
@@ -77,7 +77,7 @@ services:
       - webapp:/var/www/webportal:ro
     networks:
       shared:
-        ipv4_address: 192.168.0.30
+        ipv4_address: 10.10.10.30
     expose:
       - 80
     depends_on:
@@ -114,7 +114,7 @@ services:
       - ./docker/data/handshake/.hsd:/root/.hsd
     networks:
       shared:
-        ipv4_address: 192.168.0.40
+        ipv4_address: 10.10.10.40
     expose:
       - 12037
 
@@ -134,7 +134,7 @@ services:
       - .env
     networks:
       shared:
-        ipv4_address: 192.168.0.50
+        ipv4_address: 10.10.10.50
     expose:
       - 3100
     depends_on:
@@ -151,7 +151,7 @@ services:
       - ./docker/data/health-check/state:/usr/app/state
     networks:
       shared:
-        ipv4_address: 192.168.0.60
+        ipv4_address: 10.10.10.60
     environment:
       - HOSTNAME=0.0.0.0
       - PORTAL_URL=nginx
