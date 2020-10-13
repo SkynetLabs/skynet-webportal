@@ -4,7 +4,7 @@ import SEO from "../components/seo";
 import { App } from "../components";
 import "../global.scss";
 import AppContext from "../AppContext";
-import "typeface-metropolis"; // import Metropolis typeface
+import "fontsource-metropolis/all.css"; // import Metropolis typeface
 
 export default function IndexPage({ location }) {
   const context = useMemo(
