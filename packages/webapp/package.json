@@ -7,6 +7,7 @@
     "axios": "0.20.0",
     "bytes": "3.1.0",
     "classnames": "2.2.6",
+    "fontsource-metropolis": "3.0.1",
     "gatsby": "2.24.76",
     "gatsby-image": "2.4.21",
     "gatsby-plugin-manifest": "2.4.33",
@@ -32,8 +33,7 @@
     "react-mailchimp-subscribe": "2.1.0",
     "react-syntax-highlighter": "15.2.1",
     "react-visibility-sensor": "5.1.1",
-    "skynet-js": "2.0.9",
-    "typeface-metropolis": "0.0.74"
+    "skynet-js": "2.0.9"
   },
   "devDependencies": {
     "cypress": "5.3.0",
