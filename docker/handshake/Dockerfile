@@ -1,5 +1,5 @@
 # we can't use alpine image since it fails on node-gyp
-FROM node:14.11.0
+FROM node:14.13.1
 
 WORKDIR /opt/hsd
 
