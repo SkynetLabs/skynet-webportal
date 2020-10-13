@@ -1,8 +1,8 @@
-# we can't use alpine image since it fails on node-gyp
-FROM node:14.13.1
+FROM node:14.13.1-alpine
 
 WORKDIR /opt/hsd
 
+RUN apk add --no-cache bash unbound-dev gmp-dev g++ gcc make python2 git
 RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd
 RUN npm install --production
 
