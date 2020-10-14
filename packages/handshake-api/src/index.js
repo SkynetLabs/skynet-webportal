@@ -1,4 +1,5 @@
 const express = require("express");
+const punycode = require("punycode");
 const NodeCache = require("node-cache");
 const { NodeClient } = require("hs-client");
 
@@ -51,11 +52,12 @@ const getSkylinkFromRecord = (record) => {
 
 const resolveDomainHandler = async (req, res) => {
   try {
-    const records = await getDomainRecords(req.params.name);
-    if (!records) return res.status(404).send(`No records found for ${req.params.name}`);
+    const domain = punycode.toASCII(req.params.name);
+    const records = await getDomainRecords(domain);
+    if (!records) return res.status(404).send(`No records found for ${domain}`);
 
     const record = findSkylinkRecord(records);
-    if (!record) throw new Error(`No skylink found in dns records of ${req.params.name}`);
+    if (!record) throw new Error(`No skylink found in dns records of ${domain}`);
 
     const skylink = getSkylinkFromRecord(record);
     return res.json({ skylink });
