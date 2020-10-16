@@ -19,7 +19,7 @@ export default function HomeSamples() {
       <p>Above are some code snippets for uploading and retrieving data.</p>
       <p>
         Skynet includes{" "}
-        <a href="https://nebulouslabs.github.io/skynet-docs" target="_blank" rel="noopener noreferrer" className="link">
+        <a href="https://siasky.net/docs" target="_blank" rel="noopener noreferrer" className="link">
           SDKs
         </a>{" "}
         for popular programming languages and{" "}
