@@ -32,7 +32,7 @@ jobs:
 
       - name: "Deploy to Skynet"
         id: deploy-to-skynet
-        uses: kwypchlo/deploy-to-skynet-action@fork
+        uses: kwypchlo/deploy-to-skynet-action@main
         with:
           upload-dir: packages/webapp/public
           github-token: ${{ secrets.GITHUB_TOKEN }}
