@@ -36,7 +36,7 @@
     "skynet-js": "2.0.9"
   },
   "devDependencies": {
-    "cypress": "5.3.0",
+    "cypress": "5.4.0",
     "cypress-file-upload": "4.1.1",
     "eslint": "7.11.0",
     "eslint-config-prettier": "6.12.0",
