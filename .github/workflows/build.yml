@@ -15,8 +15,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn
-        env:
-          CYPRESS_INSTALL_BINARY: 0
 
       - name: "Static code analysis: handshake-api"
         run: yarn workspace handshake-api prettier --check .
@@ -48,3 +46,6 @@ jobs:
           record: true
           start: npx http-server public --port 8000
           wait-on: "http://localhost:8000"
+
+      - name: Cypress cache prune
+        run: yarn cypress cache prune
