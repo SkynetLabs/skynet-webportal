@@ -31,7 +31,8 @@ jobs:
           GATSBY_API_URL: "https://siasky.net"
 
       - name: "Deploy to Skynet"
-        uses: kwypchlo/deploy-to-skynet-action@v1.0.0
+        id: deploy-to-skynet
+        uses: kwypchlo/deploy-to-skynet-action@main
         with:
           upload-dir: packages/webapp/public
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,8 +45,7 @@ jobs:
         with:
           working-directory: packages/webapp
           record: true
-          start: npx http-server public --port 8000
-          wait-on: "http://localhost:8000"
+          config: baseUrl=${{ steps.deploy-to-skynet.outputs.skylink-url }}
 
       - name: Cypress cache prune
         run: yarn cypress cache prune
