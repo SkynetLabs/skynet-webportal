@@ -1,5 +1,5 @@
 export const curl = `# upload
-curl -X POST "https://siasky.net/skynet/skyfile" -F file=@src.jpg
+curl -X POST "https://siasky.net/skynet/skyfile" -F "file=@src.jpg"
 
 # download
 curl "https://siasky.net/[skylink]" -o dst.jpg`;
@@ -14,7 +14,7 @@ const client = new SkynetClient();
 async function example() {
   try {
     // upload
-    const { skylink } = await client.uploadFile(file);
+    const skylink = await client.uploadFile(file);
 	console.log(\`Upload successful, skylink: \${skylink}\`);
 
     // download
