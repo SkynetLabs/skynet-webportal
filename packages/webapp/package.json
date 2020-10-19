@@ -15,7 +15,7 @@
     "gatsby-plugin-react-helmet": "3.3.14",
     "gatsby-plugin-remove-serviceworker": "1.0.0",
     "gatsby-plugin-robots-txt": "1.5.3",
-    "gatsby-plugin-sass": "2.3.16",
+    "gatsby-plugin-sass": "2.3.17",
     "gatsby-plugin-sharp": "2.6.42",
     "gatsby-source-filesystem": "2.3.34",
     "gatsby-transformer-sharp": "2.5.17",
