@@ -45,11 +45,11 @@ const client = new SkynetClient();
 
 (async () => {
 	// upload
-	const skylink = await client.UploadFile("./src.jpg");
+	const skylink = await client.uploadFile("./src.jpg");
 	console.log(\`Upload successful, skylink: \${skylink}\`);
 
 	// download
-	await client.DownloadFile("./dst.jpg", skylink);
+	await client.downloadFile("./dst.jpg", skylink);
 	console.log('Download successful');
 })()`;
 
