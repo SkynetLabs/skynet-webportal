@@ -2,14 +2,14 @@
 
 ## Web application
 
-Use `yarn start` to start the development server.
+Use `yarn workspace webapp start` to start the development server.
 
-Use `yarn build` to compile the application to `/public` directory.
+Use `yarn workspace webapp build` to compile the application to `/public` directory.
 
 You can use the below build parameters to customize your web application.
 
-- development example `GATSBY_API_URL=https://siasky.dev yarn start`
-- production example `GATSBY_API_URL=https://siasky.net yarn build`
+- development example `GATSBY_API_URL=https://siasky.dev yarn workspace webapp start`
+- production example `GATSBY_API_URL=https://siasky.net yarn workspace webapp build`
 
 List of available parameters:
 
