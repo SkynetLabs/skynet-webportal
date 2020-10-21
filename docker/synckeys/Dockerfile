@@ -4,11 +4,11 @@ ENV GOOS linux
 ENV GOARCH amd64
 ENV CGO_ENABLED 0
 
-ADD initkeys.go /go/src/initkeys/
+ADD synckeys.go /go/src/synckeys/
 RUN go install ./...
 
 FROM scratch
 
-COPY --from=builder /go/bin/initkeys /usr/local/bin/initkeys
+COPY --from=builder /go/bin/synckeys /usr/local/bin/synckeys
 
-ENTRYPOINT ["initkeys"]
+ENTRYPOINT ["synckeys"]

@@ -161,7 +161,7 @@ services:
       - handshake
       - handshake-api
 
-  initkeys:
+  synckeys:
     build:
       context: docker/synckeys
       dockerfile: Dockerfile
@@ -176,3 +176,5 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.70
+    depends_on:
+      - sia
