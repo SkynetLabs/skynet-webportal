@@ -171,6 +171,8 @@ services:
     volumes:
       - ./docker/data/keys:/keys
       - ./docker/data/sia:/sia-data
+    environment:
+      - SIAD_IP=10.10.10.10
     networks:
       shared:
         ipv4_address: 10.10.10.70
