@@ -103,6 +103,7 @@ func main() {
 	if !ok {
 		siadIP = "127.0.0.1"
 	}
+	fmt.Printf("Will look for siad at %s:9980\n", siadIP)
 
 	apiPass, err := apiPass()
 	if err != nil {
