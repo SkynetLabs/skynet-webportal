@@ -163,9 +163,9 @@ services:
 
   initkeys:
     build:
-      context: ./docker/initkeys
+      context: docker/synckeys
       dockerfile: Dockerfile
-    container_name: initkeys
+    container_name: synckeys
     restart: on-failure
     logging: *default-logging
     volumes:
