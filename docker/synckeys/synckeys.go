@@ -16,9 +16,6 @@ import (
 const KeysFileName = "/keys/keys.json"
 const ApiKeyFile = "/sia-data/apipassword"
 
-//const KeysFileName = "keys.json"
-//const ApiKeyFile = "apipassword"
-
 func keys() ([]string, error) {
 	b, err := ioutil.ReadFile(KeysFileName)
 	if err != nil {
