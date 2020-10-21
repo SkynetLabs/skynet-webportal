@@ -160,3 +160,17 @@ services:
     depends_on:
       - handshake
       - handshake-api
+
+  initkeys:
+    build:
+      context: ./docker/initkeys
+      dockerfile: Dockerfile
+    container_name: initkeys
+    restart: on-failure
+    logging: *default-logging
+    volumes:
+      - ./docker/data/keys:/keys
+      - ./docker/data/sia:/sia-data
+    networks:
+      shared:
+        ipv4_address: 10.10.10.70
