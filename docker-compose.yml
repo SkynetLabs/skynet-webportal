@@ -169,10 +169,8 @@ services:
     restart: on-failure
     logging: *default-logging
     volumes:
-      - ./docker/data/keys:/keys
-      - ./docker/data/sia:/sia-data
-    environment:
-      - SIAD_IP=10.10.10.10
+      - ./docker/data/synckeys:/keys
+      - ./docker/data/sia/apipassword:/sia-data/apipassword:ro
     networks:
       shared:
         ipv4_address: 10.10.10.70

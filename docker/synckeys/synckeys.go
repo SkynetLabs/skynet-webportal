@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"gitlab.com/NebulousLabs/errors"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 	"time"
 )
@@ -35,51 +35,61 @@ func keys() ([]string, error) {
 func apiPass() (string, error) {
 	b, err := ioutil.ReadFile(ApiKeyFile)
 	if err != nil {
-		log.Println("Error while api password:", err.Error())
+		log.Println("Error while reading api password:", err.Error())
 		return "", err
 	}
-	log.Println("Successfully read apipassword.")
+	log.Println("Successfully read api password.")
 	return strings.Trim(string(b), " \n"), nil
 }
 
-func registerKeys(siadIP string, keys []string, apipass string) error {
+func registerKeys(keys []string, apipass string) error {
 	fmt.Printf("Will process %d keys.\n", len(keys))
 	client := http.Client{}
 	reqBody, _ := json.Marshal(map[string]string{})
+	var errs []error
 	for _, sk := range keys {
 		fmt.Println("Adding key:", sk)
-		reqUrl := fmt.Sprintf("http://%s:9980/skynet/addskykey?skykey=%s", siadIP, url.QueryEscape(sk))
+		reqUrl := fmt.Sprintf("http://sia:9980/skynet/addskykey?skykey=%s", url.QueryEscape(sk))
 		req, err := http.NewRequest("POST", reqUrl, bytes.NewBuffer(reqBody))
 		if err != nil {
-			log.Println("Error while creating request:", err.Error())
-			return err
+			errs = append(errs, errors.AddContext(err, "error while creating request"))
+			fmt.Println("Failed to add key!")
+			continue
 		}
 		req.Header.Set("User-Agent", "Sia-Agent")
 		req.SetBasicAuth("", apipass)
 
 		resp, err := client.Do(req)
 		if err != nil {
-			log.Println("Error while adding skykeys:", err.Error())
-			return err
+			errCtx := fmt.Sprintf("error while adding skykey %s", sk)
+			errs = append(errs, errors.AddContext(err, errCtx))
+			fmt.Println("Failed to add key!")
+			continue
 		}
-		defer resp.Body.Close()
-
-		b, _ := ioutil.ReadAll(resp.Body)
+		b, err := ioutil.ReadAll(resp.Body)
+		_ = resp.Body.Close()
+		if err!=nil {
+			errs =  append(errs, errors.AddContext(err, "failed to read reÎsponse"))
+			fmt.Println("Failed to add key!")
+			continue
+		}
 		bodyStr := string(b)
 		if resp.StatusCode >= 300 && !strings.Contains(bodyStr, "Skykey ID already exists") {
-			log.Println("Error while adding skykeys:", bodyStr)
-			return err
+			errCtx := fmt.Sprintf("error while adding skykey %s", sk)
+			errs = append(errs, errors.AddContext(fmt.Errorf(bodyStr), errCtx))
+			fmt.Println("Failed to add key!")
+			continue
 		}
 		fmt.Println("Successfully added!")
 	}
-	return nil
+	return errors.Compose(errs...)
 }
 
-func waitUntilApiAvailable(siadIP, apipass string) error {
+func waitUntilApiAvailable(apipass string) error {
 	client := http.Client{}
 	reqBody, _ := json.Marshal(map[string]string{})
 	for {
-		req, err := http.NewRequest("GET", fmt.Sprintf("http://%s:9980/skynet/skykeys", siadIP), bytes.NewBuffer(reqBody))
+		req, err := http.NewRequest("GET", fmt.Sprintf("http://sia:9980/skynet/skykeys"), bytes.NewBuffer(reqBody))
 		if err != nil {
 			return err
 		}
@@ -99,12 +109,6 @@ func waitUntilApiAvailable(siadIP, apipass string) error {
 }
 
 func main() {
-	siadIP, ok := os.LookupEnv("SIAD_IP")
-	if !ok {
-		siadIP = "127.0.0.1"
-	}
-	fmt.Printf("Will look for siad at %s:9980\n", siadIP)
-
 	apiPass, err := apiPass()
 	if err != nil {
 		panic(err)
@@ -113,11 +117,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = waitUntilApiAvailable(siadIP, apiPass)
+	err = waitUntilApiAvailable(apiPass)
 	if err != nil {
 		panic(err)
 	}
-	err = registerKeys(siadIP, keys, apiPass)
+	err = registerKeys(keys, apiPass)
 	if err != nil {
 		panic(err)
 	}

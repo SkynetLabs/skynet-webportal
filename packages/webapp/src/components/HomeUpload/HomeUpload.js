@@ -183,7 +183,7 @@ export default function HomeUpload() {
               className="home-upload-mode-switch link"
               onClick={() => setDirectoryMode(!directoryMode)}
             >
-              {directoryMode ? "⇐ Switch back to uploading files" : "Do you want to upload an entire directory?"}
+              {directoryMode ? "⇐ Switch back to uploading files" : "Do you want to upload entire directory?"}
             </button>
             {directoryMode && (
               <p className="home-upload-directory-mode-notice">
