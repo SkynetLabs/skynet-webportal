@@ -1,0 +1,3 @@
+0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/funds-checker.py /home/user/skynet-webportal/.env
+0 0,8,16 * * * /home/user/skynet-webportal/setup-scripts/log-checker.py /home/user/skynet-webportal/.env sia 8
+0 * * * * /home/user/skynet-webportal/setup-scripts/health-checker.py /home/user/skynet-webportal/.env sia 1
