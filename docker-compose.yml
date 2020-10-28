@@ -35,8 +35,8 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.80
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
 
   pg2:
     build:
@@ -54,8 +54,8 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.81
-    expose:
-      - 6432
+    ports:
+      - "6432:5432"
     depends_on:
       - pg
 
