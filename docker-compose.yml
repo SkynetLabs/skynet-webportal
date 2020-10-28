@@ -18,21 +18,22 @@ volumes:
   webapp:
 
 services:
-  pg1:
+  pg:
     build:
       context: ./docker/pg
       dockerfile: Dockerfile
       args:
+        # TODO This is temporary. We need an automated election solution.
         master: "yes"
     container_name: pg
     restart: unless-stopped
     logging: *default-logging
     environment:
+      # TODO This password must come from an .env file. The image should refuse to start without it.
       - POSTGRES_PASSWORD=E%3~<k}N2<q*hV8cG#tkUZn7C3/X4%Q&
-      # where to find the other
+      # where to find the other. this is debug
       - OTHER_PG=10.10.10.81
     volumes:
-      # TODO This dir should be pg1 later.
       - ./docker/data/pg:/var/lib/postgresql/data
     networks:
       shared:
@@ -44,7 +45,7 @@ services:
     build:
       context: ./docker/pg
       dockerfile: Dockerfile
-    container_name: pg
+    container_name: pg2
     restart: unless-stopped
     logging: *default-logging
     environment:
@@ -59,7 +60,7 @@ services:
     expose:
       - 5432
     depends_on:
-      - pg1
+      - pg
 
 #  sia:
 #    build:

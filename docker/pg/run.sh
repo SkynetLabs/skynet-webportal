@@ -2,8 +2,8 @@
 
 # This script will get the data from the master node and replicate it locally.
 
-#if [ ! -f /var/lib/postgresql/data/pg_hba.conf ]; then
-if [ "$MASTER" = "" ]; then
+if [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
+#if [ "$MASTER" = "" ]; then
   echo "SETUP RUNNING!"
   ls -a /var/lib/postgresql/data
   whoami
@@ -18,3 +18,5 @@ else
   echo "SETUP NOT RUNNING!"
   ls -a /var/lib/postgresql/data
 fi
+
+postgres

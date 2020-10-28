@@ -3,10 +3,6 @@ FROM postgres:13 as postgres
 ARG master
 ENV MASTER=${master}
 
-# This needs to be run before anything else because it depends on an empty data dir.
-
-COPY setup_replica.sh ./
-RUN /bin/bash ./setup_replica.sh
 
 # We prepare the configs on disk. We'll move them to the data dir after we intialise it.
 # See init.sh.
@@ -24,3 +20,8 @@ COPY *.conf /var/lib/postgresql/skynet_init_conf/
 # /docker-entrypoint-initdb.d scripts fails (which will cause the entrypoint script to exit) and your orchestrator restarts
 # the container with the already initialized data directory, it will not continue on with your scripts.
 COPY init.sh init.sql /docker-entrypoint-initdb.d/
+
+# This script will check whether the node is master or replica and will initialised and start it accordingly.
+COPY run.sh ./
+
+CMD ["run.sh"]
