@@ -1,8 +1,6 @@
 FROM postgres:13 as postgres
 
-ARG master
-ENV MASTER=${master}
-
+RUN apt-get update && apt-get install -y procps vim
 
 # We prepare the configs on disk. We'll move them to the data dir after we intialise it.
 # See init.sh.
@@ -24,4 +22,4 @@ COPY init.sh init.sql /docker-entrypoint-initdb.d/
 # This script will check whether the node is master or replica and will initialised and start it accordingly.
 COPY run.sh ./
 
-CMD ["run.sh"]
+CMD ["./run.sh"]

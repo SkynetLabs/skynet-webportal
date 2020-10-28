@@ -11,6 +11,8 @@
 #echo $REPLICATION_PASSWORD | xargs createuser -U postgres repuser -P -c 5 --replication
 
 # TODO Let's try without a password, by using trust between local containers.
+echo "RUNNING init.sh"
 createuser -U postgres repuser -c 5 --replication
-mkdir -p /var/lib/postgresql/main/mnt/server/archivedir
+mkdir -p /var/lib/postgresql/data/mnt/server/archivedir
 mv /var/lib/postgresql/skynet_init_conf/* /var/lib/postgresql/data/
+echo "EXITING init.sh"

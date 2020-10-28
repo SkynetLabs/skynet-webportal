@@ -22,9 +22,6 @@ services:
     build:
       context: ./docker/pg
       dockerfile: Dockerfile
-      args:
-        # TODO This is temporary. We need an automated election solution.
-        master: "yes"
     container_name: pg
     restart: unless-stopped
     logging: *default-logging
@@ -58,7 +55,7 @@ services:
       shared:
         ipv4_address: 10.10.10.81
     expose:
-      - 5432
+      - 6432
     depends_on:
       - pg
 
