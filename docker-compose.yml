@@ -26,12 +26,10 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      # TODO This password must come from an .env file. The image should refuse to start without it.
-      - POSTGRES_PASSWORD=E%3~<k}N2<q*hV8cG#tkUZn7C3/X4%Q&
-      # where to find the other. this is debug
-      - OTHER_PG=10.10.10.81
+      - PGPASSFILE=/.pgpass
     volumes:
       - ./docker/data/pg:/var/lib/postgresql/data
+      - ./.pgpass:/.pgpass
     networks:
       shared:
         ipv4_address: 10.10.10.80
@@ -46,11 +44,10 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - POSTGRES_PASSWORD=E%3~<k}N2<q*hV8cG#tkUZn7C3/X4%Q&
-      # where to find the other
-      - OTHER_PG=10.10.10.80
+      - PGPASSFILE=/.pgpass
     volumes:
       - ./docker/data/pg2:/var/lib/postgresql/data
+      - ./.pgpass:/.pgpass
     networks:
       shared:
         ipv4_address: 10.10.10.81

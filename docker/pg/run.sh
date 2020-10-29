@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 REPL_CMD=$(cat <<-END
-pg_basebackup \
+PGPASSFILE=$PGPASSFILE pg_basebackup \
   -h pg.siasky.net \
   -D /var/lib/postgresql/data \
   -U repuser \
@@ -10,6 +10,12 @@ pg_basebackup \
   -X stream
 END
 )
+
+# Make sure the .pgpass file has the right ownership and permissions, if we're using one.
+if [[ "$PGPASSFILE" != "" && -f "$PGPASSFILE" ]]; then
+  chmod 600 $PGPASSFILE
+  chown postgres:postgres $PGPASSFILE
+fi
 
 # This script will get the data from the master node and replicate it locally.
 # This only happens if the data directory is empty.
@@ -22,7 +28,6 @@ else
   sleep 10
   echo "SETUP RUNNING!"
   echo "Will run pg_basebackup"
-  # TODO I still need to figure out how to pass a password here. We can't use trust across hosts.
   su - postgres -c "$REPL_CMD"
 
   # Remove the data on error, so a container restart will start from scratch
