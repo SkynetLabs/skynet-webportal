@@ -8,6 +8,7 @@ PGPASSFILE=$PGPASSFILE pg_basebackup \
   -v \
   -R \
   -X stream
+  --write-recovery-conf
 END
 )
 
