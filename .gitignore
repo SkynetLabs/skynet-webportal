@@ -75,6 +75,9 @@ packages/webapp/cypress/videos
 # Docker data
 docker/data
 
+# Docker override
+docker-compose.override.yml
+
 # Cache files
 __pycache__
 /.idea/
