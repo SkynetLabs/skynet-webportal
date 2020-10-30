@@ -65,7 +65,7 @@ At this point we have almost everything running, we just need to set up your wal
    1. 10 KS (keep 25 KS in your wallet)
    1. default period
    1. default number of hosts
-   1. 8 week renewal time
+   1. 4 week renewal time
    1. 500 GB expected storage
    1. 500 GB expected upload
    1. 5 TB expected download
