@@ -1,7 +1,6 @@
 version: "3.7"
 
-x-logging:
-  &default-logging
+x-logging: &default-logging
   driver: json-file
   options:
     max-size: "10m"
@@ -23,7 +22,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
-        branch: v1.5.0
+        branch: v1.5.1
     container_name: sia
     restart: unless-stopped
     logging: *default-logging
