@@ -85,13 +85,11 @@ const resolveDomainHandler = async (req, res) => {
 };
 
 // Checks if the given string is a valid Sia link.
-function isValidSkylink(link) {
-  if (!link || link.length === 0) {
-    return false;
-  }
-  return Boolean(link.match(startsWithSkylinkRegExp));
+function isValidSkylink(value) {
+  return Boolean(value && value.match(startsWithSkylinkRegExp));
 }
 
+// Checks if given string is a valid skynet registry entry
 function isValidRegistryEntry(value) {
   return Boolean(value && value.match(registryEntryRegExp));
 }
