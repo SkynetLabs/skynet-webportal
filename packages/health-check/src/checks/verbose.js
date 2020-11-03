@@ -544,7 +544,7 @@ const developMomentumMetadata = require("../fixtures/developMomentumMetadata.jso
 // for the Develop Momentum Application
 function developMomentumCheck(done) {
   const linkInfo = {
-    description: "Develop Momentum Index File",
+    name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/",
     bodyHash: developMomentumBodyHash,
     metadata: developMomentumMetadata,
@@ -557,7 +557,7 @@ function developMomentumCheck(done) {
 // for the Develop Momentum Application without the tailing slash
 function developMomentumRedirectCheck(done) {
   const linkInfo = {
-    description: "Develop Momentum Index File",
+    name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
     bodyHash: developMomentumBodyHash,
     metadata: developMomentumMetadata,
@@ -799,7 +799,7 @@ const uniswapMetadata = require("../fixtures/uniswapMetadata.json");
 // for the Uniswap Application
 function uniswapCheck(done) {
   const linkInfo = {
-    description: "Uniswap",
+    name: "Uniswap",
     skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/",
     bodyHash: uniswapBodyHash,
     metadata: uniswapMetadata,
@@ -812,7 +812,7 @@ function uniswapCheck(done) {
 // for the Uniswap Application without a trailing slash
 function uniswapRedirectCheck(done) {
   const linkInfo = {
-    description: "Uniswap",
+    name: "Uniswap",
     skylink: "IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w",
     bodyHash: uniswapBodyHash,
     metadata: uniswapMetadata,
@@ -842,7 +842,7 @@ function uniswapIndexFileCheck(done) {
 // for the Uniswap Application with the HNS domain
 function uniswapHNSCheck(done) {
   const linkInfo = {
-    description: "Uniswap HNS",
+    name: "Uniswap HNS",
     skylink: "hns/uniswap-dex/",
     bodyHash: uniswapBodyHash,
     metadata: uniswapMetadata,
@@ -855,7 +855,7 @@ function uniswapHNSCheck(done) {
 // for the Uniswap Application with the HNS domain and without a trailing slash
 function uniswapHNSRedirectCheck(done) {
   const linkInfo = {
-    description: "Uniswap HNS Redirect",
+    name: "Uniswap HNS Redirect",
     skylink: "hns/uniswap-dex",
     bodyHash: uniswapBodyHash,
     metadata: uniswapMetadata,
@@ -868,7 +868,7 @@ function uniswapHNSRedirectCheck(done) {
 // for the Uniswap Application via the HNS resolver endpoint
 function uniswapHNSResolverCheck(done) {
   const linkInfo = {
-    description: "Uniswap HNS Resolver",
+    name: "Uniswap HNS Resolver",
     skylink: "hnsres/uniswap-dex/",
     bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
   };
@@ -881,7 +881,7 @@ function uniswapHNSResolverCheck(done) {
 // trailing slash
 function uniswapHNSResolverRedirectCheck(done) {
   const linkInfo = {
-    description: "Uniswap HNS Resolver Redirect",
+    name: "Uniswap HNS Resolver Redirect",
     skylink: "hnsres/uniswap-dex",
     bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
   };
