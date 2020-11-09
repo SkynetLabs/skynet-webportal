@@ -22,7 +22,7 @@ const cache = new NodeCache({ stdTTL: 300 }); // cache for 5 minutes
 
 // Match both `sia://HASH` and `HASH` links.
 const startsWithSkylinkRegExp = /^(sia:\/\/)?[a-zA-Z0-9_-]{46}/;
-const registryEntryRegExp = /^skydb:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
+const registryEntryRegExp = /^skyns:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
 
 const getDomainRecords = async (name) => {
   if (cache.has(name)) return cache.get(name);
