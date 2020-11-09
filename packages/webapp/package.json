@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Nebulous",
   "dependencies": {
-    "axios": "0.20.0",
+    "axios": "0.21.0",
     "bytes": "3.1.0",
     "classnames": "2.2.6",
     "fontsource-metropolis": "3.0.1",
