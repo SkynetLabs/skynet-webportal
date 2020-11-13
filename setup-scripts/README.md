@@ -23,7 +23,7 @@ You may want to fork this repository and replace ssh keys in
   - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
   - [health-checker](health-checker.py): script that monitors health-check service for server health issues and reports them to discord periodically
   - [log-checker](log-checker.py): script that scans siad logs for critical errors and reports them to discord periodically
-- [blacklist-skylink](../scripts/blacklist-skylink.sh): script that can be run locally from a machine that has access to all your skynet portal servers that blacklists provided skylink and prunes nginx cache to ensure it's not available any more (that is a bit much but that's the best we can do right now without paid nginx version) - if you want to use it, make sure to adjust the server addresses
+- [blocklist-skylink](../scripts/blocklist-skylink.sh): script that can be run locally from a machine that has access to all your skynet portal servers that blocklists provided skylink and prunes nginx cache to ensure it's not available any more (that is a bit much but that's the best we can do right now without paid nginx version) - if you want to use it, make sure to adjust the server addresses
 
 ### Step 1: setting up server user
 
