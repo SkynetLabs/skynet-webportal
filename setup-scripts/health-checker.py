@@ -254,7 +254,7 @@ async def check_alerts():
         force_notify = True
     
     message += "{} Warning Alerts found. ".format(len(warning_alerts))
-    message += "{} SiaFile Alerts found. ".format(len(siafile_alerts))
+    message += "{} SiaFiles with bad health found. ".format(len(siafile_alerts))
 
     alerts_file = None 
     if len(alerts) > 0:
