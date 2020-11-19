@@ -46,6 +46,7 @@ async def run_checks():
         await check_load_average()
         await check_disk()
         await check_health()
+        await check_alerts()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
@@ -208,6 +209,61 @@ async def check_health():
     if force_notify or failed_records_file or datetime.utcnow().hour == 1:
         return await send_msg(
             client, message, file=failed_records_file, force_notify=force_notify
+        )
+
+# check_alerts checks the alerts returned from siad's daemon/alerts API
+async def check_alerts():
+    print("\nChecking portal siad alerts...")
+
+    try:
+        alerts_res = requests.get("http://localhost:9980/daemon/alerts",headers={"User-Agent":"Sia-Agent"}, verify=False)
+        alerts_json = alerts_res.json()
+    except:
+        trace = traceback.format_exc()
+        print("[DEBUG] check_alerts() failed.")
+        return await send_msg(
+            client, "Failed to run the checks!", file=trace, force_notify=True
+        )
+
+    alerts =  alerts_json['alerts']
+    critical_alerts =  alerts_json['criticalalerts']
+    error_alerts =  alerts_json['erroralerts']
+    warning_alerts =  alerts_json['warningalerts']
+    siafile_alerts = []
+    siafile_alert_message = "The SiaFile mentioned in the 'Cause' is below 75% redundancy"
+
+    # Check for siafile alerts in alerts. This is so that the alert severity
+    # can change and this doesn't need to be updated
+    for alert in alerts:
+        if alert['msg'] == siafile_alert_message:
+            siafile_alerts.append(alert)
+
+
+    ################################################################################
+    ################ create a message
+    ################################################################################
+
+    message = ""
+    force_notify = False
+
+    if len(critical_alerts) > 0:
+        message += "{} CRITICAL Alerts found! ".format(len(critical_alerts))
+        force_notify = True
+    if len(error_alerts) > 0:
+        message += "{} Error Alerts found! ".format(len(error_alerts))
+        force_notify = True
+    
+    message += "{} Warning Alerts found. ".format(len(warning_alerts))
+    message += "{} SiaFiles with bad health found. ".format(len(siafile_alerts))
+
+    alerts_file = None 
+    if len(alerts) > 0:
+        alerts_file = json.dumps(alerts, indent=2)
+
+    # send a message if we force notification, or just once daily (heartbeat) on 1 AM
+    if force_notify or datetime.utcnow().hour == 1:
+        return await send_msg(
+            client, message, file=alerts_file, force_notify=force_notify
         )
 
 
