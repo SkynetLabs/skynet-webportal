@@ -1,4 +1,4 @@
-# Add a list of IPs here that should be severaly rate limited on upload.
+# Add a list of IPs here that should be severely rate limited on upload.
 # Note that it is possible to add IP ranges as well as the full IP address.
 #
 # Examples:
