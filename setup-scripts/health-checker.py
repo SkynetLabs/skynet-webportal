@@ -1,14 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio
-import json
-import os
-import re
-import sys
-import traceback
-import discord
-import requests
-import time
+import asyncio, json, os, re, sys, traceback, discord, requests, time
 from datetime import datetime, timedelta
 from bot_utils import setup, send_msg
 
@@ -233,8 +225,6 @@ def contains_string(string_to_check, string_to_find):
     return string_to_find in string_to_check
 
 # check_alerts checks the alerts returned from siad's daemon/alerts API
-
-
 async def check_alerts():
     print("\nChecking portal siad alerts...")
 
@@ -302,8 +292,6 @@ async def check_alerts():
 
 # check_portal_size checks the number of files that the portal is managing to
 # determine if it is time to rotate it out
-
-
 async def check_portal_size():
     print("\nChecking portal size...")
 
