@@ -18,6 +18,11 @@ health-checker reads the /health-check endpoint of the portal and dispatches
 messages to a Discord channel.
 """
 
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
+
 # Get the number of hours to look back in the logs or use 1 as default.
 CHECK_HOURS = 1
 if len(sys.argv) > 3:
@@ -133,7 +138,6 @@ async def check_disk():
 async def check_health():
     print("\nChecking portal health status...")
 
-
     try:
         res_check = requests.get("http://localhost/health-check", verify=False)
         json_check = res_check.json()
@@ -238,11 +242,6 @@ def contains_string(string_to_check, string_to_find):
 # check_alerts checks the alerts returned from siad's daemon/alerts API
 async def check_alerts():
     print("\nChecking portal siad alerts...")
-
-
-    CONTAINER_NAME = "sia"
-    if len(sys.argv) > 2:
-        CONTAINER_NAME = sys.argv[2]
 
     # Execute siac alerts and read the response
     cmd_string = "docker exec {} siac alerts".format(CONTAINER_NAME)
