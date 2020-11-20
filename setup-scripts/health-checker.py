@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
-import asyncio, json, os, re, sys, traceback, discord, requests, time
+import asyncio
+import json
+import os
+import re
+import sys
+import time
+import traceback
 from datetime import datetime, timedelta
+
+import discord
+import requests
 from bot_utils import setup, send_msg
 
 """
@@ -124,6 +133,7 @@ async def check_disk():
 async def check_health():
     print("\nChecking portal health status...")
 
+
     try:
         res_check = requests.get("http://localhost/health-check", verify=False)
         json_check = res_check.json()
@@ -224,15 +234,18 @@ async def check_health():
 def contains_string(string_to_check, string_to_find):
     return string_to_find in string_to_check
 
+
 # check_alerts checks the alerts returned from siad's daemon/alerts API
 async def check_alerts():
     print("\nChecking portal siad alerts...")
 
+
+    CONTAINER_NAME = "sia"
+    if len(sys.argv) > 2:
+        CONTAINER_NAME = sys.argv[2]
+
     # Execute siac alerts and read the response
-    # TODO: is the container name always `sia` for production servers? Is it
-    # only changed to the server name when it it is moved to Maintenance? Will
-    # this just never check the alerts on the maintenance servers?
-    cmd_string = "docker exec sia siac alert"
+    cmd_string = "docker exec {} siac alerts".format(CONTAINER_NAME)
     siac_alert_output = os.popen(cmd_string).read().strip()
 
     # Initialize variables
@@ -252,19 +265,19 @@ async def check_alerts():
     # Split the output by line and check for type of alert and siafile alerts
     for line in siac_alert_output.split("\n"):
         # Check for the type of alert
-        if contains_string(lin, critical):
-            num_critical_alerts++
-        if contains_string(lin, error):
-            num_error_alerts++
-        if contains_string(lin, warning):
-            num_warning_alerts++
+        if contains_string(line, critical):
+            num_critical_alerts += 1
+        if contains_string(line, error):
+            num_error_alerts += 1
+        if contains_string(line, warning):
+            num_warning_alerts += 1
 
         # Check for siafile alerts in alerts. This is so that the alert
         # severity can change and this doesn't need to be updated
         if contains_string(line, siafile_alert_message):
-            num_siafile_alerts++
-        if contains_string(line, health_of)
-        siafile_alerts.append(line)
+            num_siafile_alerts += 1
+        if contains_string(line, health_of):
+            siafile_alerts.append(line)
 
     ################################################################################
     # create a message
@@ -289,6 +302,7 @@ async def check_alerts():
         return await send_msg(
             client, message, file=siac_alert_output, force_notify=force_notify
         )
+
 
 # check_portal_size checks the number of files that the portal is managing to
 # determine if it is time to rotate it out
@@ -331,5 +345,6 @@ async def check_portal_size():
         return await send_msg(
             client, message, force_notify=force_notify
         )
+
 
 client.run(bot_token)
