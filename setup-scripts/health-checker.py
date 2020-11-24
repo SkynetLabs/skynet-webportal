@@ -290,7 +290,6 @@ async def check_alerts():
         force_notify = True
     if num_error_alerts > 0:
         message += "{} Error Alerts found! ".format(num_error_alerts)
-        force_notify = num_error_alerts > num_siafile_alerts
 
     message += "{} Warning Alerts found. ".format(num_warning_alerts)
     message += "{} SiaFiles with bad health found. ".format(num_siafile_alerts)
