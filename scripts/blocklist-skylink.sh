@@ -14,13 +14,15 @@ skylinks=()
 if test -f "$1"; then
     OLDIFS=$IFS
     IFS=','
+    line_number=1
     while read line
     do
         if [[ $line =~ ([a-zA-Z0-9_-]{46}) ]]; then
             skylinks+=("$BASH_REMATCH")
         else
-            echo "Incorrect skylink: $line" && exit 1
+            echo "Incorrect skylink at line ${line_number}: $line" && exit 1
         fi
+        let line_number+=1
     done < $1;
     IFS=$OLDIFS
 else
