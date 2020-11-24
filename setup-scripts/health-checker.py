@@ -335,12 +335,13 @@ async def check_portal_size():
 
     if num_files > max_files:
         message += "Portal has {} files! Consider rotating! ".format(num_files)
-        force_notify = True
+        # send notification when above 40% of the limit
+        force_notify = num_files > max_files * 1.4
     else:
         message += "Portal has {} files. ".format(num_files)
 
     # send a message if we force notification, or just once daily (heartbeat) on 1 AM
-    if force_notify or datetime.utcnow().hour == 1:
+    if force_notify and datetime.utcnow().hour == 1:
         return await send_msg(
             client, message, force_notify=force_notify
         )
