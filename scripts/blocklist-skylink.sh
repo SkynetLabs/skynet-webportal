@@ -44,7 +44,7 @@ do
     ######################################################
     # purge nginx cache after all the skylinks are blocked
     ######################################################
-    ssh -q -t user@${server} 'rm -rf /home/user/skynet_webportal/docker/data/nginx/cache'
+    ssh -q -t user@${server} 'docker exec nginx sh -c "rm -rf /data/nginx/cache/*"'
     echo ".... 🗑️ Pruned nginx cache on ${server}"
 done
 
