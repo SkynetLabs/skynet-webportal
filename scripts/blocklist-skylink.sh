@@ -3,7 +3,7 @@
 set -e # exit on first error
 
 if [ -z "$1" ]; then
-    echo "Please provide either a skylink or file with skylinks separated by blank lines" && exit 1
+    echo "Please provide either a skylink or file with skylinks separated by new lines" && exit 1
 fi
 
 #########################################################
