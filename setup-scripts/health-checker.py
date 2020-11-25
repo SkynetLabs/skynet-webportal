@@ -1,13 +1,27 @@
 #!/usr/bin/env python3
 
-import asyncio, json, os, re, sys, traceback, discord, requests, time
+import asyncio
+import json
+import os
+import re
+import sys
+import time
+import traceback
 from datetime import datetime, timedelta
+
+import discord
+import requests
 from bot_utils import setup, send_msg
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
 messages to a Discord channel.
 """
+
+# Get the container name as an argument or use "sia" as default.
+CONTAINER_NAME = "sia"
+if len(sys.argv) > 2:
+    CONTAINER_NAME = sys.argv[2]
 
 # Get the number of hours to look back in the logs or use 1 as default.
 CHECK_HOURS = 1
@@ -47,6 +61,7 @@ async def run_checks():
         await check_disk()
         await check_health()
         await check_alerts()
+        await check_portal_size()
     except:
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
@@ -68,7 +83,8 @@ async def check_load_average():
         pattern = "^.*load average: \d*\.\d*, \d*\.\d*, (\d*\.\d*)$"
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
-        message = "High system load detected in uptime output: {}".format(uptime_string)
+        message = "High system load detected in uptime output: {}".format(
+            uptime_string)
         await send_msg(client, message, force_notify=True)
 
 
@@ -78,6 +94,7 @@ async def check_disk():
     # We check free disk space in 1024 byte units, so it's easy to convert.
     df = os.popen("df --block-size=1024").read().strip()
     volumes = {}
+    # Iterate over the output, ignoring the header line
     for line in df.split("\n")[1:]:
         fields = list(filter(None, line.split(" ")))
         # -1 is "mounted on", 3 is "available space" in KiB which we want in bytes
@@ -95,17 +112,19 @@ async def check_disk():
         message = "Failed to check free disk space! Didn't find a suitable mount point to check."
         return await send_msg(client, message, file=df)
 
-    # if we've reached a critical free disk space threshold we need to send proper notice 
+    # if we've reached a critical free disk space threshold we need to send proper notice
     # and shut down sia container so it doesn't get corrupted
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD_CRITICAL:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
-        message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(free_space_gb)
+        message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(
+            free_space_gb)
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
         if inspect_json[0]["State"]["Running"] == True:
-            os.popen("docker exec health-check cli/disable") # mark portal as unhealthy
-            time.sleep(300) # wait 5 minutes to propagate dns changes
-            os.popen("docker stop sia") # stop sia container
+            # mark portal as unhealthy
+            os.popen("docker exec health-check cli/disable")
+            time.sleep(300)  # wait 5 minutes to propagate dns changes
+            os.popen("docker stop sia")  # stop sia container
         return await send_msg(client, message, force_notify=True)
 
     # if we're reached a free disk space threshold we need to send proper notice
@@ -173,7 +192,7 @@ async def check_health():
             failed_records.append(verbose)
 
     ################################################################################
-    ################ create a message
+    # create a message
     ################################################################################
 
     message = ""
@@ -192,7 +211,8 @@ async def check_health():
         )
         force_notify = True
     else:
-        message += "All {} critical checks passed. ".format(critical_checks_total)
+        message += "All {} critical checks passed. ".format(
+            critical_checks_total)
 
     if verbose_checks_failed:
         message += "{}/{} verbose checks failed over the last {} hours! ".format(
@@ -200,7 +220,8 @@ async def check_health():
         )
         force_notify = True
     else:
-        message += "All {} verbose checks passed. ".format(verbose_checks_total)
+        message += "All {} verbose checks passed. ".format(
+            verbose_checks_total)
 
     if len(failed_records):
         failed_records_file = json.dumps(failed_records, indent=2)
@@ -211,59 +232,120 @@ async def check_health():
             client, message, file=failed_records_file, force_notify=force_notify
         )
 
+
+# contains_string is a simple helper to check if a string contains a string.
+# This is faster and easier than regex for word comparisons
+def contains_string(string_to_check, string_to_find):
+    return string_to_find in string_to_check
+
+
 # check_alerts checks the alerts returned from siad's daemon/alerts API
 async def check_alerts():
     print("\nChecking portal siad alerts...")
 
-    try:
-        alerts_res = requests.get("http://localhost:9980/daemon/alerts",headers={"User-Agent":"Sia-Agent"}, verify=False)
-        alerts_json = alerts_res.json()
-    except:
-        trace = traceback.format_exc()
-        print("[DEBUG] check_alerts() failed.")
-        return await send_msg(
-            client, "Failed to run the checks!", file=trace, force_notify=True
-        )
+    # Execute siac alerts and read the response
+    cmd_string = "docker exec {} siac alerts".format(CONTAINER_NAME)
+    siac_alert_output = os.popen(cmd_string).read().strip()
 
-    alerts =  alerts_json['alerts']
-    critical_alerts =  alerts_json['criticalalerts']
-    error_alerts =  alerts_json['erroralerts']
-    warning_alerts =  alerts_json['warningalerts']
+    # Initialize variables
+    num_critical_alerts = 0
+    num_error_alerts = 0
+    num_warning_alerts = 0
+    num_siafile_alerts = 0
     siafile_alerts = []
+
+    # Pattern strings to search for
+    critical = 'Severity: critical'
+    error = 'Severity: error'
+    warning = 'Severity: warning'
+    health_of = 'has a health of'
     siafile_alert_message = "The SiaFile mentioned in the 'Cause' is below 75% redundancy"
 
-    # Check for siafile alerts in alerts. This is so that the alert severity
-    # can change and this doesn't need to be updated
-    for alert in alerts:
-        if alert['msg'] == siafile_alert_message:
-            siafile_alerts.append(alert)
+    # Split the output by line and check for type of alert and siafile alerts
+    for line in siac_alert_output.split("\n"):
+        # Check for the type of alert
+        if contains_string(line, critical):
+            num_critical_alerts += 1
+        if contains_string(line, error):
+            num_error_alerts += 1
+        if contains_string(line, warning):
+            num_warning_alerts += 1
 
+        # Check for siafile alerts in alerts. This is so that the alert
+        # severity can change and this doesn't need to be updated
+        if contains_string(line, siafile_alert_message):
+            num_siafile_alerts += 1
+        if contains_string(line, health_of):
+            siafile_alerts.append(line)
 
     ################################################################################
-    ################ create a message
+    # create a message
     ################################################################################
 
     message = ""
     force_notify = False
 
-    if len(critical_alerts) > 0:
-        message += "{} CRITICAL Alerts found! ".format(len(critical_alerts))
+    if num_critical_alerts > 0:
+        message += "{} CRITICAL Alerts found! ".format(num_critical_alerts)
         force_notify = True
-    if len(error_alerts) > 0:
-        message += "{} Error Alerts found! ".format(len(error_alerts))
-        force_notify = True
-    
-    message += "{} Warning Alerts found. ".format(len(warning_alerts))
-    message += "{} SiaFiles with bad health found. ".format(len(siafile_alerts))
+    if num_error_alerts > 0:
+        message += "{} Error Alerts found! ".format(num_error_alerts)
 
-    alerts_file = None 
-    if len(alerts) > 0:
-        alerts_file = json.dumps(alerts, indent=2)
+    # Subtract out the siafile alerts from the warning alerts since we announce
+    # them separately
+    num_warning_alerts -= num_siafile_alerts
+    message += "{} Warning Alerts found. ".format(num_warning_alerts)
+    message += "{} SiaFiles with bad health found. ".format(num_siafile_alerts)
+
+    # send a message if we force notification, or just once daily (heartbeat)
+    # on 1 AM
+    if force_notify or datetime.utcnow().hour == 1:
+        return await send_msg(
+            client, message, file=siac_alert_output, force_notify=force_notify
+        )
+
+
+# check_portal_size checks the number of files that the portal is managing to
+# determine if it is time to rotate it out
+async def check_portal_size():
+    print("\nChecking portal size...")
+
+    # Execute siac renter to check the size of the portal
+    #
+    # NOTE: we should leave this as always trying to execute the docker command
+    # against the sia container as this will then fail for maintenance severs
+    # were we don't care about this check.
+    cmd_string = "docker exec sia siac renter"
+    siac_renter_output = os.popen(cmd_string).read().strip()
+
+    # Initialize variables
+    num_files = 0
+    max_files = 250000
+    files_text = "Files"
+    for line in siac_renter_output.split("\n"):
+        if contains_string(line, files_text):
+            for el in line.split():
+                if el.isdigit():
+                    num_files = int(el)
+
+    ################################################################################
+    # create a message
+    ################################################################################
+
+    message = ""
+    force_notify = False
+
+    if num_files > max_files:
+        message += "Portal has {} files! Consider rotating! ".format(num_files)
+        # send notification when above 40% of the limit
+        force_notify = num_files > max_files * 1.4
+    else:
+        message += "Portal has {} files. ".format(num_files)
 
     # send a message if we force notification, or just once daily (heartbeat) on 1 AM
     if force_notify or datetime.utcnow().hour == 1:
         return await send_msg(
-            client, message, file=alerts_file, force_notify=force_notify
+            client, message, force_notify=force_notify
         )
 
 
