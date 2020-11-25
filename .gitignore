@@ -74,6 +74,8 @@ packages/webapp/cypress/videos
 
 # Docker data
 docker/data
+docker/nginx/conf.d/include/ratelimited/*
+!docker/nginx/conf.d/include/ratelimited/example
 
 # Docker override
 docker-compose.override.yml
