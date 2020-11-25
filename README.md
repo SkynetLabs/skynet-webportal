@@ -19,11 +19,12 @@ List of available parameters:
 
 Mongo needs a couple of extra steps in order to start a secure cluster.
 
-* Open port 27017 to all nodes that will take part in the cluster.
+* Open port 27017 on all nodes that will take part in the cluster. Ideally, you
+would only open the port for the other nodes in the cluster.
 * Manually run an initialisation `docker run` with extra environment variables 
 that will initialise the admin user with a password (example below).
 * Manually add a `mgkey` file under `./docker/data/mongo` with the respective 
-secret (see Mongo's keyfile access control for details).
+secret (see [Mongo's keyfile access control](https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/) for details).
 * During the initialisation run mentioned above, we need to make two extra steps 
 within the container:
     * Change the ownership of `mgkey` to `mongodb:mongodb`
@@ -58,8 +59,8 @@ rs.initiate(
   {
     _id : "skynet",
     members: [
-      { _id : 0, host : "helsinki.siasky.net:27017" },
-      { _id : 1, host : "us-va-1.siasky.net:27017" },
+      { _id : 0, host : "mongo0.example.com:27017" },
+      { _id : 1, host : "mongo1.example.com:27017" },
     ]
   }
 )
