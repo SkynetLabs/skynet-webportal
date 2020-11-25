@@ -1,6 +1,4 @@
 # Add a list of IPs here that should be severely rate limited on upload.
-# Every file in this directory will be included.
-#
 # Note that it is possible to add IP ranges as well as the full IP address.
 #
 # Examples:
