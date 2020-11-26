@@ -78,6 +78,10 @@ docker/data
 # Docker override
 docker-compose.override.yml
 
+# Nginx custom server overrides
+docker/nginx/conf.d/server-override/*
+!docker/nginx/conf.d/server-override/example
+
 # Cache files
 __pycache__
 /.idea/

@@ -1,0 +1,7 @@
+# Every file from within this directory will be included in the server block
+# of the nginx configuration, at the very end. See client.conf.
+#
+# Example:
+# location /blog {
+#     root /var/www/blog;
+# }
