@@ -64,7 +64,9 @@ async def check_funds():
 
     # Send an alert if there is less than 1 allowance worth of money left.
     if balance < allowance_funds:
-        message = "__Wallet balance running low!__ {}".format(balance_msg)
+        wallet_address_res = siad.get("/wallet/address")
+        wallet_msg = "Address: {}".format(wallet_address_res["address"])
+        message = "__Wallet balance running low!__ {} {}".format(balance_msg, wallet_msg)
         return await send_msg(client, message, force_notify=True)
 
     # Alert devs when only a fraction of the allowance is remaining.
