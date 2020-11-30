@@ -162,6 +162,14 @@ class siad:
         return json.loads(resp.decode("utf-8"))
 
     @staticmethod
+    def get(endpoint):
+        if not setup_done:
+            setup()
+
+        resp = urllib.request.urlopen(api_endpoint + endpoint).read()
+        return siad.load_json(resp)
+
+    @staticmethod
     def get_wallet():
         if not setup_done:
             setup()
