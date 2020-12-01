@@ -200,7 +200,6 @@ async def check_health():
 
     if json_check["disabled"]:
         message += "__Portal manually disabled!__ "
-        force_notify = True
     elif res_check.status_code is not requests.codes["ok"]:
         message += "__Portal down!!!__ "
         force_notify = True
@@ -227,7 +226,7 @@ async def check_health():
         failed_records_file = json.dumps(failed_records, indent=2)
 
     # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
-    if force_notify or failed_records_file or datetime.utcnow().hour == 1:
+    if force_notify or json_check["disabled"] or failed_records_file or datetime.utcnow().hour == 1:
         return await send_msg(
             client, message, file=failed_records_file, force_notify=force_notify
         )
