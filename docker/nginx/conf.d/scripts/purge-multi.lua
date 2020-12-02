@@ -46,11 +46,8 @@ function exec(cmd)
     return trim(result)
 end
 
-function list_files(cache_path, purge_upstream, purge_pattern)
-    ngx.log(ngx.STDERR, ">>>>>>" .. ngx.var.uri .. "<<<<<<<")
-    ngx.log(ngx.STDERR, ">>>>>>" .. ngx.var.request_uri .. "<<<<<<<")
-
-    local result = exec("/usr/bin/find " .. cache_path .. " -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El -m 1 '^KEY: " .. purge_upstream .. purge_pattern .. "' 2>&1")
+function list_files(cache_path, purge_pattern)
+    local result = exec("/usr/bin/find " .. cache_path .. " -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El -m 1 '^KEY: " .. purge_pattern .. "' 2>&1")
     if result == "" then
             return {}
     end
@@ -58,8 +55,8 @@ function list_files(cache_path, purge_upstream, purge_pattern)
 end
 
 if ngx ~= nil then
-    -- list all cached items matching upstream+request_uri (extended regex)
-    local files = list_files(ngx.var.lua_purge_path, ngx.var.lua_purge_upstream, ngx.var.request_uri)
+    -- list all cached items matching uri
+    local files = list_files(ngx.var.lua_purge_path, ngx.var.uri)
 
     ngx.header["Content-type"] = "text/plain; charset=utf-8"
     ngx.header["X-Purged-Count"] = table.getn(files)
