@@ -29,25 +29,17 @@ else
     skylinks=("$1") # just single skylink passed as input argument
 fi
 
-####################################################
-# iterate through all servers and block the skylinks
-####################################################
+#########################################################################
+# iterate through all servers, block the skylinks and purge it from cache
+#########################################################################
 for server in "germany.siasky.net" "helsinki.siasky.net" "us-west.siasky.net" "us-va-1.siasky.net" "us-pa-1.siasky.net" "us-pa-2.siasky.net" "siasky.xyz";
 do
-    #############################################################
-    # iterate throught all skylinks and add each one to blocklist
-    #############################################################
     for skylink in "${skylinks[@]}";
     do
         echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
-        ssh -q -t user@${server} 'docker exec sia siac skynet blocklist add '$skylink''
-    done
 
-    ######################################################
-    # purge nginx cache after all the skylinks are blocked
-    ######################################################
-    ssh -q -t user@${server} 'docker exec nginx sh -c "rm -rf /data/nginx/cache/*"'
-    echo ".... 🗑️ Pruned nginx cache on ${server}"
+        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add $skylink && docker exec nginx curl -s -i -X PURGE http://localhost/$skylink | egrep \"^(OK|HTTP|X-)\""
+    done
 done
 
 echo "✓ All done !"
