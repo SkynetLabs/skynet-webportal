@@ -47,7 +47,8 @@ function exec(cmd)
 end
 
 function list_files(cache_path, purge_upstream, purge_pattern)
-    ngx.log(ngx.STDERR, ngx.var.uri)
+    ngx.log(ngx.STDERR, ">>>>>>" .. ngx.var.uri .. "<<<<<<<")
+    ngx.log(ngx.STDERR, ">>>>>>" .. ngx.var.request_uri .. "<<<<<<<")
 
     local result = exec("/usr/bin/find " .. cache_path .. " -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El -m 1 '^KEY: " .. purge_upstream .. purge_pattern .. "' 2>&1")
     if result == "" then
