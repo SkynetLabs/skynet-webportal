@@ -174,3 +174,78 @@ services:
         ipv4_address: 10.10.10.70
     ports:
       - "27017:27017"
+
+  kratos-migrate:
+    image: oryd/kratos:v0.5.4-alpha.1
+    container_name: kratos-migrate
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+    volumes:
+      - ./docker/kratos/config:/etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    networks:
+      shared:
+        ipv4_address: 10.10.10.80
+
+  kratos:
+    image: oryd/kratos:v0.5.4-alpha.1
+    container_name: kratos
+    restart: unless-stopped
+    logging: *default-logging
+    expose:
+      - 4433 # public
+      - 4434 # admin
+    environment:
+      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+      - LOG_LEVEL=trace
+    command: serve -c /etc/config/kratos/kratos.yml
+    volumes:
+      - ./docker/kratos/config:/etc/config/kratos
+    networks:
+      shared:
+        ipv4_address: 10.10.10.81
+    depends_on:
+      - kratos-migrate
+
+  kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
+    container_name: kratos-selfservice-ui-node
+    restart: unless-stopped
+    logging: *default-logging
+    expose:
+      - 4455
+    environment:
+      - PORT=4455
+      - SECURITY_MODE=
+      - BASE_URL=https://siasky.net/secure/
+      - KRATOS_BROWSER_URL=https://siasky.net/secure/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_ADMIN_URL=http://kratos:4434/
+    networks:
+      shared:
+        ipv4_address: 10.10.10.82
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    container_name: mailslurper
+    restart: unless-stopped
+    logging: *default-logging
+    expose:
+      - 4436
+      - 4437
+    networks:
+      shared:
+        ipv4_address: 10.10.10.85
+
+  mysqld:
+    image: mysql:5.7
+    container_name: mysqld
+    expose:
+      - 3306
+    env_file:
+      - .env
+    networks:
+      shared:
+        ipv4_address: 10.10.10.90

@@ -83,6 +83,7 @@ At this point we have almost everything running, we just need to set up your wal
    - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
+   - `MYSQL_ROOT_PASSWORD` (optional) if you're integrating accounts - it's the database password for accounts management
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `docker-compose up -d` to restart the services so they pick up new env variables
