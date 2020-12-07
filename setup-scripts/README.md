@@ -19,6 +19,7 @@ You may want to fork this repository and replace ssh keys in
   - [handshake](https://handshake.org) ([github](https://github.com/handshake-org/hsd)): full handshake node
   - [handshake-api](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/handshake-api/README.md)
   - [webapp](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/webapp): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/webapp/README.md)
+  - [kratos](https://www.ory.sh/kratos/): user account management system
 - discord integration
   - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
   - [health-checker](health-checker.py): script that monitors health-check service for server health issues and reports them to discord periodically
@@ -88,6 +89,7 @@ At this point we have almost everything running, we just need to set up your wal
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
+1. add your custom Kratos configuration to `/home/user/skynet-webportal/.kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control).
 
 ## Subdomains
 

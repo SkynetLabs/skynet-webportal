@@ -219,8 +219,8 @@ services:
     environment:
       - PORT=4455
       - SECURITY_MODE=
-      - BASE_URL=https://siasky.net/secure/
-      - KRATOS_BROWSER_URL=https://siasky.net/secure/
+      - BASE_URL=https://${DOMAIN_NAME}/secure/
+      - KRATOS_BROWSER_URL=https://${DOMAIN_NAME}/secure/
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
     networks:
