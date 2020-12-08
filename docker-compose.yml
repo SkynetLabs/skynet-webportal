@@ -15,6 +15,7 @@ networks:
 
 volumes:
   webapp:
+  kratos-sqlite:
 
 services:
   sia:
@@ -178,10 +179,10 @@ services:
   kratos-migrate:
     image: oryd/kratos:v0.5.4-alpha.1
     container_name: kratos-migrate
-    restart: unless-stopped
+    restart: on-failure
     logging: *default-logging
     environment:
-      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
@@ -198,7 +199,7 @@ services:
       - 4433 # public
       - 4434 # admin
     environment:
-      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - LOG_LEVEL=trace
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
@@ -219,21 +220,20 @@ services:
     environment:
       - PORT=4455
       - SECURITY_MODE=
-      - BASE_URL=https://${DOMAIN_NAME}/secure/
-      - KRATOS_BROWSER_URL=https://${DOMAIN_NAME}/secure/
+      - BASE_URL=https://login.siasky.net/secure/
+      - KRATOS_BROWSER_URL=https://login.siasky.net/secure/
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
     networks:
       shared:
         ipv4_address: 10.10.10.82
 
-  mysqld:
-    image: mysql:5.7
-    container_name: mysqld
+  cockroachd:
+    image: cockroachdb/cockroach:v20.1.0
+    container_name: cockroachd
+    command: start --insecure
     expose:
-      - 3306
-    env_file:
-      - .env
+      - 26257
     networks:
       shared:
         ipv4_address: 10.10.10.90
