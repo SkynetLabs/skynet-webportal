@@ -185,6 +185,11 @@ services:
       - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
+      -
+        type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     networks:
       shared:
@@ -195,6 +200,9 @@ services:
     container_name: kratos
     restart: unless-stopped
     logging: *default-logging
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
     expose:
       - 4433 # public
       - 4434 # admin
@@ -204,6 +212,15 @@ services:
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
+      -
+        type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      -
+        type: bind
+        source: ./.kratos.yml
+        target: /etc/config/kratos/kratos.yml
     networks:
       shared:
         ipv4_address: 10.10.10.81
@@ -213,10 +230,10 @@ services:
   kratos-selfservice-ui-node:
     image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
     container_name: kratos-selfservice-ui-node
-    restart: unless-stopped
+    restart: on-failure
     logging: *default-logging
-    expose:
-      - 4455
+    ports:
+      - "4455:4455"
     environment:
       - PORT=4455
       - SECURITY_MODE=
@@ -232,6 +249,8 @@ services:
     image: cockroachdb/cockroach:v20.1.0
     container_name: cockroachd
     command: start --insecure
+    volumes:
+      - kratos-sqlite:/cockroach/cockroach-data
     expose:
       - 26257
     networks:
