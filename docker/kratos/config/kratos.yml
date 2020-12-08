@@ -62,6 +62,10 @@ secrets:
   cookie:
     - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
 
+session:
+  cookie:
+    domain: siasky.xyz
+
 hashers:
   argon2:
     parallelism: 1
