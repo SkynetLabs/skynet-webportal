@@ -249,8 +249,8 @@ services:
     image: cockroachdb/cockroach:v20.1.0
     container_name: cockroachd
     command: start --insecure
-#    volumes:
-#      - kratos-sqlite:/cockroach/cockroach-data
+    volumes:
+      - kratos-sqlite:/cockroach/cockroach-data
     expose:
       - 26257
     networks:
