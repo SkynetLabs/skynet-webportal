@@ -209,7 +209,7 @@ services:
     environment:
       - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - LOG_LEVEL=trace
-      - SERVE_PUBLIC_BASE_URL=http://siasky.xyz/secure/.ory/kratos/public/
+      - SERVE_PUBLIC_BASE_URL=https://siasky.xyz/secure/.ory/kratos/public/
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
