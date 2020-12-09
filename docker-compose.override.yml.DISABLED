@@ -1,0 +1,92 @@
+version: "3.7"
+
+services:
+  sia:
+    build:
+      args:
+        branch: master
+
+  kratos-migrate:
+    image: oryd/kratos:v0.5.4-alpha.1
+    container_name: kratos-migrate
+    environment:
+      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/mysql?max_conns=20&max_idle_conns=4    
+    volumes:
+      -
+        type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      -
+        type: bind
+        source: ./docker//kratos/config
+        target: /etc/config/kratos
+    command:
+      -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+    networks:
+      shared:
+        ipv4_address: 10.10.10.95
+
+  kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
+    container_name: kratos-selfservice-ui-node
+    ports:
+      - "4455:4455"
+    environment:
+      - PORT=4455
+      - SECURITY_MODE=
+      - BASE_URL=https://${DOMAIN_NAME}/secure/
+      - KRATOS_BROWSER_URL=https:///siasky.xyz/secure/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_ADMIN_URL=http://kratos:4434/
+    networks:
+      shared:
+        ipv4_address: 10.10.10.96
+    restart: on-failure
+
+  kratos:
+    container_name: kratos
+    depends_on:
+      - kratos-migrate
+    image: oryd/kratos:v0.5.4-alpha.1
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    restart: unless-stopped
+    environment:
+      - DSN=mysql://root:${MYSQL_ROOT_PASSWORD}@tcp(mysql:3306)/mysql?max_conns=20&max_idle_conns=4
+      - LOG_LEVEL=trace
+    command:
+      serve -c /etc/config/kratos/kratos.yml
+    volumes:
+      -
+        type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      -
+        type: bind
+        source: ./docker/kratos/config
+        target: /etc/config/kratos
+      -
+        type: bind
+        source: ./.kratos.yml
+        target: /etc/config/kratos/kratos.yml
+    networks:
+      shared:
+        ipv4_address: 10.10.10.97
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      shared:
+        ipv4_address: 10.10.10.98
+
+volumes:
+  kratos-sqlite:

@@ -209,6 +209,7 @@ services:
     environment:
       - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - LOG_LEVEL=trace
+      - SERVE_PUBLIC_BASE_URL=http://siasky.xyz/secure/.ory/kratos/public/
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
@@ -232,18 +233,35 @@ services:
     container_name: kratos-selfservice-ui-node
     restart: on-failure
     logging: *default-logging
-    ports:
-      - "4455:4455"
     environment:
-      - PORT=4455
-      - SECURITY_MODE=
+      - PORT=4435
+      - SECURITY_MODE=jwks
       - BASE_URL=https://siasky.xyz/secure/
-      - KRATOS_BROWSER_URL=https://siasky.xyz/secure/
+      - KRATOS_BROWSER_URL=https://siasky.xyz/secure/.ory/kratos/public
+      - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
     networks:
       shared:
         ipv4_address: 10.10.10.82
+
+  oathkeeper:
+    image: oryd/oathkeeper:v0.38
+    depends_on:
+      - kratos
+    expose:
+      - 4455
+      - 4456
+    command:
+      serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - ./docker/kratos/oathkeeper:/etc/config/oathkeeper
+    restart: on-failure
+    networks:
+      shared:
+        ipv4_address: 10.10.10.83
 
   cockroachd:
     image: cockroachdb/cockroach:v20.1.0
