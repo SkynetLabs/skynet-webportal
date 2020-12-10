@@ -6,12 +6,7 @@ ENV GOARCH amd64
 
 WORKDIR /root
 
-RUN apt-get update && \
-    apt-get -y dist-upgrade && \
-    apt-get -y autoremove && \
-    apt-get -y install python3-pip sudo wget curl zip vim nano nload psmisc less mime-support logrotate cron && \
-    apt-get clean && \
-    go get -d -u github.com/NebulousLabs/skynet-accounts/... && \
+RUN go get -d -u github.com/NebulousLabs/skynet-accounts/... && \
     ln -s $GOPATH/src/github.com/NebulousLabs/skynet-accounts ./ && \
     cd $GOPATH/src/github.com/NebulousLabs/skynet-accounts && \
     make release && \

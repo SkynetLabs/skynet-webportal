@@ -207,7 +207,8 @@ services:
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - type: volume
+      -
+        type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
@@ -235,11 +236,13 @@ services:
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - type: volume
+      -
+        type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      - type: bind
+      -
+        type: bind
         source: ./.kratos.yml
         target: /etc/config/kratos/kratos.yml
     networks:
