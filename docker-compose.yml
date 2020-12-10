@@ -177,7 +177,7 @@ services:
       - 3000
     networks:
       shared:
-        - ipv4_address: 10.10.10.70
+        ipv4_address: 10.10.10.70
     depends_on:
       - mongo
       - oathkeeper
