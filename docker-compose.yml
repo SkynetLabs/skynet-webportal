@@ -161,6 +161,27 @@ services:
       - handshake
       - handshake-api
 
+  accounts:
+    build:
+      context: ./
+      dockerfile: ./docker/accounts/Dockerfile
+    container_name: accounts
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - SKYNET_DB_HOST="mongo"
+      - SKYNET_DB_PORT="27017"
+      - SKYNET_DB_USER=${SKYNET_DB_USER}
+      - SKYNET_DB_PASS=${SKYNET_DB_PASS}
+    expose:
+      - 3000
+    networks:
+      shared:
+        - ipv4_address: 10.10.10.70
+    depends_on:
+      - mongo
+      - oathkeeper
+
   mongo:
     image: mongo:4.4.1
     command: --keyFile=/data/mgkey --replSet=skynet
@@ -172,7 +193,7 @@ services:
       - ./docker/data/mongo/mgkey:/data/mgkey:rw
     networks:
       shared:
-        ipv4_address: 10.10.10.70
+        ipv4_address: 10.10.10.71
     ports:
       - "27017:27017"
 
@@ -186,8 +207,7 @@ services:
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
@@ -215,13 +235,11 @@ services:
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      -
-        type: bind
+      - type: bind
         source: ./.kratos.yml
         target: /etc/config/kratos/kratos.yml
     networks:
@@ -276,4 +294,4 @@ services:
       - 26257
     networks:
       shared:
-        ipv4_address: 10.10.10.90
+        ipv4_address: 10.10.10.84
