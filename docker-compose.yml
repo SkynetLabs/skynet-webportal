@@ -164,7 +164,7 @@ services:
   accounts:
     build:
       context: ./docker/accounts
-      dockerfile: ./docker/accounts/Dockerfile
+      dockerfile: Dockerfile
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
