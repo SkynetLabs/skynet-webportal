@@ -163,14 +163,14 @@ services:
 
   accounts:
     build:
-      context: ./
+      context: ./docker/accounts
       dockerfile: ./docker/accounts/Dockerfile
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - SKYNET_DB_HOST="mongo"
-      - SKYNET_DB_PORT="27017"
+      - SKYNET_DB_HOST=mongo
+      - SKYNET_DB_PORT=27017
       - SKYNET_DB_USER=${SKYNET_DB_USER}
       - SKYNET_DB_PASS=${SKYNET_DB_PASS}
     expose:
@@ -207,11 +207,7 @@ services:
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      -
-        type: volume
-        source: kratos-sqlite
-        target: /var/lib/sqlite
-        read_only: false
+      - kratos-sqlite:/var/lib/sqlite
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     networks:
       shared:
@@ -236,13 +232,8 @@ services:
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      -
-        type: volume
-        source: kratos-sqlite
-        target: /var/lib/sqlite
-        read_only: false
-      -
-        type: bind
+      - kratos-sqlite:/var/lib/sqlite
+      - type: bind
         source: ./.kratos.yml
         target: /etc/config/kratos/kratos.yml
     networks:
