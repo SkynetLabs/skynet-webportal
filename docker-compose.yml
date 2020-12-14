@@ -248,6 +248,9 @@ services:
     container_name: kratos-selfservice-ui-node
     restart: on-failure
     logging: *default-logging
+    volumes:
+      - ./docker/kratos-selfservice-ui-node/main.hbs:/usr/src/app/views/layouts/main.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/branding.css:/usr/src/app/public/branding.css:ro
     environment:
       - PORT=4435
       - SECURITY_MODE=jwks
