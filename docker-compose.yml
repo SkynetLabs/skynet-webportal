@@ -255,6 +255,7 @@ services:
     environment:
       - PORT=4435
       - SECURITY_MODE=jwks
+      - PROJECT_NAME=Skynet
       - BASE_URL=https://siasky.xyz/secure/
       - KRATOS_BROWSER_URL=https://siasky.xyz/secure/.ory/kratos/public
       - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
