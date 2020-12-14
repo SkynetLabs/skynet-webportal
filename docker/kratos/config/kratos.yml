@@ -11,9 +11,9 @@ serve:
     base_url: https://siasky.xyz/admin/
 
 selfservice:
-  default_browser_return_url: https://siasky.xyz/secure/
+  default_browser_return_url: https://siasky.xyz
   whitelisted_return_urls:
-    - https://siasky.xyz/secure
+    - https://siasky.xyz
 
   methods:
     password:
@@ -35,7 +35,7 @@ selfservice:
       enabled: true
       ui_url: https://siasky.xyz/secure/verify
       after:
-        default_browser_return_url: https://siasky.xyz/secure/
+        default_browser_return_url: https://siasky.xyz
 
     logout:
       after:
