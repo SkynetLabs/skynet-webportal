@@ -250,7 +250,11 @@ services:
     logging: *default-logging
     volumes:
       - ./docker/kratos-selfservice-ui-node/main.hbs:/usr/src/app/views/layouts/main.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/login.hbs:/usr/src/app/views/views/login.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/registration.hbs:/usr/src/app/views/views/registration.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/icon_logo.hbs:/usr/src/app/views/partials/icon_logo.hbs:ro
       - ./docker/kratos-selfservice-ui-node/branding.css:/usr/src/app/public/branding.css:ro
+      - ./docker/kratos-selfservice-ui-node/favico.png:/usr/src/app/public/favico.png:ro
     environment:
       - PORT=4435
       - SECURITY_MODE=jwks

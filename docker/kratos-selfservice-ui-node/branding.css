@@ -6,9 +6,13 @@
   --base-dark: #19191d;
   --base-black: #000000;
   --primary-light: #ecfdfe;
-  --primary-half: #95e1f9;
-  --primary-main: #3dacfc;
+  --primary-half: #4ea156;
+  --primary-main: #57b560;
   --primary-dark: #2e0473;
   --red-strong: #f44336;
   --green-strong: #43a047;
+}
+
+.logo {
+  margin: 0 auto;
 }
