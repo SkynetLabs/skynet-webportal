@@ -207,7 +207,7 @@ services:
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - ./docker/data/cockroachd/sqlite:/var/lib/sqlite
+      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     networks:
       shared:
@@ -232,7 +232,7 @@ services:
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - ./docker/data/cockroachd/sqlite:/var/lib/sqlite
+      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
       - ./.kratos.yml:/etc/config/kratos/kratos.yml
     networks:
       shared:
@@ -283,12 +283,12 @@ services:
       shared:
         ipv4_address: 10.10.10.83
 
-  cockroachd:
+  cockroach:
     image: cockroachdb/cockroach:v20.1.0
-    container_name: cockroachd
+    container_name: cockroach
     command: start --insecure
     volumes:
-      - ./docker/data/cockroachd/sqlite:/cockroach/cockroach-data
+      - ./docker/data/cockroach/sqlite:/cockroach/cockroach-data
     expose:
       - 26257
     networks:
