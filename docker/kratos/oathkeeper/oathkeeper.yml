@@ -31,10 +31,9 @@ errors:
       enabled: true
       config:
         #to: http://oathkeeper:4455/auth/login
-        to: https://siasky.xyz/secure/auth/login
+        to: https://secure.siasky.xyz/auth/login
         when:
-          -
-            error:
+          - error:
               - unauthorized
               - forbidden
             request:
@@ -88,4 +87,3 @@ mutators:
         {
           "session": {{ .Extra | toJson }}
         }
-
