@@ -59,8 +59,8 @@
     url: "http://accounts:3000"
   match:
     url: "http://oathkeeper:4455/<{user}>"
-  methods:
-    - GET
+    methods:
+      - GET
   authenticators:
     - handler: cookie_session
   authorizer:
