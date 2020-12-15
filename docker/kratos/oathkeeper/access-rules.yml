@@ -50,8 +50,7 @@
   errors:
     - handler: redirect
       config:
-        #to: http://oathkeeper:4455/auth/login
-        to: https://siasky.xyz/secure/auth/login
+        to: http://127.0.0.1/secure/auth/login
 
 - id: "accounts"
   upstream:

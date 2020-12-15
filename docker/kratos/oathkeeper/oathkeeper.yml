@@ -30,11 +30,9 @@ errors:
     redirect:
       enabled: true
       config:
-        #to: http://oathkeeper:4455/auth/login
-        to: https://siasky.xyz/secure/auth/login
+        to: http://127.0.0.1/secure/auth/login
         when:
-          -
-            error:
+          - error:
               - unauthorized
               - forbidden
             request:
@@ -81,11 +79,9 @@ mutators:
   id_token:
     enabled: true
     config:
-      #issuer_url: http://oathkeeper:4455/
-      issuer_url: https://siasky.xyz/
+      issuer_url: http://oathkeeper:4455/
       jwks_url: file:///etc/config/oathkeeper/id_token.jwks.json
       claims: |
         {
           "session": {{ .Extra | toJson }}
         }
-

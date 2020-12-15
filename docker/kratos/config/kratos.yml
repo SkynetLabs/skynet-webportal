@@ -4,16 +4,16 @@ dsn: memory
 
 serve:
   public:
-    base_url: https://siasky.xyz/secure/
+    base_url: http://127.0.0.1/secure/
     cors:
       enabled: true
   admin:
-    base_url: https://siasky.xyz/admin/
+    base_url: http://127.0.0.1/admin/
 
 selfservice:
-  default_browser_return_url: https://siasky.xyz
+  default_browser_return_url: http://127.0.0.1/
   whitelisted_return_urls:
-    - https://siasky.xyz
+    - http://127.0.0.1/
 
   methods:
     password:
@@ -21,33 +21,33 @@ selfservice:
 
   flows:
     error:
-      ui_url: https://siasky.xyz/secure/error
+      ui_url: http://127.0.0.1/secure/error
 
     settings:
-      ui_url: https://siasky.xyz/secure/settings
+      ui_url: http://127.0.0.1/secure/settings
       privileged_session_max_age: 15m
 
     recovery:
       enabled: true
-      ui_url: https://siasky.xyz/secure/recovery
+      ui_url: http://127.0.0.1/secure/recovery
 
     verification:
       enabled: true
-      ui_url: https://siasky.xyz/secure/verify
+      ui_url: http://127.0.0.1/secure/verify
       after:
-        default_browser_return_url: https://siasky.xyz
+        default_browser_return_url: http://127.0.0.1/
 
     logout:
       after:
-        default_browser_return_url: https://siasky.xyz/secure/auth/login
+        default_browser_return_url: http://127.0.0.1/secure/auth/login
 
     login:
-      ui_url: https://siasky.xyz/secure/auth/login
+      ui_url: http://127.0.0.1/secure/auth/login
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: https://siasky.xyz/secure/auth/registration
+      ui_url: http://127.0.0.1/secure/auth/registration
       after:
         password:
           hooks:
