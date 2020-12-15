@@ -263,13 +263,13 @@ services:
 
   oathkeeper:
     image: oryd/oathkeeper:v0.38
+    container_name: oathkeeper
     depends_on:
       - kratos
     expose:
       - 4455
       - 4456
-    command:
-      serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
+    command: serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
     environment:
       - LOG_LEVEL=debug
     volumes:
