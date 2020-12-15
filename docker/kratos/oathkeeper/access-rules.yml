@@ -1,5 +1,4 @@
--
-  id: "ory:kratos:public"
+- id: "ory:kratos:public"
   upstream:
     preserve_host: true
     url: "http://kratos:4433"
@@ -13,15 +12,13 @@
       - DELETE
       - PATCH
   authenticators:
-    -
-      handler: noop
+    - handler: noop
   authorizer:
     handler: allow
   mutators:
     - handler: noop
 
--
-  id: "ory:kratos-selfservice-ui-node:anonymous"
+- id: "ory:kratos-selfservice-ui-node:anonymous"
   upstream:
     preserve_host: true
     url: "http://kratos-selfservice-ui-node:4435"
@@ -30,16 +27,13 @@
     methods:
       - GET
   authenticators:
-    -
-      handler: anonymous
+    - handler: anonymous
   authorizer:
     handler: allow
   mutators:
-    -
-      handler: noop
+    - handler: noop
 
--
-  id: "ory:kratos-selfservice-ui-node:protected"
+- id: "ory:kratos-selfservice-ui-node:protected"
   upstream:
     preserve_host: true
     url: "http://kratos-selfservice-ui-node:4435"
@@ -48,8 +42,7 @@
     methods:
       - GET
   authenticators:
-    -
-      handler: cookie_session
+    - handler: cookie_session
   authorizer:
     handler: allow
   mutators:
@@ -60,3 +53,19 @@
         #to: http://oathkeeper:4455/auth/login
         to: https://siasky.xyz/secure/auth/login
 
+- id: "accounts"
+  upstream:
+    preserve_host: true
+    url: "http://accounts:3000"
+  match:
+    url: "http://oathkeeper:4455/<{user}>"
+  methods:
+    - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: id_token
+  errors:
+    - handler: json
