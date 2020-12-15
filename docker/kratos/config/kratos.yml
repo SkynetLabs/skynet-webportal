@@ -4,7 +4,7 @@ dsn: memory
 
 serve:
   public:
-    base_url: https://secure.siasky.xyz
+    base_url: https://siasky.xyz/secure/
     cors:
       enabled: true
   admin:
@@ -21,33 +21,33 @@ selfservice:
 
   flows:
     error:
-      ui_url: https://secure.siasky.xyz/error
+      ui_url: https://siasky.xyz/secure/error
 
     settings:
-      ui_url: https://secure.siasky.xyz/settings
+      ui_url: https://siasky.xyz/secure/settings
       privileged_session_max_age: 15m
 
     recovery:
       enabled: true
-      ui_url: https://secure.siasky.xyz/recovery
+      ui_url: https://siasky.xyz/secure/recovery
 
     verification:
       enabled: true
-      ui_url: https://secure.siasky.xyz/verify
+      ui_url: https://siasky.xyz/secure/verify
       after:
         default_browser_return_url: https://siasky.xyz
 
     logout:
       after:
-        default_browser_return_url: https://secure.siasky.xyz/auth/login
+        default_browser_return_url: https://siasky.xyz/secure/auth/login
 
     login:
-      ui_url: https://secure.siasky.xyz/auth/login
+      ui_url: https://siasky.xyz/secure/auth/login
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: https://secure.siasky.xyz/auth/registration
+      ui_url: https://siasky.xyz/secure/auth/registration
       after:
         password:
           hooks:
@@ -64,7 +64,7 @@ secrets:
 
 session:
   cookie:
-    domain: secure.siasky.xyz
+    domain: siasky.xyz
 
 hashers:
   argon2:
