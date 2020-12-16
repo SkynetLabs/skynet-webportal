@@ -20,7 +20,7 @@ export default function HomeTop() {
           Sign up now!
         </a>{" "}
         Already have an account? Go to your{" "}
-        <a href="/secure/auth/login" className="link">
+        <a href="/secure/" className="link">
           dashboard
         </a>
       </p>
