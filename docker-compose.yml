@@ -227,7 +227,7 @@ services:
     environment:
       - DSN=cockroach://root@cockroach:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - LOG_LEVEL=trace
-      - SERVE_PUBLIC_BASE_URL=/secure/.ory/kratos/public/
+      - SERVE_PUBLIC_BASE_URL=/.ory/kratos/public/
       - SQA_OPT_OUT=true
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
@@ -256,8 +256,8 @@ services:
       - PORT=4435
       - SECURITY_MODE=jwks
       - PROJECT_NAME=Skynet
-      - BASE_URL=/secure/
-      - KRATOS_BROWSER_URL=/secure/.ory/kratos/public
+      - BASE_URL=/
+      - KRATOS_BROWSER_URL=/.ory/kratos/public
       - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
