@@ -19,7 +19,7 @@ export default function HomeTop() {
         <a href="/secure/auth/registration" className="link">
           Sign up now!
         </a>{" "}
-        | Already have an account? Go to your{" "}
+        Already have an account? Go to your{" "}
         <a href="/secure/auth/login" className="link">
           dashboard
         </a>
