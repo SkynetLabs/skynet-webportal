@@ -248,6 +248,7 @@ services:
     volumes:
       - ./docker/kratos-selfservice-ui-node/main.hbs:/usr/src/app/views/layouts/main.hbs:ro
       - ./docker/kratos-selfservice-ui-node/login.hbs:/usr/src/app/views/login.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/dashboard.hbs:/usr/src/app/views/dashboard.hbs:ro
       - ./docker/kratos-selfservice-ui-node/registration.hbs:/usr/src/app/views/registration.hbs:ro
       - ./docker/kratos-selfservice-ui-node/icon_logo.hbs:/usr/src/app/views/partials/icon_logo.hbs:ro
       - ./docker/kratos-selfservice-ui-node/branding.css:/usr/src/app/public/branding.css:ro
