@@ -6,12 +6,10 @@ ENV GOARCH amd64
 
 WORKDIR /root
 
-RUN go get -d -u github.com/NebulousLabs/skynet-accounts/... && \
-    ln -s $GOPATH/src/github.com/NebulousLabs/skynet-accounts ./ && \
-    cd $GOPATH/src/github.com/NebulousLabs/skynet-accounts && \
-    make release && \
-    cd && \
-    rm -rf $GOPATH/src/github.com/NebulousLabs/skynet-accounts
+RUN git clone --single-branch --branch main https://github.com/NebulousLabs/skynet-accounts.git && \
+    cd skynet-accounts && \
+    go mod download && \
+    make release
 
 ENV SKYNET_DB_HOST="localhost"
 ENV SKYNET_DB_PORT="27017"
