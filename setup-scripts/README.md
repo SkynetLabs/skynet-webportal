@@ -85,7 +85,6 @@ At this point we have almost everything running, we just need to set up your wal
    - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
-   - `MYSQL_ROOT_PASSWORD` (optional) if you're integrating accounts - it's the database password for accounts management
    - `PORTAL_NAME` (optional) e.g. `siasky.xyz`
    - `DISCORD_BOT_TOKEN` (optional) if you're using Discord notifications for health checks and such
    - `SKYNET_DB_USER` (optional) if using `accounts` this is the MongoDB username

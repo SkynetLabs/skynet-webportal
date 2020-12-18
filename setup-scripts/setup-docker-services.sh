@@ -24,17 +24,22 @@ docker-compose --version # sanity check
 # * DOMAIN_NAME - the domain name your server is using ie. example.com
 # * EMAIL_ADDRESS - this is the administrator contact email you need to supply for communication regarding SSL certification
 # * HSD_API_KEY - this is auto generated secure key for your handshake service integration
-# * CLOUDFLARE_AUTH_TOKEN` - (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
+# * CLOUDFLARE_AUTH_TOKEN - (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
 # * AWS_ACCESS_KEY_ID - (optional) if using route53 as a dns loadbalancer
 # * AWS_SECRET_ACCESS_KEY - (optional) if using route53 as a dns loadbalancer
 # * API_PORT - (optional) the port on which siad is listening, defaults to 9980
 # * PORTAL_NAME - the name of the portal, required by the discord bot
 # * DISCORD_BOT_TOKEN - (optional) only required if you're using the discord notifications integration
-# * MYSQL_ROOT_PASSWORD - (optional) if you're integrating accounts - it's the database password for accounts management
+# * SKYNET_DB_USER - (optional) if using `accounts` this is the MongoDB username
+# * SKYNET_DB_PASS - (optional) if using `accounts` this is the MongoDB password
+# * SKYNET_DB_HOST - (optional) if using `accounts` this is the MongoDB address or container name
+# * SKYNET_DB_PORT - (optional) if using `accounts` this is the MongoDB port
+# * COOKIE_DOMAIN - (optional) if using `accounts` this is the domain to which your cookies will be issued
+# * COOKIE_HASH_KEY - (optional) if using `accounts` hashing secret, at least 32 bytes
+# * COOKIE_ENC_KEY - (optional) if using `accounts` encryption key, at least 32 bytes
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    MYSQL_ROOT_PASSWORD=$(openssl rand -base64 32) # generate safe random key for mysql database
-    printf "DOMAIN_NAME=example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\nMYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}\n" > /home/user/skynet-webportal/.env
+    printf "DOMAIN_NAME=example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
