@@ -66,6 +66,51 @@ rs.initiate(
 )
 ```
 
+### Kratos & Oathkeeper Setup
+
+[Kratos](https://www.ory.sh/kratos) is our user management system of choice and 
+[Oathkeeper](https://www.ory.sh/oathkeeper) is the identity and access proxy.
+
+Most of the needed config is already under `docker/kratos`. The only two things
+that need to be changed are the config for Kratos that might contain you email 
+server password, and the JWKS Oathkeeper uses to sign its JWT tokens.
+
+To override the default `kratos.yml` you can create ` .kratos.yml` in the root 
+directory of the project, alongside the `.env` file.
+
+To override the JWKS you will need to directly edit 
+`docker/kratos/oathkeeper/id_token.jwks.json` and replace it with your generated
+key set. If you don't know how to generate a key set you can use this code:
+```go
+package main
+
+import (
+	"encoding/json"
+	"log"
+	"os"
+
+	"github.com/ory/hydra/jwk"
+)
+
+func main() {
+	gen := jwk.RS256Generator{
+		KeyLength: 2048,
+	}
+	jwks, err := gen.Generate("", "sig")
+	if err != nil {
+		log.Fatal(err)
+	}
+	jsonbuf, err := json.MarshalIndent(jwks, "", "  ")
+	if err != nil {
+		log.Fatal("failed to generate JSON: %s", err)
+	}
+	os.Stdout.Write(jsonbuf)
+}
+```
+While you can directly put the output of this programme into the file mentioned 
+above, you can also remove the public key from the set and change the `kid` of 
+the private key to not include the prefix `private:`.
+
 ## Contributing
 
 ### Testing Your Code
