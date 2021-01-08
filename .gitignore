@@ -89,7 +89,10 @@ __pycache__
 /venv*
 
 # CockroachDB certificates
-.cr_certs/
+docker/cockroach/certs/*.crt
+docker/cockroach/certs/*.key
+docker/kratos/cr_certs/*.crt
+docker/kratos/cr_certs/*.key
 
 # Oathkeeper JWKS signing token
 docker/kratos/oathkeeper/id_token.jwks.json

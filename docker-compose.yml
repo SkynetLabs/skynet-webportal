@@ -208,11 +208,12 @@ services:
     restart: on-failure
     logging: *default-logging
     environment:
-      - DSN=cockroach://root@cockroach:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
       - ./docker/data/cockroach/sqlite:/var/lib/sqlite
+      - ./docker/kratos/cr_certs:/certs
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     networks:
       shared:
@@ -230,7 +231,7 @@ services:
       - 4433 # public
       - 4434 # admin
     environment:
-      - DSN=cockroach://root@cockroach:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
       - LOG_LEVEL=trace
       - SERVE_PUBLIC_BASE_URL=/.ory/kratos/public/
       - SQA_OPT_OUT=true
@@ -239,6 +240,7 @@ services:
       - ./docker/kratos/config:/etc/config/kratos
       - ./docker/data/cockroach/sqlite:/var/lib/sqlite
       - ./.kratos.yml:/etc/config/kratos/kratos.yml
+      - ./docker/kratos/cr_certs:/certs
     networks:
       shared:
         ipv4_address: 10.10.10.81
@@ -293,10 +295,10 @@ services:
   cockroach:
     image: cockroachdb/cockroach:v20.1.10
     container_name: cockroach
-    command: start --advertise-addr=$CR_IP --join=$CR_CLUSTER_NODES --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
+    command: start --advertise-addr=${CR_IP} --join=${CR_CLUSTER_NODES} --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
     volumes:
       - ./docker/data/cockroach/sqlite:/cockroach/cockroach-data
-      - ./.cr_certs:/certs
+      - ./docker/cockroach/certs:/certs
     expose:
       - 8080
       - 26257
