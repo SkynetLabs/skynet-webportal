@@ -87,3 +87,9 @@ docker/nginx/conf.d/server-override/*
 __pycache__
 /.idea/
 /venv*
+
+# CockroachDB certificates
+.cr_certs/
+
+# Oathkeeper JWKS signing token
+docker/kratos/oathkeeper/id_token.jwks.json

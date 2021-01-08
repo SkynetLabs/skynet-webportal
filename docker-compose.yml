@@ -175,6 +175,9 @@ services:
       - SKYNET_DB_PORT=27017
       - SKYNET_DB_USER=${SKYNET_DB_USER}
       - SKYNET_DB_PASS=${SKYNET_DB_PASS}
+      - COOKIE_DOMAIN=${COOKIE_DOMAIN}
+      - COOKIE_HASH_KEY=${COOKIE_HASH_KEY}
+      - COOKIE_ENC_KEY=${COOKIE_ENC_KEY}
     expose:
       - 3000
     networks:
