@@ -61,7 +61,9 @@ services:
       - nginx
 
   nginx:
-    image: openresty/openresty:1.15.8.3-2-xenial
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
