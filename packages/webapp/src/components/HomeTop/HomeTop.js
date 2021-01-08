@@ -15,6 +15,16 @@ export default function HomeTop() {
         The decentralized CDN and file sharing platform for devs. Skynet is the storage foundation for a Free Internet!
       </p>
 
+      <p className="auth-links">
+        <a href="/secure/auth/registration" className="link">
+          Sign up now!
+        </a>{" "}
+        Already have an account? Go to your{" "}
+        <a href="/secure/" className="link">
+          dashboard
+        </a>
+      </p>
+
       <Deco1 className="deco-1" />
       <Deco2 className="deco-2" />
     </div>

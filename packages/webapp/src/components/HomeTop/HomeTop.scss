@@ -36,9 +36,17 @@
     max-width: 560px;
     margin: 0 auto;
 
+    &.auth-links {
+      font-size: 18px;
+    }
+
     @media (min-width: $largebp) {
       font-size: 24px;
       max-width: 670px;
+    }
+
+    & + p {
+      margin-top: 24px;
     }
   }
 }

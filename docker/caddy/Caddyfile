@@ -6,7 +6,7 @@
 }
 
 (siasky.net) {
-    siasky.net, *.siasky.net, *.hns.siasky.net {
+    siasky.xyz, *.siasky.xyz, *.hns.siasky.xyz {
         tls {
             dns route53 {
                 max_retries 50
@@ -27,4 +27,4 @@
 
 import localhost
 # import custom.domain
-# import siasky.net
+import siasky.net

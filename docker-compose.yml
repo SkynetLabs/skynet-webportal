@@ -15,7 +15,6 @@ networks:
 
 volumes:
   webapp:
-  kratos-sqlite:
 
 services:
   sia:
@@ -62,7 +61,9 @@ services:
       - nginx
 
   nginx:
-    image: openresty/openresty:1.15.8.3-2-xenial
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -174,6 +175,9 @@ services:
       - SKYNET_DB_PORT=27017
       - SKYNET_DB_USER=${SKYNET_DB_USER}
       - SKYNET_DB_PASS=${SKYNET_DB_PASS}
+      - COOKIE_DOMAIN=${COOKIE_DOMAIN}
+      - COOKIE_HASH_KEY=${COOKIE_HASH_KEY}
+      - COOKIE_ENC_KEY=${COOKIE_ENC_KEY}
     expose:
       - 3000
     networks:
@@ -204,11 +208,11 @@ services:
     restart: on-failure
     logging: *default-logging
     environment:
-      - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroach:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - SQA_OPT_OUT=true
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - kratos-sqlite:/var/lib/sqlite
+      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     networks:
       shared:
@@ -226,17 +230,15 @@ services:
       - 4433 # public
       - 4434 # admin
     environment:
-      - DSN=cockroach://root@cockroachd:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
+      - DSN=cockroach://root@cockroach:26257/defaultdb?sslmode=disable&max_conns=20&max_idle_conns=4
       - LOG_LEVEL=trace
-      - SERVE_PUBLIC_BASE_URL=https://siasky.xyz/secure/.ory/kratos/public/
+      - SERVE_PUBLIC_BASE_URL=/.ory/kratos/public/
       - SQA_OPT_OUT=true
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
-      - kratos-sqlite:/var/lib/sqlite
-      - type: bind
-        source: ./.kratos.yml
-        target: /etc/config/kratos/kratos.yml
+      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
+      - ./.kratos.yml:/etc/config/kratos/kratos.yml
     networks:
       shared:
         ipv4_address: 10.10.10.81
@@ -248,11 +250,20 @@ services:
     container_name: kratos-selfservice-ui-node
     restart: on-failure
     logging: *default-logging
+    volumes:
+      - ./docker/kratos-selfservice-ui-node/main.hbs:/usr/src/app/views/layouts/main.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/login.hbs:/usr/src/app/views/login.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/dashboard.hbs:/usr/src/app/views/dashboard.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/registration.hbs:/usr/src/app/views/registration.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/icon_logo.hbs:/usr/src/app/views/partials/icon_logo.hbs:ro
+      - ./docker/kratos-selfservice-ui-node/branding.css:/usr/src/app/public/branding.css:ro
+      - ./docker/kratos-selfservice-ui-node/favico.png:/usr/src/app/public/favico.png:ro
     environment:
       - PORT=4435
       - SECURITY_MODE=jwks
-      - BASE_URL=https://siasky.xyz/secure/
-      - KRATOS_BROWSER_URL=https://siasky.xyz/secure/.ory/kratos/public
+      - PROJECT_NAME=Skynet
+      - BASE_URL=/
+      - KRATOS_BROWSER_URL=/.ory/kratos/public
       - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
@@ -279,12 +290,12 @@ services:
       shared:
         ipv4_address: 10.10.10.83
 
-  cockroachd:
+  cockroach:
     image: cockroachdb/cockroach:v20.1.10
-    container_name: cockroachd
+    container_name: cockroach
     command: start --advertise-addr=$CR_IP --join=$CR_CLUSTER_NODES --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
     volumes:
-      - kratos-sqlite:/cockroach/cockroach-data
+      - ./docker/data/cockroach/sqlite:/cockroach/cockroach-data
       - ./.cr_certs:/certs
     expose:
       - 8080
