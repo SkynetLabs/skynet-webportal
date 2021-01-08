@@ -134,7 +134,7 @@ Steps:
     1. If you want to create certificates for more nodes, just delete the `node.*`
        files (after you've finished the next step!) and re-run the above 
        command with the new node name.
-1. Put the contents of the `certs` folder in `.certs/` under your portal's root 
+1. Put the contents of the `certs` folder in `.cr_certs/` under your portal's root 
    dir and store the content of `my-safe-directory` somewhere safe.
    
 #### Configure your CockroachDB node
