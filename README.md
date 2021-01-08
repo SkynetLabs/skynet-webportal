@@ -111,6 +111,42 @@ While you can directly put the output of this programme into the file mentioned
 above, you can also remove the public key from the set and change the `kid` of 
 the private key to not include the prefix `private:`.
 
+
+### CockroachDB Setup
+
+Kratos uses CockroachDB to store its data. For that data to be shared across all
+nodes that comprise your portal cluster setup, we need to set up a CockroachDB 
+cluster, complete with secure communication.
+
+#### Generate the certificates for secure communication
+
+For a detailed walk-through, please check [this guide](https://www.cockroachlabs.com/docs/v20.2/secure-a-cluster.html) out.
+
+Steps:
+1. Start a local cockroach docker instance: 
+   `docker run -d -v "<local dir>:/cockroach/cockroach-secure" --name=crdb cockroachdb/cockroach start --insecure`
+1. Get a shall into that instance: `docker exec -it crdb /bin/bash`
+1. Go to the directory we which we mapped to a local dir: `cd /cockroach/cockroach-secure`
+1. Create the subdirectories in which to create certificates and keys: `mkdir certs my-safe-directory`
+1. Create the CA (Certificate Authority) certificate and key pair: `cockroach cert create-ca --certs-dir=certs --ca-key=my-safe-directory/ca.key`
+1. Create a client certificate and key pair for the root user: `cockroach cert create-client root --certs-dir=certs --ca-key=my-safe-directory/ca.key`
+1. Create the certificate and key pair for your nodes: `cockroach cert create-node mynode.siasky.net --certs-dir=certs --ca-key=my-safe-directory/ca.key`
+    1. If you want to create certificates for more nodes, just delete the `node.*`
+       files (after you've finished the next step!) and re-run the above 
+       command with the new node name.
+1. Put the contents of the `certs` folder in `.certs/` under your portal's root 
+   dir and store the content of `my-safe-directory` somewhere safe.
+   
+#### Configure your CockroachDB node
+
+There is some configuration that needs to be added to your `.env`file, namely:
+1. CR_NODE - the name of your node
+1. CR_IP - the public IP of your node
+1. CR_CLUSTER_NODES - a list of IPs and ports which make up your cluster, e.g. 
+   `95.216.13.185:26257,147.135.37.21:26257,144.76.136.122:26257`. This will be 
+   the list of nodes that will make up your cluster, so make sure those are 
+   accurate.
+
 ## Contributing
 
 ### Testing Your Code

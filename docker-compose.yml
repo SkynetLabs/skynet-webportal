@@ -280,12 +280,14 @@ services:
         ipv4_address: 10.10.10.83
 
   cockroachd:
-    image: cockroachdb/cockroach:v20.1.0
+    image: cockroachdb/cockroach:v20.1.10
     container_name: cockroachd
-    command: start --insecure
+    command: start --advertise-addr=$CR_IP --join=$CR_CLUSTER_NODES --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
     volumes:
       - kratos-sqlite:/cockroach/cockroach-data
+      - ./.cr_certs:/certs
     expose:
+      - 8080
       - 26257
     networks:
       shared:
