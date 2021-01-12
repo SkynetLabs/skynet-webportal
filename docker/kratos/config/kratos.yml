@@ -64,7 +64,7 @@ secrets:
 
 session:
   cookie:
-    domain: secure.siasky.xyz
+    domain: secure.siasky.net
 
 hashers:
   argon2:
