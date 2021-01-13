@@ -241,7 +241,6 @@ services:
     volumes:
       - ./docker/kratos/config:/etc/config/kratos
       - ./docker/data/cockroach/sqlite:/var/lib/sqlite
-      - ./.kratos.yml:/etc/config/kratos/kratos.yml
       - ./docker/kratos/cr_certs:/certs
     networks:
       shared:

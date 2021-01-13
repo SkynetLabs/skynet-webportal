@@ -99,7 +99,7 @@ At this point we have almost everything running, we just need to set up your wal
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
-1. add your custom Kratos configuration to `/home/user/skynet-webportal/.kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml`.
+1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.
 
 ## Subdomains
 

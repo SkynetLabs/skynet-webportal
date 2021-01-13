@@ -53,7 +53,7 @@ typings/
 
 # dotenv environment variable files
 .env*
-.kratos.yml
+./docker/kratos/config/kratos.yml
 
 # gatsby files
 .cache/

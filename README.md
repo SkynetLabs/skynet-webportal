@@ -79,8 +79,9 @@ rs.initiate(
 Most of the needed config is already under `docker/kratos`. The only two things that need to be changed are the config
 for Kratos that might contain you email server password, and the JWKS Oathkeeper uses to sign its JWT tokens.
 
-To override the default `kratos.yml` you can create ` .kratos.yml` in the root directory of the project, alongside
-the `.env` file.
+Make sure to create your own`docker/kratos/config/kratos.yml` by copying the `kratos.yml.sample` in the same directory.
+Also make sure to never add that file to source control because it will most probably contain your email password in
+plain text!
 
 To override the JWKS you will need to directly edit
 `docker/kratos/oathkeeper/id_token.jwks.json` and replace it with your generated key set. If you don't know how to
