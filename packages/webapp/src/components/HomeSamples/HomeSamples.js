@@ -10,7 +10,7 @@ const samples = [
   { type: "Audio", url: "/_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA" },
   { type: "Video", url: "/CACqf4NlIMlA0CCCieYGjpViPGyfyJ4v1x3bmuCKZX8FKA" },
   { type: "JSON", url: "/AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ" },
-  { type: "Dapp", url: "/IAC6CkhNYuWZqMVr1gob1B6tPg4MrBGRzTaDvAIAeu9A9w/" },
+  { type: "Dapp", url: "/hns/marstorage/" },
 ];
 
 export default function HomeSamples() {
