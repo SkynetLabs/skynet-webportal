@@ -22,7 +22,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
-        branch: v1.5.3
+        branch: v1.5.4
     container_name: sia
     restart: unless-stopped
     logging: *default-logging
