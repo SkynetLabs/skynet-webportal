@@ -32,7 +32,7 @@ fi
 #########################################################################
 # iterate through all servers, block the skylinks and purge it from cache
 #########################################################################
-for server in "germany.siasky.net" "helsinki.siasky.net" "us-west.siasky.net" "us-va-1.siasky.net" "us-pa-1.siasky.net" "us-pa-2.siasky.net" "siasky.xyz";
+for server in "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-fin-1.siasky.net" "us-or-1.siasky.net" "us-or-2.siasky.net" "us-va-1.siasky.net" "us-pa-1.siasky.net" "us-pa-2.siasky.net" "siasky.xyz";
 do
     for skylink in "${skylinks[@]}";
     do
