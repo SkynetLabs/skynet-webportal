@@ -34,3 +34,6 @@ rm alacritty.info
 
 # Set up file limits - siad uses a lot so we need to adjust so it doesn't choke up
 sudo cp /home/user/skynet-webportal/setup-scripts/support/limits.conf /etc/security/limits.conf
+
+# Set UTC timezone so all of the servers report the same time
+sudo timedatectl set-timezone UTC
