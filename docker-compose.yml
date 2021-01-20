@@ -294,7 +294,7 @@ services:
         ipv4_address: 10.10.10.83
 
   cockroach:
-    image: cockroachdb/cockroach:v20.1.10
+    image: cockroachdb/cockroach:v20.2.3
     container_name: cockroach
     env_file:
       - .env
