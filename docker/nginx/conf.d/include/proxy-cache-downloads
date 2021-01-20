@@ -5,5 +5,6 @@ proxy_set_header Range $slice_range; # pass slice range to proxy
 proxy_cache_key $uri$arg_format$arg_attachment$slice_range; # use just the uri path, format and attachment args and slice range
 proxy_cache_min_uses 3; # cache responses after 3 requests of the same file
 proxy_cache_valid 200 206 24h; # cache 200 and 206 responses for 24 hours
+proxy_cache_lock on; # queue cache requests for the same resource until it is fully cached
 proxy_cache_bypass $cookie_nocache $arg_nocache; # add cache bypass option
 add_header X-Proxy-Cache $upstream_cache_status; # add response header to indicate cache hits and misses
