@@ -303,7 +303,7 @@ services:
       - ./docker/data/cockroach/sqlite:/cockroach/cockroach-data
       - ./docker/cockroach/certs:/certs
     ports:
-      - "4080:8080" # TODO Remove this once the setup is finalized.
+      - "4080:8080"
       - "26257:26257"
     networks:
       shared:
