@@ -6,8 +6,13 @@ if [[ $BACKUP == "" ]]; then
   exit 1
 fi
 
+# Set the environment:
+set -o allexport
+source ../.env
+set +o allexport
+# Restore the backup:
 docker exec cockroach \
   cockroach sql \
   --host cockroach:26257 \
   --certs-dir=/certs \
-  --execute="RESTORE DATABASE defaultdb FROM 's3://skynet-crdb-backups/backups/$DT?AWS_ACCESS_KEY_ID=$AWS_KEY_ID&AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KET';"
+  --execute="RESTORE DATABASE defaultdb FROM 's3://skynet-crdb-backups/backups/$DT?AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID&AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY';"
