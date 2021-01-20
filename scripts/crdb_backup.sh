@@ -1,11 +1,16 @@
 #!/bin/bash
 
-# Take the current datetime:
-DT=`date +%Y-%m-%d`
+# Get current working directory (pwd doesn't cut it)
+cwd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Set the environment:
 set -o allexport
-source ../.env
+source $cwd/../.env
 set +o allexport
+# Check for AWS credentials:
+if [[ $AWS_ACCESS_KEY_ID == "" || $AWS_SECRET_ACCESS_KEY == "" ]]; then
+  echo "Missing AWS credentials!"
+  exit 1
+fi
 # Take the current datetime:
 DT=`date +%Y-%m-%d`
 # Create the backup:
