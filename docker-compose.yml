@@ -308,23 +308,3 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.84
-
-  # This container starts a simple unsecured file server, so cockroach can write
-  # its backups to it. By default, python's http-server doesn't support PUT,
-  # see https://gist.github.com/mildred/67d22d7289ae8f16cae7 for the script
-  # used here.
-  cockroach-backup:
-    image: python:3.9-buster
-    container_name: cockroach-backup
-    command: python /scripts/serve.py --bind=0.0.0.0:3000
-    volumes:
-      - ./docker/cockroach-backup/scripts:/scripts
-      - ./docker/data/cockroach/sqlite:/cockroach
-    expose:
-      - 3000
-    networks:
-      shared:
-        ipv4_address: 10.10.10.85
-
-
-# TODO https://www.cockroachlabs.com/docs/v20.2/create-schedule-for-backup
