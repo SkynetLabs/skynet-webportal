@@ -21,7 +21,7 @@ docker system prune --force
 docker volume rm $(docker volume ls -q)
 
 # build all container without cache
-docker-compose build --no-cache
+docker-compose build --no-cache --parallel --pull --quiet
 
 # start the docker services
 docker-compose up -d
