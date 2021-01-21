@@ -6,7 +6,7 @@
 }
 
 (siasky.net) {
-    siasky.xyz, *.siasky.xyz, *.hns.siasky.xyz {
+    siasky.net, *.siasky.net, *.hns.siasky.net {
         tls {
             dns route53 {
                 max_retries 50
