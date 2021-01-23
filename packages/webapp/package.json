@@ -33,7 +33,7 @@
     "react-mailchimp-subscribe": "2.1.0",
     "react-syntax-highlighter": "15.4.3",
     "react-visibility-sensor": "5.1.1",
-    "skynet-js": "2.4.0"
+    "skynet-js": "2.9.0"
   },
   "devDependencies": {
     "cypress": "6.3.0",
