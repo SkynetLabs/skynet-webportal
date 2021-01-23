@@ -69,6 +69,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/logrotate:/etc/logrotate.d/nginx:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
