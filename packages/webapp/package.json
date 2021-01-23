@@ -31,7 +31,7 @@
     "react-helmet": "6.1.0",
     "react-mailchimp-form": "1.0.2",
     "react-mailchimp-subscribe": "2.1.0",
-    "react-syntax-highlighter": "15.2.1",
+    "react-syntax-highlighter": "15.4.3",
     "react-visibility-sensor": "5.1.1",
     "skynet-js": "2.4.0"
   },
