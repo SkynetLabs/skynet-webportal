@@ -55,10 +55,6 @@ typings/
 .env*
 ./docker/kratos/config/kratos.yml
 
-# gatsby files
-.cache/
-public
-
 # Mac files
 .DS_Store
 
