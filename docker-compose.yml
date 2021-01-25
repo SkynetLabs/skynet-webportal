@@ -64,7 +64,6 @@ services:
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
-    user: 
     env_file:
       - .env
     volumes:
