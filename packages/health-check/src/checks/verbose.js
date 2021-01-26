@@ -1037,7 +1037,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, headers }) {
   const time = process.hrtime();
 
   // Create the query for the skylink
-  const query = `http://${process.env.PORTAL_URL}/${skylink}?nocache=true`;
+  const query = `${process.env.PORTAL_URL}/${skylink}?nocache=true`;
 
   // Get the Skylink
   superagent
@@ -1087,7 +1087,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, headers }) {
     );
 }
 
-module.exports.verboseChecks = [
+module.exports = [
   audioExampleCheck,
   covid19PaperCheck,
   covid19CoroNopePaperCheck,

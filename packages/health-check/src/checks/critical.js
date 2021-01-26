@@ -7,7 +7,7 @@ async function uploadCheck(done) {
   const time = process.hrtime();
 
   superagent
-    .post(`http://${process.env.PORTAL_URL}/skynet/skyfile`)
+    .post(`${process.env.PORTAL_URL}/skynet/skyfile`)
     .attach("file", "package.json", "package.json")
     .end((error, response) => {
       const statusCode = (response && response.statusCode) || (error && error.statusCode) || null;
@@ -29,7 +29,7 @@ async function downloadCheck(done) {
   let statusCode, errorResponseContent;
 
   try {
-    const response = await superagent.get(`http://${process.env.PORTAL_URL}/${skylink}?nocache=true`);
+    const response = await superagent.get(`${process.env.PORTAL_URL}/${skylink}?nocache=true`);
 
     statusCode = response.statusCode;
   } catch (error) {
@@ -46,4 +46,4 @@ async function downloadCheck(done) {
   });
 }
 
-module.exports.criticalChecks = [uploadCheck, downloadCheck];
+module.exports = [uploadCheck, downloadCheck];
