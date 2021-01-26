@@ -1,15 +1,22 @@
+const fs = require("fs");
 const superagent = require("superagent");
+const tmp = require('tmp');
 const { StatusCodes } = require("http-status-codes");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
   const time = process.hrtime();
+  const file = tmp.fileSync();
+  
+  fs.writeSync(file.fd, Buffer.from(new Date())); // write current date to temp file
 
   superagent
-    .post(`http://${process.env.PORTAL_URL}/skynet/skyfile`)
-    .attach("file", "package.json", "package.json")
+    .post(`${process.env.PORTAL_URL}/skynet/skyfile`)
+    .attach("file", file.name, file.name)
     .end((error, response) => {
+      file.removeCallback();
+
       const statusCode = (response && response.statusCode) || (error && error.statusCode) || null;
 
       done({
@@ -29,7 +36,7 @@ async function downloadCheck(done) {
   let statusCode, errorResponseContent;
 
   try {
-    const response = await superagent.get(`http://${process.env.PORTAL_URL}/${skylink}?nocache=true`);
+    const response = await superagent.get(`${process.env.PORTAL_URL}/${skylink}?nocache=true`);
 
     statusCode = response.statusCode;
   } catch (error) {
@@ -46,4 +53,4 @@ async function downloadCheck(done) {
   });
 }
 
-module.exports.criticalChecks = [uploadCheck, downloadCheck];
+module.exports = [uploadCheck, downloadCheck];

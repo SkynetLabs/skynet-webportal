@@ -156,7 +156,8 @@ services:
         ipv4_address: 10.10.10.60
     environment:
       - HOSTNAME=0.0.0.0
-      - PORTAL_URL=nginx
+      - PORTAL_URL=http://nginx
+      - STATE_DIR=/usr/app/state
     expose:
       - 3100
     depends_on:
