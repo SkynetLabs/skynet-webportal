@@ -12,6 +12,7 @@
     "lowdb": "^1.0.0",
     "object-hash": "^2.1.1",
     "superagent": "^6.0.0",
+    "tmp": "^0.2.1",
     "yargs": "^16.2.0"
   },
   "devDependencies": {

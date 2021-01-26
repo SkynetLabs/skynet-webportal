@@ -1,15 +1,22 @@
+const fs = require("fs");
 const superagent = require("superagent");
+const tmp = require('tmp');
 const { StatusCodes } = require("http-status-codes");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
   const time = process.hrtime();
+  const file = tmp.fileSync();
+  
+  fs.writeSync(file.fd, Buffer.from(new Date())); // write current date to temp file
 
   superagent
     .post(`${process.env.PORTAL_URL}/skynet/skyfile`)
-    .attach("file", "package.json", "package.json")
+    .attach("file", file.name, file.name)
     .end((error, response) => {
+      file.removeCallback();
+
       const statusCode = (response && response.statusCode) || (error && error.statusCode) || null;
 
       done({
