@@ -8,8 +8,6 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const db = require("./db");
 
-require("./schedule");
-
 const host = process.env.HOSTNAME || "0.0.0.0";
 const port = Number(process.env.PORT) || 3100;
 
