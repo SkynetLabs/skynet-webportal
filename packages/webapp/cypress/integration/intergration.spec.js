@@ -17,7 +17,7 @@ context("Skynet", () => {
     const fileName = "check.json";
 
     cy.wait(1000); // delay for drag-and-drop to work properly every time
-    cy.get('.home-upload input[type="file"]').attachFile(fileName, { subjectType: 'drag-n-drop' });
+    cy.get('.home-upload input[type="file"]').attachFile(fileName, { subjectType: "drag-n-drop" });
 
     cy.get(".home-upload").scrollIntoView();
     cy.get(".home-uploaded-files").children().should("have.length", 1);
