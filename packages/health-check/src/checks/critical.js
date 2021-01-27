@@ -1,6 +1,6 @@
 const fs = require("fs");
 const superagent = require("superagent");
-const tmp = require('tmp');
+const tmp = require("tmp");
 const { StatusCodes } = require("http-status-codes");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
 
@@ -8,7 +8,7 @@ const { calculateElapsedTime, getResponseContent } = require("../utils");
 async function uploadCheck(done) {
   const time = process.hrtime();
   const file = tmp.fileSync();
-  
+
   fs.writeSync(file.fd, Buffer.from(new Date())); // write current date to temp file
 
   superagent

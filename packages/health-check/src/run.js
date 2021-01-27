@@ -1,21 +1,25 @@
-require('yargs/yargs')(process.argv.slice(2))
-  .command('$0 <type>', 'Skynet portal health checks', (yargs) => {
-    yargs.positional('type', {
-        describe: 'Type of checks to run',
-        type: 'string',
-        choices: ["critical", "verbose"]
-    })  
-    .option("portal-url", {
+require("yargs/yargs")(process.argv.slice(2)).command(
+  "$0 <type>",
+  "Skynet portal health checks",
+  (yargs) => {
+    yargs
+      .positional("type", {
+        describe: "Type of checks to run",
+        type: "string",
+        choices: ["critical", "verbose"],
+      })
+      .option("portal-url", {
         describe: "Skynet portal url",
         default: process.env.PORTAL_URL || "https://siasky.net",
         type: "string",
-    })
-    .option("state-dir", {
+      })
+      .option("state-dir", {
         describe: "State directory",
         default: process.env.STATE_DIR || "state",
         type: "string",
-    })
-  }, async ({ type, portalUrl, stateDir }) => {
+      });
+  },
+  async ({ type, portalUrl, stateDir }) => {
     process.env.PORTAL_URL = portalUrl;
     process.env.STATE_DIR = stateDir;
 
@@ -23,11 +27,11 @@ require('yargs/yargs')(process.argv.slice(2))
     const checks = require(`../src/checks/${type}`);
 
     const entry = {
-        date: new Date().toISOString(),
-        checks: await Promise.all(checks.map((check) => new Promise(check))),
+      date: new Date().toISOString(),
+      checks: await Promise.all(checks.map((check) => new Promise(check))),
     };
 
     // read before writing to make sure no external changes are overwritten
     db.read().get(type).push(entry).write();
-  })
-  .argv
+  }
+).argv;
