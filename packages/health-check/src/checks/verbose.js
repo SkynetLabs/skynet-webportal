@@ -1024,6 +1024,20 @@ function fileEndpointCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
+// check whether hns/note-to-self would properly redirect to note-to-self/
+function hnsEndpointDirectoryRedirect(done) {
+  const expected = {
+    name: "hns endpoint directory redirect",
+    skylink: "hns/note-to-self",
+    statusCode: 307,
+    headers: {
+      location: "note-to-self/",
+    },
+  };
+
+  skylinkVerification(done, expected, { redirects: 0 });
+}
+
 function parseHeaderString(header) {
   try {
     return JSON.parse(header);
@@ -1033,26 +1047,36 @@ function parseHeaderString(header) {
 }
 
 // skylinkVerification verifies a skylink against provided information.
-function skylinkVerification(done, { name, skylink, bodyHash, headers }) {
+function skylinkVerification(done, { name, skylink, bodyHash, headers, statusCode }, { redirects } = {}) {
   const time = process.hrtime();
 
   // Create the query for the skylink
-  const query = `${process.env.PORTAL_URL}/${skylink}?nocache=true`;
+  const query = `${process.env.PORTAL_URL}/${skylink}`;
 
   // Get the Skylink
   superagent
     .get(query)
+    .set("cookie", "nocache=true")
+    .redirects(redirects)
+    .ok((res) => (redirects === undefined ? res.ok : res.status < 400))
     .responseType("blob")
     .then(
       (response) => {
         const entry = { name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
         const info = {};
 
-        // Check if the response body is valid by checking against the known hash
-        const currentBodyHash = hash(response.body);
-        if (currentBodyHash !== bodyHash) {
+        if (statusCode && statusCode !== response.statusCode) {
           entry.up = false;
-          info.bodyHash = { expected: bodyHash, current: currentBodyHash };
+          info.statusCode = { expected: statusCode, current: response.statusCode };
+        }
+
+        // Check if the response body is valid by checking against the known hash
+        if (bodyHash) {
+          const currentBodyHash = hash(response.body);
+          if (currentBodyHash !== bodyHash) {
+            entry.up = false;
+            info.bodyHash = { expected: bodyHash, current: currentBodyHash };
+          }
         }
 
         if (headers) {
@@ -1065,7 +1089,7 @@ function skylinkVerification(done, { name, skylink, bodyHash, headers }) {
               if (typeof currentHeader === "object") {
                 info.headers[headerName] = ensureValidJSON(detailedDiff(expectedHeader, currentHeader));
               } else {
-                info.headers[headerName] = currentHeader;
+                info.headers[headerName] = { expected: expectedHeader, current: currentHeader };
               }
             }
           });
@@ -1118,4 +1142,5 @@ module.exports = [
   // uniswapHNSRedirectCheck,
   uniswapHNSResolverCheck,
   uniswapHNSResolverRedirectCheck,
+  hnsEndpointDirectoryRedirect,
 ];
