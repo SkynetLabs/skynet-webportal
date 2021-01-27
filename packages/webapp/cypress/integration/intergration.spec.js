@@ -12,12 +12,12 @@ context("Skynet", () => {
   });
 
   it("should be able to upload a file", () => {
-    cy.server();
-    cy.route("POST", "/skynet/skyfile").as("upload");
+    cy.intercept("POST", "/skynet/skyfile").as("upload");
 
     const fileName = "check.json";
 
-    cy.get('.home-upload input[type="file"]').attachFile(fileName);
+    cy.wait(1000); // delay for drag-and-drop to work properly every time
+    cy.get('.home-upload input[type="file"]').attachFile(fileName, { subjectType: 'drag-n-drop' });
 
     cy.get(".home-upload").scrollIntoView();
     cy.get(".home-uploaded-files").children().should("have.length", 1);
@@ -32,7 +32,6 @@ context("Skynet", () => {
 
       cy.contains("Copy Link").click();
       cy.contains("Copied!").should("be.visible");
-      cy.contains("Copied!").should("not.be.visible");
     });
   });
 });
