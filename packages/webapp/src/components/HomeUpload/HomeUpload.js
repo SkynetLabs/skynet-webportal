@@ -130,7 +130,7 @@ export default function HomeUpload() {
             response = await client.uploadFile(file, { onUploadProgress });
           }
 
-          onFileStateChange(file, { status: "complete", url: client.getSkylinkUrl(response) });
+          onFileStateChange(file, { status: "complete", url: client.getSkylinkUrl(response.skylink) });
         } catch (error) {
           if (error.response && error.response.status === StatusCodes.TOO_MANY_REQUESTS) {
             onFileStateChange(file, { progress: -1 });
