@@ -1,7 +1,0 @@
-proxy_cache skynet;
-proxy_http_version 1.1; # upgrade if necessary
-proxy_cache_key publickey=$arg_publickey&datakey=$arg_datakey; # cache based on publickey and datakey
-proxy_cache_valid 200 30s; # cache only 200 responses and only for 30 seconds
-proxy_cache_lock on; # queue cache requests for the same resource until it is fully cached
-proxy_cache_bypass $cookie_nocache $arg_nocache; # add cache bypass option
-add_header X-Proxy-Cache $upstream_cache_status; # add response header to indicate cache hits and misses
