@@ -878,7 +878,7 @@ function uncensoredLibraryCheck(done) {
     skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
     bodyHash: "60da6cb958699c5acd7f2a2911656ff32fca89a7",
     headers: {
-      "skynet-skylink": undefined,
+      "skynet-skylink": "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
       "skynet-file-metadata": {
         filename: "Unzip_The_Uncensored_Library_Map.zip",
         subfiles: {
@@ -889,8 +889,8 @@ function uncensoredLibraryCheck(done) {
           },
         },
       },
-      "content-disposition": 'attachment; filename="Unzip_The_Uncensored_Library_Map.zip"',
-      "content-type": "application/octet-stream",
+      "content-disposition": 'inline; filename=\"Unzip_The_Uncensored_Library_Map.zip\"',
+      "content-type": "application/zip",
     },
   };
 
