@@ -10,7 +10,7 @@ source /home/user/.bashrc
 # Add SSH keys and set SSH configs
 sudo cp /home/user/skynet-webportal/setup-scripts/support/ssh_config /etc/ssh/ssh_config
 mkdir -p /home/user/.ssh
-cat /home/user/skynet-webportal/setup-scripts/support/authorized_keys >> /home/user/.ssh/authorized_keys
+# cat /home/user/skynet-webportal/setup-scripts/support/authorized_keys >> /home/user/.ssh/authorized_keys
 
 # Install apt packages
 sudo apt-get update
