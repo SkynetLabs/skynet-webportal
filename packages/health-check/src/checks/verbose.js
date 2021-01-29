@@ -874,7 +874,7 @@ function skyGalleryRedirectCheck(done) {
 // for the uncensored library skylink
 function uncensoredLibraryCheck(done) {
   const linkInfo = {
-    name: "Uncensored Library",
+    name: "The Uncensored Library V2",
     skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
     bodyHash: "60da6cb958699c5acd7f2a2911656ff32fca89a7",
     headers: {
@@ -889,7 +889,58 @@ function uncensoredLibraryCheck(done) {
           },
         },
       },
-      "content-disposition": 'inline; filename=\"Unzip_The_Uncensored_Library_Map.zip\"',
+      "content-disposition": 'inline; filename="Unzip_The_Uncensored_Library_Map.zip"',
+      "content-type": "application/zip",
+    },
+  };
+
+  skylinkVerification(done, linkInfo);
+}
+
+function uncensoredLibraryPressReleaseCheck(done) {
+  const linkInfo = {
+    name: "The Uncensored Library - Press Release",
+    skylink: "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
+    bodyHash: "323217f643c3e3f1fe7532e72ac01bb0748c97be",
+    headers: {
+      "skynet-skylink": "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
+      "skynet-file-metadata": {
+        filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
+        subfiles: {
+          "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip": {
+            filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
+            contenttype: "application/zip",
+            len: 383501533,
+          },
+        },
+      },
+      "content-disposition": 'inline; filename="press-release-Reporters-Without-Borders-The-Uncensored-Library.zip"',
+      "content-type": "application/zip",
+    },
+  };
+
+  // request too large, use head just to verify the headers
+  skylinkVerification(done, linkInfo, { method: "head" });
+}
+
+function uncensoredLibraryV2Check(done) {
+  const linkInfo = {
+    name: "The Uncensored Library V2",
+    skylink: "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
+    bodyHash: "1c6a885c060af8325eee82a11e9d64a13b228015",
+    headers: {
+      "skynet-skylink": "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
+      "skynet-file-metadata": {
+        filename: "The Uncensored Library V2.zip",
+        subfiles: {
+          "The Uncensored Library V2.zip": {
+            filename: "The Uncensored Library V2.zip",
+            contenttype: "application/zip",
+            len: 101262134,
+          },
+        },
+      },
+      "content-disposition": 'inline; filename="The Uncensored Library V2.zip"',
       "content-type": "application/zip",
     },
   };
@@ -1047,15 +1098,14 @@ function parseHeaderString(header) {
 }
 
 // skylinkVerification verifies a skylink against provided information.
-function skylinkVerification(done, { name, skylink, bodyHash, headers, statusCode }, { redirects } = {}) {
+function skylinkVerification(done, { name, skylink, bodyHash, headers, statusCode }, { redirects, method } = {}) {
   const time = process.hrtime();
 
   // Create the query for the skylink
   const query = `${process.env.PORTAL_URL}/${skylink}`;
 
   // Get the Skylink
-  superagent
-    .get(query)
+  superagent[method || "get"](query)
     .set("cookie", "nocache=true")
     .redirects(redirects)
     .ok((res) => (redirects === undefined ? res.ok : res.status < 400))
@@ -1100,6 +1150,8 @@ function skylinkVerification(done, { name, skylink, bodyHash, headers, statusCod
         done(entry); // Return the entry information
       },
       (error) => {
+        console.log(error);
+
         done({
           name,
           up: false,
@@ -1133,6 +1185,8 @@ module.exports = [
   skyGalleryIndexFileCheck,
   skyGalleryRedirectCheck,
   uncensoredLibraryCheck,
+  uncensoredLibraryPressReleaseCheck,
+  uncensoredLibraryV2Check,
   fileEndpointCheck,
   bitcoinWhitepaper,
   // uniswapIndexFileCheck,
