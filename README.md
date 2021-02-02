@@ -54,7 +54,8 @@ docker run \
 	--name mg \
 	-p 27017:27017 \
 	-v /home/user/skynet-webportal/docker/data/mongo/db:/data/db \
-	-v /home/user/skynet-webportal/docker/data/mongo
+	-v /home/user/skynet-webportal/docker/data/mongo/mgkey:/data/mgkey \
+	mongo --keyFile=/data/mgkey --replSet=skynet
 ```
 
 Cluster initialisation mongo command:
