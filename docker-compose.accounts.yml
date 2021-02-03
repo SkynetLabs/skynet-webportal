@@ -128,6 +128,28 @@ services:
       shared:
         ipv4_address: 10.10.10.82
 
+  dashboard:
+    build:
+      context: ./packages/dashboard
+      dockerfile: Dockerfile
+    container_name: dashboard
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      - SECURITY_MODE=jwks
+      - PROJECT_NAME=Skynet
+      - BASE_URL=/
+      - KRATOS_BROWSER_URL=/.ory/kratos/public
+      - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_ADMIN_URL=http://kratos:4434/
+      - SQA_OPT_OUT=true
+    networks:
+      shared:
+        ipv4_address: 10.10.10.83
+    expose:
+      - 3000
+
   oathkeeper:
     image: oryd/oathkeeper:v0.38
     container_name: oathkeeper

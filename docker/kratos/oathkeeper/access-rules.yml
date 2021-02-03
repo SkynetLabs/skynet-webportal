@@ -18,10 +18,10 @@
   mutators:
     - handler: noop
 
-- id: "ory:kratos-selfservice-ui-node:anonymous"
+- id: "dashboard:anonymous"
   upstream:
     preserve_host: true
-    url: "http://kratos-selfservice-ui-node:4435"
+    url: "http://dashboard:3000"
   match:
     url: "http://oathkeeper:4455/<{error,recovery,verify,auth/*,**.css,**.js}{/,}>"
     methods:
@@ -33,12 +33,12 @@
   mutators:
     - handler: noop
 
-- id: "ory:kratos-selfservice-ui-node:protected"
+- id: "dashboard:protected"
   upstream:
     preserve_host: true
-    url: "http://kratos-selfservice-ui-node:4435"
+    url: "http://dashboard:3000"
   match:
-    url: "http://oathkeeper:4455/<{,debug,dashboard,settings}>"
+    url: "http://oathkeeper:4455/<{,uploads,downloads,payments}>"
     methods:
       - GET
   authenticators:
