@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Head from "next/head";
 import { useState } from "react";
+import config from "../../src/config";
+
+const signOutUrl = `${config.kratos.browser}/self-service/browser/flows/logout`;
 
 export default function Layout({ title, children }) {
   const [menuOpen, openMenu] = useState(false);
@@ -105,7 +108,7 @@ export default function Layout({ title, children }) {
                             </a>
                           </Link>
                           <a
-                            href="#"
+                            href={signOutUrl}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem"
                           >
@@ -194,7 +197,7 @@ export default function Layout({ title, children }) {
                   </a>
                 </Link>
                 <a
-                  href="#"
+                  href={signOutUrl}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                 >
                   Sign out
