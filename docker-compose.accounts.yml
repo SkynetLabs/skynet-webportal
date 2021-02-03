@@ -146,7 +146,7 @@ services:
       - SQA_OPT_OUT=true
     networks:
       shared:
-        ipv4_address: 10.10.10.83
+        ipv4_address: 10.10.10.85
     expose:
       - 3000
 
