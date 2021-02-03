@@ -294,7 +294,7 @@ async def check_alerts():
     repair_str = 'Repair Data Remaining'
     
     # Split the output by line and check for the repair remaining
-    for line in siac_alert_output.split("\n"):
+    for line in siac_renter_output.split("\n"):
         # Check for the type of alert
         if contains_string(line, repair_str):
             repair_remaining = line.split()[1]:
