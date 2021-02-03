@@ -285,7 +285,7 @@ async def check_alerts():
     # Repair Size 
     # Execute 'siac renter' and read the response
     cmd_string = "docker exec {} siac renter".format(CONTAINER_NAME)
-    siac_alert_output = os.popen(cmd_string).read().strip()
+    siac_renter_output = os.popen(cmd_string).read().strip()
 
     # Initialize variables
     repair_remaining = ''
