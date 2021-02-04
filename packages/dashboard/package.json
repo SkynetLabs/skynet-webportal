@@ -10,6 +10,8 @@
   "dependencies": {
     "@ory/kratos-client": "^0.5.4-alpha.1",
     "autoprefixer": "^10.2.4",
+    "express-jwt": "^6.0.0",
+    "jwks-rsa": "^1.12.2",
     "next": "^10.0.6",
     "postcss": "^8.2.4",
     "prettier": "^2.2.1",
