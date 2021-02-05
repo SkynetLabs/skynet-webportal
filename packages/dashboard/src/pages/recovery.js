@@ -47,7 +47,7 @@ const fieldProps = {
   },
 };
 
-export default function Registration({ flow }) {
+export default function Recovery({ flow }) {
   const fields = flow.methods.link.config.fields
     .map((field) => ({
       ...field,
