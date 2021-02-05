@@ -17,10 +17,26 @@ const middleware = jwt({
   algorithms: ["RS256"],
 });
 
-export default middleware((req, res) => {
+// Helper method to wait for a middleware to execute before continuing
+// And to throw an error when an error happens in a middleware
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
+
+export default (req, res) => {
+  await runMiddleware(req, res, middleware)
+
   console.log(Object.keys(req));
   console.log(req);
   console.log(JSON.stringify(req));
   res.statusCode = 200;
   res.json({ name: "John Doe" });
-});
+};
