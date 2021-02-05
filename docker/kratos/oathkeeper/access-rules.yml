@@ -94,6 +94,7 @@
     url: "http://oathkeeper<{,:4455}>/<{user,user/**,track/**}>"
     methods:
       - GET
+      - POST
   authenticators:
     - handler: cookie_session
   authorizer:
