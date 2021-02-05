@@ -31,8 +31,8 @@ function runMiddleware(req, res, fn) {
   });
 }
 
-export default (req, res) => {
-  await runMiddleware(req, res, middleware)
+export default async (req, res) => {
+  await runMiddleware(req, res, middleware);
 
   console.log(Object.keys(req));
   console.log(req);
