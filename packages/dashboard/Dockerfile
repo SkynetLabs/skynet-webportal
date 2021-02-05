@@ -2,7 +2,6 @@ FROM node:14.15.0-alpine
 
 WORKDIR /usr/app
 
-COPY pages ./pages
 COPY public ./public
 COPY src ./src
 COPY styles ./styles

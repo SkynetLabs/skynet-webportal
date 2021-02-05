@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
-import config from "../../src/config";
+import config from "../../config";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
@@ -127,7 +127,7 @@ export default function Login({ flow }) {
                 </label>
               </div> */}
               <div className="text-sm">
-                <Link href="/auth/recovery">
+                <Link href="/recovery">
                   <a className="font-medium text-green-600 hover:text-green-500">Forgot your password?</a>
                 </Link>
               </div>

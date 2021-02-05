@@ -57,7 +57,7 @@
     preserve_host: true
     url: "http://dashboard:3000"
   match:
-    url: "http://oathkeeper:4455/<{error,recovery,verify,auth/*,**.css,**.js}{/,}>"
+    url: "http://oathkeeper:4455/<{error,verify,auth/*,**.css,**.js}{/,}>"
     methods:
       - GET
   authenticators:
