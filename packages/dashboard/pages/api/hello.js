@@ -35,8 +35,7 @@ export default async (req, res) => {
   await runMiddleware(req, res, middleware);
 
   console.log(Object.keys(req));
-  console.log(req);
-  console.log(JSON.stringify(req));
+  console.log(user);
   res.statusCode = 200;
   res.json({ name: "John Doe" });
 };
