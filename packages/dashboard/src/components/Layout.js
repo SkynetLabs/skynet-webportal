@@ -212,6 +212,7 @@ export default function Layout({ title, children }) {
           </div>
         </header>
       </div>
+
       <main className="-mt-32">
         <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
           {/* Replace with your content */}
@@ -223,6 +224,13 @@ export default function Layout({ title, children }) {
           {/* /End replace */}
         </div>
       </main>
+
+      <footer>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl text-sm text-gray-500 text-center sm:text-left">
+          <span className="block sm:inline">© 2021 Skynet Labs Inc.</span>{" "}
+          <span className="block sm:inline">All rights reserved.</span>
+        </div>
+      </footer>
     </div>
   );
 }

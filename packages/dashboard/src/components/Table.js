@@ -1,11 +1,11 @@
-const rowsPerPage = 10;
+const pageSize = 10;
 
 export default function Table({ data, headers, actions, page, setPage }) {
-  const lastPage = Math.ceil(data.length / rowsPerPage);
+  const lastPage = Math.ceil(data.length / pageSize);
 
   if (page > lastPage) setPage(lastPage);
 
-  const dataSlice = data.slice(rowsPerPage * (page - 1), rowsPerPage * (page - 1) + rowsPerPage);
+  const dataSlice = data.slice(pageSize * (page - 1), pageSize * (page - 1) + pageSize);
 
   return (
     <div className="flex flex-col">
@@ -34,9 +34,9 @@ export default function Table({ data, headers, actions, page, setPage }) {
               <tbody>
                 {dataSlice.map((row, index) => (
                   <tr className={index % 2 ? "bg-white" : "bg-gray-50"} key={index}>
-                    {headers.map(({ key, name }) => (
+                    {headers.map(({ key, formatter }) => (
                       <td key={key} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {row[key] || "-"}
+                        {(formatter ? formatter(row[key]) : row[key]) || "-"}
                       </td>
                     ))}
                     {actions.map(({ key, name, action }) => (
@@ -57,10 +57,8 @@ export default function Table({ data, headers, actions, page, setPage }) {
             >
               <div className="hidden sm:block">
                 <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{rowsPerPage * (page - 1) + 1}</span> to{" "}
-                  <span className="font-medium">
-                    {rowsPerPage * page > data.length ? data.length : rowsPerPage * page}
-                  </span>{" "}
+                  Showing <span className="font-medium">{data.length ? pageSize * (page - 1) + 1 : 0}</span> to{" "}
+                  <span className="font-medium">{pageSize * page > data.length ? data.length : pageSize * page}</span>{" "}
                   of <span className="font-medium">{data.length}</span> results
                 </p>
               </div>

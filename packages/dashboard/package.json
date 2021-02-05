@@ -8,13 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fontsource/metropolis": "^4.1.0",
     "@ory/kratos-client": "^0.5.4-alpha.1",
     "autoprefixer": "^10.2.4",
+    "dayjs": "^1.10.4",
     "express-jwt": "^6.0.0",
     "jwks-rsa": "^1.12.2",
     "next": "^10.0.6",
     "postcss": "^8.2.4",
     "prettier": "^2.2.1",
+    "pretty-bytes": "^5.5.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "swr": "^0.4.1",
