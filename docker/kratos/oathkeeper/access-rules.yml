@@ -18,40 +18,6 @@
   mutators:
     - handler: noop
 
-# - id: "ory:kratos-selfservice-ui-node:anonymous"
-#   upstream:
-#     preserve_host: true
-#     url: "http://kratos-selfservice-ui-node:4435"
-#   match:
-#     url: "http://oathkeeper:4455/<{error,recovery,verify,auth/*,**.css,**.js}{/,}>"
-#     methods:
-#       - GET
-#   authenticators:
-#     - handler: anonymous
-#   authorizer:
-#     handler: allow
-#   mutators:
-#     - handler: noop
-
-# - id: "ory:kratos-selfservice-ui-node:protected"
-#   upstream:
-#     preserve_host: true
-#     url: "http://kratos-selfservice-ui-node:4435"
-#   match:
-#     url: "http://oathkeeper:4455/<{,debug,dashboard,settings}>"
-#     methods:
-#       - GET
-#   authenticators:
-#     - handler: cookie_session
-#   authorizer:
-#     handler: allow
-#   mutators:
-#     - handler: id_token
-#   errors:
-#     - handler: redirect
-#       config:
-#         to: http://127.0.0.1/auth/login
-
 - id: "dashboard:anonymous"
   upstream:
     preserve_host: true
@@ -91,10 +57,9 @@
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{user,user/**,track/**}>"
+    url: "http://oathkeeper<{,:4455}>/<{user,user/**}>"
     methods:
       - GET
-      - POST
   authenticators:
     - handler: cookie_session
   authorizer:
