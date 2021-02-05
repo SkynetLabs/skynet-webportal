@@ -16,7 +16,7 @@ const actions = [];
 
 export default function Downloads() {
   const [page, setPage] = useState(1);
-  const { data, error } = useSWR("/api/fixtures/downloads", fetcher);
+  const { data, error } = useSWR("/user/downloads", fetcher);
 
   return (
     <Layout title="Your downloads">
