@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
-import config from "../../src/config";
+import config from "../config";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 

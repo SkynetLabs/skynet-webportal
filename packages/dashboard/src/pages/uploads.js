@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Layout from "../src/components/Layout";
-import Table from "../src/components/Table";
+import Layout from "../components/Layout";
+import Table from "../components/Table";
 
 const data = [
   { skylink: "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw", size: "1 KB", date: "today" },
