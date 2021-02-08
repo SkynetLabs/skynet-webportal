@@ -58,6 +58,11 @@ export default function Error({ errors }) {
           ))}
         </div>
       </div>
+      <div className="text-center mt-8">
+        <Link href="/">
+          <a className="font-medium text-green-600 hover:text-green-500">back to homepage</a>
+        </Link>
+      </div>
     </div>
   );
 }
