@@ -146,9 +146,10 @@ export default function Login({ flow }) {
               Sign in
             </button>
 
-            {Boolean(flow.methods.password.config.errors?.length) && (
-              <Message items={flow.methods.password.config.errors.map(({ message }) => message)} />
-            )}
+            {Boolean(flow.methods.password.config.messages?.length) &&
+              flow.methods.password.config.messages.map((message) => (
+                <Message type={message.type} title={message.text} />
+              ))}
           </form>
         </div>
       </div>

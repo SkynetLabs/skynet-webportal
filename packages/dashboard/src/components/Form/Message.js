@@ -1,4 +1,4 @@
-export default function Message({ title, items = [] }) {
+export default function Message({ type, title, items = [] }) {
   return (
     <div className="rounded-md bg-red-50 p-4">
       <div className="flex">
