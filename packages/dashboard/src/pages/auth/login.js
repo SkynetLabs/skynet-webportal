@@ -127,7 +127,7 @@ export default function Login({ flow }) {
 
                 {Boolean(field.messages?.length) && (
                   <div className="mt-2">
-                    <Message items={field.messages.map(({ context }) => context.text)} />
+                    <Message items={field.messages.map(({ text }) => text)} />
                   </div>
                 )}
               </div>
