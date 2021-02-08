@@ -123,7 +123,7 @@ export default function Login({ flow }) {
                   />
                 </div>
 
-                {field.errors && field.errors.length > 0 && (
+                {Boolean(field.errors?.length) && (
                   <div className="mt-2">
                     <Message items={field.errors.map(({ message }) => message)} />
                   </div>
@@ -144,7 +144,7 @@ export default function Login({ flow }) {
               Sign in
             </button>
 
-            {flow.methods.password.config.errors.length > 0 && (
+            {Boolean(flow.methods.password.config.errors?.length) && (
               <Message items={flow.methods.password.config.errors.map(({ message }) => message)} />
             )}
           </form>
