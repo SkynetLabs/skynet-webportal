@@ -124,7 +124,7 @@ export default function Registration({ flow }) {
                 <div>
                   <input
                     id={field.name}
-                    name={`['${field.name}']`}
+                    name={field.name}
                     type={field.type}
                     autoComplete={field.autoComplete}
                     required={field.required}
