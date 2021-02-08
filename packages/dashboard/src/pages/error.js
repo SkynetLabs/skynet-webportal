@@ -45,7 +45,18 @@ export default function Error({ errors }) {
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">An error occurred</h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">{JSON.stringify(errors)}</div>
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {errors.map((error, index) => (
+            <div className={`${index > 1 ? "mt-3 sm:mt-5" : ""} text-center`}>
+              <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                {error.code} - {error.status}
+              </h3>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">{error.message}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
