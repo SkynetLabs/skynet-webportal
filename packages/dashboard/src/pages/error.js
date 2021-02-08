@@ -7,6 +7,8 @@ const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public 
 export async function getServerSideProps(context) {
   const error = req.query.error;
 
+  console.log("error", error);
+
   // No error was send, redirecting back to home.
   if (!error || typeof error !== "string") {
     console.log("No error ID found in URL, redirecting to homepage.");
@@ -17,10 +19,13 @@ export async function getServerSideProps(context) {
   try {
     const { status, data } = await kratos.getSelfServiceError(error);
 
+    console.log("data", data);
+
     if ("errors" in data) return { props: { errors: data.errors } };
 
     throw new Error(`Expected error ${error} to contain "errors" but got ${JSON.stringify(data)}`);
   } catch (error) {
+    console.log(">>>>>", error);
     return { redirect: { permanent: false, destination: config.kratos.browser } };
   }
 }
