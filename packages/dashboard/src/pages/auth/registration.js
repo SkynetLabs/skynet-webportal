@@ -132,9 +132,9 @@ export default function Registration({ flow }) {
                     value={formik.values[field.name]}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   />
-                  {Boolean(field.errors?.length) && (
+                  {Boolean(field.messages?.length) && (
                     <div className="mt-2">
-                      <Message items={field.errors.map(({ message }) => message)} />
+                      <Message items={field.messages.map(({ context }) => context.text)} />
                     </div>
                   )}
                 </div>
