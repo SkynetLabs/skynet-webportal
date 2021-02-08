@@ -29,6 +29,8 @@ export async function getServerSideProps(context) {
   try {
     const { status, data } = await kratos.getSelfServiceRegistrationFlow(flow);
 
+    console.log("flow", data);
+
     if (status === 200) return { props: { flow: data } };
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
@@ -78,9 +80,6 @@ export default function Registration({ flow }) {
   const formik = useFormik({
     initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}),
   });
-
-  console.log(fields);
-  console.log("fieldProps", fieldProps);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
