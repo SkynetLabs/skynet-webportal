@@ -242,7 +242,12 @@ def contains_string(string_to_check, string_to_find):
 async def check_alerts():
     print("\nChecking portal siad alerts...")
 
-    # Execute siac alerts and read the response
+    ################################################################################
+    # parse siac
+    ################################################################################
+
+    # Alerts 
+    # Execute 'siac alerts' and read the response
     cmd_string = "docker exec {} siac alerts".format(CONTAINER_NAME)
     siac_alert_output = os.popen(cmd_string).read().strip()
 
@@ -277,6 +282,23 @@ async def check_alerts():
         if contains_string(line, health_of):
             siafile_alerts.append(line)
 
+    # Repair Size 
+    # Execute 'siac renter' and read the response
+    cmd_string = "docker exec {} siac renter".format(CONTAINER_NAME)
+    siac_renter_output = os.popen(cmd_string).read().strip()
+
+    # Initialize variables
+    repair_remaining = ''
+
+    # Pattern strings to search for
+    repair_str = 'Repair Data Remaining'
+    
+    # Split the output by line and check for the repair remaining
+    for line in siac_renter_output.split("\n"):
+        # Check for the type of alert
+        if contains_string(line, repair_str):
+            repair_remaining = line.split()[1]:
+    
     ################################################################################
     # create a message
     ################################################################################
@@ -295,6 +317,9 @@ async def check_alerts():
     num_warning_alerts -= num_siafile_alerts
     message += "{} Warning Alerts found. ".format(num_warning_alerts)
     message += "{} SiaFiles with bad health found. ".format(num_siafile_alerts)
+    
+    # Add repair size
+    message += "{} of repair remaining. ".format(repair_remaining)
 
     # send a message if we force notification, or just once daily (heartbeat)
     # on 1 AM
