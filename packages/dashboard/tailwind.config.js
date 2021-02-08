@@ -6,10 +6,13 @@ module.exports = {
       fontFamily: {
         sans: ["Metropolis", "Helvetica", "Arial", "Sans-Serif"],
       },
+      colors: {
+        orange: colors.orange,
+      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };
