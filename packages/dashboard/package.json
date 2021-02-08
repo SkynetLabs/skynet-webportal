@@ -13,6 +13,7 @@
     "autoprefixer": "^10.2.4",
     "dayjs": "^1.10.4",
     "express-jwt": "^6.0.0",
+    "formik": "^2.2.6",
     "jwks-rsa": "^1.12.2",
     "next": "^10.0.6",
     "postcss": "^8.2.4",
@@ -21,6 +22,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "swr": "^0.4.1",
-    "tailwindcss": "^2.0.2"
+    "tailwindcss": "^2.0.2",
+    "yup": "^0.32.8"
   }
 }

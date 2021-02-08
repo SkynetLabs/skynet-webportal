@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
+import { useFormik } from "formik";
 import config from "../../config";
+import Message from "../../components/Form/Message";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
+
+  if (process.env.NODE_ENV === "development") {
+    return { props: { flow: require("../../../stubs/registration.json") } };
+  }
 
   // The flow is used to identify the login and registration flow and
   // return data like the csrf_token and so on.
@@ -69,8 +75,12 @@ export default function Registration({ flow }) {
       ...fieldProps[field.name],
     }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
+  const formik = useFormik({
+    initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}),
+  });
 
-  console.log(flow);
+  console.log(fields);
+  console.log("fieldProps", fieldProps);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -114,24 +124,34 @@ export default function Registration({ flow }) {
                 <div>
                   <input
                     id={field.name}
-                    name={field.name}
+                    name={`['${field.name}']`}
                     type={field.type}
-                    autoComplete={fieldProps[field.name]}
+                    autoComplete={field.autoComplete}
                     required={field.required}
-                    value={field.value || undefined}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values[field.name]}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   />
+                  {field.errors && field.errors.length > 0 && (
+                    <div className="mt-2">
+                      <Message items={field.errors.map(({ message }) => message)} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                Sign up
-              </button>
-            </div>
+
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              Sign up
+            </button>
+
+            {flow.methods.password.config.errors.length > 0 && (
+              <Message items={flow.methods.password.config.errors.map(({ message }) => message)} />
+            )}
           </form>
         </div>
       </div>
