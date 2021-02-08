@@ -49,10 +49,10 @@ export default function Error({ errors }) {
           {errors.map((error, index) => (
             <div className={`${index > 1 ? "mt-3 sm:mt-5" : ""} text-center`}>
               <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                {error.code} - {error.status}
+                {error.code} - {error.message}
               </h3>
               <div className="mt-2">
-                <p className="text-sm text-gray-500">{error.message}</p>
+                <p className="text-sm text-gray-500">{error.reason}</p>
               </div>
             </div>
           ))}
