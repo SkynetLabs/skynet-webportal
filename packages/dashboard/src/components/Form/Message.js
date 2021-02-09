@@ -28,7 +28,7 @@ const types = {
 };
 
 export default function Message({ type, title, items = [] }) {
-  const { color, icon } = types[type];
+  const { backgroundColor, titleColor, detailsColor, iconColor, icon } = types[type];
 
   return (
     <div className={`rounded-md ${backgroundColor} p-4`}>
