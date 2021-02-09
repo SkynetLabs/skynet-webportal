@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   purge: ["./src/**/*.js"],
   darkMode: false, // or 'media' or 'class'
@@ -7,7 +9,7 @@ module.exports = {
         sans: ["Metropolis", "Helvetica", "Arial", "Sans-Serif"],
       },
       colors: {
-        orange: colors.orange,
+        orange: colors.green,
       },
     },
   },
