@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
 import config from "../config";
+import Message from "../../components/Form/Message";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
@@ -102,6 +103,12 @@ export default function Recovery({ flow }) {
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   />
                 </div>
+
+                {Boolean(field.messages?.length) && (
+                  <div className="mt-2">
+                    <Message items={field.messages.map(({ text }) => text)} />
+                  </div>
+                )}
               </div>
             ))}
             <div>
@@ -112,6 +119,11 @@ export default function Recovery({ flow }) {
                 Send recovery link
               </button>
             </div>
+
+            {Boolean(flow.methods.password.config.messages?.length) &&
+              flow.methods.password.config.messages.map((message) => (
+                <Message type={message.type} title={message.text} />
+              ))}
           </form>
         </div>
       </div>
