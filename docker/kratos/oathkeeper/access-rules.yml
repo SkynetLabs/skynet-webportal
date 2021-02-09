@@ -43,7 +43,7 @@
     preserve_host: true
     url: "http://dashboard:3000"
   match:
-    url: "http://oathkeeper:4455/<{,uploads,downloads,payments,api,api/hello}>"
+    url: "http://oathkeeper:4455/<{,uploads,downloads,payments,api,api/*}>"
     methods:
       - GET
   authenticators:
