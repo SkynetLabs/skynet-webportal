@@ -4,30 +4,29 @@ export default function Payments() {
   return (
     <Layout title="Payments">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-        {/* This example requires Tailwind CSS v2.0+ */}
-        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">Free Plan</dd>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Next invoice</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">-</dd>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Plan usage this month</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">24.57%</dd>
-            </div>
-          </div>
-        </dl>
-
-        {/* Payment details */}
         <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+          {/* This example requires Tailwind CSS v2.0+ */}
+          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">Free Plan</dd>
+              </div>
+            </div>
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">Next invoice</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">-</dd>
+              </div>
+            </div>
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">Plan usage this month</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">24.57%</dd>
+              </div>
+            </div>
+          </dl>
+
           <section aria-labelledby="payment_details_heading">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
