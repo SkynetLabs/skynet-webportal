@@ -82,13 +82,6 @@ mutators:
       api:
         url: http://dashboard:3000/api/hydrator
 
-  cookie:
-    enabled: true
-    config:
-      cookies:
-        userxxxx: "{{ print .Subject }}",
-        some-arbitrary-data: "{{ print .Extra.foo }}"
-
   id_token:
     enabled: true
     config:
