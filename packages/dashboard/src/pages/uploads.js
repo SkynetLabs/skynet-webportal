@@ -15,13 +15,13 @@ const headers = [
 ];
 const actions = [];
 
-export default function Downloads() {
-  const [page, setPage] = useState(1);
-  const { data, error } = useSWR(`${apiPrefix}/user/uploads`, fetcher);
+export default function Uploads() {
+  const [offset, setOffset] = useState(0);
+  const { data, error } = useSWR(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
 
   return (
     <Layout title="Your uploads">
-      {data && <Table data={data} headers={headers} actions={actions} page={page} setPage={setPage} />}
+      <Table {...data} headers={headers} actions={actions} setOffset={setOffset} />
     </Layout>
   );
 }

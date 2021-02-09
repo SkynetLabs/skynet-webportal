@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import classnames from "classnames";
 
-const pageSize = 2;
-
 function Button({ children, disabled, className, ...props }) {
   return (
     <button
@@ -23,14 +21,16 @@ function Button({ children, disabled, className, ...props }) {
   );
 }
 
-export default function Table({ data, headers, actions, page, setPage }) {
-  const lastPage = Math.ceil(data.length / pageSize);
-  const dataSlice = data.slice(pageSize * (page - 1), pageSize * (page - 1) + pageSize);
-
+export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
   useEffect(() => {
-    if (page > lastPage) setPage(lastPage);
-    if (page < 1) setPage(1);
-  }, [page, lastPage, setPage]);
+    if (offset + pageSize > count) setOffset(Math.floor(count / pageSize));
+    else if (offset < 0) setOffset(0);
+    else if (offset % pageSize) setOffset(offset - (offset % pageSize));
+  }, [offset, pageSize, setOffset]);
+
+  if (!items) {
+    return <>aaaa</>;
+  }
 
   return (
     <div className="flex flex-col">
@@ -57,7 +57,7 @@ export default function Table({ data, headers, actions, page, setPage }) {
                 </tr>
               </thead>
               <tbody>
-                {dataSlice.map((row, index) => (
+                {items.map((row, index) => (
                   <tr className={index % 2 ? "bg-white" : "bg-gray-50"} key={index}>
                     {headers.map(({ key, formatter }) => (
                       <td key={key} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -82,16 +82,20 @@ export default function Table({ data, headers, actions, page, setPage }) {
             >
               <div className="hidden sm:block">
                 <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{data.length ? pageSize * (page - 1) + 1 : 0}</span> to{" "}
-                  <span className="font-medium">{pageSize * page > data.length ? data.length : pageSize * page}</span>{" "}
-                  of <span className="font-medium">{data.length}</span> results
+                  Showing <span className="font-medium">{offset ? offset + 1 : 0}</span> to{" "}
+                  <span className="font-medium">{offset + pageSize > count ? count : offset + pageSize}</span> of{" "}
+                  <span className="font-medium">{count}</span> results
                 </p>
               </div>
               <div className="flex-1 flex justify-between sm:justify-end">
-                <Button disabled={page <= 1} onClick={() => setPage(page - 1)}>
+                <Button disabled={offset - pageSize < 0} onClick={() => setOffset(offset - pageSize)}>
                   Previous
                 </Button>
-                <Button className="ml-3" disabled={page >= lastPage} onClick={() => setPage(page + 1)}>
+                <Button
+                  className="ml-3"
+                  disabled={offset + pageSize > count}
+                  onClick={() => setOffset(offset + pageSize)}
+                >
                   Next
                 </Button>
               </div>
