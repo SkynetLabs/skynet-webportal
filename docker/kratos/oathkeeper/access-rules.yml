@@ -17,6 +17,10 @@
     handler: allow
   mutators:
     - handler: noop
+    - handler: hydrator
+      config:
+        api:
+          url: http://dashboard:3000/api/hydrator
 
 - id: "dashboard:anonymous"
   upstream:
