@@ -76,18 +76,18 @@ mutators:
   noop:
     enabled: true
 
-  hydrator:
-    enabled: true
-    config:
-      api:
-        url: http://dashboard:3000/api/hydrator
+  # hydrator:
+  #   enabled: true
+  #   config:
+  #     api:
+  #       url: http://dashboard:3000/api/hydrator
 
-  cookie:
-    enabled: true
-    config:
-      cookies:
-        user: "{{ print .Subject }}",
-        some-arbitrary-data: "{{ print .Extra.foo }}"
+  # cookie:
+  #   enabled: true
+  #   config:
+  #     cookies:
+  #       user: "{{ print .Subject }}",
+  #       some-arbitrary-data: "{{ print .Extra.foo }}"
 
   id_token:
     enabled: true
