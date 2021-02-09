@@ -1,6 +1,9 @@
 const types = {
   error: {
-    color: "red",
+    backgroundColor: "bg-red-50",
+    titleColor: "text-red-800",
+    detailsColor: "text-red-700",
+    iconColor: "text-red-400",
     icon: (
       <path
         fillRule="evenodd"
@@ -10,7 +13,10 @@ const types = {
     ),
   },
   info: {
-    color: "blue",
+    backgroundColor: "bg-blue-50",
+    titleColor: "text-blue-800",
+    detailsColor: "text-blue-700",
+    iconColor: "text-blue-400",
     icon: (
       <path
         fillRule="evenodd"
@@ -25,11 +31,11 @@ export default function Message({ type, title, items = [] }) {
   const { color, icon } = types[type];
 
   return (
-    <div className={`rounded-md bg-${color}-50 p-4`}>
+    <div className={`rounded-md ${backgroundColor} p-4`}>
       <div className="flex">
         <div className="flex-shrink-0">
           <svg
-            className={`h-5 w-5 text-${color}-400`}
+            className={`h-5 w-5 ${iconColor}`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -39,9 +45,9 @@ export default function Message({ type, title, items = [] }) {
           </svg>
         </div>
         <div className="ml-3">
-          {title && <h3 className={`text-sm font-medium text-${color}-800`}>{title}</h3>}
+          {title && <h3 className={`text-sm font-medium ${titleColor}`}>{title}</h3>}
           {items.length > 0 && (
-            <div className={`${title ? "mt-2" : ""} text-sm text-${color}-700`}>
+            <div className={`${title ? "mt-2" : ""} text-sm ${detailsColor}`}>
               <ul className={`${items.length > 1 ? "list-disc pl-5 space-y-1" : ""}`}>
                 {items.map((item, index) => (
                   <li key={index}>{item}</li>
