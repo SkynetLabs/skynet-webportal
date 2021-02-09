@@ -120,10 +120,8 @@ export default function Recovery({ flow }) {
               </button>
             </div>
 
-            {Boolean(flow.methods.password.config.messages?.length) &&
-              flow.methods.password.config.messages.map((message) => (
-                <Message type={message.type} title={message.text} />
-              ))}
+            {Boolean(flow.methods.link.config.messages?.length) &&
+              flow.methods.link.config.messages.map((message) => <Message type={message.type} title={message.text} />)}
           </form>
         </div>
       </div>
