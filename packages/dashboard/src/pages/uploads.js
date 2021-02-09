@@ -5,6 +5,7 @@ import useSWR from "swr";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
 
+const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const headers = [
   { key: "name", name: "Name" },
@@ -16,7 +17,7 @@ const actions = [];
 
 export default function Downloads() {
   const [page, setPage] = useState(1);
-  const { data, error } = useSWR("/user/uploads", fetcher);
+  const { data, error } = useSWR(`${apiPrefix}/user/uploads`, fetcher);
 
   return (
     <Layout title="Your uploads">

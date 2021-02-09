@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Layout from "../components/Layout";
 
 export default function Payments() {
@@ -16,7 +17,7 @@ export default function Payments() {
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Next invoice</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">-</dd>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
               </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -161,10 +162,17 @@ export default function Payments() {
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="bg-white py-6 px-4 space-y-6 sm:p-6">
-                  <div>
-                    <h2 id="plan_heading" className="text-lg leading-6 font-medium text-gray-900">
-                      Plan
-                    </h2>
+                  <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+                    <div className="ml-4 mt-2">
+                      <h3 id="plan_heading" className="text-lg leading-6 font-medium text-gray-900">
+                        Plan
+                      </h3>
+                    </div>
+                    <div className="ml-4 mt-2 flex-shrink-0">
+                      <Link href="/plans">
+                        <a className="font-medium text-indigo-600 hover:text-indigo-500">help me choose a plan</a>
+                      </Link>
+                    </div>
                   </div>
                   <fieldset>
                     <legend className="sr-only">Pricing plans</legend>
@@ -178,18 +186,19 @@ export default function Payments() {
                               type="radio"
                               className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                               aria-describedby="plan-option-pricing-0 plan-option-limit-0"
+                              defaultChecked
                             />
-                            <span className="ml-3 font-medium text-gray-900">Startup</span>
+                            <span className="ml-3 font-medium text-gray-900">Free</span>
                           </label>
                           <p id="plan-option-pricing-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
                             {/* On: "text-orange-900", Off: "text-gray-900" */}
-                            <span className="font-medium">$29 / mo</span>
+                            <span className="font-medium">&mdash;</span>
                             {/* On: "text-orange-700", Off: "text-gray-500" */}
-                            <span>($290 / yr)</span>
+                            {/* <span>($290 / yr)</span> */}
                           </p>
                           {/* On: "text-orange-700", Off: "text-gray-500" */}
                           <p id="plan-option-limit-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right">
-                            Up to 5 active job postings
+                            Unlimited bandwidth with throttled speed
                           </p>
                         </div>
                       </li>
@@ -202,19 +211,17 @@ export default function Payments() {
                               type="radio"
                               className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                               aria-describedby="plan-option-pricing-1 plan-option-limit-1"
-                              defaultChecked
                             />
-                            <span className="ml-3 font-medium text-gray-900">Business</span>
+                            <span className="ml-3 font-medium text-gray-900">Skynet Plus</span>
                           </label>
                           <p id="plan-option-pricing-1" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
                             {/* On: "text-orange-900", Off: "text-gray-900" */}
-                            <span className="font-medium">$99 / mo</span>
-                            {/* On: "text-orange-700", Off: "text-gray-500" */}
-                            <span>($990 / yr)</span>
+                            <span className="font-medium">$5 / mo</span>
+                            {/* On: "text-orange-700", Off: "text-gray-500" */} <span>($50 / yr)</span>
                           </p>
                           {/* On: "text-orange-700", Off: "text-gray-500" */}
                           <p id="plan-option-limit-1" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right">
-                            Up to 25 active job postings
+                            1 TB premium bandwidth with full speed
                           </p>
                         </div>
                       </li>
@@ -228,17 +235,39 @@ export default function Payments() {
                               className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                               aria-describedby="plan-option-pricing-2 plan-option-limit-2"
                             />
-                            <span className="ml-3 font-medium text-gray-900">Enterprise</span>
+                            <span className="ml-3 font-medium text-gray-900">Skynet Pro</span>
                           </label>
                           <p id="plan-option-pricing-2" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
                             {/* On: "text-orange-900", Off: "text-gray-900" */}
-                            <span className="font-medium">$249 / mo</span>
-                            {/* On: "text-orange-700", Off: "text-gray-500" */}
-                            <span>($2490 / yr)</span>
+                            <span className="font-medium">$20 / mo</span>
+                            {/* On: "text-orange-700", Off: "text-gray-500" */} <span>($200 / yr)</span>
                           </p>
                           {/* On: "text-orange-700", Off: "text-gray-500" */}
                           <p id="plan-option-limit-2" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right">
-                            Unlimited active job postings
+                            5 TB premium bandwidth with full speed
+                          </p>
+                        </div>
+                      </li>
+                      <li>
+                        {/* On: "bg-orange-50 border-orange-200 z-10", Off: "border-gray-200" */}
+                        <div className="relative border border-gray-200 rounded-bl-md rounded-br-md p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3">
+                          <label className="flex items-center text-sm cursor-pointer">
+                            <input
+                              name="pricing_plan"
+                              type="radio"
+                              className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
+                              aria-describedby="plan-option-pricing-2 plan-option-limit-2"
+                            />
+                            <span className="ml-3 font-medium text-gray-900">Skynet Extreme</span>
+                          </label>
+                          <p id="plan-option-pricing-2" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
+                            {/* On: "text-orange-900", Off: "text-gray-900" */}
+                            <span className="font-medium">$80 / mo</span>
+                            {/* On: "text-orange-700", Off: "text-gray-500" */} <span>($800 / yr)</span>
+                          </p>
+                          {/* On: "text-orange-700", Off: "text-gray-500" */}
+                          <p id="plan-option-limit-2" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right">
+                            20 TB premium bandwidth with full speed
                           </p>
                         </div>
                       </li>

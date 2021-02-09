@@ -225,7 +225,7 @@ export default function Layout({ title, children }) {
         </div>
       </main>
 
-      <footer>
+      <footer className="mb-4 sm:mb-6">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl text-sm text-gray-500 text-center sm:text-left">
           <span className="block sm:inline">© 2021 Skynet Labs Inc.</span>{" "}
           <span className="block sm:inline">All rights reserved.</span>

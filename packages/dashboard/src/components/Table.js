@@ -1,11 +1,36 @@
-const pageSize = 10;
+import { useEffect } from "react";
+import classnames from "classnames";
+
+const pageSize = 2;
+
+function Button({ children, disabled, className, ...props }) {
+  return (
+    <button
+      type="button"
+      className={classnames(
+        "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white",
+        {
+          "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500": !disabled,
+          "cursor-auto opacity-50": disabled,
+        },
+        className
+      )}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
 export default function Table({ data, headers, actions, page, setPage }) {
   const lastPage = Math.ceil(data.length / pageSize);
-
-  if (page > lastPage) setPage(lastPage);
-
   const dataSlice = data.slice(pageSize * (page - 1), pageSize * (page - 1) + pageSize);
+
+  useEffect(() => {
+    if (page > lastPage) setPage(lastPage);
+    if (page < 1) setPage(1);
+  }, [page, lastPage, setPage]);
 
   return (
     <div className="flex flex-col">
@@ -63,20 +88,12 @@ export default function Table({ data, headers, actions, page, setPage }) {
                 </p>
               </div>
               <div className="flex-1 flex justify-between sm:justify-end">
-                <a
-                  href="#"
-                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                  onClick={() => (page > 1 ? setPage(page - 1) : undefined)}
-                >
+                <Button disabled={page <= 1} onClick={() => setPage(page - 1)}>
                   Previous
-                </a>
-                <a
-                  href="#"
-                  className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                  onClick={() => (page < lastPage ? setPage(page + 1) : undefined)}
-                >
+                </Button>
+                <Button className="ml-3" disabled={page >= lastPage} onClick={() => setPage(page + 1)}>
                   Next
-                </a>
+                </Button>
               </div>
             </nav>
           </div>
