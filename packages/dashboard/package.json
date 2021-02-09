@@ -10,6 +10,7 @@
   "dependencies": {
     "@fontsource/metropolis": "^4.1.0",
     "@ory/kratos-client": "^0.5.4-alpha.1",
+    "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^10.2.4",
     "dayjs": "^1.10.4",
     "express-jwt": "^6.0.0",
@@ -22,7 +23,10 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "swr": "^0.4.1",
-    "tailwindcss": "^2.0.2",
+    "tailwindcss": "^2.0.3",
     "yup": "^0.32.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.2.1"
   }
 }
