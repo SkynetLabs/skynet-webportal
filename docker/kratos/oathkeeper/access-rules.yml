@@ -24,7 +24,7 @@
     - handler: cookie
       config:
         cookies:
-          userxxxx: "{{ print .Subject }}",
+          user: "{{ print .Subject }}",
           some-arbitrary-data: "{{ print .Extra.foo }}"
 
 - id: "dashboard:anonymous"
