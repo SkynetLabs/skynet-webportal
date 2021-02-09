@@ -5,5 +5,5 @@ export default (req, res) => {
   console.log("body", req.body);
   console.log("cookies", req.cookies);
 
-  res.json({ ...data, cookies: { ...data.cookies, foo: "bar" } });
+  res.json({ ...data, header: { ...data.header, foo: "bar" }, extra: { wtf: "bbq" } });
 };
