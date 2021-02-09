@@ -16,6 +16,7 @@
   authorizer:
     handler: allow
   mutators:
+    - handler: noop
     - handler: hydrator
       config:
         api:
