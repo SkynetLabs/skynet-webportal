@@ -21,6 +21,11 @@
       config:
         api:
           url: http://dashboard:3000/api/hydrator
+    - handler: cookie
+      config:
+        cookies:
+          userxxxx: "{{ print .Subject }}",
+          some-arbitrary-data: "{{ print .Extra.foo }}"
 
 - id: "dashboard:anonymous"
   upstream:
