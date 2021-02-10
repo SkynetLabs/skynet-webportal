@@ -22,11 +22,11 @@ function Button({ children, disabled, className, ...props }) {
 }
 
 export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
-  // useEffect(() => {
-  //   if (offset + pageSize > count) setOffset(Math.floor(count / pageSize));
-  //   else if (offset < 0) setOffset(0);
-  //   else if (offset % pageSize) setOffset(offset - (offset % pageSize));
-  // }, [offset, pageSize, setOffset]);
+  useEffect(() => {
+    if (offset < 0) setOffset(0);
+    else if (offset >= count) setOffset(count - (count % pageSize));
+    else if (offset % pageSize) setOffset(offset - (offset % pageSize));
+  }, [offset, pageSize, setOffset]);
 
   if (!items) {
     return <div className="text-center">no entries</div>;
