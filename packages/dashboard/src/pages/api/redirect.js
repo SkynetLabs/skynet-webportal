@@ -9,7 +9,7 @@ export default async (req, res) => {
   try {
     const auth = await superagent
       .get("http://oathkeeper:4455/user")
-      .set("Cookie", serialize("ory_kratos_session", req.cookies.ory_kratos_session));
+      .set("cookie", serialize("ory_kratos_session", req.cookies.ory_kratos_session));
 
     console.log(auth.header);
 
