@@ -76,4 +76,6 @@
   mutators:
     - handler: id_token
   errors:
-    - handler: json
+    - handler: redirect
+      config:
+        to: http://127.0.0.1/auth/login
