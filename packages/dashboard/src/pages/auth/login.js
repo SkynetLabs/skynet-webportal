@@ -8,7 +8,7 @@ const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public 
 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
-  const redirect = encodeURIComponent(`/api/redirect?return_to=${context.query.return_to ?? "/"}`);
+  const redirect = encodeURIComponent(`/api/accounts/authenticate?return_to=${context.query.return_to ?? "/"}`);
 
   if (process.env.NODE_ENV === "development") {
     return { props: { flow: require("../../../stubs/login.json") } };

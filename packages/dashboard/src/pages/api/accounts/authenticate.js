@@ -1,21 +1,19 @@
 import superagent from "superagent";
 
 export default async (req, res) => {
-  console.log(Object.keys(req));
-  console.log(req.url);
-  console.log(req.cookies);
-  console.log(req.rawHeaders);
+  if (!req.cookies.ory_kratos_session) {
+    res.redirect(302, "/auth/login"); // redirect to login page if kratos session is missing
+  }
+
   try {
     const auth = await superagent
       .get("http://oathkeeper:4455/user")
       .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
 
-    console.log(auth.header);
-
     res.setHeader("Set-Cookie", auth.header["set-cookie"]);
   } catch (error) {
-    console.log(error);
+    res.redirect(302, "/error"); // credentials were correct but accounts service failed
   }
 
-  res.redirect(302, req.query.return_to);
+  res.redirect(302, req.query.return_to ?? "/");
 };
