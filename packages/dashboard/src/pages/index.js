@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Home() {
-  const { data: user, error } = useSWR("/user", fetcher);
+  // const { data: user, error } = useSWR("/user", fetcher);
 
   return (
     <Layout title="Dashboard">
