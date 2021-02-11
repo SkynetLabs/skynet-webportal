@@ -8,8 +8,8 @@ export default async (req, res) => {
   console.log(req.rawHeaders);
   try {
     const auth = await superagent
-      .set("Cookie", serialize("ory_kratos_session", req.cookies.ory_kratos_session))
-      .get("/user");
+      .get("/user")
+      .set("Cookie", serialize("ory_kratos_session", req.cookies.ory_kratos_session));
 
     console.log(auth.header);
 
