@@ -17,15 +17,15 @@
     handler: allow
   mutators:
     - handler: noop
-    # - handler: hydrator
-    #   config:
-    #     api:
-    #       url: http://dashboard:3000/api/hydrator
-    # - handler: cookie
-    #   config:
-    #     cookies:
-    #       user: "{{ print .Subject }}",
-    #       some-arbitrary-data: "{{ print .Extra.foo }}"
+    - handler: hydrator
+      config:
+        api:
+          url: http://dashboard:3000/api/hydrator
+    - handler: cookie
+      config:
+        cookies:
+          user: "{{ print .Subject }}"
+          some-arbitrary-data: "{{ print .Extra.foo }}"
 
 - id: "dashboard:anonymous"
   upstream:
