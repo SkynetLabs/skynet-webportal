@@ -17,7 +17,7 @@ const actions = [];
 
 export default function Downloads() {
   const [offset, setOffset] = useState(0);
-  const { data, error } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=${offset}`, fetcher);
+  const { data, error } = useSWR(`${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, fetcher);
 
   return (
     <Layout title="Your downloads">
