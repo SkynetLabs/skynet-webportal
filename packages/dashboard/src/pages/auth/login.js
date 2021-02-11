@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         permanent: false,
-        destination: `${config.kratos.browser}/self-service/login/browser`,
+        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${context.query.return_to}`,
       },
     };
   }
