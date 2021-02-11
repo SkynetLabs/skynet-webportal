@@ -170,7 +170,7 @@ export default function Payments() {
                     </div>
                     <div className="ml-4 mt-2 flex-shrink-0">
                       <Link href="/plans">
-                        <a className="font-medium text-indigo-600 hover:text-indigo-500">help me choose a plan</a>
+                        <a className="font-medium text-green-600 hover:text-green-500">help me choose a plan</a>
                       </Link>
                     </div>
                   </div>

@@ -1,12 +1,21 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import prettyBytes from "pretty-bytes";
 import Link from "next/link";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 
+dayjs.extend(relativeTime);
+
+const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
+const currentPeriodDownload = Math.floor(Math.random() * 1000000000000) + 1;
+const currentPeriodUpload = Math.floor(Math.random() * 1000000000000) + 1;
 
 export default function Home() {
-  // const { data: user, error } = useSWR("/user", fetcher);
+  const { data: user } = useSWR("/user", fetcher);
+  const { data: downloads } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=0`, fetcher);
+  const { data: uploads } = useSWR(`${apiPrefix}/user/uploads?pageSize=3&offset=0`, fetcher);
 
   return (
     <Layout title="Dashboard">
@@ -15,7 +24,7 @@ export default function Home() {
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
                   {/* Heroicon name: outline/users */}
                   <svg
                     className="h-6 w-6 text-white"
@@ -29,7 +38,7 @@ export default function Home() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                      d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
                     />
                   </svg>
                 </div>
@@ -44,7 +53,7 @@ export default function Home() {
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
               <div className="text-sm">
                 <Link href="/payments">
-                  <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <a className="font-medium text-green-600 hover:text-green-500">
                     View current payments<span className="sr-only">Total Subscribers stats</span>
                   </a>
                 </Link>
@@ -68,31 +77,31 @@ export default function Home() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                      d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
                     />
                   </svg>
                 </div>
                 <div className="ml-5 w-0 flex-1">
-                  <dt className="text-sm font-medium text-gray-500 truncate">Current period download</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Storage used</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(189237982173)}</div>
+                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(user?.storageUsed ?? 0)}</div>
                   </dd>
                 </div>
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
-              <div className="text-sm">
+              {/* <div className="text-sm">
                 <Link href="/downloads">
-                  <a className="font-medium text-indigo-600 hover:text-indigo-500">View all downloads</a>
+                  <a className="font-medium text-green-600 hover:text-green-500">View all downloads</a>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="flex-shrink-0 bg-red-500 rounded-md p-3">
+                <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
                   {/* Heroicon name: outline/cursor-click */}
                   <svg
                     className="h-6 w-6 text-white"
@@ -105,24 +114,26 @@ export default function Home() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
                 </div>
                 <div className="ml-5 w-0 flex-1">
-                  <dt className="text-sm font-medium text-gray-500 truncate">Current period upload</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Current period usage</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(9237982173)}</div>
+                    <div className="text-2xl font-semibold text-red-600">{prettyBytes(currentPeriodDownload)}</div>
+                    <div className="text-2xl font-semibold text-gray-900 px-1">/</div>
+                    <div className="text-2xl font-semibold text-blue-600">{prettyBytes(currentPeriodUpload)}</div>
                   </dd>
                 </div>
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
-              <div className="text-sm">
+              {/* <div className="text-sm">
                 <Link href="/uploads">
-                  <a className="font-medium text-indigo-600 hover:text-indigo-500">View all uploads</a>
+                  <a className="font-medium text-green-600 hover:text-green-500">View all uploads</a>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </dl>
@@ -138,11 +149,12 @@ export default function Home() {
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
+                {(downloads?.items ?? []).slice(0, 3).map((item) => (
+                  <li key={item.id}>
+                    {/* <a href="#" className="block hover:bg-gray-50"> */}
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
+                        <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
                       </div>
                       <div className="mt-2 sm:flex sm:justify-between">
                         <div className="sm:flex">
@@ -159,129 +171,35 @@ export default function Home() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
                               />
                             </svg>
-                            {prettyBytes(12389128893)}
+                            {prettyBytes(item.size)}
                           </p>
                         </div>
                         <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
                           <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                            className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
+
+                          <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
                         </div>
                       </div>
                     </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-                              />
-                            </svg>
-                            {prettyBytes(1112)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-                              />
-                            </svg>
-                            {prettyBytes(4124)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
+                    {/* </a> */}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -293,11 +211,12 @@ export default function Home() {
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
+                {(uploads?.items ?? []).slice(0, 3).map((item) => (
+                  <li key={item.id}>
+                    {/* <a href="#" className="block hover:bg-gray-50"> */}
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
+                        <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
                       </div>
                       <div className="mt-2 sm:flex sm:justify-between">
                         <div className="sm:flex">
@@ -314,129 +233,35 @@ export default function Home() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
                               />
                             </svg>
-                            {prettyBytes(234674)}
+                            {prettyBytes(item.size)}
                           </p>
                         </div>
                         <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
                           <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                            className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
+
+                          <time dateTime={item.uploadedOn}>{dayjs(item.uploadedOn).fromNow()}</time>
                         </div>
                       </div>
                     </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                              />
-                            </svg>
-                            {prettyBytes(43215)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">Bitcoin.pdf</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                              />
-                            </svg>
-                            {prettyBytes(123)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          {/* Heroicon name: solid/calendar */}
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <time dateTime="2020-01-07">January 7, 2020</time>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
+                    {/* </a> */}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

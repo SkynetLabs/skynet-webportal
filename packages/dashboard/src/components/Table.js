@@ -8,7 +8,7 @@ function Button({ children, disabled, className, ...props }) {
       className={classnames(
         "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white",
         {
-          "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500": !disabled,
+          "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500": !disabled,
           "cursor-auto opacity-50": disabled,
         },
         className
@@ -24,7 +24,7 @@ function Button({ children, disabled, className, ...props }) {
 export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
   useEffect(() => {
     if (offset < 0) setOffset(0);
-    else if (offset >= count) setOffset(count - (count % pageSize));
+    else if (offset >= count) setOffset(Math.floor(count / pageSize - 1) * pageSize);
     else if (offset % pageSize) setOffset(offset - (offset % pageSize));
   }, [offset, pageSize, setOffset]);
 
@@ -66,7 +66,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                     ))}
                     {actions.map(({ key, name, action }) => (
                       <td key={key} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900" onClick={action}>
+                        <a href="#" className="text-green-600 hover:text-green-900" onClick={action}>
                           {name}
                         </a>
                       </td>
@@ -82,7 +82,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
             >
               <div className="hidden sm:block">
                 <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{offset ? offset + 1 : 0}</span> to{" "}
+                  Showing <span className="font-medium">{count ? offset + 1 : 0}</span> to{" "}
                   <span className="font-medium">{offset + pageSize > count ? count : offset + pageSize}</span> of{" "}
                   <span className="font-medium">{count}</span> results
                 </p>
@@ -93,7 +93,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                 </Button>
                 <Button
                   className="ml-3"
-                  disabled={offset + pageSize > count}
+                  disabled={offset + pageSize >= count}
                   onClick={() => setOffset(offset + pageSize)}
                 >
                   Next

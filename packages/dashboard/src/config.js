@@ -36,4 +36,6 @@ export default {
     certificatePath: process.env.TLS_CERT_PATH || "",
     keyPath: process.env.TLS_KEY_PATH || "",
   },
+
+  tiers: {},
 };
