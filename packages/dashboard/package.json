@@ -13,6 +13,7 @@
     "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^10.2.4",
     "classnames": "^2.2.6",
+    "cookie": "^0.4.1",
     "dayjs": "^1.10.4",
     "express-jwt": "^6.0.0",
     "formik": "^2.2.6",

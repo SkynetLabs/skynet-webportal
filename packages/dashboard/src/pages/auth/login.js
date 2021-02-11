@@ -8,6 +8,7 @@ const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public 
 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
+  const redirect = encodeURIComponent(`/api/redirect?return_to=${context.query.return_to ?? "/"}`);
 
   if (process.env.NODE_ENV === "development") {
     return { props: { flow: require("../../../stubs/login.json") } };
@@ -21,7 +22,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         permanent: false,
-        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${context.query.return_to}`,
+        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${redirect}`,
       },
     };
   }
@@ -36,7 +37,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         permanent: false,
-        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${context.query.return_to}`,
+        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${redirect}`,
       },
     };
   }
