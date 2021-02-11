@@ -61,7 +61,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                   <tr className={index % 2 ? "bg-white" : "bg-gray-50"} key={index}>
                     {headers.map(({ key, formatter }) => (
                       <td key={key} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {(formatter ? formatter(row[key]) : row[key]) || "-"}
+                        {(formatter ? formatter(row[key]) : row[key]) || "&mdash;"}
                       </td>
                     ))}
                     {actions.map(({ key, name, action }) => (
