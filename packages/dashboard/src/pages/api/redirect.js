@@ -1,5 +1,4 @@
 import superagent from "superagent";
-import { serialize } from "cookie";
 
 export default async (req, res) => {
   console.log(Object.keys(req));
@@ -9,7 +8,7 @@ export default async (req, res) => {
   try {
     const auth = await superagent
       .get("http://oathkeeper:4455/user")
-      .set("cookie", serialize("ory_kratos_session", req.cookies.ory_kratos_session));
+      .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
 
     console.log(auth.header);
 
