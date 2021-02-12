@@ -66,7 +66,7 @@
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{user,user/**}>"
+    url: "http://oathkeeper<{,:4455}>/<{user,user/**,login,logout}>"
     methods:
       - GET
   authenticators:
