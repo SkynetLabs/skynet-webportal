@@ -11,7 +11,7 @@ export async function getServerSideProps(context) {
   if (!error || typeof error !== "string") {
     console.log("No error ID found in URL, redirecting to homepage.");
 
-    return { redirect: { permanent: false, destination: config.kratos.browser } };
+    return { redirect: { permanent: false, destination: "/" } };
   }
 
   try {
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
 
     throw new Error(`Expected error ${error} to contain "errors" but got ${JSON.stringify(data)}`);
   } catch (error) {
-    return { redirect: { permanent: false, destination: config.kratos.browser } };
+    return { redirect: { permanent: false, destination: "/" } };
   }
 }
 

@@ -7,12 +7,12 @@ export default async (req, res) => {
 
   try {
     const auth = await superagent
-      .get("http://oathkeeper:4455/user")
+      .get("http://oathkeeper:4455/login")
       .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
 
     res.setHeader("Set-Cookie", auth.header["set-cookie"]);
   } catch (error) {
-    res.redirect(302, "/error"); // credentials were correct but accounts service failed
+    res.redirect(302, "/auth/login"); // credentials were correct but accounts service failed
   }
 
   res.redirect(302, req.query.return_to ?? "/");
