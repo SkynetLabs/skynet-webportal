@@ -3,9 +3,8 @@ import superagent from "superagent";
 export default async (req, res) => {
   if (req.cookies.ory_kratos_session) {
     try {
-      const auth = await superagent
-        .post("http://oathkeeper:4455/login")
-        .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
+      const auth = await superagent.post("http://oathkeeper:4455/login");
+      // .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
 
       res.setHeader("Set-Cookie", auth.header["set-cookie"]);
     } catch (error) {
