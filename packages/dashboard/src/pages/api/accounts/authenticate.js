@@ -7,12 +7,16 @@ export default async (req, res) => {
         .post("http://oathkeeper:4455/login")
         .set("cookie", `ory_kratos_session=${req.cookies.ory_kratos_session}`);
 
+      console.log("auth.header", auth.header);
       res.setHeader("Set-Cookie", auth.header["set-cookie"]);
-      res.redirect(302, req.query.return_to ?? "/");
+      res.redirect(req.query.return_to ?? "/");
     } catch (error) {
-      res.redirect(302, "/auth/login"); // credentials were correct but accounts service failed
+      console.log("error", error);
+
+      // res.redirect(302, "/auth/login"); // credentials were correct but accounts service failed
+      res.redirect("/"); // credentials were correct but accounts service failed
     }
   } else {
-    res.redirect(302, "/auth/login"); // redirect to login page if kratos session is missing
+    res.redirect("/auth/login"); // redirect to login page if kratos session is missing
   }
 };
