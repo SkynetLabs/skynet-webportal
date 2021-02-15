@@ -44,7 +44,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                     <th
                       key={key}
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       {name}
                     </th>
@@ -60,7 +60,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                 {items.map((row, index) => (
                   <tr className={index % 2 ? "bg-white" : "bg-gray-50"} key={index}>
                     {headers.map(({ key, formatter }) => (
-                      <td key={key} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <td key={key} className="px-6 py-4 text-sm font-medium text-gray-900">
                         {(formatter ? formatter(row[key]) : row[key]) || <>&mdash;</>}
                       </td>
                     ))}
