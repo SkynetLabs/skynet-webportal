@@ -8,7 +8,7 @@ import Table from "../components/Table";
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const headers = [
-  { key: "name", name: "Name" },
+  { key: "name", name: "Name", nowrap: false },
   { key: "skylink", name: "Skylink" },
   { key: "size", name: "Size", formatter: prettyBytes },
   { key: "downloadedOn", name: "Accessed on", formatter: (date) => dayjs(date).format("YYYY-MM-DD HH:mm:ss") },
