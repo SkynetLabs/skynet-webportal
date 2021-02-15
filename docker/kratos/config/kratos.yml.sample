@@ -65,6 +65,7 @@ secrets:
 session:
   cookie:
     domain: secure.siasky.net
+  lifespan: "24h"
 
 hashers:
   argon2:
