@@ -1,15 +1,25 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import axios from "axios";
 import { useState } from "react";
 import config from "../../src/config";
-
-const signOutUrl = `${config.kratos.browser}/self-service/browser/flows/logout`;
 
 export default function Layout({ title, children }) {
   const [menuOpen, openMenu] = useState(false);
   const [avatarDropdownOpen, openAvatarDropdown] = useState(false);
   const router = useRouter();
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/logout");
+
+      window.location = `${config.kratos.browser}/self-service/browser/flows/logout`;
+    } catch (error) {
+      console.log(error); // todo: handle errors
+    }
+  };
 
   return (
     <div>
@@ -132,9 +142,9 @@ export default function Layout({ title, children }) {
                             </a>
                           </Link>
                           <a
-                            href={signOutUrl}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem"
+                            onClick={handleSignOut}
                           >
                             Sign out
                           </a>
@@ -239,7 +249,7 @@ export default function Layout({ title, children }) {
                   </a>
                 </Link>
                 <a
-                  href={signOutUrl}
+                  onClick={handleSignOut}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                 >
                   Sign out
