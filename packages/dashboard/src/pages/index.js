@@ -50,9 +50,10 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
               <div className="text-sm">
-                <Link href="/payments">
-                  <a className="font-medium text-green-600 hover:text-green-500">View current payments</a>
-                </Link>
+                <a href="#" className="font-medium text-green-600 hover:text-green-500">
+                  View current payments
+                </a>{" "}
+                (coming soon)
               </div>
             </div>
           </div>
