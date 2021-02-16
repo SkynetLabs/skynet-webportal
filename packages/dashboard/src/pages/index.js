@@ -96,7 +96,7 @@ export default function Home() {
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
                   <svg
-                    className="h-6 w-6 text-white rotate-45"
+                    className="h-6 w-6 text-white transform rotate-45"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
