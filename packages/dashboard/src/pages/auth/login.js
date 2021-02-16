@@ -115,7 +115,7 @@ export default function Login({ flow }) {
                     id={field.name}
                     name={field.name}
                     type={field.type}
-                    autoComplete={fieldProps[field.name]}
+                    autoComplete={field.autoComplete}
                     required={field.required}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
