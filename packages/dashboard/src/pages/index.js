@@ -9,8 +9,6 @@ dayjs.extend(relativeTime);
 
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
-const currentPeriodDownload = Math.floor(Math.random() * 1000000000000) + 1;
-const currentPeriodUpload = Math.floor(Math.random() * 1000000000000) + 1;
 
 export default function Home() {
   const { data: user } = useSWR("/user", fetcher);
@@ -20,8 +18,7 @@ export default function Home() {
   return (
     <Layout title="Dashboard">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-        {/*  change to lg:grid-cols-3 when we have more stats */}
-        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
+        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
@@ -94,7 +91,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
+          <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
@@ -114,17 +111,21 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="ml-5 w-0 flex-1">
-                  <dt className="text-sm font-medium text-gray-500 truncate">Current period usage</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Bandwidth used</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-red-600">{prettyBytes(currentPeriodDownload)}</div>
-                    <div className="text-2xl font-semibold text-gray-900 px-1">/</div>
-                    <div className="text-2xl font-semibold text-blue-600">{prettyBytes(currentPeriodUpload)}</div>
+                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(user?.bandwidthUsed ?? 0)}</div>
                   </dd>
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 px-4 py-4 sm:px-6"></div>
-          </div> */}
+            <div className="bg-gray-50 px-4 py-4 sm:px-6">
+              <div className="text-sm">
+                <Link href="/uploads">
+                  <a className="font-medium text-green-600 hover:text-green-500">View all downloads</a>
+                </Link>
+              </div>
+            </div>
+          </div>
         </dl>
 
         {/* ============  */}
