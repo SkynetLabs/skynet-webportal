@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import axios from "axios";
+import ky from "ky/umd";
 import { useState } from "react";
 import config from "../../src/config";
 
@@ -13,7 +13,7 @@ export default function Layout({ title, children }) {
     e.preventDefault();
 
     try {
-      await axios.post("/logout");
+      await ky.post("/logout");
 
       window.location = `${config.kratos.browser}/self-service/browser/flows/logout`;
     } catch (error) {
