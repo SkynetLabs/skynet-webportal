@@ -24,10 +24,6 @@ export async function getServerSideProps(context) {
   try {
     const { status, data } = await kratos.getSelfServiceRecoveryFlow(flow);
 
-    console.log("================================================================");
-    console.log(flow);
-    console.log("================================================================");
-
     if (status === 200) return { props: { flow: data } };
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);

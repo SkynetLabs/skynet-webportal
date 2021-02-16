@@ -17,7 +17,7 @@ export default function Layout({ title, children }) {
 
       window.location = `${config.kratos.browser}/self-service/browser/flows/logout`;
     } catch (error) {
-      console.log(error); // todo: handle errors
+      console.log(error); // todo: handle errors with a message
     }
   };
 
