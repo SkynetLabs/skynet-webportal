@@ -24,7 +24,7 @@ function Button({ children, disabled, className, ...props }) {
 export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
   useEffect(() => {
     if (offset < 0) setOffset(0);
-    else if (offset >= count) setOffset(Math.floor(count / pageSize - 1) * pageSize);
+    else if (offset >= count && count > 0) setOffset(Math.floor(count / pageSize - 1) * pageSize);
     else if (offset % pageSize) setOffset(offset - (offset % pageSize));
   }, [offset, pageSize, setOffset]);
 
