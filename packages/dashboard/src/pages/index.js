@@ -131,26 +131,43 @@ export default function Home() {
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="flex flex-col">
-            <div className="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Recent downloads</h3>
-            </div>
+            <h3 className="pb-5 text-lg leading-6 font-medium text-gray-900">Recent downloads</h3>
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {(downloads?.items ?? []).slice(0, 3).map((item) => (
-                  <li key={item.id}>
-                    {/* <a href="#" className="block hover:bg-gray-50"> */}
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
+                {downloads?.items?.length ? (
+                  downloads.items.slice(0, 3).map((item) => (
+                    <li key={item.id}>
+                      {/* <a href="#" className="block hover:bg-gray-50"> */}
+                      <div className="px-4 py-4 sm:px-6">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
+                        </div>
+                        <div className="mt-2 sm:flex sm:justify-between">
+                          <div className="sm:flex">
+                            <p className="flex items-center text-sm text-gray-500">
+                              {/* Heroicon name: solid/users */}
+                              <svg
+                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                                />
+                              </svg>
+                              {prettyBytes(item.size)}
+                            </p>
+                          </div>
+                          <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                             <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                              className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -160,59 +177,67 @@ export default function Home() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
                             </svg>
-                            {prettyBytes(item.size)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
 
-                          <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
+                            <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
+                          </div>
                         </div>
                       </div>
+                      {/* </a> */}
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <div className="px-4 py-4 sm:px-6">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium truncate">no downloads yet</p>
+                      </div>
                     </div>
-                    {/* </a> */}
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>
           <div className="flex flex-col">
-            <div className="pb-5 border-b border-gray-200">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Recent uploads</h3>
-            </div>
+            <h3 className="pb-5 text-lg leading-6 font-medium text-gray-900">Recent uploads</h3>
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {(uploads?.items ?? []).slice(0, 3).map((item) => (
-                  <li key={item.id}>
-                    {/* <a href="#" className="block hover:bg-gray-50"> */}
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            {/* Heroicon name: solid/users */}
+                {uploads?.items?.length ? (
+                  uploads.items.slice(0, 3).map((item) => (
+                    <li key={item.id}>
+                      {/* <a href="#" className="block hover:bg-gray-50"> */}
+                      <div className="px-4 py-4 sm:px-6">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
+                        </div>
+                        <div className="mt-2 sm:flex sm:justify-between">
+                          <div className="sm:flex">
+                            <p className="flex items-center text-sm text-gray-500">
+                              {/* Heroicon name: solid/users */}
+                              <svg
+                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                                />
+                              </svg>
+                              {prettyBytes(item.size)}
+                            </p>
+                          </div>
+                          <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                             <svg
-                              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                              className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -222,35 +247,26 @@ export default function Home() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
                             </svg>
-                            {prettyBytes(item.size)}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          <svg
-                            className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
 
-                          <time dateTime={item.uploadedOn}>{dayjs(item.uploadedOn).fromNow()}</time>
+                            <time dateTime={item.uploadedOn}>{dayjs(item.uploadedOn).fromNow()}</time>
+                          </div>
                         </div>
                       </div>
+                      {/* </a> */}
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <div className="px-4 py-4 sm:px-6">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium truncate">no uploads yet</p>
+                      </div>
                     </div>
-                    {/* </a> */}
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>
