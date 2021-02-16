@@ -27,8 +27,7 @@ const types = {
   },
 };
 
-export default function Message({ type, title, items = [] }) {
-  console.log("------", type, types[type]);
+export default function Message({ type = "info", title, items = [] }) {
   const { backgroundColor, titleColor, detailsColor, iconColor, icon } = types[type];
 
   return (
