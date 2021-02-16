@@ -96,7 +96,7 @@ export default function Home() {
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
                   <svg
-                    className="h-6 w-6 text-white"
+                    className="h-6 w-6 text-white rotate-45"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -106,7 +106,7 @@ export default function Home() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
                     />
                   </svg>
                 </div>
@@ -120,7 +120,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
               <div className="text-sm">
-                <Link href="/uploads">
+                <Link href="/downloads">
                   <a className="font-medium text-green-600 hover:text-green-500">View all downloads</a>
                 </Link>
               </div>
@@ -192,9 +192,7 @@ export default function Home() {
                 ) : (
                   <li>
                     <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium truncate">no downloads yet</p>
-                      </div>
+                      <p className="text-sm text-gray-500">no entries yet</p>
                     </div>
                   </li>
                 )}
@@ -262,9 +260,7 @@ export default function Home() {
                 ) : (
                   <li>
                     <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium truncate">no uploads yet</p>
-                      </div>
+                      <p className="text-sm text-gray-500">no entries yet</p>
                     </div>
                   </li>
                 )}
