@@ -25,7 +25,6 @@ export default {
   },
   baseUrl,
   jwksUrl: process.env.JWKS_URL || "/",
-  projectName: process.env.PROJECT_NAME || "SecureApp",
 
   securityMode,
   SECURITY_MODE_JWT,
