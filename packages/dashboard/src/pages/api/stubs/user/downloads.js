@@ -1,4 +1,5 @@
-import items from "./downloads.json";
+// import items from "./downloads.json";
+const items = [];
 
 export default (req, res) => {
   const offset = parseInt(req.query?.offset ?? 0, 10);
