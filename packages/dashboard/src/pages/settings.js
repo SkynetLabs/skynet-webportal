@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
     return {
-      error,
+      props: { error },
       //   redirect: {
       //     permanent: false,
       //     destination: `${config.kratos.browser}/self-service/settings/browser`,
