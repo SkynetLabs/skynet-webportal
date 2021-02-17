@@ -22,9 +22,9 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    console.log("headers", context.req.headers);
+    // console.log("headers", context.req.headers);
     const { data: session } = await kratos.whoami(context.req.headers.cookie, context.req.headers.authorization);
-    console.log(session);
+    console.log(JSON.stringify(session));
     return { flow: "NOT YET" };
     // const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
 
@@ -32,8 +32,6 @@ export async function getServerSideProps(context) {
 
     // throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
-    console.log(error);
-
     return {
       redirect: {
         permanent: false,
