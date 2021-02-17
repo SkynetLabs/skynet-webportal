@@ -1,9 +1,9 @@
 // import Link from "next/link";
-import { Configuration, AdminApi } from "@ory/kratos-client";
+import { Configuration, PublicApi } from "@ory/kratos-client";
 import config from "../config";
 // import Message from "../components/Form/Message";
 
-const kratos = new AdminApi(new Configuration({ basePath: config.kratos.public }));
+const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
@@ -23,12 +23,16 @@ export async function getServerSideProps(context) {
 
   try {
     // console.log("headers", context.req.headers);
-    // const { data: session } = await kratos.whoami(context.req.headers.cookie, context.req.headers.authorization);
-    // console.log(JSON.stringify(session));
+    const { data: session, headers } = await kratos.whoami(
+      context.req.headers.cookie,
+      context.req.headers.authorization
+    );
+    console.log("session", JSON.stringify(session));
+    console.log("headers", JSON.stringify(headers));
     // return { flow: "NOT YET" };
-    const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
+    // const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
 
-    if (status === 200) return { props: { flow: data } };
+    // if (status === 200) return { props: { flow: data } };
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
