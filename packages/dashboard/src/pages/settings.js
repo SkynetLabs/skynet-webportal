@@ -1,9 +1,9 @@
 // import Link from "next/link";
-import { Configuration, PublicApi } from "@ory/kratos-client";
+import { Configuration, AdminApi } from "@ory/kratos-client";
 import config from "../config";
 // import Message from "../components/Form/Message";
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
+const kratos = new AdminApi(new Configuration({ basePath: config.kratos.public }));
 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
