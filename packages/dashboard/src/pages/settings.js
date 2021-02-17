@@ -22,11 +22,19 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
+    console.log("Cookie", context.req.getHeader("Cookie"));
+    console.log("Authorization", context.req.getHeader("Authorization"));
+    const { data: session } = await kratos.whoami(
+      context.req.getHeader("Cookie"),
+      context.req.getHeader("Authorization")
+    );
+    console.log(session);
+    return { flow: "NOT YET" };
+    // const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
 
-    if (status === 200) return { props: { flow: data } };
+    // if (status === 200) return { props: { flow: data } };
 
-    throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
+    // throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
     console.log(error);
 
