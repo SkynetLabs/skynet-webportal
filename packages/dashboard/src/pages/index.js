@@ -147,7 +147,7 @@ export default function Home() {
                           <p className="text-sm font-medium text-green-600 truncate">
                             {item.name || "— file name not available —"}
                           </p>
-                          <abbr className="text-xs text-gray-400" title={item.skylink}>
+                          <abbr className="text-xs text-gray-400" title={`sia://${item.skylink}`}>
                             sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
                           </abbr>
                         </div>
