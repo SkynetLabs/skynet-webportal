@@ -22,12 +22,8 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    console.log("Cookie", context.req.getHeader("Cookie"));
-    console.log("Authorization", context.req.getHeader("Authorization"));
-    const { data: session } = await kratos.whoami(
-      context.req.getHeader("Cookie"),
-      context.req.getHeader("Authorization")
-    );
+    console.log("headers", context.req.headers);
+    const { data: session } = await kratos.whoami(context.req.headers.cookie, context.req.headers.authorization);
     console.log(session);
     return { flow: "NOT YET" };
     // const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
