@@ -144,7 +144,12 @@ export default function Home() {
                       {/* <a href="#" className="block hover:bg-gray-50"> */}
                       <div className="px-4 py-4 sm:px-6">
                         <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
+                          <p className="text-sm font-medium text-green-600 truncate">
+                            {item.name || "— file name not available —"}
+                          </p>
+                          <abbr className="text-xs text-gray-400" title={item.skylink}>
+                            sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
+                          </abbr>
                         </div>
                         <div className="mt-2 sm:flex sm:justify-between">
                           <div className="sm:flex">
@@ -212,7 +217,12 @@ export default function Home() {
                       {/* <a href="#" className="block hover:bg-gray-50"> */}
                       <div className="px-4 py-4 sm:px-6">
                         <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-green-600 truncate">{item.name || item.skylink}</p>
+                          <p className="text-sm font-medium text-green-600 truncate">
+                            {item.name || "— file name not available —"}
+                          </p>
+                          <abbr className="text-xs text-gray-400" title={item.skylink}>
+                            sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
+                          </abbr>
                         </div>
                         <div className="mt-2 sm:flex sm:justify-between">
                           <div className="sm:flex">
