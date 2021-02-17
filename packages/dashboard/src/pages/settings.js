@@ -29,10 +29,13 @@ export async function getServerSideProps(context) {
     );
     console.log("session", JSON.stringify(session));
     console.log("headers", JSON.stringify(headers));
-    // return { flow: "NOT YET" };
-    // const { status, data } = await kratos.getSelfServiceSettingsFlow(flow);
+    const { status, data } = await kratos.getSelfServiceSettingsFlow(flow, {
+      headers: { cookie: context.req.headers.cookie },
+    });
+    console.log("status", status);
+    console.log("data", data);
 
-    // if (status === 200) return { props: { flow: data } };
+    if (status === 200) return { props: { flow: data } };
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
