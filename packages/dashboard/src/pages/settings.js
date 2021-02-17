@@ -33,6 +33,7 @@ export async function getServerSideProps(context) {
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
     return {
+      error,
       //   redirect: {
       //     permanent: false,
       //     destination: `${config.kratos.browser}/self-service/settings/browser`,
@@ -52,8 +53,9 @@ export async function getServerSideProps(context) {
 //   },
 // };
 
-export default function Settings({ flow }) {
-  console.log(flow);
+export default function Settings({ flow, error }) {
+  console.log("flow", flow);
+  console.log("error", error);
 
   return null;
   //   const fields = flow.methods.link.config.fields
