@@ -22,6 +22,7 @@ docker-compose --version # sanity check
 
 # Create dummy .env file for docker-compose usage with variables
 # * DOMAIN_NAME - the domain name your server is using ie. example.com
+# * SKYNET_PORTAL_API - absolute url to the portal api ie. https://example.com
 # * EMAIL_ADDRESS - this is the administrator contact email you need to supply for communication regarding SSL certification
 # * HSD_API_KEY - this is auto generated secure key for your handshake service integration
 # * CLOUDFLARE_AUTH_TOKEN` - (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
@@ -32,7 +33,7 @@ docker-compose --version # sanity check
 # * DISCORD_BOT_TOKEN - required by the discord bot
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    printf "DOMAIN_NAME=example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
+    printf "DOMAIN_NAME=example.com\nSKYNET_PORTAL_API=https://example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
