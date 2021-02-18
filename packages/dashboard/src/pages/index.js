@@ -10,6 +10,77 @@ dayjs.extend(relativeTime);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
+function SkylinkList({ items = [] }) {
+  return (
+    <ul className="divide-y divide-gray-200">
+      {items.slice(0, 3).map((item) => (
+        <li key={item.id}>
+          {/* <a href="#" className="block hover:bg-gray-50"> */}
+          <div className="px-4 py-4 sm:px-6">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-green-600 truncate">
+                {item.name || "— file name not available —"}
+              </p>
+              <abbr className="text-xs text-gray-400 whitespace-nowrap" title={`sia://${item.skylink}`}>
+                sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
+              </abbr>
+            </div>
+            <div className="mt-2 sm:flex sm:justify-between">
+              <div className="sm:flex">
+                <p className="flex items-center text-sm text-gray-500">
+                  {/* Heroicon name: solid/users */}
+                  <svg
+                    className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                    />
+                  </svg>
+                  {prettyBytes(item.size)}
+                </p>
+              </div>
+              <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                <svg
+                  className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+
+                <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
+              </div>
+            </div>
+          </div>
+          {/* </a> */}
+        </li>
+      ))}
+
+      {!items.length && (
+        <li>
+          <div className="px-4 py-4 sm:px-6">
+            <p className="text-sm text-gray-500">no entries yet</p>
+          </div>
+        </li>
+      )}
+    </ul>
+  );
+}
+
 export default function Home() {
   const { data: user } = useSWR("/user", fetcher);
   const { data: downloads } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=0`, fetcher);
@@ -50,10 +121,9 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
               <div className="text-sm">
-                <a href="#" className="font-medium text-green-600 hover:text-green-500">
+                <abbr title="Coming soon" className="font-medium text-gray-500">
                   View current payments
-                </a>{" "}
-                (coming soon)
+                </abbr>
               </div>
             </div>
           </div>
@@ -137,72 +207,7 @@ export default function Home() {
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {downloads?.items?.length ? (
-                  downloads.items.slice(0, 3).map((item) => (
-                    <li key={item.id}>
-                      {/* <a href="#" className="block hover:bg-gray-50"> */}
-                      <div className="px-4 py-4 sm:px-6">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-green-600 truncate">
-                            {item.name || "— file name not available —"}
-                          </p>
-                          <abbr className="text-xs text-gray-400" title={`sia://${item.skylink}`}>
-                            sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
-                          </abbr>
-                        </div>
-                        <div className="mt-2 sm:flex sm:justify-between">
-                          <div className="sm:flex">
-                            <p className="flex items-center text-sm text-gray-500">
-                              {/* Heroicon name: solid/users */}
-                              <svg
-                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                                />
-                              </svg>
-                              {prettyBytes(item.size)}
-                            </p>
-                          </div>
-                          <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-
-                            <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
-                          </div>
-                        </div>
-                      </div>
-                      {/* </a> */}
-                    </li>
-                  ))
-                ) : (
-                  <li>
-                    <div className="px-4 py-4 sm:px-6">
-                      <p className="text-sm text-gray-500">no entries yet</p>
-                    </div>
-                  </li>
-                )}
-              </ul>
+              <SkylinkList items={downloads?.items} />
             </div>
           </div>
           <div className="flex flex-col">
@@ -210,72 +215,7 @@ export default function Home() {
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {uploads?.items?.length ? (
-                  uploads.items.slice(0, 3).map((item) => (
-                    <li key={item.id}>
-                      {/* <a href="#" className="block hover:bg-gray-50"> */}
-                      <div className="px-4 py-4 sm:px-6">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-green-600 truncate">
-                            {item.name || "— file name not available —"}
-                          </p>
-                          <abbr className="text-xs text-gray-400" title={item.skylink}>
-                            sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
-                          </abbr>
-                        </div>
-                        <div className="mt-2 sm:flex sm:justify-between">
-                          <div className="sm:flex">
-                            <p className="flex items-center text-sm text-gray-500">
-                              {/* Heroicon name: solid/users */}
-                              <svg
-                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                                />
-                              </svg>
-                              {prettyBytes(item.size)}
-                            </p>
-                          </div>
-                          <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                            <svg
-                              className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-
-                            <time dateTime={item.uploadedOn}>{dayjs(item.uploadedOn).fromNow()}</time>
-                          </div>
-                        </div>
-                      </div>
-                      {/* </a> */}
-                    </li>
-                  ))
-                ) : (
-                  <li>
-                    <div className="px-4 py-4 sm:px-6">
-                      <p className="text-sm text-gray-500">no entries yet</p>
-                    </div>
-                  </li>
-                )}
-              </ul>
+              <SkylinkList items={uploads?.items} />
             </div>
           </div>
         </div>
