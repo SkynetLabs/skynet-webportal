@@ -58,7 +58,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
               </thead>
               <tbody>
                 {items.map((row, index) => (
-                  <tr className={index % 2 ? "bg-white" : "bg-gray-50"} key={index}>
+                  <tr className={index % 2 ? "bg-white" : "bg-gray-100"} key={index}>
                     {headers.map(({ key, formatter, nowrap = true }) => (
                       <td
                         key={key}
