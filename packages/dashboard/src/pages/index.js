@@ -4,11 +4,14 @@ import prettyBytes from "pretty-bytes";
 import Link from "next/link";
 import useSWR from "swr";
 import Layout from "../components/Layout";
+import authServerSideProps from "../services/authServerSideProps";
 
 dayjs.extend(relativeTime);
 
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
+
+export const getServerSideProps = authServerSideProps();
 
 function SkylinkList({ items = [] }) {
   return (
