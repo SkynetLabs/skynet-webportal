@@ -5,9 +5,11 @@ import Link from "next/link";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 import authServerSideProps from "../services/authServerSideProps";
+import { SkynetClient } from "skynet-js";
 
 dayjs.extend(relativeTime);
 
+const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API ?? "https://siasky.net");
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -21,9 +23,14 @@ function SkylinkList({ items = [] }) {
           {/* <a href="#" className="block hover:bg-gray-50"> */}
           <div className="px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-green-600 truncate">
+              <a
+                href={skynetClient.getSkylinkUrl(item.skylink)}
+                className="text-sm font-medium text-green-600 hover:text-green-900 truncate"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {item.name || "— file name not available —"}
-              </p>
+              </a>
               <abbr className="text-xs text-gray-400 whitespace-nowrap" title={`sia://${item.skylink}`}>
                 sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
               </abbr>
