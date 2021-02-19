@@ -105,6 +105,8 @@ services:
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
+    env_file:
+      - .env
     environment:
       - SECURITY_MODE=jwks
       - BASE_URL=/
