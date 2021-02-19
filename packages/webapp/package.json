@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "author": "Nebulous",
   "dependencies": {
+    "@fontsource/metropolis": "^4.2.1",
     "axios": "0.21.1",
     "bytes": "3.1.0",
     "classnames": "2.2.6",
-    "fontsource-metropolis": "4.0.0",
-    "gatsby": "2.32.3",
+    "gatsby": "^2.32.4",
     "gatsby-image": "2.11.0",
     "gatsby-plugin-manifest": "2.12.0",
     "gatsby-plugin-matomo": "0.9.0",
