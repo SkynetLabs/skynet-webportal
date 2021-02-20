@@ -85,7 +85,7 @@ services:
     environment:
       - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
       - LOG_LEVEL=trace
-      - SERVE_PUBLIC_BASE_URL=https://secure.${DOMAIN_NAME}/.ory/kratos/public/
+      - SERVE_PUBLIC_BASE_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public/
       - SQA_OPT_OUT=true
     command: serve -c /etc/config/kratos/kratos.yml
     volumes:
