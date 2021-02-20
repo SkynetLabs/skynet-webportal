@@ -13,4 +13,4 @@ COPY styles ./styles
 COPY postcss.config.js .
 COPY tailwind.config.js .
 
-CMD ["sh", "-c", "yarn build && yarn start"]
+CMD ["sh", "-c", "env | grep NEXT_PUBLIC_ > .env.local && yarn build && yarn start"]

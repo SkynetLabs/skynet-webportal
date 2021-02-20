@@ -9,7 +9,7 @@ import { SkynetClient } from "skynet-js";
 
 dayjs.extend(relativeTime);
 
-const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
