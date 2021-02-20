@@ -109,7 +109,9 @@ services:
       - .env
     environment:
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
-      - NEXT_PUBLIC_KRATOS_BROWSER_URL=${KRATOS_BROWSER_URL}
+      - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
+      - NEXT_PUBLIC_KRATOS_BROWSER_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
+      - KRATOS_PUBLIC_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
     networks:
       shared:
         ipv4_address: 10.10.10.85
