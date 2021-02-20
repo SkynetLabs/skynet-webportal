@@ -7,7 +7,7 @@ import Table from "../components/Table";
 import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
 
-const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API ?? "https://siasky.net");
+const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
