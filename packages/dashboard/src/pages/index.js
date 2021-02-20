@@ -31,7 +31,7 @@ function SkylinkList({ items = [] }) {
               >
                 {item.name || "— file name not available —"}
               </a>
-              <abbr className="text-xs text-gray-400 whitespace-nowrap" title={`sia://${item.skylink}`}>
+              <abbr className="text-xs text-gray-400 whitespace-nowrap ml-2" title={`sia://${item.skylink}`}>
                 sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
               </abbr>
             </div>
