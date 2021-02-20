@@ -108,14 +108,8 @@ services:
     env_file:
       - .env
     environment:
-      - SECURITY_MODE=jwks
-      - BASE_URL=/
-      - KRATOS_BROWSER_URL=/.ory/kratos/public
-      - JWKS_URL=http://oathkeeper:4456/.well-known/jwks.json
-      - KRATOS_PUBLIC_URL=http://kratos:4433/
-      - KRATOS_ADMIN_URL=http://kratos:4434/
-      - SQA_OPT_OUT=true
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
+      - NEXT_PUBLIC_KRATOS_BROWSER_URL=${KRATOS_BROWSER_URL}
     networks:
       shared:
         ipv4_address: 10.10.10.85

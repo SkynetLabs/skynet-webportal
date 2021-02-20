@@ -1,40 +1,11 @@
-export const SECURITY_MODE_STANDALONE = "cookie";
-export const SECURITY_MODE_JWT = "jwt";
-
-const baseUrl = process.env.BASE_URL || "/";
-
-let securityMode = SECURITY_MODE_STANDALONE;
-let browserUrl = process.env.KRATOS_BROWSER_URL || "https://secure.siasky.xyz/.ory/kratos/public";
-let publicUrl = process.env.KRATOS_PUBLIC_URL || "https://secure.siasky.xyz/.ory/kratos/public";
-switch ((process.env.SECURITY_MODE || "").toLowerCase()) {
-  case "jwt":
-  case "oathkeeper":
-    securityMode = SECURITY_MODE_JWT;
-    break;
-  case "cookie":
-  case "standalone":
-  default:
-    securityMode = SECURITY_MODE_STANDALONE;
-}
-
 export default {
+  // https://github.com/ory/kratos-selfservice-ui-node#configuration
   kratos: {
-    browser: browserUrl.replace(/\/+$/, ""),
-    admin: (process.env.KRATOS_ADMIN_URL || "").replace(/\/+$/, ""),
-    public: publicUrl.replace(/\/+$/, ""),
+    // The URL where ORY Kratos's Public API is located at. If this app and ORY Kratos are running in the same
+    // private network, this should be the private network address (e.g. kratos-public.svc.cluster.local)
+    public: process.env.KRATOS_PUBLIC_URL.replace(/\/+$/, ""),
+    // The URL where ORY Kratos's public API is located, when accessible from the public internet via ORY Oathkeeper.
+    // This could be for example http://kratos.my-app.com/.
+    browser: process.env.NEXT_PUBLIC_KRATOS_BROWSER_URL.replace(/\/+$/, ""),
   },
-  baseUrl,
-  jwksUrl: process.env.JWKS_URL || "/",
-
-  securityMode,
-  SECURITY_MODE_JWT,
-  SECURITY_MODE_STANDALONE,
-
-  https: {
-    enabled: process.env.hasOwnProperty("TLS_KEY_PATH") && process.env.hasOwnProperty("TLS_CERT_PATH"),
-    certificatePath: process.env.TLS_CERT_PATH || "",
-    keyPath: process.env.TLS_KEY_PATH || "",
-  },
-
-  tiers: {},
 };
