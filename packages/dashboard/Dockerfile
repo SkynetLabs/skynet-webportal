@@ -10,5 +10,5 @@ COPY postcss.config.js .
 COPY tailwind.config.js .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN yarn --no-lockfile && yarn build
-CMD ["yarn", "start"]
+RUN yarn --no-lockfile
+CMD ["sh", "-c", "yarn build", ";", "yarn start"]
