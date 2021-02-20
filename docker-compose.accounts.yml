@@ -115,8 +115,7 @@ services:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
       - SQA_OPT_OUT=true
-    volumes:
-      - ./.env:/usr/app/.env.local:ro
+      - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
     networks:
       shared:
         ipv4_address: 10.10.10.85
