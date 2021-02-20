@@ -10,8 +10,7 @@ import { SkynetClient } from "skynet-js";
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
-export const getServerSideProps = authServerSideProps();
-export const getStaticProps = () => {
+export const getServerSideProps = authServerSideProps(() => {
   const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
   const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
   const getRelativeDate = ({ uploadedOn }) => dayjs(uploadedOn).format("YYYY-MM-DD HH:mm:ss");
@@ -24,7 +23,7 @@ export const getStaticProps = () => {
   const actions = [];
 
   return { props: { headers, actions } };
-};
+});
 
 export default function Uploads({ headers, actions }) {
   const [offset, setOffset] = useState(0);
