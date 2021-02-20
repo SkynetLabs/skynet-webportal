@@ -11,4 +11,4 @@ COPY tailwind.config.js .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn --no-lockfile
-CMD ["sh", "-c", "yarn build;", "yarn start"]
+CMD ["sh", "-c", "yarn build && yarn start"]
