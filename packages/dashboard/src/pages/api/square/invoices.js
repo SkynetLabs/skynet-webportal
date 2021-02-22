@@ -8,7 +8,7 @@ const client = new Client({
 
 const api = {
   GET: async (req, res) => {
-    const user = req.headers["x-user"];
+    const user = "NBE7TRXZPGZXNBD64JB6DR5AGR"; // req.headers["x-user"];
 
     try {
       // get locations for invoices search query
@@ -17,7 +17,7 @@ const api = {
 
       // create invoices serach query
       const locationIds = locations.map(({ id }) => id);
-      const customerIds = [user, "NBE7TRXZPGZXNBD64JB6DR5AGR"].filter(Boolean);
+      const customerIds = [user];
       const filter = { locationIds, customerIds };
       const sort = { field: "INVOICE_SORT_DATE", order: "DESC" };
       const query = { filter, sort };
