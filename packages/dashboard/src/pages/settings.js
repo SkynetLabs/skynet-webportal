@@ -2,10 +2,11 @@ import { Configuration, PublicApi } from "@ory/kratos-client";
 import Layout from "../components/Layout";
 import config from "../config";
 import SelfServiceForm from "../components/Form/SelfServiceForm";
+import authServerSideProps from "../services/authServerSideProps";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = authServerSideProps(async (context) => {
   const flow = context.query.flow;
 
   if (process.env.NODE_ENV === "development") {
@@ -41,7 +42,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
-}
+});
 
 const fieldsConfig = {
   "traits.email": {

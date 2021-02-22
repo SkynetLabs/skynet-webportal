@@ -23,7 +23,7 @@ export default function SelfServiceForm({ config, fieldsConfig, title }) {
               )}
               <div>
                 <input
-                  id={field.name}
+                  id={field.type === "hidden" ? null : field.name}
                   name={field.name}
                   type={field.type}
                   autoComplete={field.autoComplete}
