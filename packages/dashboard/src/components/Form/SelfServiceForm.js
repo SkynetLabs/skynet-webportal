@@ -1,7 +1,7 @@
 import { useFormik, getIn, setIn } from "formik";
 import Message from "./Message";
 
-export default function SelfServiceForm({ config, fieldsConfig }) {
+export default function SelfServiceForm({ config, fieldsConfig, title }) {
   const fields = config.fields
     .map((field) => ({ ...field, ...fieldsConfig[field.name] }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
@@ -11,6 +11,7 @@ export default function SelfServiceForm({ config, fieldsConfig }) {
 
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      {title && <h3 className="pb-5 text-lg leading-6 font-medium text-gray-900">{title}</h3>}
       <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" action={config.action} method={config.method}>
           {fields.map((field) => (

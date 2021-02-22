@@ -70,13 +70,14 @@ const fieldsConfig = {
 };
 
 export default function Settings({ flow }) {
-  console.log(flow);
+  const profileConfig = flow.methods.profile.config;
+  const passwordConfig = flow.methods.password.config;
 
   return (
     <Layout title="Settings">
-      <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-        <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} />
-        <SelfServiceForm config={flow.methods.profile.config} fieldsConfig={fieldsConfig} />
+      <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <SelfServiceForm config={profileConfig} fieldsConfig={fieldsConfig} title="Account settings" />
+        <SelfServiceForm config={passwordConfig} fieldsConfig={fieldsConfig} title="Authentication settings" />
       </div>
     </Layout>
   );
