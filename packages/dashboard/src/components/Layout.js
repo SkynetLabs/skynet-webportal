@@ -226,7 +226,7 @@ export default function Layout({ title, children }) {
               </Link>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-700">
-              <div className="flex items-center px-5">
+              {/* <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
                   <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
                     <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -238,7 +238,7 @@ export default function Layout({ title, children }) {
                   <div className="text-base font-medium leading-none text-white">John Doe</div>
                   <div className="text-sm font-medium leading-none text-gray-400">john@example.com</div>
                 </div>
-              </div>
+              </div> */}
               <div className="mt-3 px-2 space-y-1">
                 <Link href="/">
                   <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
