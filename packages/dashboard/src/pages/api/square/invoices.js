@@ -28,6 +28,9 @@ const api = {
 
       res.json(invoices);
     } catch (error) {
+      console.log(error);
+      console.log(error?.errors?.body);
+
       res.json([]); // todo: error handling
     }
   },
