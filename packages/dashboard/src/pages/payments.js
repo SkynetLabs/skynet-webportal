@@ -1,13 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/Layout";
-import dayjs from "dayjs";
-import prettyBytes from "pretty-bytes";
-import { useState } from "react";
 import useSWR from "swr";
-import Layout from "../components/Layout";
-import Table from "../components/Table";
-import authServerSideProps from "../services/authServerSideProps";
-import { SkynetClient } from "skynet-js";
 
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "/api";
 const fetcher = (url) => fetch(url).then((r) => r.json());
