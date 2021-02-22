@@ -1,4 +1,5 @@
 import { Configuration, PublicApi } from "@ory/kratos-client";
+import Layout from "../components/Layout";
 import config from "../config";
 import SelfServiceForm from "../components/Form/SelfServiceForm";
 
@@ -72,13 +73,11 @@ export default function Settings({ flow }) {
   console.log(flow);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Update your settings</h2>
+    <Layout title="Settings">
+      <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+        <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} />
+        <SelfServiceForm config={flow.methods.profile.config} fieldsConfig={fieldsConfig} />
       </div>
-
-      <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} />
-      <SelfServiceForm config={flow.methods.profile.config} fieldsConfig={fieldsConfig} />
-    </div>
+    </Layout>
   );
 }

@@ -130,11 +130,7 @@ export default function Home() {
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
-              <div className="text-sm">
-                <abbr title="Coming soon" className="font-medium text-gray-500">
-                  View current payments
-                </abbr>
-              </div>
+              <div className="text-sm font-medium text-gray-500">Upgrade options coming soon!</div>
             </div>
           </div>
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">

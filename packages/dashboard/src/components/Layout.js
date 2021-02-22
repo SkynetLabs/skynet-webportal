@@ -131,13 +131,11 @@ export default function Layout({ title, children }) {
                           aria-orientation="vertical"
                           aria-labelledby="user-menu"
                         >
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            role="menuitem"
-                          >
-                            Settings (coming soon)
-                          </a>
+                          <Link href="/settings">
+                            <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                              Settings
+                            </a>
+                          </Link>
                           <a
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -242,12 +240,11 @@ export default function Layout({ title, children }) {
                 </div>
               </div>
               <div className="mt-3 px-2 space-y-1">
-                <a
-                  href="#"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                >
-                  Settings (coming soon)
-                </a>
+                <Link href="/">
+                  <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
+                    Settings
+                  </a>
+                </Link>
                 <a
                   href="#"
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
