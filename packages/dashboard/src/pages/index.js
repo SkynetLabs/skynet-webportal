@@ -92,7 +92,7 @@ function SkylinkList({ items = [] }) {
 }
 
 export default function Home() {
-  const { data: user } = useSWR("/user", fetcher);
+  const { data: stats } = useSWR(`${apiPrefix}/user/stats`, fetcher);
   const { data: downloads } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=0`, fetcher);
   const { data: uploads } = useSWR(`${apiPrefix}/user/uploads?pageSize=3&offset=0`, fetcher);
 
@@ -155,7 +155,7 @@ export default function Home() {
                 <div className="ml-5 w-0 flex-1">
                   <dt className="text-sm font-medium text-gray-500 truncate">Storage used</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(user?.storageUsed ?? 0)}</div>
+                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(stats?.storageUsed ?? 0)}</div>
                   </dd>
                 </div>
               </div>
@@ -190,7 +190,7 @@ export default function Home() {
                 <div className="ml-5 w-0 flex-1">
                   <dt className="text-sm font-medium text-gray-500 truncate">Bandwidth used</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(user?.bandwidthUsed ?? 0)}</div>
+                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(stats?.bwDownloads ?? 0)}</div>
                   </dd>
                 </div>
               </div>
