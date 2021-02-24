@@ -17,15 +17,6 @@
     handler: allow
   mutators:
     - handler: noop
-    # - handler: hydrator
-    #   config:
-    #     api:
-    #       url: http://dashboard:3000/api/hydrator
-    # - handler: cookie
-    #   config:
-    #     cookies:
-    #       user: "{{ print .Subject }}"
-    #       some-arbitrary-data: "{{ print .Extra.foo }}"
 
 - id: "dashboard:anonymous"
   upstream:
@@ -71,10 +62,11 @@
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{accounts/**,user,user/**,login,logout}>"
+    url: "http://oathkeeper<{,:4455}>/<{user,user/**,login,logout}>"
     methods:
       - GET
       - POST
+      - PUT
   authenticators:
     - handler: cookie_session
   authorizer:
