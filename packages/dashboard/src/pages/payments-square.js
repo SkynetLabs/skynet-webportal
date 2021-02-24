@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
 import ky from "ky/umd";
-import { CardElement } from "@stripe/react-stripe-js";
 
 const plans = [
   { id: "initial_free", name: "Free", price: 0, description: "Unlimited bandwidth with throttled speed" },
@@ -65,23 +64,6 @@ export default function Payments() {
               </div>
             </div>
           </dl>
-
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: "16px",
-                  color: "#424770",
-                  "::placeholder": {
-                    color: "#aab7c4",
-                  },
-                },
-                invalid: {
-                  color: "#9e2146",
-                },
-              },
-            }}
-          />
 
           {/* Plan */}
           <section aria-labelledby="plan_heading">
