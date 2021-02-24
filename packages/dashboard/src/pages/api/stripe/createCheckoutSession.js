@@ -13,20 +13,6 @@ const getAuthenticatedUser = async () => {
   });
 };
 
-const getStripeCustomerId = async (req) => {
-  console.log(req.header);
-  console.log(req.headers);
-  // const user = got(`http://accounts:3000/user/${userId}`).json();
-
-  // if (user.stripeCustomerId) {
-  //   return user.stripeCustomerId;
-  // }
-
-  // const customer = await stripe.customers.create();
-
-  return "cus_J09ECKPgFEPXoq";
-};
-
 export default async (req, res) => {
   if (req.method !== "POST") {
     return res.status(StatusCodes.NOT_FOUND).end();
@@ -38,6 +24,9 @@ export default async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json({ error: { message: "Missing 'price' attribute" } });
   }
 
+  console.log(req.header);
+  console.log(req.headers);
+
   // Create new Checkout Session for the order
   // Other optional params include:
   // [billing_address_collection] - to display billing address details on the page
@@ -45,8 +34,7 @@ export default async (req, res) => {
   // [customer_email] - lets you prefill the email input in the form
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
-    const userId = req.headers["x-user"];
-    const stripeCustomerId = await getStripeCustomerId(userId);
+    const stripeCustomerId = "cus_J09ECKPgFEPXoq";
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
