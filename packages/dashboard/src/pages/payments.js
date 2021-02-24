@@ -1,19 +1,59 @@
 import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
+import ky from "ky/umd";
+import { useState } from "react";
 
 const plans = [
-  { id: "initial_free", name: "Free", price: 0, description: "Unlimited bandwidth with throttled speed" },
-  { id: "initial_plus", name: "Skynet Plus", price: 5, description: "1 TB premium bandwidth with full speed" },
-  { id: "initial_pro", name: "Skynet Pro", price: 20, description: "5 TB premium bandwidth with full speed" },
-  { id: "initial_extreme", name: "Skynet Extreme", price: 80, description: "20 TB premium bandwidth with full speed" },
+  { id: "initial_free", stripe: null, name: "Free", price: 0, description: "Unlimited bandwidth with throttled speed" },
+  {
+    id: "initial_plus",
+    stripe: "price_1IO6FpIzjULiPWN6XHIG5mU9",
+    name: "Skynet Plus",
+    price: 5,
+    description: "1 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_pro",
+    stripe: "price_1IO6FpIzjULiPWN6xYjmUuGb",
+    name: "Skynet Pro",
+    price: 20,
+    description: "5 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_extreme",
+    stripe: "price_1IO6FpIzjULiPWN636iFN02j",
+    name: "Skynet Extreme",
+    price: 80,
+    description: "20 TB premium bandwidth with full speed",
+  },
 ];
-const currentlyActivePlan = "initial_free";
+const stripeCustomerId = "cus_J09ECKPgFEPXoq";
+const activePlanId = "initial_free";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
+const ActiveBadge = () => {
+  return (
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-green-100 text-green-800 ml-3">
+      active
+    </span>
+  );
+};
+
 export default function Payments() {
-  const { data: invoices, error } = useSWR("/api/square/invoices", fetcher);
+  const [selectedPlanId, setSelectedPlanId] = useState("initial_free");
+  const selectedPlan = plans.find(({ id }) => selectedPlanId === id);
+  const handleSubscribe = async () => {
+    try {
+      const price = selectedPlan.stripe;
+      const { sessionId } = await ky.post("/api/stripe/createCheckoutSession", { json: { price } }).json();
+      const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      // todo: handle error
+    }
+  };
 
   return (
     <Layout title="Payments">
@@ -70,9 +110,11 @@ export default function Payments() {
                                 type="radio"
                                 className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                                 aria-describedby="plan-option-pricing-0 plan-option-limit-0"
-                                defaultChecked
+                                checked={plan.id === selectedPlanId}
+                                onChange={() => console.log(plan.id) || setSelectedPlanId(plan.id)}
                               />
                               <span className="ml-3 font-medium text-gray-900">{plan.name}</span>
+                              {activePlanId === plan.id && <ActiveBadge />}
                             </label>
                             <p id="plan-option-pricing-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
                               {/* On: "text-orange-900", Off: "text-gray-900" */}
@@ -89,113 +131,25 @@ export default function Payments() {
                       ))}
                     </ul>
                   </fieldset>
-                  <div className="flex items-center">
-                    <span className="text-sm font-medium text-gray-900">Currently active plan:</span>
-                    <span className="text-sm ml-3">Free</span>
-                    <span className="text-sm text-gray-500 ml-3">
-                      (next payment $5 on 10/10/2020 -{" "}
-                      <a
-                        href="/api/square/subscriptions/cancel"
-                        className="text-sm text-green-600 hover:text-green-900"
-                      >
-                        cancel
-                      </a>
-                      )
-                    </span>
-                  </div>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                   <button
-                    type="submit"
-                    className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                    type="button"
+                    onClick={handleSubscribe}
+                    disabled={activePlanId === selectedPlanId}
+                    className="bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                   >
-                    Subscribe to selected plan
+                    Subscribe
                   </button>
                 </div>
               </div>
+              <div className="text-sm text-gray-500 text-center my-3">
+                To manage your active subscription, payment methods and view your billing history, go to{" "}
+                <a href="/api/stripe/customerPortal" className="text-green-600 hover:text-green-900">
+                  Stripe Customer Portal
+                </a>
+              </div>
             </form>
-          </section>
-          {/* Billing history */}
-          <section aria-labelledby="billing_history_heading">
-            <div className="bg-white pt-6 shadow sm:rounded-md sm:overflow-hidden">
-              <div className="px-4 sm:px-6">
-                <h2 id="billing_history_heading" className="text-lg leading-6 font-medium text-gray-900">
-                  Billing history
-                </h2>
-              </div>
-              <div className="mt-6 flex flex-col">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="overflow-hidden border-t border-gray-200">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Date
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Invoice
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Description
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Status
-                            </th>
-                            {/*
-                    `relative` is added here due to a weird bug in Safari that causes `sr-only` headings to introduce overflow on the body on mobile.
-                  */}
-                            <th
-                              scope="col"
-                              className="relative px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              <span className="sr-only">View receipt</span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {invoices &&
-                            invoices.map((invoice) => (
-                              <tr key={invoice.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                  {dayjs(invoice.createdAt).format("DD/MM/YYYY")}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  {invoice.invoiceNumber}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{invoice.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{invoice.status}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                  <a
-                                    href={invoice.publicUrl}
-                                    className="text-green-600 hover:text-green-900"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    View invoice
-                                  </a>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </section>
         </div>
       </div>
