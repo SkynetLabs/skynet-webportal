@@ -136,11 +136,11 @@ export default function Layout({ title, children }) {
                               Settings
                             </a>
                           </Link>
-                          {/* <Link href="/payments">
+                          <Link href="/payments">
                             <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                               Payments
                             </a>
-                          </Link> */}
+                          </Link>
                           <a
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -243,11 +243,11 @@ export default function Layout({ title, children }) {
                     Settings
                   </a>
                 </Link>
-                {/* <Link href="/payments">
+                <Link href="/payments">
                   <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
                     Payments
                   </a>
-                </Link> */}
+                </Link>
                 <a
                   href="#"
                   onClick={handleSignOut}
