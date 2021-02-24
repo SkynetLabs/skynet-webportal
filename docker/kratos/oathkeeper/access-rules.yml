@@ -50,6 +50,7 @@
     url: "http://oathkeeper:4455/<{,api/*,settings,uploads,downloads,payments}>"
     methods:
       - GET
+      - POST
   authenticators:
     - handler: cookie_session
   authorizer:
