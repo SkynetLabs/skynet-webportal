@@ -4,6 +4,8 @@ import { StatusCodes } from "http-status-codes";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
+  console.log(req.method);
+
   if (req.method !== "POST") {
     return res.status(StatusCodes.NOT_FOUND).end();
   }
