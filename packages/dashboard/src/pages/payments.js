@@ -51,7 +51,7 @@ export default function Payments() {
       const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
-      // todo: handle error
+      console.log(error); // todo: handle error
     }
   };
 

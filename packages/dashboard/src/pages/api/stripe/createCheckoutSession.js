@@ -4,8 +4,6 @@ import { StatusCodes } from "http-status-codes";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
-  console.log(req.method);
-
   if (req.method !== "POST") {
     return res.status(StatusCodes.NOT_FOUND).end();
   }
@@ -33,8 +31,6 @@ export default async (req, res) => {
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
     });
-
-    console.log(session);
 
     res.json({ sessionId: session.id });
   } catch ({ message }) {
