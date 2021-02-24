@@ -42,6 +42,7 @@ const ActiveBadge = () => {
 };
 
 export default function Payments() {
+  const { data: user } = useSWR("/user", fetcher);
   const [selectedPlanId, setSelectedPlanId] = useState("initial_free");
   const selectedPlan = plans.find(({ id }) => selectedPlanId === id);
   const handleSubscribe = async () => {
@@ -143,12 +144,14 @@ export default function Payments() {
                   </button>
                 </div>
               </div>
-              <div className="text-sm text-gray-500 text-center my-3">
-                To manage your active subscription, payment methods and view your billing history, go to{" "}
-                <a href="/api/stripe/customerPortal" className="text-green-600 hover:text-green-900">
-                  Stripe Customer Portal
-                </a>
-              </div>
+              {Boolean(user?.stripeCustomerId) && (
+                <div className="text-sm text-gray-500 text-center my-3">
+                  To manage your active subscription, payment methods and view your billing history, go to{" "}
+                  <a href="/api/stripe/customerPortal" className="text-green-600 hover:text-green-900">
+                    Stripe Customer Portal
+                  </a>
+                </div>
+              )}
             </form>
           </section>
         </div>
