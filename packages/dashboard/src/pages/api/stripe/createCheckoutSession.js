@@ -1,7 +1,31 @@
+import got from "got";
 import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const getAuthenticatedUser = async () => {
+  const { body } = await got.get("http://user", {
+    json: {
+      hello: "world",
+    },
+    responseType: "json",
+  });
+};
+
+const getStripeCustomerId = async (req) => {
+  console.log(req.header);
+  console.log(req.headers);
+  // const user = got(`http://accounts:3000/user/${userId}`).json();
+
+  // if (user.stripeCustomerId) {
+  //   return user.stripeCustomerId;
+  // }
+
+  // const customer = await stripe.customers.create();
+
+  return "cus_J09ECKPgFEPXoq";
+};
 
 export default async (req, res) => {
   if (req.method !== "POST") {
@@ -21,7 +45,8 @@ export default async (req, res) => {
   // [customer_email] - lets you prefill the email input in the form
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
-    const stripeCustomerId = "cus_J09ECKPgFEPXoq";
+    const userId = req.headers["x-user"];
+    const stripeCustomerId = await getStripeCustomerId(userId);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
