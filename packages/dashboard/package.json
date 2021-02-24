@@ -10,6 +10,8 @@
   "dependencies": {
     "@fontsource/metropolis": "^4.1.0",
     "@ory/kratos-client": "^0.5.4-alpha.1",
+    "@stripe/react-stripe-js": "^1.3.0",
+    "@stripe/stripe-js": "^1.13.0",
     "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^10.2.4",
     "classnames": "^2.2.6",
