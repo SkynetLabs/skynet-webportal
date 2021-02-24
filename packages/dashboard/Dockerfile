@@ -13,4 +13,4 @@ COPY styles ./styles
 COPY postcss.config.js .
 COPY tailwind.config.js .
 
-CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|KRATOS' > .env.local && yarn build && yarn start"]
+CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|KRATOS|STRIPE' > .env.local && yarn build && yarn start"]
