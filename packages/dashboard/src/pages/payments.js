@@ -76,7 +76,7 @@ export default function Payments() {
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Plan usage this month</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">24.57%</dd>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
               </div>
             </div>
           </dl>

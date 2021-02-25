@@ -130,7 +130,41 @@ export default function Home() {
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-4 sm:px-6">
-              <div className="text-sm font-medium text-gray-500">Upgrade options coming soon!</div>
+              <div className="text-sm">
+                <Link href="/payments">
+                  <a className="font-medium text-green-600 hover:text-green-500 flex items-center">
+                    Check upgrade options
+                    <svg
+                      className="h-4 w-4 ml-1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                      />
+                    </svg>
+                    <svg
+                      className="h-4 w-4 ml-1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                      />
+                    </svg>
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">

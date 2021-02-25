@@ -92,6 +92,28 @@ export default function Layout({ title, children }) {
                           Your downloads
                         </a>
                       </Link>
+                      <a
+                        href={process.env.NEXT_PUBLIC_SKYNET_PORTAL_API}
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Upload files
+                        <svg
+                          className="flex-shrink-0 h-4 w-4 ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -222,6 +244,28 @@ export default function Layout({ title, children }) {
                   Your downloads
                 </a>
               </Link>
+              <a
+                href={process.env.NEXT_PUBLIC_SKYNET_PORTAL_API}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium flex items-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Upload files
+                <svg
+                  className="flex-shrink-0 h-4 w-4 ml-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </a>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-700">
               {/* <div className="flex items-center px-5">
