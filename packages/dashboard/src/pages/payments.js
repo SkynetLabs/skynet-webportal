@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
 import ky from "ky/umd";
@@ -35,7 +34,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const ActiveBadge = () => {
   return (
-    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-green-100 text-green-800 ml-3">
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-green-100 text-green-800 ml-3">
       active
     </span>
   );
