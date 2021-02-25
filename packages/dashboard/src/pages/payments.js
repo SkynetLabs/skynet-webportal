@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import useSWR from "swr";
+import { useEffect } from "react";
 import ky from "ky/umd";
 import { useState } from "react";
 
