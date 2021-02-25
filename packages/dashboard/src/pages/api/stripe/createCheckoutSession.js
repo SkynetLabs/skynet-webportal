@@ -24,9 +24,6 @@ export default async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json({ error: { message: "Missing 'price' attribute" } });
   }
 
-  console.log(req.header);
-  console.log(req.headers);
-
   // Create new Checkout Session for the order
   // Other optional params include:
   // [billing_address_collection] - to display billing address details on the page
@@ -34,6 +31,17 @@ export default async (req, res) => {
   // [customer_email] - lets you prefill the email input in the form
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
+    const authorization = req.headers.authorization; // authorization header from request
+    const user = await got(`${process.env.SKYNET_DASHBOARD_URL}/user`, { headers: { authorization } });
+
+    if (!user.stripeCustomerId) {
+      const customer = await stripe.customers.create();
+
+      console.log(customer);
+      const user = await got.put(`/user`, { json: { stripeCustomerId } });
+      console.log(user);
+    }
+
     const stripeCustomerId = "cus_J09ECKPgFEPXoq";
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
