@@ -5,7 +5,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
   try {
-    const stripeCustomerId = "cus_J09ECKPgFEPXoq";
+    const authorization = req.headers.authorization; // authorization header from request
+    const { stripeCustomerId } = await got("http://accounts:3000/user", { headers: { authorization } });
     const session = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
       return_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
