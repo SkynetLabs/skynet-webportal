@@ -9,9 +9,9 @@ export default async (req, res) => {
     const authorization = req.headers.authorization; // authorization header from request
     const { stripeCustomerId } = await got("http://accounts:3000/user", { headers: { authorization } }).json();
     const stripeCustomer = await stripe.customers.retrieve(stripeCustomerId);
-    const { subscriptions } = stripeCustomer;
+    // const { subscriptions } = stripeCustomer;
 
-    res.json(subscriptions);
+    res.json(stripeCustomer);
   } catch ({ message }) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: { message } });
   }
