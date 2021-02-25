@@ -30,7 +30,7 @@ export default async (req, res) => {
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
     const authorization = req.headers.authorization; // authorization header from request
-    const user = await got("http://accounts:3000/user", { headers: { authorization } });
+    const user = await got("http://accounts:3000/user", { headers: { authorization } }).json();
     const customer = await getStripeCustomer(user.stripeCustomerId);
 
     if (!user.stripeCustomerId) {
