@@ -4,13 +4,11 @@ import { StatusCodes } from "http-status-codes";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const getAuthenticatedUser = async () => {
-  const { body } = await got.get("http://user", {
-    json: {
-      hello: "world",
-    },
-    responseType: "json",
-  });
+const getStripeCustomer = (stripeCustomerId = null) => {
+  if (stripeCustomerId) {
+    return stripe.customers.retrieve(user.stripeCustomerId);
+  }
+  return stripe.customers.create();
 };
 
 export default async (req, res) => {
@@ -33,24 +31,20 @@ export default async (req, res) => {
   try {
     const authorization = req.headers.authorization; // authorization header from request
     const user = await got("http://accounts:3000/user", { headers: { authorization } });
+    const customer = await getStripeCustomer(user.stripeCustomerId);
 
     if (!user.stripeCustomerId) {
-      const customer = await stripe.customers.create();
-
-      console.log(customer);
-      const user = await got.put(`http://accounts:3000/user`, {
+      await got.put(`http://accounts:3000/user`, {
         headers: { authorization },
-        json: { stripeCustomerId },
+        json: { stripeCustomerId: customer.id },
       });
-      console.log(user);
     }
 
-    const stripeCustomerId = "cus_J09ECKPgFEPXoq";
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price, quantity: 1 }],
-      customer: stripeCustomerId,
+      customer: customer.id,
       // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
