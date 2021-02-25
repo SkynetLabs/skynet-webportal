@@ -32,13 +32,16 @@ export default async (req, res) => {
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
     const authorization = req.headers.authorization; // authorization header from request
-    const user = await got(`${process.env.SKYNET_DASHBOARD_URL}/user`, { headers: { authorization } });
+    const user = await got("http://accounts:3000/user", { headers: { authorization } });
 
     if (!user.stripeCustomerId) {
       const customer = await stripe.customers.create();
 
       console.log(customer);
-      const user = await got.put(`/user`, { json: { stripeCustomerId } });
+      const user = await got.put(`http://accounts:3000/user`, {
+        headers: { authorization },
+        json: { stripeCustomerId },
+      });
       console.log(user);
     }
 
