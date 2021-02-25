@@ -27,8 +27,6 @@ const plans = [
     description: "20 TB premium bandwidth with full speed",
   },
 ];
-const stripeCustomerId = "cus_J09ECKPgFEPXoq";
-const activePlanId = "initial_free";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -42,7 +40,9 @@ const ActiveBadge = () => {
 
 export default function Payments() {
   const { data: user } = useSWR("/user", fetcher);
+  const { data: subscription } = useSWR("/api/stripe/subscription", fetcher);
   const [selectedPlanId, setSelectedPlanId] = useState("initial_free");
+  const [activePlanId, setActivePlanId] = useState(null);
   const selectedPlan = plans.find(({ id }) => selectedPlanId === id);
   const handleSubscribe = async () => {
     try {
@@ -54,6 +54,10 @@ export default function Payments() {
       console.log(error); // todo: handle error
     }
   };
+
+  useEffect(() => {
+    setActivePlanId(subscription?.plan?.id ?? null);
+  }, [subscription, setActivePlanId]);
 
   return (
     <Layout title="Payments">
@@ -69,13 +73,45 @@ export default function Payments() {
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                <dt className="text-sm font-medium text-gray-500 truncate">Current payment</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
+                <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">{subscription?.status ?? "—"}</dd>
               </div>
             </div>
+
+            {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
+              <div className="flex-grow px-4 py-5 sm:p-6">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
+                    <svg
+                      className="h-6 w-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-5 w-0 flex-1">
+                    <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
+                    <dd className="flex items-baseline">
+                      <div className="text-2xl font-semibold text-grey-900">Active</div>
+                    </dd>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-4 sm:px-6">
+                <div className="text-sm">All paid up!</div>
+              </div>
+            </div> */}
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                <dt className="text-sm font-medium text-gray-500 truncate">Plan usage this month</dt>
+                <dt className="text-sm font-medium text-gray-500 truncate">asdas</dt>
                 <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
               </div>
             </div>
