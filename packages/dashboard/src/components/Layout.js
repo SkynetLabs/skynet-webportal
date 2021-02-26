@@ -24,8 +24,7 @@ export default function Layout({ title, children }) {
   return (
     <div>
       <Head>
-        <title>Skynet - {title}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title key="title">Skynet - {title}</title>
       </Head>
       <div className="bg-gray-800 pb-32">
         <nav className="bg-gray-800">
