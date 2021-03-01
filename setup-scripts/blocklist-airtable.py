@@ -17,6 +17,7 @@ async def block_skylinks_from_airtable():
     skylinks = []
     offset = None
     while len(skylinks) == 0 or offset:
+        print("Requesting a batch of records from airtable with " + (offset if offset else "empty") + " offset")
         query = '&'.join(['fields%5B%5D=' + AIRTABLE_FIELD, ('offset=' + offset) if offset else ''])
         airtable = requests.get(
             "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query, headers=headers
@@ -32,11 +33,9 @@ async def block_skylinks_from_airtable():
         if len(skylinks) == 0:
             return print("Airtable returned 0 skylinks - make sure your configuration is correct")
         
-        print(offset)
         offset = airtable_data.get('offset')
-        print(offset)
     
-    print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
+    print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
     
     apipassword = os.popen('docker exec sia cat /sia-data/apipassword').read().strip()
     ipaddress = os.popen('docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' sia').read().strip()
@@ -54,7 +53,7 @@ async def block_skylinks_from_airtable():
         return print(message) or await send_msg(client, message, force_notify=False)
 
     print("Searching nginx cache for blocked files")
-    cached_files_command = '/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El \'^KEY: .*(' + '|'.join(skylinks) + ')\''
+    cached_files_command = '/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els \'^KEY: .*(' + '|'.join(skylinks) + ')\''
     cached_files_count = int(os.popen('docker exec -it nginx bash -c "' + cached_files_command + ' | wc -l"').read().strip())
 
     if cached_files_count == 0:
