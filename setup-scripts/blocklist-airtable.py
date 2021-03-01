@@ -10,22 +10,27 @@ bot_token = setup()
 client = discord.Client()
 
 async def block_skylinks_from_airtable():
+    print("Pulling blocked skylinks from airtable via api integration")
     headers = { "Authorization": "Bearer " + AIRTABLE_API_KEY }
     airtable = requests.get(
         "https://api.airtable.com/v0/" + AIRTABLE_TABLE + "/Table%201?fields%5B%5D=" + AIRTABLE_FIELD, headers=headers
     ).json()
     skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable['records']]
+    print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
     
     apipassword = os.popen('docker exec sia cat /sia-data/apipassword').read().strip()
     ipaddress = os.popen('docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' sia').read().strip()
     
+    print("Sending blocklist request to siad")
     headers = { 'user-agent': 'Sia-Agent' }
     auth = ('', apipassword)
     data = json.dumps({ 'add': skylinks })
     response = requests.post('http://' + ipaddress + ':9980/skynet/blocklist', auth = auth, headers = headers, data = data)
     
-    if response.status_code != 204:
-        message = "Blocklist responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
+    if response.status_code == 204:
+        print("Skylinks successfully added to siad blocklist")
+    else:
+        message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
         await send_msg(client, message, force_notify=True)
 
 async def exit_after(delay):
