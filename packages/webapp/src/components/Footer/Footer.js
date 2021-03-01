@@ -59,7 +59,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer">
+              <a href="https://siasky.net/docs" target="_blank" rel="noopener noreferrer">
                 API Docs
               </a>
             </li>
