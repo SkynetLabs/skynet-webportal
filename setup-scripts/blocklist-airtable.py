@@ -45,7 +45,7 @@ async def block_skylinks_from_airtable():
 
     print("Clearing nginx cache related to blocked skylinks")
     find_all_cache_files = '/usr/bin/find /data/nginx/cache/ -type f'
-    grep_pattern = '^KEY: .*(' + '|'.join(skylinks) + ')'
+    grep_pattern = '\'^KEY: .*(' + '|'.join(skylinks) + ')\''
     filter_matching_files = '/usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El ' + grep_pattern
     print('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
     os.popen('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
