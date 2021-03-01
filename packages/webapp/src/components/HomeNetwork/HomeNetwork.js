@@ -98,7 +98,7 @@ export default function HomeNetwork() {
               Anyone can access files that have been uploaded to Skynet as long as they possess the corresponding
               Skylinks. You can use any Webportal to download files!
               <a
-                href="https://skynet.helpdocs.io/article/3p9z5g9s0e-skynet-how-to"
+                href="https://support.siasky.net/using-skynet"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="more read-more"
@@ -113,7 +113,7 @@ export default function HomeNetwork() {
               Applications can be deployed in under a minute and be immediately available globally. Skynet includes an
               API and SDKs which integrate seamlessly with existing applications.
               <a
-                href="https://skynet.helpdocs.io/article/hrshqsn9wz-integrating-skynet"
+                href="https://support.siasky.net/the-technology/developing-on-skynet"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="more read-more"
@@ -128,7 +128,7 @@ export default function HomeNetwork() {
               Skynet&apos;s speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet
               download starts in under 500 ms and can stream at rates as high as 1 Gbps!
               <a
-                href="https://skynet.helpdocs.io/article/430teoxgqc-skynet-speed"
+                href="https://support.siasky.net/key-concepts/faqs#how-fast-is-skynet"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="more read-more"

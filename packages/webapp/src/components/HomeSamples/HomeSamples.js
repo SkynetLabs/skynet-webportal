@@ -23,7 +23,7 @@ export default function HomeSamples() {
           SDKs
         </a>{" "}
         for popular programming languages and{" "}
-        <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer" className="link">
+        <a href="https://siasky.net/docs/" target="_blank" rel="noopener noreferrer" className="link">
           APIs
         </a>{" "}
         that integrate seamlessly with your existing apps. You can follow these guides to start using Skynet with{" "}

@@ -59,7 +59,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://sia.tech/docs/#skynet" target="_blank" rel="noopener noreferrer">
+              <a href="https://siasky.net/docs" target="_blank" rel="noopener noreferrer">
                 API Docs
               </a>
             </li>
@@ -74,11 +74,11 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://support.siasky.net/article/vmmzyes1uy-skynet-sia-set-up"
+                href="https://support.siasky.net/key-concepts/skynet-portals/using-a-sia-node-as-a-portal"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Sia Node Setup
+                Accessing Skynet Locally
               </a>
             </li>
           </ul>
