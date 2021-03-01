@@ -78,7 +78,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Skynet with a Sia Node
+                Accessing Skynet Locally
               </a>
             </li>
           </ul>
