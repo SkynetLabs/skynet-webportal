@@ -43,12 +43,10 @@ async def block_skylinks_from_airtable():
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
         return await print(message) or send_msg(client, message, force_notify=True)
 
-    print("Clearing nginx cache related to blocked skylinks")
-    find_all_cache_files = '/usr/bin/find /data/nginx/cache/ -type f'
-    grep_pattern = '\'^KEY: .*(' + '|'.join(skylinks) + ')\''
-    filter_matching_files = '/usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El ' + grep_pattern
-    print('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
-    os.popen('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
+    print("Purging nginx cache containing blocked skylinks")
+    purge_command = '/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El \'^KEY: .*(' + '|'.join(skylinks) + ')\''
+    cached_files = os.popen('docker exec -it nginx bash -c "' + purge_command + '"').read().strip()
+    print(cached_files)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
