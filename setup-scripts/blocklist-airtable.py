@@ -15,7 +15,7 @@ async def block_skylinks_from_airtable():
     print("Pulling blocked skylinks from airtable via api integration")
     headers = { "Authorization": "Bearer " + AIRTABLE_API_KEY }
     skylinks = []
-    offset = ''
+    offset = None
     while len(skylinks) == 0 or offset:
         query = '&'.join(['fields%5B%5D=' + AIRTABLE_FIELD, ('offset=' + offset) if offset else ''])
         airtable = requests.get(
@@ -32,9 +32,9 @@ async def block_skylinks_from_airtable():
         if len(skylinks) == 0:
             return print("Airtable returned 0 skylinks - make sure your configuration is correct")
         
-        print(airtable_data.offset)
-        offset = airtable_data.offset
-        print(airtable_data.offset)
+        print(offset)
+        offset = airtable_data.get('offset')
+        print(offset)
     
     print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
     
