@@ -19,7 +19,7 @@ async def block_skylinks_from_airtable():
 
     if airtable.status_code != 200:
         message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
-        return print(message) or await send_msg(client, message, force_notify=False)
+        return print(message) or await send_msg(client, message, force_notify=True)
     
     skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
     print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
@@ -37,7 +37,7 @@ async def block_skylinks_from_airtable():
         return print("Skylinks successfully added to siad blocklist")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        return await print(message) or send_msg(client, message, force_notify=False)
+        return await print(message) or send_msg(client, message, force_notify=True)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
@@ -48,7 +48,7 @@ async def on_ready():
     try:
         await block_skylinks_from_airtable()
     except:  # catch all exceptions
-        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=False)
+        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=True)
     asyncio.create_task(exit_after(3))
     
 client.run(bot_token)
