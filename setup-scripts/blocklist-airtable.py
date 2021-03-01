@@ -7,7 +7,8 @@ bot_token = setup()
 client = discord.Client()
 
 AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
-AIRTABLE_TABLE = os.getenv('AIRTABLE_TABLE', 'app89plJvA9EqTJEc')
+AIRTABLE_BASE = os.getenv('AIRTABLE_BASE', 'app89plJvA9EqTJEc')
+AIRTABLE_TABLE = os.getenv('AIRTABLE_TABLE', 'Table%201')
 AIRTABLE_FIELD = os.getenv('AIRTABLE_FIELD', 'Link')
 
 async def block_skylinks_from_airtable():
@@ -18,12 +19,12 @@ async def block_skylinks_from_airtable():
     while len(skylinks) == 0 or offset:
         query = '&'.join(['fields%5B%5D=' + AIRTABLE_FIELD, ('offset=' + offset) if offset else ''])
         airtable = requests.get(
-            "https://api.airtable.com/v0/" + AIRTABLE_TABLE + "?" + query, headers=headers
+            "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query, headers=headers
         )
 
         if airtable.status_code != 200:
             message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
-            return print(message) or await send_msg(client, message, force_notify=True)
+            return print(message) or await send_msg(client, message, force_notify=False)
         
         airtable_data = airtable.json()
         skylinks = skylinks + [entry['fields'][AIRTABLE_FIELD] for entry in airtable_data['records']]
@@ -50,7 +51,7 @@ async def block_skylinks_from_airtable():
         print("Siad blocklist successfully updated with provided skylink")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        return print(message) or await send_msg(client, message, force_notify=True)
+        return print(message) or await send_msg(client, message, force_notify=False)
 
     print("Searching nginx cache for blocked files")
     cached_files_command = '/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El \'^KEY: .*(' + '|'.join(skylinks) + ')\''
@@ -72,7 +73,7 @@ async def on_ready():
     try:
         await block_skylinks_from_airtable()
     except:  # catch all exceptions
-        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=True)
+        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=False)
     asyncio.create_task(exit_after(3))
     
 client.run(bot_token)
@@ -80,7 +81,7 @@ client.run(bot_token)
 # asyncio.run(on_ready())
 
 # --- BASH EQUIVALENT
-# skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_TABLE}/Table%201?fields%5B%5D=Link" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
+# skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_BASE}/Table%201?fields%5B%5D=Link" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
 # apipassword=$(docker exec sia cat /sia-data/apipassword)
 # ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
 # curl -A "Sia-Agent" --user "":"${apipassword}" --data "{\"add\" : ${skylinks}}" "${ipaddress}:9980/skynet/blocklist"
