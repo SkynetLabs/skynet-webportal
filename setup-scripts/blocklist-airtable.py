@@ -45,6 +45,8 @@ async def on_ready():
         await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=True)
     asyncio.create_task(exit_after(3))
     
+client.run(bot_token)
+
 # asyncio.run(on_ready())
 
 # --- BASH EQUIVALENT
