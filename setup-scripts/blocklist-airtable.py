@@ -3,12 +3,12 @@
 import traceback, os, asyncio, requests, json, discord
 from bot_utils import setup, send_msg
 
+bot_token = setup()
+client = discord.Client()
+
 AIRTABLE_TABLE = "app89plJvA9EqTJEc"
 AIRTABLE_FIELD = "Link"
 AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
-
-bot_token = setup()
-client = discord.Client()
 
 async def block_skylinks_from_airtable():
     print("Pulling blocked skylinks from airtable via api integration")
