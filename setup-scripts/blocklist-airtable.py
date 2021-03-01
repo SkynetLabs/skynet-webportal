@@ -51,7 +51,7 @@ async def block_skylinks_from_airtable():
         return print("No nginx cached files matching blocked skylinks were found")
 
     os.popen('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs rm"')
-    message = "Purged " + str(cached_files_count) + " blocklisted files from nginx cache")
+    message = 'Purged ' + str(cached_files_count) + ' blocklisted files from nginx cache'
     return print(message) or await send_msg(client, message)
 
 async def exit_after(delay):
