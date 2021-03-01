@@ -5,6 +5,7 @@ from bot_utils import setup, send_msg
 
 AIRTABLE_TABLE = "app89plJvA9EqTJEc"
 AIRTABLE_FIELD = "Link"
+AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
 
 bot_token = setup()
 client = discord.Client()
@@ -31,7 +32,7 @@ async def block_skylinks_from_airtable():
         print("Skylinks successfully added to siad blocklist")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        await send_msg(client, message, force_notify=True)
+        await send_msg(client, message, force_notify=False)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
@@ -42,7 +43,7 @@ async def on_ready():
     try:
         await block_skylinks_from_airtable()
     except:  # catch all exceptions
-        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=True)
+        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=False)
     asyncio.create_task(exit_after(3))
     
 client.run(bot_token)
