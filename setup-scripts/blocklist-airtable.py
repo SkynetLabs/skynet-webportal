@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
-import os, asyncio, requests, json
+import traceback, os, asyncio, requests, json, discord
+from bot_utils import setup, send_msg
 
 AIRTABLE_TABLE = "app89plJvA9EqTJEc"
 AIRTABLE_FIELD = "Link"
+
+bot_token = setup()
+client = discord.Client()
 
 async def block_skylinks_from_airtable():
     headers = { "Authorization": "Bearer " + AIRTABLE_API_KEY }
@@ -22,17 +26,21 @@ async def block_skylinks_from_airtable():
     
     if response.status_code != 204:
         message = "Blocklist responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        print(message)
+        await send_msg(client, message, force_notify=True)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
     os._exit(0)
 
+@client.event
 async def on_ready():
-    await block_skylinks_from_airtable()
+    try:
+        await block_skylinks_from_airtable()
+    except:  # catch all exceptions
+        await send_msg(client, "```\n{}\n```".format(traceback.format_exc()), force_notify=True)
     asyncio.create_task(exit_after(3))
     
-asyncio.run(on_ready())
+# asyncio.run(on_ready())
 
 # --- BASH EQUIVALENT
 # skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_TABLE}/Table%201?fields%5B%5D=Link" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
