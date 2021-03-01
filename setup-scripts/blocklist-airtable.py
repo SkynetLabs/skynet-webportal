@@ -6,27 +6,36 @@ from bot_utils import setup, send_msg
 bot_token = setup()
 client = discord.Client()
 
-AIRTABLE_TABLE = "app89plJvA9EqTJEc"
-AIRTABLE_FIELD = "Link"
 AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
+AIRTABLE_TABLE = os.getenv('AIRTABLE_TABLE', 'app89plJvA9EqTJEc')
+AIRTABLE_FIELD = os.getenv('AIRTABLE_FIELD', 'Link')
 
 async def block_skylinks_from_airtable():
     print("Pulling blocked skylinks from airtable via api integration")
     headers = { "Authorization": "Bearer " + AIRTABLE_API_KEY }
-    airtable = requests.get(
-        "https://api.airtable.com/v0/" + AIRTABLE_TABLE + "/Table%201?fields%5B%5D=" + AIRTABLE_FIELD, headers=headers
-    )
+    skylinks = []
+    offset = ''
+    while len(skylinks) == 0 or offset:
+        query = '&'.join(['fields%5B%5D=' + AIRTABLE_FIELD, ('offset=' + offset) if offset else ''])
+        airtable = requests.get(
+            "https://api.airtable.com/v0/" + AIRTABLE_TABLE + "?" + query, headers=headers
+        )
 
-    if airtable.status_code != 200:
-        message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
-        return print(message) or await send_msg(client, message, force_notify=True)
+        if airtable.status_code != 200:
+            message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
+            return print(message) or await send_msg(client, message, force_notify=True)
+        
+        airtable_data = airtable.json()
+        skylinks = skylinks + [entry['fields'][AIRTABLE_FIELD] for entry in airtable_data['records']]
+
+        if len(skylinks) == 0:
+            return print("Airtable returned 0 skylinks - make sure your configuration is correct")
+        
+        print(airtable_data.offset)
+        offset = airtable_data.offset
+        print(airtable_data.offset)
     
-    skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
-
-    if len(skylinks) == 0:
-        return print("Airtable returned 0 skylinks to block - make sure your table configuration is correct")
-    else:
-        print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
+    print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
     
     apipassword = os.popen('docker exec sia cat /sia-data/apipassword').read().strip()
     ipaddress = os.popen('docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' sia').read().strip()
