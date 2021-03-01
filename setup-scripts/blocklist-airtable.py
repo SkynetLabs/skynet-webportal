@@ -22,7 +22,11 @@ async def block_skylinks_from_airtable():
         return print(message) or await send_msg(client, message, force_notify=True)
     
     skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
-    print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
+
+    if len(skylinks) == 0:
+        return print("Airtable returned 0 skylinks to block - make sure your table configuration is correct")
+    else:
+        print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
     
     apipassword = os.popen('docker exec sia cat /sia-data/apipassword').read().strip()
     ipaddress = os.popen('docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' sia').read().strip()
@@ -34,10 +38,17 @@ async def block_skylinks_from_airtable():
     response = requests.post('http://' + ipaddress + ':9980/skynet/blocklist', auth = auth, headers = headers, data = data)
     
     if response.status_code == 204:
-        return print("Skylinks successfully added to siad blocklist")
+        print("Skylinks successfully added to siad blocklist")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
         return await print(message) or send_msg(client, message, force_notify=True)
+
+    print("Clearing nginx cache related to blocked skylinks")
+    find_all_cache_files = '/usr/bin/find /data/nginx/cache/ -type f'
+    grep_pattern = '^KEY: .*(' + '|'.join(skylinks) + ')'
+    filter_matching_files = '/usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -El ' + grep_pattern
+    print('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
+    os.popen('docker exec -it nginx bash -c "' + find_all_cache_files + ' | ' + filter_matching_files + '"')
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
