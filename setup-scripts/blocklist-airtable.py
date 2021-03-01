@@ -15,8 +15,13 @@ async def block_skylinks_from_airtable():
     headers = { "Authorization": "Bearer " + AIRTABLE_API_KEY }
     airtable = requests.get(
         "https://api.airtable.com/v0/" + AIRTABLE_TABLE + "/Table%201?fields%5B%5D=" + AIRTABLE_FIELD, headers=headers
-    ).json()
-    skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable['records']]
+    )
+
+    if airtable.status_code != 200:
+        message = "Airtable blocklist integration responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
+        return print(message) and await send_msg(client, message, force_notify=False)
+    
+    skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
     print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
     
     apipassword = os.popen('docker exec sia cat /sia-data/apipassword').read().strip()
@@ -32,7 +37,7 @@ async def block_skylinks_from_airtable():
         print("Skylinks successfully added to siad blocklist")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        await send_msg(client, message, force_notify=False)
+        await print(message) and send_msg(client, message, force_notify=False)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
