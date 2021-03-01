@@ -19,7 +19,7 @@ async def block_skylinks_from_airtable():
 
     if airtable.status_code != 200:
         message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
-        return print(message) and await send_msg(client, message, force_notify=False)
+        return print(message) or await send_msg(client, message, force_notify=False)
     
     skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
     print("Airtable returned " + str(len(skylinks)) + " skylinks to block")
@@ -34,10 +34,10 @@ async def block_skylinks_from_airtable():
     response = requests.post('http://' + ipaddress + ':9980/skynet/blocklist', auth = auth, headers = headers, data = data)
     
     if response.status_code == 204:
-        print("Skylinks successfully added to siad blocklist")
+        return print("Skylinks successfully added to siad blocklist")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
-        await print(message) and send_msg(client, message, force_notify=False)
+        return await print(message) or send_msg(client, message, force_notify=False)
 
 async def exit_after(delay):
     await asyncio.sleep(delay)
