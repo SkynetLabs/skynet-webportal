@@ -78,7 +78,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Using a Sia node as a Portal
+                Skynet with a Sia Node
               </a>
             </li>
           </ul>
