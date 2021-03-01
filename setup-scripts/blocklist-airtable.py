@@ -18,7 +18,7 @@ async def block_skylinks_from_airtable():
     )
 
     if airtable.status_code != 200:
-        message = "Airtable blocklist integration responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
+        message = "Airtable blocklist integration responded with code " + str(airtable.status_code) + ": " + (airtable.text or "empty response")
         return print(message) and await send_msg(client, message, force_notify=False)
     
     skylinks = [entry['fields'][AIRTABLE_FIELD] for entry in airtable.json()['records']]
