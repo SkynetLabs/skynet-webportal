@@ -38,7 +38,7 @@ async def block_skylinks_from_airtable():
     response = requests.post('http://' + ipaddress + ':9980/skynet/blocklist', auth = auth, headers = headers, data = data)
     
     if response.status_code == 204:
-        print("Skylinks successfully added to siad blocklist")
+        print("Siad blocklist succesfully updated with provided skylink")
     else:
         message = "Siad blocklist endpoint responded with code " + str(response.status_code) + ": " + (response.text or "empty response")
         return print(message) or await send_msg(client, message, force_notify=True)
