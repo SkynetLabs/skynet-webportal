@@ -15,7 +15,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export const getServerSideProps = authServerSideProps();
 
-function SkylinkList({ items = [] }) {
+function SkylinkList({ items = [], timestamp }) {
   return (
     <ul className="divide-y divide-gray-200">
       {items.slice(0, 3).map((item) => (
@@ -72,7 +72,7 @@ function SkylinkList({ items = [] }) {
                   />
                 </svg>
 
-                <time dateTime={item.downloadedOn}>{dayjs(item.downloadedOn).fromNow()}</time>
+                {item[timestamp] && <time dateTime={item[timestamp]}>{dayjs(item[timestamp]).fromNow()}</time>}
               </div>
             </div>
           </div>
@@ -247,7 +247,7 @@ export default function Home() {
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <SkylinkList items={downloads?.items} />
+              <SkylinkList items={downloads?.items} timestamp="downloadedOn" />
             </div>
           </div>
           <div className="flex flex-col">
@@ -255,7 +255,7 @@ export default function Home() {
 
             {/* This example requires Tailwind CSS v2.0+ */}
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <SkylinkList items={uploads?.items} />
+              <SkylinkList items={uploads?.items} timestamp="uploadedOn" />
             </div>
           </div>
         </div>
