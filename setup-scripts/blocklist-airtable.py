@@ -45,6 +45,14 @@ async def block_skylinks_from_airtable():
 
     print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
 
+    skylinks_returned = skylinks
+    skylinks = [skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)]
+
+    if len(skylinks_returned) != len(skylinks):
+        message = (skylinks_returned - len(skylinks)) + " of the skylinks returned from Airtable are not valid"
+        invalid_skylinks = [str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))]
+        print(message) or await send_msg(client, message, file=("\n".join(invalid_skylinks)))
+
     apipassword = exec("docker exec sia cat /sia-data/apipassword")
     ipaddress = exec("docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia")
 
