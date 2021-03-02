@@ -49,8 +49,8 @@ async def block_skylinks_from_airtable():
     skylinks = [skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)]
 
     if len(skylinks_returned) != len(skylinks):
-        message = (skylinks_returned - len(skylinks)) + " of the skylinks returned from Airtable are not valid"
         invalid_skylinks = [str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))]
+        message = str(len(invalid_skylinks)) + " of the skylinks returned from Airtable are not valid"
         print(message) or await send_msg(client, message, file=("\n".join(invalid_skylinks)))
 
     apipassword = exec("docker exec sia cat /sia-data/apipassword")
