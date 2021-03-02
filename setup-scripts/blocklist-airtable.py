@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import traceback, os, asyncio, requests, json, discord
+import traceback, os, re, asyncio, requests, json, discord
 from bot_utils import setup, send_msg
 
 bot_token = setup()
