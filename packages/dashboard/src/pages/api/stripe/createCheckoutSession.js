@@ -30,7 +30,7 @@ export default async (req, res) => {
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
     const authorization = req.headers.authorization; // authorization header from request
-    const user = await got("http://accounts:3000/user", { headers: { authorization } }).json();
+    const { stripeCustomerId, ...user } = await got("http://accounts:3000/user", { headers: { authorization } }).json();
     // const customer = await getStripeCustomer(user);
 
     // if (!user.stripeCustomerId) {
@@ -44,8 +44,7 @@ export default async (req, res) => {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price, quantity: 1 }],
-      customer: user.stripeCustomerId,
-      customer_email: user.stripeCustomerId ? null : user.email,
+      [stripeCustomerId ? "customer" : "customer_email"]: stripeCustomerId ? stripeCustomerId : user.email,
       client_reference_id: user.id,
       // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
