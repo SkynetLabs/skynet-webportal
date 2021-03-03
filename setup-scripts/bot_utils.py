@@ -97,7 +97,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
     # Add the portal name.
     msg = "**{}**: {}".format(portal_name, msg)
 
-    if isinstance(file, str):
+    if file and isinstance(file, str):
         is_json = is_json_string(file)
         content_type = "application/json" if is_json else "text/plain"
         ext = "json" if is_json else "txt"
