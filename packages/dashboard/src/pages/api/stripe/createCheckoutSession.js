@@ -45,7 +45,7 @@ export default async (req, res) => {
       payment_method_types: ["card"],
       line_items: [{ price, quantity: 1 }],
       [stripeCustomerId ? "customer" : "customer_email"]: stripeCustomerId ? stripeCustomerId : user.email,
-      client_reference_id: user.id,
+      client_reference_id: user.sub,
       // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
