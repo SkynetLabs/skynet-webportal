@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
-import { useEffect } from "react";
 import ky from "ky/umd";
 import { useState } from "react";
 
@@ -55,6 +54,7 @@ export default function Payments() {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const activePlan = plans.find(({ tier }) => user?.tier === tier);
+  const isFreePlan = ({ tier }) => tier === 1;
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -75,14 +75,14 @@ export default function Payments() {
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">Free</dd>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">{activePlan.name}</dd>
               </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
                 <dd className="mt-1 text-3xl font-semibold text-gray-900 capitalize">
-                  {user?.subscriptionStatus ?? "—"}
+                  {isFreePlan(activePlan) ? "—" : user?.subscriptionStatus}
                 </dd>
               </div>
               {user?.subscriptionCancelAtPeriodEnd && (
