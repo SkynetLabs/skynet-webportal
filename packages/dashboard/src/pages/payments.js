@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
 import { useEffect } from "react";
@@ -5,9 +6,17 @@ import ky from "ky/umd";
 import { useState } from "react";
 
 const plans = [
-  { id: "initial_free", stripe: null, name: "Free", price: 0, description: "Unlimited bandwidth with throttled speed" },
+  {
+    id: "initial_free",
+    tier: 1,
+    stripe: null,
+    name: "Free",
+    price: 0,
+    description: "Unlimited bandwidth with throttled speed",
+  },
   {
     id: "initial_plus",
+    tier: 2,
     stripe: "price_1IO6FpIzjULiPWN6XHIG5mU9",
     name: "Skynet Plus",
     price: 5,
@@ -15,6 +24,7 @@ const plans = [
   },
   {
     id: "initial_pro",
+    tier: 3,
     stripe: "price_1IO6FpIzjULiPWN6xYjmUuGb",
     name: "Skynet Pro",
     price: 20,
@@ -22,6 +32,7 @@ const plans = [
   },
   {
     id: "initial_extreme",
+    tier: 4,
     stripe: "price_1IO6FpIzjULiPWN636iFN02j",
     name: "Skynet Extreme",
     price: 80,
@@ -30,6 +41,7 @@ const plans = [
 ];
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
+const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 
 const ActiveBadge = () => {
   return (
@@ -40,11 +52,9 @@ const ActiveBadge = () => {
 };
 
 export default function Payments() {
-  const { data: user } = useSWR("/user", fetcher);
-  const { data: subscription } = useSWR("/api/stripe/subscription", fetcher);
-  const [selectedPlanId, setSelectedPlanId] = useState("initial_free");
-  const [activePlanId, setActivePlanId] = useState(null);
-  const selectedPlan = plans.find(({ id }) => selectedPlanId === id);
+  const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
+  const [selectedPlan, setSelectedPlan] = useState(plans[0]);
+  const activePlan = plans.find(({ tier }) => user?.tier === tier);
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -55,12 +65,6 @@ export default function Payments() {
       console.log(error); // todo: handle error
     }
   };
-
-  useEffect(() => {
-    const plan = plans.find(({ stripe }) => subscription?.plan?.id === stripe);
-
-    setActivePlanId(plan);
-  }, [subscription, setActivePlanId]);
 
   return (
     <Layout title="Payments">
@@ -77,8 +81,17 @@ export default function Payments() {
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900 capitalize">{subscription?.status ?? "—"}</dd>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900 capitalize">
+                  {user?.subscriptionStatus ?? "—"}
+                </dd>
               </div>
+              {user?.subscriptionCancelAtPeriodEnd && (
+                <div className="bg-gray-50 px-4 py-4 sm:px-6">
+                  <div className="text-sm">
+                    Your plan will be cancelled on {dayjs(user.subscriptionCancelAt).format("D MMM YYYY")}.
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
@@ -112,6 +125,7 @@ export default function Payments() {
                 <div className="text-sm">All paid up!</div>
               </div>
             </div> */}
+
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">asdas</dt>
@@ -149,11 +163,11 @@ export default function Payments() {
                                 type="radio"
                                 className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                                 aria-describedby="plan-option-pricing-0 plan-option-limit-0"
-                                checked={plan.id === selectedPlanId}
-                                onChange={() => console.log(plan.id) || setSelectedPlanId(plan.id)}
+                                checked={plan === selectedPlan}
+                                onChange={() => console.log(plan.name) || setSelectedPlan(plan)}
                               />
                               <span className="ml-3 font-medium text-gray-900">{plan.name}</span>
-                              {activePlanId === plan.id && <ActiveBadge />}
+                              {activePlan === plan && <ActiveBadge />}
                             </label>
                             <p id="plan-option-pricing-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
                               {/* On: "text-orange-900", Off: "text-gray-900" */}
@@ -175,7 +189,7 @@ export default function Payments() {
                   <button
                     type="button"
                     onClick={handleSubscribe}
-                    disabled={activePlanId === selectedPlanId}
+                    disabled={activePlan === selectedPlan}
                     className="bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                   >
                     Subscribe
