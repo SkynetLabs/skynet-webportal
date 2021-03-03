@@ -53,8 +53,8 @@ const ActiveBadge = () => {
 export default function Payments() {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
-  const activePlan = plans.find(({ tier }) => user?.tier === tier);
-  const isFreePlan = ({ tier }) => tier === 1;
+  const activePlan = plans.find((plan) => user?.tier === plan?.tier);
+  const isFreePlan = (plan) => plan?.tier === 1;
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
