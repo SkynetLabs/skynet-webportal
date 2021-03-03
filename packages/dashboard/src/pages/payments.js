@@ -71,11 +71,11 @@ export default function Payments() {
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
         <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
           {/* This example requires Tailwind CSS v2.0+ */}
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">{activePlan.name}</dd>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">{activePlan?.name || "—"}</dd>
               </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -126,12 +126,12 @@ export default function Payments() {
               </div>
             </div> */}
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            {/* <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">asdas</dt>
                 <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
               </div>
-            </div>
+            </div> */}
           </dl>
 
           {/* Plan */}
