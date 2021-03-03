@@ -36,10 +36,12 @@ async def block_skylinks_from_airtable():
             return print(message) or await send_msg(client, message, force_notify=False)
 
         data = response.json()
-        skylinks = skylinks + [entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]]
 
-        if len(skylinks) == 0:
-            return print("Airtable returned 0 skylinks - make sure your configuration is correct")
+        if len(data["records"]) == 0:
+            return print("Airtable returned 0 records - make sure your configuration is correct")
+
+        skylinks = skylinks + [entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]]
+        skylinks = [skylink for skylink in skylinks if skylink] # filter empty skylinks, most likely empty rows
 
         offset = data.get("offset")
 
