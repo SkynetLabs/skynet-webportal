@@ -34,6 +34,8 @@ export default async (req, res) => {
     const authorization = req.headers.authorization; // authorization header from request
     const user = await got("http://accounts:3000/user", { headers: { authorization } }).json();
 
+    console.log(user);
+
     if (isPaidTier(user.tier)) {
       const message = `Customer can have only one active subscription at a time, use Stripe Customer Portal to manage active subscription`;
 
@@ -41,6 +43,7 @@ export default async (req, res) => {
     }
 
     const customer = await getStripeCustomer(user, authorization);
+    console.log(customer);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
