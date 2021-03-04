@@ -43,6 +43,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const isFreeTier = (tier) => tier === 1;
 const isPaidTier = (tier) => !isFreeTier(tier);
+const freePlan = plans.find(({ tier }) => isFreeTier(tier));
 
 const ActiveBadge = () => {
   return (
@@ -54,8 +55,8 @@ const ActiveBadge = () => {
 
 export default function Payments() {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
-  const [selectedPlan, setSelectedPlan] = useState(plans[0]);
-  const activePlan = plans.find((plan) => user?.tier === plan?.tier);
+  const [selectedPlan, setSelectedPlan] = useState(freePlan);
+  const activePlan = user ? plans.find(({ tier }) => user.tier === tier) : freePlan;
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -165,14 +166,16 @@ export default function Payments() {
                             } p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
                           >
                             <label className="flex items-center text-sm cursor-pointer">
-                              <input
-                                name="pricing_plan"
-                                type="radio"
-                                className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
-                                aria-describedby="plan-option-pricing-0 plan-option-limit-0"
-                                checked={plan === selectedPlan}
-                                onChange={() => console.log(plan.name) || setSelectedPlan(plan)}
-                              />
+                              {isFreeTier(activePlan.tier) && (
+                                <input
+                                  name="pricing_plan"
+                                  type="radio"
+                                  className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
+                                  aria-describedby="plan-option-pricing-0 plan-option-limit-0"
+                                  checked={plan === selectedPlan}
+                                  onChange={() => console.log(plan.name) || setSelectedPlan(plan)}
+                                />
+                              )}
                               <span className="ml-3 font-medium text-gray-900">{plan.name}</span>
                               {activePlan === plan && <ActiveBadge />}
                             </label>
