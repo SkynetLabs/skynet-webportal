@@ -13,12 +13,12 @@ const getStripeCustomer = async (user, authorization) => {
 
   const customer = stripe.customers.create();
 
-  console.log("created");
+  console.log(customer);
 
   // update user instance and include the customer id once created
   await got.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
 
-  console.log("user updated");
+  console.log("---");
 
   return customer;
 };
