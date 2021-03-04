@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
 import ky from "ky/umd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const plans = [
   {
@@ -66,6 +66,12 @@ export default function Payments() {
       console.log(error); // todo: handle error
     }
   };
+
+  useEffect(() => {
+    if (activePlan && isPaidTier(activePlan.tier)) {
+      setSelectedPlan(activePlan);
+    }
+  }, [activePlan, selectedPlan, setSelectedPlan]);
 
   return (
     <Layout title="Payments">

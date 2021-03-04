@@ -41,7 +41,6 @@ export default async (req, res) => {
     }
 
     const customer = await getStripeCustomer(user, authorization);
-    console.log(customer);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
