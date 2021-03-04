@@ -41,6 +41,8 @@ const plans = [
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
+const isFreeTier = (tier) => tier === 1;
+const isPaidTier = (tier) => !isFreeTier(tier);
 
 const ActiveBadge = () => {
   return (
@@ -54,7 +56,6 @@ export default function Payments() {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const [selectedPlan, setSelectedPlan] = useState(plans[0]);
   const activePlan = plans.find((plan) => user?.tier === plan?.tier);
-  const isFreePlan = (plan) => plan?.tier === 1;
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -82,7 +83,7 @@ export default function Payments() {
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
                 <dd className="mt-1 text-3xl font-semibold text-gray-900 capitalize">
-                  {isFreePlan(activePlan) ? "—" : user?.subscriptionStatus}
+                  {isFreeTier(activePlan?.tier) ? "—" : user?.subscriptionStatus}
                 </dd>
               </div>
               {user?.subscriptionCancelAtPeriodEnd && (

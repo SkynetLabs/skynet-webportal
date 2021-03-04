@@ -3,12 +3,20 @@ import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const isFreeTier = (tier) => tier === 1;
+const isPaidTier = (tier) => !isFreeTier(tier);
 
-const getStripeCustomer = (user) => {
+const getStripeCustomer = async (user, authorization) => {
   if (user.stripeCustomerId) {
     return stripe.customers.retrieve(user.stripeCustomerId);
   }
-  return stripe.customers.create({ email: user.email });
+
+  const customer = stripe.customers.create();
+
+  // update user instance and include the customer id once created
+  await got.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
+
+  return customer;
 };
 
 export default async (req, res) => {
@@ -22,31 +30,23 @@ export default async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json({ error: { message: "Missing 'price' attribute" } });
   }
 
-  // Create new Checkout Session for the order
-  // Other optional params include:
-  // [billing_address_collection] - to display billing address details on the page
-  // [customer] - if you have an existing Stripe Customer ID
-  // [customer_email] - lets you prefill the email input in the form
-  // For full details see https://stripe.com/docs/api/checkout/sessions/create
   try {
     const authorization = req.headers.authorization; // authorization header from request
-    const { stripeCustomerId, ...user } = await got("http://accounts:3000/user", { headers: { authorization } }).json();
-    // const customer = await getStripeCustomer(user);
+    const user = await got("http://accounts:3000/user", { headers: { authorization } }).json();
 
-    // if (!user.stripeCustomerId) {
-    //   await got.put(`http://accounts:3000/user`, {
-    //     headers: { authorization },
-    //     json: { stripeCustomerId: customer.id },
-    //   });
-    // }
+    if (isPaidTier(user.tier)) {
+      const message = `Customer can have only one active subscription at a time, use Stripe Customer Portal to manage active subscription`;
 
+      return res.status(StatusCodes.BAD_REQUEST).json({ error: { message } });
+    }
+
+    const customer = await getStripeCustomer(user, authorization);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price, quantity: 1 }],
-      [stripeCustomerId ? "customer" : "customer_email"]: stripeCustomerId ? stripeCustomerId : user.email,
+      customer: customer.id,
       client_reference_id: user.sub,
-      // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
     });
