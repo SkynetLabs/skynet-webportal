@@ -13,8 +13,12 @@ const getStripeCustomer = async (user, authorization) => {
 
   const customer = stripe.customers.create();
 
+  console.log("created");
+
   // update user instance and include the customer id once created
   await got.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
+
+  console.log("user updated");
 
   return customer;
 };
@@ -39,8 +43,6 @@ export default async (req, res) => {
 
       return res.status(StatusCodes.BAD_REQUEST).json({ error: { message } });
     }
-
-    console.log("ok");
 
     const customer = await getStripeCustomer(user, authorization);
     console.log(customer);
