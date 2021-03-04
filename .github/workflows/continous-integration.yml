@@ -1,4 +1,4 @@
-name: skynet-webportal CI
+name: Continous Integration
 
 on: [pull_request]
 
@@ -29,12 +29,6 @@ jobs:
         run: yarn workspace webapp build
         env:
           GATSBY_API_URL: "https://siasky.net"
-
-      - name: "Deploy to Skynet"
-        uses: kwypchlo/deploy-to-skynet-action@main
-        with:
-          upload-dir: packages/webapp/public
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
