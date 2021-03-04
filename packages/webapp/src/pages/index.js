@@ -20,8 +20,6 @@ export default function IndexPage({ location }) {
       <App />
     </AppContext.Provider>
   );
-
-  // foo
 }
 
 IndexPage.propTypes = {
