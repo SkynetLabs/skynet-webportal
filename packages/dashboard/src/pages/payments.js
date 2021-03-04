@@ -173,7 +173,7 @@ export default function Payments() {
                                   className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
                                   aria-describedby="plan-option-pricing-0 plan-option-limit-0"
                                   checked={plan === selectedPlan}
-                                  onChange={() => console.log(plan.name) || setSelectedPlan(plan)}
+                                  onChange={() => setSelectedPlan(plan)}
                                 />
                               )}
                               <span className="ml-3 font-medium text-gray-900">{plan.name}</span>
