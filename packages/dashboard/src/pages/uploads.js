@@ -25,14 +25,12 @@ export const getServerSideProps = authServerSideProps(async (context) => {
   console.log(context.req.headers);
 
   const api = ky.create({
-    headers: {
-      authorization: context.req.headers.authorization,
-    },
-    prefixUrl: process.env.NEXT_PUBLIC_SKYNET_DASHBOARD_URL,
+    headers: { cookie: context.req.headers.cookie },
+    prefixUrl: "http://oathkeeper:4455",
   });
 
   try {
-    const prices = await api.get("/api/prices").json();
+    const prices = await api.get("api/prices").json();
 
     console.log(prices);
   } catch (error) {
