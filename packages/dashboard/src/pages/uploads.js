@@ -33,8 +33,6 @@ export default function Uploads({ initialData }) {
     revalidateOnMount: true,
   });
 
-  console.log(offset);
-
   return (
     <Layout title="Your uploads">
       <Table {...data} headers={headers} actions={actions} setOffset={setOffset} />
