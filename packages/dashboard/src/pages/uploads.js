@@ -22,12 +22,15 @@ const headers = [
 const actions = [];
 
 export const getServerSideProps = authServerSideProps(async (context) => {
-  // console.log(context.resolvedUrl);
-  // console.log(context.req);
-  console.log(process.env.NEXT_PUBLIC_SKYNET_DASHBOARD_URL);
+  const api = ky.create({
+    headers: {
+      authorization: context.req.headers.authorization,
+      prefixUrl: process.env.NEXT_PUBLIC_SKYNET_DASHBOARD_URL,
+    },
+  });
 
   try {
-    const prices = await ky.get("https://secure.siasky.xyz/api/prices").json();
+    const prices = await api.get("https://secure.siasky.xyz/api/prices").json();
 
     console.log(prices);
   } catch (error) {
