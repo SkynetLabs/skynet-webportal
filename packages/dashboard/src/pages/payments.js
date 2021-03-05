@@ -2,9 +2,42 @@ import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
 import ky from "ky/umd";
-import got from "got";
 import { useEffect, useState } from "react";
-import authServerSideProps from "../services/authServerSideProps";
+
+const plans = [
+  {
+    id: "initial_free",
+    tier: 1,
+    stripe: null,
+    name: "Free",
+    price: 0,
+    description: "Unlimited bandwidth with throttled speed",
+  },
+  {
+    id: "initial_plus",
+    tier: 2,
+    stripe: "price_1IO6DLIzjULiPWN6ix1KyCtf",
+    name: "Skynet Plus",
+    price: 5,
+    description: "1 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_pro",
+    tier: 3,
+    stripe: "price_1IO6DgIzjULiPWN6NiaSLEKa",
+    name: "Skynet Pro",
+    price: 20,
+    description: "5 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_extreme",
+    tier: 4,
+    stripe: "price_1IO6DvIzjULiPWN6wHgK35J4",
+    name: "Skynet Extreme",
+    price: 80,
+    description: "20 TB premium bandwidth with full speed",
+  },
+];
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
@@ -19,19 +52,10 @@ const ActiveBadge = () => {
   );
 };
 
-export const getServerSideProps = authServerSideProps(async () => {
-  const prices = await got("/api/prices").json();
-
-  console.log(prices);
-
-  return { props: { prices } };
-});
-
-export default function Payments({ prices }) {
+export default function Payments() {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
-  const freePlan = prices.find(({ tier }) => isFreeTier(tier));
-  const [selectedPlan, setSelectedPlan] = useState(freePlan);
-  const activePlan = user ? prices.find(({ tier }) => user.tier === tier) : freePlan;
+  const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
+  const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -132,12 +156,12 @@ export default function Payments({ prices }) {
                   <fieldset>
                     <legend className="sr-only">Pricing plans</legend>
                     <ul className="relative bg-white rounded-md -space-y-px">
-                      {prices.map((plan, index) => (
+                      {plans.map((plan, index) => (
                         <li key={plan.id}>
                           {/* On: "bg-orange-50 border-orange-200 z-10", Off: "border-gray-200" */}
                           <div
                             className={`relative border ${index === 0 ? "rounded-tl-md rounded-tr-md" : ""} ${
-                              index === prices.length - 1 ? "rounded-bl-md rounded-br-md" : ""
+                              index === plans.length - 1 ? "rounded-bl-md rounded-br-md" : ""
                             } p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
                           >
                             <label className="flex items-center text-sm cursor-pointer">

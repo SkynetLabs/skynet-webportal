@@ -9,9 +9,45 @@ import { SkynetClient } from "skynet-js";
 
 dayjs.extend(relativeTime);
 
+const plans = [
+  {
+    id: "initial_free",
+    tier: 1,
+    stripe: null,
+    name: "Free",
+    price: 0,
+    description: "Unlimited bandwidth with throttled speed",
+  },
+  {
+    id: "initial_plus",
+    tier: 2,
+    stripe: "price_1IO6DLIzjULiPWN6ix1KyCtf",
+    name: "Skynet Plus",
+    price: 5,
+    description: "1 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_pro",
+    tier: 3,
+    stripe: "price_1IO6DgIzjULiPWN6NiaSLEKa",
+    name: "Skynet Pro",
+    price: 20,
+    description: "5 TB premium bandwidth with full speed",
+  },
+  {
+    id: "initial_extreme",
+    tier: 4,
+    stripe: "price_1IO6DvIzjULiPWN6wHgK35J4",
+    name: "Skynet Extreme",
+    price: 80,
+    description: "20 TB premium bandwidth with full speed",
+  },
+];
+
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const fetcher = (url) => fetch(url).then((r) => r.json());
+const isFreeTier = (tier) => tier === 1;
 
 export const getServerSideProps = authServerSideProps();
 
@@ -92,9 +128,12 @@ function SkylinkList({ items = [], timestamp }) {
 }
 
 export default function Home() {
+  const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const { data: stats } = useSWR(`${apiPrefix}/user/stats`, fetcher);
   const { data: downloads } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=0`, fetcher);
   const { data: uploads } = useSWR(`${apiPrefix}/user/uploads?pageSize=3&offset=0`, fetcher);
+
+  const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
 
   return (
     <Layout title="Dashboard">
@@ -124,7 +163,7 @@ export default function Home() {
                 <div className="ml-5 w-0 flex-1">
                   <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-gray-900">Free</div>
+                    <div className="text-2xl font-semibold text-gray-900">{activePlan.name}</div>
                   </dd>
                 </div>
               </div>
