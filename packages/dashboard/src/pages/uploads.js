@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
-import useSWR from "swr";
+// import useSWR from "swr";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
-import authServerSideProps from "../services/authServerSideProps";
+// import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
+import useAccountsApi from "../services/useAccountsApi";
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
@@ -20,11 +21,11 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps();
+// export const getServerSideProps = authServerSideProps();
 
 export default function Uploads() {
   const [offset, setOffset] = useState(0);
-  const { data, error } = useSWR(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
+  const { data, error } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
 
   return (
     <Layout title="Your uploads">
