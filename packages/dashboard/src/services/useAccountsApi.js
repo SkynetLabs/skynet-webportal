@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 const fetcher = (url) =>
   fetch(url).then((res) => {
-    if (res.status === StatusCodes.FORBIDDEN) {
+    if (res.status === StatusCodes.UNAUTHORIZED) {
       window.location.href = `/auth/login?return_to=${encodeURIComponent(window.location.href)}`;
     }
 
