@@ -22,7 +22,6 @@
     "http-status-codes": "^2.1.4",
     "jwks-rsa": "^1.12.2",
     "ky": "0.25.1",
-    "ky-universal": "^0.9.1",
     "next": "^10.0.6",
     "postcss": "^8.2.4",
     "prettier": "^2.2.1",
