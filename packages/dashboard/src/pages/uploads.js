@@ -22,6 +22,8 @@ const headers = [
 const actions = [];
 
 export const getServerSideProps = authServerSideProps(async (context) => {
+  console.log(context.req.headers);
+
   const api = ky.create({
     headers: {
       authorization: context.req.headers.authorization,
@@ -30,7 +32,7 @@ export const getServerSideProps = authServerSideProps(async (context) => {
   });
 
   try {
-    const prices = await api.get("https://secure.siasky.xyz/api/prices").json();
+    const prices = await api.get("/api/prices").json();
 
     console.log(prices);
   } catch (error) {
