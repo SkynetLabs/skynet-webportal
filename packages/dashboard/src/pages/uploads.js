@@ -30,6 +30,8 @@ export default function Uploads({ initialData }) {
   const [offset, setOffset] = useState(0);
   const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, { initialData });
 
+  console.log(offset);
+
   return (
     <Layout title="Your uploads">
       <Table {...data} headers={headers} actions={actions} setOffset={setOffset} />
