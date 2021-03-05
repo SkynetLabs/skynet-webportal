@@ -165,7 +165,7 @@ export default function Payments() {
                             } p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
                           >
                             <label className="flex items-center text-sm cursor-pointer">
-                              {isFreeTier(activePlan.tier) && (
+                              {isFreeTier(activePlan?.tier) && (
                                 <input
                                   name="pricing_plan"
                                   type="radio"
