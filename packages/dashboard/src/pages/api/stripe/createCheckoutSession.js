@@ -1,4 +1,4 @@
-import got from "got";
+import ky from "ky/umd";
 import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
 
@@ -14,7 +14,7 @@ const getStripeCustomer = async (user, authorization) => {
   const customer = await stripe.customers.create();
 
   // update user instance and include the customer id once created
-  await got.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
+  await ky.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
 
   return customer;
 };
@@ -32,7 +32,7 @@ export default async (req, res) => {
 
   try {
     const authorization = req.headers.authorization; // authorization header from request
-    const user = await got("http://accounts:3000/user", { headers: { authorization } }).json();
+    const user = await ky("http://accounts:3000/user", { headers: { authorization } }).json();
 
     if (isPaidTier(user.tier)) {
       const message = `Customer can have only one active subscription at a time, use Stripe Customer Portal to manage active subscription`;
