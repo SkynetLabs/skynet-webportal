@@ -23,6 +23,8 @@ const actions = [];
 export const getServerSideProps = authServerSideProps(async (context, api) => {
   const initialData = await api.get("user/uploads?pageSize=10&offset=0").json();
 
+  console.log(initialData);
+
   return { props: { initialData } };
 });
 
