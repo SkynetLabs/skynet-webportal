@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import Layout from "../components/Layout";
 import useSWR from "swr";
-import ky from "ky-universal";
+import ky from "ky/umd";
+import got from "got";
 import { useEffect, useState } from "react";
 import authServerSideProps from "../services/authServerSideProps";
 
@@ -20,7 +21,7 @@ const ActiveBadge = () => {
 };
 
 export const getServerSideProps = authServerSideProps(async () => {
-  const prices = await ky("api/prices").json();
+  const prices = await got("api/prices").json();
 
   return { props: { prices } };
 });
