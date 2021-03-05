@@ -71,19 +71,13 @@ const fieldProps = {
 };
 
 export default function Registration({ flow }) {
-  const fields = useMemo(
-    () =>
-      flow.methods.password.config.fields
-        .map((field) => ({
-          ...field,
-          ...fieldProps[field.name],
-        }))
-        .sort((a, b) => (a.position < b.position ? -1 : 1)),
-    [flow]
-  );
-  const initialValues = useMemo(() => fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}), [
-    fields,
-  ]);
+  const fields = flow.methods.password.config.fields
+    .map((field) => ({
+      ...field,
+      ...fieldProps[field.name],
+    }))
+    .sort((a, b) => (a.position < b.position ? -1 : 1));
+  const initialValues = fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {});
   const formik = useFormik({ initialValues });
 
   return (
