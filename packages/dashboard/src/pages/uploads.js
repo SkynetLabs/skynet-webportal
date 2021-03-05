@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import Table from "../components/Table";
 import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
+import ky from "ky/umd";
 import useAccountsApi from "../services/useAccountsApi";
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
@@ -20,7 +21,13 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps();
+export const getServerSideProps = authServerSideProps(async () => {
+  const prices = await ky.get("/api/prices");
+
+  console.log(prices);
+
+  return { props: {} };
+});
 
 export default function Uploads() {
   const [offset, setOffset] = useState(0);
