@@ -20,11 +20,15 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps();
+export const getServerSideProps = authServerSideProps(async (context, api) => {
+  const initialData = await api.get("user/uploads?pageSize=10&offset=0").json();
 
-export default function Uploads() {
+  return { props: { initialData } };
+});
+
+export default function Uploads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
+  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher, { initialData });
 
   return (
     <Layout title="Your uploads">

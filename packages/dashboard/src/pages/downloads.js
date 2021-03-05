@@ -20,11 +20,15 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps();
+export const getServerSideProps = authServerSideProps(async (context, api) => {
+  const initialData = await api.get("user/downloads?pageSize=10&offset=0").json();
 
-export default function Downloads() {
+  return { props: { initialData } };
+});
+
+export default function Downloads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const { data, error } = useSWR(`${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, fetcher);
+  const { data, error } = useSWR(`${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, fetcher, { initialData });
 
   return (
     <Layout title="Your downloads">
