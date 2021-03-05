@@ -10,7 +10,6 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const isFreeTier = (tier) => tier === 1;
 const isPaidTier = (tier) => !isFreeTier(tier);
-const freePlan = prices.find(({ tier }) => isFreeTier(tier));
 
 const ActiveBadge = () => {
   return (
@@ -29,9 +28,8 @@ export const getServerSideProps = authServerSideProps(async () => {
 });
 
 export default function Payments({ prices }) {
-  if (!prices) return null;
-
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
+  const freePlan = prices.find(({ tier }) => isFreeTier(tier));
   const [selectedPlan, setSelectedPlan] = useState(freePlan);
   const activePlan = user ? prices.find(({ tier }) => user.tier === tier) : freePlan;
   const handleSubscribe = async () => {
