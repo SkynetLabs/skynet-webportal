@@ -28,7 +28,9 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
 
 export default function Downloads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const { data, error } = useSWR(`${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, fetcher, { initialData });
+  const { data, error } = useSWR(() => `${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, fetcher, {
+    initialData,
+  });
 
   return (
     <Layout title="Your downloads">
