@@ -25,8 +25,8 @@ export const getServerSideProps = authServerSideProps(async (context) => {
   const api = ky.create({
     headers: {
       authorization: context.req.headers.authorization,
-      prefixUrl: process.env.NEXT_PUBLIC_SKYNET_DASHBOARD_URL,
     },
+    prefixUrl: process.env.NEXT_PUBLIC_SKYNET_DASHBOARD_URL,
   });
 
   try {
