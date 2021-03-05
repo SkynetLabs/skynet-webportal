@@ -25,7 +25,7 @@ export const getServerSideProps = authServerSideProps(async () => {
 
   console.log(prices);
 
-  return { props: { prices: [] } };
+  return { props: { prices } };
 });
 
 export default function Payments({ prices }) {
