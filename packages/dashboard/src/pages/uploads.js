@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
-// import useSWR from "swr";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
 import authServerSideProps from "../services/authServerSideProps";
@@ -26,6 +25,8 @@ export const getServerSideProps = authServerSideProps();
 export default function Uploads() {
   const [offset, setOffset] = useState(0);
   const { data, error } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
+
+  console.log("offset", offset, "data", data);
 
   return (
     <Layout title="Your uploads">

@@ -2,8 +2,6 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export default function authServerSideProps(getServerSideProps) {
   return function authenticate(context) {
-    console.log("================================");
-
     if (isProduction && (!("ory_kratos_session" in context.req.cookies) || !("skynet-jwt" in context.req.cookies))) {
       return {
         redirect: {
