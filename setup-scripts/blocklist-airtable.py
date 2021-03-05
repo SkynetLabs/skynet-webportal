@@ -76,9 +76,8 @@ async def block_skylinks_from_airtable():
 
     print("Searching nginx cache for blocked files")
     
-    f = open("/tmp/blocklist-aritable.txt", "w")
-    f.write("^KEY: .*" + "^KEY: .*\n".join(skylinks))
-    f.close()
+    print("Searching nginx cache for blocked files")
+    exec('printf "^KEY: .*' + '\n^KEY: .*'.join(skylinks) + '" > /tmp/blocklist-aritable.txt')
     cached_files_command = (
         "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els --file /tmp/blocklist-aritable.txt"
     )
