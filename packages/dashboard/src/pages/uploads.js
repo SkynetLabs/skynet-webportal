@@ -9,7 +9,6 @@ import useAccountsApi from "../services/useAccountsApi";
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
-const fetcher = (url) => fetch(url).then((r) => r.json());
 const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
 const getRelativeDate = ({ uploadedOn }) => dayjs(uploadedOn).format("YYYY-MM-DD HH:mm:ss");
 const headers = [
