@@ -26,7 +26,7 @@ export const getServerSideProps = authServerSideProps(async (context) => {
   console.log(context.req);
 
   try {
-    const prices = await ky.get("https://siasky.xyz/api/prices").json();
+    const prices = await fetch("/api/prices");
 
     console.log(prices);
   } catch (error) {
