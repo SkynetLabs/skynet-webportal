@@ -70,18 +70,21 @@ const fieldProps = {
 };
 
 export default function Registration({ flow }) {
-  const fields = flow.methods.password.config.fields
-    .map((field) => ({
-      ...field,
-      ...fieldProps[field.name],
-    }))
-    .sort((a, b) => (a.position < b.position ? -1 : 1));
-
-  console.log(fields);
-
-  const formik = useFormik({
-    initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value ?? "" }), {}),
-  });
+  const fields = useMemo(
+    () =>
+      flow.methods.password.config.fields
+        .map((field) => ({
+          ...field,
+          ...fieldProps[field.name],
+        }))
+        .sort((a, b) => (a.position < b.position ? -1 : 1)),
+    [flow]
+  );
+  const initialValues = useMemo(
+    () => fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value ?? "" }), {}),
+    [fields]
+  );
+  const formik = useFormik({ initialValues });
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
