@@ -21,10 +21,17 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps(async () => {
-  const prices = await ky.get("/api/prices");
+export const getServerSideProps = authServerSideProps(async (context) => {
+  console.log(context.resolvedUrl);
+  console.log(context.req);
 
-  console.log(prices);
+  try {
+    const prices = await ky.get("https://siasky.xyz/api/prices").json();
+
+    console.log(prices);
+  } catch (error) {
+    console.log(error);
+  }
 
   return { props: {} };
 });
