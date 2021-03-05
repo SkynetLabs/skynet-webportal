@@ -75,10 +75,12 @@ async def block_skylinks_from_airtable():
         return print(message) or await send_msg(client, message, force_notify=False)
 
     print("Searching nginx cache for blocked files")
+    
+    f = open("/tmp/blocklist-aritable.txt", "w")
+    f.write("^KEY: .*" + "^KEY: .*\n".join(skylinks))
+    f.close()
     cached_files_command = (
-        "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els '^KEY: .*("
-        + "|".join(skylinks)
-        + ")'"
+        "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els --file /tmp/blocklist-aritable.txt"
     )
     cached_files_count = int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | wc -l"') or 0)
 
