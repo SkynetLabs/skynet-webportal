@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import useSWR from "swr";
 import ky from "ky/umd";
 import { useEffect, useState } from "react";
+import authServerSideProps from "../services/authServerSideProps";
 
 const starter = { id: "free", tier: 1, name: "Free", description: "Unlimited bandwidth with throttled speed" };
 const fetcher = (url) => fetch(url).then((r) => r.json());
