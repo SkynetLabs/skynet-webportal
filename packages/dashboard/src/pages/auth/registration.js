@@ -81,10 +81,10 @@ export default function Registration({ flow }) {
         .sort((a, b) => (a.position < b.position ? -1 : 1)),
     [flow]
   );
-  const initialValues = useMemo(
-    () => fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value ?? "" }), {}),
-    [fields]
-  );
+  const initialValues = useMemo(() => {
+    console.log(fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}));
+    return fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {});
+  }, [fields]);
   const formik = useFormik({ initialValues });
 
   return (
