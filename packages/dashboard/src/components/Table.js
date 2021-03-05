@@ -53,7 +53,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                 </tr>
               </thead>
               <tbody>
-                {items ? (
+                {items && items.length ? (
                   items.map((row, index) => (
                     <tr className={index % 2 ? "bg-gray-100" : "bg-white"} key={index}>
                       {headers.map(({ key, formatter, href, nowrap = true }) => (
@@ -87,9 +87,11 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                     </tr>
                   ))
                 ) : (
-                  <td colspan={headers.length + actions.length} className="text-center">
-                    no entries
-                  </td>
+                  <tr className="bg-white">
+                    <td colspan={headers.length + actions.length} className="text-center px-6 py-6 text-sm font-medium">
+                      no entries
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
