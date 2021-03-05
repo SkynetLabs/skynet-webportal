@@ -5,7 +5,6 @@ import Layout from "../components/Layout";
 import Table from "../components/Table";
 import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
-import ky from "ky/umd";
 import useAccountsApi from "../services/useAccountsApi";
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
@@ -21,24 +20,7 @@ const headers = [
 ];
 const actions = [];
 
-export const getServerSideProps = authServerSideProps(async (context) => {
-  console.log(context.req.headers);
-
-  const api = ky.create({
-    headers: { cookie: context.req.headers.cookie },
-    prefixUrl: "http://oathkeeper:4455",
-  });
-
-  try {
-    const prices = await api.get("api/prices").json();
-
-    console.log(prices);
-  } catch (error) {
-    console.log(error);
-  }
-
-  return { props: {} };
-});
+export const getServerSideProps = authServerSideProps();
 
 export default function Uploads() {
   const [offset, setOffset] = useState(0);

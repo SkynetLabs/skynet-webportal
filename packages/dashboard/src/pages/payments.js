@@ -4,41 +4,7 @@ import useSWR from "swr";
 import ky from "ky/umd";
 import { useEffect, useState } from "react";
 
-const plans = [
-  {
-    id: "initial_free",
-    tier: 1,
-    stripe: null,
-    name: "Free",
-    price: 0,
-    description: "Unlimited bandwidth with throttled speed",
-  },
-  {
-    id: "initial_plus",
-    tier: 2,
-    stripe: "price_1IO6DLIzjULiPWN6ix1KyCtf",
-    name: "Skynet Plus",
-    price: 5,
-    description: "1 TB premium bandwidth with full speed",
-  },
-  {
-    id: "initial_pro",
-    tier: 3,
-    stripe: "price_1IO6DgIzjULiPWN6NiaSLEKa",
-    name: "Skynet Pro",
-    price: 20,
-    description: "5 TB premium bandwidth with full speed",
-  },
-  {
-    id: "initial_extreme",
-    tier: 4,
-    stripe: "price_1IO6DvIzjULiPWN6wHgK35J4",
-    name: "Skynet Extreme",
-    price: 80,
-    description: "20 TB premium bandwidth with full speed",
-  },
-];
-
+const starter = { id: "free", tier: 1, name: "Free", description: "Unlimited bandwidth with throttled speed" };
 const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const isFreeTier = (tier) => tier === 1;
@@ -52,7 +18,14 @@ const ActiveBadge = () => {
   );
 };
 
-export default function Payments() {
+export const getServerSideProps = authServerSideProps(async (context, api) => {
+  const stripe = await api.get("stripe/prices").json();
+  const plans = [starter, ...stripe].sort((a, b) => a.tier - b.tier);
+
+  return { props: { plans } };
+});
+
+export default function Payments({ plans }) {
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
   const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));

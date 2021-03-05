@@ -1,3 +1,5 @@
+import ky from "ky/umd";
+
 const isProduction = process.env.NODE_ENV === "production";
 
 export default function authServerSideProps(getServerSideProps) {
@@ -12,7 +14,12 @@ export default function authServerSideProps(getServerSideProps) {
     }
 
     if (getServerSideProps) {
-      return getServerSideProps(context);
+      const api = ky.create({
+        headers: { cookie: context.req.headers.cookie },
+        prefixUrl: "http://oathkeeper:4455",
+      });
+
+      return getServerSideProps(context, api);
     }
 
     return { props: {} };
