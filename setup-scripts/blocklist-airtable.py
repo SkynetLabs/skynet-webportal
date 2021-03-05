@@ -76,7 +76,7 @@ async def block_skylinks_from_airtable():
 
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
-    for i in xrange(0, len(skylinks), 1000):
+    for i in range(0, len(skylinks), 1000):
         cached_files_command = (
             "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els '^KEY: .*("
             + "|".join(skylinks[i:i+1000])
