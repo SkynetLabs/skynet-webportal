@@ -27,7 +27,6 @@ function SkylinkList({ items = [], timestamp }) {
     <ul className="divide-y divide-gray-200">
       {items.slice(0, 3).map((item) => (
         <li key={item.id}>
-          {/* <a href="#" className="block hover:bg-gray-50"> */}
           <div className="px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <a
@@ -45,7 +44,6 @@ function SkylinkList({ items = [], timestamp }) {
             <div className="mt-2 sm:flex sm:justify-between">
               <div className="sm:flex">
                 <p className="flex items-center text-sm text-gray-500">
-                  {/* Heroicon name: solid/users */}
                   <svg
                     className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                     xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +81,6 @@ function SkylinkList({ items = [], timestamp }) {
               </div>
             </div>
           </div>
-          {/* </a> */}
         </li>
       ))}
 
