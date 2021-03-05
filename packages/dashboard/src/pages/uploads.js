@@ -4,7 +4,7 @@ import { useState } from "react";
 // import useSWR from "swr";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
-// import authServerSideProps from "../services/authServerSideProps";
+import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
 import useAccountsApi from "../services/useAccountsApi";
 
@@ -21,7 +21,7 @@ const headers = [
 ];
 const actions = [];
 
-// export const getServerSideProps = authServerSideProps();
+export const getServerSideProps = authServerSideProps();
 
 export default function Uploads() {
   const [offset, setOffset] = useState(0);
