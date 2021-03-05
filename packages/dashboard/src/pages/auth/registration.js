@@ -3,6 +3,7 @@ import { Configuration, PublicApi } from "@ory/kratos-client";
 import { useFormik } from "formik";
 import config from "../../config";
 import Message from "../../components/Form/Message";
+import { useMemo } from "react";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
