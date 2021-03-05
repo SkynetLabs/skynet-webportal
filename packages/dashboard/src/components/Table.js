@@ -88,7 +88,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                   ))
                 ) : (
                   <tr className="bg-white">
-                    <td colspan={headers.length + actions.length} className="text-center px-6 py-6 text-sm font-medium">
+                    <td colspan={headers.length + actions.length} className="text-center py-6 text-sm text-gray-500">
                       no entries
                     </td>
                   </tr>
