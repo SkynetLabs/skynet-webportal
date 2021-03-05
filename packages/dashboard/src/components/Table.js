@@ -28,10 +28,6 @@ export default function Table({ items, count, headers, actions, offset, setOffse
     else if (offset % pageSize) setOffset(offset - (offset % pageSize));
   }, [offset, pageSize, setOffset]);
 
-  if (!items) {
-    return <div className="text-center">no entries</div>;
-  }
-
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -57,38 +53,44 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                 </tr>
               </thead>
               <tbody>
-                {items.map((row, index) => (
-                  <tr className={index % 2 ? "bg-white" : "bg-gray-100"} key={index}>
-                    {headers.map(({ key, formatter, href, nowrap = true }) => (
-                      <td
-                        key={key}
-                        className={`${nowrap ? "whitespace-nowrap" : ""} px-6 py-4 text-sm font-medium text-gray-900`}
-                      >
-                        {(formatter ? (
-                          formatter(row, key)
-                        ) : href ? (
-                          <a
-                            href={href(row, key)}
-                            className="text-green-600 hover:text-green-900"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {row[key]}
+                {items ? (
+                  items.map((row, index) => (
+                    <tr className={index % 2 ? "bg-white" : "bg-gray-100"} key={index}>
+                      {headers.map(({ key, formatter, href, nowrap = true }) => (
+                        <td
+                          key={key}
+                          className={`${nowrap ? "whitespace-nowrap" : ""} px-6 py-4 text-sm font-medium text-gray-900`}
+                        >
+                          {(formatter ? (
+                            formatter(row, key)
+                          ) : href ? (
+                            <a
+                              href={href(row, key)}
+                              className="text-green-600 hover:text-green-900"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {row[key]}
+                            </a>
+                          ) : (
+                            row[key]
+                          )) || <>&mdash;</>}
+                        </td>
+                      ))}
+                      {actions.map(({ key, name, action }) => (
+                        <td key={key} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <a href="#" className="text-green-600 hover:text-green-900" onClick={action}>
+                            {name}
                           </a>
-                        ) : (
-                          row[key]
-                        )) || <>&mdash;</>}
-                      </td>
-                    ))}
-                    {actions.map(({ key, name, action }) => (
-                      <td key={key} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-green-600 hover:text-green-900" onClick={action}>
-                          {name}
-                        </a>
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                ) : (
+                  <td colspan={headers.length + actions.length} className="text-center">
+                    no entries
+                  </td>
+                )}
               </tbody>
             </table>
             {/* This example requires Tailwind CSS v2.0+ */}

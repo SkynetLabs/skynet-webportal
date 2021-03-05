@@ -24,9 +24,7 @@ export const getServerSideProps = authServerSideProps();
 
 export default function Uploads() {
   const [offset, setOffset] = useState(0);
-  const { data, error } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
-
-  console.log("offset", offset, "data", data);
+  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, fetcher);
 
   return (
     <Layout title="Your uploads">
