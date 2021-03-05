@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
-import { useFormik, setIn, getIn } from "formik";
+import { useFormik, getIn } from "formik";
 import config from "../../config";
 import Message from "../../components/Form/Message";
 import { useMemo } from "react";
@@ -81,13 +81,10 @@ export default function Registration({ flow }) {
         .sort((a, b) => (a.position < b.position ? -1 : 1)),
     [flow]
   );
-  const initialValues = useMemo(
-    fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}),
-    [fields]
-  );
+  const initialValues = useMemo(() => fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}), [
+    fields,
+  ]);
   const formik = useFormik({ initialValues });
-
-  console.log(formik.values);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
