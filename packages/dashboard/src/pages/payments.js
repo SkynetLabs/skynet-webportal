@@ -29,6 +29,8 @@ export const getServerSideProps = authServerSideProps(async () => {
 });
 
 export default function Payments({ prices }) {
+  if (!prices) return null;
+
   const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
   const [selectedPlan, setSelectedPlan] = useState(freePlan);
   const activePlan = user ? prices.find(({ tier }) => user.tier === tier) : freePlan;
