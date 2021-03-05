@@ -21,7 +21,7 @@ const ActiveBadge = () => {
 };
 
 export const getServerSideProps = authServerSideProps(async () => {
-  const prices = await got("api/prices").json();
+  const prices = await got("/api/prices").json();
 
   return { props: { prices } };
 });
