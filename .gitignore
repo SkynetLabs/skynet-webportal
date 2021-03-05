@@ -92,3 +92,4 @@ docker/kratos/cr_certs/*.key
 
 # Oathkeeper JWKS signing token
 docker/kratos/oathkeeper/id_token.jwks.json
+/docker/kratos/config/kratos.yml
