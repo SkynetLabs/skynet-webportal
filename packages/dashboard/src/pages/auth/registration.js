@@ -77,7 +77,7 @@ export default function Registration({ flow }) {
     }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
   const formik = useFormik({
-    initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}),
+    initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value ?? "" }), {}),
   });
 
   return (
