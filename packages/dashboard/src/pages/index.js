@@ -106,7 +106,7 @@ export default function Home({ plans }) {
   return (
     <Layout title="Dashboard">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
           <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
@@ -209,7 +209,7 @@ export default function Home({ plans }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
+          {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
             <div className="flex-grow px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
@@ -243,7 +243,7 @@ export default function Home({ plans }) {
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </dl>
 
         {/* ============  */}

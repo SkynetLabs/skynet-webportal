@@ -168,25 +168,32 @@ export default function Payments({ plans }) {
                     </ul>
                   </fieldset>
                 </div>
-                <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                  <button
-                    type="button"
-                    onClick={handleSubscribe}
-                    disabled={activePlan === selectedPlan}
-                    className="bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                  >
-                    Subscribe
-                  </button>
+                <div className="px-4 py-3 bg-gray-50 sm:px-6">
+                  {user && user.tier > 0 ? (
+                    <div className="text-sm text-gray-500 flex justify-between items-center space-x-4 md:space-x-0 flex-col md:flex-row space-y-4 md:space-y-0">
+                      <span className="text-center md:text-left">
+                        Use Stripe Customer Portal to manage your active subscription, payment methods and view your
+                        billing history
+                      </span>
+                      <a
+                        href="/api/stripe/customerPortal"
+                        className="text-right flex-shrink-0 w-full md:w-auto bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                      >
+                        Stripe Customer Portal
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleSubscribe}
+                      disabled={activePlan === selectedPlan}
+                      className="bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                    >
+                      Subscribe
+                    </button>
+                  )}
                 </div>
               </div>
-              {Boolean(user?.stripeCustomerId) && (
-                <div className="text-sm text-gray-500 text-center my-3">
-                  To manage your active subscription, payment methods and view your billing history, go to{" "}
-                  <a href="/api/stripe/customerPortal" className="text-green-600 hover:text-green-900">
-                    Stripe Customer Portal
-                  </a>
-                </div>
-              )}
             </form>
           </section>
         </div>

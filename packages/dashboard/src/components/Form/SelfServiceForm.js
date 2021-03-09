@@ -1,7 +1,7 @@
 import { useFormik, getIn, setIn } from "formik";
 import Message from "./Message";
 
-export default function SelfServiceForm({ config, fieldsConfig, title }) {
+export default function SelfServiceForm({ config, fieldsConfig, title, button = "Submit" }) {
   const fields = config.fields
     .map((field) => ({ ...field, ...fieldsConfig[field.name] }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
@@ -30,9 +30,49 @@ export default function SelfServiceForm({ config, fieldsConfig, title }) {
                   required={field.required}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={getIn(formik.values, field.name)}
+                  value={getIn(formik.values, field.name) ?? ""}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                 />
+
+                {field.checks && (
+                  <div className="mt-4">
+                    <ul className="space-y-1">
+                      {field.checks.map((check, index) => (
+                        <li
+                          key={index}
+                          className={
+                            check.validate(formik.values, field.name) ? "text-green-600 font-medium" : "text-gray-600"
+                          }
+                        >
+                          <div className="flex space-x-3 items-center">
+                            <span className="flex items-center justify-center ">
+                              <svg
+                                className="h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01"
+                                />
+                              </svg>
+                            </span>
+                            <div className="flex-1 space-y-1">
+                              <div className="flex items-center justify-between">
+                                <h3 className="text-xs">{check.label}</h3>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 {Boolean(field.messages?.length) && (
                   <div className="mt-2">
                     <Message items={field.messages.map(({ text }) => text)} />
@@ -46,7 +86,7 @@ export default function SelfServiceForm({ config, fieldsConfig, title }) {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
-            Update
+            {button}
           </button>
 
           {Boolean(config.errors?.length) && <Message items={config.errors.map(({ message }) => message)} />}

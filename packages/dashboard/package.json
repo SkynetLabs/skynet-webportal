@@ -17,6 +17,7 @@
     "classnames": "^2.2.6",
     "dayjs": "^1.10.4",
     "express-jwt": "^6.0.0",
+    "fast-levenshtein": "^3.0.0",
     "formik": "^2.2.6",
     "http-status-codes": "^2.1.4",
     "jwks-rsa": "^1.12.2",
@@ -33,7 +34,7 @@
     "superagent": "^6.1.0",
     "swr": "^0.4.1",
     "tailwindcss": "^2.0.3",
-    "yup": "^0.32.8"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.2.1"

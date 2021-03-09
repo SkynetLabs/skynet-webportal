@@ -77,8 +77,13 @@ export default function Settings({ flow }) {
   return (
     <Layout title="Settings">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <SelfServiceForm config={profileConfig} fieldsConfig={fieldsConfig} title="Account settings" />
-        <SelfServiceForm config={passwordConfig} fieldsConfig={fieldsConfig} title="Authentication settings" />
+        <SelfServiceForm config={profileConfig} fieldsConfig={fieldsConfig} title="Account settings" button="Update" />
+        <SelfServiceForm
+          config={passwordConfig}
+          fieldsConfig={fieldsConfig}
+          title="Authentication settings"
+          button="Update"
+        />
       </div>
     </Layout>
   );

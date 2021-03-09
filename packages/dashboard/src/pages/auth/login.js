@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
-import { useFormik, getIn } from "formik";
 import config from "../../config";
-import Message from "../../components/Form/Message";
+import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
@@ -43,7 +42,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-const fieldProps = {
+const fieldsConfig = {
   identifier: {
     label: "Email address",
     autoComplete: "email",
@@ -60,16 +59,6 @@ const fieldProps = {
 };
 
 export default function Login({ flow }) {
-  const fields = flow.methods.password.config.fields
-    .map((field) => ({
-      ...field,
-      ...fieldProps[field.name],
-    }))
-    .sort((a, b) => (a.position < b.position ? -1 : 1));
-  const formik = useFormik({
-    initialValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {}),
-  });
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -96,62 +85,7 @@ export default function Login({ flow }) {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form
-            className="space-y-6"
-            action={flow.methods.password.config.action}
-            method={flow.methods.password.config.method}
-          >
-            {fields.map((field) => (
-              <div key={field.name}>
-                {field.type !== "hidden" && (
-                  <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                    {fieldProps[field.name].label}
-                  </label>
-                )}
-                <div>
-                  <input
-                    id={field.name}
-                    name={field.name}
-                    type={field.type}
-                    autoComplete={field.autoComplete}
-                    required={field.required}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={getIn(formik.values, field.name)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                  />
-                </div>
-
-                {Boolean(field.messages?.length) && (
-                  <div className="mt-2">
-                    <Message items={field.messages.map(({ text }) => text)} />
-                  </div>
-                )}
-              </div>
-            ))}
-
-            <div className="flex items-center justify-between">
-              <Link href="/recovery">
-                <a className="text-sm font-medium text-green-600 hover:text-green-500">Forgot your password?</a>
-              </Link>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Sign in
-            </button>
-
-            {Boolean(flow.methods.password.config.messages?.length) &&
-              flow.methods.password.config.messages.map((message) => (
-                <Message type={message.type} title={message.text} />
-              ))}
-          </form>
-        </div>
-      </div>
+      <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign in" />
     </div>
   );
 }
