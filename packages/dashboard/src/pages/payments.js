@@ -4,6 +4,7 @@ import useSWR from "swr";
 import ky from "ky/umd";
 import { useEffect, useState } from "react";
 import authServerSideProps from "../services/authServerSideProps";
+import classnames from "classnames";
 
 const starter = { id: "free", tier: 1, name: "Free", description: "Unlimited bandwidth with throttled speed" };
 const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -13,7 +14,7 @@ const isPaidTier = (tier) => !isFreeTier(tier);
 
 const ActiveBadge = () => {
   return (
-    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-green-100 text-green-800 ml-3">
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-green-200 text-green-800 ml-3">
       active
     </span>
   );
@@ -51,7 +52,6 @@ export default function Payments({ plans }) {
     <Layout title="Payments">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
         <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
-          {/* This example requires Tailwind CSS v2.0+ */}
           <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
@@ -115,7 +115,6 @@ export default function Payments({ plans }) {
             </div> */}
           </dl>
 
-          {/* Plan */}
           <section aria-labelledby="plan_heading">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
@@ -132,37 +131,54 @@ export default function Payments({ plans }) {
                     <ul className="relative bg-white rounded-md -space-y-px">
                       {plans.map((plan, index) => (
                         <li key={plan.id}>
-                          {/* On: "bg-orange-50 border-orange-200 z-10", Off: "border-gray-200" */}
-                          <div
-                            className={`relative border ${index === 0 ? "rounded-tl-md rounded-tr-md" : ""} ${
-                              index === plans.length - 1 ? "rounded-bl-md rounded-br-md" : ""
-                            } p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
+                          <label
+                            className={`${classnames({
+                              "rounded-tl-md rounded-tr-md": index === 0,
+                              "rounded-bl-md rounded-br-md": index === plans.length - 1,
+                              "bg-green-50 border-green-200 z-10": plan === selectedPlan,
+                              "border-gray-200": plan !== selectedPlan,
+                            })} relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3 cursor-pointer`}
                           >
-                            <label className="flex items-center text-sm cursor-pointer">
+                            <span className="flex items-center text-sm">
                               {isFreeTier(activePlan?.tier) && (
                                 <input
                                   name="pricing_plan"
                                   type="radio"
-                                  className="h-4 w-4 text-orange-500 cursor-pointer focus:ring-gray-900 border-gray-300"
+                                  className="h-4 w-4 text-orange-500 focus:ring-gray-900 border-gray-300"
                                   aria-describedby="plan-option-pricing-0 plan-option-limit-0"
                                   checked={plan === selectedPlan}
                                   onChange={() => setSelectedPlan(plan)}
                                 />
                               )}
-                              <span className="ml-3 font-medium text-gray-900">{plan.name}</span>
+                              <span
+                                className={classnames("ml-3 font-medium", {
+                                  "text-green-900": plan === selectedPlan,
+                                  "text-gray-900": plan !== selectedPlan,
+                                })}
+                              >
+                                {plan.name}
+                              </span>
                               {activePlan === plan && <ActiveBadge />}
-                            </label>
+                            </span>
                             <p id="plan-option-pricing-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
-                              {/* On: "text-orange-900", Off: "text-gray-900" */}
-                              <span className="font-medium">{plan.price ? `$${plan.price} / mo` : "no cost"}</span>
-                              {/* On: "text-orange-700", Off: "text-gray-500" */}
-                              {/* <span>($290 / yr)</span> */}
+                              <span
+                                className={classnames("font-medium", {
+                                  "text-green-900": plan === selectedPlan,
+                                  "text-gray-900": plan !== selectedPlan,
+                                })}
+                              >
+                                {plan.price ? `$${plan.price} / mo` : "no cost"}
+                              </span>
                             </p>
-                            {/* On: "text-orange-700", Off: "text-gray-500" */}
-                            <p id="plan-option-limit-0" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right">
+                            <p
+                              className={classnames("ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right", {
+                                "text-green-700": plan === selectedPlan,
+                                "text-gray-500": plan !== selectedPlan,
+                              })}
+                            >
                               {plan.description}
                             </p>
-                          </div>
+                          </label>
                         </li>
                       ))}
                     </ul>
