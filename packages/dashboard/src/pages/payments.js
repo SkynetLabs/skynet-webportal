@@ -169,7 +169,7 @@ export default function Payments({ plans }) {
                   </fieldset>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 sm:px-6">
-                  {user && user.tier > 0 ? (
+                  {user && user.tier > 1 ? (
                     <div className="text-sm text-gray-500 flex justify-between items-center space-x-4 md:space-x-0 flex-col md:flex-row space-y-4 md:space-y-0">
                       <span className="text-center md:text-left">
                         Use Stripe Customer Portal to manage your active subscription, payment methods and view your

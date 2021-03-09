@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
-import { useFormik, getIn } from "formik";
+import { getIn } from "formik";
 import config from "../../config";
-import Message from "../../components/Form/Message";
-import { useMemo } from "react";
+import levenshtein from "fast-levenshtein";
+import lcs from "../../services/longestCommonSequence";
+import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
@@ -44,7 +45,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-const fieldProps = {
+const fieldsConfig = {
   "traits.email": {
     label: "Email address",
     autoComplete: "email",
@@ -64,6 +65,26 @@ const fieldProps = {
     label: "Password",
     autoComplete: "new-password",
     position: 4,
+    checks: [
+      {
+        label: "At least 6 charactes long",
+        validate: (values, field) => {
+          const value = getIn(values, field);
+
+          return value && value.length > 5;
+        },
+      },
+      {
+        label: "Significantly different from the email",
+        validate: (values, field) => {
+          const value = getIn(values, field);
+          const email = getIn(values, "traits.email");
+
+          // levenshtein distance higher than 5 and longest common sequence shorter than half of the password
+          return value && email && levenshtein.get(value, email) > 5 && lcs(value, email).length / value.length <= 0.5;
+        },
+      },
+    ],
   },
   csrf_token: {
     position: 99,
@@ -71,15 +92,6 @@ const fieldProps = {
 };
 
 export default function Registration({ flow }) {
-  const fields = flow.methods.password.config.fields
-    .map((field) => ({
-      ...field,
-      ...fieldProps[field.name],
-    }))
-    .sort((a, b) => (a.position < b.position ? -1 : 1));
-  const initialValues = fields.reduce((acc, field) => ({ ...acc, [field.name]: field.value }), {});
-  const formik = useFormik({ initialValues });
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -105,54 +117,8 @@ export default function Registration({ flow }) {
           if you already have one
         </p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form
-            className="space-y-6"
-            action={flow.methods.password.config.action}
-            method={flow.methods.password.config.method}
-          >
-            {fields.map((field) => (
-              <div key={field.name}>
-                {field.type !== "hidden" && (
-                  <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                    {fieldProps[field.name]?.label ?? field.name}
-                  </label>
-                )}
-                <div>
-                  <input
-                    id={field.name}
-                    name={field.name}
-                    type={field.type}
-                    autoComplete={field.autoComplete}
-                    required={field.required}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={getIn(formik.values, field.name)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                  />
-                  {Boolean(field.messages?.length) && (
-                    <div className="mt-2">
-                      <Message items={field.messages.map(({ text }) => text)} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
 
-            <button
-              type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              Sign up
-            </button>
-
-            {Boolean(flow.methods.password.config.errors?.length) && (
-              <Message items={flow.methods.password.config.errors.map(({ message }) => message)} />
-            )}
-          </form>
-        </div>
-      </div>
+      <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign up" />
     </div>
   );
 }
