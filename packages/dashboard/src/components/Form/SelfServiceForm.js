@@ -96,7 +96,7 @@ export default function SelfServiceForm({ config, fieldsConfig, title, button = 
             {button}
           </button>
 
-          {config?.errors?.map(({ text, type }) => (
+          {config?.messages?.map(({ text, type }) => (
             <p className={classnames("mt-2 text-sm", { "text-red-600": type === "error" })}>{text}</p>
           ))}
         </form>
