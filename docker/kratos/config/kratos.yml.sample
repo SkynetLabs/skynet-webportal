@@ -58,6 +58,9 @@ log:
   format: text
   leak_sensitive_values: true
 
+password:
+  max_breaches: 100
+
 secrets:
   cookie:
     - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
