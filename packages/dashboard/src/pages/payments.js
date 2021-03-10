@@ -27,7 +27,7 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
   ]);
   const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
-  return { props: { plans, user } };
+  return { props: { plans, user, stats } };
 });
 
 export default function Payments({ plans, user: initialUserData, stats: initialStatsData }) {
