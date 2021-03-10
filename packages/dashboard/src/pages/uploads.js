@@ -33,8 +33,7 @@ export default function Uploads({ initialData }) {
     revalidateOnMount: true,
   });
 
-  // preload next page
-  useAccountsApi(`${apiPrefix}/user/uploads?pageSize=${pageSize}&offset=${offset + pageSize}`);
+  useAccountsApi(`${apiPrefix}/user/uploads?pageSize=${pageSize}&offset=${offset + pageSize}`); // preload next page
 
   return (
     <Layout title="Your uploads">
