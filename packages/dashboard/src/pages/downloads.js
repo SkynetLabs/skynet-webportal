@@ -27,10 +27,12 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
 
 export default function Downloads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const { data } = useAccountsApi(`${apiPrefix}/user/downloads?pageSize=10&offset=${offset}`, {
-    initialData,
+  const { data } = useAccountsApi(`${apiPrefix}/user/downloads?pageSize=${pageSize}&offset=${offset}`, {
+    initialData: offset === 0 ? initialData : undefined,
     revalidateOnMount: true,
   });
+
+  useAccountsApi(`${apiPrefix}/user/downloads?pageSize=${pageSize}&offset=${offset + pageSize}`); // preload next page
 
   return (
     <Layout title="Your downloads">
