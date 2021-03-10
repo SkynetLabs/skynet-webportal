@@ -22,6 +22,8 @@ function Button({ children, disabled, className, ...props }) {
 }
 
 export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
+  console.log("...", offset);
+
   useEffect(() => {
     if (offset < 0) setOffset(0);
     else if (offset >= count && count > 0) setOffset(Math.floor(count / pageSize - 1) * pageSize);
@@ -114,7 +116,7 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                 <Button
                   className="ml-3"
                   disabled={offset + pageSize >= count}
-                  onClick={() => setOffset(offset + pageSize)}
+                  onClick={() => console.log(offset + pageSize) || setOffset(offset + pageSize)}
                 >
                   Next
                 </Button>
