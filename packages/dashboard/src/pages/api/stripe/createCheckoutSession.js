@@ -1,10 +1,9 @@
 import ky from "ky/umd";
 import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
+import { isPaidTier } from "../../../services/tiers";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const isFreeTier = (tier) => tier === 1;
-const isPaidTier = (tier) => !isFreeTier(tier);
 
 const getStripeCustomer = async (user, authorization) => {
   if (user.stripeCustomerId) {

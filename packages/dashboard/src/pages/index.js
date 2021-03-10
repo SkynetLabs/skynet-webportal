@@ -7,12 +7,12 @@ import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
+import { isFreeTier } from "../services/tiers";
 
 dayjs.extend(relativeTime);
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
-const isFreeTier = (tier) => tier === 1;
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
   const stripe = await api.get("stripe/prices").json();

@@ -6,10 +6,9 @@ import authServerSideProps from "../services/authServerSideProps";
 import classnames from "classnames";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
+import { isFreeTier, isPaidTier } from "../services/tiers";
 
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
-const isFreeTier = (tier) => tier === 1;
-const isPaidTier = (tier) => !isFreeTier(tier);
 
 const ActiveBadge = () => {
   return (
@@ -136,7 +135,7 @@ export default function Payments({ plans }) {
                               "rounded-bl-md rounded-br-md": index === plans.length - 1,
                               "bg-green-50 border-green-200 z-10": plan === selectedPlan,
                               "border-gray-200": plan !== selectedPlan,
-                              "cursor-pointer": isFreeTier(user.tier),
+                              "cursor-pointer": isFreeTier(user?.tier),
                             })} relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
                           >
                             <span className="flex items-center text-sm">
