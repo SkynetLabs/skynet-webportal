@@ -26,9 +26,9 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
 });
 
 export default function Uploads({ initialData }) {
-  const [offset, setOffset] = useState();
-  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset ?? 0}`, {
-    initialData: offset === undefined ? initialData : undefined,
+  const [offset, setOffset] = useState(0);
+  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, {
+    initialData: offset === 0 ? initialData : undefined,
   });
 
   return (
