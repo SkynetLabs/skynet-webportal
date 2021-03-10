@@ -311,21 +311,16 @@ export default function Layout({ title, children }) {
 
       <main className="-mt-32">
         <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-          {/* Replace with your content */}
           {children || (
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
             </div>
           )}
-          {/* /End replace */}
         </div>
       </main>
 
-      <footer className="mb-4 sm:mb-6">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl text-sm text-gray-500 text-center sm:text-left">
-          <span className="block sm:inline">© 2021 Skynet Labs Inc.</span>{" "}
-          <span className="block sm:inline">All rights reserved.</span>
-        </div>
+      <footer className="max-w-7xl mx-auto py-4 sm:py-6 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+        <p className="text-center text-sm text-gray-400">© 2021 Skynet Labs Inc. All rights reserved.</p>
       </footer>
     </div>
   );
