@@ -19,14 +19,15 @@ const ActiveBadge = () => {
 };
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
+  const user = await api.get("user").json();
   const stripe = await api.get("stripe/prices").json();
   const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
-  return { props: { plans } };
+  return { props: { plans, user } };
 });
 
-export default function Payments({ plans }) {
-  const { data: user } = useAccountsApi(`${apiPrefix}/user`);
+export default function Payments({ plans, user: initialUserData }) {
+  const { data: user } = useAccountsApi(`${apiPrefix}/user`, { initialData: initialUserData });
   const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
   const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
   const handleSubscribe = async () => {
