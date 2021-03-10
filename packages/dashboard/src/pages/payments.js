@@ -32,7 +32,7 @@ export default function Payments({ plans }) {
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
-      const { sessionId } = await ky.post("/api/stripe/createCheckoutSession", { json: { price } }).json();
+      const { sessionId } = await ky.post("/api/stripe/checkout", { json: { price } }).json();
       const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
@@ -191,7 +191,7 @@ export default function Payments({ plans }) {
                         billing history
                       </span>
                       <a
-                        href="/api/stripe/customerPortal"
+                        href="/api/stripe/billing"
                         className="text-right flex-shrink-0 w-full md:w-auto bg-green-800 disabled:bg-gray-300 disabled:text-gray-400 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                       >
                         Stripe Customer Portal
