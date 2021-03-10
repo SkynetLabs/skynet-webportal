@@ -18,7 +18,6 @@ const headers = [
   { key: "uploadedOn", name: "Uploaded on", formatter: getRelativeDate },
 ];
 const actions = [];
-const pageSize = 10;
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
   const initialData = await api.get("user/uploads?pageSize=10&offset=0").json();
@@ -28,12 +27,14 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
 
 export default function Uploads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=${pageSize}&offset=${offset}`, {
+  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, {
     initialData: offset === 0 ? initialData : undefined,
     revalidateOnMount: true,
   });
 
-  useAccountsApi(`${apiPrefix}/user/uploads?pageSize=${pageSize}&offset=${offset + pageSize}`); // preload next page
+  // preload next page if it exists (based on the response from the current page query)
+  const nextPageOffset = data && data.offset + data.pageSize < data.count ? data.offset + data.pageSize : offset;
+  useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${nextPageOffset}`);
 
   return (
     <Layout title="Your uploads">
