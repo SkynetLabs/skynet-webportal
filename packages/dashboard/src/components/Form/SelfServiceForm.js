@@ -1,6 +1,5 @@
 import { useFormik, getIn, setIn } from "formik";
 import classnames from "classnames";
-import Message from "./Message";
 
 export default function SelfServiceForm({ config, fieldsConfig, title, button = "Submit" }) {
   const fields = config.fields

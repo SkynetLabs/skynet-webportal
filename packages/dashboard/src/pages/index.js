@@ -2,22 +2,21 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import prettyBytes from "pretty-bytes";
 import Link from "next/link";
-import useSWR from "swr";
 import Layout from "../components/Layout";
 import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
+import config from "../config";
+import useAccountsApi from "../services/useAccountsApi";
 
 dayjs.extend(relativeTime);
 
-const starter = { id: "free", tier: 1, name: "Free", description: "Unlimited bandwidth with throttled speed" };
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
-const fetcher = (url) => fetch(url).then((r) => r.json());
 const isFreeTier = (tier) => tier === 1;
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
   const stripe = await api.get("stripe/prices").json();
-  const plans = [starter, ...stripe].sort((a, b) => a.tier - b.tier);
+  const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
   return { props: { plans } };
 });
@@ -96,10 +95,10 @@ function SkylinkList({ items = [], timestamp }) {
 }
 
 export default function Home({ plans }) {
-  const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
-  const { data: stats } = useSWR(`${apiPrefix}/user/stats`, fetcher);
-  const { data: downloads } = useSWR(`${apiPrefix}/user/downloads?pageSize=3&offset=0`, fetcher);
-  const { data: uploads } = useSWR(`${apiPrefix}/user/uploads?pageSize=3&offset=0`, fetcher);
+  const { data: user } = useAccountsApi(`${apiPrefix}/user`);
+  const { data: stats } = useAccountsApi(`${apiPrefix}/user/stats`);
+  const { data: downloads } = useAccountsApi(`${apiPrefix}/user/downloads?pageSize=3&offset=0`);
+  const { data: uploads } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=3&offset=0`);
 
   const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
 

@@ -8,4 +8,7 @@ export default {
     // This could be for example http://kratos.my-app.com/.
     browser: process.env.NEXT_PUBLIC_KRATOS_BROWSER_URL.replace(/\/+$/, ""),
   },
+  tiers: {
+    starter: { id: "starter", tier: 1, name: "Free", description: "Pin up to 100GB" },
+  },
 };

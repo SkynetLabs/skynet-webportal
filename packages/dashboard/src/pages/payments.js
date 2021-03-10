@@ -1,13 +1,12 @@
 import dayjs from "dayjs";
 import Layout from "../components/Layout";
-import useSWR from "swr";
 import ky from "ky/umd";
 import { useEffect, useState } from "react";
 import authServerSideProps from "../services/authServerSideProps";
 import classnames from "classnames";
+import config from "../config";
+import useAccountsApi from "../services/useAccountsApi";
 
-const starter = { id: "free", tier: 1, name: "Free", description: "Unlimited bandwidth with throttled speed" };
-const fetcher = (url) => fetch(url).then((r) => r.json());
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const isFreeTier = (tier) => tier === 1;
 const isPaidTier = (tier) => !isFreeTier(tier);
@@ -22,13 +21,13 @@ const ActiveBadge = () => {
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
   const stripe = await api.get("stripe/prices").json();
-  const plans = [starter, ...stripe].sort((a, b) => a.tier - b.tier);
+  const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
   return { props: { plans } };
 });
 
 export default function Payments({ plans }) {
-  const { data: user } = useSWR(`${apiPrefix}/user`, fetcher);
+  const { data: user } = useAccountsApi(`${apiPrefix}/user`);
   const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
   const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
   const handleSubscribe = async () => {
