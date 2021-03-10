@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import prettyBytes from "pretty-bytes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
 import authServerSideProps from "../services/authServerSideProps";
@@ -27,18 +27,13 @@ export const getServerSideProps = authServerSideProps(async (context, api) => {
 
 export default function Uploads({ initialData }) {
   const [offset, setOffset] = useState(0);
-  const [currentData, setCurrentData] = useState(initialData);
-  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, {
-    initialData: currentData,
-  });
+  const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`);
 
-  useEffect(() => {
-    if (data) setCurrentData(data);
-  }, [data, setCurrentData]);
+  useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset + 10}`);
 
   return (
     <Layout title="Your uploads">
-      <Table {...currentData} headers={headers} actions={actions} setOffset={setOffset} />
+      <Table {...data} headers={headers} actions={actions} setOffset={setOffset} />
     </Layout>
   );
 }
