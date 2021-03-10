@@ -4,6 +4,7 @@ import ky from "ky/umd";
 import { useEffect, useState } from "react";
 import authServerSideProps from "../services/authServerSideProps";
 import classnames from "classnames";
+import prettyBytes from "pretty-bytes";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
 import { isFreeTier, isPaidTier } from "../services/tiers";
@@ -19,14 +20,19 @@ const ActiveBadge = () => {
 };
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
-  const [user, stripe] = await Promise.all([api.get("user").json(), api.get("stripe/prices").json()]);
+  const [user, stats, stripe] = await Promise.all([
+    api.get("user").json(),
+    api.get("user/stats").json(),
+    api.get("stripe/prices").json(),
+  ]);
   const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
   return { props: { plans, user } };
 });
 
-export default function Payments({ plans, user: initialUserData }) {
+export default function Payments({ plans, user: initialUserData, stats: initialStatsData }) {
   const { data: user } = useAccountsApi(`${apiPrefix}/user`, { initialData: initialUserData });
+  const { data: stats } = useAccountsApi(`${apiPrefix}/user/stats`, { initialData: initialStatsData });
   const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
   const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
   const handleSubscribe = async () => {
@@ -50,13 +56,14 @@ export default function Payments({ plans, user: initialUserData }) {
     <Layout title="Payments">
       <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
         <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
                 <dd className="mt-1 text-3xl font-semibold text-gray-900">{activePlan?.name || "—"}</dd>
               </div>
             </div>
+
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
@@ -71,6 +78,13 @@ export default function Payments({ plans, user: initialUserData }) {
                   </div>
                 </div>
               )}
+            </div>
+
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">Storage used</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">{prettyBytes(stats.storageUsed)}</dd>
+              </div>
             </div>
 
             {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
