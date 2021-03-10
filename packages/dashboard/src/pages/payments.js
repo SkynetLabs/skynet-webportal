@@ -86,45 +86,6 @@ export default function Payments({ plans, user: initialUserData, stats: initialS
                 <dd className="mt-1 text-3xl font-semibold text-gray-900">{prettyBytes(stats.storageUsed)}</dd>
               </div>
             </div>
-
-            {/* <div className="flex flex-col bg-white overflow-hidden shadow rounded-lg">
-              <div className="flex-grow px-4 py-5 sm:p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
-                    <svg
-                      className="h-6 w-6 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Subscription status</dt>
-                    <dd className="flex items-baseline">
-                      <div className="text-2xl font-semibold text-grey-900">Active</div>
-                    </dd>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                <div className="text-sm">All paid up!</div>
-              </div>
-            </div> */}
-
-            {/* <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <dt className="text-sm font-medium text-gray-500 truncate">asdas</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">&mdash;</dd>
-              </div>
-            </div> */}
           </dl>
 
           <section aria-labelledby="plan_heading">
