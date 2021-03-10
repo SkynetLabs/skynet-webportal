@@ -19,8 +19,7 @@ const ActiveBadge = () => {
 };
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {
-  const user = await api.get("user").json();
-  const stripe = await api.get("stripe/prices").json();
+  const [user, stripe] = await Promise.all([api.get("user").json(), api.get("stripe/prices").json()]);
   const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
 
   return { props: { plans, user } };
