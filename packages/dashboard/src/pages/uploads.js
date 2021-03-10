@@ -29,6 +29,7 @@ export default function Uploads({ initialData }) {
   const [offset, setOffset] = useState(0);
   const { data } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=10&offset=${offset}`, {
     initialData: offset === 0 ? initialData : undefined,
+    revalidateOnMount: true,
   });
 
   return (
