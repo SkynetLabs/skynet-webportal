@@ -136,7 +136,8 @@ export default function Payments({ plans }) {
                               "rounded-bl-md rounded-br-md": index === plans.length - 1,
                               "bg-green-50 border-green-200 z-10": plan === selectedPlan,
                               "border-gray-200": plan !== selectedPlan,
-                            })} relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3 cursor-pointer`}
+                              "cursor-pointer": isFreeTier(user.tier),
+                            })} relative border p-4 flex flex-col md:pl-4 md:pr-6 md:grid md:grid-cols-3`}
                           >
                             <span className="flex items-center text-sm">
                               {isFreeTier(activePlan?.tier) && (
