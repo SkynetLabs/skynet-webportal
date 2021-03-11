@@ -65,11 +65,16 @@ rs.initiate(
   {
     _id : "skynet",
     members: [
-      { _id : 0, host : "mongo0.example.com:27017" },
-      { _id : 1, host : "mongo1.example.com:27017" },
+      { _id : 0, host : "mongo:27017" }
     ]
   }
 )
+```
+
+Add more nodes when they are ready:
+
+```
+rs.add("second.node.net:27017")
 ```
 
 ### Kratos & Oathkeeper Setup
