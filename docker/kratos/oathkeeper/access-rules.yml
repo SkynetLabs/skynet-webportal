@@ -60,6 +60,22 @@
       config:
         to: http://127.0.0.1/auth/login
 
+- id: "accounts:anonymous"
+  upstream:
+    preserve_host: true
+    url: "http://accounts:3000"
+  match:
+    url: "http://oathkeeper<{,:4455}>/<{stripe/**,user/limits}>"
+    methods:
+      - GET
+      - POST
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: noop
+
 - id: "accounts"
   upstream:
     preserve_host: true
@@ -82,19 +98,3 @@
     - handler: redirect
       config:
         to: http://127.0.0.1/auth/login
-
-- id: "accounts_non_auth"
-  upstream:
-    preserve_host: true
-    url: "http://accounts:3000"
-  match:
-    url: "http://oathkeeper<{,:4455}>/<{stripe/**}>"
-    methods:
-      - GET
-      - POST
-  authenticators:
-    - handler: anonymous
-  authorizer:
-    handler: allow
-  mutators:
-    - handler: noop
