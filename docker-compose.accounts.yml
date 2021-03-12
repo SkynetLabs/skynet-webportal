@@ -13,6 +13,8 @@ services:
         WITH_ACCOUNTS: 0 # temporarily disable accounts frontend
 
   nginx:
+    environment:
+      - ACCOUNTS_ENABLED=1
     volumes:
       - ./docker/accounts/nginx.secure.conf:/etc/nginx/conf.extra.d/nginx.secure.conf:ro
 
