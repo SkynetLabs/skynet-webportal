@@ -65,10 +65,9 @@
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{stripe/**,user/limits}>"
+    url: "http://oathkeeper<{,:4455}>/<{stripe/prices}>"
     methods:
       - GET
-      - POST
   authenticators:
     - handler: anonymous
   authorizer:
@@ -76,12 +75,27 @@
   mutators:
     - handler: noop
 
-- id: "accounts"
+- id: "accounts:public"
   upstream:
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{user,user/**,login,logout}>"
+    url: "http://oathkeeper<{,:4455}>/<{user/limits}>"
+    methods:
+      - GET
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: id_token
+
+- id: "accounts:protected"
+  upstream:
+    preserve_host: true
+    url: "http://accounts:3000"
+  match:
+    url: "http://oathkeeper<{,:4455}>/<{login,logout,user,user/uploads,user/downloads,user/stats}>"
     methods:
       - GET
       - POST
