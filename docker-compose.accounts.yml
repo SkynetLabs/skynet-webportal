@@ -60,7 +60,7 @@ services:
   kratos-migrate:
     image: inovakov/kratos:latest-sqlite
     container_name: kratos-migrate
-    restart: never
+    restart: no
     logging: *default-logging
     environment:
       - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
