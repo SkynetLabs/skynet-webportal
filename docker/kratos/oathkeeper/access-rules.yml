@@ -86,7 +86,7 @@
   authenticators:
     - handler: cookie_session
   authorizer:
-    handler: allow
+    handler: noop
   mutators:
     - handler: id_token
 
