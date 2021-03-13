@@ -10,8 +10,7 @@ export async function getServerSideProps(context) {
   // The flow is used to identify the login and registration flow and
   // return data like the csrf_token and so on.
   if (!flow || typeof flow !== "string") {
-    console.log("No flow ID found in URL, initializing recovery flow.");
-
+    // No flow ID found in URL, initializing recovery flow.
     return {
       redirect: {
         permanent: false,
