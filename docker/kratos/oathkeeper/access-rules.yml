@@ -85,8 +85,6 @@
       - GET
   authenticators:
     - handler: cookie_session
-  authorizer:
-    handler: noop
   mutators:
     - handler: id_token
 
