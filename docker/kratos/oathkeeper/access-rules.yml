@@ -84,7 +84,8 @@
     methods:
       - GET
   authenticators:
-    - handler: anonymous
+    - handler: cookie_session
+    - handler: noop
   authorizer:
     handler: allow
   mutators:
