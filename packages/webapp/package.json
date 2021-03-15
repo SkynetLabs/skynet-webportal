@@ -53,7 +53,7 @@
     "decentralized",
     "cloud storage"
   ],
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "build": "gatsby build",
     "start": "gatsby develop",
