@@ -2,7 +2,7 @@
   "name": "handshake-api",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "express": "^4.17.1",
     "hs-client": "^0.0.9",

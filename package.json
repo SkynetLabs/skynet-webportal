@@ -1,5 +1,6 @@
 {
     "private": true,
+    "license": "SEE LICENSE IN LICENSE.md",
     "workspaces": [
         "packages/*"
     ],
