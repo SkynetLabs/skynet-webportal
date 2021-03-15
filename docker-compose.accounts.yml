@@ -17,6 +17,8 @@ services:
       - ACCOUNTS_ENABLED=1
     volumes:
       - ./docker/accounts/nginx.secure.conf:/etc/nginx/conf.extra.d/nginx.secure.conf:ro
+    depends_on:
+      - accounts
 
   accounts:
     build:
@@ -75,6 +77,8 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.80
+    depends_on:
+      - cockroach
 
   kratos:
     image: inovakov/kratos:latest-sqlite
@@ -126,8 +130,6 @@ services:
   oathkeeper:
     image: oryd/oathkeeper:v0.38
     container_name: oathkeeper
-    depends_on:
-      - kratos
     expose:
       - 4455
       - 4456
@@ -140,6 +142,8 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.83
+    depends_on:
+      - kratos
 
   cockroach:
     image: cockroachdb/cockroach:v20.2.3
