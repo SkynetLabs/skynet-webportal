@@ -76,7 +76,12 @@ export default function Recovery({ flow }) {
         </p>
       </div>
 
-      <SelfServiceForm config={flow.methods.link.config} fieldsConfig={fieldsConfig} button="Send recovery link" />
+      <SelfServiceForm
+        flow={flow}
+        config={flow.methods.link.config}
+        fieldsConfig={fieldsConfig}
+        button="Send recovery link"
+      />
     </div>
   );
 }

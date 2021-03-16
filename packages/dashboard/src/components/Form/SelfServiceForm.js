@@ -1,7 +1,8 @@
 import { useFormik, getIn, setIn } from "formik";
 import classnames from "classnames";
+import SelfServiceMessages from "./SelfServiceMessages";
 
-export default function SelfServiceForm({ config, fieldsConfig, title, button = "Submit" }) {
+export default function SelfServiceForm({ flow, config, fieldsConfig, title, button = "Submit" }) {
   const fields = config.fields
     .map((field) => ({ ...field, ...fieldsConfig[field.name] }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
@@ -42,9 +43,7 @@ export default function SelfServiceForm({ config, fieldsConfig, title, button = 
                   )}
                 />
 
-                {field?.messages?.map(({ text }) => (
-                  <p className="mt-2 text-sm text-red-600">{text}</p>
-                ))}
+                <SelfServiceMessages messages={field.messages} />
 
                 {field.checks && (
                   <div className="mt-4">
@@ -95,9 +94,9 @@ export default function SelfServiceForm({ config, fieldsConfig, title, button = 
             {button}
           </button>
 
-          {config?.messages?.map(({ text, type }) => (
-            <p className={classnames("mt-2 text-sm", { "text-red-600": type === "error" })}>{text}</p>
-          ))}
+          <SelfServiceMessages messages={config.messages} />
+
+          {flow && <SelfServiceMessages messages={flow.messages} />}
         </form>
       </div>
     </div>
