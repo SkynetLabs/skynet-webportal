@@ -8,6 +8,7 @@ import { SkynetClient } from "skynet-js";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
 import { isFreeTier } from "../services/tiers";
+import { write } from "clipboardy";
 
 dayjs.extend(relativeTime);
 
@@ -36,7 +37,11 @@ function SkylinkList({ items = [], timestamp }) {
               >
                 {item.name || "— file name not available —"}
               </a>
-              <abbr className="text-xs text-gray-400 whitespace-nowrap ml-2" title={`sia://${item.skylink}`}>
+              <abbr
+                className="text-xs text-gray-400 whitespace-nowrap ml-2 cursor-pointer"
+                title="Click to copy"
+                onClick={() => write(`sia://${item.skylink}`)}
+              >
                 sia://{item.skylink.substr(0, 5)}…{item.skylink.substr(-5)}
               </abbr>
             </div>
