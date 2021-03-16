@@ -30,6 +30,8 @@ import classnames from "classnames";
 // };
 
 export default function SelfServiceMessages({ messages = [] }) {
+  if (!messages) return null; // make sure we don't throw on invalid data
+
   return messages.map(({ text, type }) => (
     <p
       className={classnames("mt-2 text-sm", {

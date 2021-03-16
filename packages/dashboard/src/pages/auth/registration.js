@@ -117,7 +117,7 @@ export default function Registration({ flow }) {
         </p>
       </div>
 
-      <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign up" />
+      <SelfServiceForm flow={flow} config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign up" />
     </div>
   );
 }

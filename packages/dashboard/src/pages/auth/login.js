@@ -84,7 +84,7 @@ export default function Login({ flow }) {
         </p>
       </div>
 
-      <SelfServiceForm config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign in" />
+      <SelfServiceForm flow={flow} config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign in" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mt-2">
         <Link href="/recovery">
