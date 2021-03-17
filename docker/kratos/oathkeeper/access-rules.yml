@@ -68,6 +68,7 @@
     url: "http://oathkeeper<{,:4455}>/<{stripe/prices,stripe/webhook}>"
     methods:
       - GET
+      - POST
   authenticators:
     - handler: anonymous
   authorizer:
