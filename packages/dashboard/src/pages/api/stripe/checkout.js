@@ -46,6 +46,7 @@ export default async (req, res) => {
       line_items: [{ price, quantity: 1 }],
       customer: customer.id,
       client_reference_id: user.sub,
+      allow_promotion_codes: true,
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
     });
