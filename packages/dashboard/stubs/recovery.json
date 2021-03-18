@@ -1,0 +1,31 @@
+{
+  "id": "01e21a99-8e69-41f9-b3ba-4967f714c8eb",
+  "type": "browser",
+  "expires_at": "2021-03-18T15:46:30.634635Z",
+  "issued_at": "2021-03-18T14:46:30.634635Z",
+  "request_url": "http://oathkeeper:4455/self-service/recovery/browser",
+  "messages": null,
+  "methods": {
+    "link": {
+      "method": "link",
+      "config": {
+        "action": "http://127.0.0.1:4455/.ory/kratos/public/self-service/recovery/methods/link?flow=01e21a99-8e69-41f9-b3ba-4967f714c8eb",
+        "method": "POST",
+        "fields": [
+          {
+            "name": "csrf_token",
+            "type": "hidden",
+            "required": true,
+            "value": "XvPfLJzxmcTWnr2rmLzFcED9Ef1PIkqSBQgx5t0yu0WuIp2S6ll+B9cQ0ClIcLQ=="
+          },
+          {
+            "name": "email",
+            "type": "email",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "state": "choose_method"
+}
