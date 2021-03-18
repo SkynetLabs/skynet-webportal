@@ -8,6 +8,10 @@ const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public 
 export async function getServerSideProps(context) {
   const flow = context.query.flow;
 
+  // if (process.env.NODE_ENV === "development") {
+  //   return { props: { flow: require("../../../stubs/recovery.json") } };
+  // }
+
   // The flow is used to identify the login and registration flow and
   // return data like the csrf_token and so on.
   if (!flow || typeof flow !== "string") {
@@ -48,6 +52,8 @@ const fieldsConfig = {
 };
 
 export default function Recovery({ flow }) {
+  console.log(flow);
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -66,11 +72,17 @@ export default function Recovery({ flow }) {
         </svg>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Recover your account</h2>
         <p className="mt-2 text-center text-sm text-gray-600 max-w">
-          or{" "}
           <Link href="/auth/login">
             <a className="font-medium text-green-600 hover:text-green-500">sign in</a>
           </Link>{" "}
           if you suddenly remembered your password
+        </p>
+        <p className="mt-2 text-center text-sm text-gray-600 max-w">
+          or{" "}
+          <Link href="/auth/login">
+            <a className="font-medium text-green-600 hover:text-green-500">sign up</a>
+          </Link>{" "}
+          for a new account
         </p>
       </div>
 
