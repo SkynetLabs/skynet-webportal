@@ -5,7 +5,7 @@ ENV GOARCH amd64
 
 ARG branch=master
 
-RUN git clone https://gitlab.com/NebulousLabs/Sia.git --single-branch --branch ${branch}
+RUN git clone https://gitlab.com/skynetlabs/skyd.git --single-branch --branch ${branch}
 RUN make release --directory Sia
 
 FROM nebulouslabs/sia:1.5.4
