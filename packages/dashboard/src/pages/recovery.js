@@ -77,7 +77,7 @@ export default function Recovery({ flow }) {
         </p>
         <p className="mt-2 text-center text-sm text-gray-600 max-w">
           or{" "}
-          <Link href="/auth/login">
+          <Link href="/auth/registration">
             <a className="font-medium text-green-600 hover:text-green-500">sign up</a>
           </Link>{" "}
           for a new account
