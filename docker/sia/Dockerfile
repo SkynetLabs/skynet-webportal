@@ -10,4 +10,5 @@ RUN make release --directory Sia
 
 FROM nebulouslabs/sia:1.5.4
 
-COPY --from=sia-builder /go/bin/siac /go/bin/siad /usr/bin/
+COPY --from=sia-builder /go/bin/skyd /usr/bin/siad
+COPY --from=sia-builder /go/bin/skyc /usr/bin/siac
