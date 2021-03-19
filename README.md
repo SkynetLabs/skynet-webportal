@@ -15,21 +15,32 @@ List of available parameters:
 
 - `GATSBY_API_URL`: override api url (defaults to location origin)
 
+## License
+
+Skynet uses a custom [License](./LICENSE.md). The Skynet License is a source
+code license that allows you to use, modify and distribute the software, but
+you must preserve the payment mechanism in the software.
+
+For the purposes of complying with our code license, you can use the
+following Siacoin address:
+
+`fb6c9320bc7e01fbb9cd8d8c3caaa371386928793c736837832e634aaaa484650a3177d6714a`
+
 ### MongoDB Setup
 
 Mongo needs a couple of extra steps in order to start a secure cluster.
 
-* Open port 27017 on all nodes that will take part in the cluster. Ideally, you would only open the port for the other
+- Open port 27017 on all nodes that will take part in the cluster. Ideally, you would only open the port for the other
   nodes in the cluster.
-* Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
+- Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
   a password (example below).
-* Manually add a `mgkey` file under `./docker/data/mongo` with the respective secret (
+- Manually add a `mgkey` file under `./docker/data/mongo` with the respective secret (
   see [Mongo's keyfile access control](https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/)
   for details).
-* During the initialisation run mentioned above, we need to make two extra steps within the container:
-    * Change the ownership of `mgkey` to `mongodb:mongodb`
-    * Change its permissions to 400
-* After these steps are done we can open a mongo shell on the master node and run `rs.add()` in order to add the new
+- During the initialisation run mentioned above, we need to make two extra steps within the container:
+  - Change the ownership of `mgkey` to `mongodb:mongodb`
+  - Change its permissions to 400
+- After these steps are done we can open a mongo shell on the master node and run `rs.add()` in order to add the new
   node to the cluster.
 
 Example initialisation docker run command:
@@ -151,7 +162,7 @@ Steps:
    above command with the new node name.
 1. Put the contents of the `certs` folder under `docker/cockroach/certs/*` under your portal's root dir and store the
    content of `my-safe-directory` somewhere safe.
-1. Put *another copy* of those certificates under `docker/kratos/cr_certs` and change permissions of the `*.key` files,
+1. Put _another copy_ of those certificates under `docker/kratos/cr_certs` and change permissions of the `*.key` files,
    so they can be read by anyone (644).
 
 #### Configure your CockroachDB node
