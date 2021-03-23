@@ -9,14 +9,14 @@ COPY static ./static
 COPY gatsby-config.js .
 COPY package.json .
 
+ENV CYPRESS_INSTALL_BINARY 0
+
+RUN yarn --no-lockfile
+
 ARG WITH_ACCOUNTS=0
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV GATSBY_WITH_ACCOUNTS $WITH_ACCOUNTS
-ENV NODE_ENV production
-ENV CYPRESS_INSTALL_BINARY 0
-
-RUN yarn --no-lockfile
 
 EXPOSE 9000
 
