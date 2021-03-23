@@ -10,7 +10,7 @@ services:
   webapp:
     build:
       args:
-        WITH_ACCOUNTS: 0 # temporarily disable accounts frontend
+        WITH_ACCOUNTS: 1 # enable accounts frontend
 
   nginx:
     environment:

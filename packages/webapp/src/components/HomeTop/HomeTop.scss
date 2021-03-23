@@ -38,6 +38,10 @@
 
     &.auth-links {
       font-size: 18px;
+
+      .link {
+        font-weight: bold;
+      }
     }
 
     @media (min-width: $largebp) {
