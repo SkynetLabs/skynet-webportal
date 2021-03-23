@@ -98,6 +98,23 @@ services:
     volumes:
       - webapp:/usr/app/public
 
+  website:
+    build:
+      context: ./packages/website
+      dockerfile: Dockerfile
+    container_name: website
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/website/.cache:/usr/app/.cache
+    networks:
+      shared:
+        ipv4_address: 10.10.10.100
+    expose:
+      - 3000
+
   handshake:
     build:
       context: ./docker/handshake

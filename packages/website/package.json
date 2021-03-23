@@ -1,0 +1,70 @@
+{
+  "name": "website",
+  "private": true,
+  "description": "Skynet Labs official website",
+  "version": "0.1.0",
+  "author": "Skynet Labs Inc.",
+  "dependencies": {
+    "@fontsource/sora": "^4.2.2",
+    "@fontsource/source-sans-pro": "^4.2.2",
+    "@svgr/webpack": "^5.5.0",
+    "autoprefixer": "^10.2.5",
+    "classnames": "^2.2.6",
+    "gatsby": "^3.0.1",
+    "gatsby-background-image": "^1.5.0",
+    "gatsby-plugin-gatsby-cloud": "^2.0.0",
+    "gatsby-plugin-image": "^1.0.0",
+    "gatsby-plugin-manifest": "^3.0.0",
+    "gatsby-plugin-offline": "^4.0.0",
+    "gatsby-plugin-postcss": "^4.0.0",
+    "gatsby-plugin-purgecss": "^6.0.0",
+    "gatsby-plugin-react-helmet": "^4.0.0",
+    "gatsby-plugin-react-svg": "^3.0.0",
+    "gatsby-plugin-sharp": "^3.0.0",
+    "gatsby-source-filesystem": "^3.0.0",
+    "gatsby-transformer-sharp": "^3.0.0",
+    "normalize.css": "^8.0.1",
+    "postcss": "^8.2.8",
+    "preact-svg-loader": "^0.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
+    "react-svg-loader": "^3.0.3",
+    "tailwindcss": "^2.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@storybook/addon-actions": "^6.2.0-rc.2",
+    "@storybook/addon-essentials": "^6.2.0-rc.2",
+    "@storybook/addon-links": "^6.2.0-rc.2",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/addon-viewport": "^6.2.0-rc.2",
+    "@storybook/react": "^6.2.0-rc.2",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-inline-react-svg": "^2.0.1",
+    "prettier": "2.2.1"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NebulousLabs/skynet-webportal"
+  },
+  "bugs": {
+    "url": "https://github.com/NebulousLabs/skynet-webportal/issues"
+  }
+}

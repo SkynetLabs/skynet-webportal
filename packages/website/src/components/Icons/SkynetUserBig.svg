@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="131" viewBox="0 0 320 131">
+    <defs>
+        <filter id="d51k6oi84a">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g>
+                        <path fill="#00C65E" d="M99.41 100C114.094 100 126 88.136 126 73.5S114.095 47 99.41 47C89.618 47 58.481 55.833 6 73.5 58.482 91.167 89.619 100 99.41 100z" transform="translate(-800 -1089) translate(448 949) translate(352 140) translate(64) rotate(30 66 73.5)"/>
+                        <g filter="url(#d51k6oi84a)" transform="translate(-800 -1089) translate(448 949) translate(352 140) translate(64)">
+                            <g stroke-width="2">
+                                <path stroke="#222829" d="M62.5 51L62.5 55M55 48.5L66 48.5M53 44.5L71 44.5" transform="translate(34 32)"/>
+                                <g stroke="#222829">
+                                    <path d="M58 7v8l-8 13h-9c-1.656 0-3 1.344-3 3v17h-2v7" transform="translate(34 32) translate(33)"/>
+                                    <path d="M37 22L46 22 52 13M6 13L12 22 21 22" transform="translate(34 32) translate(33)"/>
+                                    <path d="M0 7v8l8 13h9c1.656 0 3 1.344 3 3v17h2v7" transform="translate(34 32) translate(33)"/>
+                                    <path d="M6 7c0 1.657-1.344 3-3 3S0 8.657 0 7s1.344-3 3-3 3 1.343 3 3zM58 7c0 1.657-1.344 3-3 3s-3-1.343-3-3 1.344-3 3-3 3 1.343 3 3zM42.5 35L42.5 37M42.5 39L42.5 41M42.5 43L42.5 45M16.5 35L16.5 37M16.5 39L16.5 41M16.5 43L16.5 45M38 9c0 4.971-4.029 9-9 9s-9-4.029-9-9 4.029-9 9-9 9 4.029 9 9z" transform="translate(34 32) translate(33)"/>
+                                </g>
+                                <g stroke="#222829" stroke-linejoin="round">
+                                    <path d="M20 0H6C2.688 0 0 2.686 0 6v60M108 66V6c0-3.314-2.688-6-6-6H88M44 60.5L48 60.5M36 60.5L40 60.5M52 60.5L56 60.5M60 60.5L64 60.5M68 60.5L72 60.5" transform="translate(34 32) translate(8 14)"/>
+                                    <path d="M88 8L100 8 100 60 76 60M32 60L8 60 8 8 20 8" transform="translate(34 32) translate(8 14)"/>
+                                </g>
+                                <path stroke="#00C65E" stroke-linejoin="round" d="M116 98L8 98 0 90 0 86 48 86 52 90 72 90 76 86 124 86 124 90z" transform="translate(34 32)"/>
+                            </g>
+                        </g>
+                        <path stroke="#0D0D0D" stroke-linejoin="round" stroke-width="2" d="M177.6 54.514L186.88 58 179.92 44.054 195 38.243 179.92 33.595 188.04 20.811 171.8 26.622 166 15 160.2 26.622 143.96 20.811 152.08 34.757 137 38.243 152.08 44.054" transform="translate(-800 -1089) translate(448 949) translate(352 140) translate(64) rotate(45 166 36.5)"/>
+                        <path stroke="#0D0D0D" stroke-linejoin="round" stroke-width="2" d="M168 41c0 3.314-2.687 6-6 6-3.312 0-6-2.686-6-6 0-3.313 2.688-6 6-6 3.313 0 6 2.687 6 6z" transform="translate(-800 -1089) translate(448 949) translate(352 140) translate(64)"/>
+                        <path stroke="#0D0D0D" stroke-width="2" d="M27.662 58.841L14.038 43.5 31.449 47" transform="translate(-800 -1089) translate(448 949) translate(352 140) translate(64)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
