@@ -92,7 +92,6 @@ services:
     logging: *default-logging
     volumes:
       - ./docker/data/webapp/.cache:/usr/app/.cache
-      - ./docker/data/webapp/public:/usr/app/public
     networks:
       shared:
         ipv4_address: 10.10.10.35
