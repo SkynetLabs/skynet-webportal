@@ -20,4 +20,4 @@ RUN yarn --no-lockfile
 
 EXPOSE 9000
 
-CMD [ "sh", "-c", "yarn build && yarn serve" ]
+CMD [ "sh", "-c", "yarn build && yarn serve --host 0.0.0.0" ]
