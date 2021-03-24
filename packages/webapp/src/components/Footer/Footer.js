@@ -22,28 +22,8 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://sialoop.net" target="_blank" rel="noopener noreferrer">
-                sialoop.net
-              </a>
-            </li>
-            <li>
-              <a href="https://skynet.luxor.tech" target="_blank" rel="noopener noreferrer">
-                skynet.luxor.tech
-              </a>
-            </li>
-            <li>
-              <a href="https://skynet.tutemwesi.com" target="_blank" rel="noopener noreferrer">
-                skynet.tutemwesi.com
-              </a>
-            </li>
-            <li>
-              <a href="https://siacdn.com" target="_blank" rel="noopener noreferrer">
-                siacdn.com
-              </a>
-            </li>
-            <li>
-              <a href="https://vault.lightspeedhosting.com" target="_blank" rel="noopener noreferrer">
-                vault.lightspeedhosting.com
+              <a href="https://skyportal.xyz" target="_blank" rel="noopener noreferrer">
+                skyportal.xyz
               </a>
             </li>
           </ul>
