@@ -4,14 +4,15 @@ RUN apk update && apk add autoconf automake libtool gcc make g++ zlib-dev file n
 
 WORKDIR /usr/app
 
-COPY src ./src
-COPY static ./static
-COPY gatsby-config.js .
 COPY package.json .
 
 ENV CYPRESS_INSTALL_BINARY 0
 
 RUN yarn --no-lockfile
+
+COPY src ./src
+COPY static ./static
+COPY gatsby-config.js .
 
 ARG WITH_ACCOUNTS=0
 
