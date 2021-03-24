@@ -13,43 +13,6 @@ export default function Footer() {
         </div>
 
         <div className="footer-column">
-          <h2>Skynet Webportals</h2>
-
-          <ul>
-            <li>
-              <a href="https://skydrain.net" target="_blank" rel="noopener noreferrer">
-                skydrain.net
-              </a>
-            </li>
-            <li>
-              <a href="https://sialoop.net" target="_blank" rel="noopener noreferrer">
-                sialoop.net
-              </a>
-            </li>
-            <li>
-              <a href="https://skynet.luxor.tech" target="_blank" rel="noopener noreferrer">
-                skynet.luxor.tech
-              </a>
-            </li>
-            <li>
-              <a href="https://skynet.tutemwesi.com" target="_blank" rel="noopener noreferrer">
-                skynet.tutemwesi.com
-              </a>
-            </li>
-            <li>
-              <a href="https://siacdn.com" target="_blank" rel="noopener noreferrer">
-                siacdn.com
-              </a>
-            </li>
-            <li>
-              <a href="https://vault.lightspeedhosting.com" target="_blank" rel="noopener noreferrer">
-                vault.lightspeedhosting.com
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="footer-column">
           <h2>For Developers</h2>
 
           <ul>
