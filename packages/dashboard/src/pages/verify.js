@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Configuration, PublicApi } from "@ory/kratos-client";
 import config from "../config";
 import SelfServiceForm from "../components/Form/SelfServiceForm";
+import { useEffect } from "react";
 
 const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
 
@@ -50,7 +51,13 @@ const fieldsConfig = {
 };
 
 export default function Verify({ flow }) {
-  console.log(flow);
+  const state = flow.state;
+
+  useEffect(() => {
+    if (state === "passed_challenge") {
+      setTimeout(() => (window.location = "/"), 5000);
+    }
+  }, [state]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -68,28 +75,30 @@ export default function Verify({ flow }) {
             fillRule="evenodd"
           />
         </svg>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Account verification</h2>
-        {/* <p className="mt-2 text-center text-sm text-gray-600 max-w">
-          <Link href="/auth/login">
-            <a className="font-medium text-green-600 hover:text-green-500">sign in</a>
-          </Link>{" "}
-          if you suddenly remembered your password
-        </p>
-        <p className="mt-2 text-center text-sm text-gray-600 max-w">
-          or{" "}
-          <Link href="/auth/registration">
-            <a className="font-medium text-green-600 hover:text-green-500">sign up</a>
-          </Link>{" "}
-          for a new account
-        </p> */}
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          {flow.state === "passed_challenge" ? "Verification successful!" : "Account verification"}
+        </h2>
+
+        {flow.state === "passed_challenge" && (
+          <>
+            <p className="mt-2 text-center text-sm text-gray-600 max-w">You will be redirected automatically</p>
+            <p className="mt-2 text-center text-sm text-gray-600 max-w">
+              <Link href="/auth/registration">
+                <a className="font-medium text-green-600 hover:text-green-500">go to dashboard</a>
+              </Link>
+            </p>
+          </>
+        )}
       </div>
 
-      <SelfServiceForm
-        flow={flow}
-        config={flow.methods.link.config}
-        fieldsConfig={fieldsConfig}
-        button="Resend verification link"
-      />
+      {flow.state !== "passed_challenge" && (
+        <SelfServiceForm
+          flow={flow}
+          config={flow.methods.link.config}
+          fieldsConfig={fieldsConfig}
+          button="Resend verification link"
+        />
+      )}
     </div>
   );
 }
