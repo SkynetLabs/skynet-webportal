@@ -29,7 +29,6 @@ export async function getServerSideProps(context) {
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
-    console.log(error);
     return {
       redirect: {
         permanent: false,
@@ -83,7 +82,7 @@ export default function Verify({ flow }) {
           <>
             <p className="mt-2 text-center text-sm text-gray-600 max-w">You will be redirected automatically</p>
             <p className="mt-2 text-center text-sm text-gray-600 max-w">
-              <Link href="/auth/registration">
+              <Link href="/">
                 <a className="font-medium text-green-600 hover:text-green-500">go to dashboard</a>
               </Link>
             </p>
