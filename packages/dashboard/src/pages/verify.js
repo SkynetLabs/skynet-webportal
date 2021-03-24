@@ -38,6 +38,17 @@ export async function getServerSideProps(context) {
   }
 }
 
+const fieldsConfig = {
+  email: {
+    label: "Your email",
+    autoComplete: "email",
+    position: 0,
+  },
+  csrf_token: {
+    position: 99,
+  },
+};
+
 export default function Verify({ flow }) {
   console.log(flow);
 
