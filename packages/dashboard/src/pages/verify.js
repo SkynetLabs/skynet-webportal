@@ -73,12 +73,12 @@ export default function Verify({ flow }) {
         </p> */}
       </div>
 
-      {/* <SelfServiceForm
+      <SelfServiceForm
         flow={flow}
         config={flow.methods.link.config}
         fieldsConfig={fieldsConfig}
-        button="Send recovery link"
-      /> */}
+        button="Resend verification link"
+      />
     </div>
   );
 }
