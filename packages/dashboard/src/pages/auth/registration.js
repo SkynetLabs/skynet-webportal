@@ -66,7 +66,7 @@ const fieldsConfig = {
     position: 4,
     checks: [
       {
-        label: "At least 6 charactes long",
+        label: "At least 6 characters long",
         validate: (values, field) => {
           const value = getIn(values, field);
 
