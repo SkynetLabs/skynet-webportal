@@ -98,7 +98,7 @@ const Navigation = ({ mode }) => {
       >
         <ul className="pt-4 pb-10 space-y-2">
           {routes.map(({ title, route }) => (
-            <li>
+            <li key={title}>
               <Link key={route} to={route} className="text-xl leading-7 font-semibold text-white">
                 {title}
               </Link>

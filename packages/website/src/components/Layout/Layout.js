@@ -15,6 +15,19 @@ import Navigation from "../Navigation/Navigation";
 import NewsHeader from "../NewsHeader/NewsHeader";
 import Footer from "../Footer/Footer";
 import FooterNavigation from "../FooterNavigation/FooterNavigation";
+// import { useWindowScroll } from "react-use";
+import classnames from "classnames";
+
+const StickyHeader = () => {
+  // const { y } = useWindowScroll();
+
+  return (
+    <div className={classnames("sticky top-0", { "bg-white border-b border-palette-200": false })}>
+      <NewsHeader />
+      <Navigation mode={false ? "light" : "dark"} />
+    </div>
+  );
+};
 
 const Layout = ({ children }) => {
   // const data = useStaticQuery(graphql`
@@ -40,13 +53,12 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <NewsHeader />
       <BackgroundImage
         {...background}
         className="bg-palette-600"
         style={{ backgroundPosition: "center top", backgroundSize: "contain" }}
       >
-        <Navigation mode="dark" />
+        <StickyHeader />
         <main>{children}</main>
       </BackgroundImage>
       <FooterNavigation />
