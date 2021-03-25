@@ -8,6 +8,8 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
+import { getImage } from "gatsby-plugin-image";
+import { convertToBgImage } from "gbimage-bridge";
 import BackgroundImage from "gatsby-background-image";
 import Navigation from "../Navigation/Navigation";
 import NewsHeader from "../NewsHeader/NewsHeader";
@@ -25,24 +27,26 @@ const Layout = ({ children }) => {
   //   }
   // `);
 
-  const data = useStaticQuery(graphql`
+  const { ripple } = useStaticQuery(graphql`
     query {
       ripple: file(relativePath: { eq: "ripple.png" }) {
         childImageSharp {
-          fluid(maxWidth: 1440) {
-            ...GatsbyImageSharpFluid
-          }
+          gatsbyImageData(layout: FULL_WIDTH)
         }
       }
     }
   `);
+  const background = convertToBgImage(getImage(ripple));
 
   return (
     <>
       <NewsHeader />
-      <BackgroundImage fluid={data.ripple.childImageSharp.fluid} className="bg-palette-600">
+      <BackgroundImage
+        {...background}
+        className="bg-palette-600"
+        style={{ backgroundPosition: "center top", backgroundSize: "contain" }}
+      >
         <Navigation mode="dark" />
-
         <main>{children}</main>
       </BackgroundImage>
       <FooterNavigation />

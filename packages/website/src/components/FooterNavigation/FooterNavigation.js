@@ -1,5 +1,6 @@
 import * as React from "react";
 import classnames from "classnames";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sections = [
   {
@@ -29,7 +30,7 @@ const sections = [
       { title: "Technology Guide", href: "/" },
       { title: "Pricing", href: "/" },
       { title: "Skynet Wiki", href: "/" },
-      { title: "Support", href: "/" },
+      { title: "Support", href: "https://support.siasky.net", target: "_blank" },
     ],
   },
   {
@@ -37,20 +38,16 @@ const sections = [
     links: [
       { title: "Sia Foundation", href: "/" },
       { title: "Sia Foundation Forum", href: "/" },
-      { title: "Sia.tech", href: "/" },
-      { title: "SiaStats", href: "/" },
+      { title: "Sia.tech", href: "https://sia.tech", target: "_blank" },
+      { title: "SiaStats", href: "https://siastats.info", target: "_blank" },
       { title: "Skynet AppStore", href: "/" },
     ],
   },
   {
     header: "Skynet Webportals",
     links: [
-      { title: "Skydrain", href: "/" },
-      { title: "Sialoop", href: "/" },
-      { title: "Skynet.luxor", href: "/" },
-      { title: "Skynet.tutemwesi", href: "/" },
-      { title: "Siacdn", href: "/" },
-      { title: "Valut.lightspeedhosting", href: "/" },
+      { title: "Skydrain", href: "https://skydrain.net/", target: "_blank" },
+      { title: "SkyPortal", href: "https://skyportal.xyz", target: "_blank" },
     ],
   },
 ];
@@ -68,19 +65,48 @@ const FooterNavigation = () => {
                 "text-primary": activeSection === section,
                 "text-palette-300": activeSection !== section,
               })}
-              onClick={() => setActiveSection(section)}
+              onClick={() => setActiveSection(activeSection === section ? null : section)}
             >
               {section.header}
             </h3>
-            <ul className={classnames("mt-4 desktop:block", { hidden: activeSection !== section })}>
+
+            {/* desktop */}
+            <ul className="hidden desktop:block">
               {section.links.map(({ title, ...rest }) => (
-                <li key={title}>
+                <li key={title} className="mt-1 first:mt-4">
                   <a {...rest} className="text-white font-content">
                     {title}
                   </a>
                 </li>
               ))}
             </ul>
+
+            {/* mobile */}
+            <div className="desktop:hidden">
+              <AnimatePresence initial={false}>
+                {activeSection === section && (
+                  <motion.ul
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 },
+                    }}
+                    className="overflow-hidden"
+                    transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+                  >
+                    {section.links.map(({ title, ...rest }) => (
+                      <li key={title} className="mt-1 first:mt-4">
+                        <a {...rest} className="text-white font-content">
+                          {title}
+                        </a>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         ))}
       </div>

@@ -1,5 +1,4 @@
 export { default as ArrowRight } from "./ArrowRight.svg";
-export { default as ArrowRightPrimary } from "./ArrowRightPrimary.svg";
 export { default as CheckActive } from "./CheckActive.svg";
 export { default as DiscordSmall } from "./DiscordSmall.svg";
 export { default as DiscordSmallWhite } from "./DiscordSmallWhite.svg";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "gatsby";
-import { ArrowRightPrimary, DiscordSmallWhite } from "../Icons";
+import { ArrowRight, DiscordSmallWhite } from "../Icons";
 
 const NewsHeader = () => {
   return (
@@ -9,11 +9,11 @@ const NewsHeader = () => {
         <div className="flex justify-between">
           <Link
             to="/news"
-            className="text-palette-300 font-content leading-8 flex items-center overflow-hidden"
+            className="text-palette-300 font-content leading-8 flex items-center overflow-hidden text-base"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <ArrowRightPrimary className="mr-2 flex-shrink-0" />
+            <ArrowRight className="mr-2 flex-shrink-0 fill-current text-primary" />
             <span className="truncate">Skynet Announces SkyDB, Unlocking Fully Decentralized Internet</span>
           </Link>
 

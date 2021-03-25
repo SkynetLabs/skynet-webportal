@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <filter id="persistence-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#00C65E" d="M31.0004,9.9997 L8.0004,18.9997 L8.0004,39.9997 C8.0004,57.9997 31.0004,69.9997 31.0004,69.9997 C31.0004,69.9997 31.0004,49.9997 31.0004,9.9997 Z"/>
+    <g filter="url(#persistence-a)">
+      <g transform="translate(8 10)">
+        <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="10.224 40 16.22 40 24.218 26 32.214 38 40.214 26 48.215 38 56.214 24 62.224 24"/>
+        <rect width="2" height="2" x="6" y="39" fill="#1C1C1C"/>
+        <rect width="2" height="2" x="64" y="23" fill="#1C1C1C"/>
+        <path stroke="#000" stroke-linejoin="round" stroke-width="2" d="M48.0004,21.3006677 L48.0004,8.9997 L24.0004,-0.0003 L0.0004,8.9997 L0.0004,29.9997 C0.0004,47.9997 24.0004,59.9997 24.0004,59.9997 C24.0004,59.9997 36.90184,53.5487323 43.786,43.0119581"/>
+        <rect width="2" height="16" x="22" y="1" fill="#D8D8D8"/>
+      </g>
+    </g>
+  </g>
+</svg>

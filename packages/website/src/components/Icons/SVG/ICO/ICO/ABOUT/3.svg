@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <filter id="3-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+    <polygon id="3-b" points="0 .5 64 .5 64 3.5 0 3.5"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <rect width="31" height="32" x="9" y="9" fill="#00C65E"/>
+    <g filter="url(#3-a)">
+      <g transform="translate(8 9)">
+        <path stroke="#222829" stroke-linejoin="round" stroke-width="2" d="M29.0002 27C29.0002 25.344 30.3442 24 32.0002 24 33.6562 24 35.0002 25.344 35.0002 27M32.0002 20C35.8662 20 39.0002 23.134 39.0002 27M25.0002 27C25.0002 25.093 25.7632 23.363 27.0002 22.102"/>
+        <path stroke="#222829" stroke-linejoin="round" stroke-width="2" d="M21.0002 27C21.0002 20.925 25.9252 16 32.0002 16 38.0752 16 43.0002 20.925 43.0002 27M41.9982 15.8184C45.0682 18.5644 47.0002 22.5564 47.0002 27.0004M17.0002 27C17.0002 18.716 23.7162 12 32.0002 12"/>
+        <path stroke="#222829" stroke-linejoin="round" stroke-width="2" d="M26.0002 8.9668C27.8862 8.3398 29.9022 7.9998 32.0002 7.9998 42.4932 7.9998 51.0002 16.5068 51.0002 26.9998M13.0002 27C13.0002 21.971 14.9532 17.398 18.1452 14M53.1721 17.998C54.3501 20.763 55.0001 23.806 55.0001 27"/>
+        <path stroke="#222829" stroke-linejoin="round" stroke-width="2" d="M10.0852,20 C13.0472,10.72 21.7382,4 32.0002,4 C39.8782,4 46.8302,7.961 50.9762,13.999"/>
+        <g transform="translate(0 31)">
+          <mask id="3-c" fill="#fff">
+            <use xlink:href="#3-b"/>
+          </mask>
+          <line x2="64" y1="2" y2="2" stroke="#222829" stroke-linejoin="round" stroke-width="2" mask="url(#3-c)"/>
+        </g>
+        <line x1="9" x2="9" y1="43" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="9" x2="9" y1="37" y2="41" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="17" x2="17" y1="41" y2="47" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="17" x2="17" y1="49" y2="55" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="17" x2="17" y1="35" y2="37" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="13" x2="13" y1="47" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="13" x2="13" y1="39" y2="45" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="13" x2="13" y1="32" y2="37" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="13" x2="13" y1="51" y2="57" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="9" x2="9" y1="51" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="25" x2="25" y1="51" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="21" x2="21" y1="55" y2="57" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="25" x2="25" y1="35" y2="39" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="25" x2="25" y1="41" y2="47" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="21" x2="21" y1="39" y2="43" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="21" x2="21" y1="32" y2="37" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="21" x2="21" y1="45" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="43" x2="43" y1="41" y2="43" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="43" x2="43" y1="51" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="43" x2="43" y1="32" y2="39" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="43" x2="43" y1="45" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="35" x2="35" y1="55" y2="57" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="39" x2="39" y1="47" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="39" x2="39" y1="37" y2="45" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="39" x2="39" y1="51" y2="57" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="51" x2="51" y1="53" y2="57" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="51" x2="51" y1="35" y2="43" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="51" x2="51" y1="45" y2="51" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="47" x2="47" y1="35" y2="43" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="47" x2="47" y1="47" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="55" x2="55" y1="32" y2="39" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="55" x2="55" y1="47" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="55" x2="55" y1="53" y2="55" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="55" x2="55" y1="41" y2="45" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="35" x2="35" y1="45" y2="47" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="35" x2="35" y1="35" y2="43" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="35" x2="35" y1="49" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="29" x2="29" y1="47" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="29" x2="29" y1="43" y2="45" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="29" x2="29" y1="32" y2="41" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="29" x2="29" y1="51" y2="55" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="55" x2="55" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="51" x2="51" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="43" x2="43" y1="27" y2="29" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="35" x2="35" y1="27" y2="29" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="29" x2="29" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="25" x2="25" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="21" x2="21" y1="27" y2="29" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="9" x2="9" y1="27" y2="35" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="17" x2="17" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="39" x2="39" y1="27" y2="32" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="13" x2="13" y1="27" y2="29" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="39" x2="39" y1="32" y2="35" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="63 53 63 62 54 62"/>
+        <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="10 62 1 62 1 53"/>
+        <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="10 0 1 0 1 9"/>
+        <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="54 0 63 0 63 9"/>
+        <line x1="4" x2="6" y1="4" y2="4" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="58" x2="60" y1="4" y2="4" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="4" x2="6" y1="58" y2="58" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+        <line x1="58" x2="60" y1="58" y2="58" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

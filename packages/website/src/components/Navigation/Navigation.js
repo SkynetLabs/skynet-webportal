@@ -51,7 +51,7 @@ const Navigation = ({ mode }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <nav className={classnames("p-8", { "bg-palette-600": open }, "desktop:bg-transparent")}>
+    <nav className={classnames("relative px-8 py-12", { "bg-palette-600": open }, "desktop:bg-transparent")}>
       <div className="max-w-layout mx-auto">
         <div className="flex justify-between">
           <Link to="/" className={classnames("flex flex-shrink-0 items-center", { hidden: open }, "desktop:flex")}>
@@ -89,14 +89,22 @@ const Navigation = ({ mode }) => {
           </div>
         </div>
       </div>
-      <div className={classnames("desktop:hidden", { block: open, hidden: !open })} id="mobile-menu">
-        <div className="pt-4 pb-10 flex flex-col space-y-2">
+      <div
+        className={classnames("absolute bg-palette-600 inset-x-0 px-8 pb-12 desktop:hidden", {
+          block: open,
+          hidden: !open,
+        })}
+        id="mobile-menu"
+      >
+        <ul className="pt-4 pb-10 space-y-2">
           {routes.map(({ title, route }) => (
-            <Link key={route} to={route} className="text-xl leading-7 font-semibold text-white">
-              {title}
-            </Link>
+            <li>
+              <Link key={route} to={route} className="text-xl leading-7 font-semibold text-white">
+                {title}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
         <div className="border-t border-palette-500 py-7">
           <a
             href="https://discordapp.com/invite/sia"
@@ -104,7 +112,7 @@ const Navigation = ({ mode }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <DiscordSmall className="mr-2" />
+            <DiscordSmall className="mr-2 fill-current text-white" />
             <span>Join our Discord</span>
           </a>
         </div>

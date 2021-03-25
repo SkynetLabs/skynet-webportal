@@ -38,6 +38,21 @@ const SmallIconCard = ({ Icon, title, text }) => (
   </div>
 );
 
+const LearnMoreButton = () => (
+  <a
+    href="https://secure.siasky.net"
+    className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
+  >
+    Learn more
+  </a>
+);
+
+const SectionTitle = ({ children, className, ...props }) => (
+  <h2 className={classnames("text-4xl font-semibold text-palette-600", className)} {...props}>
+    {children}
+  </h2>
+);
+
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
@@ -47,13 +62,9 @@ const IndexPage = () => (
     </Section>
 
     <Section className="bg-white py-32">
-      <h2 className="text-4xl font-semibold text-palette-600 text-center mb-11">
-        The new decentralized
-        <br />
-        internet is here
-      </h2>
+      <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>
 
-      <div class="grid grid-cols-1 gap-8 desktop:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 desktop:grid-cols-3">
         <BigIcon Icon={SkynetToolBig} text="Build a freer future" />
         <BigIcon Icon={SkynetUserBig} text="Fight corporate control of user data" />
         <BigIcon Icon={SkynetPowerBig} text="Empower global citizens" />
@@ -72,15 +83,13 @@ const IndexPage = () => (
     </Section>
 
     <Section className="bg-palette-100 py-32">
-      <div class="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3 desktop:grid-rows-2">
-        <div>
-          <h3 className="text-4xl font-semibold text-palette-600">Ready to build your application?</h3>
-          <a
-            href="https://secure.siasky.net"
-            className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
-          >
-            Learn more
-          </a>
+      <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
+
+      <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3 desktop:grid-rows-2">
+        <div className="hidden desktop:inline-block">
+          <SectionTitle>Ready to build your application?</SectionTitle>
+
+          <LearnMoreButton />
         </div>
 
         <SmallIconCard
@@ -108,6 +117,10 @@ const IndexPage = () => (
           title="Persistence"
           text="Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down."
         />
+      </div>
+
+      <div className="desktop:hidden mt-12 text-center">
+        <LearnMoreButton />
       </div>
     </Section>
 

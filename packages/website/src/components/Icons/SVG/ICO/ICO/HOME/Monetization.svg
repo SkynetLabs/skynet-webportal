@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <filter id="monetization-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.109804 0 0 0 0 0.109804 0 0 0 0 0.109804 0 0 0 1.000000 0"/>
+    </filter>
+    <filter id="monetization-b">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.000000 0 0 0 0 0.776471 0 0 0 0 0.368627 0 0 0 1.000000 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#00C65E" d="M57.5,37 C57.5,46.389 49.889,54 40.5,54 C31.111,54 23.5,46.389 23.5,37 C23.5,27.611 31.111,20 40.5,20 C49.889,20 57.5,27.611 57.5,37 Z"/>
+    <g filter="url(#monetization-a)">
+      <g filter="url(#monetization-b)">
+        <g transform="translate(8.5 6)">
+          <line x1="47" x2="63" y1="58" y2="58" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+          <polyline stroke="#222829" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="59 62 63 58 59 54"/>
+          <polyline stroke="#222829" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="36 8 32 4 36 0"/>
+          <path stroke="#222829" stroke-width="2" d="M32,4 C46.912,4 59,16.088 59,31 C59,45.912 46.912,58 32,58 L0,58"/>
+          <path stroke="#222829" stroke-linejoin="round" stroke-width="2" d="M18.0039,54.0957 C10.2079,49.3597 4.9999,40.7867 4.9999,30.9997 C4.9999,17.7717 14.5139,6.7637 27.0739,4.4497"/>
+          <path stroke="#222829" stroke-width="2" d="M49,31 C49,40.389 41.389,48 32,48 C22.611,48 15,40.389 15,31 C15,21.611 22.611,14 32,14 C41.389,14 49,21.611 49,31 Z"/>
+          <line x1="32" x2="32" y1="39" y2="42" stroke="#222829" stroke-width="2"/>
+          <line x1="32" x2="32" y1="20" y2="23" stroke="#222829" stroke-width="2"/>
+          <path stroke="#222829" stroke-width="2" d="M28,35 C28,37.209 29.791,39 32,39 C34.209,39 36,37.209 36,35 C36,32.791 32,31 32,31 C32,31 28,29.209 28,27 C28,24.791 29.791,23 32,23 C34.209,23 36,24.791 36,27"/>
+          <line x1="23" x2="21" y1="31" y2="31" stroke="#222829" stroke-width="2"/>
+          <line x1="43" x2="41" y1="31" y2="31" stroke="#222829" stroke-width="2"/>
+        </g>
+      </g>
+      <rect width="42" height="2" x="20" y="71" fill="#D8D8D8"/>
+    </g>
+  </g>
+</svg>

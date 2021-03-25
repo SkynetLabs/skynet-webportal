@@ -62,14 +62,20 @@ const CommunitySection = () => {
           </div>
 
           <div className="flex items-center mt-4">
-            <input type="checkbox" id="newsletter-experience" className="sr-only" />
+            <input
+              type="checkbox"
+              id="newsletter-experience"
+              className="sr-only"
+              value={experienced}
+              onChange={() => setExperienced(!experienced)}
+            />
             <button type="button" onClick={() => setExperienced(!experienced)}>
               <CheckActive
                 className={classnames("bg-palette-600 rounded-full h-6 w-6", { "opacity-20": !experienced })}
               />
             </button>
-            <label htmlFor="newsletter-experience" className="text-xs font-content ml-2">
-              Do You have a previous experience using Skynet?
+            <label htmlFor="newsletter-experience" className="text-xs font-content pl-2 leading-6 cursor-pointer">
+              Do you have previous experience using Skynet?
             </label>
           </div>
         </form>
@@ -78,7 +84,7 @@ const CommunitySection = () => {
       <div className="desktop:col-span-2">
         <SectionHeader>Community</SectionHeader>
         <SectionTitle>Join our community</SectionTitle>
-        <div className="grid grid-cols-2 desktop:grid-cols-6">
+        <div className="grid grid-cols-2 desktop:grid-cols-6 max-w-column desktop:max-w-full">
           {social.map(({ name, Icon, href }) => (
             <a
               key={name}
@@ -87,7 +93,7 @@ const CommunitySection = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Icon className="mr-2 fill-current text-red-400" />
+              <Icon className="mr-2 fill-current" />
               <span>{name}</span>
             </a>
           ))}

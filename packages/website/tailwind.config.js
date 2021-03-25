@@ -38,6 +38,7 @@ module.exports = {
         },
       },
       maxWidth: {
+        column: "320px",
         tablet: "640px",
         desktop: "1024px",
         content: "992px",
@@ -52,6 +53,7 @@ module.exports = {
     extend: {
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
+      margin: ["first"],
     },
   },
   plugins: [],
