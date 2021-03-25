@@ -50,20 +50,10 @@ const fieldsConfig = {
     autoComplete: "email",
     position: 0,
   },
-  "traits.name.first": {
-    label: "First name",
-    autoComplete: "given-name",
-    position: 1,
-  },
-  "traits.name.last": {
-    label: "Last name",
-    autoComplete: "family-name",
-    position: 2,
-  },
   password: {
     label: "Password",
     autoComplete: "new-password",
-    position: 4,
+    position: 1,
     checks: [
       {
         label: "At least 6 characters long",
