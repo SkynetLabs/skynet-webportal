@@ -34,9 +34,7 @@
             "required": true,
             "value": "i33iydUBN6jqwrkHlLPZ3ap7Ah4uC0UrTadn7zKT0jyouDpr+DF0/1Hbkshye9t7IKwyzOcLt7i6oR/OoEVg+g=="
           },
-          { "name": "traits.email", "type": "email", "value": "karol@nebulous.tech" },
-          { "name": "traits.name.first", "type": "text", "value": "Karol" },
-          { "name": "traits.name.last", "type": "text", "value": "Wypchło" }
+          { "name": "traits.email", "type": "email", "value": "karol@nebulous.tech" }
         ]
       }
     }
@@ -45,7 +43,7 @@
     "id": "ab776d6d-f324-4fa7-a728-7587d5215481",
     "schema_id": "default",
     "schema_url": "",
-    "traits": { "email": "karol@nebulous.tech", "name": { "first": "Karol", "last": "Wypchło" } }
+    "traits": { "email": "karol@nebulous.tech" }
   },
   "state": "show_form"
 }
