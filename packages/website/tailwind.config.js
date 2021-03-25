@@ -18,7 +18,7 @@ module.exports = {
       tablet: "640px",
       md: "768px",
       lg: "1024px",
-      desktop: "1088px",
+      desktop: "1024px",
       xl: "1280px",
       hires: "1408px",
       "2xl": "1536px",
@@ -31,6 +31,9 @@ module.exports = {
       fontFamily: {
         sans: ["Sora", ...defaultTheme.fontFamily.sans],
         content: ["Source\\ Sans\\ Pro", ...defaultTheme.fontFamily.sans],
+      },
+      fontSize: {
+        xxs: ["0.625rem", "0.75rem"],
       },
       colors: {
         primary: {
@@ -51,6 +54,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      animation: ["hover"],
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
       margin: ["first"],

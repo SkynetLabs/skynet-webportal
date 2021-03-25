@@ -1,5 +1,9 @@
+export { default as Add } from "./Add.svg";
 export { default as ArrowRight } from "./ArrowRight.svg";
+export { default as ArrowUpCircle } from "./ArrowUpCircle.svg";
 export { default as CheckActive } from "./CheckActive.svg";
+export { default as CheckCircle } from "./CheckCircle.svg";
+export { default as Cloud } from "./Cloud.svg";
 export { default as DiscordSmall } from "./DiscordSmall.svg";
 export { default as DiscordSmallWhite } from "./DiscordSmallWhite.svg";
 export { default as LogoBlackText } from "./LogoBlackText.svg";

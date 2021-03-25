@@ -15,16 +15,26 @@ import Navigation from "../Navigation/Navigation";
 import NewsHeader from "../NewsHeader/NewsHeader";
 import Footer from "../Footer/Footer";
 import FooterNavigation from "../FooterNavigation/FooterNavigation";
-// import { useWindowScroll } from "react-use";
+import { useWindowScroll } from "react-use";
 import classnames from "classnames";
+import { readableColor } from "polished";
+
+const modeMap = { "#fff": "dark", "#000": "light" };
 
 const StickyHeader = () => {
-  // const { y } = useWindowScroll();
+  useWindowScroll();
+
+  const ref = React.useRef(null);
+  const element = document.elementFromPoint(0, ref.current?.offsetHeight ?? 0);
+
+  const backgroundColor = window.getComputedStyle(element, null).getPropertyValue("background-color");
+  const color = React.useMemo(() => readableColor(backgroundColor), [backgroundColor]);
+  const mode = modeMap[color];
 
   return (
-    <div className={classnames("sticky top-0", { "bg-white border-b border-palette-200": false })}>
+    <div ref={ref} className={classnames("sticky top-0 z-50", { "bg-white border-b border-palette-200": false })}>
       <NewsHeader />
-      <Navigation mode={false ? "light" : "dark"} />
+      <Navigation mode={mode} />
     </div>
   );
 };

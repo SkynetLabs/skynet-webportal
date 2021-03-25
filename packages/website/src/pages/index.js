@@ -1,9 +1,10 @@
 import * as React from "react";
 // import { StaticImage } from "gatsby-plugin-image";
-import Layout from "../components/Layout/Layout";
+import Layout from "../components/Layout";
 import SEO from "../components/seo";
-import HeroStartPage from "../components/HeroStartPage/HeroStartPage";
+import HeroStartPage from "../components/HeroStartPage";
 import CommunitySection from "../components/CommunitySection";
+import Uploader from "../components/Uploader";
 import {
   ArrowRight,
   SkynetToolBig,
@@ -17,8 +18,8 @@ import {
 } from "../components/Icons";
 import classnames from "classnames";
 
-const Section = ({ children, className }) => (
-  <div className={classnames("px-8 p-3", className)}>
+const Section = ({ children, className, ...props }) => (
+  <div className={classnames("p-8", className)} {...props}>
     <div className="max-w-content mx-auto">{children}</div>
   </div>
 );
@@ -57,8 +58,13 @@ const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
 
-    <Section className="py-24">
+    <Section>
       <HeroStartPage />
+    </Section>
+
+    <Section className="relative">
+      {/* <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: 256 }}></div> */}
+      <Uploader />
     </Section>
 
     <Section className="bg-white py-32">
