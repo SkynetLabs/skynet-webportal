@@ -4,6 +4,7 @@ import { Add, Cloud, ArrowUpCircle, CheckCircle } from "../Icons";
 import bytes from "bytes";
 import classNames from "classnames";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
+import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import { SkynetClient } from "skynet-js";
@@ -55,23 +56,23 @@ const createUploadErrorMessage = (error) => {
 
 const client = new SkynetClient("https://siasky.net");
 
-const UploadElement = ({ file, progress, status, url }) => {
+const UploadElement = ({ file, status, url = "", progress = 0 }) => {
   const handleCopy = (url) => {
-    console.log(url);
+    copy(url);
   };
 
   return (
     <div>
       <div className="flex items-center">
-        {status === "uploading" && <ArrowUpCircle />}
-        {status === "processing" && <ArrowUpCircle />}
-        {status === "complete" && <CheckCircle />}
-        <div className="flex flex-col flex-grow ml-3">
+        {status === "uploading" && <ArrowUpCircle className="flex-shrink-0" />}
+        {status === "processing" && <ArrowUpCircle className="flex-shrink-0" />}
+        {status === "complete" && <CheckCircle className="flex-shrink-0" />}
+        <div className="flex flex-col flex-grow ml-3 overflow-hidden">
           <div className="text-palette-600 text-sm font-light">{file.name}</div>
-          <div className="flex justify-between text-palette-400 text-xs">
-            <div className="font-content">
+          <div className="flex justify-between text-palette-400 text-xs space-x-2">
+            <div className="font-content truncate">
               {status === "uploading" && (
-                <span>
+                <span className="tabular-nums">
                   Uploading {bytes(file.size * progress)} of {bytes(file.size)}
                 </span>
               )}
@@ -85,10 +86,15 @@ const UploadElement = ({ file, progress, status, url }) => {
               )}
             </div>
             <div>
-              {status === "uploading" && <span className="uppercase">{Math.floor(progress * 100)}% completed</span>}
+              {status === "uploading" && (
+                <span className="uppercase tabular-nums">
+                  {Math.floor(progress * 100)}%<span className="hidden desktop:inline"> completed</span>
+                </span>
+              )}
               {status === "complete" && (
                 <button className="uppercase" onClick={() => handleCopy(url)}>
-                  Copy link
+                  <span className="hidden desktop:inline">Copy link</span>
+                  <span className="inline desktop:hidden">Copy</span>
                 </button>
               )}
             </div>
@@ -177,32 +183,36 @@ const Uploader = () => {
   const inputElement = inputRef.current;
 
   React.useEffect(() => {
-    if (mode === "directory") {
-      inputElement.setAttribute("webkitdirectory", "true");
-    } else {
-      inputElement.removeAttribute("webkitdirectory");
-    }
-  }, [mode, inputElement]);
+    if (!inputElement) return;
+    if (mode === "directory") inputElement.setAttribute("webkitdirectory", "true");
+    if (mode === "file") inputElement.removeAttribute("webkitdirectory");
+  }, [inputElement, mode]);
 
   return (
-    <div className="px-8 py-12">
+    <div className="dekstop:px-8 py-12">
       <div className="max-w-content mx-auto rounded-lg shadow bg-white z-0 relative">
         <div className="flex">
           <button
-            className={classnames("uppercase text-xxs desktop:text-xs w-1/2 p-3 rounded-tl-lg leading-8", {
-              "bg-primary": mode === "file",
-              "bg-palette-200": mode === "directory",
-            })}
+            className={classnames(
+              "uppercase text-xxs desktop:text-xs w-1/2 p-2 desktop:p-3 rounded-tl-lg leading-6 desktop:leading-8",
+              {
+                "bg-primary": mode === "file",
+                "bg-palette-200": mode === "directory",
+              }
+            )}
             onClick={() => setMode("file")}
           >
             <span className="hidden desktop:inline">Try it now and upload your files</span>
             <span className="inline desktop:hidden">Upload files</span>
           </button>
           <button
-            className={classnames("uppercase text-xxs desktop:text-xs w-1/2 p-3 rounded-tr-lg leading-8", {
-              "bg-primary": mode === "directory",
-              "bg-palette-200": mode === "file",
-            })}
+            className={classnames(
+              "uppercase text-xxs desktop:text-xs w-1/2 p-2 desktop:p-3 rounded-tr-lg leading-6 desktop:leading-8",
+              {
+                "bg-primary": mode === "directory",
+                "bg-palette-200": mode === "file",
+              }
+            )}
             onClick={() => setMode("directory")}
           >
             <span className="hidden desktop:inline">Do you want to upload an entire directory?</span>
@@ -224,7 +234,7 @@ const Uploader = () => {
               }
             )}
           >
-            <Cloud />
+            {files.length === 0 && <Cloud />}
             <h4 className="font-light text-palette-600 text-lg mt-2 text-center">
               Add or drop your files here to pin to Skynet
             </h4>
@@ -237,7 +247,7 @@ const Uploader = () => {
         </div>
 
         {files.length > 0 && (
-          <div className="flex flex-col space-y-5 p-14">
+          <div className="flex flex-col space-y-5 px-4 py-10 desktop:p-14">
             {files.map((file, index) => (
               <UploadElement key={index} {...file} />
             ))}

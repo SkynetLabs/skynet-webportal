@@ -18,20 +18,20 @@ import {
 } from "../components/Icons";
 import classnames from "classnames";
 
-const Section = ({ children, className, ...props }) => (
-  <div className={classnames("p-8", className)} {...props}>
+const Section = React.forwardRef(({ children, className, ...props }, ref) => (
+  <div ref={ref} className={classnames("p-8", className)} {...props}>
     <div className="max-w-content mx-auto">{children}</div>
   </div>
-);
+));
 
-const BigIcon = ({ Icon, text }) => (
+const EtosCard = ({ Icon, text }) => (
   <div className="flex flex-col items-center">
     <Icon height="142" />
     <p className="text-center mt-4 font-light text-palette-600 text-lg">{text}</p>
   </div>
 );
 
-const SmallIconCard = ({ Icon, title, text }) => (
+const EcosystemCard = ({ Icon, title, text }) => (
   <div className="flex flex-col">
     <Icon />
     <h3 className="font-light text-lg mt-6">{title}</h3>
@@ -54,87 +54,114 @@ const SectionTitle = ({ children, className, ...props }) => (
   </h2>
 );
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
+const etosCards = [
+  {
+    Icon: SkynetToolBig,
+    title: "Build a freer future",
+  },
+  {
+    Icon: SkynetUserBig,
+    title: "Fight corporate control of user data",
+  },
+  {
+    Icon: SkynetPowerBig,
+    title: "Empower global citizens",
+  },
+];
 
-    <Section>
-      <HeroStartPage />
-    </Section>
+const ecosystemCards = [
+  {
+    Icon: SkynetUsageSmall,
+    title: "Easy to use",
+    text:
+      "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
+  },
+  {
+    Icon: SkynetSpeedSmall,
+    title: "Fast",
+    text:
+      "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
+  },
+  {
+    Icon: SkynetSiaSmall,
+    title: "Free to use",
+    text:
+      "Focus on building, not overheard server costs. When users own their data, developers aren't asked to pay for it.",
+  },
+  {
+    Icon: SkynetMonetizationSmall,
+    title: "Monetization",
+    text:
+      "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
+  },
+  {
+    Icon: SkynetPersistenceSmall,
+    title: "Persistence",
+    text:
+      "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
+  },
+];
 
-    <Section className="relative">
-      {/* <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: 256 }}></div> */}
-      <Uploader />
-    </Section>
+const IndexPage = () => {
+  return (
+    <Layout>
+      <SEO title="Home" />
 
-    <Section className="bg-white py-32">
-      <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>
+      <Section>
+        <HeroStartPage />
+      </Section>
 
-      <div className="grid grid-cols-1 gap-8 desktop:grid-cols-3">
-        <BigIcon Icon={SkynetToolBig} text="Build a freer future" />
-        <BigIcon Icon={SkynetUserBig} text="Fight corporate control of user data" />
-        <BigIcon Icon={SkynetPowerBig} text="Empower global citizens" />
-      </div>
+      <Section className="relative">
+        <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: "240px" }}></div>
+        <Uploader />
+      </Section>
 
-      <div className="flex flex-col items-center mt-16">
-        <p className="max-w-screen-md text-center text-base font-content text-palette-400">
-          Skynet apps pave the way for a new web that priorities the privacy, security, and experience of users. Join
-          our decentralized ecosystem and revolution.
-        </p>
+      <Section className="bg-white py-32">
+        <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>
 
-        <a href="/" className="mt-6 uppercase flex items-center text-xs text-palette-600">
-          Try Skynet Apps <ArrowRight />
-        </a>
-      </div>
-    </Section>
-
-    <Section className="bg-palette-100 py-32">
-      <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
-
-      <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3 desktop:grid-rows-2">
-        <div className="hidden desktop:inline-block">
-          <SectionTitle>Ready to build your application?</SectionTitle>
-
-          <LearnMoreButton />
+        <div className="grid grid-cols-1 gap-8 desktop:grid-cols-3">
+          {etosCards.map((card, index) => (
+            <EtosCard key={index} {...card} />
+          ))}
         </div>
 
-        <SmallIconCard
-          Icon={SkynetUsageSmall}
-          title="Easy to use"
-          text="Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps. "
-        />
-        <SmallIconCard
-          Icon={SkynetSpeedSmall}
-          title="Fast"
-          text="Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!"
-        />
-        <SmallIconCard
-          Icon={SkynetSiaSmall}
-          title="Free to use"
-          text="Focus on building, not overheard server costs. When users own their data, developers aren't asked to pay for it."
-        />
-        <SmallIconCard
-          Icon={SkynetMonetizationSmall}
-          title="Monetization"
-          text="Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers."
-        />
-        <SmallIconCard
-          Icon={SkynetPersistenceSmall}
-          title="Persistence"
-          text="Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down."
-        />
-      </div>
+        <div className="flex flex-col items-center mt-16">
+          <p className="max-w-screen-md text-center text-base font-content text-palette-400">
+            Skynet apps pave the way for a new web that priorities the privacy, security, and experience of users. Join
+            our decentralized ecosystem and revolution.
+          </p>
 
-      <div className="desktop:hidden mt-12 text-center">
-        <LearnMoreButton />
-      </div>
-    </Section>
+          <a href="/" className="mt-6 uppercase flex items-center text-xs text-palette-600">
+            Try Skynet Apps <ArrowRight />
+          </a>
+        </div>
+      </Section>
 
-    <Section className="py-24 bg-primary">
-      <CommunitySection />
-    </Section>
+      <Section className="bg-palette-100 py-32">
+        <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
 
-    {/* <h1>Hi people</h1>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3 desktop:grid-rows-2">
+          <div className="hidden desktop:inline-block">
+            <SectionTitle>Ready to build your application?</SectionTitle>
+
+            <LearnMoreButton />
+          </div>
+
+          {ecosystemCards.map((card, index) => (
+            <EcosystemCard key={index} {...card} />
+          ))}
+        </div>
+
+        <div className="desktop:hidden mt-12 text-center">
+          <LearnMoreButton />
+        </div>
+      </Section>
+
+      <Section className="py-24 bg-primary">
+        <CommunitySection />
+      </Section>
+
+      {/* <h1>Hi people</h1>
     <p>Welcome to your new Gatsby site.</p>
     <p>Now go build something great.</p>
     <StaticImage
@@ -149,7 +176,8 @@ const IndexPage = () => (
       <Link to="/page-2/">Go to page 2</Link> <br />
       <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
     </p> */}
-  </Layout>
-);
+    </Layout>
+  );
+};
 
 export default IndexPage;
