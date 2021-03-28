@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle, SectionTitleCaption } from "../components/Layout";
+import Layout, { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
 import SEO from "../components/seo";
 import {
   ArrowRight,
@@ -171,23 +171,6 @@ const teamCards = [
   },
 ];
 
-const Label = ({ children }) => (
-  <span className="inline-flex items-center px-3 leading-5 rounded-full text-xxs bg-palette-200 text-palette-600 lowercase">
-    {children}
-  </span>
-);
-
-const EcosystemCard = ({ Icon, label, title, text }) => (
-  <div className="flex flex-col">
-    <div className="flex items-center space-x-4">
-      <Icon />
-      {label && <Label>{label}</Label>}
-    </div>
-    <h3 className="font-light text-lg mt-6">{title}</h3>
-    <p className="text-palette-400 font-content mt-6">{text}</p>
-  </div>
-);
-
 const SocialIcon = ({ name }) => {
   switch (name) {
     case "twitter":
@@ -265,7 +248,7 @@ const AboutPage = () => (
 
       <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-2">
         {aboutCards.map((card, index) => (
-          <EcosystemCard key={index} {...card} />
+          <CardWithDescription key={index} {...card} />
         ))}
       </div>
 

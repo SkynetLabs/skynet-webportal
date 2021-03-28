@@ -221,7 +221,7 @@ const Uploader = () => {
   }, [inputElement, mode]);
 
   return (
-    <div className="dekstop:px-8 py-12">
+    <div>
       <div className="max-w-content mx-auto rounded-lg shadow bg-white z-0 relative">
         <div className="flex">
           <button

@@ -17,3 +17,11 @@
 .bg-error-dashed {
   background: repeating-linear-gradient(to right, #ed5454, #ed5454 10px, transparent 10px, transparent 15px);
 }
+
+.tip {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 0 7px 6px;
+  border-color: transparent transparent transparent #000000;
+}

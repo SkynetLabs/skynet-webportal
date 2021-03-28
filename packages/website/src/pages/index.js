@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { StaticImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle } from "../components/Layout";
+import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import SEO from "../components/seo";
 import HeroStartPage from "../components/HeroStartPage";
 import CommunitySection from "../components/CommunitySection";
@@ -16,21 +16,6 @@ import {
   SkynetUsageSmall,
   SkynetSiaSmall,
 } from "../components/Icons";
-
-const EtosCard = ({ Icon, title }) => (
-  <div className="flex flex-col items-center">
-    <Icon height="142" />
-    <p className="text-center mt-4 font-light text-palette-600 text-lg">{title}</p>
-  </div>
-);
-
-const EcosystemCard = ({ Icon, title, text }) => (
-  <div className="flex flex-col">
-    <Icon />
-    <h3 className="font-light text-lg mt-6">{title}</h3>
-    <p className="text-palette-400 font-content mt-6">{text}</p>
-  </div>
-);
 
 const LearnMoreButton = () => (
   <a
@@ -98,17 +83,19 @@ const IndexPage = () => {
         <HeroStartPage />
       </Section>
 
-      <Section className="relative">
-        <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: "240px" }}></div>
-        <Uploader />
-      </Section>
+      <div className="px-8 py-16 relative">
+        <div className="max-w-content mx-auto">
+          <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: "240px" }}></div>
+          <Uploader />
+        </div>
+      </div>
 
-      <Section className="bg-white py-32">
+      <Section className="bg-white">
         <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>
 
         <div className="grid grid-cols-1 gap-8 desktop:grid-cols-3">
           {etosCards.map((card, index) => (
-            <EtosCard key={index} {...card} />
+            <CardWithTitle key={index} {...card} />
           ))}
         </div>
 
@@ -124,7 +111,7 @@ const IndexPage = () => {
         </div>
       </Section>
 
-      <Section className="bg-palette-100 py-32">
+      <Section className="bg-palette-100">
         <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3">
@@ -135,7 +122,7 @@ const IndexPage = () => {
           </div>
 
           {ecosystemCards.map((card, index) => (
-            <EcosystemCard key={index} {...card} />
+            <CardWithDescription key={index} {...card} />
           ))}
         </div>
 
@@ -144,7 +131,7 @@ const IndexPage = () => {
         </div>
       </Section>
 
-      <Section className="py-24 bg-primary">
+      <Section className="bg-primary">
         <CommunitySection />
       </Section>
 
