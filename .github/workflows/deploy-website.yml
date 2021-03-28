@@ -1,0 +1,31 @@
+name: Deploy website to Skynet
+
+on:
+  push:
+    branches:
+      - website
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+
+      - name: Install dependencies
+        run: npm i
+        working-directory: packages/website
+
+      - name: "Build website"
+        run: npm run build
+        working-directory: packages/website
+
+      - name: "Deploy to Skynet"
+        uses: kwypchlo/deploy-to-skynet-action@main
+        with:
+          upload-dir: packages/website/public
+          github-token: ${{ secrets.GITHUB_TOKEN }}
