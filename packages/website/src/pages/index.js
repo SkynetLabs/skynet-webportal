@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { StaticImage } from "gatsby-plugin-image";
-import Layout from "../components/Layout";
+import Layout, { Section, SectionTitle } from "../components/Layout";
 import SEO from "../components/seo";
 import HeroStartPage from "../components/HeroStartPage";
 import CommunitySection from "../components/CommunitySection";
@@ -16,18 +16,11 @@ import {
   SkynetUsageSmall,
   SkynetSiaSmall,
 } from "../components/Icons";
-import classnames from "classnames";
 
-const Section = React.forwardRef(({ children, className, ...props }, ref) => (
-  <div ref={ref} className={classnames("p-8", className)} {...props}>
-    <div className="max-w-content mx-auto">{children}</div>
-  </div>
-));
-
-const EtosCard = ({ Icon, text }) => (
+const EtosCard = ({ Icon, title }) => (
   <div className="flex flex-col items-center">
     <Icon height="142" />
-    <p className="text-center mt-4 font-light text-palette-600 text-lg">{text}</p>
+    <p className="text-center mt-4 font-light text-palette-600 text-lg">{title}</p>
   </div>
 );
 
@@ -46,12 +39,6 @@ const LearnMoreButton = () => (
   >
     Learn more
   </a>
-);
-
-const SectionTitle = ({ children, className, ...props }) => (
-  <h2 className={classnames("text-4xl font-semibold text-palette-600", className)} {...props}>
-    {children}
-  </h2>
 );
 
 const etosCards = [
@@ -140,7 +127,7 @@ const IndexPage = () => {
       <Section className="bg-palette-100 py-32">
         <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3 desktop:grid-rows-2">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3">
           <div className="hidden desktop:inline-block">
             <SectionTitle>Ready to build your application?</SectionTitle>
 

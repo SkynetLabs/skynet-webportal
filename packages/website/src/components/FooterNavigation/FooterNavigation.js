@@ -9,8 +9,8 @@ const sections = [
       { title: "About us", href: "/" },
       { title: "Brand Guidelines", href: "/" },
       { title: "Careers", href: "/" },
-      { title: "Terms of Use", href: "/" },
-      { title: "Privacy Policy", href: "/" },
+      { title: "Terms of Use", href: "/terms-of-use.pdf" },
+      { title: "Privacy Policy", href: "/privacy-policy.pdf" },
     ],
   },
   {
@@ -18,7 +18,7 @@ const sections = [
     links: [
       { title: "About us", href: "/" },
       { title: "API Documentation", href: "/" },
-      { title: "SDK Documentation", href: "/" },
+      { title: "SDK Documentation", href: "https://siasky.net/docs/" },
       { title: "Developer Guide", href: "/" },
       { title: "Portal Setup", href: "/" },
     ],
@@ -28,7 +28,7 @@ const sections = [
     links: [
       { title: "What is Skynet?", href: "/" },
       { title: "Technology Guide", href: "/" },
-      { title: "Pricing", href: "/" },
+      { title: "Pricing", href: "/pricing" },
       { title: "Skynet Wiki", href: "/" },
       { title: "Support", href: "https://support.siasky.net", target: "_blank" },
     ],
@@ -60,29 +60,32 @@ const FooterNavigation = () => {
       <div className="max-w-content mx-auto flex flex-col desktop:flex-row justify-between desktop:space-x-6 space-y-4 desktop:space-y-0">
         {sections.map((section) => (
           <div key={section.header}>
-            <h3
-              className={classnames("text-lg desktop:text-palette-300 cursor-pointer desktop:cursor-auto font-light", {
-                "text-primary": activeSection === section,
-                "text-palette-300": activeSection !== section,
-              })}
-              onClick={() => setActiveSection(activeSection === section ? null : section)}
-            >
-              {section.header}
-            </h3>
-
             {/* desktop */}
-            <ul className="hidden desktop:block">
-              {section.links.map(({ title, ...rest }) => (
-                <li key={title} className="mt-1 first:mt-4">
-                  <a {...rest} className="text-white font-content">
-                    {title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="hidden desktop:block">
+              <div className="text-lg text-palette-300 font-light">{section.header}</div>
+              <ul>
+                {section.links.map(({ title, ...rest }) => (
+                  <li key={title} className="mt-1 first:mt-4">
+                    <a {...rest} className="text-white font-content">
+                      {title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             {/* mobile */}
             <div className="desktop:hidden">
+              <button
+                type="button"
+                className={classnames("text-lg font-light", {
+                  "text-primary": activeSection === section,
+                  "text-palette-300": activeSection !== section,
+                })}
+                onClick={() => setActiveSection(activeSection === section ? null : section)}
+              >
+                {section.header}
+              </button>
               <AnimatePresence initial={false}>
                 {activeSection === section && (
                   <motion.ul

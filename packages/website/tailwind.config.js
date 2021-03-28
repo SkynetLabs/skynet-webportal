@@ -1,12 +1,17 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
 
-const palette = {
-  100: "#f5f7f7",
-  200: "#d4dddb",
-  300: "#9e9e9e",
-  400: "#555555",
-  500: "#242424",
-  600: "#0d0d0d",
+const colors = {
+  primary: "#00c65e",
+  error: "#ED5454",
+  palette: {
+    100: "#f5f7f7",
+    200: "#d4dddb",
+    300: "#9e9e9e",
+    400: "#555555",
+    500: "#242424",
+    600: "#0d0d0d",
+  },
 };
 
 module.exports = {
@@ -23,10 +28,10 @@ module.exports = {
       hires: "1408px",
       "2xl": "1536px",
     },
-    backgroundColor: (theme) => ({ ...theme("colors"), palette }),
-    borderColor: (theme) => ({ ...theme("colors"), palette }),
-    textColor: (theme) => ({ ...theme("colors"), palette }),
-    placeholderColor: (theme) => ({ ...theme("colors"), palette }),
+    backgroundColor: (theme) => ({ ...theme("colors"), ...colors }),
+    borderColor: (theme) => ({ ...theme("colors"), ...colors }),
+    textColor: (theme) => ({ ...theme("colors"), ...colors }),
+    placeholderColor: (theme) => ({ ...theme("colors"), ...colors }),
     extend: {
       fontFamily: {
         sans: ["Sora", ...defaultTheme.fontFamily.sans],
@@ -34,11 +39,6 @@ module.exports = {
       },
       fontSize: {
         xxs: ["0.625rem", "0.75rem"],
-      },
-      colors: {
-        primary: {
-          DEFAULT: "#00c65e",
-        },
       },
       maxWidth: {
         column: "320px",
@@ -60,5 +60,11 @@ module.exports = {
       margin: ["first"],
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addBase, theme }) {
+      addBase({
+        body: { color: theme("textColor.palette.600") },
+      });
+    }),
+  ],
 };

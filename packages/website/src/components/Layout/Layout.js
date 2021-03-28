@@ -11,28 +11,29 @@ import { useStaticQuery, graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
 import { convertToBgImage } from "gbimage-bridge";
 import BackgroundImage from "gatsby-background-image";
-import Navigation from "../Navigation/Navigation";
-import NewsHeader from "../NewsHeader/NewsHeader";
-import Footer from "../Footer/Footer";
-import FooterNavigation from "../FooterNavigation/FooterNavigation";
+import Navigation from "../Navigation";
+import NewsHeader from "../NewsHeader";
+import Footer from "../Footer";
+import FooterNavigation from "../FooterNavigation";
 import { useWindowScroll } from "react-use";
-import classnames from "classnames";
 import { readableColor } from "polished";
 
-const modeMap = { "#fff": "dark", "#000": "light" };
-
 const StickyHeader = () => {
-  useWindowScroll();
-
+  const { y } = useWindowScroll();
   const ref = React.useRef(null);
-  const element = document.elementFromPoint(0, ref.current?.offsetHeight ?? 0);
+  const [mode, setMode] = React.useState();
 
-  const backgroundColor = window.getComputedStyle(element, null).getPropertyValue("background-color");
-  const color = React.useMemo(() => readableColor(backgroundColor), [backgroundColor]);
-  const mode = modeMap[color];
+  React.useLayoutEffect(() => {
+    const element = document.elementFromPoint(0, ref.current.offsetHeight);
+    const backgroundColor = window.getComputedStyle(element, null).getPropertyValue("background-color");
+    const color = readableColor(backgroundColor); // returns either #fff or #000
+    const mode = { "#fff": "dark", "#000": "light" }[color];
+
+    setMode(mode);
+  }, [setMode, y]);
 
   return (
-    <div ref={ref} className={classnames("sticky top-0 z-50", { "bg-white border-b border-palette-200": false })}>
+    <div ref={ref} className="sticky top-0 z-50">
       <NewsHeader />
       <Navigation mode={mode} />
     </div>

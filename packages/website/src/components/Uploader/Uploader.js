@@ -1,6 +1,6 @@
 import * as React from "react";
 import classnames from "classnames";
-import { Add, Cloud, ArrowUpCircle, CheckCircle } from "../Icons";
+import { Add, Cloud, ArrowUpCircle, Error, CheckCircle, Unlock, Info, ProgressRound } from "../Icons";
 import bytes from "bytes";
 import classNames from "classnames";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
@@ -8,6 +8,8 @@ import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import { SkynetClient } from "skynet-js";
+import { useTimeoutFn } from "react-use";
+import ms from "ms";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
@@ -56,17 +58,34 @@ const createUploadErrorMessage = (error) => {
 
 const client = new SkynetClient("https://siasky.net");
 
-const UploadElement = ({ file, status, url = "", progress = 0 }) => {
+const RegistrationLink = () => (
+  <a
+    href="https://secure.siasky.net/auth/registration"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="uppercase border-b-2 border-primary"
+  >
+    Sign up
+  </a>
+);
+
+const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
+  const [copied, setCopied] = React.useState(false);
+  const [, , reset] = useTimeoutFn(() => setCopied(false), ms("3 seconds"));
+
   const handleCopy = (url) => {
     copy(url);
+    setCopied(true);
+    reset();
   };
 
   return (
     <div>
       <div className="flex items-center">
         {status === "uploading" && <ArrowUpCircle className="flex-shrink-0" />}
-        {status === "processing" && <ArrowUpCircle className="flex-shrink-0" />}
+        {status === "processing" && <ProgressRound className="flex-shrink-0 animate-spin" />}
         {status === "complete" && <CheckCircle className="flex-shrink-0" />}
+        {status === "error" && <Error className="flex-shrink-0 fill-current text-error" />}
         <div className="flex flex-col flex-grow ml-3 overflow-hidden">
           <div className="text-palette-600 text-sm font-light">{file.name}</div>
           <div className="flex justify-between text-palette-400 text-xs space-x-2">
@@ -77,13 +96,15 @@ const UploadElement = ({ file, status, url = "", progress = 0 }) => {
                 </span>
               )}
 
-              {status === "processing" && <span>Processing...</span>}
+              {status === "processing" && <span className="text-palette-300">Processing...</span>}
 
               {status === "complete" && (
                 <a href={url} target="_blank" rel="noopener noreferrer">
                   {url}
                 </a>
               )}
+
+              {status === "error" && error && <span className="text-error">{error}</span>}
             </div>
             <div>
               {status === "uploading" && (
@@ -91,10 +112,12 @@ const UploadElement = ({ file, status, url = "", progress = 0 }) => {
                   {Math.floor(progress * 100)}%<span className="hidden desktop:inline"> completed</span>
                 </span>
               )}
+              {status === "processing" && <span className="uppercase text-palette-300">Wait</span>}
               {status === "complete" && (
                 <button className="uppercase" onClick={() => handleCopy(url)}>
-                  <span className="hidden desktop:inline">Copy link</span>
-                  <span className="inline desktop:hidden">Copy</span>
+                  <span className={classnames({ hidden: copied, "hidden desktop:inline": !copied })}>Copy link</span>
+                  <span className={classnames({ hidden: copied, "inline desktop:hidden": !copied })}>Copy</span>
+                  <span className={classnames({ hidden: !copied })}>Copied</span>
                 </button>
               )}
             </div>
@@ -102,8 +125,17 @@ const UploadElement = ({ file, status, url = "", progress = 0 }) => {
         </div>
       </div>
 
-      <div className="flex bg-palette-200 mt-1" style={{ height: "5px" }}>
-        <div style={{ width: `${Math.floor(progress * 100)}%` }} className="bg-primary" />
+      <div
+        className={classnames("flex bg-palette-200 mt-1", {
+          "bg-error-dashed opacity-20": status === "error",
+          "bg-primary-dashed opacity-20": status === "processing",
+        })}
+        style={{ height: "5px" }}
+      >
+        <div
+          style={{ width: `${Math.floor(progress * 100)}%` }}
+          className={classnames("bg-primary", { hidden: status === "processing" || status === "error" })}
+        />
       </div>
     </div>
   );
@@ -251,9 +283,33 @@ const Uploader = () => {
             {files.map((file, index) => (
               <UploadElement key={index} {...file} />
             ))}
+
+            <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
+              <Info />
+
+              {/* mobile - 2 lines */}
+              <p className="text-sm font-light text-palette-600 desktop:hidden">Your files are available for 90 days</p>
+              <p className="text-sm font-light text-palette-600 desktop:hidden">
+                <RegistrationLink /> to keep them forever
+              </p>
+
+              {/* desktop - 1 line */}
+              <p className="text-sm font-light text-palette-600 hidden desktop:block">
+                Your files are available for 90 days, <RegistrationLink /> to keep them forever
+              </p>
+            </div>
           </div>
         )}
       </div>
+
+      {files.length === 0 && (
+        <div className="z-0 relative flex flex-col items-center space-y-1 mt-10">
+          <Unlock />
+          <p className="text-sm font-light text-palette-600">
+            <RegistrationLink /> for free and unlock all features
+          </p>
+        </div>
+      )}
     </div>
   );
 };

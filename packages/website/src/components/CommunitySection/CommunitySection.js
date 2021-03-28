@@ -13,11 +13,11 @@ import {
 
 const social = [
   { name: "Discord", Icon: DiscordSmall, href: "https://discordapp.com/invite/sia" },
-  { name: "Twitter", Icon: TwitterSmall, href: "/" },
-  { name: "Reddit", Icon: RedditSmall, href: "/" },
-  { name: "Medium", Icon: MediumSmall, href: "/" },
-  { name: "Youtube", Icon: YoutubeSmall, href: "/" },
-  { name: "Tik Tok", Icon: TikTokSmall, href: "/" },
+  { name: "Twitter", Icon: TwitterSmall, href: "https://twitter.com/SiaTechHQ" },
+  { name: "Reddit", Icon: RedditSmall, href: "https://www.reddit.com/r/siacoin" },
+  { name: "Medium", Icon: MediumSmall, href: "https://blog.sia.tech" },
+  { name: "Youtube", Icon: YoutubeSmall, href: "https://www.youtube.com/c/SiaTVOfficial/featured" },
+  { name: "Tik Tok", Icon: TikTokSmall, href: "https://www.tiktok.com/@decentralizedfuture" },
 ];
 
 const SectionHeader = ({ children }) => <h3 className="uppercase text-xs text-palette-600 desktop:mb-1">{children}</h3>;

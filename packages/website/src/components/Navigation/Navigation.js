@@ -25,7 +25,7 @@ const LogInLink = () => (
 
 const LogInButton = ({ className, ...props }) => (
   <a
-    href="https://secure.siasky.net/auth/register"
+    href="https://secure.siasky.net/auth/registration"
     className={classnames(
       "border-2 border-white text-white px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
       className
@@ -38,7 +38,7 @@ const LogInButton = ({ className, ...props }) => (
 
 const SignUpButton = ({ className, ...props }) => (
   <a
-    href="https://secure.siasky.net/auth/register"
+    href="https://secure.siasky.net/auth/registration"
     className={classnames(
       "bg-primary text-palette-600 px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
       className
@@ -107,6 +107,7 @@ const Navigation = ({ mode }) => {
               <Link
                 key={route}
                 to={route}
+                activeClassName="underline-navigation"
                 className={classnames("text-sm font-light transition-colors duration-500", {
                   "text-white": mode === "dark",
                   "text-palette-600": mode === "light",

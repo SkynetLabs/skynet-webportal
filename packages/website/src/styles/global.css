@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.underline-navigation,
+.underline-primary-thick {
+  background-image: linear-gradient(to bottom, #00c65e, #00c65e);
+  background-position: 0 1.1rem;
+  background-repeat: repeat-x;
+  background-size: 2px 2px;
+}
+
+.bg-primary-dashed {
+  background: repeating-linear-gradient(to right, #00c65e, #00c65e 10px, transparent 10px, transparent 15px);
+}
+
+.bg-error-dashed {
+  background: repeating-linear-gradient(to right, #ed5454, #ed5454 10px, transparent 10px, transparent 15px);
+}
