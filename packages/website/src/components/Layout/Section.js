@@ -1,9 +1,13 @@
 import * as React from "react";
 import classnames from "classnames";
 
-export const Section = ({ children, className, ...props }) => (
+export const Section = ({ children, className, width = "content", ...props }) => (
   <div className={classnames("px-8 py-16 desktop:py-32", className)} {...props}>
-    <div className="max-w-content mx-auto">{children}</div>
+    <div
+      className={classnames("mx-auto", { "max-w-content": width === "content", "max-w-layout": width === "layout" })}
+    >
+      {children}
+    </div>
   </div>
 );
 

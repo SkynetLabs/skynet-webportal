@@ -25,3 +25,9 @@
   border-width: 7px 0 7px 6px;
   border-color: transparent transparent transparent #000000;
 }
+
+@layer base {
+  h1 {
+    @apply font-semibold text-3xl desktop:text-6xl desktop:leading-16;
+  }
+}

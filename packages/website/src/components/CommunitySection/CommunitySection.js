@@ -11,6 +11,7 @@ import {
   TikTokSmall,
 } from "../../components/Icons";
 import useSubscribe from "./useSubscribe";
+import Link from "../Link";
 
 const social = [
   { name: "Discord", Icon: DiscordSmall, href: "https://discordapp.com/invite/sia" },
@@ -96,7 +97,7 @@ const CommunitySection = () => {
         <SectionTitle>Join our community</SectionTitle>
         <div className="grid grid-cols-2 desktop:grid-cols-6 max-w-column desktop:max-w-full">
           {social.map(({ name, Icon, href }) => (
-            <a
+            <Link
               key={name}
               href={href}
               className="text-palette-600 text-sm font-light flex items-center flex-shrink-0 flex-grow-0 whitespace-nowrap leading-10"
@@ -105,7 +106,7 @@ const CommunitySection = () => {
             >
               <Icon className="mr-2 fill-current" />
               <span>{name}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

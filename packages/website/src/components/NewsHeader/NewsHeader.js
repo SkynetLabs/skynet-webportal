@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "gatsby";
+import Link from "../Link";
 import { ArrowRight, DiscordSmallWhite } from "../Icons";
 
 const NewsHeader = () => {
@@ -10,15 +10,13 @@ const NewsHeader = () => {
           <Link
             to="/news"
             className="text-palette-300 font-content leading-8 flex items-center overflow-hidden text-base"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <ArrowRight className="mr-2 flex-shrink-0 fill-current text-primary" />
             <span className="truncate">Skynet Announces SkyDB, Unlocking Fully Decentralized Internet</span>
           </Link>
 
           <div className="ml-auto items-center pl-8 hidden desktop:block">
-            <a
+            <Link
               href="https://discordapp.com/invite/sia"
               className="text-palette-300 leading-8 font-content flex items-center flex-shrink-0 whitespace-nowrap"
               target="_blank"
@@ -26,7 +24,7 @@ const NewsHeader = () => {
             >
               <DiscordSmallWhite className="mr-2" />
               <span>Join our Discord</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

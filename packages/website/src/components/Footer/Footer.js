@@ -1,5 +1,6 @@
 import * as React from "react";
-import LogoWhiteText from "../Icons/LogoWhiteText.svg";
+import { LogoWhiteText } from "../Icons";
+import Link from "../Link";
 
 const Footer = () => {
   return (
@@ -13,12 +14,12 @@ const Footer = () => {
             </span>
           </div>
 
-          <a
+          <Link
             href="mailto:hello@siasky.net"
             className="font-content text-palette-300 text-base border-b-2 border-primary"
           >
             hello@siasky.net
-          </a>
+          </Link>
         </div>
       </div>
     </div>

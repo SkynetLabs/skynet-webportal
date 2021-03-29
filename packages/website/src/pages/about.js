@@ -16,6 +16,7 @@ import {
   GitlabSmall,
   LinkedinSmall,
 } from "../components/Icons";
+import Link from "../components/Link";
 
 const aboutCards = [
   {
@@ -197,9 +198,9 @@ const TeamCard = ({ Image, name, position, social }) => (
       {social && (
         <div className="flex flex-row">
           {Object.entries(social).map(([platform, href]) => (
-            <a href={href} title={platform}>
+            <Link key={platform} href={href} title={platform} target="_blank" rel="noopener noreferrer">
               <SocialIcon name={platform} />
-            </a>
+            </Link>
           ))}
         </div>
       )}
@@ -213,7 +214,7 @@ const AboutPage = () => (
     <Section className="bg-palette-100">
       <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
         <div className="col-span-3">
-          <h1 className="font-semibold text-3xl desktop:text-6xl desktop:leading-16">
+          <h1>
             Skynet is the foundation for a new, <span className="underline text-primary">decentralized internet</span>
           </h1>
         </div>
@@ -232,9 +233,9 @@ const AboutPage = () => (
             censorship-resistance will be the new standards of the digital world.
           </p>
 
-          <a href="/" className="uppercase inline-flex items-center text-xs text-palette-600">
+          <Link to="/developers" className="uppercase inline-flex items-center text-xs text-palette-600">
             Learn more about how our technology works <ArrowRight />
-          </a>
+          </Link>
         </div>
       </div>
     </Section>
@@ -254,12 +255,12 @@ const AboutPage = () => (
 
       <div className="mt-14 text-center space-y-6">
         <p className="font-light text-lg text-palette-600">Want to build apps with these features?</p>
-        <a
+        <Link
           href="https://secure.siasky.net"
           className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center"
         >
           Get started here
-        </a>
+        </Link>
       </div>
     </Section>
 

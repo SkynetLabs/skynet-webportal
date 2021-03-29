@@ -28,7 +28,7 @@ async function example() {
 }`;
 
   return (
-    <div className="desktop:max-w-terminal">
+    <div>
       <div className="bg-palette-400 rounded-t space-x-2 px-2">
         <div style={{ height: "11px", width: "11px" }} className="inline-block rounded-full bg-error"></div>
         <div style={{ height: "11px", width: "11px" }} className="inline-block rounded-full bg-warning"></div>

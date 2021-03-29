@@ -2,7 +2,6 @@ import * as React from "react";
 // import { StaticImage } from "gatsby-plugin-image";
 import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import SEO from "../components/seo";
-import HeroStartPage from "../components/HeroStartPage";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
 import {
@@ -16,14 +15,17 @@ import {
   SkynetUsageSmall,
   SkynetSiaSmall,
 } from "../components/Icons";
+import Link from "../components/Link";
 
 const LearnMoreButton = () => (
-  <a
+  <Link
     href="https://secure.siasky.net"
     className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
+    target="_blank"
+    rel="noopener noreferrer"
   >
     Learn more
-  </a>
+  </Link>
 );
 
 const etosCards = [
@@ -80,7 +82,20 @@ const IndexPage = () => {
       <SEO title="Home" />
 
       <Section>
-        <HeroStartPage />
+        <div className="text-center">
+          <h1 className="text-4xl desktop:text-6xl text-white">
+            Build a <span className="text-primary border-b-2 border-white">free Internet</span>
+          </h1>
+
+          <p className="mt-5 font-light text-md leading-7 text-palette-300">
+            <span className="hidden desktop:block">Skynet is a content and application hosting platform bringing</span>
+            <span className="hidden desktop:block">decentralized storage to users, creators and app developers.</span>
+            <span className="desktop:hidden text-justify text-sm">
+              Skynet is a content and application hosting platform bringing decentralized storage to users, creators and
+              app developers.
+            </span>
+          </p>
+        </div>
       </Section>
 
       <div className="px-8 py-16 relative">
@@ -105,9 +120,9 @@ const IndexPage = () => {
             our decentralized ecosystem and revolution.
           </p>
 
-          <a href="/" className="mt-6 uppercase flex items-center text-xs text-palette-600">
+          <Link href="/" className="mt-6 uppercase flex items-center text-xs text-palette-600">
             Try Skynet Apps <ArrowRight />
-          </a>
+          </Link>
         </div>
       </Section>
 

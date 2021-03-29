@@ -1,13 +1,12 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Link } from "gatsby";
+import Link from "../Link";
 import classnames from "classnames";
 import LogoWhiteText from "../Icons/LogoWhiteText.svg";
 import LogoBlackText from "../Icons/LogoBlackText.svg";
 import MenuMobile from "../Icons/MenuMobile.svg";
 import MenuMobileClose from "../Icons/MenuMobileClose.svg";
 import DiscordSmall from "../Icons/DiscordSmall.svg";
-import { motion } from "framer-motion";
 import { useWindowSize, useWindowScroll } from "react-use";
 
 const routes = [
@@ -18,13 +17,13 @@ const routes = [
 ];
 
 const LogInLink = () => (
-  <a href="https://secure.siasky.net" className="text-primary text-xs uppercase whitespace-nowrap">
+  <Link href="https://secure.siasky.net" className="text-primary text-xs uppercase whitespace-nowrap">
     Log in
-  </a>
+  </Link>
 );
 
 const LogInButton = ({ className, ...props }) => (
-  <a
+  <Link
     href="https://secure.siasky.net/auth/registration"
     className={classnames(
       "border-2 border-white text-white px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
@@ -33,11 +32,11 @@ const LogInButton = ({ className, ...props }) => (
     {...props}
   >
     Log in
-  </a>
+  </Link>
 );
 
 const SignUpButton = ({ className, ...props }) => (
-  <a
+  <Link
     href="https://secure.siasky.net/auth/registration"
     className={classnames(
       "bg-primary text-palette-600 px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
@@ -46,7 +45,7 @@ const SignUpButton = ({ className, ...props }) => (
     {...props}
   >
     Sign up
-  </a>
+  </Link>
 );
 
 const Navigation = ({ mode }) => {
@@ -70,21 +69,18 @@ const Navigation = ({ mode }) => {
   const mobileMenuOffset = navRef.current ? navRef.current.offsetTop : 0;
 
   return (
-    <motion.nav
-      className={classnames("relative px-8 transition-colors duration-500", {
+    <nav
+      className={classnames("relative px-8 transition-all duration-500", {
         "bg-white border-b border-palette-200": mode === "light",
         "bg-palette-600 bg-opacity-50": mode === "dark",
+        "p-12": offsetY === 0,
+        "p-6": offsetY > 0,
       })}
-      initial={false}
-      animate={{
-        paddingTop: offsetY ? "24px" : "48px",
-        paddingBottom: offsetY ? "24px" : "48px",
-      }}
       ref={navRef}
     >
       <div className={classnames("max-w-layout mx-auto")}>
         <div className="flex justify-between">
-          <Link to="/" className={classnames("flex flex-shrink-0 items-center", { hidden: open }, "desktop:flex")}>
+          <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
             {mode === "dark" && <LogoWhiteText className="h-8 w-auto" />}
             {mode === "light" && <LogoBlackText className="h-8 w-auto" />}
           </Link>
@@ -122,10 +118,12 @@ const Navigation = ({ mode }) => {
         </div>
 
         <div
-          className={classnames("fixed bg-palette-600 inset-0 px-8 py-12 desktop:hidden", {
-            block: open,
-            hidden: !open,
-          })}
+          className={classnames(
+            "fixed bg-palette-600 inset-0 px-8 py-12 desktop:hidden transition-all duration-500 transform",
+            {
+              "translate-x-full": !open,
+            }
+          )}
           style={{ marginTop: mobileMenuOffset }}
         >
           <ul className="py-10 space-y-2">
@@ -138,7 +136,7 @@ const Navigation = ({ mode }) => {
             ))}
           </ul>
           <div className="border-t border-palette-500 py-7">
-            <a
+            <Link
               href="https://discordapp.com/invite/sia"
               className="text-palette-300 text-m font-content flex items-center"
               target="_blank"
@@ -146,7 +144,7 @@ const Navigation = ({ mode }) => {
             >
               <DiscordSmall className="mr-2 fill-current text-white" />
               <span>Join our Discord</span>
-            </a>
+            </Link>
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
             <div className="flex items-center justify-center px-4 space-x-6">
@@ -156,7 +154,7 @@ const Navigation = ({ mode }) => {
           </div>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 

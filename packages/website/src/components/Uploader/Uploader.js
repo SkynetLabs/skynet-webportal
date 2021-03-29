@@ -10,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { SkynetClient } from "skynet-js";
 import { useTimeoutFn } from "react-use";
 import ms from "ms";
+import Link from "../Link";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
@@ -59,14 +60,14 @@ const createUploadErrorMessage = (error) => {
 const client = new SkynetClient("https://siasky.net");
 
 const RegistrationLink = () => (
-  <a
+  <Link
     href="https://secure.siasky.net/auth/registration"
     target="_blank"
     rel="noopener noreferrer"
     className="uppercase border-b-2 border-primary"
   >
     Sign up
-  </a>
+  </Link>
 );
 
 const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
@@ -99,9 +100,9 @@ const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
               {status === "processing" && <span className="text-palette-300">Processing...</span>}
 
               {status === "complete" && (
-                <a href={url} target="_blank" rel="noopener noreferrer">
+                <Link href={url} target="_blank" rel="noopener noreferrer">
                   {url}
-                </a>
+                </Link>
               )}
 
               {status === "error" && error && <span className="text-error">{error}</span>}

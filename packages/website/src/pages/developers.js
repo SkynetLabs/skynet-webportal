@@ -3,14 +3,17 @@ import Layout, { Section, SectionTitle, CardWithDescription } from "../component
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
 import CodeTerminal from "../components/CodeTerminal";
 import SEO from "../components/seo";
+import Link from "../components/Link";
 
 const LearnMoreButton = () => (
-  <a
+  <Link
     href="https://secure.siasky.net"
     className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
+    target="_blank"
+    rel="noopener noreferrer"
   >
     Learn more
-  </a>
+  </Link>
 );
 
 const reasonCards = [
@@ -73,24 +76,24 @@ const DevelopersPage = () => (
   <Layout>
     <SEO title="Developers" />
 
-    <Section>
-      <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12">
+    <Section width="layout">
+      <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">
         <div className="space-y-12">
-          <h1 className="font-semibold text-4xl desktop:text-6xl desktop:leading-16 text-white">
+          <h1 className="text-white">
             Decentralized Apps with speed, confidence, and <span className="text-primary underline">usability</span>
           </h1>
 
           <ul className="space-y-2">
             {docs.map(({ name, href }, index) => (
               <li key={index}>
-                <a
+                <Link
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary font-light text-lg inline-flex"
                 >
                   {name} <ExternalLink className="fill-current inline-block ml-2" height={28} />
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -141,13 +144,13 @@ const DevelopersPage = () => (
         <ul className="col-span-2 space-y-1">
           {resources.map(({ href, title, description }, index) => (
             <li key={index}>
-              <a
+              <Link
                 href={href}
                 className="block bg-palette-100 px-8 py-5 rounded border-2 border-palette-600 border-opacity-0 hover:border-opacity-100"
               >
                 <div className="font-semibold text-lg">{title}</div>
                 <div className="font-content text-palette-400">{description}</div>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

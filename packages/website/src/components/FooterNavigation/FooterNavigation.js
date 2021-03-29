@@ -1,53 +1,57 @@
 import * as React from "react";
 import classnames from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "../Link";
 
+const external = { target: "_blank", rel: "noopener noreferrer" };
 const sections = [
   {
     header: "Skynet Labs",
     links: [
-      { title: "About us", href: "/" },
-      { title: "Brand Guidelines", href: "/" },
-      { title: "Careers", href: "/" },
-      { title: "Terms of Use", href: "/terms-of-use.pdf" },
-      { title: "Privacy Policy", href: "/privacy-policy.pdf" },
+      { title: "About us", to: "/about" },
+      {
+        title: "Brand Guidelines",
+        href: "https://support.siasky.net/key-concepts/skynet-brand-guidelines",
+        ...external,
+      },
+      { title: "Careers", href: "https://jobs.lever.co/nebulous", ...external },
+      { title: "Terms of Use", href: "/terms.pdf", ...external },
+      { title: "Privacy Policy", href: "/privacy.pdf", ...external },
     ],
   },
   {
     header: "Developers",
     links: [
-      { title: "About us", href: "/" },
-      { title: "API Documentation", href: "/" },
-      { title: "SDK Documentation", href: "https://siasky.net/docs/" },
-      { title: "Developer Guide", href: "/" },
-      { title: "Portal Setup", href: "/" },
+      { title: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet", ...external },
+      { title: "API Documentation", href: "https://siasky.net/docs/", ...external },
+      { title: "SDK Documentation", href: "https://siasky.net/docs/", ...external },
+      { title: "Portal Setup", href: "https://support.siasky.net/the-technology/running-a-web-portal", ...external },
     ],
   },
   {
     header: "Technology",
     links: [
-      { title: "What is Skynet?", href: "/" },
-      { title: "Technology Guide", href: "/" },
-      { title: "Pricing", href: "/pricing" },
-      { title: "Skynet Wiki", href: "/" },
-      { title: "Support", href: "https://support.siasky.net", target: "_blank" },
+      { title: "What is Skynet?", href: "https://support.siasky.net", ...external },
+      { title: "Frequent Questions", href: "https://support.siasky.net/key-concepts/faqs", ...external },
+      { title: "Pricing", to: "/pricing" },
+      { title: "Skynet Wiki", href: "https://skynetwiki.tech", ...external },
+      { title: "Support", href: "https://support.siasky.net", ...external },
     ],
   },
   {
     header: "Ecosystem",
     links: [
-      { title: "Sia Foundation", href: "/" },
-      { title: "Sia Foundation Forum", href: "/" },
-      { title: "Sia.tech", href: "https://sia.tech", target: "_blank" },
-      { title: "SiaStats", href: "https://siastats.info", target: "_blank" },
-      { title: "Skynet AppStore", href: "/" },
+      { title: "Sia Foundation", href: "https://sia.tech", ...external },
+      { title: "Sia Foundation Forum", href: "https://forum.sia.tech", ...external },
+      { title: "SiaStats", href: "https://siastats.info", ...external },
+      { title: "Skynet AppStore", href: "https://siasky.net/hns/skyapps/", ...external },
     ],
   },
   {
     header: "Skynet Webportals",
     links: [
-      { title: "Skydrain", href: "https://skydrain.net/", target: "_blank" },
-      { title: "SkyPortal", href: "https://skyportal.xyz", target: "_blank" },
+      { title: "Skydrain", href: "https://skydrain.net", ...external },
+      { title: "SkyPortal", href: "https://skyportal.xyz", ...external },
     ],
   },
 ];
@@ -66,9 +70,9 @@ const FooterNavigation = () => {
               <ul>
                 {section.links.map(({ title, ...rest }) => (
                   <li key={title} className="mt-1 first:mt-4">
-                    <a {...rest} className="text-white font-content">
+                    <Link {...rest} className="text-white font-content">
                       {title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -101,9 +105,9 @@ const FooterNavigation = () => {
                   >
                     {section.links.map(({ title, ...rest }) => (
                       <li key={title} className="mt-1 first:mt-4">
-                        <a {...rest} className="text-white font-content">
+                        <Link {...rest} className="text-white font-content">
                           {title}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </motion.ul>
