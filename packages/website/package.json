@@ -44,6 +44,7 @@
     "react-dropzone": "^11.3.2",
     "react-helmet": "^6.1.0",
     "react-svg-loader": "^3.0.3",
+    "react-syntax-highlighter": "^13.5.3",
     "react-use": "^17.2.1",
     "skynet-js": "^3.0.2",
     "stream-browserify": "^2.0.2",

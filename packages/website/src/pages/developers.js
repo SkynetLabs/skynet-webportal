@@ -1,6 +1,7 @@
 import * as React from "react";
 import Layout, { Section, SectionTitle, CardWithDescription } from "../components/Layout";
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
+import CodeTerminal from "../components/CodeTerminal";
 import SEO from "../components/seo";
 
 const LearnMoreButton = () => (
@@ -73,24 +74,30 @@ const DevelopersPage = () => (
     <SEO title="Developers" />
 
     <Section>
-      <h1 className="font-semibold text-4xl desktop:text-6xl desktop:leading-16 text-white">
-        Decentralized Apps with speed, confidence, and <span className="text-primary underline">usability</span>
-      </h1>
+      <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12">
+        <div className="space-y-12">
+          <h1 className="font-semibold text-4xl desktop:text-6xl desktop:leading-16 text-white">
+            Decentralized Apps with speed, confidence, and <span className="text-primary underline">usability</span>
+          </h1>
 
-      <ul className="mt-12 space-y-2">
-        {docs.map(({ name, href }, index) => (
-          <li>
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary font-light text-lg inline-flex"
-            >
-              {name} <ExternalLink className="fill-current inline-block ml-2" height={28} />
-            </a>
-          </li>
-        ))}
-      </ul>
+          <ul className="space-y-2">
+            {docs.map(({ name, href }, index) => (
+              <li key={index}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-light text-lg inline-flex"
+                >
+                  {name} <ExternalLink className="fill-current inline-block ml-2" height={28} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <CodeTerminal />
+      </div>
     </Section>
 
     <Section className="bg-white">

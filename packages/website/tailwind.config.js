@@ -3,6 +3,7 @@ const plugin = require("tailwindcss/plugin");
 
 const colors = {
   primary: "#00c65e",
+  warning: "#ffd567",
   error: "#ED5454",
   palette: {
     100: "#f5f7f7",
@@ -42,6 +43,7 @@ module.exports = {
       },
       maxWidth: {
         column: "320px",
+        terminal: "640px",
         tablet: "640px",
         desktop: "1024px",
         content: "992px",
