@@ -10,6 +10,7 @@ import {
   YoutubeSmall,
   TikTokSmall,
 } from "../../components/Icons";
+import useSubscribe from "./useSubscribe";
 
 const social = [
   { name: "Discord", Icon: DiscordSmall, href: "https://discordapp.com/invite/sia" },
@@ -28,12 +29,12 @@ const SectionTitle = ({ children }) => (
 const CommunitySection = () => {
   const [experienced, setExperienced] = React.useState(false);
   const [email, setEmail] = React.useState("");
-  const onSubscribe = (event) => {
+  const { subscribe, complete, success, message, pending } = useSubscribe();
+
+  const onSubscribe = async (event) => {
     event.preventDefault();
 
-    alert(`this will subscribe ${email} for a newsletter`);
-
-    setEmail("");
+    subscribe(email, experienced);
   };
 
   return (
@@ -42,11 +43,11 @@ const CommunitySection = () => {
         <SectionHeader>Newsletter</SectionHeader>
         <SectionTitle>Stay up to date</SectionTitle>
 
-        <form onSubmit={onSubscribe} className="flex flex-col">
-          <label htmlFor="newsletter-email" className="sr-only">
-            Email
-          </label>
+        <form onSubmit={onSubscribe} className="flex flex-col space-y-4">
           <div className="relative rounded-md shadow-sm">
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email
+            </label>
             <input
               type="text"
               name="email"
@@ -56,12 +57,12 @@ const CommunitySection = () => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
-            <button type="submit" className="absolute inset-y-0 right-0 px-2 flex items-center">
+            <button type="submit" className="absolute inset-y-0 right-0 px-2 flex items-center" disabled={pending}>
               <ArrowRight />
             </button>
           </div>
 
-          <div className="flex items-center mt-4">
+          <div className="flex items-center">
             <input
               type="checkbox"
               id="newsletter-experience"
@@ -78,6 +79,15 @@ const CommunitySection = () => {
               Do you have previous experience using Skynet?
             </label>
           </div>
+
+          {complete && message && (
+            <div
+              className={classnames("text-center bg-white py-2 px-4 rounded bg-opacity-20 font-semibold font-content", {
+                "text-error": !success,
+              })}
+              dangerouslySetInnerHTML={{ __html: message }}
+            ></div>
+          )}
         </form>
       </div>
 
