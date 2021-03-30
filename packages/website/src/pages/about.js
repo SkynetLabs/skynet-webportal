@@ -211,7 +211,8 @@ const TeamCard = ({ Image, name, position, social }) => (
 const AboutPage = () => (
   <Layout>
     <SEO title="About" />
-    <Section className="bg-palette-100">
+
+    <Section className="bg-palette-100" marginBottom={false}>
       <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
         <div className="col-span-3">
           <h1>

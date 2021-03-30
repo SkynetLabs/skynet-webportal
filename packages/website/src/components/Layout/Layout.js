@@ -14,13 +14,15 @@ import FooterNavigation from "../FooterNavigation";
 import { useWindowScroll } from "react-use";
 import { readableColor } from "polished";
 
+const minHeight = 192; // this is p-48 that is added to account for the size of the fixed navigation
 const FixedHeader = () => {
   const { y } = useWindowScroll();
   const ref = React.useRef(null);
   const [mode, setMode] = React.useState();
 
   React.useLayoutEffect(() => {
-    const element = document.elementFromPoint(0, ref.current.offsetHeight);
+    const offset = Math.max(minHeight, ref.current.offsetHeight);
+    const element = document.elementFromPoint(0, offset);
     const backgroundColor = window.getComputedStyle(element, null).getPropertyValue("background-color");
     const color = readableColor(backgroundColor); // returns either #fff or #000
     const calculated = { "#fff": "dark", "#000": "light" }[color];

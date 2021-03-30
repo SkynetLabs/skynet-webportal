@@ -87,7 +87,7 @@ const IndexPage = () => {
             Build a <span className="text-primary border-b-2 border-white">free Internet</span>
           </h1>
 
-          <p className="mt-5 font-light text-md leading-7 text-palette-300">
+          <p className="mt-5 font-light text-lg leading-7 text-palette-300">
             <span className="hidden desktop:block">Skynet is a content and application hosting platform bringing</span>
             <span className="hidden desktop:block">decentralized storage to users, creators and app developers.</span>
             <span className="desktop:hidden text-justify text-sm">
@@ -98,12 +98,10 @@ const IndexPage = () => {
         </div>
       </Section>
 
-      <div className="px-8 py-16 relative">
-        <div className="max-w-content mx-auto">
-          <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: "240px" }}></div>
-          <Uploader />
-        </div>
-      </div>
+      <Section marginTop={false} marginBottom={false} className="relative">
+        <div className="absolute inset-x-0 bg-white bottom-0" style={{ top: "176px" }}></div>
+        <Uploader />
+      </Section>
 
       <Section className="bg-white">
         <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>

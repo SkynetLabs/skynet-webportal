@@ -81,8 +81,8 @@ const Navigation = ({ mode }) => {
       <div className={classnames("max-w-layout mx-auto")}>
         <div className="flex justify-between">
           <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
-            {mode === "dark" && <LogoWhiteText className="h-8 w-auto" />}
-            {mode === "light" && <LogoBlackText className="h-8 w-auto" />}
+            {mode === "dark" && <LogoWhiteText className="" />}
+            {mode === "light" && <LogoBlackText className="" />}
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">
             <button
@@ -119,7 +119,7 @@ const Navigation = ({ mode }) => {
 
         <div
           className={classnames(
-            "fixed bg-palette-600 inset-0 px-8 py-12 desktop:hidden transition-all duration-500 transform",
+            "fixed bg-palette-600 inset-0 px-8 py-12 desktop:hidden transition-all duration-300 transform ease-in-out",
             {
               "translate-x-full": !open,
             }
