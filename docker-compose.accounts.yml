@@ -16,7 +16,7 @@ services:
     environment:
       - ACCOUNTS_ENABLED=1
     volumes:
-      - ./docker/accounts/nginx.secure.conf:/etc/nginx/conf.extra.d/nginx.secure.conf:ro
+      - ./docker/accounts/nginx.account.conf:/etc/nginx/conf.extra.d/nginx.account.conf:ro
     depends_on:
       - accounts
 
