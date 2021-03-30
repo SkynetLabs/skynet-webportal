@@ -23,8 +23,7 @@ const sections = [
     header: "Developers",
     links: [
       { title: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet", ...external },
-      { title: "API Documentation", href: "https://siasky.net/docs/", ...external },
-      { title: "SDK Documentation", href: "https://siasky.net/docs/", ...external },
+      { title: "API and SDK Documentation", href: "https://siasky.net/docs/", ...external },
       { title: "Portal Setup", href: "https://support.siasky.net/the-technology/running-a-web-portal", ...external },
     ],
   },
@@ -44,7 +43,7 @@ const sections = [
       { title: "Sia Foundation", href: "https://sia.tech", ...external },
       { title: "Sia Foundation Forum", href: "https://forum.sia.tech", ...external },
       { title: "SiaStats", href: "https://siastats.info", ...external },
-      { title: "Skynet AppStore", href: "https://siasky.net/hns/skyapps/", ...external },
+      { title: "Skynet AppStore", href: "https://skyapps.hns.siasky.net/", ...external },
     ],
   },
   {

@@ -7,10 +7,10 @@ import Link from "../components/Link";
 
 const LearnMoreButton = () => (
   <Link
-    href="https://secure.siasky.net"
-    className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
+    href="https://support.siasky.net/the-technology/developing-on-skynet"
     target="_blank"
     rel="noopener noreferrer"
+    className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
   >
     Learn more
   </Link>
@@ -50,26 +50,41 @@ const reasonCards = [
 ];
 
 const resources = [
-  { title: "Skynet Developer Guide", description: "Developer portal for resources and guides.", href: "" },
-  { title: "Skynet SDK Docs", description: "SDKs in Javascript, Go, Python and more.", href: "" },
-  { title: "Skynet Playground", description: "Interact with the core of Skynet, no code needed. ", href: "" },
-  { title: "Skapp.io", description: "Explore webs apps in the ecosystem, many open source.", href: "" },
-  { title: "Skynet Core Repo", description: "The code base that makes the rest tick.", href: "" },
+  {
+    title: "Skynet Developer Guide",
+    description: "Developer portal for resources and guides.",
+    href: "https://support.siasky.net/the-technology/developing-on-skynet",
+  },
+  {
+    title: "Skynet SDK Docs",
+    description: "SDKs in Javascript, Go, Python and more.",
+    href: "https://siasky.net/docs/",
+  },
+  {
+    title: "Skynet AppStore",
+    description: "Explore webs apps in the ecosystem, many open source.",
+    href: "https://skyapps.hns.siasky.net",
+  },
+  {
+    title: "Skynet Core Repo",
+    description: "The code base that makes the rest tick.",
+    href: "https://gitlab.com/skynetlabs/skyd",
+  },
   {
     title: "Skynet on Github",
     description: "Includes SDKs, resources, and web portal. PR’s always welcome.",
-    href: "",
+    href: "https://github.com/NebulousLabs",
   },
   {
     title: "Join us on Discord",
     description: "A generous developer community, ready to solve hard problems.",
-    href: "",
+    href: "https://discordapp.com/invite/sia",
   },
 ];
 
 const docs = [
-  { name: "Developer Guide", href: "" },
-  { name: "Skynet SDK Docs", href: "" },
+  { name: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet" },
+  { name: "Skynet SDK Docs", href: "https://siasky.net/docs/" },
 ];
 
 const DevelopersPage = () => (
@@ -146,6 +161,8 @@ const DevelopersPage = () => (
             <li key={index}>
               <Link
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block bg-palette-100 px-8 py-5 rounded border-2 border-palette-600 border-opacity-0 hover:border-opacity-100"
               >
                 <div className="font-semibold text-lg">{title}</div>

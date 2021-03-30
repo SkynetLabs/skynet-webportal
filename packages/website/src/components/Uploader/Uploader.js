@@ -129,7 +129,7 @@ const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
       <div
         className={classnames("flex bg-palette-200 mt-1", {
           "bg-error-dashed opacity-20": status === "error",
-          "bg-primary-dashed opacity-20": status === "processing",
+          "bg-primary-dashed move opacity-20": status === "processing",
         })}
         style={{ height: "5px" }}
       >

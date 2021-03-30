@@ -10,10 +10,10 @@ import DiscordSmall from "../Icons/DiscordSmall.svg";
 import { useWindowSize, useWindowScroll } from "react-use";
 
 const routes = [
-  { title: "Home", route: "/" },
-  { title: "About", route: "/about" },
-  { title: "Developers", route: "/developers" },
-  { title: "News", route: "/news" },
+  { title: "Home", to: "/" },
+  { title: "About", to: "/about" },
+  { title: "Developers", to: "/developers" },
+  { title: "News", to: "/news" },
 ];
 
 const LogInLink = () => (
@@ -99,10 +99,10 @@ const Navigation = ({ mode }) => {
           </div>
 
           <div className="hidden desktop:ml-6 desktop:flex desktop:items-center desktop:space-x-12">
-            {routes.map(({ title, route }) => (
+            {routes.map(({ title, to }) => (
               <Link
-                key={route}
-                to={route}
+                key={to}
+                to={to}
                 activeClassName="underline-navigation"
                 className={classnames("text-sm font-light transition-colors duration-500", {
                   "text-white": mode === "dark",

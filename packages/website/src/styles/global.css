@@ -10,8 +10,22 @@
   background-size: 2px 2px;
 }
 
+@keyframes bg-primary-dashed-animation {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 15px;
+  }
+}
+
 .bg-primary-dashed {
   background: repeating-linear-gradient(to right, #00c65e, #00c65e 10px, transparent 10px, transparent 15px);
+  background-size: 15px 15px;
+}
+
+.bg-primary-dashed.move {
+  animation: bg-primary-dashed-animation 0.3s infinite linear forwards;
 }
 
 .bg-error-dashed {
