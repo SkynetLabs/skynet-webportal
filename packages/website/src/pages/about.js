@@ -197,10 +197,12 @@ const AboutPage = ({ ...props }) => {
           <span className="text-primary underline-white">decentralized internet</span>
         </SectionTitle>
 
-        <div
-          className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 mt-10"
-          style={{ background: "url(/logo-symbol.svg) no-repeat left center" }}
-        >
+        <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 mt-10">
+          <div
+            className="hidden desktop:block"
+            style={{ background: "url(/logo-symbol.svg) no-repeat left center / contain" }}
+          ></div>
+
           <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
             <p className="text-white font-light text-lg">
               Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and

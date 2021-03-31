@@ -10,4 +10,5 @@ import "@fontsource/sora/400.css"; // normal
 import "@fontsource/sora/500.css"; // medium
 import "@fontsource/sora/600.css"; // semibold
 import "@fontsource/source-sans-pro/400.css"; // normal
+import "@fontsource/source-sans-pro/600.css"; // semibold
 import "./src/styles/global.css";
