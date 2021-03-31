@@ -71,7 +71,7 @@ const resources = [
   {
     title: "Skynet on Github",
     description: "Includes SDKs, resources, and web portal. PR’s always welcome.",
-    href: "https://github.com/NebulousLabs",
+    href: "https://github.com/SkynetHQ",
   },
   {
     title: "Join us on Discord",
