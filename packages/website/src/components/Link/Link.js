@@ -5,7 +5,7 @@ export default function Link({
   children,
   to,
   activeClassName,
-  partiallyActive,
+  partiallyActive = to !== "/",
   target = "_blank",
   rel = "noopener noreferrer",
   ...params

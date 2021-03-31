@@ -1,5 +1,6 @@
 import * as React from "react";
-import Layout, { Section, SectionTitle, CardWithDescription, CardCarousel } from "../components/Layout";
+import Layout, { Section, SectionTitle, CardWithDescription } from "../components/Layout";
+import { Carousel } from "../components/Carousel/Carousel";
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
 import CodeTerminal from "../components/CodeTerminal";
 import SEO from "../components/seo";
@@ -130,7 +131,7 @@ const DevelopersPage = () => (
       </div>
 
       <div className="desktop:hidden">
-        <CardCarousel CardComponent={CardWithDescription} cards={reasonCards} />
+        <Carousel Component={CardWithDescription} items={reasonCards} />
       </div>
 
       <div className="desktop:hidden mt-12 text-center">

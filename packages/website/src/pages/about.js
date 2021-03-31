@@ -1,12 +1,7 @@
 import * as React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import Layout, {
-  Section,
-  SectionTitle,
-  SectionTitleCaption,
-  CardWithDescription,
-  CardCarousel,
-} from "../components/Layout";
+import Layout, { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
+import { Carousel } from "../components/Carousel/Carousel";
 import SEO from "../components/seo";
 import {
   ArrowRight,
@@ -183,7 +178,7 @@ const AboutPage = ({ ...props }) => {
             </div>
 
             <div className="desktop:hidden">
-              <CardCarousel CardComponent={CardWithDescription} cards={aboutCards} />
+              <Carousel Component={CardWithDescription} items={aboutCards} />
             </div>
 
             <div className="mt-14 text-center space-y-6">
@@ -247,7 +242,7 @@ const AboutPage = ({ ...props }) => {
           </div>
 
           <div className="desktop:hidden">
-            <CardCarousel CardComponent={TeamCardPage} cards={teamCardsPaginated} fullWidth={true} />
+            <Carousel Component={TeamCardPage} items={teamCardsPaginated} fullWidth={true} />
           </div>
 
           <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0">

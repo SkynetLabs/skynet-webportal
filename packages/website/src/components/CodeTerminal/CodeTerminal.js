@@ -29,7 +29,7 @@ async function example() {
 
   return (
     <div>
-      <div className="bg-palette-400 rounded-t space-x-2 px-2" style={{ width: "540px" }}>
+      <div className="bg-palette-400 rounded-t space-x-2 px-2">
         <div className="circle bg-error"></div>
         <div className="circle bg-warning"></div>
         <div className="circle bg-primary"></div>

@@ -1,6 +1,6 @@
 import * as React from "react";
-// import { StaticImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle, CardCarousel } from "../components/Layout";
+import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
+import { Carousel } from "../components/Carousel/Carousel";
 import SEO from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
@@ -102,7 +102,7 @@ const IndexPage = () => {
         </div>
 
         <div className="desktop:hidden">
-          <CardCarousel CardComponent={CardWithTitle} cards={etosCards} />
+          <Carousel Component={CardWithTitle} items={etosCards} />
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -141,7 +141,7 @@ const IndexPage = () => {
         </div>
 
         <div className="desktop:hidden">
-          <CardCarousel CardComponent={CardWithDescription} cards={ecosystemCards} />
+          <Carousel Component={CardWithDescription} items={ecosystemCards} />
         </div>
 
         <div className="desktop:hidden mt-12 text-center">
