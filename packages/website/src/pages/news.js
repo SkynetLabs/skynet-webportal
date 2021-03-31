@@ -8,7 +8,9 @@ import SEO from "../components/seo";
 const NewsCard = ({ ...props }) => {
   return (
     <div className="flex flex-col">
-      <img src={`https://picsum.photos/320/170?${Math.random()}`} alt={props.frontmatter.title} />
+      <Link to={props.fields.slug}>
+        <img src={`https://picsum.photos/320/170?${Math.random()}`} alt={props.frontmatter.title} />
+      </Link>
       <Link to={props.fields.slug} className="text-xl mt-6 hover:text-primary transition-colors duration-200">
         {props.frontmatter.title}
       </Link>
