@@ -1,14 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 66 66">
-  <defs>
-    <filter id="add-a">
-      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
-    </filter>
-  </defs>
-  <g fill="none" fill-rule="evenodd" transform="translate(-.097 .903)">
-    <circle cx="33.097" cy="33.097" r="32" fill="#00C65E"/>
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="33" cy="33" r="32" fill="#00C65E"/>
     <path stroke="#0D0D0D" stroke-width="2" d="M59.7279532,50.4620828 C62.9634424,45.4615529 64.8418319,39.5010119 64.8418319,33.1017494 C64.8418319,15.4286374 50.5149439,1.1017494 32.8418319,1.1017494 C15.1687199,1.1017494 0.84183186,15.4286374 0.84183186,33.1017494" transform="rotate(-2 32.842 25.782)"/>
-    <g filter="url(#add-a)" transform="translate(13.097 13.097)">
-      <path fill="#FFF" d="M21,12 L21,19 L28,19 L28,21 L21,21 L21,28 L19,28 L19,21 L12,21 L12,19 L19,19 L19,12 L21,12 Z"/>
-    </g>
+    <rect width="2" height="16" x="31.903" y="24.903" fill="#0D0D0D"/>
+    <rect width="16" height="2" x="24.903" y="31.903" fill="#0D0D0D"/>
   </g>
 </svg>
