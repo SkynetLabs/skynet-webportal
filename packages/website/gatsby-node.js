@@ -18,7 +18,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // Define a template for news post
   const PostTemplate = path.resolve(`./src/templates/news-post.js`);
 
-  // Get all markdown news posts sorted by date
+  // Get all markdown news posts sorted by date and all possible authors
   const result = await graphql(
     `
       {
@@ -107,6 +107,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       title: String
       description: String
       date: Date @dateformat
+      author: String
     }
     type Fields {
       slug: String

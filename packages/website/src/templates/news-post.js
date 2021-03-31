@@ -1,13 +1,17 @@
 import * as React from "react";
-import { Link, graphql } from "gatsby";
-import Bio from "../components/bio";
+import { graphql } from "gatsby";
 import Layout, { Section, SectionTitle } from "../components/Layout";
+import { Aside } from "../components/News";
 import SEO from "../components/seo";
+import { TwitterShareButton, LinkedinShareButton, FacebookShareButton } from "react-share";
+import { TwitterSmall, LinkedinSmall, FacebookSmall } from "../components/Icons";
 
 const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata?.title || `Title`;
   // const { previous, next } = data;
+
+  console.log(post);
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -18,11 +22,26 @@ const BlogPostTemplate = ({ data, location }) => {
             {post.frontmatter.title}
           </SectionTitle>
 
-          <section
-            dangerouslySetInnerHTML={{ __html: post.html }}
-            itemProp="articleBody"
-            className="max-w-tablet ml-auto"
-          />
+          <div className="grid grid-cols-3 gap-8">
+            <aside className="space-y-5">
+              <Aside avatar={post.frontmatter.avatar} author={post.frontmatter.author} date={post.frontmatter.date} />
+
+              <hr className="text-palette-200" />
+
+              <div className="flex items-center">
+                <div class="text-xs uppercase mr-4">Share</div>
+
+                <TwitterShareButton url={location.href} title={post.frontmatter.title}>
+                  <TwitterSmall />
+                </TwitterShareButton>
+
+                <LinkedinShareButton url={location.href} title={post.frontmatter.title}>
+                  <LinkedinSmall />
+                </LinkedinShareButton>
+              </div>
+            </aside>
+            <section dangerouslySetInnerHTML={{ __html: post.html }} itemProp="articleBody" className="col-span-2" />
+          </div>
         </article>
       </Section>
     </Layout>
@@ -46,6 +65,12 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        author
+        avatar {
+          childImageSharp {
+            gatsbyImageData(width: 40, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          }
+        }
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {

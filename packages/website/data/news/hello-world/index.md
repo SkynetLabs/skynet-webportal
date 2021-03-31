@@ -2,6 +2,8 @@
 title: Hello World
 date: "2015-05-01T22:12:03.284Z"
 description: "Hello World"
+author: Nicole Tay
+avatar: ../../team/nicole-tay.png
 ---
 
 This is my first post on my new fake blog! How exciting!
@@ -24,7 +26,7 @@ Oh, and here's a great quote from this Wikipedia on
 You can also write code blocks here!
 
 ```js
-const saltyDuckEgg = "chinese preserved food product"
+const saltyDuckEgg = "chinese preserved food product";
 ```
 
 | Number | Title                                    | Year |

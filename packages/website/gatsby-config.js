@@ -55,7 +55,7 @@ module.exports = {
             options: {
               classMap: {
                 heading: "font-semibold text-palette-600",
-                paragraph: "font-content text-palette-400",
+                paragraph: "font-content text-base text-palette-400",
                 strong: "font-semibold",
                 "heading[depth=1]": "text-4xl",
                 "heading[depth=2]": "text-3xl",
@@ -115,4 +115,7 @@ module.exports = {
       },
     },
   ],
+  // mapping: {
+  //   "MarkdownRemark.frontmatter.author": `teamYaml`,
+  // },
 };
