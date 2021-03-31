@@ -51,12 +51,12 @@ const Layout = ({ children }) => {
   // `);
 
   return (
-    <>
+    <div className="background bg-top bg-contain">
       <FixedHeader />
       <main>{children}</main>
       <FooterNavigation />
       <Footer />
-    </>
+    </div>
   );
 };
 

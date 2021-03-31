@@ -89,7 +89,7 @@ const DevelopersPage = () => (
   <Layout>
     <SEO title="Developers" />
 
-    <Section className="background bg-top bg-cover" first={true}>
+    <Section first={true}>
       <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">
         <div className="space-y-12">
           <h1 className="text-white">

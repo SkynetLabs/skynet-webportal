@@ -70,7 +70,7 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
 
-      <Section className="background bg-top bg-cover" first={true}>
+      <Section first={true}>
         <div className="text-center">
           <h1 className="text-4xl desktop:text-6xl text-white">
             Build a <span className="text-primary underline-white">free Internet</span>
