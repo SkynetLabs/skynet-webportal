@@ -112,7 +112,7 @@ const IndexPage = () => {
           </p>
 
           <Link
-            href="/"
+            href="https://skyapps.hns.siasky.net/"
             className="mt-6 uppercase flex items-center text-xs text-palette-600 hover:text-primary transition-colors duration-200"
           >
             Try Skynet Apps <ArrowRight className="fill-current" />
@@ -127,7 +127,10 @@ const IndexPage = () => {
           <div className="hidden desktop:inline-block">
             <SectionTitle>Ready to build your application?</SectionTitle>
 
-            <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
+            <Link
+              href="https://support.siasky.net/the-technology/developing-on-skynet"
+              className="button-secondary-dark inline-block px-10 mt-7"
+            >
               Learn more
             </Link>
           </div>
@@ -142,7 +145,10 @@ const IndexPage = () => {
         </div>
 
         <div className="desktop:hidden mt-12 text-center">
-          <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
+          <Link
+            href="https://support.siasky.net/the-technology/developing-on-skynet"
+            className="button-secondary-dark inline-block px-10 mt-7"
+          >
             Learn more
           </Link>
         </div>
