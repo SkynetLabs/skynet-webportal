@@ -79,7 +79,15 @@
 - name: Nicole Tay
   position: Head of Marketing
   image: ./team/nicole-tay.png
+  social:
+    linkedin: https://www.linkedin.com/in/nicolehtay/
+    twitter: https://twitter.com/NicoleHTay
 
 - name: Daniel Helm
   position: Developer Evangelist
   image: ./team/daniel-helm.png
+  social:
+    github: https://github.com/dghelm
+    linkedin: https://www.linkedin.com/in/dghelm/
+    twitter: https://twitter.com/danielgileshelm
+    
