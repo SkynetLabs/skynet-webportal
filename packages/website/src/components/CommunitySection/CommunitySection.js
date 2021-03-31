@@ -19,7 +19,7 @@ const social = [
   { name: "Reddit", Icon: RedditSmall, href: "https://www.reddit.com/r/siacoin" },
   { name: "Medium", Icon: MediumSmall, href: "https://blog.sia.tech" },
   { name: "Youtube", Icon: YoutubeSmall, href: "https://www.youtube.com/c/SiaTVOfficial/featured" },
-  { name: "Tik Tok", Icon: TikTokSmall, href: "https://www.tiktok.com/@decentralizedfuture" },
+  { name: "TikTok", Icon: TikTokSmall, href: "https://www.tiktok.com/@decentralizedfuture" },
 ];
 
 const SectionHeader = ({ children }) => <h3 className="uppercase text-xs text-palette-600 desktop:mb-1">{children}</h3>;
