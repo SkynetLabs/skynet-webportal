@@ -67,7 +67,7 @@ secrets:
 
 session:
   cookie:
-    domain: secure.siasky.net
+    domain: account.siasky.net
   lifespan: "720h"
 
 hashers:

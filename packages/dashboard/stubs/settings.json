@@ -9,7 +9,7 @@
     "password": {
       "method": "password",
       "config": {
-        "action": "https://secure.siasky.xyz/.ory/kratos/public/self-service/settings/methods/password?flow=e01f6bf9-845c-4c4b-a3ce-60691dd7a97c",
+        "action": "https://account.siasky.xyz/.ory/kratos/public/self-service/settings/methods/password?flow=e01f6bf9-845c-4c4b-a3ce-60691dd7a97c",
         "method": "POST",
         "fields": [
           { "name": "password", "type": "password", "required": true },
@@ -25,7 +25,7 @@
     "profile": {
       "method": "profile",
       "config": {
-        "action": "https://secure.siasky.xyz/.ory/kratos/public/self-service/settings/methods/profile?flow=e01f6bf9-845c-4c4b-a3ce-60691dd7a97c",
+        "action": "https://account.siasky.xyz/.ory/kratos/public/self-service/settings/methods/profile?flow=e01f6bf9-845c-4c4b-a3ce-60691dd7a97c",
         "method": "POST",
         "fields": [
           {

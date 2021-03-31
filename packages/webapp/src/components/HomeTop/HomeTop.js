@@ -18,11 +18,11 @@ export default function HomeTop() {
 
       {boolean(process.env.GATSBY_WITH_ACCOUNTS) && (
         <p className="auth-links">
-          <a href="/secure/auth/registration" className="link">
+          <a href="/account/auth/registration" className="link">
             Sign up now!
           </a>{" "}
           Already have an account? Go to your{" "}
-          <a href="/secure/" className="link">
+          <a href="/account/" className="link">
             dashboard
           </a>
         </p>
