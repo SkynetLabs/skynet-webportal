@@ -1,15 +1,14 @@
 import * as React from "react";
 import { graphql } from "gatsby";
-import Layout, { Section, SectionTitle } from "../components/Layout";
+import Layout, { Section } from "../components/Layout";
 import { Aside } from "../components/News";
 import Link from "../components/Link";
 import SEO from "../components/seo";
 
 const NewsCard = ({ ...props }) => {
-  console.log(props);
   return (
     <div className="flex flex-col">
-      <img src="https://placekitten.com/320/170" />
+      <img src={`https://picsum.photos/320/170?${Math.random()}`} alt={props.frontmatter.title} />
       <Link to={props.fields.slug} className="text-xl mt-6 hover:text-primary transition-colors duration-200">
         {props.frontmatter.title}
       </Link>

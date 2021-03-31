@@ -4,14 +4,14 @@ import Layout, { Section, SectionTitle } from "../components/Layout";
 import { Aside } from "../components/News";
 import SEO from "../components/seo";
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton } from "react-share";
-import { TwitterSmall, LinkedinSmall, FacebookSmall } from "../components/Icons";
+import { TwitterSmall, LinkedinSmall } from "../components/Icons";
 
 const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata?.title || `Title`;
   // const { previous, next } = data;
 
-  console.log(post);
+  // console.log(post);
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -31,13 +31,21 @@ const BlogPostTemplate = ({ data, location }) => {
               <div className="flex items-center">
                 <div class="text-xs uppercase mr-4">Share</div>
 
-                <TwitterShareButton url={location.href} title={post.frontmatter.title}>
+                <TwitterShareButton url={location.href} title={post.frontmatter.title} hashtags={[]}>
                   <TwitterSmall />
                 </TwitterShareButton>
 
-                <LinkedinShareButton url={location.href} title={post.frontmatter.title}>
+                <LinkedinShareButton
+                  url={location.href}
+                  title={post.frontmatter.title}
+                  summary={post.frontmatter.description}
+                >
                   <LinkedinSmall />
                 </LinkedinShareButton>
+
+                <FacebookShareButton url={location.href} quote={post.frontmatter.title}>
+                  <LinkedinSmall />
+                </FacebookShareButton>
               </div>
             </aside>
             <section dangerouslySetInnerHTML={{ __html: post.html }} itemProp="articleBody" className="col-span-2" />
