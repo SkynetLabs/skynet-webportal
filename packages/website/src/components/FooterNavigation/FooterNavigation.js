@@ -3,7 +3,6 @@ import classnames from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "../Link";
 
-const external = { target: "_blank", rel: "noopener noreferrer" };
 const sections = [
   {
     header: "Skynet Labs",
@@ -12,45 +11,44 @@ const sections = [
       {
         title: "Brand Guidelines",
         href: "https://support.siasky.net/key-concepts/skynet-brand-guidelines",
-        ...external,
       },
-      { title: "Careers", href: "https://jobs.lever.co/nebulous", ...external },
-      { title: "Terms of Use", href: "/terms.pdf", ...external },
-      { title: "Privacy Policy", href: "/privacy.pdf", ...external },
+      { title: "Careers", href: "https://jobs.lever.co/nebulous" },
+      { title: "Terms of Use", href: "/terms.pdf" },
+      { title: "Privacy Policy", href: "/privacy.pdf" },
     ],
   },
   {
     header: "Developers",
     links: [
-      { title: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet", ...external },
-      { title: "API & SDK Documentation", href: "https://siasky.net/docs/", ...external },
-      { title: "Portal Setup", href: "https://support.siasky.net/the-technology/running-a-web-portal", ...external },
+      { title: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet" },
+      { title: "API & SDK Documentation", href: "https://siasky.net/docs/" },
+      { title: "Portal Setup", href: "https://support.siasky.net/the-technology/running-a-web-portal" },
     ],
   },
   {
     header: "Technology",
     links: [
-      { title: "What is Skynet?", href: "https://support.siasky.net", ...external },
-      { title: "Frequent Questions", href: "https://support.siasky.net/key-concepts/faqs", ...external },
+      { title: "What is Skynet?", href: "https://support.siasky.net" },
+      { title: "Frequent Questions", href: "https://support.siasky.net/key-concepts/faqs" },
       { title: "Pricing", to: "/pricing" },
-      { title: "Skynet Wiki", href: "https://skynetwiki.tech", ...external },
-      { title: "Support", href: "https://support.siasky.net", ...external },
+      { title: "Skynet Wiki", href: "https://skynetwiki.tech" },
+      { title: "Support", href: "https://support.siasky.net" },
     ],
   },
   {
     header: "Ecosystem",
     links: [
-      { title: "Sia Foundation", href: "https://sia.tech", ...external },
-      { title: "Sia Foundation Forum", href: "https://forum.sia.tech", ...external },
-      { title: "SiaStats", href: "https://siastats.info", ...external },
-      { title: "Skynet AppStore", href: "https://skyapps.hns.siasky.net/", ...external },
+      { title: "Sia Foundation", href: "https://sia.tech" },
+      { title: "Sia Foundation Forum", href: "https://forum.sia.tech" },
+      { title: "SiaStats", href: "https://siastats.info" },
+      { title: "Skynet AppStore", href: "https://skyapps.hns.siasky.net/" },
     ],
   },
   {
     header: "Skynet Webportals",
     links: [
-      { title: "Skydrain", href: "https://skydrain.net", ...external },
-      { title: "SkyPortal", href: "https://skyportal.xyz", ...external },
+      { title: "Skydrain", href: "https://skydrain.net" },
+      { title: "SkyPortal", href: "https://skyportal.xyz" },
     ],
   },
 ];
