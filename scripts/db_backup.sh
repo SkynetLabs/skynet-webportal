@@ -5,7 +5,7 @@ cwd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Set the environment. We only grab the entries we need because otherwise we
 # need to deal with the edge cases presented by problematic values.
 set -o allexport
-cat $cwd/../.env | grep "AWS_ACCESS_KEY_ID\|AWS_SECRET_ACCESS_KEY\|S3_BACKUP_PATH\|SKYNET_DB_USER\|SKYNET_DB_PASS\|SKYNET_DB_HOST\|SKYNET_DB_PORT" > .tmpenv
+cat $cwd/../.env | grep "AWS_ACCESS_KEY_ID\|AWS_SECRET_ACCESS_KEY\|S3_BACKUP_PATH\|SKYNET_DB_USER\|SKYNET_DB_PASS\|SKYNET_DB_HOST\|SKYNET_DB_PORT" >.tmpenv
 source .tmpenv
 rm .tmpenv
 set +o allexport
@@ -20,14 +20,14 @@ if [[ $S3_BACKUP_PATH == "" ]]; then
   exit 1
 fi
 # Take the current datetime:
-DT=`date +%Y-%m-%d`
+DT=$(date +%Y-%m-%d)
 
 ### COCKROACH DB ###
 echo "Creating a backup of CockroachDB:"
 # Check if a backup already exists:
 totalFoundObjects=$(aws s3 ls $S3_BACKUP_PATH/$DT --recursive --summarize | grep "cockroach" | wc -l)
 if [ "$totalFoundObjects" -ge "1" ]; then
-   echo "Backup already exists for today. Skipping."
+  echo "Backup already exists for today. Skipping."
 else
   # Create a cockroachdb backup:
   docker exec cockroach \
@@ -47,7 +47,7 @@ echo "Creating a backup of MongoDB:"
 # Check if a backup already exists:
 totalFoundObjects=$(aws s3 ls $S3_BACKUP_PATH/$DT --recursive --summarize | grep "mongo" | wc -l)
 if [ "$totalFoundObjects" -ge "1" ]; then
-   echo "Backup already exists for today. Skipping."
+  echo "Backup already exists for today. Skipping."
 else
   # Create the backup:
   docker exec mongo \
