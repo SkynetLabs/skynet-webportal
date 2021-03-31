@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout, { Section, SectionTitle, CardWithDescription } from "../components/Layout";
+import Layout, { Section, SectionTitle, CardWithDescription, CardCarousel } from "../components/Layout";
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
 import CodeTerminal from "../components/CodeTerminal";
 import SEO from "../components/seo";
@@ -8,9 +8,7 @@ import Link from "../components/Link";
 const LearnMoreButton = () => (
   <Link
     href="https://support.siasky.net/the-technology/developing-on-skynet"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
+    className="button-secondary-dark inline-block px-10 mt-7"
   >
     Learn more
   </Link>
@@ -91,7 +89,7 @@ const DevelopersPage = () => (
   <Layout>
     <SEO title="Developers" />
 
-    <Section width="layout">
+    <Section className="background bg-top bg-cover" first={true}>
       <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">
         <div className="space-y-12">
           <h1 className="text-white">
@@ -103,9 +101,7 @@ const DevelopersPage = () => (
               <li key={index}>
                 <Link
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary font-light text-lg inline-flex"
+                  className="text-primary font-light text-lg inline-flex hover:text-primary-light transition-colors duration-200"
                 >
                   {name} <ExternalLink className="fill-current inline-block ml-2" height={28} />
                 </Link>
@@ -121,7 +117,7 @@ const DevelopersPage = () => (
     <Section className="bg-white">
       <SectionTitle className="mb-7 desktop:hidden">Plenty of reason to use Skynet</SectionTitle>
 
-      <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3">
+      <div className="hidden desktop:grid gap-x-8 gap-y-16 grid-cols-3">
         <div className="hidden desktop:inline-block">
           <SectionTitle>Plenty of reason to use Skynet</SectionTitle>
 
@@ -131,6 +127,10 @@ const DevelopersPage = () => (
         {reasonCards.map((card, index) => (
           <CardWithDescription key={index} {...card} />
         ))}
+      </div>
+
+      <div className="desktop:hidden">
+        <CardCarousel CardComponent={CardWithDescription} cards={reasonCards} />
       </div>
 
       <div className="desktop:hidden mt-12 text-center">
@@ -161,9 +161,7 @@ const DevelopersPage = () => (
             <li key={index}>
               <Link
                 href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-palette-100 px-8 py-5 rounded border-2 border-palette-600 border-opacity-0 hover:border-opacity-100"
+                className="block bg-palette-100 px-8 py-5 rounded border-2 border-transparent hover:border-palette-600 transition-colors duration-200"
               >
                 <div className="font-semibold text-lg">{title}</div>
                 <div className="font-content text-palette-400">{description}</div>

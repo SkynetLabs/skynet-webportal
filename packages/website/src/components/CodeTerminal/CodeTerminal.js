@@ -29,13 +29,13 @@ async function example() {
 
   return (
     <div>
-      <div className="bg-palette-400 rounded-t space-x-2 px-2">
-        <div style={{ height: "11px", width: "11px" }} className="inline-block rounded-full bg-error"></div>
-        <div style={{ height: "11px", width: "11px" }} className="inline-block rounded-full bg-warning"></div>
-        <div style={{ height: "11px", width: "11px" }} className="inline-block rounded-full bg-primary"></div>
+      <div className="bg-palette-400 rounded-t space-x-2 px-2" style={{ width: "540px" }}>
+        <div className="circle bg-error"></div>
+        <div className="circle bg-warning"></div>
+        <div className="circle bg-primary"></div>
       </div>
       <div className="p-4 bg-palette-500 text-sm" style={{ backgroundColor: "rgb(40, 44, 52)" }}>
-        <SyntaxHighlighter language="javascript" showLineNumbers={true} wrapLongLines={true} style={style}>
+        <SyntaxHighlighter language="javascript" showLineNumbers={true} style={style}>
           {codeString}
         </SyntaxHighlighter>
       </div>

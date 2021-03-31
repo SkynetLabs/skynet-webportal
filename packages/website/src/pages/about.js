@@ -1,6 +1,12 @@
 import * as React from "react";
-import { StaticImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Layout, {
+  Section,
+  SectionTitle,
+  SectionTitleCaption,
+  CardWithDescription,
+  CardCarousel,
+} from "../components/Layout";
 import SEO from "../components/seo";
 import {
   ArrowRight,
@@ -17,6 +23,7 @@ import {
   LinkedinSmall,
 } from "../components/Icons";
 import Link from "../components/Link";
+import { graphql } from "gatsby";
 
 const aboutCards = [
   {
@@ -59,118 +66,15 @@ const aboutCards = [
   },
 ];
 
-const teamCards = [
-  {
-    name: "David Vorick",
-    position: "CEO and Lead Developer",
-    Image: <StaticImage src="../images/team/david-vorick.png" alt="David Vorick" />,
-    social: {
-      github: "https://github.com/DavidVorick",
-      gitlab: "https://gitlab.com/DavidVorick",
-      twitter: "https://twitter.com/davidvorick",
-    },
-  },
-  {
-    name: "Chris Schinnerl",
-    position: "VP of Technology",
-    Image: <StaticImage src="../images/team/chris-schinnerl.png" alt="Chris Schinnerl" />,
-    social: {
-      github: "https://github.com/ChrisSchinnerl",
-      gitlab: "https://gitlab.com/ChrisSchinnerl",
-      twitter: "https://twitter.com/ChrisSchinnerl",
-    },
-  },
-  {
-    name: "Steve Funk",
-    position: "Head of Support",
-    Image: <StaticImage src="../images/team/steve-funk.png" alt="Steve Funk" />,
-    social: {
-      linkedin: "https://www.linkedin.com/in/stevengfunk",
-    },
-  },
-  {
-    name: "Matt Sevey",
-    position: "Engineering Manager",
-    Image: <StaticImage src="../images/team/matt-sevey.png" alt="Matt Sevey" />,
-    social: {
-      github: "https://github.com/MSevey",
-      gitlab: "https://gitlab.com/MSevey",
-      linkedin: "https://www.linkedin.com/in/sevey",
-      twitter: "https://twitter.com/MJSevey",
-    },
-  },
-  {
-    name: "Manasi Vora",
-    position: "VP of Strategy and Ops",
-    Image: <StaticImage src="../images/team/manasi-vora.png" alt="Manasi Vora" />,
-    social: {
-      linkedin: "https://linkedin.com/in/manasi-vora-cfa-bb9a1715",
-      twitter: "https://twitter.com/manasilvora",
-    },
-  },
-  {
-    name: "PJ Brone",
-    position: "Core Developer",
-    Image: <StaticImage src="../images/team/pj-brone.png" alt="PJ Brone" />,
-    social: {
-      github: "https://github.com/peterjan",
-      gitlab: "https://gitlab.com/pjbrone",
-      linkedin: "https://www.linkedin.com/in/peterjanbrone",
-      twitter: "https://twitter.com/peterjanbrone",
-    },
-  },
-  {
-    name: "Marcin Swieczkowski",
-    position: "Core Developer",
-    Image: <StaticImage src="../images/team/marcin-swieczkowski.png" alt="Marcin Swieczkowski" />,
-    social: {
-      github: "https://github.com/m-cat",
-      gitlab: "https://gitlab.com/m-cat",
-    },
-  },
-  {
-    name: "Karol Wypchlo",
-    position: "Full Stack Developer",
-    Image: <StaticImage src="../images/team/karol-wypchlo.png" alt="Karol Wypchlo" />,
-    social: {
-      github: "https://github.com/kwypchlo",
-      gitlab: "https://gitlab.com/kwypchlo",
-      linkedin: "https://www.linkedin.com/in/karolwypchlo/",
-      twitter: "https://twitter.com/kwypchlo",
-    },
-  },
-  {
-    name: "Ivaylo Novakov",
-    position: "Core Developer",
-    Image: <StaticImage src="../images/team/ivaylo-novakov.png" alt="Ivaylo Novakov" />,
-    social: {
-      github: "https://github.com/ro-tex",
-      gitlab: "https://gitlab.com/kwypchlo",
-      linkedin: "https://www.linkedin.com/in/karolwypchlo/",
-      twitter: "https://twitter.com/kwypchlo",
-    },
-  },
-  {
-    name: "Filip Rysavy",
-    position: "Testing Developer",
-    Image: <StaticImage src="../images/team/filip-rysavy.png" alt="Filip Rysavy" />,
-    social: {
-      linkedin: "https://www.linkedin.com/in/filiprysavy/",
-    },
-  },
-  {
-    name: "Nicole Tay",
-    position: "Head of Marketing",
-    Image: <StaticImage src="../images/team/nicole-tay.png" alt="Nicole Tay" />,
-    social: {},
-  },
-  {
-    name: "Daniel Helm",
-    position: "Developer Evangelist",
-    Image: <StaticImage src="../images/team/daniel-helm.png" alt="Daniel Helm" />,
-    social: {},
-  },
-];
+const careers = { href: "https://jobs.lever.co/nebulous", target: "_blank", rel: "noopener noreferrer" };
+
+const paginate = (array, size) =>
+  array.reduce((acc, item, index) => {
+    const chunkIndex = Math.floor(index / size);
+    if (!acc[chunkIndex]) acc[chunkIndex] = { cards: [] }; // start a new chunk
+    acc[chunkIndex].cards.push(item);
+    return acc;
+  }, []);
 
 const SocialIcon = ({ name }) => {
   switch (name) {
@@ -187,9 +91,9 @@ const SocialIcon = ({ name }) => {
   }
 };
 
-const TeamCard = ({ Image, name, position, social }) => (
+const TeamCard = ({ image, name, position, social }) => (
   <div className="flex">
-    {Image}
+    <GatsbyImage image={getImage(image)} alt={name} />
     <div className="flex flex-col justify-between ml-3">
       <div className="flex flex-col">
         <span className="font-light text-lg">{name}</span>
@@ -198,7 +102,7 @@ const TeamCard = ({ Image, name, position, social }) => (
       {social && (
         <div className="flex flex-row">
           {Object.entries(social).map(([platform, href]) => (
-            <Link key={platform} href={href} title={platform} target="_blank" rel="noopener noreferrer">
+            <Link key={platform} href={href} title={platform}>
               <SocialIcon name={platform} />
             </Link>
           ))}
@@ -208,147 +112,203 @@ const TeamCard = ({ Image, name, position, social }) => (
   </div>
 );
 
-const AboutPage = () => (
-  <Layout>
-    <SEO title="About" />
-
-    <Section className="bg-palette-100" marginBottom={false}>
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
-        <div className="col-span-3">
-          <h1>
-            Skynet is the foundation for a new, <span className="underline text-primary">decentralized internet</span>
-          </h1>
-        </div>
-
-        <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
-          <p className="text-palette-600 font-light text-lg">
-            Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
-            applications.
-          </p>
-
-          <p className="font-content text-palette-400">
-            Skynet apps transform what’s possible on the web. Beyond protecting privacy, decentralization enables
-            application, integration, and innovation that simply cannot be replicated by the centralized world. Now, we
-            can break free of the walled gardens and data silos that have constricted invention and interoperability.
-            Key features of decentralization such as user-owned personal data, persistent identity across apps, and
-            censorship-resistance will be the new standards of the digital world.
-          </p>
-
-          <Link to="/developers" className="uppercase inline-flex items-center text-xs text-palette-600">
-            Learn more about how our technology works <ArrowRight />
-          </Link>
-        </div>
-      </div>
-    </Section>
-
-    <Section className="bg-white">
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 my-20">
-        <div className="desktop:col-span-2">
-          <SectionTitle>What does the decentralized future look like?</SectionTitle>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-2">
-        {aboutCards.map((card, index) => (
-          <CardWithDescription key={index} {...card} />
-        ))}
-      </div>
-
-      <div className="mt-14 text-center space-y-6">
-        <p className="font-light text-lg text-palette-600">Want to build apps with these features?</p>
-        <Link
-          href="https://secure.siasky.net"
-          className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center"
-        >
-          Get started here
-        </Link>
-      </div>
-    </Section>
-
-    <Section className="bg-palette-600">
-      <SectionTitle className="text-white my-20">
-        Skynet Labs builds uncompromising software infrastructure for the{" "}
-        <span className="underline text-primary">decentralized internet</span>
-      </SectionTitle>
-
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
-        <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
-          <p className="text-white font-light text-lg">
-            Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
-            applications.
-          </p>
-
-          <p className="font-content text-palette-300">
-            Skynet apps transform what’s possible on the web. Beyond protecting privacy, decentralization enables
-            application, integration, and innovation that simply cannot be replicated by the centralized world. Now, we
-            can break free of the walled gardens and data silos that have constricted invention and interoperability.
-            Key features of decentralization such as user-owned personal data, persistent identity across apps, and
-            censorship-resistance will be the new standards of the digital world.
-          </p>
-
-          <h3 className="text-lg desktop:text-3xl font-semibold text-white">
-            Decentralization isn’t just what we do, <span className="underline text-primary">it’s how we do it</span>
-          </h3>
-
-          <p className="font-content text-palette-300">
-            Our commitment to decentralization is at our core. With this ethos in mind, we believe in empowering local
-            leaders to decide what is best for their communities in adoption of this technology. Individuals and
-            communities deserve self-determination.
-          </p>
-        </div>
-      </div>
-    </Section>
-
-    <Section className="bg-white">
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 my-20">
-        <div className="desktop:col-span-2">
-          <SectionTitleCaption>Team</SectionTitleCaption>
-          <SectionTitle>Skynet stands with you in the fight for a freer future</SectionTitle>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-16 desktop:grid-cols-3">
-        {teamCards.map((card, index) => (
-          <TeamCard key={index} {...card} />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 my-20">
-        <div className="desktop:col-span-2 flex items-center space-x-8">
-          <Join className="flex-shrink-0" />
-          <p className="font-light text-lg">
-            Join us! We're looking for talented &amp; passionate individuals to join our team. Check out our job
-            postings today.
-          </p>
-        </div>
-      </div>
-    </Section>
-
-    <Section className="bg-palette-100">
-      <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 my-20">
-        <div className="desktop:col-span-2">
-          <SectionTitleCaption>Investors</SectionTitleCaption>
-          <SectionTitle>Support for the Skynet Vision</SectionTitle>
-        </div>
-      </div>
-
-      <div className="text-center p-10">quotes</div>
-
-      <div className="grid grid-cols-2 gap-4 desktop:grid-cols-4">
-        <StaticImage src="../images/investors/investors-logo-1.png" alt="A.Capital Ventures" />
-        <StaticImage src="../images/investors/investors-logo-2.png" alt="Bain Capital" />
-        <StaticImage src="../images/investors/investors-logo-3.png" alt="Bessemer Venture Partners" />
-        <StaticImage src="../images/investors/investors-logo-4.png" alt="Collab" />
-        <StaticImage src="../images/investors/investors-logo-5.png" alt="Dragonfly Capital" />
-        <StaticImage src="../images/investors/investors-logo-6.png" alt="Fenbushi Capital" />
-        <StaticImage src="../images/investors/investors-logo-7.png" alt="First Star Ventures" />
-        <StaticImage src="../images/investors/investors-logo-8.png" alt="Hack VC" />
-        <StaticImage src="../images/investors/investors-logo-9.png" alt="INBlockchain" />
-        <StaticImage src="../images/investors/investors-logo-10.png" alt="Paradigm" />
-        <StaticImage src="../images/investors/investors-logo-11.png" alt="SV Angel" />
-      </div>
-    </Section>
-  </Layout>
+const TeamCardPage = ({ cards }) => (
+  <div className="flex flex-col space-y-16">
+    {cards.map((card, index) => (
+      <TeamCard key={index} {...card} />
+    ))}
+  </div>
 );
+
+const AboutPage = ({ ...props }) => {
+  const investors = props.data.allInvestorsYaml.nodes;
+  const teamCards = props.data.allTeamYaml.nodes;
+  const teamCardsPaginated = paginate(teamCards, 3);
+
+  return (
+    <Layout>
+      <SEO title="About" />
+
+      <Section className="bg-palette-100" marginBottom={false} first={true}>
+        <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
+          <div className="col-span-3">
+            <h1>
+              Skynet is the foundation for a new,{" "}
+              <span className="text-primary underline-dark">decentralized internet</span>
+            </h1>
+          </div>
+
+          <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
+            <p className="text-palette-600 font-light text-lg">
+              Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
+              applications.
+            </p>
+
+            <p className="font-content text-palette-400">
+              Skynet apps transform what’s possible on the web. Beyond protecting privacy, decentralization enables
+              application, integration, and innovation that simply cannot be replicated by the centralized world. Now,
+              we can break free of the walled gardens and data silos that have constricted invention and
+              interoperability. Key features of decentralization such as user-owned personal data, persistent identity
+              across apps, and censorship-resistance will be the new standards of the digital world.
+            </p>
+
+            <Link
+              to="/developers"
+              className="hidden sm:inline-flex items-center text-xs text-palette-600 uppercase hover:text-primary transition-colors duration-200"
+            >
+              Learn more about how our technology works <ArrowRight className="fill-current" />
+            </Link>
+
+            <Link to="/developers" className="inline-flex sm:hidden flex-col text-xs text-palette-600 uppercase">
+              Learn more about how our{" "}
+              <span className="inline-flex items-center">
+                technology works <ArrowRight />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-palette-100 desktop:bg-white">
+        <div className="space-y-8">
+          <SectionTitle>What does the decentralized future look like?</SectionTitle>
+
+          <div>
+            <div className="hidden desktop:grid gap-x-16 gap-y-16 grid-cols-2">
+              {aboutCards.map((card, index) => (
+                <CardWithDescription key={index} {...card} />
+              ))}
+            </div>
+
+            <div className="desktop:hidden">
+              <CardCarousel CardComponent={CardWithDescription} cards={aboutCards} />
+            </div>
+
+            <div className="mt-14 text-center space-y-6">
+              <p className="font-light text-lg text-palette-600">Want to build apps with these features?</p>
+              <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10">
+                Get started here
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="background bg-top bg-cover">
+        <SectionTitle className="text-white">
+          Skynet Labs builds uncompromising software infrastructure for the{" "}
+          <span className="text-primary underline-white">decentralized internet</span>
+        </SectionTitle>
+
+        <div
+          className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3 mt-10"
+          style={{ background: "url(/logo-symbol.svg) no-repeat left center" }}
+        >
+          <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
+            <p className="text-white font-light text-lg">
+              Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
+              applications.
+            </p>
+
+            <p className="font-content text-palette-300">
+              Skynet apps transform what’s possible on the web. Beyond protecting privacy, decentralization enables
+              application, integration, and innovation that simply cannot be replicated by the centralized world. Now,
+              we can break free of the walled gardens and data silos that have constricted invention and
+              interoperability. Key features of decentralization such as user-owned personal data, persistent identity
+              across apps, and censorship-resistance will be the new standards of the digital world.
+            </p>
+
+            <h3 className="text-lg desktop:text-3xl font-semibold text-white">
+              Decentralization isn’t just what we do, <span className="text-primary">it’s how we do it</span>
+            </h3>
+
+            <p className="font-content text-palette-300">
+              Our commitment to decentralization is at our core. With this ethos in mind, we believe in empowering local
+              leaders to decide what is best for their communities in adoption of this technology. Individuals and
+              communities deserve self-determination.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-white">
+        <div className="space-y-10 desktop:space-y-20 flex flex-col">
+          <div>
+            <SectionTitleCaption>Team</SectionTitleCaption>
+            <SectionTitle>Skynet stands with you in the fight for a freer future</SectionTitle>
+          </div>
+
+          <div className="hidden desktop:grid gap-y-8 gap-16 grid-cols-3">
+            {teamCards.map((card, index) => (
+              <TeamCard key={index} {...card} />
+            ))}
+          </div>
+
+          <div className="desktop:hidden">
+            <CardCarousel CardComponent={TeamCardPage} cards={teamCardsPaginated} fullWidth={true} />
+          </div>
+
+          <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0">
+            <Link className="flex-shrink-0 hidden desktop:inline-block" {...careers}>
+              <Join />
+            </Link>
+            <p className="font-light text-lg text-center desktop:text-left">
+              Join us! We're looking for talented &amp; passionate individuals to join our team. Check out our job
+              postings today.
+            </p>
+            <Link className="flex-shrink-0 desktop:hidden" {...careers}>
+              <Join />
+            </Link>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-palette-100">
+        <SectionTitleCaption>Investors</SectionTitleCaption>
+        <SectionTitle>Support for the Skynet Vision</SectionTitle>
+
+        <div className="text-center p-10">quotes</div>
+
+        <div className="grid grid-cols-2 gap-4 desktop:grid-cols-4">
+          {investors.map(({ name, image }) => (
+            <GatsbyImage key={name} image={getImage(image)} alt={name} />
+          ))}
+        </div>
+      </Section>
+    </Layout>
+  );
+};
+
+export const query = graphql`
+  query MyQuery {
+    allTeamYaml {
+      nodes {
+        name
+        position
+        social {
+          github
+          gitlab
+          linkedin
+          twitter
+        }
+        image {
+          childImageSharp {
+            gatsbyImageData(width: 80, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          }
+        }
+      }
+    }
+    allInvestorsYaml {
+      nodes {
+        name
+        image {
+          childImageSharp {
+            gatsbyImageData(width: 320, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default AboutPage;

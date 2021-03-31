@@ -1,0 +1,22 @@
+- name: A.Capital Ventures
+  image: ./investors/investors-logo-1.png
+- name: Bain Capital
+  image: ./investors/investors-logo-2.png
+- name: Bessemer Venture Partners
+  image: ./investors/investors-logo-3.png
+- name: Collab
+  image: ./investors/investors-logo-4.png
+- name: Dragonfly Capital
+  image: ./investors/investors-logo-5.png
+- name: Fenbushi Capital
+  image: ./investors/investors-logo-6.png
+- name: First Star Ventures
+  image: ./investors/investors-logo-7.png
+- name: Hack VC
+  image: ./investors/investors-logo-8.png
+- name: INBlockchain
+  image: ./investors/investors-logo-9.png
+- name: Paradigm
+  image: ./investors/investors-logo-10.png
+- name: SV Angel
+  image: ./investors/investors-logo-11.png

@@ -23,7 +23,7 @@ const sections = [
     header: "Developers",
     links: [
       { title: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet", ...external },
-      { title: "API and SDK Documentation", href: "https://siasky.net/docs/", ...external },
+      { title: "API & SDK Documentation", href: "https://siasky.net/docs/", ...external },
       { title: "Portal Setup", href: "https://support.siasky.net/the-technology/running-a-web-portal", ...external },
     ],
   },
@@ -60,7 +60,7 @@ const FooterNavigation = () => {
 
   return (
     <div className="bg-palette-500 px-8 py-14">
-      <div className="max-w-content mx-auto flex flex-col desktop:flex-row justify-between desktop:space-x-6 space-y-4 desktop:space-y-0">
+      <div className="max-w-content mx-auto grid grid-cols-1 desktop:grid-cols-5 desktop:gap-x-6 gap-y-4 desktop:gap-y-0">
         {sections.map((section) => (
           <div key={section.header}>
             {/* desktop */}
@@ -68,8 +68,11 @@ const FooterNavigation = () => {
               <div className="text-lg text-palette-300 font-light">{section.header}</div>
               <ul>
                 {section.links.map(({ title, ...rest }) => (
-                  <li key={title} className="mt-1 first:mt-4">
-                    <Link {...rest} className="text-white font-content">
+                  <li key={title} className="mt-2 first:mt-4">
+                    <Link
+                      {...rest}
+                      className="text-white font-content hover:text-primary transition-colors duration-200"
+                    >
                       {title}
                     </Link>
                   </li>
@@ -81,7 +84,7 @@ const FooterNavigation = () => {
             <div className="desktop:hidden">
               <button
                 type="button"
-                className={classnames("text-lg font-light", {
+                className={classnames("text-lg font-light hover:text-primary transition-colors duration-200", {
                   "text-primary": activeSection === section,
                   "text-palette-300": activeSection !== section,
                 })}
@@ -104,7 +107,10 @@ const FooterNavigation = () => {
                   >
                     {section.links.map(({ title, ...rest }) => (
                       <li key={title} className="mt-1 first:mt-4">
-                        <Link {...rest} className="text-white font-content">
+                        <Link
+                          {...rest}
+                          className="text-white font-content hover:text-primary transition-colors duration-200"
+                        >
                           {title}
                         </Link>
                       </li>

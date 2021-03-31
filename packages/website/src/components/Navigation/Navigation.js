@@ -16,38 +16,6 @@ const routes = [
   { title: "News", to: "/news" },
 ];
 
-const LogInLink = () => (
-  <Link href="https://secure.siasky.net" className="text-primary text-xs uppercase whitespace-nowrap">
-    Log in
-  </Link>
-);
-
-const LogInButton = ({ className, ...props }) => (
-  <Link
-    href="https://secure.siasky.net/auth/registration"
-    className={classnames(
-      "border-2 border-white text-white px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
-      className
-    )}
-    {...props}
-  >
-    Log in
-  </Link>
-);
-
-const SignUpButton = ({ className, ...props }) => (
-  <Link
-    href="https://secure.siasky.net/auth/registration"
-    className={classnames(
-      "bg-primary text-palette-600 px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap",
-      className
-    )}
-    {...props}
-  >
-    Sign up
-  </Link>
-);
-
 const Navigation = ({ mode }) => {
   const navRef = React.useRef(null);
   const [open, setOpen] = React.useState(false);
@@ -73,16 +41,16 @@ const Navigation = ({ mode }) => {
       className={classnames("relative px-8 transition-all duration-500", {
         "bg-white border-b border-palette-200": mode === "light",
         "bg-palette-600 bg-opacity-50": mode === "dark",
-        "p-12": offsetY === 0,
-        "p-6": offsetY > 0,
+        "py-6 desktop:py-12": offsetY === 0,
+        "py-6": offsetY > 0,
       })}
       ref={navRef}
     >
       <div className={classnames("max-w-layout mx-auto")}>
         <div className="flex justify-between">
           <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
-            {mode === "dark" && <LogoWhiteText className="" />}
-            {mode === "light" && <LogoBlackText className="" />}
+            {mode === "dark" && <LogoWhiteText className="h-8 desktop:h-10" />}
+            {mode === "light" && <LogoBlackText className="h-8 desktop:h-10" />}
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">
             <button
@@ -103,8 +71,8 @@ const Navigation = ({ mode }) => {
               <Link
                 key={to}
                 to={to}
-                activeClassName="underline-navigation"
-                className={classnames("text-sm font-light transition-colors duration-500", {
+                activeClassName="underline-primary"
+                className={classnames("text-sm font-light transition-colors duration-200 hover:text-primary", {
                   "text-white": mode === "dark",
                   "text-palette-600": mode === "light",
                 })}
@@ -112,8 +80,12 @@ const Navigation = ({ mode }) => {
                 {title}
               </Link>
             ))}
-            <LogInLink />
-            <SignUpButton />
+            <Link href="https://secure.siasky.net" className="button-link-primary">
+              Log in
+            </Link>
+            <Link href="https://secure.siasky.net/auth/registration" className="button-primary">
+              Sign up
+            </Link>
           </div>
         </div>
 
@@ -127,9 +99,14 @@ const Navigation = ({ mode }) => {
           style={{ marginTop: mobileMenuOffset }}
         >
           <ul className="py-10 space-y-2">
-            {routes.map(({ title, route }) => (
+            {routes.map(({ title, to }) => (
               <li key={title}>
-                <Link key={route} to={route} className="text-xl leading-7 font-semibold text-white">
+                <Link
+                  key={to}
+                  to={to}
+                  activeClassName="underline-primary"
+                  className="text-xl leading-7 font-semibold text-white transition-colors duration-200 hover:text-primary"
+                >
                   {title}
                 </Link>
               </li>
@@ -139,8 +116,6 @@ const Navigation = ({ mode }) => {
             <Link
               href="https://discordapp.com/invite/sia"
               className="text-palette-300 text-m font-content flex items-center"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <DiscordSmall className="mr-2 fill-current text-white" />
               <span>Join our Discord</span>
@@ -148,8 +123,13 @@ const Navigation = ({ mode }) => {
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
             <div className="flex items-center justify-center px-4 space-x-6">
-              <LogInButton className="px-10" />
-              <SignUpButton className="px-10" />
+              <Link href="https://secure.siasky.net" className="button-secondary-light">
+                Log in
+              </Link>
+
+              <Link href="https://secure.siasky.net/auth/registration" className="button-primary">
+                Sign up
+              </Link>
             </div>
           </div>
         </div>

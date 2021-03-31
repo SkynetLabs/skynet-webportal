@@ -16,7 +16,7 @@ const Footer = () => {
 
           <Link
             href="mailto:hello@siasky.net"
-            className="font-content text-palette-300 text-base border-b-2 border-primary"
+            className="font-content text-palette-300 text-base underline-primary hover:text-primary transition-colors duration-200"
           >
             hello@siasky.net
           </Link>

@@ -5,7 +5,7 @@ const NewsPage = () => (
   <Layout>
     <SEO title="News" />
 
-    <Section className="bg-white">
+    <Section className="bg-white" first={true}>
       <SectionTitle className="text-center py-48">News section coming soon!</SectionTitle>
     </Section>
   </Layout>

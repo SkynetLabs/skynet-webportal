@@ -83,9 +83,12 @@ const CommunitySection = () => {
 
           {complete && message && (
             <div
-              className={classnames("text-center bg-white py-2 px-4 rounded bg-opacity-20 font-semibold font-content", {
-                "text-error": !success,
-              })}
+              className={classnames(
+                "newsletter-message text-center py-2 px-4 rounded bg-palette-600 font-semibold font-content",
+                {
+                  "text-error": !success,
+                }
+              )}
               dangerouslySetInnerHTML={{ __html: message }}
             ></div>
           )}
@@ -101,8 +104,6 @@ const CommunitySection = () => {
               key={name}
               href={href}
               className="text-palette-600 text-sm font-light flex items-center flex-shrink-0 flex-grow-0 whitespace-nowrap leading-10"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <Icon className="mr-2 fill-current" />
               <span>{name}</span>

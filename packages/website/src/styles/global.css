@@ -2,12 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.underline-navigation,
-.underline-primary-thick {
-  background-image: linear-gradient(to bottom, #00c65e, #00c65e);
-  background-position: 0 1.1rem;
-  background-repeat: repeat-x;
-  background-size: 2px 2px;
+.newsletter-message a {
+  @apply text-primary;
 }
 
 @keyframes bg-primary-dashed-animation {
@@ -32,16 +28,75 @@
   background: repeating-linear-gradient(to right, #ed5454, #ed5454 10px, transparent 10px, transparent 15px);
 }
 
-.tip {
-  width: 0;
-  height: 0;
+.tip:hover::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: rotate(270deg);
+  border-width: 5px;
   border-style: solid;
-  border-width: 7px 0 7px 6px;
-  border-color: transparent transparent transparent #000000;
+  border-color: black transparent transparent transparent;
 }
 
 @layer base {
   h1 {
     @apply font-semibold text-3xl desktop:text-6xl desktop:leading-16;
   }
+}
+
+.circle {
+  height: 11px;
+  width: 11px;
+  display: inline-block;
+  @apply rounded-full;
+}
+
+.background {
+  @apply bg-palette-600 bg-mobile desktop:bg-desktop bg-no-repeat;
+}
+
+.button-primary {
+  @apply bg-primary text-palette-600 px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap;
+  @apply hover:bg-primary-light;
+  @apply transition-colors duration-200;
+}
+
+.button-secondary-light {
+  @apply border-2 border-white text-white px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap;
+  @apply hover:border-palette-300 hover:text-palette-200;
+  @apply transition-colors duration-200;
+}
+
+.button-secondary-dark {
+  @apply border-2 border-palette-600 text-palette-600 px-7 leading-10 rounded-full text-xs uppercase text-center whitespace-nowrap;
+  @apply hover:border-palette-300 hover:text-palette-400;
+  @apply transition-colors duration-200;
+}
+
+.button-link-primary {
+  @apply text-primary text-xs uppercase whitespace-nowrap;
+  @apply hover:text-primary-light;
+  @apply transition-colors duration-200;
+}
+
+.underline-primary {
+  text-decoration: underline;
+  text-decoration-color: #00c65e;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.underline-white {
+  text-decoration: underline;
+  text-decoration-color: #fff;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.underline-dark {
+  text-decoration: underline;
+  text-decoration-color: #0d0d0d;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 4px;
 }

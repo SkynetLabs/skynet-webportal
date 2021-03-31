@@ -2,7 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 
 const colors = {
-  primary: "#00c65e",
+  primary: { light: "#33D17E", DEFAULT: "#00c65e" },
   warning: "#ffd567",
   error: "#ED5454",
   palette: {
@@ -52,11 +52,16 @@ module.exports = {
       lineHeight: {
         16: "4rem",
       },
+      backgroundImage: {
+        mobile: "url('/bg-mobile.svg')",
+        desktop: "url('/bg.svg')",
+      },
     },
   },
   variants: {
     extend: {
       animation: ["hover"],
+      rotate: ["hover"],
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
       margin: ["first"],

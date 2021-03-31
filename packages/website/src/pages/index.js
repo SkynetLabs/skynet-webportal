@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { StaticImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
+import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle, CardCarousel } from "../components/Layout";
 import SEO from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
@@ -16,17 +16,6 @@ import {
   SkynetSiaSmall,
 } from "../components/Icons";
 import Link from "../components/Link";
-
-const LearnMoreButton = () => (
-  <Link
-    href="https://secure.siasky.net"
-    className="inline-block border-2 border-palette-600 text-palette-600 px-10 leading-10 rounded-full text-xs uppercase text-center mt-7"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Learn more
-  </Link>
-);
 
 const etosCards = [
   {
@@ -81,10 +70,10 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
 
-      <Section>
+      <Section className="background bg-top bg-cover" first={true}>
         <div className="text-center">
           <h1 className="text-4xl desktop:text-6xl text-white">
-            Build a <span className="text-primary border-b-2 border-white">free Internet</span>
+            Build a <span className="text-primary underline-white">free Internet</span>
           </h1>
 
           <p className="mt-5 font-light text-lg leading-7 text-palette-300">
@@ -106,10 +95,14 @@ const IndexPage = () => {
       <Section className="bg-white">
         <SectionTitle className="text-center mb-11">The new decentralized internet is here</SectionTitle>
 
-        <div className="grid grid-cols-1 gap-8 desktop:grid-cols-3">
+        <div className="hidden desktop:grid gap-8 grid-cols-3">
           {etosCards.map((card, index) => (
             <CardWithTitle key={index} {...card} />
           ))}
+        </div>
+
+        <div className="desktop:hidden">
+          <CardCarousel CardComponent={CardWithTitle} cards={etosCards} />
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -118,8 +111,11 @@ const IndexPage = () => {
             our decentralized ecosystem and revolution.
           </p>
 
-          <Link href="/" className="mt-6 uppercase flex items-center text-xs text-palette-600">
-            Try Skynet Apps <ArrowRight />
+          <Link
+            href="/"
+            className="mt-6 uppercase flex items-center text-xs text-palette-600 hover:text-primary transition-colors duration-200"
+          >
+            Try Skynet Apps <ArrowRight className="fill-current" />
           </Link>
         </div>
       </Section>
@@ -127,11 +123,13 @@ const IndexPage = () => {
       <Section className="bg-palette-100">
         <SectionTitle className="mb-7 desktop:hidden">Ready to build your application?</SectionTitle>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 desktop:grid-cols-3">
+        <div className="hidden desktop:grid gap-x-8 gap-y-16 grid-cols-3">
           <div className="hidden desktop:inline-block">
             <SectionTitle>Ready to build your application?</SectionTitle>
 
-            <LearnMoreButton />
+            <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
+              Learn more
+            </Link>
           </div>
 
           {ecosystemCards.map((card, index) => (
@@ -139,30 +137,20 @@ const IndexPage = () => {
           ))}
         </div>
 
+        <div className="desktop:hidden">
+          <CardCarousel CardComponent={CardWithDescription} cards={ecosystemCards} />
+        </div>
+
         <div className="desktop:hidden mt-12 text-center">
-          <LearnMoreButton />
+          <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
+            Learn more
+          </Link>
         </div>
       </Section>
 
       <Section className="bg-primary">
         <CommunitySection />
       </Section>
-
-      {/* <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p> */}
     </Layout>
   );
 };

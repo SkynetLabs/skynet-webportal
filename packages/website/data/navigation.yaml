@@ -1,0 +1,6 @@
+- name: Skynet Labs
+  items:
+    - name: About us
+      to: /
+    - name: Brand Guidelines
+      href: https://support.siasky.net/key-concepts/skynet-brand-guidelines

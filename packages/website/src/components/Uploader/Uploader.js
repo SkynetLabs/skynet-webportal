@@ -62,9 +62,7 @@ const client = new SkynetClient("https://siasky.net");
 const RegistrationLink = () => (
   <Link
     href="https://secure.siasky.net/auth/registration"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="uppercase border-b-2 border-primary"
+    className="uppercase underline-primary hover:text-primary transition-colors duration-200"
   >
     Sign up
   </Link>
@@ -100,7 +98,7 @@ const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
               {status === "processing" && <span className="text-palette-300">Processing...</span>}
 
               {status === "complete" && (
-                <Link href={url} target="_blank" rel="noopener noreferrer">
+                <Link href={url} className="hover:text-primary transition-colors duration-200">
                   {url}
                 </Link>
               )}
@@ -115,7 +113,10 @@ const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
               )}
               {status === "processing" && <span className="uppercase text-palette-300">Wait</span>}
               {status === "complete" && (
-                <button className="uppercase" onClick={() => handleCopy(url)}>
+                <button
+                  className="uppercase hover:text-primary transition-colors duration-200"
+                  onClick={() => handleCopy(url)}
+                >
                   <span className={classnames({ hidden: copied, "hidden desktop:inline": !copied })}>Copy link</span>
                   <span className={classnames({ hidden: copied, "inline desktop:hidden": !copied })}>Copy</span>
                   <span className={classnames({ hidden: !copied })}>Copied</span>
@@ -273,7 +274,7 @@ const Uploader = () => {
             </h4>
           </div>
           <div className="absolute left-1/2 -bottom-4 desktop:-bottom-8">
-            <div className="relative -left-1/2" role="button">
+            <div className="relative -left-1/2 transform transition-transform hover:rotate-180" role="button">
               <Add />
             </div>
           </div>

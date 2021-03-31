@@ -1,12 +1,14 @@
+const { defaultIcons } = require("gatsby-plugin-manifest/common");
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Skynet`,
+    description: `Skynet is a decentralized file sharing and content distribution protocol`,
+    author: `Skynet Labs Inc`,
+    siteUrl: `https://siasky.net`,
+    image: `https://siasky.net/icons/icon-512x512.png`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -21,26 +23,53 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/data/`,
+      },
+    },
+    `gatsby-plugin-postcss`,
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-react-svg`,
+    `gatsby-plugin-robots-txt`,
+    `gatsby-transformer-sharp`,
+    `gatsby-transformer-json`,
+    `gatsby-transformer-yaml`,
+    `gatsby-transformer-remark`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Skynet`,
+        short_name: `Skynet`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#f1f7f2`,
+        theme_color: `#f1f7f2`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/logo.svg`, // This path is relative to the root of the site.
+        icons: [
+          ...defaultIcons,
+          // when we're serving content from the portal on our pathnames that do not have
+          // favicon defined (basically all non-html content), we want the browsers to be
+          // able to fall back to favicon.ico (firefox does that)
+          {
+            src: `favicon.ico`,
+            sizes: `32x32`,
+            type: `image/x-icon`,
+          },
+        ],
       },
     },
-    `gatsby-plugin-gatsby-cloud`,
-    `gatsby-plugin-postcss`,
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    {
+      resolve: "gatsby-plugin-matomo",
+      options: {
+        siteId: 3,
+        matomoUrl: "https://surveillance.sia.tech",
+        siteUrl: "https://siasky.net",
+      },
+    },
   ],
 };

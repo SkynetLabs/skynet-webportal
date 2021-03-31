@@ -1,0 +1,85 @@
+- name: David Vorick
+  position: CEO and Lead Developer
+  image: ./team/david-vorick.png
+  social:
+    github: https://github.com/DavidVorick
+    gitlab: https://gitlab.com/DavidVorick
+    twitter: https://twitter.com/davidvorick
+
+- name: Chris Schinnerl
+  position: VP of Technology
+  image: ./team/chris-schinnerl.png
+  social:
+    github: https://github.com/ChrisSchinnerl
+    gitlab: https://gitlab.com/ChrisSchinnerl
+    twitter: https://twitter.com/ChrisSchinnerl
+
+- name: Steve Funk
+  position: Head of Support
+  image: ./team/steve-funk.png
+  social:
+    linkedin: https://www.linkedin.com/in/stevengfunk
+
+- name: Matt Sevey
+  position: Engineering Manager
+  image: ./team/matt-sevey.png
+  social:
+    github: https://github.com/MSevey
+    gitlab: https://gitlab.com/MSevey
+    linkedin: https://www.linkedin.com/in/sevey
+    twitter: https://twitter.com/MJSevey
+
+- name: Manasi Vora
+  position: VP of Strategy and Ops
+  image: ./team/manasi-vora.png
+  social:
+    linkedin: https://linkedin.com/in/manasi-vora-cfa-bb9a1715
+    twitter: https://twitter.com/manasilvora
+
+- name: PJ Brone
+  position: Core Developer
+  image: ./team/pj-brone.png
+  social:
+    github: https://github.com/peterjan
+    gitlab: https://gitlab.com/pjbrone
+    linkedin: https://www.linkedin.com/in/peterjanbrone
+    twitter: https://twitter.com/peterjanbrone
+
+- name: Marcin Swieczkowski
+  position: Core Developer
+  image: ./team/marcin-swieczkowski.png
+  social:
+    github: https://github.com/m-cat
+    gitlab: https://gitlab.com/m-cat
+
+- name: Karol Wypchlo
+  position: Full Stack Developer
+  image: ./team/karol-wypchlo.png
+  social:
+    github: https://github.com/kwypchlo
+    gitlab: https://gitlab.com/kwypchlo
+    linkedin: https://www.linkedin.com/in/karolwypchlo/
+    twitter: https://twitter.com/kwypchlo
+
+- name: Ivaylo Novakov
+  position: Core Developer
+  image: ./team/ivaylo-novakov.png
+  social:
+    github: https://github.com/ro-tex
+    gitlab: https://gitlab.com/kwypchlo
+    linkedin: https://www.linkedin.com/in/karolwypchlo/
+    twitter: https://twitter.com/kwypchlo
+
+- name: Filip Rysavy
+  position: Testing Developer
+  image: ./team/filip-rysavy.png
+  social:
+    linkedin: https://www.linkedin.com/in/filiprysavy/
+
+- name: Nicole Tay
+  position: Head of Marketing
+  image: ./team/nicole-tay.png
+
+- name: Daniel Helm
+  position: Developer Evangelist
+  image: ./team/daniel-helm.png
