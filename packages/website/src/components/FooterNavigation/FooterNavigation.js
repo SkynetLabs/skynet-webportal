@@ -30,7 +30,7 @@ const sections = [
     links: [
       { title: "What is Skynet?", href: "https://support.siasky.net" },
       { title: "Frequent Questions", href: "https://support.siasky.net/key-concepts/faqs" },
-      { title: "Pricing", to: "/pricing" },
+      // { title: "Pricing", to: "/pricing" },
       { title: "Skynet Wiki", href: "https://skynetwiki.tech" },
       { title: "Support", href: "https://support.siasky.net" },
     ],
