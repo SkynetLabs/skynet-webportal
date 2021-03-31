@@ -32,7 +32,7 @@ const BlogPostTemplate = ({ data, location }) => {
                 <div class="text-xs uppercase mr-4">Share</div>
 
                 <TwitterShareButton url={location.href} title={post.frontmatter.title} hashtags={[]}>
-                  <TwitterSmall />
+                  <TwitterSmall className="fill-current hover:text-palette-400 transition-colors duration-200" />
                 </TwitterShareButton>
 
                 <LinkedinShareButton
@@ -40,11 +40,11 @@ const BlogPostTemplate = ({ data, location }) => {
                   title={post.frontmatter.title}
                   summary={post.frontmatter.description}
                 >
-                  <LinkedinSmall />
+                  <LinkedinSmall className="fill-current hover:text-palette-400 transition-colors duration-200" />
                 </LinkedinShareButton>
 
                 <FacebookShareButton url={location.href} quote={post.frontmatter.title}>
-                  <LinkedinSmall />
+                  <LinkedinSmall className="fill-current hover:text-palette-400 transition-colors duration-200" />
                 </FacebookShareButton>
               </div>
             </aside>

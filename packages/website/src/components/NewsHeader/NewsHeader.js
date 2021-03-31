@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Link from "../Link";
-import { ArrowRight, DiscordSmallWhite } from "../Icons";
+import { ArrowRight, DiscordSmall } from "../Icons";
 
 const NewsHeader = () => {
   const { allMarkdownRemark } = useStaticQuery(graphql`
@@ -41,9 +41,9 @@ const NewsHeader = () => {
           <div className="ml-auto items-center pl-8 hidden desktop:block">
             <Link
               href="https://discordapp.com/invite/sia"
-              className="text-palette-300 leading-8 font-content flex items-center flex-shrink-0 whitespace-nowrap"
+              className="text-palette-300 leading-8 font-content flex items-center flex-shrink-0 whitespace-nowrap hover:text-palette-200 transition-colors duration-200 space-x-2"
             >
-              <DiscordSmallWhite className="mr-2" />
+              <DiscordSmall className="fill-current" />
               <span>Join our Discord</span>
             </Link>
           </div>

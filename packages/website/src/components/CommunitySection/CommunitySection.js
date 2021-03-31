@@ -103,9 +103,9 @@ const CommunitySection = () => {
             <Link
               key={name}
               href={href}
-              className="text-palette-600 text-sm font-light flex items-center flex-shrink-0 flex-grow-0 whitespace-nowrap leading-10"
+              className="text-palette-600 text-sm font-light flex items-center flex-shrink-0 flex-grow-0 whitespace-nowrap leading-10 space-x-2 hover:text-palette-500 transition-colors duration-200"
             >
-              <Icon className="mr-2 fill-current" />
+              <Icon className="fill-current" />
               <span>{name}</span>
             </Link>
           ))}
