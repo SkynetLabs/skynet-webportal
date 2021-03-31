@@ -101,11 +101,13 @@ const TeamCard = ({ image, name, position, social }) => (
       </div>
       {social && (
         <div className="flex flex-row">
-          {Object.entries(social).map(([platform, href]) => (
-            <Link key={platform} href={href} title={platform}>
-              <SocialIcon name={platform} />
-            </Link>
-          ))}
+          {Object.entries(social)
+            .filter(([platform, href]) => href)
+            .map(([platform, href]) => (
+              <Link key={platform} href={href} title={platform}>
+                <SocialIcon name={platform} />
+              </Link>
+            ))}
         </div>
       )}
     </div>
