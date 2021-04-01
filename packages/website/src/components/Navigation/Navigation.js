@@ -38,11 +38,10 @@ const Navigation = ({ mode }) => {
 
   return (
     <nav
-      className={classnames("relative px-8 transition-all duration-500", {
+      className={classnames("relative px-8 py-6 transition-all duration-500", {
         "bg-white border-b border-palette-200": mode === "light",
         "bg-palette-600 bg-opacity-50": mode === "dark",
-        "py-6 desktop:py-12": offsetY === 0,
-        "py-6": offsetY > 0,
+        "desktop:py-12": offsetY <= 0,
       })}
       ref={navRef}
     >
