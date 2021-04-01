@@ -19,6 +19,8 @@ You may want to fork this repository and replace ssh keys in
   - [handshake](https://handshake.org) ([github](https://github.com/handshake-org/hsd)): full handshake node
   - [handshake-api](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/handshake-api/README.md)
   - [webapp](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/webapp): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/webapp/README.md)
+  - [kratos](https://www.ory.sh/kratos/): user account management system
+  - [oathkeeper](https://www.ory.sh/oathkeeper/): identity and access proxy
 - discord integration
   - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
   - [health-checker](health-checker.py): script that monitors health-check service for server health issues and reports them to discord periodically
@@ -83,10 +85,21 @@ At this point we have almost everything running, we just need to set up your wal
    - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
+   - `PORTAL_NAME` (optional) e.g. `siasky.xyz`
+   - `DISCORD_BOT_TOKEN` (optional) if you're using Discord notifications for health checks and such
+   - `SKYNET_DB_USER` (optional) if using `accounts` this is the MongoDB username
+   - `SKYNET_DB_PASS` (optional) if using `accounts` this is the MongoDB password
+   - `SKYNET_DB_HOST` (optional) if using `accounts` this is the MongoDB address or container name
+   - `SKYNET_DB_PORT` (optional) if using `accounts` this is the MongoDB port
+   - `COOKIE_DOMAIN` (optional) if using `accounts` this is the domain to which your cookies will be issued
+   - `COOKIE_HASH_KEY` (optional) if using `accounts` hashing secret, at least 32 bytes
+   - `COOKIE_ENC_KEY` (optional) if using `accounts` encryption key, at least 32 bytes
+
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
+1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.
 
 ## Subdomains
 

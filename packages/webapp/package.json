@@ -6,6 +6,7 @@
   "dependencies": {
     "@fontsource/metropolis": "^4.2.1",
     "axios": "0.21.1",
+    "boolean": "^3.0.2",
     "bytes": "3.1.0",
     "classnames": "2.2.6",
     "gatsby": "^3.0.4",
@@ -17,6 +18,7 @@
     "gatsby-plugin-sass": "^4.0.2",
     "gatsby-source-filesystem": "^3.0.0",
     "http-status-codes": "2.1.4",
+    "js-cookie": "^2.2.1",
     "jsonp": "0.2.1",
     "node-sass": "5.0.0",
     "path-browserify": "1.0.1",

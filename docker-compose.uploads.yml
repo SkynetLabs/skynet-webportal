@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile.bionic
+      args:
+        RESTY_ADD_PACKAGE_BUILDDEPS: git
+        RESTY_EVAL_PRE_CONFIGURE: git clone https://github.com/fdintino/nginx-upload-module /tmp/nginx-upload-module
+        RESTY_CONFIG_OPTIONS_MORE: --add-module=/tmp/nginx-upload-module
+        RESTY_EVAL_POST_MAKE: /usr/local/openresty/luajit/bin/luarocks install luasocket

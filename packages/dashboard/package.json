@@ -1,0 +1,43 @@
+{
+  "name": "dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fontsource/metropolis": "^4.1.0",
+    "@ory/kratos-client": "^0.5.4-alpha.1",
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.13.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "autoprefixer": "^10.2.5",
+    "classnames": "^2.2.6",
+    "clipboardy": "^2.3.0",
+    "dayjs": "^1.10.4",
+    "express-jwt": "^6.0.0",
+    "fast-levenshtein": "^3.0.0",
+    "formik": "^2.2.6",
+    "http-status-codes": "^2.1.4",
+    "jwks-rsa": "^1.12.2",
+    "ky": "0.25.1",
+    "next": "^10.0.8",
+    "postcss": "^8.2.8",
+    "prettier": "^2.2.1",
+    "pretty-bytes": "^5.5.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "skynet-js": "^3.0.0",
+    "square": "^9.0.0",
+    "stripe": "^8.137.0",
+    "superagent": "^6.1.0",
+    "swr": "^0.5.0",
+    "tailwindcss": "^2.0.3",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.2.1"
+  }
+}

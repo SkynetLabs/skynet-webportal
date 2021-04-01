@@ -1,15 +1,24 @@
-FROM node:15.8.0-alpine
+FROM node:15.12.0-alpine
 
-RUN apk add --no-cache autoconf automake libtool gcc make g++ zlib-dev file nasm util-linux
+RUN apk update && apk add autoconf automake libtool gcc make g++ zlib-dev file nasm util-linux
 
 WORKDIR /usr/app
+
+COPY package.json .
+
+ENV CYPRESS_INSTALL_BINARY 0
+
+RUN yarn --no-lockfile
 
 COPY src ./src
 COPY static ./static
 COPY gatsby-config.js .
-COPY package.json .
 
-ENV CYPRESS_INSTALL_BINARY 0
+ARG WITH_ACCOUNTS=0
+
 ENV GATSBY_TELEMETRY_DISABLED 1
-RUN yarn --no-lockfile
-RUN yarn build
+ENV GATSBY_WITH_ACCOUNTS $WITH_ACCOUNTS
+
+EXPOSE 9000
+
+CMD [ "sh", "-c", "yarn build && yarn serve --host 0.0.0.0" ]

@@ -13,9 +13,6 @@ networks:
       config:
         - subnet: 10.10.10.0/24
 
-volumes:
-  webapp:
-
 services:
   sia:
     build:
@@ -76,7 +73,6 @@ services:
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
-      - webapp:/var/www/webportal:ro
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -94,9 +90,13 @@ services:
     container_name: webapp
     restart: unless-stopped
     logging: *default-logging
-    tty: true
     volumes:
-      - webapp:/usr/app/public
+      - ./docker/data/webapp/.cache:/usr/app/.cache
+    networks:
+      shared:
+        ipv4_address: 10.10.10.35
+    expose:
+      - 9000
 
   handshake:
     build:
@@ -163,18 +163,3 @@ services:
     depends_on:
       - handshake
       - handshake-api
-
-  mongo:
-    image: mongo:4.4.1
-    command: --keyFile=/data/mgkey --replSet=skynet
-    container_name: mongo
-    restart: unless-stopped
-    logging: *default-logging
-    volumes:
-      - ./docker/data/mongo/db:/data/db
-      - ./docker/data/mongo/mgkey:/data/mgkey:rw
-    networks:
-      shared:
-        ipv4_address: 10.10.10.70
-    ports:
-      - "27017:27017"
