@@ -26,8 +26,8 @@ function SEO({ description, lang, meta, title }) {
     `
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-  const defaultTitle = site.siteMetadata?.title;
+  const { title: siteTitle, description: siteDescription } = site.siteMetadata;
+  const pageDescription = description || siteDescription;
 
   return (
     <Helmet
@@ -35,19 +35,19 @@ function SEO({ description, lang, meta, title }) {
         lang,
       }}
       title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={`%s | ${siteTitle}`}
       meta={[
         {
           name: `description`,
-          content: metaDescription,
+          content: pageDescription,
         },
         {
           property: `og:title`,
-          content: title,
+          content: `${title} | ${siteTitle}`,
         },
         {
           property: `og:description`,
-          content: metaDescription,
+          content: pageDescription,
         },
         {
           property: `og:type`,
@@ -71,7 +71,7 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           name: `twitter:description`,
-          content: metaDescription,
+          content: pageDescription,
         },
       ].concat(meta)}
     />

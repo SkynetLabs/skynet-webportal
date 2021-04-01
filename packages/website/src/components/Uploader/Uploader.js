@@ -249,7 +249,7 @@ const Uploader = () => {
             )}
             onClick={() => setMode("directory")}
           >
-            <span className="hidden desktop:inline">Do you want to upload an entire directory?</span>
+            <span className="hidden desktop:inline">Do you want to upload a web app or directory?</span>
             <span className="inline desktop:hidden">Upload directory</span>
           </button>
         </div>
@@ -270,7 +270,8 @@ const Uploader = () => {
           >
             {files.length === 0 && <Cloud />}
             <h4 className="font-light text-palette-600 text-lg mt-2 text-center">
-              Add or drop your files here to pin to Skynet
+              {mode === "file" && <span>Add or drop your files here to pin to Skynet</span>}
+              {mode === "directory" && <span>Drop any folder with an index.html file to deploy to Skynet</span>}
             </h4>
           </div>
           <div className="absolute left-1/2 -bottom-4 desktop:-bottom-8">
@@ -308,7 +309,7 @@ const Uploader = () => {
         <div className="z-0 relative flex flex-col items-center space-y-1 mt-10">
           <Unlock />
           <p className="text-sm font-light text-palette-600">
-            <RegistrationLink /> for free and unlock all features
+            <RegistrationLink /> for free and unlock features
           </p>
         </div>
       )}

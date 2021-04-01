@@ -26,16 +26,22 @@ const NewsHeader = () => {
 
   if (!latestNews) return null; // no news
 
+  // hardcoded news for now
+  const CURRENT_NEWS_URL = "https://blog.sia.tech/built-to-explore-the-skynet-spring-2021-hackathon-a0cff382bb0c";
+  const CURRENT_NEWS_TXT = "Built to Explore: The Skynet Spring 2021 Hackathon";
+
   return (
     <div className="bg-palette-500 px-8 p-3">
       <div className="max-w-layout mx-auto">
         <div className="flex justify-between">
           <Link
-            to={latestNews.node.fields.slug}
+            // to={latestNews.node.fields.slug}
+            href={CURRENT_NEWS_URL}
             className="text-palette-300 font-content leading-8 flex items-center overflow-hidden text-base hover:text-primary transition-colors duration-200"
           >
             <ArrowRight className="mr-2 flex-shrink-0 fill-current text-primary" />
-            <span className="truncate">{latestNews.node.frontmatter.title}</span>
+            {/* <span className="truncate">{latestNews.node.frontmatter.title}</span> */}
+            <span className="truncate">{CURRENT_NEWS_TXT}</span>
           </Link>
 
           <div className="ml-auto items-center pl-8 hidden desktop:block">

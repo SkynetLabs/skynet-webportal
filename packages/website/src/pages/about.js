@@ -126,7 +126,7 @@ const AboutPage = ({ ...props }) => {
     <>
       <SEO title="About" />
 
-      <Section className="bg-palette-100" marginBottom={false} first={true}>
+      <Section className="bg-palette-100" marginBottom={true} first={true}>
         <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
           <div className="col-span-3">
             <h1>

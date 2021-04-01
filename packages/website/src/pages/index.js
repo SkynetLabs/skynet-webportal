@@ -68,7 +68,7 @@ const ecosystemCards = [
 const IndexPage = () => {
   return (
     <>
-      <SEO title="Home" />
+      <SEO title="Decentralized Internet for a Free Future" />
 
       <Section first={true}>
         <div className="text-center">
