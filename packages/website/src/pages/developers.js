@@ -90,9 +90,9 @@ const DevelopersPage = () => (
   <>
     <SEO title="Developers" />
 
-    <Section first={true}>
+    <Section first={true} width="layout">
       <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">
-        <div className="space-y-12">
+        <div className="space-y-12 desktop:w-1/2 desktop:text-right">
           <h1 className="text-white">
             Decentralized Apps with speed, confidence, and <span className="text-primary underline">usability</span>
           </h1>
@@ -111,11 +111,13 @@ const DevelopersPage = () => (
           </ul>
         </div>
 
-        <CodeTerminal />
+        <div className="desktop:w-1/2">
+          <CodeTerminal />
+        </div>
       </div>
     </Section>
 
-    <Section className="bg-white">
+    <Section className="bg-palette-100">
       <SectionTitle className="mb-7 desktop:hidden">Plenty of reason to use Skynet</SectionTitle>
 
       <div className="hidden desktop:grid gap-x-8 gap-y-16 grid-cols-3">
@@ -139,13 +141,15 @@ const DevelopersPage = () => (
       </div>
     </Section>
 
-    <Section className="bg-palette-100">
-      <SectionTitle className="text-center">Join a community of builders already using Skynet</SectionTitle>
+    {/* <Section className="bg-palette-100">
+      <SectionTitle className="text-center mb-20">Join a community of builders already using Skynet</SectionTitle>
 
-      <p className="text-center mt-20">cards</p>
-    </Section>
+      <p className="text-center">cards</p>
+    </Section> */}
 
     <Section className="bg-white">
+      <SectionTitle className="text-center mb-20">Join a community of builders already using Skynet</SectionTitle>
+
       <div className="grid grid-cols-1 gap-x-32 gap-y-10 desktop:grid-cols-3">
         <div className="space-y-8">
           <DevBig width="170" viewBox="90 0 170 142" />
