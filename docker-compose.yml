@@ -13,9 +13,6 @@ networks:
       config:
         - subnet: 10.10.10.0/24
 
-volumes:
-  webapp:
-
 services:
   sia:
     build:
@@ -76,7 +73,6 @@ services:
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
-      - webapp:/var/www/webportal:ro
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -86,17 +82,7 @@ services:
       - sia
       - health-check
       - handshake-api
-
-  webapp:
-    build:
-      context: ./packages/webapp
-      dockerfile: Dockerfile
-    container_name: webapp
-    restart: unless-stopped
-    logging: *default-logging
-    tty: true
-    volumes:
-      - webapp:/usr/app/public
+      - website
 
   website:
     build:
@@ -111,9 +97,9 @@ services:
       - ./docker/data/website/.cache:/usr/app/.cache
     networks:
       shared:
-        ipv4_address: 10.10.10.100
+        ipv4_address: 10.10.10.35
     expose:
-      - 3000
+      - 9000
 
   handshake:
     build:
