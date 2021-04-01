@@ -208,7 +208,7 @@ const AboutPage = ({ ...props }) => {
 
           <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
             <p className="text-white font-light text-lg">
-              Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
+              Skynet is an open protocol and toolkit for creating a better web — one built on decentralized storage and
               applications.
             </p>
 
