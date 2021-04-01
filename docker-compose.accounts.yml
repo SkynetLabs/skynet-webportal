@@ -7,11 +7,6 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  webapp:
-    build:
-      args:
-        WITH_ACCOUNTS: 1 # enable accounts frontend
-
   nginx:
     environment:
       - ACCOUNTS_ENABLED=1
