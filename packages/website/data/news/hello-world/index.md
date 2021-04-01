@@ -4,6 +4,7 @@ date: "2015-05-01T22:12:03.284Z"
 description: "Hello World"
 author: Nicole Tay
 avatar: ../../team/nicole-tay.png
+hidden: true
 ---
 
 This is my first post on my new fake blog! How exciting!

@@ -13,6 +13,7 @@ export { default as DiscordSmallWhite } from "./DiscordSmallWhite.svg";
 export { default as Encryption } from "./Encryption.svg";
 export { default as Error } from "./Error.svg";
 export { default as ExternalLink } from "./ExternalLink.svg";
+export { default as FacebookSmall } from "./FacebookSmall.svg";
 export { default as Fingerprint } from "./Fingerprint.svg";
 export { default as GithubSmall } from "./GithubSmall.svg";
 export { default as GitlabSmall } from "./GitlabSmall.svg";

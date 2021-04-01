@@ -1,10 +1,10 @@
 import * as React from "react";
 import { graphql } from "gatsby";
 import Layout, { Section, SectionTitle } from "../components/Layout";
-import { Aside } from "../components/News";
+import { NewsSummary } from "../components/News";
 import SEO from "../components/seo";
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton } from "react-share";
-import { TwitterSmall, LinkedinSmall } from "../components/Icons";
+import { TwitterSmall, LinkedinSmall, FacebookSmall } from "../components/Icons";
 
 const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark;
@@ -24,7 +24,11 @@ const BlogPostTemplate = ({ data, location }) => {
 
           <div className="grid grid-cols-3 gap-8">
             <aside className="space-y-5">
-              <Aside avatar={post.frontmatter.avatar} author={post.frontmatter.author} date={post.frontmatter.date} />
+              <NewsSummary
+                avatar={post.frontmatter.avatar}
+                author={post.frontmatter.author}
+                date={post.frontmatter.date}
+              />
 
               <hr className="text-palette-200" />
 
@@ -44,7 +48,7 @@ const BlogPostTemplate = ({ data, location }) => {
                 </LinkedinShareButton>
 
                 <FacebookShareButton url={location.href} quote={post.frontmatter.title}>
-                  <LinkedinSmall className="fill-current hover:text-palette-400 transition-colors duration-200" />
+                  <FacebookSmall className="fill-current hover:text-palette-400 transition-colors duration-200" />
                 </FacebookShareButton>
               </div>
             </aside>

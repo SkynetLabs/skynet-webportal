@@ -1,7 +1,7 @@
 import * as React from "react";
 import { graphql } from "gatsby";
 import Layout, { Section } from "../components/Layout";
-import { Aside } from "../components/News";
+import { NewsSummary } from "../components/News";
 import Link from "../components/Link";
 import SEO from "../components/seo";
 
@@ -11,14 +11,23 @@ const NewsCard = ({ ...props }) => {
       <Link to={props.fields.slug}>
         <img src={`https://picsum.photos/320/170?${Math.random()}`} alt={props.frontmatter.title} />
       </Link>
-      <Link to={props.fields.slug} className="text-xl mt-6 hover:text-primary transition-colors duration-200">
+
+      <Link to={props.fields.slug} className="text-xl mt-6">
         {props.frontmatter.title}
       </Link>
+
       {props.frontmatter.description && (
-        <div className="font-content text-palette-400 mt-4">{props.frontmatter.description}</div>
+        <Link to={props.fields.slug} className="font-content text-palette-400 mt-4">
+          {props.frontmatter.description}
+        </Link>
       )}
+
       <div className="mt-6">
-        <Aside avatar={props.frontmatter.avatar} author={props.frontmatter.author} date={props.frontmatter.date} />
+        <NewsSummary
+          avatar={props.frontmatter.avatar}
+          author={props.frontmatter.author}
+          date={props.frontmatter.date}
+        />
       </div>
     </div>
   );
@@ -42,7 +51,10 @@ const NewsPage = ({ data }) => {
 
 export const query = graphql`
   query NewsQuery {
-    allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    allMarkdownRemark(
+      filter: { frontmatter: { hidden: { ne: true } } }
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       edges {
         node {
           id

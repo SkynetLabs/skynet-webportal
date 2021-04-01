@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
-export function Aside({ avatar, author, date }) {
+export function NewsSummary({ avatar, author, date }) {
   return (
     <div className="flex space-x-4">
       {avatar && <GatsbyImage image={getImage(avatar)} alt={author || "Skynet Labs Inc"} className="rounded-full" />}
