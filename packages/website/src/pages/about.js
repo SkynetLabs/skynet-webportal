@@ -239,7 +239,7 @@ const AboutPage = ({ ...props }) => {
         <div className="space-y-10 desktop:space-y-20 flex flex-col">
           <div>
             <SectionTitleCaption>Team</SectionTitleCaption>
-            <SectionTitle>Skynet stands with you in the fight for a freer future</SectionTitle>
+            <SectionTitle>Skynet stands with you in the fight for a free future</SectionTitle>
           </div>
 
           <div className="hidden desktop:grid gap-y-8 gap-16 grid-cols-3">
