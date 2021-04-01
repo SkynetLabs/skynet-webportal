@@ -2,7 +2,7 @@
 title: "Sia Announces Skynet, the Storage Foundation for a Free Internet"
 description: "Skynet is available with Sia version 1.4.3 and ready to use today!"
 date: "2020-02-18"
-author: "Skynet Labs Inc"
+author: "Skynet Labs"
 categories: ["press release"]
 avatar: "../images/skynet-avatar.png"
 thumbnail: "../images/press-release.png"

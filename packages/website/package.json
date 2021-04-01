@@ -3,7 +3,7 @@
   "private": true,
   "description": "Skynet Labs official website",
   "version": "0.1.0",
-  "author": "Skynet Labs Inc.",
+  "author": "Skynet Labs.",
   "dependencies": {
     "@fontsource/sora": "^4.2.2",
     "@fontsource/source-sans-pro": "^4.2.2",

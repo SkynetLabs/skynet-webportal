@@ -2,7 +2,7 @@
 title: "Sia Announces $3M Seed Round to Accelerate Development and Adoption of the Web3 platform Skynet"
 date: "2020-09-22"
 description: "Paradigm leads the round of financing; Nebulous to solely focus on Skynet"
-author: "Skynet Labs Inc"
+author: "Skynet Labs"
 categories: ["press release"]
 avatar: "../images/skynet-avatar.png"
 thumbnail: "../images/press-release.png"

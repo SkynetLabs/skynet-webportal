@@ -2,7 +2,7 @@
 title: "Skynet Announces SkyDB, Unlocking a Fully Decentralized Internet"
 date: "2020-10-15"
 description: "SkyDB enables decentralized social media to take on `The Social Dilemma`"
-author: "Skynet Labs Inc"
+author: "Skynet Labs"
 categories: ["press release"]
 avatar: "../images/skynet-avatar.png"
 thumbnail: "../images/press-release.png"

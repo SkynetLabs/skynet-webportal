@@ -4,7 +4,7 @@ module.exports = {
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,
-    author: `Skynet Labs Inc`,
+    author: `Skynet Labs`,
     siteUrl: `https://siasky.net`,
     image: `https://siasky.net/icons/icon-512x512.png`,
   },
@@ -57,6 +57,7 @@ module.exports = {
                 heading: "font-semibold text-palette-600",
                 paragraph: "font-content text-base text-palette-400",
                 strong: "font-semibold",
+                link: "text-primary hover:text-primary-light transition-colors duration-200",
                 "heading[depth=1]": "text-4xl",
                 "heading[depth=2]": "text-3xl",
                 "paragraph + paragraph": "mt-8",

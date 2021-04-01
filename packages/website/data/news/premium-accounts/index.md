@@ -2,7 +2,7 @@
 title: "Skynet Introduces Premium Accounts, Sets the Foundation for New Creator Economies"
 date: "2021-03-22"
 description: "Premium accounts support creators while giving users up to 20 TB of data storage per month and other perks."
-author: "Skynet Labs Inc"
+author: "Skynet Labs"
 categories: ["press release"]
 avatar: "../images/skynet-avatar.png"
 thumbnail: "../images/press-release.png"
