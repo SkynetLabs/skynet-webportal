@@ -94,7 +94,8 @@ const DevelopersPage = () => (
       <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">
         <div className="space-y-12 desktop:w-1/2 desktop:text-right">
           <h1 className="text-white">
-            Decentralized Apps with speed, confidence, and <span className="text-primary underline">usability</span>
+            Decentralized Apps with speed, confidence, and{" "}
+            <span className="text-primary underline-white">usability</span>
           </h1>
 
           <ul className="space-y-2">

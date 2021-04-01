@@ -266,7 +266,7 @@ const AboutPage = ({ ...props }) => {
         <SectionTitleCaption>Investors</SectionTitleCaption>
         <SectionTitle>Support for the Skynet Vision</SectionTitle>
 
-        <div className="grid grid-cols-2 gap-4 desktop:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 desktop:grid-cols-4 mt-20">
           {investors.map(({ name, image }) => (
             <GatsbyImage key={name} image={getImage(image)} alt={name} />
           ))}

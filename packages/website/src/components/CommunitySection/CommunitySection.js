@@ -39,7 +39,7 @@ const CommunitySection = () => {
   };
 
   return (
-    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8">
+    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8 max-w-column desktop:max-w-full">
       <div>
         <SectionHeader>Newsletter</SectionHeader>
         <SectionTitle>Stay up to date</SectionTitle>
@@ -84,7 +84,7 @@ const CommunitySection = () => {
           {complete && message && (
             <div
               className={classnames(
-                "newsletter-message text-center py-2 px-4 rounded bg-palette-600 font-semibold font-content",
+                "newsletter-message text-left desktop:text-center py-2 px-4 rounded bg-palette-600 font-semibold font-content text-white",
                 {
                   "text-error": !success,
                 }

@@ -22,7 +22,7 @@ const useWindowTop = () => {
   return y <= 0;
 };
 
-const Navigation = ({ mode }) => {
+const Navigation = ({ mode, uri }) => {
   const navRef = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const windowSize = useWindowSize();
@@ -30,7 +30,7 @@ const Navigation = ({ mode }) => {
 
   React.useEffect(() => {
     setOpen(false);
-  }, [windowSize, setOpen]);
+  }, [windowSize, setOpen, uri]);
 
   React.useEffect(() => {
     if (open && document.body.style.overflow !== "hidden") {
@@ -145,6 +145,7 @@ const Navigation = ({ mode }) => {
 
 Navigation.propTypes = {
   mode: PropTypes.oneOf(["dark", "light"]),
+  uri: PropTypes.string,
 };
 
 Navigation.defaultProps = {

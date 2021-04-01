@@ -34,7 +34,7 @@ const FixedHeader = ({ uri }) => {
   return (
     <div ref={ref} className="fixed inset-x-0 top-0 z-50">
       <NewsHeader />
-      <Navigation mode={mode} />
+      <Navigation mode={mode} uri={uri} />
     </div>
   );
 };
