@@ -50,8 +50,8 @@ const Navigation = ({ mode, yyy = 0 }) => {
           <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
             {mode === "dark" && <LogoWhiteText className="h-8 desktop:h-10" />}
             {mode === "light" && <LogoBlackText className="h-8 desktop:h-10" />}
-            <span className="bg-white text-xs p-1 tabular-nums">
-              ({yyy}) ({offsetY})
+            <span className="bg-white text-xxs p-1 tabular-nums">
+              {yyy} {offsetY} {mode}
             </span>
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">
