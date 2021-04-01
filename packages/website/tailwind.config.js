@@ -71,7 +71,10 @@ module.exports = {
     require("@tailwindcss/typography"),
     plugin(function ({ addBase, theme }) {
       addBase({
-        body: { color: theme("textColor.palette.600") },
+        body: {
+          color: theme("textColor.palette.600"),
+          backgroundColor: theme("backgroundColor.palette.600"),
+        },
       });
     }),
   ],
