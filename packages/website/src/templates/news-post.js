@@ -52,7 +52,11 @@ const BlogPostTemplate = ({ data, location }) => {
                 </FacebookShareButton>
               </div>
             </aside>
-            <section dangerouslySetInnerHTML={{ __html: post.html }} itemProp="articleBody" className="col-span-2" />
+
+            <div className="col-span-2 space-y-12">
+              {post.frontmatter.description && <h2 className="text-lg font-light">{post.frontmatter.description}</h2>}
+              <section dangerouslySetInnerHTML={{ __html: post.html }} itemProp="articleBody" />
+            </div>
           </div>
         </article>
       </Section>
