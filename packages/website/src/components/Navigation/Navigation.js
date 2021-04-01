@@ -16,11 +16,17 @@ const routes = [
   { title: "News", to: "/news" },
 ];
 
-const Navigation = ({ mode, yyy = 0 }) => {
+const useWindowTop = () => {
+  const { y } = useWindowScroll();
+
+  return y <= 0;
+};
+
+const Navigation = ({ mode }) => {
   const navRef = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const windowSize = useWindowSize();
-  const { y: offsetY } = useWindowScroll();
+  const isWindowTop = useWindowTop();
 
   React.useEffect(() => {
     setOpen(false);
@@ -41,7 +47,7 @@ const Navigation = ({ mode, yyy = 0 }) => {
       className={classnames("relative px-8 py-6 transition-all duration-500", {
         "bg-white border-b border-palette-200": mode === "light",
         "bg-palette-600 bg-opacity-50": mode === "dark",
-        "desktop:py-12": offsetY <= 0,
+        "desktop:py-12": isWindowTop,
       })}
       ref={navRef}
     >
@@ -51,7 +57,7 @@ const Navigation = ({ mode, yyy = 0 }) => {
             {mode === "dark" && <LogoWhiteText className="h-8 desktop:h-10" />}
             {mode === "light" && <LogoBlackText className="h-8 desktop:h-10" />}
             <span className="bg-white text-xxs p-1 tabular-nums">
-              {yyy} {offsetY} {mode}
+              {isWindowTop} {mode}
             </span>
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">

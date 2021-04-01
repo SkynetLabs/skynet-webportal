@@ -20,7 +20,7 @@ const FixedHeader = () => {
   const [mode, setMode] = React.useState();
 
   React.useLayoutEffect(() => {
-    const offset = ref.current.offsetHeight;
+    const offset = ref.current.offsetHeight + 1;
     const element = document.elementFromPoint(0, offset);
     const backgroundColor = window.getComputedStyle(element, null).getPropertyValue("background-color");
     const color = readableColor(backgroundColor); // returns either #fff or #000
@@ -34,7 +34,7 @@ const FixedHeader = () => {
   return (
     <div ref={ref} className="fixed inset-x-0 top-0 z-50">
       <NewsHeader />
-      <Navigation mode={mode} yyy={y} />
+      <Navigation mode={mode} />
     </div>
   );
 };
