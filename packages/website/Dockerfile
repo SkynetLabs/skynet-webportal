@@ -23,4 +23,4 @@ RUN npm run build
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "npm run serve"]
+CMD ["sh", "-c", "npm run serve --host=0.0.0.0"]
