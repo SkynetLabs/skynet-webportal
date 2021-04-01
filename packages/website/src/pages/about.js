@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import Layout, { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
+import { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
 import SEO from "../components/seo";
 import {
@@ -123,7 +123,7 @@ const AboutPage = ({ ...props }) => {
   const teamCardsPaginated = paginate(teamCards, 3);
 
   return (
-    <Layout>
+    <>
       <SEO title="About" />
 
       <Section className="bg-palette-100" marginBottom={false} first={true}>
@@ -274,7 +274,7 @@ const AboutPage = ({ ...props }) => {
           ))}
         </div>
       </Section>
-    </Layout>
+    </>
   );
 };
 

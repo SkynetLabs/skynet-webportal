@@ -14,7 +14,7 @@ import FooterNavigation from "../FooterNavigation";
 import { useWindowScroll } from "react-use";
 import { readableColor } from "polished";
 
-const FixedHeader = () => {
+const FixedHeader = ({ uri }) => {
   const { y } = useWindowScroll();
   const ref = React.useRef(null);
   const [mode, setMode] = React.useState();
@@ -29,7 +29,7 @@ const FixedHeader = () => {
     if (mode !== calculated) {
       setMode(calculated);
     }
-  }, [setMode, mode, y]);
+  }, [setMode, mode, y, uri]);
 
   return (
     <div ref={ref} className="fixed inset-x-0 top-0 z-50">
@@ -39,7 +39,7 @@ const FixedHeader = () => {
   );
 };
 
-const Layout = ({ children }) => {
+const Layout = ({ children, uri }) => {
   // const data = useStaticQuery(graphql`
   //   query SiteTitleQuery {
   //     site {
@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="background bg-top bg-contain">
-      <FixedHeader />
+      <FixedHeader uri={uri} />
       <main>{children}</main>
       <FooterNavigation />
       <Footer />

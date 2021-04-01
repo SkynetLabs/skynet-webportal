@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout, { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
+import { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
 import SEO from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
@@ -67,7 +67,7 @@ const ecosystemCards = [
 
 const IndexPage = () => {
   return (
-    <Layout>
+    <>
       <SEO title="Home" />
 
       <Section first={true}>
@@ -157,7 +157,7 @@ const IndexPage = () => {
       <Section className="bg-primary">
         <CommunitySection />
       </Section>
-    </Layout>
+    </>
   );
 };
 

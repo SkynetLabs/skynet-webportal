@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout, { Section, SectionTitle, CardWithDescription } from "../components/Layout";
+import { Section, SectionTitle, CardWithDescription } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
 import CodeTerminal from "../components/CodeTerminal";
@@ -87,7 +87,7 @@ const docs = [
 ];
 
 const DevelopersPage = () => (
-  <Layout>
+  <>
     <SEO title="Developers" />
 
     <Section first={true}>
@@ -172,7 +172,7 @@ const DevelopersPage = () => (
         </ul>
       </div>
     </Section>
-  </Layout>
+  </>
 );
 
 export default DevelopersPage;

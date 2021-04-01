@@ -1,17 +1,16 @@
 import * as React from "react";
 import { graphql } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import Layout, { Section, Label } from "../components/Layout";
+import { Section, Label } from "../components/Layout";
 import { NewsSummary } from "../components/News";
 import Link from "../components/Link";
 import SEO from "../components/seo";
 
 const NewsCard = ({ ...props }) => {
-  console.log(props.frontmatter);
   return (
     <div className="flex flex-col">
       <Link to={props.fields.slug}>
-        <GatsbyImage image={getImage(props.frontmatter.thumbnail)} />
+        <GatsbyImage image={getImage(props.frontmatter.thumbnail)} alt={props.frontmatter.title} />
       </Link>
 
       {props.frontmatter.categories && (
@@ -45,7 +44,7 @@ const NewsCard = ({ ...props }) => {
 
 const NewsPage = ({ data }) => {
   return (
-    <Layout>
+    <>
       <SEO title="News" />
 
       <Section className="bg-white" first={true}>
@@ -55,7 +54,7 @@ const NewsPage = ({ data }) => {
           ))}
         </div>
       </Section>
-    </Layout>
+    </>
   );
 };
 
