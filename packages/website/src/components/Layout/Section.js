@@ -96,7 +96,7 @@ export const CardCarousel = ({ CardComponent, cards, interval = null, fullWidth 
 export const CardWithTitle = ({ Icon, title }) => (
   <div className="flex flex-col items-center">
     <Icon height="142" />
-    <p className="text-center mt-4 font-light text-palette-600 text-lg">{title}</p>
+    <p className="text-center mt-4 font-light text-palette-600 text-lg" dangerouslySetInnerHTML={{ __html: title }} />
   </div>
 );
 

@@ -137,7 +137,7 @@ const AboutPage = ({ ...props }) => {
 
           <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
             <p className="text-palette-600 font-light text-lg">
-              Skynet is an open protocol and toolkit for creating a better web-one built on decentralized storage and
+              Skynet is an open protocol and toolkit for creating a better web — one built on decentralized storage and
               applications.
             </p>
 
@@ -150,13 +150,16 @@ const AboutPage = ({ ...props }) => {
             </p>
 
             <Link
-              to="/developers"
+              href="https://support.siasky.net"
               className="hidden sm:inline-flex items-center text-xs text-palette-600 uppercase hover:text-primary transition-colors duration-200"
             >
               Learn more about how our technology works <ArrowRight className="fill-current" />
             </Link>
 
-            <Link to="/developers" className="inline-flex sm:hidden flex-col text-xs text-palette-600 uppercase">
+            <Link
+              href="https://support.siasky.net"
+              className="inline-flex sm:hidden flex-col text-xs text-palette-600 uppercase"
+            >
               Learn more about how our{" "}
               <span className="inline-flex items-center">
                 technology works <ArrowRight />
@@ -183,7 +186,7 @@ const AboutPage = ({ ...props }) => {
 
             <div className="mt-14 text-center space-y-6">
               <p className="font-light text-lg text-palette-600">Want to build apps with these features?</p>
-              <Link href="https://secure.siasky.net" className="button-secondary-dark inline-block px-10">
+              <Link to="/developers" className="button-secondary-dark inline-block px-10">
                 Get started here
               </Link>
             </div>
@@ -218,7 +221,9 @@ const AboutPage = ({ ...props }) => {
             </p>
 
             <h3 className="text-lg desktop:text-3xl font-semibold text-white">
-              Decentralization isn’t just what we do, <span className="text-primary">it’s how we do it</span>
+              Decentralization isn’t just what we do,
+              <br />
+              <span className="text-primary">it’s how we do it</span>
             </h3>
 
             <p className="font-content text-palette-300">
@@ -247,7 +252,7 @@ const AboutPage = ({ ...props }) => {
             <Carousel Component={TeamCardPage} items={teamCardsPaginated} fullWidth={true} />
           </div>
 
-          <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0">
+          <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0 hidden">
             <Link className="flex-shrink-0 hidden desktop:inline-block" {...careers}>
               <Join />
             </Link>

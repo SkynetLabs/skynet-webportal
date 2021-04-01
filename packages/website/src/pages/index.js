@@ -20,11 +20,11 @@ import Link from "../components/Link";
 const etosCards = [
   {
     Icon: SkynetToolBig,
-    title: "Build a freer future",
+    title: "Build a better web",
   },
   {
     Icon: SkynetUserBig,
-    title: "Fight corporate control of user data",
+    title: "Fight corporate control<br />of user data",
   },
   {
     Icon: SkynetPowerBig,
@@ -73,7 +73,9 @@ const IndexPage = () => {
       <Section first={true}>
         <div className="text-center">
           <h1 className="text-4xl desktop:text-6xl text-white">
-            Build a <span className="text-primary underline-white">free Internet</span>
+            Decentralized Internet
+            <br />
+            for a <span className="text-primary underline-white">Free Future</span>
           </h1>
 
           <p className="mt-5 font-light text-lg leading-7 text-palette-300">

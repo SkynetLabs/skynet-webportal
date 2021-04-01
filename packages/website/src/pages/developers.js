@@ -119,11 +119,11 @@ const DevelopersPage = () => (
     </Section>
 
     <Section className="bg-palette-100">
-      <SectionTitle className="mb-7 desktop:hidden">Plenty of reason to use Skynet</SectionTitle>
+      <SectionTitle className="mb-7 desktop:hidden">Plenty of reasons to use Skynet</SectionTitle>
 
       <div className="hidden desktop:grid gap-x-8 gap-y-16 grid-cols-3">
         <div className="hidden desktop:inline-block">
-          <SectionTitle>Plenty of reason to use Skynet</SectionTitle>
+          <SectionTitle>Plenty of reasons to use Skynet</SectionTitle>
 
           <LearnMoreButton />
         </div>
