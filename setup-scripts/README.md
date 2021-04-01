@@ -94,6 +94,8 @@ At this point we have almost everything running, we just need to set up your wal
    - `COOKIE_DOMAIN` (optional) if using `accounts` this is the domain to which your cookies will be issued
    - `COOKIE_HASH_KEY` (optional) if using `accounts` hashing secret, at least 32 bytes
    - `COOKIE_ENC_KEY` (optional) if using `accounts` encryption key, at least 32 bytes
+   - `S3_BACKUP_PATH` (optional) is using `accounts` and backing up the databases to S3. This path should be an S3 bucket
+     with path to the location in the bucket where we want to store the daily backups.
 
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
 1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
