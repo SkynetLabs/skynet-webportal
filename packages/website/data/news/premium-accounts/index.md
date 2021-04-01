@@ -1,9 +1,11 @@
 ---
-title: Skynet Introduces Premium Accounts, Sets the Foundation for New Creator Economies
+title: "Skynet Introduces Premium Accounts, Sets the Foundation for New Creator Economies"
 date: "2021-03-22"
 description: "Premium accounts support creators while giving users up to 20 TB of data storage per month and other perks."
-author: Manasi Vora
-avatar: ../../team/manasi-vora.png
+author: "Manasi Vora"
+categories: ["press release"]
+avatar: "../../team/manasi-vora.png"
+thumbnail: "../images/press-release.png"
 ---
 
 **BOSTON, Massachusetts, March 22, 2021** — Skynet Labs introduces new paid accounts and sets the stage for recursive content monetization. To celebrate, Skynet is giving out premium accounts to the first 100 users who sign up at siasky.net. The giveaway includes 1 TB of storage and 3 months of censorship-resistant file pinning. Skynet is a decentralized CDN and foundation for a new, decentralized internet. It is an open protocol for building decentralized applications, and is built on top of Sia, a decentralized storage network.

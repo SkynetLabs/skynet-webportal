@@ -1,16 +1,26 @@
 import * as React from "react";
 import { graphql } from "gatsby";
-import Layout, { Section } from "../components/Layout";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Layout, { Section, Label } from "../components/Layout";
 import { NewsSummary } from "../components/News";
 import Link from "../components/Link";
 import SEO from "../components/seo";
 
 const NewsCard = ({ ...props }) => {
+  console.log(props.frontmatter);
   return (
     <div className="flex flex-col">
       <Link to={props.fields.slug}>
-        <img src={`https://picsum.photos/320/170?${Math.random()}`} alt={props.frontmatter.title} />
+        <GatsbyImage image={getImage(props.frontmatter.thumbnail)} />
       </Link>
+
+      {props.frontmatter.categories && (
+        <div className="mt-6">
+          {props.frontmatter.categories.map((category) => (
+            <Label key={category}>{category}</Label>
+          ))}
+        </div>
+      )}
 
       <Link to={props.fields.slug} className="text-xl mt-6">
         {props.frontmatter.title}
@@ -63,6 +73,12 @@ export const query = graphql`
             date(formatString: "MMMM DD, YYYY")
             description
             author
+            categories
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData(width: 320, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+              }
+            }
             avatar {
               childImageSharp {
                 gatsbyImageData(width: 40, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])

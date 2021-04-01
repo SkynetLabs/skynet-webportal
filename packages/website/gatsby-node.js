@@ -109,6 +109,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date @dateformat
       author: String
       hidden: Boolean
+      categories: [String]
     }
     type Fields {
       slug: String

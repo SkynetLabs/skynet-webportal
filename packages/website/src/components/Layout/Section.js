@@ -100,9 +100,11 @@ export const CardWithTitle = ({ Icon, title }) => (
   </div>
 );
 
-const Label = ({ children }) => (
-  <span className="inline-flex items-center px-3 leading-5 rounded-full text-xxs bg-palette-200 text-palette-600 lowercase">
-    {children}
+export const Label = ({ children }) => (
+  <span className="inline-flex items-center px-3 h-6 rounded-full text-xxs bg-palette-200 text-palette-600 uppercase">
+    <span className="relative" style={{ top: 1 }}>
+      {children}
+    </span>
   </span>
 );
 
