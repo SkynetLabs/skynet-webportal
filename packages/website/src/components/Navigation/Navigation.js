@@ -85,10 +85,10 @@ const Navigation = ({ mode, uri }) => {
                 {title}
               </Link>
             ))}
-            <Link href="https://secure.siasky.net" className="button-link-primary">
+            <Link href="https://account.siasky.net" className="button-link-primary">
               Log in
             </Link>
-            <Link href="https://secure.siasky.net/auth/registration" className="button-primary">
+            <Link href="https://account.siasky.net/auth/registration" className="button-primary">
               Sign up
             </Link>
           </div>
@@ -128,11 +128,11 @@ const Navigation = ({ mode, uri }) => {
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
             <div className="flex items-center justify-center px-4 space-x-6">
-              <Link href="https://secure.siasky.net" className="button-secondary-light">
+              <Link href="https://account.siasky.net" className="button-secondary-light">
                 Log in
               </Link>
 
-              <Link href="https://secure.siasky.net/auth/registration" className="button-primary">
+              <Link href="https://account.siasky.net/auth/registration" className="button-primary">
                 Sign up
               </Link>
             </div>

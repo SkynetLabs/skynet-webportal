@@ -61,7 +61,7 @@ const client = new SkynetClient("https://siasky.net");
 
 const RegistrationLink = () => (
   <Link
-    href="https://secure.siasky.net/auth/registration"
+    href="https://account.siasky.net/auth/registration"
     className="uppercase underline-primary hover:text-primary transition-colors duration-200"
   >
     Sign up
