@@ -166,18 +166,3 @@ services:
     depends_on:
       - handshake
       - handshake-api
-
-  mongo:
-    image: mongo:4.4.1
-    command: --keyFile=/data/mgkey --replSet=skynet
-    container_name: mongo
-    restart: unless-stopped
-    logging: *default-logging
-    volumes:
-      - ./docker/data/mongo/db:/data/db
-      - ./docker/data/mongo/mgkey:/data/mgkey:rw
-    networks:
-      shared:
-        ipv4_address: 10.10.10.70
-    ports:
-      - "27017:27017"

@@ -14,7 +14,7 @@ mkdir -p /home/user/.ssh
 
 # Install apt packages
 sudo apt-get update
-sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip curl
+sudo apt-get -y install ufw tmux ranger htop nload gcc g++ make git vim unzip curl awscli
 
 # Setup GIT credentials (so commands like git stash would work)
 git config --global user.email "devs@nebulous.tech"
