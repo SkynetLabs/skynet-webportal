@@ -16,7 +16,7 @@ const routes = [
   { title: "News", to: "/news" },
 ];
 
-const Navigation = ({ mode }) => {
+const Navigation = ({ mode, yyy = 0 }) => {
   const navRef = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const windowSize = useWindowSize();
@@ -50,6 +50,9 @@ const Navigation = ({ mode }) => {
           <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
             {mode === "dark" && <LogoWhiteText className="h-8 desktop:h-10" />}
             {mode === "light" && <LogoBlackText className="h-8 desktop:h-10" />}
+            <span className="bg-white text-xs p-1 tabular-nums">
+              ({yyy}) ({offsetY})
+            </span>
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">
             <button
