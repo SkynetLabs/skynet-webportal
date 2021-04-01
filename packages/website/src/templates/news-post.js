@@ -22,7 +22,7 @@ const BlogPostTemplate = ({ data, location }) => {
             {post.frontmatter.title}
           </SectionTitle>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 desktop:grid-cols-3 gap-y-8 desktop:gap-x-8">
             <aside className="space-y-5">
               <NewsSummary
                 avatar={post.frontmatter.avatar}
