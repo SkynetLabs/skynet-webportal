@@ -117,7 +117,7 @@ services:
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
       - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
       - NEXT_PUBLIC_KRATOS_BROWSER_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
-      - NEXT_PUBLIC_KRATOS_PUBLIC_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
+      - NEXT_PUBLIC_KRATOS_PUBLIC_URL=http://oathkeeper:4455/.ory/kratos/public
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.next:/usr/app/.next
