@@ -126,6 +126,8 @@ services:
         ipv4_address: 10.10.10.85
     expose:
       - 3000
+    depends_on:
+      - oathkeeper
 
   oathkeeper:
     image: oryd/oathkeeper:v0.38
