@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
-    console.log(error);
+    console.log(config.kratos.public, error.message);
 
     return {
       redirect: {
