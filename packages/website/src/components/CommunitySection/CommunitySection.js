@@ -14,8 +14,8 @@ import useSubscribe from "./useSubscribe";
 import Link from "../Link";
 
 const social = [
-  { name: "Discord", Icon: DiscordSmall, href: "https://discordapp.com/invite/sia" },
-  { name: "Twitter", Icon: TwitterSmall, href: "https://twitter.com/SiaTechHQ" },
+  { name: "Discord", Icon: DiscordSmall, href: "https://discord.gg/skynetlabs" },
+  { name: "Twitter", Icon: TwitterSmall, href: "https://twitter.com/SkynetLabs" },
   { name: "Reddit", Icon: RedditSmall, href: "https://www.reddit.com/r/siacoin" },
   { name: "Medium", Icon: MediumSmall, href: "https://blog.sia.tech" },
   { name: "Youtube", Icon: YoutubeSmall, href: "https://www.youtube.com/c/SiaTVOfficial/featured" },

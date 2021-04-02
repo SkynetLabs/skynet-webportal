@@ -46,7 +46,7 @@ const NewsHeader = () => {
 
           <div className="ml-auto items-center pl-8 hidden desktop:block">
             <Link
-              href="https://discordapp.com/invite/sia"
+              href="https://discord.gg/skynetlabs"
               className="text-palette-300 leading-8 font-content flex items-center flex-shrink-0 whitespace-nowrap hover:text-palette-200 transition-colors duration-200 space-x-2"
             >
               <DiscordSmall className="fill-current" />

@@ -119,7 +119,7 @@ const Navigation = ({ mode, uri }) => {
           </ul>
           <div className="border-t border-palette-500 py-7">
             <Link
-              href="https://discordapp.com/invite/sia"
+              href="https://discord.gg/skynetlabs"
               className="text-palette-300 text-m font-content flex items-center"
             >
               <DiscordSmall className="mr-2 fill-current text-white" />

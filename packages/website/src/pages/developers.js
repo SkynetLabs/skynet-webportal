@@ -77,7 +77,7 @@ const resources = [
   {
     title: "Join us on Discord",
     description: "A generous developer community, ready to solve hard problems.",
-    href: "https://discordapp.com/invite/sia",
+    href: "https://discord.gg/skynetlabs",
   },
 ];
 
