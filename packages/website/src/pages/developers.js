@@ -59,11 +59,11 @@ const resources = [
     description: "SDKs in Javascript, Go, Python and more.",
     href: "https://siasky.net/docs/",
   },
-  // {
-  //   title: "Skynet AppStore",
-  //   description: "Explore webs apps in the ecosystem, many open source.",
-  //   href: "https://skyapps.hns.siasky.net",
-  // },
+  {
+    title: "Skynet AppStore",
+    description: "Explore webs apps in the ecosystem, many open source.",
+    href: "https://skapp.hns.siasky.net",
+  },
   {
     title: "Skynet Core Repo",
     description: "The code base that makes the rest tick.",
