@@ -18,6 +18,10 @@
       href: https://siasky.net/docs/
     - title: Portal Setup
       href: https://support.siasky.net/the-technology/running-a-web-portal
+    - title: Github
+      href: https://github.com/SkynetHQ
+    - title: Gitlab
+      href: https://gitlab.com/skynetlabs
 - header: Technology
   links:
     - title: What is Skynet?
@@ -40,7 +44,9 @@
       href: https://skyapps.hns.siasky.net/
 - header: Skynet Webportals
   links:
-    - title: SkyPortal
+    - title: Siasky.net
+      href: https://siasky.net
+    - title: SkyPortal.xyz
       href: https://skyportal.xyz
-    - title: Skydrain
+    - title: Skydrain.net
       href: https://skydrain.net
