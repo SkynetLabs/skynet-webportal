@@ -113,12 +113,12 @@ const IndexPage = () => {
             our decentralized ecosystem and revolution.
           </p>
 
-          <Link
-            href="https://skyapps.hns.siasky.net/"
-            className="mt-6 uppercase flex items-center text-xs text-palette-600 hover:text-primary transition-colors duration-200"
-          >
-            Try Skynet Apps <ArrowRight className="fill-current" />
-          </Link>
+          {/* <Link */}
+          {/*   href="https://skyapps.hns.siasky.net/" */}
+          {/*   className="mt-6 uppercase flex items-center text-xs text-palette-600 hover:text-primary transition-colors duration-200" */}
+          {/* > */}
+          {/*   Try Skynet Apps <ArrowRight className="fill-current" /> */}
+          {/* </Link> */}
         </div>
       </Section>
 

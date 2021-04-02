@@ -40,8 +40,8 @@
       href: https://forum.sia.tech
     - title: SiaStats
       href: https://siastats.info
-    - title: Skynet AppStore
-      href: https://skyapps.hns.siasky.net/
+    # - title: Skynet AppStore
+    #   href: https://skyapps.hns.siasky.net/
 - header: Skynet Webportals
   links:
     - title: Siasky.net
