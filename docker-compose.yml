@@ -93,8 +93,6 @@ services:
     logging: *default-logging
     env_file:
       - .env
-    volumes:
-      - ./docker/data/website/.cache:/usr/app/.cache
     networks:
       shared:
         ipv4_address: 10.10.10.35
