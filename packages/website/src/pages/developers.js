@@ -67,7 +67,7 @@ const resources = [
   {
     title: "Skynet Core Repo",
     description: "The code base that makes the rest tick.",
-    href: "https://gitlab.com/skynetlabs/skyd",
+    href: "https://gitlab.com/SkynetHQ/skyd",
   },
   {
     title: "Skynet on Github",
