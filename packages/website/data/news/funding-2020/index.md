@@ -8,7 +8,7 @@ avatar: "../images/skynet-avatar.png"
 thumbnail: "../images/press-release.png"
 ---
 
-**Boston, MA – September 22nd, 2020** — Nebulous, the company building the Sia decentralized cloud storage platform and the Skynet application hosting platform, today announced it has closed a $3M funding round led by Paradigm with participation from Bain Capital Ventures, Bessemer Venture Partners, A.Capital, Collaborative Fund, Dragonfly Capital Partners, Hack VC, INBlockchain, First Star Ventures, and other notable investors. The round will help the company scale and accelerate the development and adoption of Skynet.
+**Boston, MA – September 22nd, 2020** — Nebulous, the company building the Sia decentralized cloud storage platform and the Skynet application hosting platform, today announced it has closed a \$3M funding round led by Paradigm with participation from Bain Capital Ventures, Bessemer Venture Partners, A.Capital, Collaborative Fund, Dragonfly Capital Partners, Hack VC, INBlockchain, First Star Ventures, and other notable investors. The round will help the company scale and accelerate the development and adoption of Skynet.
 
 Today’s internet monopolized by tech giants struggles with fundamental challenges in privacy, reliability, and has excessive control over our data and the way we interact with the world. Skynet enables high speed, low cost, and superior infrastructure to serve as the storage foundation for a free Internet. Where data is globally accessible, user-controlled, censorship-resistant, and not fragmented in walled gardens.
 

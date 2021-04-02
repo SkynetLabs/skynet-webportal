@@ -16,7 +16,7 @@ Application developers will also benefit from content monetization. Like content
 
 Skynet Labs has always been committed to the freedom of expression, information, and importantly, access. Therefore, Skynet’s Free account tier supporting up to 100 GB of data, seeks to ensure that financial barriers never prohibit users and developers from participating in the Skynet ecosystem. Once a user meets their data cap, service on Skynet will continue but at reduced speeds, in a way similar to data plans for smartphones.
 
-Overall, users can opt for one of three paid tiers: $5/month with 1 TB, $20/month with 4 TB, or $80/month with 20 TB of data. Skynet Premium also comes with significant performance boosts: users will be able to pin content and browse Skynet faster, in particular any pages with monetized content. The benefits of a premium account are not purely in performance—these users are actively fueling a new creator economy, and a revolution that gives creators everywhere the power they deserve.
+Overall, users can opt for one of three paid tiers: $5/month with 1 TB, $20/month with 4 TB, or \$80/month with 20 TB of data. Skynet Premium also comes with significant performance boosts: users will be able to pin content and browse Skynet faster, in particular any pages with monetized content. The benefits of a premium account are not purely in performance—these users are actively fueling a new creator economy, and a revolution that gives creators everywhere the power they deserve.
 
 ## About Skynet Labs 
 
