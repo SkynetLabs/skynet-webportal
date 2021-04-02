@@ -208,16 +208,17 @@ const AboutPage = ({ ...props }) => {
 
           <div className="col-span-3 desktop:col-start-2 desktop:col-span-2 space-y-12">
             <p className="text-white font-light text-lg">
-              Skynet is an open protocol and toolkit for creating a better web — one built on decentralized storage and
-              applications.
+              Skynet Labs is the core contributor to Skynet, an application development and hosting platform built on
+              Sia, the leading decentralized cloud storage network.
             </p>
 
             <p className="font-content text-palette-300">
-              Skynet apps transform what’s possible on the web. Beyond protecting privacy, decentralization enables
-              application, integration, and innovation that simply cannot be replicated by the centralized world. Now,
-              we can break free of the walled gardens and data silos that have constricted invention and
-              interoperability. Key features of decentralization such as user-owned personal data, persistent identity
-              across apps, and censorship-resistance will be the new standards of the digital world.
+              Skynet is more than the members of the Skynet Labs team. We are a community and movement of global
+              citizens who believe in the positive power of decentralized technology for humanity. No one person or
+              organization should censor or deny access to data — not miners, not developers, nor any government.
+              Through our technology, we seek to build a better and more equitable internet ecosystem. Users,
+              developers, and content creators deserve to be in full control of their data, not monopolistic
+              corporations.
             </p>
 
             <h3 className="text-lg desktop:text-3xl font-semibold text-white">
