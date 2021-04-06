@@ -33,6 +33,8 @@ You may want to fork this repository and replace ssh keys in
 1. `apt-get update && apt-get install sudo -y` to make sure `sudo` is available
 1. `adduser user` to create user called `user` (creates `/home/user` directory)
 1. `usermod -aG sudo user` to add this new user to sudo group
+1. `sudo groupadd docker` to create a group for docker (it might already exist)
+1. `sudo usermod -aG docker user` to add your user to that group
 1. Quit the ssh session with `exit` command
 
 You a can now ssh into your machine as the user `user`.
@@ -47,6 +49,7 @@ You a can now ssh into your machine as the user `user`.
 
 1. `sudo apt-get install git -y` to install git
 1. `git clone https://github.com/NebulousLabs/skynet-webportal`
+1. `cd skynet-webportal` 
 1. run setup scripts in the exact order and provide sudo password when asked (if one of them fails, you can retry just this one before proceeding further)
    1. `/home/user/skynet-webportal/setup-scripts/setup-server.sh`
    1. `/home/user/skynet-webportal/setup-scripts/setup-docker-services.sh`
