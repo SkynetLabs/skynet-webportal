@@ -4,7 +4,7 @@ import SelfServiceMessages from "./SelfServiceMessages";
 
 export default function SelfServiceForm({ flow, config, fieldsConfig, title, button = "Submit" }) {
   const fields = config.fields
-    .filter((field) => field.name.startsWith("traits.name"))
+    .filter((field) => !field.name.startsWith("traits.name")) // drop name fields
     .map((field) => ({ ...field, ...fieldsConfig[field.name] }))
     .sort((a, b) => (a.position < b.position ? -1 : 1));
   const formik = useFormik({
