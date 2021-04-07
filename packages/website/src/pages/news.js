@@ -78,12 +78,12 @@ export const query = graphql`
             external
             thumbnail {
               childImageSharp {
-                gatsbyImageData(width: 320, height: 170, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+                gatsbyImageData(width: 320, height: 170, placeholder: BLURRED, transformOptions: { cropFocus: CENTER })
               }
             }
             avatar {
               childImageSharp {
-                gatsbyImageData(width: 40, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+                gatsbyImageData(width: 40, placeholder: BLURRED, transformOptions: { cropFocus: CENTER })
               }
             }
           }
