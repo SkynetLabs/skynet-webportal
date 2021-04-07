@@ -5,6 +5,6 @@ description: Get updated on the Skynet and Sia ecosystem for the past few months
 thumbnail: ./thumbnail.png
 categories: ["medium"]
 author: Sia Tech
-avatar: ../../team/david-vorick.png
+avatar: ../images/sia-avatar.png
 external: https://blog.sia.tech/skynet-community-update-march-2021-960426c9abce
 ---
