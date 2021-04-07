@@ -11,7 +11,7 @@ const NewsCard = ({ ...props }) => {
 
   return (
     <div className="flex flex-col">
-      <Link {...linkProps}>
+      <Link {...linkProps} className="flex items-center">
         <GatsbyImage image={getImage(props.frontmatter.thumbnail)} alt={props.frontmatter.title} />
       </Link>
 
@@ -78,7 +78,7 @@ export const query = graphql`
             external
             thumbnail {
               childImageSharp {
-                gatsbyImageData(width: 320, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+                gatsbyImageData(width: 320, height: 170, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
               }
             }
             avatar {
