@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Get current working directory (pwd doesn't cut it)
-cwd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+# Get current script directory (pwd doesn't cut it)
+csd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Set the environment. We only grab the entries we need because otherwise we
 # need to deal with the edge cases presented by problematic values.
 set -o allexport
-cat $cwd/../.env | grep "AWS_ACCESS_KEY_ID\|AWS_SECRET_ACCESS_KEY\|S3_BACKUP_PATH\|SKYNET_DB_USER\|SKYNET_DB_PASS\|SKYNET_DB_HOST\|SKYNET_DB_PORT" >.tmpenv
+cat $csd/../.env | grep "AWS_ACCESS_KEY_ID\|AWS_SECRET_ACCESS_KEY\|S3_BACKUP_PATH\|SKYNET_DB_USER\|SKYNET_DB_PASS\|SKYNET_DB_HOST\|SKYNET_DB_PORT" >.tmpenv
 source .tmpenv
 rm .tmpenv
 set +o allexport
@@ -59,11 +59,11 @@ else
     echo "Creating a MongoDB backup failed. Skipping."
   else
     # Compress the backup:
-    cd $cwd/../docker/data/mongo/db/backups/ && ls -l && tar -czf mongo.tgz $DT && cd -
+    cd $csd/../docker/data/mongo/db/backups/ && ls -l && tar -czf mongo.tgz $DT && cd -
     # Upload the backup to S3:
-    aws s3 cp $cwd/../docker/data/mongo/db/backups/mongo.tgz $S3_BACKUP_PATH/$DT/mongo.tgz
+    aws s3 cp $csd/../docker/data/mongo/db/backups/mongo.tgz $S3_BACKUP_PATH/$DT/mongo.tgz
     # Clean up
-    rm -rf $DT.tgz $cwd/../docker/data/mongo/db/backups/mongo.tgz
+    rm -rf $DT.tgz $csd/../docker/data/mongo/db/backups/mongo.tgz
     echo "Finished MongoDB backup."
   fi
   docker exec mongo rm -rf /data/db/backups/$DT
