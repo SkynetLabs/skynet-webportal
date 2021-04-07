@@ -10,6 +10,7 @@ RUN yarn --no-lockfile
 COPY public ./public
 COPY src ./src
 COPY styles ./styles
+COPY next.config.js .
 COPY postcss.config.js .
 COPY tailwind.config.js .
 
