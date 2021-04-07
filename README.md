@@ -32,11 +32,11 @@ Mongo needs a couple of extra steps in order to start a secure cluster.
 
 - Open port 27017 on all nodes that will take part in the cluster. Ideally, you would only open the port for the other
   nodes in the cluster.
-- Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
-  a password (example below).
 - Manually add a `mgkey` file under `./docker/data/mongo` with the respective secret (
   see [Mongo's keyfile access control](https://docs.mongodb.com/manual/tutorial/enforce-keyfile-access-control-in-existing-replica-set/)
   for details).
+- Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
+  a password (example below).
 - During the initialisation run mentioned above, we need to make two extra steps within the container:
   - Change the ownership of `mgkey` to `mongodb:mongodb`
   - Change its permissions to 400
