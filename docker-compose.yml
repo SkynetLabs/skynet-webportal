@@ -19,7 +19,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
-        branch: portal-latest
+        branch: v1.5.5
     container_name: sia
     restart: unless-stopped
     logging: *default-logging
@@ -82,17 +82,16 @@ services:
       - sia
       - health-check
       - handshake-api
-      - website
 
-  website:
+  webapp:
     build:
-      context: ./packages/website
+      context: ./packages/webapp
       dockerfile: Dockerfile
-    container_name: website
+    container_name: webapp
     restart: unless-stopped
     logging: *default-logging
-    env_file:
-      - .env
+    volumes:
+      - ./docker/data/webapp/.cache:/usr/app/.cache
     networks:
       shared:
         ipv4_address: 10.10.10.35
