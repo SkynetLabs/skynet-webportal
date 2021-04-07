@@ -2,7 +2,7 @@ import * as React from "react";
 import { graphql } from "gatsby";
 import { Section, SectionTitle } from "../components/Layout";
 import { NewsSummary } from "../components/News";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton } from "react-share";
 import { TwitterSmall, LinkedinSmall, FacebookSmall } from "../components/Icons";
 
@@ -15,7 +15,7 @@ const BlogPostTemplate = ({ data, location }) => {
 
   return (
     <>
-      <SEO title={post.frontmatter.title} description={post.frontmatter.description || post.excerpt} />
+      <Seo title={post.frontmatter.title} description={post.frontmatter.description || post.excerpt} />
       <Section className="bg-white" first={true}>
         <article className="blog-post" itemScope itemType="http://schema.org/Article">
           <SectionTitle itemProp="headline" className="mb-16">

@@ -3,7 +3,7 @@ import { Section, SectionTitle, CardWithDescription } from "../components/Layout
 import { Carousel } from "../components/Carousel/Carousel";
 import { ExternalLink, DataSwap, Encryption, Layers, Mesh, Toolkit, DevBig } from "../components/Icons";
 import CodeTerminal from "../components/CodeTerminal";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 import Link from "../components/Link";
 
 const LearnMoreButton = () => (
@@ -88,7 +88,7 @@ const docs = [
 
 const DevelopersPage = () => (
   <>
-    <SEO title="Developers" />
+    <Seo title="Developers" />
 
     <Section first={true} width="layout">
       <div className="flex flex-col desktop:flex-row desktop:space-y-0 space-y-12 desktop:space-x-12">

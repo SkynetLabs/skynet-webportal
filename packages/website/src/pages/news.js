@@ -4,12 +4,14 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Section, Label } from "../components/Layout";
 import { NewsSummary } from "../components/News";
 import Link from "../components/Link";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 
 const NewsCard = ({ ...props }) => {
+  const linkProps = { to: !props.frontmatter.external && props.fields.slug, href: props.frontmatter.external };
+
   return (
     <div className="flex flex-col">
-      <Link to={props.fields.slug}>
+      <Link {...linkProps}>
         <GatsbyImage image={getImage(props.frontmatter.thumbnail)} alt={props.frontmatter.title} />
       </Link>
 
@@ -21,12 +23,12 @@ const NewsCard = ({ ...props }) => {
         </div>
       )}
 
-      <Link to={props.fields.slug} className="text-xl mt-6">
+      <Link {...linkProps} className="text-xl mt-6">
         {props.frontmatter.title}
       </Link>
 
       {props.frontmatter.description && (
-        <Link to={props.fields.slug} className="font-content text-palette-400 mt-4">
+        <Link {...linkProps} className="font-content text-palette-400 mt-4">
           {props.frontmatter.description}
         </Link>
       )}
@@ -45,7 +47,7 @@ const NewsCard = ({ ...props }) => {
 const NewsPage = ({ data }) => {
   return (
     <>
-      <SEO title="News" />
+      <Seo title="News" />
 
       <Section className="bg-white" first={true}>
         <div className="grid grid-cols-1 desktop:grid-cols-3 gap-x-8 gap-y-24">
@@ -73,6 +75,7 @@ export const query = graphql`
             description
             author
             categories
+            external
             thumbnail {
               childImageSharp {
                 gatsbyImageData(width: 320, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])

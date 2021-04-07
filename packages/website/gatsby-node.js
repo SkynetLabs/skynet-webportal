@@ -22,7 +22,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const result = await graphql(
     `
       {
-        allMarkdownRemark(sort: { fields: [frontmatter___date], order: ASC }, limit: 1000) {
+        allMarkdownRemark(
+          sort: { fields: [frontmatter___date], order: ASC }
+          filter: { frontmatter: { external: { eq: null } } }
+        ) {
           nodes {
             id
             fields {
@@ -108,6 +111,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       description: String
       date: Date @dateformat
       author: String
+      external: String
       hidden: Boolean
       categories: [String]
     }

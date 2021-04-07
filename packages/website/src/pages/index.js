@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
 import {
@@ -68,7 +68,7 @@ const ecosystemCards = [
 const IndexPage = () => {
   return (
     <>
-      <SEO title="Decentralized Internet for a Free Future" />
+      <Seo title="Decentralized Internet for a Free Future" />
 
       <Section first={true}>
         <div className="text-center">

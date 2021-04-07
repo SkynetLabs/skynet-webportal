@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Link } from "gatsby";
 import { Section, SectionTitle } from "../components/Layout";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 
 const NotFoundPage = () => (
   <>
-    <SEO title="404: Not found" />
+    <Seo title="404: Not found" />
 
     <Section className="bg-white text-center">
       <div className="space-y-8 py-40">

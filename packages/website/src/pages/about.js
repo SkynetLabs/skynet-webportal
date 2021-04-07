@@ -2,7 +2,7 @@ import * as React from "react";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Section, SectionTitle, SectionTitleCaption, CardWithDescription } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
 import {
   ArrowRight,
   Join,
@@ -124,7 +124,7 @@ const AboutPage = ({ ...props }) => {
 
   return (
     <>
-      <SEO title="About" />
+      <Seo title="About" />
 
       <Section className="bg-palette-100" marginBottom={true} first={true}>
         <div className="grid grid-cols-1 gap-x-16 gap-y-16 desktop:grid-cols-3">
