@@ -30,6 +30,8 @@ const Navigation = ({ mode, uri }) => {
   const isWindowTop = useWindowTop();
   const { authenticated } = useAuthenticatedStatus();
 
+  console.log(authenticated);
+
   React.useEffect(() => {
     setOpen(false);
   }, [windowSize, setOpen, uri]);
