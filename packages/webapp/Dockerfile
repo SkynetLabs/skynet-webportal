@@ -1,4 +1,4 @@
-FROM node:15.12.0-alpine
+FROM node:15.14.0-alpine
 
 RUN apk update && apk add autoconf automake libtool gcc make g++ zlib-dev file nasm util-linux
 
