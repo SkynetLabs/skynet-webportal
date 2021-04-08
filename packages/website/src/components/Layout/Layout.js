@@ -17,7 +17,7 @@ import { readableColor } from "polished";
 const FixedHeader = ({ uri }) => {
   const { y } = useWindowScroll();
   const ref = React.useRef(null);
-  const [mode, setMode] = React.useState();
+  const [mode, setMode] = React.useState(null);
 
   React.useLayoutEffect(() => {
     const offset = ref.current.offsetHeight + 1;
@@ -34,7 +34,7 @@ const FixedHeader = ({ uri }) => {
   return (
     <div ref={ref} className="fixed inset-x-0 top-0 z-50">
       <NewsHeader />
-      <Navigation mode={mode} uri={uri} />
+      {mode && <Navigation mode={mode} uri={uri} />}
     </div>
   );
 };

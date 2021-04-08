@@ -55,6 +55,7 @@ module.exports = {
       backgroundImage: {
         mobile: "url('/bg-mobile.svg')",
         desktop: "url('/bg.svg')",
+        column: `linear-gradient(to right, ${colors.palette[100]}, ${colors.palette[100]} calc(50% - 288px), transparent calc(50% - 288px))`,
       },
     },
   },
@@ -73,7 +74,7 @@ module.exports = {
       addBase({
         body: {
           color: theme("textColor.palette.600"),
-          backgroundColor: theme("backgroundColor.palette.600"),
+          backgroundColor: theme("backgroundColor.palette.500"),
         },
       });
     }),

@@ -30,8 +30,6 @@ const Navigation = ({ mode, uri }) => {
   const isWindowTop = useWindowTop();
   const { data: authenticated } = useAuthenticatedStatus();
 
-  console.log(authenticated);
-
   React.useEffect(() => {
     setOpen(false);
   }, [windowSize, setOpen, uri]);
@@ -170,12 +168,10 @@ const Navigation = ({ mode, uri }) => {
 };
 
 Navigation.propTypes = {
-  mode: PropTypes.oneOf(["dark", "light"]),
+  mode: PropTypes.oneOf(["dark", "light"]).isRequired,
   uri: PropTypes.string,
 };
 
-Navigation.defaultProps = {
-  mode: "dark",
-};
+Navigation.defaultProps = {};
 
 export default Navigation;

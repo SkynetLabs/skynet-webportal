@@ -50,6 +50,12 @@ const NewsPage = ({ data }) => {
       <Seo title="News" />
 
       <Section className="bg-white" first={true}>
+        {/* this is the gray box in the top left corner, 400px height is totally arbitrary but it works */}
+        <div
+          className="hidden desktop:block bg-white bg-column absolute top-0 left-0 right-0"
+          style={{ height: "400px" }}
+        />
+
         <div className="grid grid-cols-1 desktop:grid-cols-3 gap-x-8 gap-y-24">
           {data.allMarkdownRemark.edges.map(({ node }) => (
             <NewsCard key={node.id} {...node} />

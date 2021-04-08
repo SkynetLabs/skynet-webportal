@@ -16,7 +16,7 @@ const BlogPostTemplate = ({ data, location }) => {
   return (
     <>
       <Seo title={post.frontmatter.title} description={post.frontmatter.description || post.excerpt} />
-      <Section className="bg-white" first={true}>
+      <Section className="bg-white desktop:bg-column" first={true}>
         <article className="blog-post" itemScope itemType="http://schema.org/Article">
           <SectionTitle itemProp="headline" className="mb-16">
             {post.frontmatter.title}
