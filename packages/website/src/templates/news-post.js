@@ -1,10 +1,11 @@
 import * as React from "react";
 import { graphql } from "gatsby";
-import { Section, SectionTitle } from "../components/Layout";
+import { Section, SectionTitle, Label } from "../components/Layout";
 import { NewsSummary } from "../components/News";
 import Seo from "../components/seo";
+import Link from "../components/Link";
 import { TwitterShareButton, LinkedinShareButton, FacebookShareButton } from "react-share";
-import { TwitterSmall, LinkedinSmall, FacebookSmall } from "../components/Icons";
+import { TwitterSmall, LinkedinSmall, FacebookSmall, ArrowUpCircle } from "../components/Icons";
 
 const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark;
@@ -17,7 +18,25 @@ const BlogPostTemplate = ({ data, location }) => {
     <>
       <Seo title={post.frontmatter.title} description={post.frontmatter.description || post.excerpt} />
       <Section className="bg-white desktop:bg-column" first={true}>
+        <Link
+          to="/news"
+          className="flex items-center space-x-2 relative -top-6 desktop:-top-10 hover:text-primary transition-colors duration-200"
+        >
+          <ArrowUpCircle className="transform -rotate-90 fill-current" />
+          <span className="relative text-lg font-semibold" style={{ top: 1 }}>
+            Go back
+          </span>
+        </Link>
+
         <article className="blog-post" itemScope itemType="http://schema.org/Article">
+          {post.frontmatter.categories && (
+            <div className="mb-4">
+              {post.frontmatter.categories.map((category) => (
+                <Label key={category}>{category}</Label>
+              ))}
+            </div>
+          )}
+
           <SectionTitle itemProp="headline" className="mb-16">
             {post.frontmatter.title}
           </SectionTitle>
@@ -59,6 +78,16 @@ const BlogPostTemplate = ({ data, location }) => {
             </div>
           </div>
         </article>
+
+        <Link
+          to="/news"
+          className="flex items-center space-x-2 relative hover:text-primary transition-colors duration-200 mt-12 desktop:mt-0 desktop:-bottom-12"
+        >
+          <ArrowUpCircle className="transform -rotate-90 fill-current" />
+          <span className="relative text-lg font-semibold" style={{ top: 1 }}>
+            Go back
+          </span>
+        </Link>
       </Section>
     </>
   );
@@ -81,6 +110,7 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        categories
         author
         avatar {
           childImageSharp {

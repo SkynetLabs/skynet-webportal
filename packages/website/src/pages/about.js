@@ -61,6 +61,7 @@ const aboutCards = [
   },
 ];
 
+const showCareersCTA = false; // change to true to display the careers CTA section
 const careers = { href: "https://jobs.lever.co/nebulous", target: "_blank", rel: "noopener noreferrer" };
 
 const paginate = (array, size) =>
@@ -253,18 +254,20 @@ const AboutPage = ({ ...props }) => {
             <Carousel Component={TeamCardPage} items={teamCardsPaginated} fullWidth={true} />
           </div>
 
-          <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0 hidden">
-            <Link className="flex-shrink-0 hidden desktop:inline-block" {...careers}>
-              <Join />
-            </Link>
-            <p className="font-light text-lg text-center desktop:text-left">
-              Join us! We're looking for talented &amp; passionate individuals to join our team. Check out our job
-              postings today.
-            </p>
-            <Link className="flex-shrink-0 desktop:hidden" {...careers}>
-              <Join />
-            </Link>
-          </div>
+          {showCareersCTA && (
+            <div className="desktop:col-span-2 flex flex-col desktop:flex-row items-center desktop:space-x-8 space-y-8 desktop:space-y-0">
+              <Link className="flex-shrink-0 hidden desktop:inline-block" {...careers}>
+                <Join />
+              </Link>
+              <p className="font-light text-lg text-center desktop:text-left">
+                Join us! We're looking for talented &amp; passionate individuals to join our team. Check out our job
+                postings today.
+              </p>
+              <Link className="flex-shrink-0 desktop:hidden" {...careers}>
+                <Join />
+              </Link>
+            </div>
+          )}
         </div>
       </Section>
 

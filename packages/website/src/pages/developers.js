@@ -151,7 +151,7 @@ const DevelopersPage = () => (
     <Section className="bg-white">
       <SectionTitle className="text-center mb-20">Join a community of builders already using Skynet</SectionTitle>
 
-      <div className="grid grid-cols-1 gap-x-32 gap-y-10 desktop:grid-cols-3">
+      <div className="grid grid-cols-1 desktop:gap-x-8 gap-y-10 desktop:grid-cols-3">
         <div className="space-y-8">
           <DevBig width="170" viewBox="90 0 170 142" />
 
