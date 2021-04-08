@@ -2,6 +2,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Link from "../Link";
 import classnames from "classnames";
+import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
 import LogoWhiteText from "../Icons/LogoWhiteText.svg";
 import LogoBlackText from "../Icons/LogoBlackText.svg";
 import MenuMobile from "../Icons/MenuMobile.svg";
@@ -27,6 +28,7 @@ const Navigation = ({ mode, uri }) => {
   const [open, setOpen] = React.useState(false);
   const windowSize = useWindowSize();
   const isWindowTop = useWindowTop();
+  const { authenticated } = useAuthenticatedStatus();
 
   React.useEffect(() => {
     setOpen(false);
@@ -85,12 +87,24 @@ const Navigation = ({ mode, uri }) => {
                 {title}
               </Link>
             ))}
-            <Link href="https://account.siasky.net" className="button-link-primary">
-              Log in
-            </Link>
-            <Link href="https://account.siasky.net/auth/registration" className="button-primary">
-              Sign up
-            </Link>
+
+            {!authenticated && (
+              <Link href="https://account.siasky.net" className="button-link-primary">
+                Log in
+              </Link>
+            )}
+
+            {!authenticated && (
+              <Link href="https://account.siasky.net/auth/registration" className="button-primary">
+                Sign up
+              </Link>
+            )}
+
+            {authenticated && (
+              <Link href="https://account.siasky.net" className="button-primary">
+                Dashboard
+              </Link>
+            )}
           </div>
         </div>
 
@@ -128,13 +142,23 @@ const Navigation = ({ mode, uri }) => {
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
             <div className="flex items-center justify-center px-4 space-x-6">
-              <Link href="https://account.siasky.net" className="button-secondary-light">
-                Log in
-              </Link>
+              {!authenticated && (
+                <Link href="https://account.siasky.net" className="button-secondary-light">
+                  Log in
+                </Link>
+              )}
 
-              <Link href="https://account.siasky.net/auth/registration" className="button-primary">
-                Sign up
-              </Link>
+              {!authenticated && (
+                <Link href="https://account.siasky.net/auth/registration" className="button-primary">
+                  Sign up
+                </Link>
+              )}
+
+              {authenticated && (
+                <Link href="https://account.siasky.net" className="button-primary">
+                  Dashboard
+                </Link>
+              )}
             </div>
           </div>
         </div>
