@@ -104,7 +104,7 @@ const Navigation = ({ mode, uri }) => {
 
             {authenticated && (
               <Link href="https://account.siasky.net" className="button-primary">
-                Dashboard
+                My account
               </Link>
             )}
           </div>
@@ -158,7 +158,7 @@ const Navigation = ({ mode, uri }) => {
 
               {authenticated && (
                 <Link href="https://account.siasky.net" className="button-primary">
-                  Dashboard
+                  My account
                 </Link>
               )}
             </div>
