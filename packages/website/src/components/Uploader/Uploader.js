@@ -197,7 +197,9 @@ const Uploader = () => {
             response = await client.uploadFile(file, { onUploadProgress });
           }
 
-          onFileStateChange(file, { status: "complete", url: client.getSkylinkUrl(response.skylink) });
+          const url = client.getSkylinkUrl(response.skylink, { subdomain: mode === "directory" });
+
+          onFileStateChange(file, { status: "complete", url });
         } catch (error) {
           if (error.response && error.response.status === StatusCodes.TOO_MANY_REQUESTS) {
             onFileStateChange(file, { progress: -1 });
