@@ -19,9 +19,9 @@
     - title: Portal Setup
       href: https://support.siasky.net/the-technology/running-a-web-portal
     - title: Github
-      href: https://github.com/SkynetHQ
+      href: https://github.com/SkynetLabs
     - title: Gitlab
-      href: https://gitlab.com/SkynetHQ
+      href: https://gitlab.com/SkynetLabs
 - header: Technology
   links:
     - title: What is Skynet?
