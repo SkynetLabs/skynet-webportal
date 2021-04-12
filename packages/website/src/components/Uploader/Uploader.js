@@ -57,7 +57,7 @@ const createUploadErrorMessage = (error) => {
   return `Critical error, please refresh the application and try again. ${error.message}`;
 };
 
-const client = new SkynetClient("https://siasky.net");
+const client = new SkynetClient();
 
 const RegistrationLink = () => (
   <Link
