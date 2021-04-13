@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "\n\n`date +"%Y-%m-%d-%H%M"` Starting a DB backup.\n"
+
 # Get current script directory (pwd doesn't cut it)
 csd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Set the environment. We only grab the entries we need because otherwise we
