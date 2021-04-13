@@ -297,7 +297,7 @@ async def check_alerts():
     for line in siac_renter_output.split("\n"):
         # Check for the type of alert
         if contains_string(line, repair_str):
-            repair_remaining = line.split()[1]:
+            repair_remaining = line.split()[1]
     
     ################################################################################
     # create a message
@@ -344,7 +344,7 @@ async def check_portal_size():
 
     # Initialize variables
     num_files = 0
-    max_files = 250000
+    max_files = 1500000 # 1.5 mln
     files_text = "Files"
     for line in siac_renter_output.split("\n"):
         if contains_string(line, files_text):
