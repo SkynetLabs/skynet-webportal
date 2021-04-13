@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           working-directory: packages/website
-          install-command: npm i --force --silent
+          install: false
           record: true
           start: npm run serve
           wait-on: "http://127.0.0.1:9000"
