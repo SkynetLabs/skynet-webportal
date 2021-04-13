@@ -73,6 +73,8 @@
     "@storybook/react": "^6.2.4",
     "babel-loader": "^8.2.2",
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "cypress": "^7.1.0",
+    "cypress-file-upload": "^5.0.5",
     "prettier": "2.2.1"
   },
   "keywords": [
@@ -87,6 +89,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "cypress": "cypress",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

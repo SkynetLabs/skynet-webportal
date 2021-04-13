@@ -71,3 +71,7 @@ yarn-error.log
 
 # Npm
 package-lock.json
+
+# Cypress
+cypress/screenshots
+cypress/videos
