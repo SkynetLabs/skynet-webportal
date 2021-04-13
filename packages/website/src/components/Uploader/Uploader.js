@@ -57,7 +57,7 @@ const createUploadErrorMessage = (error) => {
   return `Critical error, please refresh the application and try again. ${error.message}`;
 };
 
-const client = new SkynetClient();
+const client = new SkynetClient(process.env.GATSBY_API_URL);
 
 const RegistrationLink = () => (
   <Link

@@ -73,6 +73,7 @@
     "@storybook/react": "^6.2.4",
     "babel-loader": "^8.2.2",
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "cross-env": "^7.0.3",
     "cypress": "^7.1.0",
     "cypress-file-upload": "^5.0.5",
     "prettier": "2.2.1"
@@ -83,7 +84,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "GATSBY_API_URL=https://siasky.net gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
