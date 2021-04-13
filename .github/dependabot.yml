@@ -17,7 +17,7 @@ updates:
     assignees:
       - kwypchlo
   - package-ecosystem: npm
-    directory: "/packages/webapp"
+    directory: "/packages/website"
     schedule:
       interval: weekly
       time: "10:00"
