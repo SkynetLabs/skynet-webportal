@@ -66,9 +66,9 @@
   image: ./team/ivaylo-novakov.png
   social:
     github: https://github.com/ro-tex
-    gitlab: https://gitlab.com/kwypchlo
-    linkedin: https://www.linkedin.com/in/karolwypchlo/
-    twitter: https://twitter.com/kwypchlo
+    gitlab: https://gitlab.com/ro-tex
+    linkedin: https://www.linkedin.com/in/inovakov/
+    twitter: https://twitter.com/inovakov
 
 - name: Filip Rysavy
   position: Testing Developer
