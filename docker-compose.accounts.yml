@@ -24,8 +24,8 @@ services:
     build:
       context: ./docker/accounts
       dockerfile: Dockerfile
-    args:
-      branch: ivo/limit_delete
+      args:
+        branch: ivo/limit_delete
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
