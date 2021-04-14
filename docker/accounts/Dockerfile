@@ -4,9 +4,11 @@ LABEL maintainer="NebulousLabs <devs@nebulous.tech>"
 ENV GOOS linux
 ENV GOARCH amd64
 
+ARG branch=main
+
 WORKDIR /root
 
-RUN git clone --single-branch --branch main https://github.com/NebulousLabs/skynet-accounts.git && \
+RUN git clone --single-branch --branch ${branch} https://github.com/NebulousLabs/skynet-accounts.git && \
     cd skynet-accounts && \
     go mod download && \
     make release
