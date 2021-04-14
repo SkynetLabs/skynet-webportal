@@ -297,7 +297,7 @@ async def check_alerts():
     for line in siac_renter_output.split("\n"):
         # Check for the type of alert
         if contains_string(line, repair_str):
-            repair_remaining = line.split()[1]
+            repair_remaining = line.split(":")[1].strip()
     
     ################################################################################
     # create a message
