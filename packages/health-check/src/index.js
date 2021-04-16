@@ -5,7 +5,6 @@ if (!process.env.PORTAL_URL) {
 }
 
 const express = require("express");
-const bodyparser = require("body-parser");
 const db = require("./db");
 
 const host = process.env.HOSTNAME || "0.0.0.0";
@@ -13,8 +12,8 @@ const port = Number(process.env.PORT) || 3100;
 
 const server = express();
 
-server.use(bodyparser.urlencoded({ extended: false }));
-server.use(bodyparser.json());
+server.use(express.urlencoded({ extended: false }));
+server.use(express.json());
 server.use((req, res, next) => {
   db.read();
   next();
