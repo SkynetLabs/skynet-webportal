@@ -70,7 +70,7 @@ yarn-error.log
 .yarn-integrity
 
 # Npm
-package-lock.json
+# package-lock.json
 
 # Cypress
 cypress/screenshots

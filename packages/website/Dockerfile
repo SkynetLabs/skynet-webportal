@@ -5,6 +5,7 @@ RUN apk update && apk add autoconf automake build-base libtool nasm pkgconfig
 WORKDIR /usr/app
 
 COPY package.json .
+COPY package-lock.json .
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 RUN npm i
