@@ -7,7 +7,7 @@ WORKDIR /usr/app
 COPY package.json .
 
 ENV GATSBY_TELEMETRY_DISABLED 1
-RUN npm i --force
+RUN npm i
 
 COPY data ./data
 COPY src ./src

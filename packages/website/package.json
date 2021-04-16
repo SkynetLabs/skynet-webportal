@@ -29,14 +29,14 @@
     "gatsby-plugin-robots-txt": "^1.5.5",
     "gatsby-plugin-sharp": "^3.1.2",
     "gatsby-remark-classes": "^1.0.0",
-    "gatsby-remark-copy-linked-files": "^3.2.0",
-    "gatsby-remark-images": "^4.2.0",
-    "gatsby-remark-prismjs": "^4.2.0",
-    "gatsby-remark-responsive-iframe": "^3.2.0",
-    "gatsby-remark-smartypants": "^3.2.0",
+    "gatsby-remark-copy-linked-files": "^4.0.0",
+    "gatsby-remark-images": "^5.0.0",
+    "gatsby-remark-prismjs": "^5.0.0",
+    "gatsby-remark-responsive-iframe": "^4.0.0",
+    "gatsby-remark-smartypants": "^4.0.0",
     "gatsby-source-filesystem": "^3.0.0",
     "gatsby-transformer-json": "^3.1.0",
-    "gatsby-transformer-remark": "^3.2.0",
+    "gatsby-transformer-remark": "^4.0.0",
     "gatsby-transformer-sharp": "^3.0.0",
     "gatsby-transformer-yaml": "^3.2.0",
     "gbimage-bridge": "^0.1.1",
@@ -64,19 +64,10 @@
     "tailwindcss": "^2.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.13",
-    "@storybook/addon-actions": "^6.2.4",
-    "@storybook/addon-essentials": "^6.2.4",
-    "@storybook/addon-links": "^6.2.4",
-    "@storybook/addon-postcss": "^2.0.0",
-    "@storybook/addon-viewport": "^6.2.4",
-    "@storybook/react": "^6.2.4",
-    "babel-loader": "^8.2.2",
-    "babel-plugin-inline-react-svg": "^2.0.1",
     "cross-env": "^7.0.3",
     "cypress": "^7.1.0",
     "cypress-file-upload": "^5.0.5",
-    "prettier": "2.2.1"
+    "prettier": "^2.2.1"
   },
   "keywords": [
     "gatsby"
