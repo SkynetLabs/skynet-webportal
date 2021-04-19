@@ -58,6 +58,9 @@ typings/
 # Mac files
 .DS_Store
 
+# vscode
+.vscode
+
 # Yarn
 yarn-error.log
 .pnp/

@@ -200,7 +200,7 @@ export default function Home({ plans }) {
                 <div className="ml-5 w-0 flex-1">
                   <dt className="text-sm font-medium text-gray-500 truncate">Storage used</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(stats?.storageUsed ?? 0)}</div>
+                    <div className="text-2xl font-semibold text-grey-900">{prettyBytes(stats?.totalUploadsSize ?? 0)}</div>
                   </dd>
                 </div>
               </div>

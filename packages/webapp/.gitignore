@@ -1,3 +1,4 @@
 # gatsby files
 .cache/
 public
+package-lock.json

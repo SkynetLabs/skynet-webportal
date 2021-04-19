@@ -1,0 +1,6 @@
+- cards:
+    - title: Own your data
+      description: No one owns or controls your account data except for you. Ownership extends to original blogs, music, and videos too. This is all possible through decentralized apps built on decentralized storage.
+      image: ./assets/own-your-data.svg
+    - title: Censorship-resistant content
+      description: Today, censorship can come arbitrarily, top-down, and as a tool to silence expression. Post and share content on Skynet, or use Skynet as a fail-over for your website if a service provider goes down.

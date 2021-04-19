@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="131" viewBox="0 0 320 131">
+  <defs>
+    <filter id="1-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <polygon fill="#00C65E" points="178 49.889 178 80.111 208 99 238 80.111 238 49.889 208.938 31"/>
+    <polyline stroke="#0D0D0D" stroke-width="2" points="191.612 88.681 208 99 238 80.111 238 49.889 224.725 41.261"/>
+    <g filter="url(#1-a)">
+      <g transform="translate(112 5)">
+        <polygon stroke="#222829" stroke-width="2" points="32 14 48 4 64 14 64 30 48 40 32 30"/>
+        <polyline stroke="#222829" stroke-width="2" points="64 14 48 24 32 14"/>
+        <line x1="48.5" x2="48.5" y1="24" y2="40" stroke="#222829" stroke-width="2"/>
+        <line x1="68.5" x2="68.5" y1="82" y2="126" stroke="#222829" stroke-width="2"/>
+        <line x1="46" x2="50" y1="64.5" y2="64.5" stroke="#222829" stroke-width="2"/>
+        <line x1="38" x2="42" y1="64.5" y2="64.5" stroke="#222829" stroke-width="2"/>
+        <line x1="54" x2="58" y1="64.5" y2="64.5" stroke="#222829" stroke-width="2"/>
+        <g stroke="#222829" stroke-width="2">
+          <path d="M52 126L52 102C52 99.793 50.209 98 48 98 45.791 98 44 99.793 44 102L44 126M25 0L20 0C6.762 8.547 0 21.074 0 38 0 57.43 11.396 74.449 28 82L28 126"/>
+          <path d="M48,86 C74.51,86 96,64.512 96,38 C96,21.07 89.242,8.547 76,0 L72,0 L72,36 L48,52 L24,36 L24,0"/>
+          <path d="M72.004,6 C81.719,13.299 88,24.916 88,38 C88,60.094 70.092,78 48,78 C25.908,78 8,60.094 8,38"/>
+        </g>
+      </g>
+    </g>
+    <path stroke="#0D0D0D" stroke-width="2" d="M81,11.5 L110,11.5 M76,20.5 L95,20.5 M66,0.5 L85,0.5" transform="matrix(-1 0 0 1 176 0)"/>
+  </g>
+</svg>

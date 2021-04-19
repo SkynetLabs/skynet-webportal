@@ -53,7 +53,6 @@ export default async (req, res) => {
 
     res.json({ sessionId: session.id });
   } catch (error) {
-    console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({ error: { message: error.message } });
   }
 };

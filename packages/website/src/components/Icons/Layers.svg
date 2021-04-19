@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <g fill="none" fill-rule="evenodd">
+    <polygon fill="#00C65E" points="40 29 23.211 40 40 51 57.229 40"/>
+    <g stroke="#222829" stroke-linejoin="round" stroke-width="2" transform="translate(9 11)">
+      <polygon points="31 58 0 38 31 18 62 38"/>
+      <polygon points="31 49 0 29 31 9 62 29"/>
+      <polygon points="31 40 0 20 31 0 62 20"/>
+      <line x1="30" x2="32" y1="27" y2="27"/>
+      <line x1="30" x2="32" y1="23" y2="23"/>
+      <line x1="30" x2="32" y1="31" y2="31"/>
+      <line x1="34" x2="36" y1="27" y2="27"/>
+      <line x1="38" x2="40" y1="29" y2="29"/>
+      <line x1="22" x2="24" y1="29" y2="29"/>
+      <line x1="34" x2="36" y1="31" y2="31"/>
+      <line x1="26" x2="28" y1="27" y2="27"/>
+      <line x1="26" x2="28" y1="31" y2="31"/>
+      <line x1="30" x2="32" y1="35" y2="35"/>
+    </g>
+  </g>
+</svg>

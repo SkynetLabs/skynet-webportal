@@ -1,4 +1,4 @@
-FROM node:15.12.0-alpine
+FROM node:15.14.0-alpine
 
 WORKDIR /usr/app
 
@@ -10,6 +10,7 @@ RUN yarn --no-lockfile
 COPY public ./public
 COPY src ./src
 COPY styles ./styles
+COPY next.config.js .
 COPY postcss.config.js .
 COPY tailwind.config.js .
 

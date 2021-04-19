@@ -82,16 +82,17 @@ services:
       - sia
       - health-check
       - handshake-api
+      - website
 
-  webapp:
+  website:
     build:
-      context: ./packages/webapp
+      context: ./packages/website
       dockerfile: Dockerfile
-    container_name: webapp
+    container_name: website
     restart: unless-stopped
     logging: *default-logging
-    volumes:
-      - ./docker/data/webapp/.cache:/usr/app/.cache
+    env_file:
+      - .env
     networks:
       shared:
         ipv4_address: 10.10.10.35

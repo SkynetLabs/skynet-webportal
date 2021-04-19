@@ -7,11 +7,6 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  webapp:
-    build:
-      args:
-        WITH_ACCOUNTS: 1 # enable accounts frontend
-
   nginx:
     environment:
       - ACCOUNTS_ENABLED=1
@@ -124,7 +119,7 @@ services:
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
       - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
       - NEXT_PUBLIC_KRATOS_BROWSER_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
-      - NEXT_PUBLIC_KRATOS_PUBLIC_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
+      - NEXT_PUBLIC_KRATOS_PUBLIC_URL=http://oathkeeper:4455/.ory/kratos/public
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.next:/usr/app/.next
@@ -133,6 +128,8 @@ services:
         ipv4_address: 10.10.10.85
     expose:
       - 3000
+    depends_on:
+      - oathkeeper
 
   oathkeeper:
     image: oryd/oathkeeper:v0.38

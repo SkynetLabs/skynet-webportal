@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="142" viewBox="0 0 320 142">
+    <defs>
+        <filter id="ggm010n4ja">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+        <filter id="5cxph9rhkb">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g transform="translate(-1152 -1078) translate(448 949) translate(704 129) translate(75)">
+                        <circle cx="38" cy="75" r="30" fill="#00C65E"/>
+                        <path stroke="#0D0D0D" stroke-width="2" d="M18.658 51.258c-5.026 3.877-8.866 9.373-10.636 15.977-4.288 16.004 5.21 32.455 21.213 36.743 5.008 1.342 10.06 1.334 14.768.2"/>
+                        <g filter="url(#ggm010n4ja)">
+                            <g stroke="#222829" stroke-width="2">
+                                <path d="M82 20L82 56.068 80 60.075 80 104M46 6c0-3.313 2.688-6 6-6 3.313 0 6 2.687 6 6M46 14V6c0-3.314-2.688-6-6-6-3.313 0-6 2.686-6 6v8M58 20c0 3.313-2.691 6-6.007 6-2.082 0-3.913-1.056-4.993-2.66M70 20c0 3.313-2.688 6-6 6-3.313 0-6-2.687-6-6V6c0-3.313 2.687-6 6-6 3.312 0 6 2.687 6 6" transform="translate(25 21)"/>
+                                <path d="M82 6c0-3.313-2.688-6-6-6-3.313 0-6 2.687-6 6v14c0 3.313 2.687 6 6 6 3.312 0 6-2.687 6-6V6zM80 59.5L72 59.5M42 59.5L50 59.5M46 34c8.836 0 16 7.163 16 16M80 67.5L68 67.5" transform="translate(25 21)"/>
+                                <path d="M40 36v-9.999S50 24 50 18c0-2.209-1.791-4-4-4H34c-4.419 0-8 3.583-8 8.001v22l16 16V90M40 25.5L34 25.5M89.5 74L89.5 78M89.5 82L89.5 86M89.5 90L89.5 94M33.5 62L33.5 66M33.5 70L33.5 74M33.5 78L33.5 82M17 89.5L62 89.5M0 103.5L120 103.5M36 117.5L92 117.5" transform="translate(25 21)"/>
+                            </g>
+                        </g>
+                        <g stroke-linecap="round" stroke-linejoin="round" filter="url(#5cxph9rhkb)">
+                            <g stroke="#000" stroke-width="2" transform="translate(122)">
+                                <circle cx="19.5" cy="19.5" r="19.5"/>
+                                <path d="M0 19.5L39 19.5M19.5 0c4.877 5.34 7.65 12.27 7.8 19.5-.15 7.23-2.923 14.16-7.8 19.5-4.877-5.34-7.65-12.27-7.8-19.5.15-7.23 2.923-14.16 7.8-19.5h0z"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

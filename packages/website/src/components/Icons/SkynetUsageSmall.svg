@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <filter id="p9eklku59a">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <path fill="#00C65E" d="M39 11c1.105 0 2 .895 2 2v11l-3.12.5-3.417 2.3L33 31l1.898 4.871 2.102.804V50h-.328l-2.209-4L31 43l-1.467.5-.925 1 .392 2 1.458 3.5H13c-1.105 0-2-.895-2-2V13c0-1.105.895-2 2-2h26z" transform="translate(-792 -1661) translate(0 1544) translate(792 117)"/>
+                    <g filter="url(#p9eklku59a)" transform="translate(-792 -1661) translate(0 1544) translate(792 117)">
+                        <g stroke="#222829" stroke-width="2">
+                            <path d="M42 34L42 37M37 33L37 36M32 31L32 35" transform="translate(11 12)"/>
+                            <g>
+                                <path d="M26 63v-4c0-.553.447-1 1-1h19c.553 0 1 .447 1 1v4" transform="translate(11 12)"/>
+                                <path stroke-linejoin="round" d="M44 32c1.656 0 3 1.344 3 3v7c0 7-2 11-2 13v3M39 30c1.656 0 3 1.344 3 3v2M34 28c1.656 0 3 1.344 3 3v2" transform="translate(11 12)"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M26 40V19c0-1.656 1.344-3 3-3s3 1.344 3 3v12" transform="translate(11 12)"/>
+                                <path stroke-linejoin="round" d="M28 58v-3l-6-8s-3.293-12.293-4-13c-1-1 0-3 2-3s3 3 3 3l3 6M26.004 25.328C23.637 24.205 22 21.794 22 19c0-3.866 3.134-7 7-7s7 3.134 7 7c0 2.793-1.635 5.203-4 6.326" transform="translate(11 12)"/>
+                                <path stroke-linejoin="round" d="M19.778 25C18.653 23.273 18 21.213 18 19c0-6.075 4.925-11 11-11s11 4.925 11 11c0 2.214-.654 4.274-1.78 6" transform="translate(11 12)"/>
+                                <path stroke-linejoin="round" d="M14 19c0-8.284 6.716-15 15-15 8.284 0 15 6.716 15 15" transform="translate(11 12)"/>
+                                <path stroke-linejoin="round" d="M14 38H1c-.552 0-1-.447-1-1V1c0-.553.448-1 1-1h56c.552 0 1 .447 1 1v36c0 .553-.448 1-1 1h-7M4 38L4 3M54 35L54 0" transform="translate(11 12)"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

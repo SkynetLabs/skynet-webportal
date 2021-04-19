@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="142" viewBox="0 0 320 142">
+  <defs>
+    <filter id="dev-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+    <filter id="dev-b">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <rect width="96" height="48" x="158" y="57" fill="#00C65E" rx="4"/>
+    <g filter="url(#dev-a)">
+      <g transform="translate(96 13)">
+        <path stroke="#0D0D0D" stroke-width="2" d="M135.724609,44 L154,44 C156.209139,44 158,45.790861 158,48 L158,88 C158,90.209139 156.209139,92 154,92 L110,92 L110,92"/>
+        <g stroke="#0D0D0D" stroke-width="2" transform="translate(0 20)">
+          <rect width="126" height="78" x="1" y="13"/>
+          <path d="M24.3242188,1 L34.4384766,1 L123,1 C125.209139,1 127,2.790861 127,5 L127,13 L127,13 L1,13" transform="matrix(-1 0 0 1 128 0)"/>
+          <line x1="14" x2="18" y1="7" y2="7"/>
+          <line x1="6" x2="10" y1="7" y2="7"/>
+          <line x1="22" x2="26" y1="7" y2="7"/>
+        </g>
+        <line x1="40" x2="96" y1="125" y2="125" stroke="#0D0D0D" stroke-width="2"/>
+        <rect width="48" height="2" x="18" y="66" fill="#0D0D0D"/>
+        <rect width="16" height="2" x="70" y="66" fill="#0D0D0D"/>
+        <rect width="4" height="2" x="90" y="66" fill="#0D0D0D"/>
+        <rect width="24" height="2" x="18" y="96" fill="#0D0D0D"/>
+        <rect width="24" height="2" x="46" y="96" fill="#0D0D0D"/>
+        <rect width="4" height="2" x="74" y="96" fill="#0D0D0D"/>
+        <rect width="64" height="2" x="10" y="56" fill="#0D0D0D"/>
+        <rect width="4" height="2" x="10" y="46" fill="#0D0D0D"/>
+        <rect width="16" height="2" x="10" y="86" fill="#0D0D0D"/>
+        <rect width="20" height="2" x="78" y="56" fill="#0D0D0D"/>
+        <rect width="32" height="2" x="18" y="76" fill="#0D0D0D"/>
+        <rect width="24" height="2" x="54" y="76" fill="#0D0D0D"/>
+        <g filter="url(#dev-b)">
+          <g transform="translate(117)">
+            <polyline stroke="#222829" stroke-width="2" points="5.414 14.486 .414 9.486 5.414 4.486"/>
+            <polyline stroke="#222829" stroke-width="2" points="19.414 4.486 24.414 9.486 19.414 14.486"/>
+            <line x1="7.414" x2="17.414" y1="18.486" y2=".486" stroke="#222829" stroke-width="2"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

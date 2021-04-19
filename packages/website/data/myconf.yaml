@@ -1,0 +1,22 @@
+navigation:
+  - title: Home
+    to: /
+  - title: About
+    to: /about
+  - title: Developers
+    to: /developers
+  - title: News
+    to: /news
+team:
+  - name: "Chris Schinnerl"
+    position: "VP of Technology"
+    image: images/team/chris-schinnerl.png
+    social:
+      - github: https://github.com/ChrisSchinnerl
+      - gitlab: https://gitlab.com/ChrisSchinnerl
+      - twitter: https://twitter.com/ChrisSchinnerl
+  - name: Steve Funk
+    position: Head of Support
+    image: images/team/steve-funk.png
+    social:
+      - linkedin: https://www.linkedin.com/in/stevengfunk

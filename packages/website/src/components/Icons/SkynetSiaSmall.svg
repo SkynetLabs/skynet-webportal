@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <filter id="otngco3gva">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+        <filter id="lj4budqwmb">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.000000 0 0 0 0 0.776471 0 0 0 0 0.368627 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <path fill="#00C65E" d="M69 60L54 72 39 60 39 30 47 33 50 30 58 30 61 33 69 30z" transform="translate(-440 -1965) translate(0 1544) translate(440 421)"/>
+                    <g stroke-linejoin="round" filter="url(#otngco3gva)" transform="translate(-440 -1965) translate(0 1544) translate(440 421)">
+                        <g stroke="#222829" stroke-width="2" filter="url(#lj4budqwmb)" transform="translate(11 9)">
+                            <path d="M46 7c0 3.866-10.297 7-23 7S0 10.866 0 7s10.297-7 23-7 23 3.134 23 7z"/>
+                            <path d="M23 26c-12.703 0-23-3.134-23-7V7M46 7L46 17M23 38c-12.703 0-23-3.134-23-7v-7M23 50c-12.703 0-23-3.134-23-7v-7M35 60.973C31.507 61.625 27.397 62 23 62c-12.703 0-23-3.134-23-7v-7M23 26L25 26M23 38L25 38M23 50L25 50M58 50L43 62 28 50 28 20 36 23 39 20 47 20 50 23 58 20zM50 31L50 33M50 43L50 45M46 31L46 33M46 35L46 37M46 43L46 45M46 47L46 49M50 35L50 37M36 31L36 33M36 43L36 45M40 31L40 33M40 35L40 37M40 43L40 45M40 47L40 49M36 35L36 37M46 39L46 41M50 39L50 41M40 39L40 41M36 39L36 41M36 23L36 27M50 23L50 27M24 20L22 20M24 32L22 32M24 44L22 44M24 56L22 56"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

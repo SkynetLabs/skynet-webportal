@@ -30,14 +30,10 @@ export const getServerSideProps = authServerSideProps(async (context) => {
       headers: { cookie: context.req.headers.cookie },
     });
 
-    console.log(flow, status, data);
-
     if (status === 200) return { props: { flow: data } };
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
-    console.log(error);
-
     return {
       redirect: {
         permanent: false,

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="62" height="54" viewBox="0 0 62 54">
+  <defs>
+    <filter id="cloud-a">
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <polygon fill="#00C65E" points="25.097 46.291 25.097 32 19.354 32 30 21 40.343 32 35 32 35 50"/>
+    <g filter="url(#cloud-a)">
+      <path stroke="#222829" stroke-width="2" d="M41 40L50 40C56.627 40 62 34.628 62 28 62 22.053 58 17 52 17 52 12 49 8 43 8L42 8C39.272 3.076 34.028 0 28 0 19.164 0 12 7.164 12 16 5.373 16 0 21.373 0 28 0 34.628 5.373 40 12 40L21 40M18 17C18 10.925 23 6 28 6"/>
+      <polyline stroke="#222829" stroke-linejoin="round" stroke-width="2" points="25 54 25 32 19 32 30 21 41 32 35 32 35 54"/>
+      <line x1="30" x2="30" y1="31" y2="33" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="30" x2="30" y1="35" y2="37" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="30" x2="30" y1="39" y2="41" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="30" x2="30" y1="43" y2="45" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="30" x2="30" y1="47" y2="49" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+      <line x1="30" x2="30" y1="51" y2="53" stroke="#222829" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

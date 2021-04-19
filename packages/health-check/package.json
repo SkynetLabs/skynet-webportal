@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "deep-object-diff": "^1.1.0",
     "express": "^4.17.1",
     "http-status-codes": "^2.1.2",
