@@ -10,12 +10,17 @@
     reverse_proxy nginx:80
 }
 
-# Make sure you have DOMAIN_NAME specified in .env file ie. siasky.net, you need it to fetch correct certificates.
-# DOMAIN_NAME_ALIAS is optional, in case you run multiple servers under the same domain like we do for siasky.net
-# then you might want to use it for something server specific that would let you connect to this specific server
-# and disregard load balancer, ie. germany.siasky.net
+# Make sure you have SSL_CERTIFICATE_STRING specified in .env file because you need it to fetch correct certificates.
+# It needs to have at least 3 parts, the absolute part (ie. example.com), the wildcard part (ie. *.example.com) and
+# the hns wildcard part (ie. *.hns.example.com). The resulting string should look like:
+# example.com, *.example.com, *.hns.example.com
+# In addition, if you are running multiple servers for the single portal like we do on siasky.net, you might want to
+# add an aliased string that is going to help you access and distinguish between servers, the result would look like:
+# example.com, *.example.com, *.hns.example.com, *.germany.example.com, *.hns.germany.example.com
+# Note that you don't need to specify the absolute part for the alias since it's already covered in the wildcard part 
+# of the original certificate string (*.example.com).
 
-{$DOMAIN_NAME}, *.{$DOMAIN_NAME}, *.hns.{$DOMAIN_NAME}, {$DOMAIN_NAME_ALIAS}, *.{$DOMAIN_NAME_ALIAS}, *.hns.{$DOMAIN_NAME_ALIAS} {
+{$SSL_CERTIFICATE_STRING} {
     # If you want to use basic http-01 (basic, good for one server setup) certificate challenge
     # then uncomment the line below and make sure you have EMAIL_ADDRESS specified in .env file
     # and comment the tls block that contains the dns challenge configuration.
