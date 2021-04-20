@@ -30,7 +30,7 @@
     tls {
         # We are using route53 as our dns provider and it requires additional AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
         # environment variables in .env file. You can use other providers by using specific package from
-        # https://github.com/caddy-dns in the docker/caddy/Dockerfile in place our the route53 one.
+        # https://github.com/caddy-dns in the docker/caddy/Dockerfile instead of our route53 one.
 
         dns route53 {
             max_retries 50
