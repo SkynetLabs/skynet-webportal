@@ -1,6 +1,6 @@
 # This block below is optional if you want to generate an internal certificate for the server ip address.
 # It is useful in case you have services trying to reach the server through ip and not domain like health checks.
-# It will generate internal certificate so browsers will warn you when connecting but that not a problem.
+# It will generate an internal certificate so browsers will warn you when connecting but that not a problem.
 
 :443 {
     tls internal {
