@@ -48,8 +48,8 @@ You a can now ssh into your machine as the user `user`.
 **Following step will be executed on remote host logged in as a `user`:**
 
 1. `sudo apt-get install git -y` to install git
-1. `git clone https://github.com/NebulousLabs/skynet-webportal`
-1. `cd skynet-webportal` 
+1. `git clone https://github.com/SkynetLabs/skynet-webportal`
+1. `cd skynet-webportal`
 1. run setup scripts in the exact order and provide sudo password when asked (if one of them fails, you can retry just this one before proceeding further)
    1. `/home/user/skynet-webportal/setup-scripts/setup-server.sh`
    1. `/home/user/skynet-webportal/setup-scripts/setup-docker-services.sh`
@@ -81,7 +81,9 @@ At this point we have almost everything running, we just need to set up your wal
 ### Step 4: configuring docker services
 
 1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
+
    - `DOMAIN_NAME` (optional) is your domain name if you have it
+   - `DOMAIN_NAME_ALIAS` (optional) alias to your domain name if you have, set to domain name if not used
    - `EMAIL_ADDRESS` (required) is your email address used for communication regarding SSL certification (required)
    - `SIA_WALLET_PASSWORD` (required) is your wallet password (or seed if you did not set a password)
    - `HSD_API_KEY` (optional) this is a random security key for a handshake integration that gets generated automatically
@@ -101,7 +103,10 @@ At this point we have almost everything running, we just need to set up your wal
      with path to the location in the bucket where we want to store the daily backups.
 
 1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
-1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
+1. edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`:
+
+   - if you are not running our uncomment `import siasky.net`
+
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
 1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.

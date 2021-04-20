@@ -1,30 +1,36 @@
-(custom.domain) {
-    {$DOMAIN_NAME} {
-        tls {$EMAIL_ADDRESS}
-        reverse_proxy nginx:80
-    }
-}
+# Make sure you have DOMAIN_NAME specified in .env file ie. siasky.net, you need it to fetch correct certificates.
+# DOMAIN_NAME_ALIAS is optional, in case you run multiple servers under the same domain like we do for siasky.net
+# then you might want to use it for something server specific that would let you connect to this specific server
+# and disregard load balancer, ie. germany.siasky.net
 
-(siasky.net) {
-    siasky.net, *.siasky.net, *.hns.siasky.net {
-        tls {
-            dns route53 {
-                max_retries 50
-            }
+{$DOMAIN_NAME}, *.{$DOMAIN_NAME}, *.hns.{$DOMAIN_NAME}, {$DOMAIN_NAME_ALIAS}, *.{$DOMAIN_NAME_ALIAS}, *.hns.{$DOMAIN_NAME_ALIAS} {
+    # If you want to use basic http-01 (basic, good for one server setup) certificate challenge
+    # then uncomment the line below and make sure you have EMAIL_ADDRESS specified in .env file
+    # and comment the tls block that contains the dns challenge configuration.
+
+    # tls {$EMAIL_ADDRESS}
+
+    tls {
+        # We are using route53 as our dns provider and it requires additional AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+        # environment variables in .env file. You can use other providers by using specific package from
+        # https://github.com/caddy-dns in the docker/caddy/Dockerfile in place our the route53 one.
+
+        dns route53 {
+            max_retries 50
         }
-        reverse_proxy nginx:80
     }
+
+    reverse_proxy nginx:80
 }
 
-(localhost) {
-    :443 {
-        tls internal {
-            on_demand
-        }
-        reverse_proxy nginx:80
-    }
-}
+# This block below is optional if you want to generate internal certificate for the server ip address.
+# It is useful in case you have services trying to reach the server through ip and not domain like health checks.
+# It will generate internal certificate so browsers will warn you when connecting but that not a problem.
 
-import localhost
-# import custom.domain
-# import siasky.net
+:443 {
+    tls internal {
+        on_demand
+    }
+
+    reverse_proxy nginx:80
+}
