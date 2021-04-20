@@ -1,3 +1,15 @@
+# This block below is optional if you want to generate internal certificate for the server ip address.
+# It is useful in case you have services trying to reach the server through ip and not domain like health checks.
+# It will generate internal certificate so browsers will warn you when connecting but that not a problem.
+
+:443 {
+    tls internal {
+        on_demand
+    }
+
+    reverse_proxy nginx:80
+}
+
 # Make sure you have DOMAIN_NAME specified in .env file ie. siasky.net, you need it to fetch correct certificates.
 # DOMAIN_NAME_ALIAS is optional, in case you run multiple servers under the same domain like we do for siasky.net
 # then you might want to use it for something server specific that would let you connect to this specific server
@@ -18,18 +30,6 @@
         dns route53 {
             max_retries 50
         }
-    }
-
-    reverse_proxy nginx:80
-}
-
-# This block below is optional if you want to generate internal certificate for the server ip address.
-# It is useful in case you have services trying to reach the server through ip and not domain like health checks.
-# It will generate internal certificate so browsers will warn you when connecting but that not a problem.
-
-:443 {
-    tls internal {
-        on_demand
     }
 
     reverse_proxy nginx:80
