@@ -21,8 +21,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version # sanity check
 
 # Create dummy .env file for docker-compose usage with variables
-# * DOMAIN_NAME - the domain name your server is using ie. example.com
-# * DOMAIN_NAME_ALIAS - the domain name alias you might want to give to this specific server ie. germany.example.com
+# * SSL_CERTIFICATE_STRING - certificate string that will be used to generate ssl certificates, read more in docker/caddy/Caddyfile
 # * SKYNET_PORTAL_API - absolute url to the portal api ie. https://example.com
 # * SKYNET_DASHBOARD_URL - (optional) absolute url to the portal dashboard ie. https://account.example.com
 # * EMAIL_ADDRESS - this is the administrator contact email you need to supply for communication regarding SSL certification
@@ -44,7 +43,7 @@ docker-compose --version # sanity check
 # * CR_CLUSTER_NODES - (optional) if using `accounts` the list of servers (with ports) which make up your CockroachDB cluster, e.g. `helsinki.siasky.net:26257,germany.siasky.net:26257,us-east.siasky.net:26257`
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    printf "DOMAIN_NAME=example.com\nDOMAIN_NAME_ALIAS=example.com\nSKYNET_PORTAL_API=https://example.com\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
+    printf "SSL_CERTIFICATE_STRING=example.com, *.example.com, *.hns.example.com\nSKYNET_PORTAL_API=https://example.com\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
