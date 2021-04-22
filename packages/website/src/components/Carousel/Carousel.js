@@ -54,7 +54,7 @@ export const Carousel = ({ Component, items }) => {
       <div className="relative overflow-hidden">
         <div className="opacity-0 flex flex-row">
           {items.map((item, index) => (
-            <div key={index} className="flex-shrink-0 w-screen">
+            <div key={index} className="flex-shrink-0 w-full">
               <Component {...item} />
             </div>
           ))}
