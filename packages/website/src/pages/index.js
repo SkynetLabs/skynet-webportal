@@ -109,7 +109,7 @@ const IndexPage = () => {
 
         <div className="flex flex-col items-center mt-16">
           <p className="max-w-screen-md text-center text-base font-content text-palette-400">
-            Skynet apps pave the way for a new web that priorities the privacy, security, and experience of users. Join
+            Skynet apps pave the way for a new web that prioritizes the privacy, security, and experience of users. Join
             our decentralized ecosystem and revolution.
           </p>
 
