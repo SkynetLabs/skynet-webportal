@@ -61,8 +61,8 @@ const aboutCards = [
   },
 ];
 
-const showCareersCTA = false; // change to true to display the careers CTA section
-const careers = { href: "https://jobs.lever.co/nebulous", target: "_blank", rel: "noopener noreferrer" };
+const showCareersCTA = true; // switch to hide or display the careers CTA section
+const careers = { href: "https://jobs.lever.co/SkynetLabs", target: "_blank", rel: "noopener noreferrer" };
 
 const paginate = (array, size) =>
   array.reduce((acc, item, index) => {
