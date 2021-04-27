@@ -1,5 +1,6 @@
 const superagent = require("superagent");
-const hash = require("object-hash");
+const got = require("got");
+const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
@@ -10,7 +11,7 @@ function audioExampleCheck(done) {
   const linkInfo = {
     name: "Audio Example",
     skylink: "_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA",
-    bodyHash: "be335f5ad9bc357248f3d35c7e49df491afb6b12",
+    bodyHash: "1bea1f570043f20149ae4cb4d30089d90897b15b",
     headers: {
       "skynet-skylink": "_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA",
       "skynet-file-metadata": { filename: "feel-good.mp3" },
@@ -28,7 +29,7 @@ function covid19PaperCheck(done) {
   const linkInfo = {
     name: "Covid-19 Paper",
     skylink: "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
-    bodyHash: "81b9fb74829a96ceafa429840d1ef0ce44376ddd",
+    bodyHash: "7ce20bfc4221503fd0bf909ad20c422eca125c7d",
     headers: {
       "skynet-skylink": "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
       "skynet-file-metadata": {
@@ -55,7 +56,7 @@ function covid19CoroNopePaperCheck(done) {
   const linkInfo = {
     name: "Covid-19 CoroNope Paper",
     skylink: "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
-    bodyHash: "901f6fd65ef595f70b6bfebbb2d05942351ef2b3",
+    bodyHash: "0db705da1b1232f8344ed74fd38245d35a49a965",
     headers: {
       "skynet-skylink": "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
       "skynet-file-metadata": { filename: "coronope.pdf" },
@@ -73,7 +74,7 @@ function dappExampleCheck(done) {
   const linkInfo = {
     name: "Dapp Example (UniSwap)",
     skylink: "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
-    bodyHash: "d6ad2506590bb45b5acc6a8a964a3da4d657354f",
+    bodyHash: "7b74cbb5927e964db493b82cc1f8a532f1ff72f5",
     headers: {
       "skynet-skylink": "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
       "skynet-file-metadata": {
@@ -624,7 +625,7 @@ function htmlExampleCheck(done) {
   const linkInfo = {
     name: "HTML Example",
     skylink: "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw",
-    bodyHash: "c932fd56f98b6db589e56be8018817f13bb29f72",
+    bodyHash: "ecffcfbb74e017698cad30a91a74b9ba0b046413",
     headers: {
       "skynet-skylink": "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw",
       "skynet-file-metadata": { filename: "introduction â\x80\x93 Sia API Documentation.html" },
@@ -642,7 +643,7 @@ function imageExampleCheck(done) {
   const linkInfo = {
     name: "Image Example",
     skylink: "IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ",
-    bodyHash: "313207978d0a88bf2b961f098804e9ab0f82837f",
+    bodyHash: "e318667a9d53a45a9d010ac4e0d120ad064279ac",
     headers: {
       "skynet-skylink": "IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ",
       "skynet-file-metadata": { filename: "sia-lm.png" },
@@ -660,7 +661,7 @@ function jsonExampleCheck(done) {
   const linkInfo = {
     name: "JSON Example",
     skylink: "AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ",
-    bodyHash: "198771c3d07d5c7302aadcc0697a7298e5e8ccc3",
+    bodyHash: "b514603ce8acd937197712700e21259f18a857d6",
     headers: {
       "skynet-skylink": "AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ",
       "skynet-file-metadata": { filename: "consensus.json" },
@@ -678,7 +679,7 @@ function pdfExampleCheck(done) {
   const linkInfo = {
     name: "PDF Example",
     skylink: "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
-    bodyHash: "9bd8162e1575569a9041972f7f62d65887063dc3",
+    bodyHash: "7e079f7afc9e5bc0c1be04543e22ac552a14a8da",
     headers: {
       "skynet-skylink": "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
       "skynet-file-metadata": { filename: "sia.pdf" },
@@ -739,7 +740,7 @@ function skyBayCheck(done) {
   const linkInfo = {
     name: "SkyBay",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA/",
-    bodyHash: "25d63937c9734fb08d2749c6517d1b3de8ecb856",
+    bodyHash: "dfc0b1d3d1113254d7545d19f6118855ed9c778b",
     headers: {
       "skynet-skylink": "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
       "skynet-file-metadata": {
@@ -760,7 +761,7 @@ function skyBayRedirectCheck(done) {
   const linkInfo = {
     name: "SkyBay Redirect",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
-    bodyHash: "25d63937c9734fb08d2749c6517d1b3de8ecb856",
+    bodyHash: "dfc0b1d3d1113254d7545d19f6118855ed9c778b",
     headers: {
       "skynet-skylink": "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
       "skynet-file-metadata": {
@@ -780,7 +781,7 @@ function skyBinCheck(done) {
   const linkInfo = {
     name: "SkyBin",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA/",
-    bodyHash: "767ec67c417e11b97c5db7dad9ea3b6b27cb0d39",
+    bodyHash: "858ff733c4cb06a80060b8a62cf303fd5a051651",
     headers: {
       "skynet-skylink": "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
       "skynet-file-metadata": { filename: "skybin.html" },
@@ -798,7 +799,7 @@ function skyBinRedirectCheck(done) {
   const linkInfo = {
     name: "SkyBin Redirect",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
-    bodyHash: "767ec67c417e11b97c5db7dad9ea3b6b27cb0d39",
+    bodyHash: "858ff733c4cb06a80060b8a62cf303fd5a051651",
     headers: {
       "skynet-skylink": "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
       "skynet-file-metadata": { filename: "skybin.html" },
@@ -874,9 +875,9 @@ function skyGalleryRedirectCheck(done) {
 // for the uncensored library skylink
 function uncensoredLibraryCheck(done) {
   const linkInfo = {
-    name: "The Uncensored Library V2",
+    name: "Unzip The Uncensored Library Map",
     skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
-    bodyHash: "60da6cb958699c5acd7f2a2911656ff32fca89a7",
+    bodyHash: "cd0377661eefd656c8b46c497aa03112393ba893",
     headers: {
       "skynet-skylink": "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
       "skynet-file-metadata": {
@@ -901,7 +902,7 @@ function uncensoredLibraryPressReleaseCheck(done) {
   const linkInfo = {
     name: "The Uncensored Library - Press Release",
     skylink: "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
-    bodyHash: "323217f643c3e3f1fe7532e72ac01bb0748c97be",
+    bodyHash: "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     headers: {
       "skynet-skylink": "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
       "skynet-file-metadata": {
@@ -927,7 +928,7 @@ function uncensoredLibraryV2Check(done) {
   const linkInfo = {
     name: "The Uncensored Library V2",
     skylink: "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
-    bodyHash: "1c6a885c060af8325eee82a11e9d64a13b228015",
+    bodyHash: "f2a802c2b7482825613a08853538203a53c96bd1",
     headers: {
       "skynet-skylink": "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
       "skynet-file-metadata": {
@@ -952,7 +953,7 @@ function bitcoinWhitepaper(done) {
   skylinkVerification(done, {
     name: "Bitcoin Whitepaper",
     skylink: "3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ",
-    bodyHash: "5d1fd2c37c1a3409cfc41861f4206472559670f3",
+    bodyHash: "8de2fdb04edce612738eb51e14ecc426381f8ed8",
     headers: {
       "skynet-skylink": "3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ",
       "content-disposition": 'inline; filename="bitcoin.pdf"',
@@ -1039,7 +1040,7 @@ function uniswapHNSResolverCheck(done) {
   const linkInfo = {
     name: "Uniswap HNS Resolver",
     skylink: "hnsres/uniswap-dex/",
-    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+    bodyHash: "3634496800c254b93f9dcbca2aeb53e644f706c0",
   };
 
   skylinkVerification(done, linkInfo);
@@ -1052,7 +1053,7 @@ function uniswapHNSResolverRedirectCheck(done) {
   const linkInfo = {
     name: "Uniswap HNS Resolver Redirect",
     skylink: "hnsres/uniswap-dex",
-    bodyHash: "44a3f0f56861ae841a6cb19cb0b3edf98ad610f8",
+    bodyHash: "3634496800c254b93f9dcbca2aeb53e644f706c0",
   };
 
   skylinkVerification(done, linkInfo);
@@ -1063,7 +1064,7 @@ function fileEndpointCheck(done) {
   const linkInfo = {
     name: "File endpoint check",
     skylink: "file/XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
-    bodyHash: "9bd8162e1575569a9041972f7f62d65887063dc3",
+    bodyHash: "7e079f7afc9e5bc0c1be04543e22ac552a14a8da",
     headers: {
       "skynet-skylink": "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
       "skynet-file-metadata": { filename: "sia.pdf" },
@@ -1086,7 +1087,7 @@ function hnsEndpointDirectoryRedirect(done) {
     },
   };
 
-  skylinkVerification(done, expected, { redirects: 0 });
+  skylinkVerification(done, expected, { followRedirect: false });
 }
 
 function parseHeaderString(header) {
@@ -1098,69 +1099,61 @@ function parseHeaderString(header) {
 }
 
 // skylinkVerification verifies a skylink against provided information.
-function skylinkVerification(done, { name, skylink, bodyHash, headers, statusCode }, { redirects, method } = {}) {
+async function skylinkVerification(done, expected, { followRedirect = true, method = "get" } = {}) {
   const time = process.hrtime();
 
   // Create the query for the skylink
-  const query = `${process.env.PORTAL_URL}/${skylink}`;
+  const query = `${process.env.PORTAL_URL}/${expected.skylink}`;
 
-  // Get the Skylink
-  superagent[method || "get"](query)
-    .set("cookie", "nocache=true")
-    .redirects(redirects)
-    .ok((res) => (redirects === undefined ? res.ok : res.status < 400))
-    .responseType("blob")
-    .then(
-      (response) => {
-        const entry = { name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
-        const info = {};
+  try {
+    const response = await got[method](query, { followRedirect, headers: { cookie: "nocache=true" } });
+    // const [response, buffer] = await Promise.all([promise, promise.buffer()]);
+    const entry = { name: expected.name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
+    const info = {};
 
-        if (statusCode && statusCode !== response.statusCode) {
+    if (expected.statusCode && expected.statusCode !== response.statusCode) {
+      entry.up = false;
+      info.statusCode = { expected: expected.statusCode, current: response.statusCode };
+    }
+
+    // Check if the response body is valid by checking against the known hash
+    if (expected.bodyHash) {
+      const currentBodyHash = hasha(response.rawBody, { algorithm: "sha1" });
+      if (currentBodyHash !== expected.bodyHash) {
+        console.log(expected.name, currentBodyHash);
+        entry.up = false;
+        info.bodyHash = { expected: expected.bodyHash, current: currentBodyHash };
+      }
+    }
+
+    if (expected.headers) {
+      Object.entries(expected.headers).forEach(([headerName, expectedHeader]) => {
+        const currentHeader = parseHeaderString(response.headers[headerName]);
+        if (!isEqual(currentHeader, expectedHeader)) {
           entry.up = false;
-          info.statusCode = { expected: statusCode, current: response.statusCode };
-        }
-
-        // Check if the response body is valid by checking against the known hash
-        if (bodyHash) {
-          const currentBodyHash = hash(response.body);
-          if (currentBodyHash !== bodyHash) {
-            entry.up = false;
-            info.bodyHash = { expected: bodyHash, current: currentBodyHash };
+          info.headers = info.headers ?? {};
+          if (typeof currentHeader === "object") {
+            info.headers[headerName] = ensureValidJSON(detailedDiff(expectedHeader, currentHeader));
+          } else {
+            info.headers[headerName] = { expected: expectedHeader, current: currentHeader };
           }
         }
+      });
+    }
 
-        if (headers) {
-          Object.entries(headers).forEach(([headerName, expectedHeader]) => {
-            const currentHeader = parseHeaderString(response.header[headerName]);
-            if (!isEqual(currentHeader, expectedHeader)) {
-              entry.up = false;
+    if (Object.keys(info).length) entry.info = info; // add info only if it exists
 
-              info.headers = info.headers ?? {};
-              if (typeof currentHeader === "object") {
-                info.headers[headerName] = ensureValidJSON(detailedDiff(expectedHeader, currentHeader));
-              } else {
-                info.headers[headerName] = { expected: expectedHeader, current: currentHeader };
-              }
-            }
-          });
-        }
-
-        if (Object.keys(info).length) entry.info = info; // add info only if it exists
-
-        done(entry); // Return the entry information
-      },
-      (error) => {
-        console.log(error);
-
-        done({
-          name,
-          up: false,
-          statusCode: error.statusCode || error.status,
-          errorResponseContent: getResponseContent(error.response),
-          time: calculateElapsedTime(time),
-        });
-      }
-    );
+    done(entry); // Return the entry information
+  } catch (error) {
+    done({
+      name: expected.name,
+      up: false,
+      statusCode: error?.response?.statusCode || error.statusCode || error.status,
+      errorMessage: error.message,
+      errorResponseContent: getResponseContent(error.response),
+      time: calculateElapsedTime(time),
+    });
+  }
 }
 
 module.exports = [
