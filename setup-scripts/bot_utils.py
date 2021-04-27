@@ -10,7 +10,7 @@ import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
 
-CHANNEL_NAME = "skynet-portal-health-check"
+CHANNEL_NAME = "health-check"
 ROLE_NAME = "skynet-prod"
 
 # Environment variable globals
