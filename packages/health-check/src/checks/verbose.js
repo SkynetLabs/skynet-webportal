@@ -1107,7 +1107,6 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
 
   try {
     const response = await got[method](query, { followRedirect, headers: { cookie: "nocache=true" } });
-    // const [response, buffer] = await Promise.all([promise, promise.buffer()]);
     const entry = { name: expected.name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
 
