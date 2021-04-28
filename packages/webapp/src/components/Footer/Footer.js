@@ -100,7 +100,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://jobs.lever.co/nebulous" target="_blank" rel="noopener noreferrer">
+              <a href="https://jobs.lever.co/SkynetLabs" target="_blank" rel="noopener noreferrer">
                 Jobs
               </a>
             </li>
