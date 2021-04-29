@@ -1,4 +1,3 @@
-const superagent = require("superagent");
 const got = require("got");
 const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
