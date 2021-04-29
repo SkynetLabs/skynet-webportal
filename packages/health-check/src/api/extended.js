@@ -1,11 +1,11 @@
 const db = require("../db");
 const { getYesterdayISOString } = require("../utils");
 
-// returns all verbose health check entries
+// returns all extended health check entries
 module.exports = (req, res) => {
   const yesterday = getYesterdayISOString();
   const entries = db
-    .get("verbose")
+    .get("extended")
     .orderBy("date", "desc")
     .filter(({ date }) => date > yesterday)
     .value();

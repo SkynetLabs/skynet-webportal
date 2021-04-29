@@ -144,8 +144,8 @@ async def check_health():
         json_critical = requests.get(
             "http://localhost/health-check/critical", verify=False
         ).json()
-        json_verbose = requests.get(
-            "http://localhost/health-check/verbose", verify=False
+        json_extended = requests.get(
+            "http://localhost/health-check/extended", verify=False
         ).json()
     except:
         trace = traceback.format_exc()
@@ -157,8 +157,8 @@ async def check_health():
     critical_checks_total = 0
     critical_checks_failed = 0
 
-    verbose_checks_total = 0
-    verbose_checks_failed = 0
+    extended_checks_total = 0
+    extended_checks_failed = 0
 
     failed_records = []
     failed_records_file = None
@@ -178,18 +178,18 @@ async def check_health():
         if bad:
             failed_records.append(critical)
 
-    for verbose in json_verbose:
-        time = datetime.strptime(verbose["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
+    for extended in json_extended:
+        time = datetime.strptime(extended["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
         if time < time_limit:
             continue
         bad = False
-        for check in verbose["checks"]:
-            verbose_checks_total += 1
+        for check in extended["checks"]:
+            extended_checks_total += 1
             if check["up"] == False:
-                verbose_checks_failed += 1
+                extended_checks_failed += 1
                 bad = True
         if bad:
-            failed_records.append(verbose)
+            failed_records.append(extended)
 
     ################################################################################
     # create a message
@@ -213,14 +213,14 @@ async def check_health():
         message += "All {} critical checks passed. ".format(
             critical_checks_total)
 
-    if verbose_checks_failed:
-        message += "{}/{} verbose checks failed over the last {} hours! ".format(
-            verbose_checks_failed, verbose_checks_total, CHECK_HOURS
+    if extended_checks_failed:
+        message += "{}/{} extended checks failed over the last {} hours! ".format(
+            extended_checks_failed, extended_checks_total, CHECK_HOURS
         )
         force_notify = True
     else:
-        message += "All {} verbose checks passed. ".format(
-            verbose_checks_total)
+        message += "All {} extended checks passed. ".format(
+            extended_checks_total)
 
     if len(failed_records):
         failed_records_file = json.dumps(failed_records, indent=2)

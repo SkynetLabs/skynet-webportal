@@ -8,7 +8,7 @@ require("yargs/yargs")(process.argv.slice(2)).command(
       .positional("type", {
         describe: "Type of checks to run",
         type: "string",
-        choices: ["critical", "verbose"],
+        choices: ["critical", "extended"],
       })
       .option("portal-url", {
         describe: "Skynet portal url",
