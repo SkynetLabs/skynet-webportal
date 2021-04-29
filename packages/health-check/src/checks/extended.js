@@ -558,7 +558,7 @@ function dappExampleCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
-const developMomentumBodyHash = "53b44a9d3cfa9b3d66ce5c29976f4383725d3652";
+const developMomentumBodyHash = "08e96877dd6c99c3e1d98105f2fd9df377b53d65";
 const developMomentumMetadata = require("../fixtures/developMomentumMetadata.json");
 
 // developMomentumCheck returns the result of trying to download the skylink
@@ -811,7 +811,7 @@ function skyBinRedirectCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
-const skyGalleryBodyHash = "077e54054748d278114f1870f8045a162eb73641";
+const skyGalleryBodyHash = "cb5905023a29bdd60d58817f26503345c9a1bd09";
 const skyGalleryMetadata = require("../fixtures/skygalleryMetadata.json");
 
 // skyGalleryCheck returns the result of trying to download the skylink for the SkyGallery Application.
@@ -1101,13 +1101,12 @@ function parseHeaderString(header) {
 // skylinkVerification verifies a skylink against provided information.
 async function skylinkVerification(done, expected, { followRedirect = true, method = "get" } = {}) {
   const time = process.hrtime();
-
-  // Create the query for the skylink
-  const query = `${process.env.PORTAL_URL}/${expected.skylink}`;
+  const details = { name: expected.name, skylink: expected.skylink };
 
   try {
+    const query = `${process.env.PORTAL_URL}/${expected.skylink}`;
     const response = await got[method](query, { followRedirect, headers: { cookie: "nocache=true" } });
-    const entry = { name: expected.name, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
+    const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
 
     if (expected.statusCode && expected.statusCode !== response.statusCode) {
@@ -1119,7 +1118,6 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
     if (expected.bodyHash) {
       const currentBodyHash = hasha(response.rawBody, { algorithm: "sha1" });
       if (currentBodyHash !== expected.bodyHash) {
-        console.log(expected.name, currentBodyHash);
         entry.up = false;
         info.bodyHash = { expected: expected.bodyHash, current: currentBodyHash };
       }
@@ -1145,7 +1143,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
     done(entry); // Return the entry information
   } catch (error) {
     done({
-      name: expected.name,
+      ...details,
       up: false,
       statusCode: error?.response?.statusCode || error.statusCode || error.status,
       errorMessage: error.message,
