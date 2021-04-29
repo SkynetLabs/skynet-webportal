@@ -1,4 +1,4 @@
-FROM node:15.14.0-alpine
+FROM node:16.0.0-alpine
 
 RUN apk update && apk add autoconf automake build-base libtool nasm pkgconfig
 
