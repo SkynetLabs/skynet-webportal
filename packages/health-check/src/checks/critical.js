@@ -34,7 +34,7 @@ async function uploadCheck(done) {
 async function downloadCheck(done) {
   const time = process.hrtime();
   const skylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
-  let statusCode, errorResponseContent;
+  let statusCode, errorMessage, errorResponseContent;
 
   try {
     const response = await got(`${process.env.PORTAL_URL}/${skylink}?nocache=true`);
@@ -50,6 +50,7 @@ async function downloadCheck(done) {
     name: "download_file",
     up: statusCode === StatusCodes.OK,
     statusCode,
+    errorMessage,
     errorResponseContent,
     time: calculateElapsedTime(time),
   });
