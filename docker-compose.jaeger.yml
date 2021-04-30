@@ -4,8 +4,8 @@ services:
   sia:
     environment:
       - SIA_MODULES=gctwr
-      - JAEGER_DISABLED="${JAEGER_DISABLED:-false}"   # Enable/Disable tracing
-      - JAEGER_SERVICE_NAME="${PORTAL_NAME:-Skyd}"    # change to e.g. eu-ger-1
+      - JAEGER_DISABLED=${JAEGER_DISABLED:-true}  # Enable/Disable tracing
+      - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd}  # change to e.g. eu-ger-1
       # Configuration
       # See https://github.com/jaegertracing/jaeger-client-go#environment-variables
       # for all options.
@@ -78,8 +78,14 @@ services:
     restart: on-failure
     environment:
       - discovery.type=single-node
+      # This prevents elasticsearch from using swap.
+      # See https://www.elastic.co/guide/en/elasticsearch/reference/master/setup-configuration-memory.html#setup-configuration-memory
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    volumes:
+      - ./docker/data/elasticsearch:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200/tcp"
+      - "127.0.0.1:9200:9200/tcp"
     networks:
       shared:
         ipv4_address: 10.10.10.93
