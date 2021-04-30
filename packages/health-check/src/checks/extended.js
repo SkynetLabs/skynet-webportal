@@ -690,50 +690,6 @@ function pdfExampleCheck(done) {
   skylinkVerification(done, linkInfo);
 }
 
-// randomImageCheck returns the result of trying to download the skylink for
-// a Random Image.
-function randomImageCheck(done) {
-  const linkInfo = {
-    name: "Random Image",
-    skylink: "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ/",
-    bodyHash: "4c73c5a0eddd5823be677d7f93bf80cc9338ee9f",
-    headers: {
-      "skynet-skylink": "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ",
-      "skynet-file-metadata": {
-        filename: "30355444.png",
-        subfiles: { "30355444.png": { filename: "30355444.png", contenttype: "image/png", len: 350473 } },
-        defaultpath: "/30355444.png",
-      },
-      "content-disposition": 'inline; filename="30355444.png"',
-      "content-type": "image/png",
-    },
-  };
-
-  skylinkVerification(done, linkInfo);
-}
-
-// randomImageRedirectCheck returns the result of trying to download the skylink for
-// a Random Image with no trailing slash.
-function randomImageRedirectCheck(done) {
-  const linkInfo = {
-    name: "Random Image Redirect",
-    skylink: "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ",
-    bodyHash: "4c73c5a0eddd5823be677d7f93bf80cc9338ee9f",
-    headers: {
-      "skynet-skylink": "PAHx7JmsU9EFGbqm5q0LNKT2wKfoJ_mhPI8zWlNEXZ8uOQ",
-      "skynet-file-metadata": {
-        filename: "30355444.png",
-        subfiles: { "30355444.png": { filename: "30355444.png", contenttype: "image/png", len: 350473 } },
-        defaultpath: "/30355444.png",
-      },
-      "content-disposition": 'inline; filename="30355444.png"',
-      "content-type": "image/png",
-    },
-  };
-
-  skylinkVerification(done, linkInfo);
-}
-
 // skyBayCheck returns the result of trying to download the skylink for the SkyBay Application.
 function skyBayCheck(done) {
   const linkInfo = {
@@ -1164,8 +1120,6 @@ module.exports = [
   imageExampleCheck,
   jsonExampleCheck,
   pdfExampleCheck,
-  randomImageCheck,
-  randomImageRedirectCheck,
   skyBayCheck,
   skyBayRedirectCheck,
   skyBinCheck,
