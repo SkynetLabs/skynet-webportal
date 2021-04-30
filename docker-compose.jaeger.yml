@@ -3,7 +3,6 @@ version: '3.7'
 services:
   sia:
     environment:
-      - SIA_MODULES=gctwr
       - JAEGER_DISABLED=${JAEGER_DISABLED:-true}  # Enable/Disable tracing
       - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd}  # change to e.g. eu-ger-1
       # Configuration
@@ -23,45 +22,26 @@ services:
     container_name: jaeger-agent
     restart: on-failure
     ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
+      - "127.0.0.1:6831:6831/udp"
+      - "127.0.0.1:6832:6832/udp"
+      - "127.0.0.1:5778:5778"
     environment:
-      - LOG_LEVEL=debug
-    networks:
-      shared:
-        ipv4_address: 10.10.10.92
-    depends_on:
-      - jaeger-collector
-
-  jaeger-collector:
-    image: jaegertracing/jaeger-collector
-    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200", "--collector.zipkin.host-port=:9411" ]
-    container_name: jaeger-collector
-    restart: on-failure
-    ports:
-      - "14269"
-      - "14268:14268"
-      - "14250"
-      - "9411:9411"
-    environment:
-      - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
     networks:
       shared:
         ipv4_address: 10.10.10.90
     depends_on:
-      - elasticsearch
+      - jaeger-collector
 
-  jaeger-query:
-    image: jaegertracing/jaeger-query
+  jaeger-collector:
+    image: jaegertracing/jaeger-collector
     command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
-    container_name: jaeger-query
+    container_name: jaeger-collector
     restart: on-failure
     ports:
-      - "16686:16686"
-      - "16687"
+      - "127.0.0.1:14269:14269"
+      - "127.0.0.1:14268:14268"
+      - "127.0.0.1:14250:14250"
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
@@ -71,6 +51,22 @@ services:
     depends_on:
       - elasticsearch
 
+  jaeger-query:
+    image: jaegertracing/jaeger-query
+    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
+    container_name: jaeger-query
+    restart: on-failure
+    ports:
+      - "127.0.0.1:16686:16686"
+      - "127.0.0.1:16687:16687"
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - LOG_LEVEL=debug
+    networks:
+      shared:
+        ipv4_address: 10.10.10.92
+    depends_on:
+      - elasticsearch
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.15
