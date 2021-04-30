@@ -80,10 +80,11 @@ services:
       - discovery.type=single-node
       # This prevents elasticsearch from using swap.
       # See https://www.elastic.co/guide/en/elasticsearch/reference/master/setup-configuration-memory.html#setup-configuration-memory
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
     volumes:
-      - ./docker/data/elasticsearch:/usr/share/elasticsearch/data
+      # This dir needs to be chowned to 1000:1000
+      - ./docker/data/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - "127.0.0.1:9200:9200/tcp"
     networks:
