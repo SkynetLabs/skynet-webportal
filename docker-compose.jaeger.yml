@@ -56,8 +56,9 @@ services:
     command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
     container_name: jaeger-query
     restart: on-failure
+    ports:
+      - "127.0.0.1:16686:16686"
     expose:
-      - 16686
       - 16687
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
