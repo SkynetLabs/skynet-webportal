@@ -21,10 +21,10 @@ services:
     command: [ "--reporter.grpc.host-port=jaeger-collector:14250", "--reporter.grpc.retry.max=1000" ]
     container_name: jaeger-agent
     restart: on-failure
-    ports:
-      - "127.0.0.1:6831:6831/udp"
-      - "127.0.0.1:6832:6832/udp"
-      - "127.0.0.1:5778:5778"
+    expose:
+      - 6831
+      - 6832
+      - 5778
     environment:
       - LOG_LEVEL=debug
     networks:
@@ -38,10 +38,10 @@ services:
     command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
     container_name: jaeger-collector
     restart: on-failure
-    ports:
-      - "127.0.0.1:14269:14269"
-      - "127.0.0.1:14268:14268"
-      - "127.0.0.1:14250:14250"
+    expose:
+      - 14269
+      - 14268
+      - 14250
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
@@ -56,9 +56,9 @@ services:
     command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
     container_name: jaeger-query
     restart: on-failure
-    ports:
-      - "127.0.0.1:16686:16686"
-      - "127.0.0.1:16687:16687"
+    expose:
+      - 16686
+      - 16687
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
@@ -77,8 +77,8 @@ services:
     volumes:
       # This dir needs to be chowned to 1000:1000
       - ./docker/data/elasticsearch/data:/usr/share/elasticsearch/data
-    ports:
-      - "127.0.0.1:9200:9200/tcp"
+    expose:
+      - 9200
     networks:
       shared:
         ipv4_address: 10.10.10.93
