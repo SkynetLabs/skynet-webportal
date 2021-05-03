@@ -14,7 +14,7 @@
     "classnames": "^2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
     "crypto-browserify": "^3.12.0",
-    "framer-motion": "^4.0.3",
+    "framer-motion": "^4.1.11",
     "gatsby": "^3.2.1",
     "gatsby-background-image": "^1.5.0",
     "gatsby-image": "^3.2.0",
