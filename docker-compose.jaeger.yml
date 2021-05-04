@@ -8,8 +8,8 @@ services:
       # Configuration
       # See https://github.com/jaegertracing/jaeger-client-go#environment-variables
       # for all options.
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_SAMPLER_TYPE=probabilistic
+      - JAEGER_SAMPLER_PARAM=0.1
       - JAEGER_AGENT_HOST=jaeger-agent
       - JAEGER_AGENT_PORT=6831
       - JAEGER_REPORTER_LOG_SPANS=false
