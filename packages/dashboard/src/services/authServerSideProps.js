@@ -1,6 +1,6 @@
 import ky from "ky/umd";
 
-const isProduction = false; // process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 export default function authServerSideProps(getServerSideProps) {
   return function authenticate(context) {
