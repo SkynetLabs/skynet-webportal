@@ -78,8 +78,9 @@ services:
     volumes:
       # This dir needs to be chowned to 1000:1000
       - ./docker/data/elasticsearch/data:/usr/share/elasticsearch/data
-    expose:
-      - 9200
+    ports:
+      # We need to expose this port, so we can prune the indexes.
+      - "127.0.0.1:9200:9200"
     networks:
       shared:
         ipv4_address: 10.10.10.93
