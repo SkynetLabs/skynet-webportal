@@ -80,7 +80,6 @@ services:
       - 80
     depends_on:
       - sia
-      - health-check
       - handshake-api
       - website
 
