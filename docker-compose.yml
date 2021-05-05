@@ -155,12 +155,12 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.60
+    env_file:
+      - .env
     environment:
       - HOSTNAME=0.0.0.0
-      - PORTAL_URL=http://nginx
       - STATE_DIR=/usr/app/state
     expose:
       - 3100
     depends_on:
-      - handshake
-      - handshake-api
+      - caddy

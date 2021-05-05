@@ -12,4 +12,4 @@ RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/ro
 
 EXPOSE 3100
 ENV NODE_ENV production
-CMD [ "sh", "-c", "crond ; node --max-http-header-size=64000 src/index.js" ]
+CMD [ "sh", "-c", "crond ; echo $(node src/whatismyip.js) siasky.net account.siasky.net >> /etc/hosts ; node --max-http-header-size=64000 src/index.js" ]
