@@ -12,7 +12,7 @@ require("yargs/yargs")(process.argv.slice(2)).command(
       })
       .option("portal-url", {
         describe: "Skynet portal url",
-        default: process.env.PORTAL_URL || "https://siasky.net",
+        default: process.env.SKYNET_PORTAL_API || "https://siasky.net",
         type: "string",
       })
       .option("state-dir", {
@@ -22,7 +22,7 @@ require("yargs/yargs")(process.argv.slice(2)).command(
       });
   },
   async ({ type, portalUrl, stateDir }) => {
-    process.env.PORTAL_URL = portalUrl;
+    process.env.SKYNET_PORTAL_API = portalUrl;
     process.env.STATE_DIR = stateDir;
 
     const db = require("../src/db");

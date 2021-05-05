@@ -7,26 +7,28 @@ const { calculateElapsedTime, getResponseContent } = require("../utils");
 async function uploadCheck(done) {
   const time = process.hrtime();
   const form = new FormData();
-  const data = Buffer.from(new Date()); // current date to ensure data uniqueness
+  const payload = Buffer.from(new Date()); // current date to ensure data uniqueness
+  const data = { up: false };
 
-  form.append("file", data, { filename: "time.txt", contentType: "text/plain" });
-  let statusCode, errorResponseContent;
+  form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
 
   try {
-    const response = await got.post(`${process.env.PORTAL_URL}/skynet/skyfile`, { body: form });
+    const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, { body: form });
 
-    statusCode = response.statusCode;
+    data.statusCode = response.statusCode;
+    data.up = true;
+    data.ip = response.ip;
   } catch (error) {
-    statusCode = error?.response?.statusCode || error.statusCode || error.status;
-    errorResponseContent = getResponseContent(error?.response);
+    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
   }
 
   done({
     name: "upload_file",
-    up: statusCode === StatusCodes.OK,
-    statusCode,
-    errorResponseContent,
     time: calculateElapsedTime(time),
+    ...data,
   });
 }
 
@@ -34,26 +36,57 @@ async function uploadCheck(done) {
 async function downloadCheck(done) {
   const time = process.hrtime();
   const skylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
-  let statusCode, errorMessage, errorResponseContent;
+  const data = { up: false };
 
   try {
-    const response = await got(`${process.env.PORTAL_URL}/${skylink}?nocache=true`);
+    const response = await got(`${process.env.SKYNET_PORTAL_API}/${skylink}?nocache=true`);
 
-    statusCode = response.statusCode;
+    data.statusCode = response.statusCode;
+    data.up = true;
+    data.ip = response.ip;
   } catch (error) {
-    statusCode = error?.response?.statusCode || error.statusCode || error.status;
-    errorMessage = error.message;
-    errorResponseContent = getResponseContent(error.response);
+    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
   }
 
   done({
     name: "download_file",
-    up: statusCode === StatusCodes.OK,
-    statusCode,
-    errorMessage,
-    errorResponseContent,
     time: calculateElapsedTime(time),
+    ...data,
   });
 }
 
-module.exports = [uploadCheck, downloadCheck];
+async function accountHealthCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`${process.env.SKYNET_DASHBOARD_URL}/health`, { responseType: "json" });
+
+    data.statusCode = response.statusCode;
+    data.response = response.body;
+    data.up = response.body.dbAlive === true;
+    data.ip = response.ip;
+  } catch (error) {
+    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
+  }
+
+  done({
+    name: "account_health",
+    time: calculateElapsedTime(time),
+    ...data,
+  });
+}
+
+const checks = [uploadCheck, downloadCheck];
+
+if (process.env.ACCOUNTS_ENABLED) {
+  checks.push(accountHealthCheck);
+}
+
+module.exports = checks;

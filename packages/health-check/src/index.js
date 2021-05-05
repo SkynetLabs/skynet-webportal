@@ -1,7 +1,11 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-if (!process.env.PORTAL_URL) {
-  throw new Error("You need to provide PORTAL_URL environment variable");
+if (!process.env.SKYNET_PORTAL_API) {
+  throw new Error("You need to provide SKYNET_PORTAL_API environment variable");
+}
+
+if (process.env.ACCOUNTS_ENABLED && !process.env.SKYNET_DASHBOARD_URL) {
+  throw new Error("You need to provide SKYNET_DASHBOARD_URL environment variable when accounts are enabled");
 }
 
 const express = require("express");

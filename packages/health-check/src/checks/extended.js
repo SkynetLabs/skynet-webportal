@@ -1059,7 +1059,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
   const details = { name: expected.name, skylink: expected.skylink };
 
   try {
-    const query = `${process.env.PORTAL_URL}/${expected.skylink}`;
+    const query = `${process.env.SKYNET_PORTAL_API}/${expected.skylink}`;
     const response = await got[method](query, { followRedirect, headers: { cookie: "nocache=true" } });
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
