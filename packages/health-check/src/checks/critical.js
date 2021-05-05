@@ -19,7 +19,7 @@ async function uploadCheck(done) {
     data.up = true;
     data.ip = response.ip;
   } catch (error) {
-    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
     data.errorMessage = error.message;
     data.errorResponseContent = getResponseContent(error.response);
     data.ip = error?.response?.ip ?? null;
