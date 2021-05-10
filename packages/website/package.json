@@ -60,7 +60,7 @@
     "react-use": "^17.2.4",
     "skynet-js": "^3.0.2",
     "stream-browserify": "^3.0.0",
-    "swr": "^0.5.5",
+    "swr": "^0.5.6",
     "tailwindcss": "^2.1.2"
   },
   "devDependencies": {
