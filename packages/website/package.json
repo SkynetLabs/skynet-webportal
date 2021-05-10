@@ -6,7 +6,7 @@
   "author": "Skynet Labs.",
   "dependencies": {
     "@fontsource/sora": "^4.2.2",
-    "@fontsource/source-sans-pro": "^4.2.2",
+    "@fontsource/source-sans-pro": "^4.3.0",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/typography": "^0.4.0",
     "autoprefixer": "^10.2.5",
@@ -45,7 +45,7 @@
     "ms": "^2.1.2",
     "normalize.css": "^8.0.1",
     "path-browserify": "^1.0.1",
-    "polished": "^4.1.1",
+    "polished": "^4.1.2",
     "popmotion": "^9.3.4",
     "postcss": "^8.2.8",
     "preact-svg-loader": "^0.2.1",
