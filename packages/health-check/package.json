@@ -14,7 +14,7 @@
     "lodash": "^4.17.21",
     "lowdb": "^1.0.0",
     "write-file-atomic": "^3.0.3",
-    "yargs": "^16.2.0"
+    "yargs": "^17.0.1"
   },
   "devDependencies": {
     "prettier": "^2.2.1"
