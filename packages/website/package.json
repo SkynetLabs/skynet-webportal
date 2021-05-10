@@ -6,7 +6,7 @@
   "author": "Skynet Labs.",
   "dependencies": {
     "@fontsource/sora": "^4.2.2",
-    "@fontsource/source-sans-pro": "^4.2.2",
+    "@fontsource/source-sans-pro": "^4.3.0",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/typography": "^0.4.0",
     "autoprefixer": "^10.2.5",
