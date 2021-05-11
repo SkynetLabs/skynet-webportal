@@ -33,7 +33,7 @@ services:
 
   jaeger-collector:
     image: jaegertracing/jaeger-collector
-    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
+    command: [ "/wait-for-it/wait-for-it.sh", "elasticsearch:9200", "--", "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
     container_name: jaeger-collector
     restart: on-failure
     expose:
@@ -43,15 +43,17 @@ services:
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
+    volumes:
+      - ./packages/wait-for-it:/wait-for-it
     networks:
       shared:
         ipv4_address: 10.10.10.91
     depends_on:
-      - wait-for-it
+      - elasticsearch
 
   jaeger-query:
     image: jaegertracing/jaeger-query
-    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
+    command: [ "/wait-for-it/wait-for-it.sh", "elasticsearch:9200", "--", "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
     container_name: jaeger-query
     restart: on-failure
     ports:
@@ -61,22 +63,13 @@ services:
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
+    volumes:
+      - ./packages/wait-for-it:/wait-for-it
     networks:
       shared:
         ipv4_address: 10.10.10.92
     depends_on:
-      - wait-for-it
-
-  wait-for-it:
-    build:
-      context: ./docker/wait-for-it
-      dockerfile: Dockerfile
-    command: [ "./wait-for-it.sh", "localhost:9200" ]
-    container_name: wait-for-it
-    restart: on-failure
-    networks:
-      shared:
-        ipv4_address: 10.10.10.95
+      - elasticsearch
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.15
