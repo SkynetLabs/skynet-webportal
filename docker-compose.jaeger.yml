@@ -33,7 +33,7 @@ services:
 
   jaeger-collector:
     image: jaegertracing/jaeger-collector
-    entrypoint: /wait_to_start/wait_to_start.sh
+    entrypoint: /wait_to_start.sh
     container_name: jaeger-collector
     restart: on-failure
     expose:
@@ -48,7 +48,7 @@ services:
       - WAIT_SLEEP=1
       - WAIT_LOOPS=600
     volumes:
-      - ./packages/wait_to_start:/wait_to_start
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
     networks:
       shared:
         ipv4_address: 10.10.10.91
@@ -57,7 +57,7 @@ services:
 
   jaeger-query:
     image: jaegertracing/jaeger-query
-    entrypoint: /wait_to_start/wait_to_start.sh
+    entrypoint: /wait_to_start.sh
     container_name: jaeger-query
     restart: on-failure
     ports:
@@ -72,7 +72,7 @@ services:
       - WAIT_SLEEP=1
       - WAIT_LOOPS=600
     volumes:
-      - ./packages/wait_to_start:/wait_to_start
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
     networks:
       shared:
         ipv4_address: 10.10.10.92
