@@ -13,8 +13,6 @@ services:
       - JAEGER_AGENT_HOST=jaeger-agent
       - JAEGER_AGENT_PORT=6831
       - JAEGER_REPORTER_LOG_SPANS=false
-    depends_on:
-      - jaeger-agent
 
   jaeger-agent:
     image: jaegertracing/jaeger-agent
@@ -49,7 +47,7 @@ services:
       shared:
         ipv4_address: 10.10.10.91
     depends_on:
-      - elasticsearch
+      - wait-for-it
 
   jaeger-query:
     image: jaegertracing/jaeger-query
@@ -67,7 +65,18 @@ services:
       shared:
         ipv4_address: 10.10.10.92
     depends_on:
-      - elasticsearch
+      - wait-for-it
+
+  wait-for-it:
+    build:
+      context: ./docker/wait-for-it
+      dockerfile: Dockerfile
+    command: [ "./wait-for-it.sh", "localhost:9200" ]
+    container_name: wait-for-it
+    restart: on-failure
+    networks:
+      shared:
+        ipv4_address: 10.10.10.95
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.15
