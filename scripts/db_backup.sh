@@ -1,6 +1,9 @@
 #!/bin/bash
 
-echo "\n\n`date +"%Y-%m-%d-%H%M"` Starting a DB backup.\n"
+echo "`date +"%Y-%m-%d-%H%M"` Starting a DB backup."
+
+# First of all, let's pamper awscli because Python is so special:
+pip3 install --upgrade awscli
 
 # Get current script directory (pwd doesn't cut it)
 csd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)

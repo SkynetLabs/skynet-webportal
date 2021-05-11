@@ -30,14 +30,14 @@ You may want to fork this repository and replace ssh keys in
 ### Step 1: setting up server user
 
 1. SSH in a freshly installed Debian machine on a user with sudo access (can be root)
-1. `apt-get update && apt-get install sudo -y` to make sure `sudo` is available
+1. `apt-get update && apt-get install sudo libnss3-tools -y` to make sure `sudo` is available
 1. `adduser user` to create user called `user` (creates `/home/user` directory)
 1. `usermod -aG sudo user` to add this new user to sudo group
 1. `sudo groupadd docker` to create a group for docker (it might already exist)
 1. `sudo usermod -aG docker user` to add your user to that group
 1. Quit the ssh session with `exit` command
 
-You a can now ssh into your machine as the user `user`.
+You can now ssh into your machine as the user `user`.
 
 ### Step 2: setting up environment
 
@@ -59,11 +59,11 @@ You a can now ssh into your machine as the user `user`.
 
 At this point we have almost everything running, we just need to set up your wallet and allowance:
 
-1. Create new wallet (remember to save the seeds)
+1. Create a new wallet (remember to save the seed)
    > `docker exec -it sia siac wallet init`
-1. Unlock wallet (use seed as password)
+1. Unlock the wallet (use the seed as password)
    > `docker exec -it sia siac wallet unlock`
-1. Generate wallet addresse (save them for later to transfer the funds)
+1. Generate a new wallet address (save it for later to transfer the funds)
    > `docker exec -it sia siac wallet address`
 1. Set up allowance
    > `docker exec -it sia siac renter setallowance`
@@ -75,6 +75,8 @@ At this point we have almost everything running, we just need to set up your wal
    1. 500 GB expected upload
    1. 5 TB expected download
    1. default redundancy
+1. Set a maximum storage price
+   > `docker exec -it sia siac renter setallowance --max-storage-price 100SC`
 1. Instruct siad to start making 10 contracts per block with many hosts to potentially view the whole network's files
    > `docker exec -it sia siac renter setallowance --payment-contract-initial-funding 10SC`
 
