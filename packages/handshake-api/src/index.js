@@ -70,13 +70,6 @@ const createResponseFromCompatibleRecord = (record) => {
 };
 
 const resolveDomainHandler = async (req, res) => {
-  try {
-    // =========================================================================================
-    // TEMPORARY REROUTE FROM SKYNET-MYSKY TO ANN1 FOR DEV SERVERS - DO NOT DEPLOY TO PRODUCTION
-    // =========================================================================================
-    if (req.params.name === "skynet-mysky") req.params.name = "ann1";
-    // END DEV CHANGE ==========================================================================
-
     const domain = punycode.toASCII(req.params.name);
     const records = await getDomainRecords(domain);
     if (!records) return res.status(404).send(`No records found for ${domain}`);
