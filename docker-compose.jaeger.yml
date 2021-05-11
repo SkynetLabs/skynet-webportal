@@ -13,8 +13,6 @@ services:
       - JAEGER_AGENT_HOST=jaeger-agent
       - JAEGER_AGENT_PORT=6831
       - JAEGER_REPORTER_LOG_SPANS=false
-    depends_on:
-      - jaeger-agent
 
   jaeger-agent:
     image: jaegertracing/jaeger-agent
@@ -35,7 +33,7 @@ services:
 
   jaeger-collector:
     image: jaegertracing/jaeger-collector
-    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
+    entrypoint: /wait_to_start.sh
     container_name: jaeger-collector
     restart: on-failure
     expose:
@@ -45,6 +43,12 @@ services:
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
+      - WAIT_START_CMD=/go/bin/collector-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
+      - WAIT_SLEEP=1
+      - WAIT_LOOPS=600
+    volumes:
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
     networks:
       shared:
         ipv4_address: 10.10.10.91
@@ -53,7 +57,7 @@ services:
 
   jaeger-query:
     image: jaegertracing/jaeger-query
-    command: [ "--es.num-shards=1", "--es.num-replicas=0", "--es.server-urls=http://elasticsearch:9200" ]
+    entrypoint: /wait_to_start.sh
     container_name: jaeger-query
     restart: on-failure
     ports:
@@ -63,6 +67,12 @@ services:
     environment:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
+      - WAIT_START_CMD=/go/bin/query-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
+      - WAIT_SLEEP=1
+      - WAIT_LOOPS=600
+    volumes:
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
     networks:
       shared:
         ipv4_address: 10.10.10.92
