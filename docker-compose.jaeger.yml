@@ -44,7 +44,7 @@ services:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
       - WAIT_START_CMD=/go/bin/collector-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
-      - WAIT_COMMAND=wget -O index.html http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
       - WAIT_SLEEP=1
       - WAIT_LOOPS=600
     volumes:
@@ -68,7 +68,7 @@ services:
       - SPAN_STORAGE_TYPE=elasticsearch
       - LOG_LEVEL=debug
       - WAIT_START_CMD=/go/bin/query-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
-      - WAIT_COMMAND=wget -O index.html http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
       - WAIT_SLEEP=1
       - WAIT_LOOPS=600
     volumes:
