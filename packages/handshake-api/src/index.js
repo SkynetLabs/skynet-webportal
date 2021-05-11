@@ -70,6 +70,7 @@ const createResponseFromCompatibleRecord = (record) => {
 };
 
 const resolveDomainHandler = async (req, res) => {
+  try {
     const domain = punycode.toASCII(req.params.name);
     const records = await getDomainRecords(domain);
     if (!records) return res.status(404).send(`No records found for ${domain}`);
