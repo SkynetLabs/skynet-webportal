@@ -47,7 +47,7 @@
     "path-browserify": "^1.0.1",
     "polished": "^4.1.2",
     "popmotion": "^9.3.4",
-    "postcss": "^8.2.14",
+    "postcss": "^8.2.15",
     "preact-svg-loader": "^0.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
