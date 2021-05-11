@@ -36,32 +36,27 @@ const ecosystemCards = [
   {
     Icon: SkynetUsageSmall,
     title: "Easy to use",
-    text:
-      "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
+    text: "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
   },
   {
     Icon: SkynetSpeedSmall,
     title: "Fast",
-    text:
-      "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
+    text: "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
   },
   {
     Icon: SkynetSiaSmall,
     title: "Free to use",
-    text:
-      "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
+    text: "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
   },
   {
     Icon: SkynetMonetizationSmall,
     title: "Monetization",
-    text:
-      "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
+    text: "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
   },
   {
     Icon: SkynetPersistenceSmall,
     title: "Persistence",
-    text:
-      "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
+    text: "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
   },
 ];
 
