@@ -13,6 +13,7 @@
     "http-status-codes": "^2.1.2",
     "lodash": "^4.17.21",
     "lowdb": "^1.0.0",
+    "skynet-js": "^3.0.2",
     "write-file-atomic": "^3.0.3",
     "yargs": "^17.0.1"
   },
