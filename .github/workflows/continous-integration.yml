@@ -8,10 +8,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 15.x
 
       - name: Install dependencies
         run: yarn
@@ -22,24 +21,27 @@ jobs:
       - name: "Static code analysis: health-check"
         run: yarn workspace health-check prettier --check .
 
-      - name: "Static code analysis: webapp"
-        run: yarn workspace webapp prettier --check .
+      - name: "Static code analysis: website"
+        run: yarn workspace website prettier --check .
 
-      - name: "Build webapp"
-        run: yarn workspace webapp build
-        env:
-          GATSBY_API_URL: "https://siasky.net"
+      - name: "Static code analysis: dashboard"
+        run: yarn workspace dashboard prettier --check .
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          working-directory: packages/webapp
-          record: true
-          start: npx http-server public --port 8000
-          wait-on: "http://localhost:8000"
+      # - name: "Build webapp"
+      #   run: yarn workspace webapp build
+      #   env:
+      #     GATSBY_API_URL: "https://siasky.net"
 
-      - name: Cypress cache prune
-        run: yarn cypress cache prune
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v2
+      #   env:
+      #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     working-directory: packages/webapp
+      #     record: true
+      #     start: npx http-server public --port 8000
+      #     wait-on: "http://localhost:8000"
+
+      # - name: Cypress cache prune
+      #   run: yarn cypress cache prune

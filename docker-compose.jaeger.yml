@@ -1,0 +1,96 @@
+version: '3.7'
+
+services:
+  sia:
+    environment:
+      - JAEGER_DISABLED=${JAEGER_DISABLED:-true}  # Enable/Disable tracing
+      - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd}  # change to e.g. eu-ger-1
+      # Configuration
+      # See https://github.com/jaegertracing/jaeger-client-go#environment-variables
+      # for all options.
+      - JAEGER_SAMPLER_TYPE=probabilistic
+      - JAEGER_SAMPLER_PARAM=0.1
+      - JAEGER_AGENT_HOST=jaeger-agent
+      - JAEGER_AGENT_PORT=6831
+      - JAEGER_REPORTER_LOG_SPANS=false
+
+  jaeger-agent:
+    image: jaegertracing/jaeger-agent
+    command: [ "--reporter.grpc.host-port=jaeger-collector:14250", "--reporter.grpc.retry.max=1000" ]
+    container_name: jaeger-agent
+    restart: on-failure
+    expose:
+      - 6831
+      - 6832
+      - 5778
+    environment:
+      - LOG_LEVEL=debug
+    networks:
+      shared:
+        ipv4_address: 10.10.10.90
+    depends_on:
+      - jaeger-collector
+
+  jaeger-collector:
+    image: jaegertracing/jaeger-collector
+    entrypoint: /wait_to_start.sh
+    container_name: jaeger-collector
+    restart: on-failure
+    expose:
+      - 14269
+      - 14268
+      - 14250
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - LOG_LEVEL=debug
+      - WAIT_START_CMD=/go/bin/collector-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
+      - WAIT_SLEEP=1
+      - WAIT_LOOPS=600
+    volumes:
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
+    networks:
+      shared:
+        ipv4_address: 10.10.10.91
+    depends_on:
+      - elasticsearch
+
+  jaeger-query:
+    image: jaegertracing/jaeger-query
+    entrypoint: /wait_to_start.sh
+    container_name: jaeger-query
+    restart: on-failure
+    ports:
+      - "127.0.0.1:16686:16686"
+    expose:
+      - 16687
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - LOG_LEVEL=debug
+      - WAIT_START_CMD=/go/bin/query-linux --es.num-shards=1 --es.num-replicas=0 --es.server-urls=http://elasticsearch:9200
+      - WAIT_COMMAND=wget -qO index.html http://elasticsearch:9200
+      - WAIT_SLEEP=1
+      - WAIT_LOOPS=600
+    volumes:
+      - ./scripts/wait_to_start.sh:/wait_to_start.sh:ro
+    networks:
+      shared:
+        ipv4_address: 10.10.10.92
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.15
+    container_name: elasticsearch
+    restart: on-failure
+    environment:
+      - discovery.type=single-node
+    volumes:
+      # This dir needs to be chowned to 1000:1000
+      - ./docker/data/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      # We need to expose this port, so we can prune the indexes.
+      - "127.0.0.1:9200:9200"
+    networks:
+      shared:
+        ipv4_address: 10.10.10.93
