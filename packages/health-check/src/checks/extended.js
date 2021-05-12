@@ -3,6 +3,7 @@ const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
+const { parseSkylink } = require("skynet-js");
 
 // audioExampleCheck returns the result of trying to download the skylink
 // for the Example audio file on siasky.net
@@ -11,9 +12,9 @@ function audioExampleCheck(done) {
     name: "Audio Example",
     skylink: "_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA",
     bodyHash: "1bea1f570043f20149ae4cb4d30089d90897b15b",
+    metadata: { filename: "feel-good.mp3" },
     headers: {
       "skynet-skylink": "_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA",
-      "skynet-file-metadata": { filename: "feel-good.mp3" },
       "content-disposition": 'inline; filename="feel-good.mp3"',
       "content-type": "audio/mpeg",
     },
@@ -29,18 +30,18 @@ function covid19PaperCheck(done) {
     name: "Covid-19 Paper",
     skylink: "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
     bodyHash: "7ce20bfc4221503fd0bf909ad20c422eca125c7d",
-    headers: {
-      "skynet-skylink": "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
-      "skynet-file-metadata": {
-        filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
-        subfiles: {
-          "An Effective Treatment for Coronavirus (COVID-19).pdf": {
-            filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
-            contenttype: "application/pdf",
-            len: 474803,
-          },
+    metadata: {
+      filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
+      subfiles: {
+        "An Effective Treatment for Coronavirus (COVID-19).pdf": {
+          filename: "An Effective Treatment for Coronavirus (COVID-19).pdf",
+          contenttype: "application/pdf",
+          len: 474803,
         },
       },
+    },
+    headers: {
+      "skynet-skylink": "PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A",
       "content-disposition": 'inline; filename="An Effective Treatment for Coronavirus (COVID-19).pdf"',
       "content-type": "application/pdf",
     },
@@ -56,9 +57,9 @@ function covid19CoroNopePaperCheck(done) {
     name: "Covid-19 CoroNope Paper",
     skylink: "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
     bodyHash: "0db705da1b1232f8344ed74fd38245d35a49a965",
+    metadata: { filename: "coronope.pdf" },
     headers: {
       "skynet-skylink": "bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA",
-      "skynet-file-metadata": { filename: "coronope.pdf" },
       "content-disposition": 'inline; filename="coronope.pdf"',
       "content-type": "application/pdf",
     },
@@ -74,481 +75,481 @@ function dappExampleCheck(done) {
     name: "Dapp Example (UniSwap)",
     skylink: "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
     bodyHash: "7b74cbb5927e964db493b82cc1f8a532f1ff72f5",
-    headers: {
-      "skynet-skylink": "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
-      "skynet-file-metadata": {
-        filename: "build",
-        length: 15578459,
-        subfiles: {
-          "451.html": {
-            filename: "451.html",
-            contenttype: "text/html",
-            offset: 40966,
-            len: 200,
-          },
-          "asset-manifest.json": {
-            filename: "asset-manifest.json",
-            contenttype: "application/json",
-            offset: 35832,
-            len: 5134,
-          },
-          "favicon.ico": {
-            filename: "favicon.ico",
-            contenttype: "image/vnd.microsoft.icon",
-            len: 31701,
-          },
-          "index.html": {
-            filename: "index.html",
-            contenttype: "text/html",
-            offset: 31701,
-            len: 4131,
-          },
-          "locales/de.json": {
-            filename: "locales/de.json",
-            contenttype: "application/json",
-            offset: 15542609,
-            len: 4376,
-          },
-          "locales/en.json": {
-            filename: "locales/en.json",
-            contenttype: "application/json",
-            offset: 15558827,
-            len: 4049,
-          },
-          "locales/es-AR.json": {
-            filename: "locales/es-AR.json",
-            contenttype: "application/json",
-            offset: 15551984,
-            len: 3624,
-          },
-          "locales/es-US.json": {
-            filename: "locales/es-US.json",
-            contenttype: "application/json",
-            offset: 15574829,
-            len: 3630,
-          },
-          "locales/it-IT.json": {
-            filename: "locales/it-IT.json",
-            contenttype: "application/json",
-            offset: 15538386,
-            len: 4223,
-          },
-          "locales/ro.json": {
-            filename: "locales/ro.json",
-            contenttype: "application/json",
-            offset: 15562876,
-            len: 3794,
-          },
-          "locales/ru.json": {
-            filename: "locales/ru.json",
-            contenttype: "application/json",
-            offset: 15546985,
-            len: 4999,
-          },
-          "locales/vi.json": {
-            filename: "locales/vi.json",
-            contenttype: "application/json",
-            offset: 15569928,
-            len: 4901,
-          },
-          "locales/zh-CN.json": {
-            filename: "locales/zh-CN.json",
-            contenttype: "application/json",
-            offset: 15555608,
-            len: 3219,
-          },
-          "locales/zh-TW.json": {
-            filename: "locales/zh-TW.json",
-            contenttype: "application/json",
-            offset: 15566670,
-            len: 3258,
-          },
-          "manifest.json": {
-            filename: "manifest.json",
-            contenttype: "application/json",
-            offset: 41166,
-            len: 297,
-          },
-          "precache-manifest.cd4677068c6058f8626d6818e2c12fd3.js": {
-            filename: "precache-manifest.cd4677068c6058f8626d6818e2c12fd3.js",
-            contenttype: "text/javascript",
-            offset: 41463,
-            len: 4721,
-          },
-          "service-worker.js": {
-            filename: "service-worker.js",
-            contenttype: "text/javascript",
-            offset: 46184,
-            len: 1185,
-          },
-          "static/css/0.07de6c03.chunk.css": {
-            filename: "static/css/0.07de6c03.chunk.css",
-            contenttype: "text/css",
-            offset: 15537249,
-            len: 285,
-          },
-          "static/css/0.07de6c03.chunk.css.map": {
-            filename: "static/css/0.07de6c03.chunk.css.map",
-            contenttype: "application/octet-stream",
-            offset: 15537818,
-            len: 568,
-          },
-          "static/css/5.d75e0ccb.chunk.css": {
-            filename: "static/css/5.d75e0ccb.chunk.css",
-            contenttype: "text/css",
-            offset: 15537534,
-            len: 284,
-          },
-          "static/css/5.d75e0ccb.chunk.css.map": {
-            filename: "static/css/5.d75e0ccb.chunk.css.map",
-            contenttype: "application/octet-stream",
-            offset: 15536511,
-            len: 738,
-          },
-          "static/js/0.58b0f69f.chunk.js": {
-            filename: "static/js/0.58b0f69f.chunk.js",
-            contenttype: "text/javascript",
-            offset: 7300150,
-            len: 30029,
-          },
-          "static/js/0.58b0f69f.chunk.js.map": {
-            filename: "static/js/0.58b0f69f.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12111459,
-            len: 81144,
-          },
-          "static/js/1.19c370e0.chunk.js": {
-            filename: "static/js/1.19c370e0.chunk.js",
-            contenttype: "text/javascript",
-            offset: 15495781,
-            len: 40203,
-          },
-          "static/js/1.19c370e0.chunk.js.map": {
-            filename: "static/js/1.19c370e0.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 7330179,
-            len: 104594,
-          },
-          "static/js/10.8ea29dcd.chunk.js": {
-            filename: "static/js/10.8ea29dcd.chunk.js",
-            contenttype: "text/javascript",
-            offset: 15483299,
-            len: 12345,
-          },
-          "static/js/10.8ea29dcd.chunk.js.map": {
-            filename: "static/js/10.8ea29dcd.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 14524416,
-            len: 30393,
-          },
-          "static/js/11.764b8915.chunk.js": {
-            filename: "static/js/11.764b8915.chunk.js",
-            contenttype: "text/javascript",
-            offset: 12208196,
-            len: 7103,
-          },
-          "static/js/11.764b8915.chunk.js.map": {
-            filename: "static/js/11.764b8915.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12192603,
-            len: 15593,
-          },
-          "static/js/12.88d4fbe5.chunk.js": {
-            filename: "static/js/12.88d4fbe5.chunk.js",
-            contenttype: "text/javascript",
-            offset: 12055261,
-            len: 16721,
-          },
-          "static/js/12.88d4fbe5.chunk.js.map": {
-            filename: "static/js/12.88d4fbe5.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 14460215,
-            len: 46695,
-          },
-          "static/js/13.ea207f69.chunk.js": {
-            filename: "static/js/13.ea207f69.chunk.js",
-            contenttype: "text/javascript",
-            offset: 7168280,
-            len: 347,
-          },
-          "static/js/13.ea207f69.chunk.js.map": {
-            filename: "static/js/13.ea207f69.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 6928538,
-            len: 563,
-          },
-          "static/js/14.d8bc0d4c.chunk.js": {
-            filename: "static/js/14.d8bc0d4c.chunk.js",
-            contenttype: "text/javascript",
-            offset: 12870711,
-            len: 336,
-          },
-          "static/js/14.d8bc0d4c.chunk.js.map": {
-            filename: "static/js/14.d8bc0d4c.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 15535984,
-            len: 527,
-          },
-          "static/js/15.e6215497.chunk.js": {
-            filename: "static/js/15.e6215497.chunk.js",
-            contenttype: "text/javascript",
-            offset: 15495644,
-            len: 137,
-          },
-          "static/js/15.e6215497.chunk.js.map": {
-            filename: "static/js/15.e6215497.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 6928431,
-            len: 107,
-          },
-          "static/js/2.f6da9598.chunk.js": {
-            filename: "static/js/2.f6da9598.chunk.js",
-            contenttype: "text/javascript",
-            offset: 14506910,
-            len: 17506,
-          },
-          "static/js/2.f6da9598.chunk.js.map": {
-            filename: "static/js/2.f6da9598.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12071982,
-            len: 39477,
-          },
-          "static/js/5.5cc0868a.chunk.js": {
-            filename: "static/js/5.5cc0868a.chunk.js",
-            contenttype: "text/javascript",
-            offset: 10199338,
-            len: 1842002,
-          },
-          "static/js/5.5cc0868a.chunk.js.LICENSE": {
-            filename: "static/js/5.5cc0868a.chunk.js.LICENSE",
-            contenttype: "application/octet-stream",
-            offset: 14554809,
-            len: 3119,
-          },
-          "static/js/5.5cc0868a.chunk.js.map": {
-            filename: "static/js/5.5cc0868a.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 289328,
-            len: 6632626,
-          },
-          "static/js/6.b7681521.chunk.js": {
-            filename: "static/js/6.b7681521.chunk.js",
-            contenttype: "text/javascript",
-            offset: 14237363,
-            len: 222852,
-          },
-          "static/js/6.b7681521.chunk.js.map": {
-            filename: "static/js/6.b7681521.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12215299,
-            len: 655412,
-          },
-          "static/js/7.0614dbc4.chunk.js": {
-            filename: "static/js/7.0614dbc4.chunk.js",
-            contenttype: "text/javascript",
-            offset: 6921954,
-            len: 6477,
-          },
-          "static/js/7.0614dbc4.chunk.js.map": {
-            filename: "static/js/7.0614dbc4.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12041340,
-            len: 13921,
-          },
-          "static/js/8.7975098c.chunk.js": {
-            filename: "static/js/8.7975098c.chunk.js",
-            contenttype: "text/javascript",
-            offset: 13796515,
-            len: 420712,
-          },
-          "static/js/8.7975098c.chunk.js.LICENSE": {
-            filename: "static/js/8.7975098c.chunk.js.LICENSE",
-            contenttype: "application/octet-stream",
-            offset: 13796191,
-            len: 324,
-          },
-          "static/js/8.7975098c.chunk.js.map": {
-            filename: "static/js/8.7975098c.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 12871047,
-            len: 925144,
-          },
-          "static/js/9.cc860b76.chunk.js": {
-            filename: "static/js/9.cc860b76.chunk.js",
-            contenttype: "text/javascript",
-            offset: 14557928,
-            len: 920812,
-          },
-          "static/js/9.cc860b76.chunk.js.LICENSE": {
-            filename: "static/js/9.cc860b76.chunk.js.LICENSE",
-            contenttype: "application/octet-stream",
-            offset: 15478740,
-            len: 4559,
-          },
-          "static/js/9.cc860b76.chunk.js.map": {
-            filename: "static/js/9.cc860b76.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 7434773,
-            len: 2764565,
-          },
-          "static/js/main.a7822f79.chunk.js": {
-            filename: "static/js/main.a7822f79.chunk.js",
-            contenttype: "text/javascript",
-            offset: 7168627,
-            len: 131523,
-          },
-          "static/js/main.a7822f79.chunk.js.map": {
-            filename: "static/js/main.a7822f79.chunk.js.map",
-            contenttype: "application/octet-stream",
-            offset: 6929101,
-            len: 239179,
-          },
-          "static/js/runtime-main.68d129c6.js": {
-            filename: "static/js/runtime-main.68d129c6.js",
-            contenttype: "text/javascript",
-            offset: 14217227,
-            len: 3546,
-          },
-          "static/js/runtime-main.68d129c6.js.map": {
-            filename: "static/js/runtime-main.68d129c6.js.map",
-            contenttype: "application/octet-stream",
-            offset: 14220773,
-            len: 16590,
-          },
-          "static/media/arrow-down-blue.cd061363.svg": {
-            filename: "static/media/arrow-down-blue.cd061363.svg",
-            contenttype: "image/svg+xml",
-            offset: 219284,
-            len: 326,
-          },
-          "static/media/arrow-down-grey.c0dedd2f.svg": {
-            filename: "static/media/arrow-down-grey.c0dedd2f.svg",
-            contenttype: "image/svg+xml",
-            offset: 196726,
-            len: 326,
-          },
-          "static/media/arrow-right-white.337ad716.png": {
-            filename: "static/media/arrow-right-white.337ad716.png",
-            contenttype: "image/png",
-            offset: 197052,
-            len: 12999,
-          },
-          "static/media/arrow-right.d285b6cf.svg": {
-            filename: "static/media/arrow-right.d285b6cf.svg",
-            contenttype: "image/svg+xml",
-            offset: 289065,
-            len: 263,
-          },
-          "static/media/circle-grey.ed2a1dad.svg": {
-            filename: "static/media/circle-grey.ed2a1dad.svg",
-            contenttype: "image/svg+xml",
-            offset: 210213,
-            len: 321,
-          },
-          "static/media/circle.2d975615.svg": {
-            filename: "static/media/circle.2d975615.svg",
-            contenttype: "image/svg+xml",
-            offset: 210534,
-            len: 321,
-          },
-          "static/media/coinbaseWalletIcon.62578f59.svg": {
-            filename: "static/media/coinbaseWalletIcon.62578f59.svg",
-            contenttype: "image/svg+xml",
-            offset: 220450,
-            len: 53626,
-          },
-          "static/media/dropdown-blue.b20914ec.svg": {
-            filename: "static/media/dropdown-blue.b20914ec.svg",
-            contenttype: "image/svg+xml",
-            offset: 47369,
-            len: 164,
-          },
-          "static/media/dropdown.7d32d2fa.svg": {
-            filename: "static/media/dropdown.7d32d2fa.svg",
-            contenttype: "image/svg+xml",
-            offset: 287941,
-            len: 164,
-          },
-          "static/media/dropup-blue.b96d70e1.svg": {
-            filename: "static/media/dropup-blue.b96d70e1.svg",
-            contenttype: "image/svg+xml",
-            offset: 210051,
-            len: 162,
-          },
-          "static/media/ethereum-logo.802c6eac.svg": {
-            filename: "static/media/ethereum-logo.802c6eac.svg",
-            contenttype: "image/svg+xml",
-            offset: 219610,
-            len: 840,
-          },
-          "static/media/magnifying-glass.67440097.svg": {
-            filename: "static/media/magnifying-glass.67440097.svg",
-            contenttype: "image/svg+xml",
-            offset: 210855,
-            len: 8429,
-          },
-          "static/media/metamask.023762b6.png": {
-            filename: "static/media/metamask.023762b6.png",
-            contenttype: "image/png",
-            offset: 61600,
-            len: 114217,
-          },
-          "static/media/plus-blue.e8021e51.svg": {
-            filename: "static/media/plus-blue.e8021e51.svg",
-            contenttype: "image/svg+xml",
-            offset: 196237,
-            len: 190,
-          },
-          "static/media/plus-grey.d8e0be7d.svg": {
-            filename: "static/media/plus-grey.d8e0be7d.svg",
-            contenttype: "image/svg+xml",
-            offset: 288875,
-            len: 190,
-          },
-          "static/media/portisIcon.b234b2bf.png": {
-            filename: "static/media/portisIcon.b234b2bf.png",
-            contenttype: "image/png",
-            offset: 274076,
-            len: 13865,
-          },
-          "static/media/question-mark.1ae4d9f4.svg": {
-            filename: "static/media/question-mark.1ae4d9f4.svg",
-            contenttype: "image/svg+xml",
-            offset: 175817,
-            len: 818,
-          },
-          "static/media/question.cc0a2451.svg": {
-            filename: "static/media/question.cc0a2451.svg",
-            contenttype: "image/svg+xml",
-            offset: 288105,
-            len: 770,
-          },
-          "static/media/spinner.be00fc4a.svg": {
-            filename: "static/media/spinner.be00fc4a.svg",
-            contenttype: "image/svg+xml",
-            offset: 47533,
-            len: 694,
-          },
-          "static/media/trustWallet.edcc1ab5.png": {
-            filename: "static/media/trustWallet.edcc1ab5.png",
-            contenttype: "image/png",
-            offset: 176635,
-            len: 19602,
-          },
-          "static/media/walletConnectIcon.8215855c.svg": {
-            filename: "static/media/walletConnectIcon.8215855c.svg",
-            contenttype: "image/svg+xml",
-            offset: 48227,
-            len: 13373,
-          },
-          "static/media/x.5b8e2186.svg": {
-            filename: "static/media/x.5b8e2186.svg",
-            contenttype: "image/svg+xml",
-            offset: 196427,
-            len: 299,
-          },
+    metadata: {
+      filename: "build",
+      length: 15578459,
+      subfiles: {
+        "451.html": {
+          filename: "451.html",
+          contenttype: "text/html",
+          offset: 40966,
+          len: 200,
+        },
+        "asset-manifest.json": {
+          filename: "asset-manifest.json",
+          contenttype: "application/json",
+          offset: 35832,
+          len: 5134,
+        },
+        "favicon.ico": {
+          filename: "favicon.ico",
+          contenttype: "image/vnd.microsoft.icon",
+          len: 31701,
+        },
+        "index.html": {
+          filename: "index.html",
+          contenttype: "text/html",
+          offset: 31701,
+          len: 4131,
+        },
+        "locales/de.json": {
+          filename: "locales/de.json",
+          contenttype: "application/json",
+          offset: 15542609,
+          len: 4376,
+        },
+        "locales/en.json": {
+          filename: "locales/en.json",
+          contenttype: "application/json",
+          offset: 15558827,
+          len: 4049,
+        },
+        "locales/es-AR.json": {
+          filename: "locales/es-AR.json",
+          contenttype: "application/json",
+          offset: 15551984,
+          len: 3624,
+        },
+        "locales/es-US.json": {
+          filename: "locales/es-US.json",
+          contenttype: "application/json",
+          offset: 15574829,
+          len: 3630,
+        },
+        "locales/it-IT.json": {
+          filename: "locales/it-IT.json",
+          contenttype: "application/json",
+          offset: 15538386,
+          len: 4223,
+        },
+        "locales/ro.json": {
+          filename: "locales/ro.json",
+          contenttype: "application/json",
+          offset: 15562876,
+          len: 3794,
+        },
+        "locales/ru.json": {
+          filename: "locales/ru.json",
+          contenttype: "application/json",
+          offset: 15546985,
+          len: 4999,
+        },
+        "locales/vi.json": {
+          filename: "locales/vi.json",
+          contenttype: "application/json",
+          offset: 15569928,
+          len: 4901,
+        },
+        "locales/zh-CN.json": {
+          filename: "locales/zh-CN.json",
+          contenttype: "application/json",
+          offset: 15555608,
+          len: 3219,
+        },
+        "locales/zh-TW.json": {
+          filename: "locales/zh-TW.json",
+          contenttype: "application/json",
+          offset: 15566670,
+          len: 3258,
+        },
+        "manifest.json": {
+          filename: "manifest.json",
+          contenttype: "application/json",
+          offset: 41166,
+          len: 297,
+        },
+        "precache-manifest.cd4677068c6058f8626d6818e2c12fd3.js": {
+          filename: "precache-manifest.cd4677068c6058f8626d6818e2c12fd3.js",
+          contenttype: "text/javascript",
+          offset: 41463,
+          len: 4721,
+        },
+        "service-worker.js": {
+          filename: "service-worker.js",
+          contenttype: "text/javascript",
+          offset: 46184,
+          len: 1185,
+        },
+        "static/css/0.07de6c03.chunk.css": {
+          filename: "static/css/0.07de6c03.chunk.css",
+          contenttype: "text/css",
+          offset: 15537249,
+          len: 285,
+        },
+        "static/css/0.07de6c03.chunk.css.map": {
+          filename: "static/css/0.07de6c03.chunk.css.map",
+          contenttype: "application/octet-stream",
+          offset: 15537818,
+          len: 568,
+        },
+        "static/css/5.d75e0ccb.chunk.css": {
+          filename: "static/css/5.d75e0ccb.chunk.css",
+          contenttype: "text/css",
+          offset: 15537534,
+          len: 284,
+        },
+        "static/css/5.d75e0ccb.chunk.css.map": {
+          filename: "static/css/5.d75e0ccb.chunk.css.map",
+          contenttype: "application/octet-stream",
+          offset: 15536511,
+          len: 738,
+        },
+        "static/js/0.58b0f69f.chunk.js": {
+          filename: "static/js/0.58b0f69f.chunk.js",
+          contenttype: "text/javascript",
+          offset: 7300150,
+          len: 30029,
+        },
+        "static/js/0.58b0f69f.chunk.js.map": {
+          filename: "static/js/0.58b0f69f.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12111459,
+          len: 81144,
+        },
+        "static/js/1.19c370e0.chunk.js": {
+          filename: "static/js/1.19c370e0.chunk.js",
+          contenttype: "text/javascript",
+          offset: 15495781,
+          len: 40203,
+        },
+        "static/js/1.19c370e0.chunk.js.map": {
+          filename: "static/js/1.19c370e0.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 7330179,
+          len: 104594,
+        },
+        "static/js/10.8ea29dcd.chunk.js": {
+          filename: "static/js/10.8ea29dcd.chunk.js",
+          contenttype: "text/javascript",
+          offset: 15483299,
+          len: 12345,
+        },
+        "static/js/10.8ea29dcd.chunk.js.map": {
+          filename: "static/js/10.8ea29dcd.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 14524416,
+          len: 30393,
+        },
+        "static/js/11.764b8915.chunk.js": {
+          filename: "static/js/11.764b8915.chunk.js",
+          contenttype: "text/javascript",
+          offset: 12208196,
+          len: 7103,
+        },
+        "static/js/11.764b8915.chunk.js.map": {
+          filename: "static/js/11.764b8915.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12192603,
+          len: 15593,
+        },
+        "static/js/12.88d4fbe5.chunk.js": {
+          filename: "static/js/12.88d4fbe5.chunk.js",
+          contenttype: "text/javascript",
+          offset: 12055261,
+          len: 16721,
+        },
+        "static/js/12.88d4fbe5.chunk.js.map": {
+          filename: "static/js/12.88d4fbe5.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 14460215,
+          len: 46695,
+        },
+        "static/js/13.ea207f69.chunk.js": {
+          filename: "static/js/13.ea207f69.chunk.js",
+          contenttype: "text/javascript",
+          offset: 7168280,
+          len: 347,
+        },
+        "static/js/13.ea207f69.chunk.js.map": {
+          filename: "static/js/13.ea207f69.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 6928538,
+          len: 563,
+        },
+        "static/js/14.d8bc0d4c.chunk.js": {
+          filename: "static/js/14.d8bc0d4c.chunk.js",
+          contenttype: "text/javascript",
+          offset: 12870711,
+          len: 336,
+        },
+        "static/js/14.d8bc0d4c.chunk.js.map": {
+          filename: "static/js/14.d8bc0d4c.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 15535984,
+          len: 527,
+        },
+        "static/js/15.e6215497.chunk.js": {
+          filename: "static/js/15.e6215497.chunk.js",
+          contenttype: "text/javascript",
+          offset: 15495644,
+          len: 137,
+        },
+        "static/js/15.e6215497.chunk.js.map": {
+          filename: "static/js/15.e6215497.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 6928431,
+          len: 107,
+        },
+        "static/js/2.f6da9598.chunk.js": {
+          filename: "static/js/2.f6da9598.chunk.js",
+          contenttype: "text/javascript",
+          offset: 14506910,
+          len: 17506,
+        },
+        "static/js/2.f6da9598.chunk.js.map": {
+          filename: "static/js/2.f6da9598.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12071982,
+          len: 39477,
+        },
+        "static/js/5.5cc0868a.chunk.js": {
+          filename: "static/js/5.5cc0868a.chunk.js",
+          contenttype: "text/javascript",
+          offset: 10199338,
+          len: 1842002,
+        },
+        "static/js/5.5cc0868a.chunk.js.LICENSE": {
+          filename: "static/js/5.5cc0868a.chunk.js.LICENSE",
+          contenttype: "application/octet-stream",
+          offset: 14554809,
+          len: 3119,
+        },
+        "static/js/5.5cc0868a.chunk.js.map": {
+          filename: "static/js/5.5cc0868a.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 289328,
+          len: 6632626,
+        },
+        "static/js/6.b7681521.chunk.js": {
+          filename: "static/js/6.b7681521.chunk.js",
+          contenttype: "text/javascript",
+          offset: 14237363,
+          len: 222852,
+        },
+        "static/js/6.b7681521.chunk.js.map": {
+          filename: "static/js/6.b7681521.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12215299,
+          len: 655412,
+        },
+        "static/js/7.0614dbc4.chunk.js": {
+          filename: "static/js/7.0614dbc4.chunk.js",
+          contenttype: "text/javascript",
+          offset: 6921954,
+          len: 6477,
+        },
+        "static/js/7.0614dbc4.chunk.js.map": {
+          filename: "static/js/7.0614dbc4.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12041340,
+          len: 13921,
+        },
+        "static/js/8.7975098c.chunk.js": {
+          filename: "static/js/8.7975098c.chunk.js",
+          contenttype: "text/javascript",
+          offset: 13796515,
+          len: 420712,
+        },
+        "static/js/8.7975098c.chunk.js.LICENSE": {
+          filename: "static/js/8.7975098c.chunk.js.LICENSE",
+          contenttype: "application/octet-stream",
+          offset: 13796191,
+          len: 324,
+        },
+        "static/js/8.7975098c.chunk.js.map": {
+          filename: "static/js/8.7975098c.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 12871047,
+          len: 925144,
+        },
+        "static/js/9.cc860b76.chunk.js": {
+          filename: "static/js/9.cc860b76.chunk.js",
+          contenttype: "text/javascript",
+          offset: 14557928,
+          len: 920812,
+        },
+        "static/js/9.cc860b76.chunk.js.LICENSE": {
+          filename: "static/js/9.cc860b76.chunk.js.LICENSE",
+          contenttype: "application/octet-stream",
+          offset: 15478740,
+          len: 4559,
+        },
+        "static/js/9.cc860b76.chunk.js.map": {
+          filename: "static/js/9.cc860b76.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 7434773,
+          len: 2764565,
+        },
+        "static/js/main.a7822f79.chunk.js": {
+          filename: "static/js/main.a7822f79.chunk.js",
+          contenttype: "text/javascript",
+          offset: 7168627,
+          len: 131523,
+        },
+        "static/js/main.a7822f79.chunk.js.map": {
+          filename: "static/js/main.a7822f79.chunk.js.map",
+          contenttype: "application/octet-stream",
+          offset: 6929101,
+          len: 239179,
+        },
+        "static/js/runtime-main.68d129c6.js": {
+          filename: "static/js/runtime-main.68d129c6.js",
+          contenttype: "text/javascript",
+          offset: 14217227,
+          len: 3546,
+        },
+        "static/js/runtime-main.68d129c6.js.map": {
+          filename: "static/js/runtime-main.68d129c6.js.map",
+          contenttype: "application/octet-stream",
+          offset: 14220773,
+          len: 16590,
+        },
+        "static/media/arrow-down-blue.cd061363.svg": {
+          filename: "static/media/arrow-down-blue.cd061363.svg",
+          contenttype: "image/svg+xml",
+          offset: 219284,
+          len: 326,
+        },
+        "static/media/arrow-down-grey.c0dedd2f.svg": {
+          filename: "static/media/arrow-down-grey.c0dedd2f.svg",
+          contenttype: "image/svg+xml",
+          offset: 196726,
+          len: 326,
+        },
+        "static/media/arrow-right-white.337ad716.png": {
+          filename: "static/media/arrow-right-white.337ad716.png",
+          contenttype: "image/png",
+          offset: 197052,
+          len: 12999,
+        },
+        "static/media/arrow-right.d285b6cf.svg": {
+          filename: "static/media/arrow-right.d285b6cf.svg",
+          contenttype: "image/svg+xml",
+          offset: 289065,
+          len: 263,
+        },
+        "static/media/circle-grey.ed2a1dad.svg": {
+          filename: "static/media/circle-grey.ed2a1dad.svg",
+          contenttype: "image/svg+xml",
+          offset: 210213,
+          len: 321,
+        },
+        "static/media/circle.2d975615.svg": {
+          filename: "static/media/circle.2d975615.svg",
+          contenttype: "image/svg+xml",
+          offset: 210534,
+          len: 321,
+        },
+        "static/media/coinbaseWalletIcon.62578f59.svg": {
+          filename: "static/media/coinbaseWalletIcon.62578f59.svg",
+          contenttype: "image/svg+xml",
+          offset: 220450,
+          len: 53626,
+        },
+        "static/media/dropdown-blue.b20914ec.svg": {
+          filename: "static/media/dropdown-blue.b20914ec.svg",
+          contenttype: "image/svg+xml",
+          offset: 47369,
+          len: 164,
+        },
+        "static/media/dropdown.7d32d2fa.svg": {
+          filename: "static/media/dropdown.7d32d2fa.svg",
+          contenttype: "image/svg+xml",
+          offset: 287941,
+          len: 164,
+        },
+        "static/media/dropup-blue.b96d70e1.svg": {
+          filename: "static/media/dropup-blue.b96d70e1.svg",
+          contenttype: "image/svg+xml",
+          offset: 210051,
+          len: 162,
+        },
+        "static/media/ethereum-logo.802c6eac.svg": {
+          filename: "static/media/ethereum-logo.802c6eac.svg",
+          contenttype: "image/svg+xml",
+          offset: 219610,
+          len: 840,
+        },
+        "static/media/magnifying-glass.67440097.svg": {
+          filename: "static/media/magnifying-glass.67440097.svg",
+          contenttype: "image/svg+xml",
+          offset: 210855,
+          len: 8429,
+        },
+        "static/media/metamask.023762b6.png": {
+          filename: "static/media/metamask.023762b6.png",
+          contenttype: "image/png",
+          offset: 61600,
+          len: 114217,
+        },
+        "static/media/plus-blue.e8021e51.svg": {
+          filename: "static/media/plus-blue.e8021e51.svg",
+          contenttype: "image/svg+xml",
+          offset: 196237,
+          len: 190,
+        },
+        "static/media/plus-grey.d8e0be7d.svg": {
+          filename: "static/media/plus-grey.d8e0be7d.svg",
+          contenttype: "image/svg+xml",
+          offset: 288875,
+          len: 190,
+        },
+        "static/media/portisIcon.b234b2bf.png": {
+          filename: "static/media/portisIcon.b234b2bf.png",
+          contenttype: "image/png",
+          offset: 274076,
+          len: 13865,
+        },
+        "static/media/question-mark.1ae4d9f4.svg": {
+          filename: "static/media/question-mark.1ae4d9f4.svg",
+          contenttype: "image/svg+xml",
+          offset: 175817,
+          len: 818,
+        },
+        "static/media/question.cc0a2451.svg": {
+          filename: "static/media/question.cc0a2451.svg",
+          contenttype: "image/svg+xml",
+          offset: 288105,
+          len: 770,
+        },
+        "static/media/spinner.be00fc4a.svg": {
+          filename: "static/media/spinner.be00fc4a.svg",
+          contenttype: "image/svg+xml",
+          offset: 47533,
+          len: 694,
+        },
+        "static/media/trustWallet.edcc1ab5.png": {
+          filename: "static/media/trustWallet.edcc1ab5.png",
+          contenttype: "image/png",
+          offset: 176635,
+          len: 19602,
+        },
+        "static/media/walletConnectIcon.8215855c.svg": {
+          filename: "static/media/walletConnectIcon.8215855c.svg",
+          contenttype: "image/svg+xml",
+          offset: 48227,
+          len: 13373,
+        },
+        "static/media/x.5b8e2186.svg": {
+          filename: "static/media/x.5b8e2186.svg",
+          contenttype: "image/svg+xml",
+          offset: 196427,
+          len: 299,
         },
       },
+    },
+    headers: {
+      "skynet-skylink": "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
       "content-disposition": 'inline; filename="build"',
       "content-type": "text/html",
     },
@@ -567,9 +568,9 @@ function developMomentumCheck(done) {
     name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/",
     bodyHash: developMomentumBodyHash,
+    // metadata: developMomentumMetadata,
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
-      "skynet-file-metadata": developMomentumMetadata,
       "content-disposition": 'inline; filename="output"',
       "content-type": "text/html",
     },
@@ -582,12 +583,12 @@ function developMomentumCheck(done) {
 // for the Develop Momentum Application without the tailing slash
 function developMomentumRedirectCheck(done) {
   const linkInfo = {
-    name: "Develop Momentum Index File",
+    name: "Develop Momentum Index File - no trailing slash",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
     bodyHash: developMomentumBodyHash,
+    metadata: developMomentumMetadata,
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
-      "skynet-file-metadata": developMomentumMetadata,
       "content-disposition": 'inline; filename="output"',
       "content-type": "text/html",
     },
@@ -603,13 +604,13 @@ function developMomentumIndexFileCheck(done) {
     name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html",
     bodyHash: developMomentumBodyHash,
+    // metadata: {
+    //   filename: "/index.html",
+    //   length: 4981,
+    //   subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 4981 } },
+    // },
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
-      "skynet-file-metadata": {
-        filename: "/index.html",
-        length: 4981,
-        subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 4981 } },
-      },
       "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html; charset=utf-8",
     },
@@ -625,9 +626,9 @@ function htmlExampleCheck(done) {
     name: "HTML Example",
     skylink: "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw",
     bodyHash: "ecffcfbb74e017698cad30a91a74b9ba0b046413",
+    metadata: { filename: "introduction – Sia API Documentation.html" },
     headers: {
       "skynet-skylink": "PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw",
-      "skynet-file-metadata": { filename: "introduction â\x80\x93 Sia API Documentation.html" },
       "content-disposition": 'inline; filename="introduction â\x80\x93 Sia API Documentation.html"',
       "content-type": "text/html; charset=utf-8",
     },
@@ -643,9 +644,9 @@ function imageExampleCheck(done) {
     name: "Image Example",
     skylink: "IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ",
     bodyHash: "e318667a9d53a45a9d010ac4e0d120ad064279ac",
+    metadata: { filename: "sia-lm.png" },
     headers: {
       "skynet-skylink": "IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ",
-      "skynet-file-metadata": { filename: "sia-lm.png" },
       "content-disposition": 'inline; filename="sia-lm.png"',
       "content-type": "image/png",
     },
@@ -661,9 +662,9 @@ function jsonExampleCheck(done) {
     name: "JSON Example",
     skylink: "AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ",
     bodyHash: "b514603ce8acd937197712700e21259f18a857d6",
+    metadata: { filename: "consensus.json" },
     headers: {
       "skynet-skylink": "AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ",
-      "skynet-file-metadata": { filename: "consensus.json" },
       "content-disposition": 'inline; filename="consensus.json"',
       "content-type": "application/json",
     },
@@ -679,9 +680,9 @@ function pdfExampleCheck(done) {
     name: "PDF Example",
     skylink: "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
     bodyHash: "7e079f7afc9e5bc0c1be04543e22ac552a14a8da",
+    metadata: { filename: "sia.pdf" },
     headers: {
       "skynet-skylink": "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
-      "skynet-file-metadata": { filename: "sia.pdf" },
       "content-disposition": 'inline; filename="sia.pdf"',
       "content-type": "application/pdf",
     },
@@ -696,12 +697,12 @@ function skyBayCheck(done) {
     name: "SkyBay",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA/",
     bodyHash: "dfc0b1d3d1113254d7545d19f6118855ed9c778b",
+    metadata: {
+      filename: "skybay.html",
+      subfiles: { "skybay.html": { filename: "skybay.html", contenttype: "text/html", len: 11655 } },
+    },
     headers: {
       "skynet-skylink": "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
-      "skynet-file-metadata": {
-        filename: "skybay.html",
-        subfiles: { "skybay.html": { filename: "skybay.html", contenttype: "text/html", len: 11655 } },
-      },
       "content-disposition": 'inline; filename="skybay.html"',
       "content-type": "text/html",
     },
@@ -717,12 +718,12 @@ function skyBayRedirectCheck(done) {
     name: "SkyBay Redirect",
     skylink: "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
     bodyHash: "dfc0b1d3d1113254d7545d19f6118855ed9c778b",
+    metadata: {
+      filename: "skybay.html",
+      subfiles: { "skybay.html": { filename: "skybay.html", contenttype: "text/html", len: 11655 } },
+    },
     headers: {
       "skynet-skylink": "EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA",
-      "skynet-file-metadata": {
-        filename: "skybay.html",
-        subfiles: { "skybay.html": { filename: "skybay.html", contenttype: "text/html", len: 11655 } },
-      },
       "content-disposition": 'inline; filename="skybay.html"',
       "content-type": "text/html",
     },
@@ -737,9 +738,9 @@ function skyBinCheck(done) {
     name: "SkyBin",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA/",
     bodyHash: "858ff733c4cb06a80060b8a62cf303fd5a051651",
+    metadata: { filename: "skybin.html" },
     headers: {
       "skynet-skylink": "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
-      "skynet-file-metadata": { filename: "skybin.html" },
       "content-disposition": 'inline; filename="skybin.html"',
       "content-type": "text/html; charset=utf-8",
     },
@@ -755,9 +756,9 @@ function skyBinRedirectCheck(done) {
     name: "SkyBin Redirect",
     skylink: "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
     bodyHash: "858ff733c4cb06a80060b8a62cf303fd5a051651",
+    metadata: { filename: "skybin.html" },
     headers: {
       "skynet-skylink": "CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA",
-      "skynet-file-metadata": { filename: "skybin.html" },
       "content-disposition": 'inline; filename="skybin.html"',
       "content-type": "text/html; charset=utf-8",
     },
@@ -775,9 +776,9 @@ function skyGalleryCheck(done) {
     name: "SkyGallery",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/",
     bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-      "skynet-file-metadata": skyGalleryMetadata,
       "content-disposition": 'inline; filename="skygallery-v0.1.1-76c4c115fcb526716b2564568850f433"',
       "content-type": "text/html",
     },
@@ -793,13 +794,13 @@ function skyGalleryIndexFileCheck(done) {
     name: "SkyGallery Index File",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html",
     bodyHash: skyGalleryBodyHash,
+    // metadata: {
+    //   filename: "/index.html",
+    //   length: 2534,
+    //   subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 2534 } },
+    // },
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-      "skynet-file-metadata": {
-        filename: "/index.html",
-        length: 2534,
-        subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 2534 } },
-      },
       "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html; charset=utf-8",
     },
@@ -815,9 +816,9 @@ function skyGalleryRedirectCheck(done) {
     name: "SkyGallery Redirect",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
     bodyHash: skyGalleryBodyHash,
+    metadata: skyGalleryMetadata,
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-      "skynet-file-metadata": skyGalleryMetadata,
       "content-disposition": 'inline; filename="skygallery-v0.1.1-76c4c115fcb526716b2564568850f433"',
       "content-type": "text/html",
     },
@@ -833,18 +834,18 @@ function uncensoredLibraryCheck(done) {
     name: "Unzip The Uncensored Library Map",
     skylink: "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
     bodyHash: "cd0377661eefd656c8b46c497aa03112393ba893",
-    headers: {
-      "skynet-skylink": "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
-      "skynet-file-metadata": {
-        filename: "Unzip_The_Uncensored_Library_Map.zip",
-        subfiles: {
-          "Unzip_The_Uncensored_Library_Map.zip": {
-            filename: "Unzip_The_Uncensored_Library_Map.zip",
-            contenttype: "application/zip",
-            len: 76744822,
-          },
+    metadata: {
+      filename: "Unzip_The_Uncensored_Library_Map.zip",
+      subfiles: {
+        "Unzip_The_Uncensored_Library_Map.zip": {
+          filename: "Unzip_The_Uncensored_Library_Map.zip",
+          contenttype: "application/zip",
+          len: 76744822,
         },
       },
+    },
+    headers: {
+      "skynet-skylink": "AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ",
       "content-disposition": 'inline; filename="Unzip_The_Uncensored_Library_Map.zip"',
       "content-type": "application/zip",
     },
@@ -858,18 +859,18 @@ function uncensoredLibraryPressReleaseCheck(done) {
     name: "The Uncensored Library - Press Release",
     skylink: "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
     bodyHash: "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-    headers: {
-      "skynet-skylink": "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
-      "skynet-file-metadata": {
-        filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
-        subfiles: {
-          "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip": {
-            filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
-            contenttype: "application/zip",
-            len: 383501533,
-          },
+    metadata: {
+      filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
+      subfiles: {
+        "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip": {
+          filename: "press-release-Reporters-Without-Borders-The-Uncensored-Library.zip",
+          contenttype: "application/zip",
+          len: 383501533,
         },
       },
+    },
+    headers: {
+      "skynet-skylink": "AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA",
       "content-disposition": 'inline; filename="press-release-Reporters-Without-Borders-The-Uncensored-Library.zip"',
       "content-type": "application/zip",
     },
@@ -884,18 +885,18 @@ function uncensoredLibraryV2Check(done) {
     name: "The Uncensored Library V2",
     skylink: "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
     bodyHash: "f2a802c2b7482825613a08853538203a53c96bd1",
-    headers: {
-      "skynet-skylink": "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
-      "skynet-file-metadata": {
-        filename: "The Uncensored Library V2.zip",
-        subfiles: {
-          "The Uncensored Library V2.zip": {
-            filename: "The Uncensored Library V2.zip",
-            contenttype: "application/zip",
-            len: 101262134,
-          },
+    metadata: {
+      filename: "The Uncensored Library V2.zip",
+      subfiles: {
+        "The Uncensored Library V2.zip": {
+          filename: "The Uncensored Library V2.zip",
+          contenttype: "application/zip",
+          len: 101262134,
         },
       },
+    },
+    headers: {
+      "skynet-skylink": "AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw",
       "content-disposition": 'inline; filename="The Uncensored Library V2.zip"',
       "content-type": "application/zip",
     },
@@ -1020,9 +1021,9 @@ function fileEndpointCheck(done) {
     name: "File endpoint check",
     skylink: "file/XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
     bodyHash: "7e079f7afc9e5bc0c1be04543e22ac552a14a8da",
+    // metadata: { filename: "sia2.pdf" },
     headers: {
       "skynet-skylink": "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg",
-      "skynet-file-metadata": { filename: "sia.pdf" },
       "content-disposition": 'attachment; filename="sia.pdf"',
       "content-type": "application/pdf",
     },
@@ -1093,6 +1094,27 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
       });
     }
 
+    if (expected.metadata && expected.skylink) {
+      const skylink = parseSkylink(expected.skylink);
+      const url = `${process.env.SKYNET_PORTAL_API}/skynet/metadata/${skylink}`;
+      try {
+        const metadata = await got(url).json();
+        if (!isEqual(expected.metadata, metadata)) {
+          entry.up = false;
+          info.metadata = { url, diff: ensureValidJSON(detailedDiff(expected.metadata, metadata)) };
+        }
+      } catch (error) {
+        entry.up = false;
+        info.metadata = {
+          url,
+          ip: error?.response?.ip ?? null,
+          statusCode: error?.response?.statusCode || error.statusCode || error.status,
+          errorMessage: error.message,
+          errorResponseContent: getResponseContent(error.response),
+        };
+      }
+    }
+
     if (Object.keys(info).length) entry.info = info; // add info only if it exists
 
     done(entry); // Return the entry information
@@ -1100,6 +1122,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
     done({
       ...details,
       up: false,
+      ip: error?.response?.ip ?? null,
       statusCode: error?.response?.statusCode || error.statusCode || error.status,
       errorMessage: error.message,
       errorResponseContent: getResponseContent(error.response),
