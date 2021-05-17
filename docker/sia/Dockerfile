@@ -10,8 +10,7 @@ RUN make release --directory Sia
 
 FROM nebulouslabs/sia:latest
 
-COPY --from=sia-builder /go/bin/sky* /usr/bin/
-COPY --from=sia-builder /go/bin/sia* /usr/bin/
+COPY --from=sia-builder /go/bin/ /usr/bin/
 
 RUN mv /usr/bin/skyd /usr/bin/siad || true && \
     mv /usr/bin/skyc /usr/bin/siac || true
