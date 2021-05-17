@@ -37,7 +37,7 @@
     "gatsby-source-filesystem": "^3.4.0",
     "gatsby-transformer-json": "^3.4.0",
     "gatsby-transformer-remark": "^4.1.0",
-    "gatsby-transformer-sharp": "^3.4.0",
+    "gatsby-transformer-sharp": "^3.5.0",
     "gatsby-transformer-yaml": "^3.4.0",
     "gbimage-bridge": "^0.1.4",
     "http-status-codes": "^2.1.4",
