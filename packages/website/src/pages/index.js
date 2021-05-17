@@ -46,8 +46,7 @@ const ecosystemCards = [
   {
     Icon: SkynetSiaSmall,
     title: "Free to use",
-    text:
-      "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
+    text: "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
   },
   {
     Icon: SkynetMonetizationSmall,
