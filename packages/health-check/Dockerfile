@@ -1,4 +1,4 @@
-FROM node:15.14.0-alpine
+FROM node:16.1.0-alpine
 
 WORKDIR /usr/app
 
@@ -7,9 +7,9 @@ RUN yarn --no-lockfile
 COPY src src
 COPY cli cli
 
-RUN echo '*/5 * * * * /usr/app/cli/run critical' >> /etc/crontabs/root
-RUN echo '0 * * * * /usr/app/cli/run verbose' >> /etc/crontabs/root
+RUN echo '*/5 * * * * /usr/app/cli/run critical > /dev/stdout' >> /etc/crontabs/root
+RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/root
 
 EXPOSE 3100
 ENV NODE_ENV production
-CMD [ "sh", "-c", "crond ; node --max-http-header-size=64000 src/index.js" ]
+CMD [ "sh", "-c", "crond ; echo $(node src/whatismyip.js) siasky.net account.siasky.net >> /etc/hosts ; node --max-http-header-size=64000 src/index.js" ]

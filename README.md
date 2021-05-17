@@ -169,7 +169,6 @@ Steps:
 
 There is some configuration that needs to be added to your `.env`file, namely:
 
-1. CR_NODE - the name of your node
 1. CR_IP - the public IP of your node
 1. CR_CLUSTER_NODES - a list of IPs and ports which make up your cluster, e.g.
    `95.216.13.185:26257,147.135.37.21:26257,144.76.136.122:26257`. This will be the list of nodes that will make up your

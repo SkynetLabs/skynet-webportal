@@ -19,32 +19,27 @@ const reasonCards = [
   {
     Icon: DataSwap,
     title: "Immutable Data, Globally Available & Trustless",
-    text:
-      "Our immutable data layer means files are instantly accessible on any device, by any portal and are fully verifiable, by leveraging trustless, decentralized storage on the Sia blockchain.",
+    text: "Our immutable data layer means files are instantly accessible on any device, by any portal and are fully verifiable, by leveraging trustless, decentralized storage on the Sia blockchain.",
   },
   {
     Icon: Encryption,
     title: "Dynamic Content with a User-Focus",
-    text:
-      "SkyDB enables complex apps by providing a key-value store for mutable data secured by the private key of the user.",
+    text: "SkyDB enables complex apps by providing a key-value store for mutable data secured by the private key of the user.",
   },
   {
     Icon: Layers,
     title: "BYO Frontend Library",
-    text:
-      "Our SDKs are built with web2 developers in mind. Client-side web apps and static generators are perfect for using Skynet to deploy with.",
+    text: "Our SDKs are built with web2 developers in mind. Client-side web apps and static generators are perfect for using Skynet to deploy with.",
   },
   {
     Icon: Mesh,
     title: "Decentralized Stack-Friendly",
-    text:
-      "With integrations with HNS & ENS, along with easy-access for off-chain storage, Skynet is positioned to connect with the DWeb and web3 technologies you need.",
+    text: "With integrations with HNS & ENS, along with easy-access for off-chain storage, Skynet is positioned to connect with the DWeb and web3 technologies you need.",
   },
   {
     Icon: Toolkit,
     title: "Hack Today & Activate an Existing User Base",
-    text:
-      "Start building without worrying about server overhead costs or where users will come from. Bootstrap the user experience with interoperable storage and user-identity – right out of the box.",
+    text: "Start building without worrying about server overhead costs or where users will come from. Bootstrap the user experience with interoperable storage and user-identity – right out of the box.",
   },
 ];
 

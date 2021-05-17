@@ -1,30 +1,41 @@
-(custom.domain) {
-    {$DOMAIN_NAME} {
-        tls {$EMAIL_ADDRESS}
-        reverse_proxy nginx:80
+# This block below is optional if you want to generate an internal certificate for the server ip address.
+# It is useful in case you have services trying to reach the server through ip and not domain like health checks.
+# It will generate an internal certificate so browsers will warn you when connecting but that not a problem.
+
+:443 {
+    tls internal {
+        on_demand
     }
+
+    reverse_proxy nginx:80
 }
 
-(siasky.net) {
-    siasky.net, *.siasky.net, *.hns.siasky.net {
-        tls {
-            dns route53 {
-                max_retries 50
-            }
+# Make sure you have SSL_CERTIFICATE_STRING specified in .env file because you need it to fetch correct certificates.
+# It needs to have at least 3 parts, the absolute part (ie. example.com), the wildcard part (ie. *.example.com) and
+# the hns wildcard part (ie. *.hns.example.com). The resulting string should look like:
+# example.com, *.example.com, *.hns.example.com
+# In addition, if you are running multiple servers for the single portal like we do on siasky.net, you might want to
+# add an aliased string that is going to help you access and distinguish between servers, the result would look like:
+# example.com, *.example.com, *.hns.example.com, *.germany.example.com, *.hns.germany.example.com
+# Note that you don't need to specify the absolute part for the alias since it's already covered in the wildcard part 
+# of the original certificate string (*.example.com).
+
+{$SSL_CERTIFICATE_STRING} {
+    # If you want to use basic http-01 (basic, good for one server setup) certificate challenge
+    # then uncomment the line below and make sure you have EMAIL_ADDRESS specified in .env file
+    # and comment the tls block that contains the dns challenge configuration.
+
+    # tls {$EMAIL_ADDRESS}
+
+    tls {
+        # We are using route53 as our dns provider and it requires additional AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+        # environment variables in .env file. You can use other providers by using specific package from
+        # https://github.com/caddy-dns in the docker/caddy/Dockerfile instead of our route53 one.
+
+        dns route53 {
+            max_retries 50
         }
-        reverse_proxy nginx:80
     }
-}
 
-(localhost) {
-    :443 {
-        tls internal {
-            on_demand
-        }
-        reverse_proxy nginx:80
-    }
+    reverse_proxy nginx:80
 }
-
-import localhost
-# import custom.domain
-# import siasky.net

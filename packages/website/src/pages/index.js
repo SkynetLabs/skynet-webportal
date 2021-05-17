@@ -36,14 +36,12 @@ const ecosystemCards = [
   {
     Icon: SkynetUsageSmall,
     title: "Easy to use",
-    text:
-      "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
+    text: "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
   },
   {
     Icon: SkynetSpeedSmall,
     title: "Fast",
-    text:
-      "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
+    text: "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
   },
   {
     Icon: SkynetSiaSmall,
@@ -54,14 +52,12 @@ const ecosystemCards = [
   {
     Icon: SkynetMonetizationSmall,
     title: "Monetization",
-    text:
-      "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
+    text: "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
   },
   {
     Icon: SkynetPersistenceSmall,
     title: "Persistence",
-    text:
-      "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
+    text: "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
   },
 ];
 
@@ -109,7 +105,7 @@ const IndexPage = () => {
 
         <div className="flex flex-col items-center mt-16">
           <p className="max-w-screen-md text-center text-base font-content text-palette-400">
-            Skynet apps pave the way for a new web that priorities the privacy, security, and experience of users. Join
+            Skynet apps pave the way for a new web that prioritizes the privacy, security, and experience of users. Join
             our decentralized ecosystem and revolution.
           </p>
 

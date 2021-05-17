@@ -48,8 +48,8 @@ You a can now ssh into your machine as the user `user`.
 **Following step will be executed on remote host logged in as a `user`:**
 
 1. `sudo apt-get install git -y` to install git
-1. `git clone https://github.com/NebulousLabs/skynet-webportal`
-1. `cd skynet-webportal` 
+1. `git clone https://github.com/SkynetLabs/skynet-webportal`
+1. `cd skynet-webportal`
 1. run setup scripts in the exact order and provide sudo password when asked (if one of them fails, you can retry just this one before proceeding further)
    1. `/home/user/skynet-webportal/setup-scripts/setup-server.sh`
    1. `/home/user/skynet-webportal/setup-scripts/setup-docker-services.sh`
@@ -81,14 +81,15 @@ At this point we have almost everything running, we just need to set up your wal
 ### Step 4: configuring docker services
 
 1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
-   - `DOMAIN_NAME` (optional) is your domain name if you have it
-   - `EMAIL_ADDRESS` (required) is your email address used for communication regarding SSL certification (required)
-   - `SIA_WALLET_PASSWORD` (required) is your wallet password (or seed if you did not set a password)
-   - `HSD_API_KEY` (optional) this is a random security key for a handshake integration that gets generated automatically
+
+   - `SSL_CERTIFICATE_STRING` is a list of comma separated paths that caddy will generate ssl certificates for
+   - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification (required if you're using http-01 challenge)
+   - `SIA_WALLET_PASSWORD` is your wallet password (or seed if you did not set a password)
+   - `HSD_API_KEY` this is a random security key for a handshake integration that gets generated automatically
    - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
-   - `PORTAL_NAME` (optional) e.g. `siasky.xyz`
+   - `PORTAL_NAME` a string representing name of your portal e.g. `siasky.xyz` or `my skynet portal`
    - `DISCORD_BOT_TOKEN` (optional) if you're using Discord notifications for health checks and such
    - `SKYNET_DB_USER` (optional) if using `accounts` this is the MongoDB username
    - `SKYNET_DB_PASS` (optional) if using `accounts` this is the MongoDB password
@@ -100,8 +101,6 @@ At this point we have almost everything running, we just need to set up your wal
    - `S3_BACKUP_PATH` (optional) is using `accounts` and backing up the databases to S3. This path should be an S3 bucket
      with path to the location in the bucket where we want to store the daily backups.
 
-1. if you have a custom domain and you configured it in `DOMAIN_NAME`, edit `/home/user/skynet-webportal/docker/caddy/Caddyfile` and uncomment `import custom.domain`
-1. only for siasky.net domain instances: edit `/home/user/skynet-webportal/docker/caddy/Caddyfile`, uncomment `import siasky.net`
 1. `docker-compose up -d` to restart the services so they pick up new env variables
 1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
 1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.
@@ -120,15 +119,16 @@ To configure this on your portal, you have to make sure to configure the followi
 
 We need to ensure SSL encryption for skapps that are accessed through their
 subdomain, therefore we need to have a wildcard certificate. This is very easily
-achieved using Caddy.
+achieved using wildcard certificates in Caddy.
 
 ```
-(siasky.net) {
-    siasky.net, *.siasky.net, *.hns.siasky.net {
-        ...
-    }
+{$SSL_CERTIFICATE_STRING} {
+    ...
 }
 ```
+
+Where `SSL_CERTIFICATE_STRING` environment variable should contain the wildcard for subdomains (ie. _.example.com) and
+wildcard for hns subdomains (ie. _.hns.example.com).
 
 (see [docker/caddy/Caddyfile](../docker/Caddy/Caddyfile))
 
