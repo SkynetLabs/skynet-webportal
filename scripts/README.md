@@ -2,7 +2,8 @@
 
 This package contains useful scripts for managing a Skynet Webportal.
 
-## Available Scripts 
+## Available Scripts
+
 **blocklist-skylink.sh**\
 The `blocklist-skylink.sh` script adds a skylink to the blocklist on all
 servers.
@@ -29,11 +30,12 @@ The `portal-upgrade.sh` script upgrades the docker images for a portal and
 clears and leftover images.
 
 ## Webportal Upgrade Procedures
+
 TODO...
+
 1. 1 server upgraded at a time
 1. Clusters of servers upgraded at a time
 1. How to safetly revert to previous stable version. Document what those
    versions were.
 1. Upgrading single subsystem
 1. Upgrading multiple subsystems
-

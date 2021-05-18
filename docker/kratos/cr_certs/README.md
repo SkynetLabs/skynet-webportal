@@ -4,4 +4,4 @@ outlined in the README in the root directory, under "Setting up CockroachDB".
 The only difference between the files here and those under
 `docker/cockroach/certs` is that the files here need to be readable by anyone, while the files under `cockroach` need to
 have their original access rights
-(all *.key files should be 600 instead of 644 there).
+(all \*.key files should be 600 instead of 644 there).

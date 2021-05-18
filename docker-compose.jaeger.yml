@@ -1,10 +1,10 @@
-version: '3.7'
+version: "3.7"
 
 services:
   sia:
     environment:
-      - JAEGER_DISABLED=${JAEGER_DISABLED:-true}  # Enable/Disable tracing
-      - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd}  # change to e.g. eu-ger-1
+      - JAEGER_DISABLED=${JAEGER_DISABLED:-true} # Enable/Disable tracing
+      - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd} # change to e.g. eu-ger-1
       # Configuration
       # See https://github.com/jaegertracing/jaeger-client-go#environment-variables
       # for all options.
@@ -16,7 +16,11 @@ services:
 
   jaeger-agent:
     image: jaegertracing/jaeger-agent
-    command: [ "--reporter.grpc.host-port=jaeger-collector:14250", "--reporter.grpc.retry.max=1000" ]
+    command:
+      [
+        "--reporter.grpc.host-port=jaeger-collector:14250",
+        "--reporter.grpc.retry.max=1000",
+      ]
     container_name: jaeger-agent
     restart: on-failure
     expose:
