@@ -26,6 +26,15 @@ sudo ufw logging low # enable logging for debugging purpose: tail -f /var/log/uf
 sudo ufw allow ssh # allow ssh connection to server
 sudo ufw allow 80,443/tcp # allow http and https ports
 
+# Block outgoing traffic to local networks
+# https://community.hetzner.com/tutorials/block-outgoing-traffic-to-private-networks
+sudo ufw deny out from any to 10.0.0.0/8
+sudo ufw deny out from any to 172.16.0.0/12
+sudo ufw deny out from any to 192.168.0.0/16
+sudo ufw deny out from any to 100.64.0.0/10
+sudo ufw deny out from any to 198.18.0.0/15
+sudo ufw deny out from any to 169.254.0.0/16
+
 # OPTIONAL: terminfo for alacritty terminal via ssh
 # If you don't use the alacritty terminal you can remove this step.
 wget -c https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info
