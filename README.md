@@ -17,12 +17,10 @@ List of available parameters:
 
 ## License
 
-Skynet uses a custom [License](./LICENSE.md). The Skynet License is a source
-code license that allows you to use, modify and distribute the software, but
-you must preserve the payment mechanism in the software.
+Skynet uses a custom [License](./LICENSE.md). The Skynet License is a source code license that allows you to use, modify
+and distribute the software, but you must preserve the payment mechanism in the software.
 
-For the purposes of complying with our code license, you can use the
-following Siacoin address:
+For the purposes of complying with our code license, you can use the following Siacoin address:
 
 `fb6c9320bc7e01fbb9cd8d8c3caaa371386928793c736837832e634aaaa484650a3177d6714a`
 
@@ -38,10 +36,11 @@ Mongo needs a couple of extra steps in order to start a secure cluster.
 - Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
   a password (example below).
 - During the initialisation run mentioned above, we need to make two extra steps within the container:
-  - Change the ownership of `mgkey` to `mongodb:mongodb`
-  - Change its permissions to 400
-- After these steps are done we can open a mongo shell on the master node and run `rs.add()` in order to add the new
-  node to the cluster.
+    - Change the ownership of `mgkey` to `mongodb:mongodb`
+    - Change its permissions to 400
+- After these steps are done we can open a mongo shell on the primary node and run `rs.add()` in order to add the new
+  node to the cluster. If you don't know which node is primary, log onto any server and jump into the Mongo's container
+  (`docker exec -it mongo mongo -u admin -p`) and then get the status of the replica set (`rs.status()`).
 
 Example initialisation docker run command:
 
@@ -166,6 +165,9 @@ Steps:
    so they can be read by anyone (644).
 
 #### Configure your CockroachDB node
+
+Open port 26257 on all nodes that will take part in the cluster. Ideally, you would only open the port for the other
+nodes in the cluster.
 
 There is some configuration that needs to be added to your `.env`file, namely:
 
