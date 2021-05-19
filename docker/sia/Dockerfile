@@ -8,7 +8,7 @@ ARG branch=portal-latest
 RUN git clone https://gitlab.com/SkynetLabs/skyd.git Sia --single-branch --branch ${branch}
 RUN make release --directory Sia
 
-FROM nebulouslabs/sia:latest
+FROM firyx/sia-dev-user:latest
 
 COPY --from=sia-builder /go/bin/ /usr/bin/
 
