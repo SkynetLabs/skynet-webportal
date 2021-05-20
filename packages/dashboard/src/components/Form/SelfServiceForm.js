@@ -37,9 +37,8 @@ export default function SelfServiceForm({ flow, config, fieldsConfig, title, but
                       "border-gray-300 placeholder-gray-400 focus:ring-green-500 focus:border-green-500": !Boolean(
                         field?.messages?.length
                       ),
-                      "border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500": Boolean(
-                        field?.messages?.length
-                      ),
+                      "border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500":
+                        Boolean(field?.messages?.length),
                     }
                   )}
                 />
