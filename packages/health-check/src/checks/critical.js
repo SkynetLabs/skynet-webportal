@@ -47,7 +47,7 @@ async function downloadCheck(done) {
 async function skylinkSubdomainCheck(done) {
   const url = await skynetClient.getSkylinkUrl(exampleSkylink, { subdomain: true });
 
-  return genericAccessCheck("skylink_via_subdomain", done);
+  return genericAccessCheck("skylink_via_subdomain", url, done);
 }
 
 // skylinkSubdomainCheck returns the result of downloading the hard coded link via subdomain
