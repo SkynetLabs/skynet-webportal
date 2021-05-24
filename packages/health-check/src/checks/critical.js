@@ -50,13 +50,19 @@ async function skylinkSubdomainCheck(done) {
   return genericAccessCheck("skylink_via_subdomain", url, done);
 }
 
-// skylinkSubdomainCheck returns the result of downloading the hard coded link via subdomain
+// handshakeSubdomainCheck returns the result of downloading the skylink via handshake domain
 async function handshakeSubdomainCheck(done) {
   const url = await skynetClient.getHnsUrl("note-to-self", { subdomain: true });
 
   return genericAccessCheck("hns_via_subdomain", url, done);
 }
 
+// handshakeSubdomainCheck returns the result of accessing account dashboard website
+async function accountWebsiteCheck(done) {
+  return genericAccessCheck("account_website", process.env.SKYNET_DASHBOARD_URL, done);
+}
+
+// accountHealthCheck returns the result of accounts service health checks
 async function accountHealthCheck(done) {
   const time = process.hrtime();
   const data = { up: false };
@@ -75,11 +81,7 @@ async function accountHealthCheck(done) {
     data.ip = error?.response?.ip ?? null;
   }
 
-  done({
-    name: "account_health",
-    time: calculateElapsedTime(time),
-    ...data,
-  });
+  done({ name: "accounts", time: calculateElapsedTime(time), ...data });
 }
 
 async function genericAccessCheck(name, url, done) {
@@ -105,7 +107,7 @@ async function genericAccessCheck(name, url, done) {
 const checks = [uploadCheck, websiteCheck, downloadCheck, skylinkSubdomainCheck, handshakeSubdomainCheck];
 
 if (process.env.ACCOUNTS_ENABLED) {
-  checks.push(accountHealthCheck);
+  checks.push(accountHealthCheck, accountWebsiteCheck);
 }
 
 module.exports = checks;
