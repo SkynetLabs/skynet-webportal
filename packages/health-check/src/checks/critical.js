@@ -57,7 +57,7 @@ async function handshakeSubdomainCheck(done) {
   return genericAccessCheck("hns_via_subdomain", url, done);
 }
 
-// handshakeSubdomainCheck returns the result of accessing account dashboard website
+// accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
   const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
 
