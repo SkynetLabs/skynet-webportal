@@ -2,7 +2,7 @@ if ($request_method = 'OPTIONS') {
     more_set_headers 'Access-Control-Allow-Origin: $http_origin';
     more_set_headers 'Access-Control-Allow-Credentials: true';
     more_set_headers 'Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE';
-    more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,X-HTTP-Method-Override,upload-offset,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
+    more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,X-HTTP-Method-Override,upload-offset,upload-metadata,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
     more_set_headers 'Access-Control-Max-Age: 1728000';
     more_set_headers 'Content-Type: text/plain; charset=utf-8';
     more_set_headers 'Content-Length: 0';
@@ -12,5 +12,5 @@ if ($request_method = 'OPTIONS') {
 more_set_headers 'Access-Control-Allow-Origin: $http_origin';
 more_set_headers 'Access-Control-Allow-Credentials: true';
 more_set_headers 'Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE';
-more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,X-HTTP-Method-Override,upload-offset,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
-more_set_headers 'Access-Control-Expose-Headers: Content-Length,Content-Range,Skynet-File-Metadata,Skynet-Skylink,Skynet-Portal-Api,upload-offset,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
+more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,X-HTTP-Method-Override,upload-offset,upload-metadata,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
+more_set_headers 'Access-Control-Expose-Headers: Content-Length,Content-Range,Skynet-File-Metadata,Skynet-Skylink,Skynet-Portal-Api,upload-offset,upload-metadata,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
