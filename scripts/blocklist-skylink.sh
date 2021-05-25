@@ -32,11 +32,13 @@ fi
 #########################################################################
 # iterate through all servers, block the skylinks and purge it from cache
 #########################################################################
-declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.siasky.net" "eu-ger-4.siasky.net"
-                      "eu-fin-1.siasky.net" "eu-fin-2.siasky.net"
+declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.siasky.net" "eu-ger-4.siasky.net" "eu-ger-5.siasky.net" "eu-ger-6.siasky.net" "eu-ger-7.siasky.net" "eu-ger-8siasky.net"
+                      "eu-fin-1.siasky.net" "eu-fin-2.siasky.net" "eu-fin-3.siasky.net" "eu-fin-4.siasky.net"
+                      "eu-pol-1.siasky.net" "eu-pol-2.siasky.net" "eu-pol-3.siasky.net"
                       "us-or-1.siasky.net" "us-or-2.siasky.net"
                       "us-pa-1.siasky.net" "us-pa-2.siasky.net"
-                      "us-va-1.siasky.net"
+                      "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net"
+                      "as-hk-1.siasky.net"
                       "siasky.xyz" "siasky.dev")
 for server in "${servers[@]}";
 do
