@@ -19,7 +19,7 @@ services:
       context: ./docker/sia
       dockerfile: Dockerfile
       args:
-        branch: v1.5.5
+        branch: portal-latest
     container_name: sia
     restart: unless-stopped
     logging: *default-logging
