@@ -4,6 +4,9 @@ if [ -f .env ]; then
   export $(cat .env | sed 's/#.*//g' | xargs)
 fi
 
+# include base docker compose file
+COMPOSE_FILES="-f docker-compose.yml"
+
 for i in $(seq 1 ${#PORTAL_MODULES}); do
   # accounts module - alias "a"
   if [ ${PORTAL_MODULES:i-1:1} == "a" ]; then
