@@ -108,7 +108,7 @@ async function genericAccessCheck(name, url, done) {
 
 const checks = [uploadCheck, websiteCheck, downloadCheck, skylinkSubdomainCheck, handshakeSubdomainCheck];
 
-if (process.env.ACCOUNTS_ENABLED) {
+if (process.env.ACCOUNTS_ENABLED === "1") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
 }
 
