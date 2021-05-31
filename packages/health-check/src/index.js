@@ -4,7 +4,7 @@ if (!process.env.SKYNET_PORTAL_API) {
   throw new Error("You need to provide SKYNET_PORTAL_API environment variable");
 }
 
-if (process.env.ACCOUNTS_ENABLED && !process.env.SKYNET_DASHBOARD_URL) {
+if (process.env.ACCOUNTS_ENABLED === "1" && !process.env.SKYNET_DASHBOARD_URL) {
   throw new Error("You need to provide SKYNET_DASHBOARD_URL environment variable when accounts are enabled");
 }
 
