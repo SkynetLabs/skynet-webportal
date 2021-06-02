@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# replace {SSL_CERTIFICATE_STRING} with env variable and since it's a list of multiple values, expand it to fit an array
+sed -i -e "s/{SSL_CERTIFICATE_STRING}/$(echo $SSL_CERTIFICATE_STRING | sed -e 's/,[ ]*/", "/g')/" /etc/caddy/caddy.json

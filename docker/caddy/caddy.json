@@ -1,0 +1,107 @@
+{
+  "apps": {
+    "http": {
+      "servers": {
+        "srv0": {
+          "listen": [":443"],
+          "routes": [
+            {
+              "match": [
+                {
+                  "host": ["{SSL_CERTIFICATE_STRING}"]
+                }
+              ],
+              "terminal": true,
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "nginx:80"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "terminal": true,
+              "handle": [
+                {
+                  "handler": "subroute",
+                  "routes": [
+                    {
+                      "handle": [
+                        {
+                          "handler": "reverse_proxy",
+                          "upstreams": [
+                            {
+                              "dial": "nginx:80"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "tls": {
+      "automation": {
+        "policies": [
+          {
+            "subjects": ["{SSL_CERTIFICATE_STRING}"],
+            "issuers": [
+              {
+                "module": "acme",
+                "challenges": {
+                  "dns": {
+                    "provider": {
+                      "name": "route53"
+                    }
+                  }
+                }
+              },
+              {
+                "module": "zerossl",
+                "challenges": {
+                  "dns": {
+                    "provider": {
+                      "name": "route53"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "on_demand": true,
+            "issuers": [
+              {
+                "module": "internal"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "storage": {
+      "module": "dynamodb",
+      "table": "CertMagic",
+      "aws_endpoint": "https://dynamodb.eu-central-1.amazonaws.com",
+      "aws_region": "eu-central-1"
+    }
+  }
+}
