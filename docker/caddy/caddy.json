@@ -96,12 +96,12 @@
           }
         ]
       }
-    },
-    "storage": {
-      "module": "dynamodb",
-      "table": "CertMagic",
-      "aws_endpoint": "https://dynamodb.eu-central-1.amazonaws.com",
-      "aws_region": "eu-central-1"
     }
+  },
+  "storage": {
+    "module": "dynamodb",
+    "table": "CertMagic",
+    "aws_endpoint": "https://dynamodb.eu-central-1.amazonaws.com",
+    "aws_region": "eu-central-1"
   }
 }
