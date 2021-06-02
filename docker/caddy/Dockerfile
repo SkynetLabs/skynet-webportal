@@ -1,7 +1,8 @@
 FROM caddy:2.4.1-builder AS caddy-builder
 
 # available dns resolvers: https://github.com/caddy-dns
-RUN xcaddy build --with github.com/caddy-dns/route53
+RUN xcaddy build --with github.com/caddy-dns/route53 \
+                 --with github.com/silinternational/certmagic-storage-dynamodb
 
 FROM caddy:2.4.1
 
