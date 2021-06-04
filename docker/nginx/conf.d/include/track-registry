@@ -1,0 +1,18 @@
+# register the registry access in accounts service (cookies should contain jwt)
+log_by_lua_block {
+    -- this block runs only when accounts are enabled
+    if os.getenv("ACCOUNTS_ENABLED", "0") == "0" then return end
+
+    if ngx.status == ngx.HTTP_OK or ngx.status == ngx.HTTP_NOT_FOUND then
+        local http = require("socket.http")
+        local method = ngx.req.get_method() == ngx.HTTP_GET and "read" or "write"
+        local ok, statusCode, headers, statusText = http.request {
+            url = "http://accounts:3000/track/registry/" .. method,
+            method = "POST",
+            headers = ngx.req.get_headers()
+        }
+        if statusCode ~= ngx.HTTP_NO_CONTENT and statusCode ~= ngx.HTTP_UNAUTHORIZED then
+            ngx.log(ngx.ERR, "accounts endpoint /track/registry/" .. method .. " failed with error " .. statusCode)
+        end
+    end
+}
