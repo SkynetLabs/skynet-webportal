@@ -1,0 +1,11 @@
+# Extract 2 sets of 2 characters from $request_id and assign to $dir1, $dir2
+# respectfully. The rest of the $request_id is going to be assigned to $dir3.
+# We use those variables to automatically generate a unique path for the uploaded file.
+# This ensures that not all uploaded files end up in the same directory, which is something
+# that causes performance issues in the renter.
+# Example path result: /af/24/9bc5ec894920ccc45634dc9a8065
+if ($request_id ~* "(\w{2})(\w{2})(\w+)") {
+    set $dir1 $1;
+    set $dir2 $2;
+    set $dir3 $3;
+}
