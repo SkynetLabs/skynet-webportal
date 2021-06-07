@@ -67,7 +67,7 @@
     "cross-env": "^7.0.3",
     "cypress": "^7.4.0",
     "cypress-file-upload": "^5.0.7",
-    "prettier": "^2.3.0"
+    "prettier": "^2.3.1"
   },
   "keywords": [
     "gatsby"
