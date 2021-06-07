@@ -139,13 +139,13 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        res_check = requests.get("http://localhost/health-check", verify=False)
+        res_check = requests.get("https://127.0.0.1/health-check", verify=False)
         json_check = res_check.json()
         json_critical = requests.get(
-            "http://localhost/health-check/critical", verify=False
+            "https://127.0.0.1/health-check/critical", verify=False
         ).json()
         json_extended = requests.get(
-            "http://localhost/health-check/extended", verify=False
+            "https://127.0.0.1/health-check/extended", verify=False
         ).json()
     except:
         trace = traceback.format_exc()
