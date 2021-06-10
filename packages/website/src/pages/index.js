@@ -4,59 +4,65 @@ import { Carousel } from "../components/Carousel/Carousel";
 import Seo from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
-import {
-  ArrowRight,
-  SkynetToolBig,
-  SkynetUserBig,
-  SkynetPowerBig,
-  SkynetMonetizationSmall,
-  SkynetPersistenceSmall,
-  SkynetSpeedSmall,
-  SkynetUsageSmall,
-  SkynetSiaSmall,
-} from "../components/Icons";
+import { ArrowRight } from "../components/Icons";
+import SkynetToolBig from "../components/Icons/SkynetToolBig.svg";
+import SkynetUserBig from "../components/Icons/SkynetUserBig.svg";
+import SkynetPowerBig from "../components/Icons/SkynetPowerBig.svg";
+import SkynetMonetizationSmall from "../components/Icons/SkynetMonetizationSmall.svg";
+import SkynetPersistenceSmall from "../components/Icons/SkynetPersistenceSmall.svg";
+import SkynetSpeedSmall from "../components/Icons/SkynetSpeedSmall.svg";
+import SkynetUsageSmall from "../components/Icons/SkynetUsageSmall.svg";
+import SkynetSiaSmall from "../components/Icons/SkynetSiaSmall.svg";
 import Link from "../components/Link";
 
 const etosCards = [
   {
-    Icon: SkynetToolBig,
+    src: SkynetToolBig,
     title: "Build a better web",
+    alt: "The top of a wrench and a cube representing a new kind of Internet",
   },
   {
-    Icon: SkynetUserBig,
+    src: SkynetUserBig,
     title: "Fight corporate control<br />of user data",
+    alt: "Symbol of a strong person stretching arms out of screen",
   },
   {
-    Icon: SkynetPowerBig,
+    src: SkynetPowerBig,
     title: "Empower global citizens",
+    alt: "Symbol of a fist in the air",
   },
 ];
 
 const ecosystemCards = [
   {
-    Icon: SkynetUsageSmall,
+    src: SkynetUsageSmall,
     title: "Easy to use",
     text: "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
+    alt: "Image of a finger pushing a button",
   },
   {
-    Icon: SkynetSpeedSmall,
+    src: SkynetSpeedSmall,
     title: "Fast",
     text: "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
+    alt: "Image of a speedometer",
   },
   {
-    Icon: SkynetSiaSmall,
+    src: SkynetSiaSmall,
     title: "Free to use",
     text: "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
+    alt: "Image of a server database and a shield",
   },
   {
-    Icon: SkynetMonetizationSmall,
+    src: SkynetMonetizationSmall,
     title: "Monetization",
     text: "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
+    alt: "Image of a coin symbol",
   },
   {
-    Icon: SkynetPersistenceSmall,
+    src: SkynetPersistenceSmall,
     title: "Persistence",
     text: "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
+    alt: "Abstract image of a shield and a graph line",
   },
 ];
 
@@ -74,11 +80,13 @@ const IndexPage = () => {
           </h1>
 
           <p className="mt-5 font-light text-lg leading-7 text-palette-300">
-            <span className="hidden desktop:block">Skynet is a content and application hosting platform bringing</span>
-            <span className="hidden desktop:block">decentralized storage to users, creators and app developers.</span>
+            <span className="hidden desktop:block">
+              Skynet is a hosting platform that makes it easy to join the decentralized
+            </span>
+            <span className="hidden desktop:block">internet movement. Start your free account today.</span>
             <span className="desktop:hidden text-justify text-sm">
-              Skynet is a content and application hosting platform bringing decentralized storage to users, creators and
-              app developers.
+              Skynet is a hosting platform that makes it easy to join the decentralized internet movement. Start your
+              free account today.
             </span>
           </p>
         </div>
@@ -105,7 +113,7 @@ const IndexPage = () => {
         <div className="flex flex-col items-center mt-16">
           <p className="max-w-screen-md text-center text-base font-content text-palette-400">
             Skynet apps pave the way for a new web that prioritizes the privacy, security, and experience of users. Join
-            our decentralized ecosystem and revolution.
+            our decentralized internet ecosystem and revolution.
           </p>
 
           <Link

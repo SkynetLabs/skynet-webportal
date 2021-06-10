@@ -93,9 +93,9 @@ export const CardCarousel = ({ CardComponent, cards, interval = null, fullWidth 
   );
 };
 
-export const CardWithTitle = ({ Icon, title }) => (
+export const CardWithTitle = ({ Icon, src, alt, title }) => (
   <div className="flex flex-col items-center">
-    <Icon height="142" />
+    {src ? <img src={src} alt={alt} /> : <Icon height="142" />}
     <p className="text-center mt-4 font-light text-palette-600 text-lg" dangerouslySetInnerHTML={{ __html: title }} />
   </div>
 );
@@ -108,10 +108,10 @@ export const Label = ({ children }) => (
   </span>
 );
 
-export const CardWithDescription = ({ Icon, label, title, text }) => (
+export const CardWithDescription = ({ Icon, src, alt, label, title, text }) => (
   <div className="flex flex-col">
     <div className="flex items-center space-x-4">
-      <Icon />
+      {src ? <img src={src} alt={alt} /> : <Icon />}
       {label && <Label>{label}</Label>}
     </div>
     <h3 className="font-light text-lg mt-6">{title}</h3>
