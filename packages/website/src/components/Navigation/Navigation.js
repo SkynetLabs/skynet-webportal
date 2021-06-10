@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Link from "../Link";
 import classnames from "classnames";
 import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
-import {LogoWhiteText, LogoBlackText, MenuMobile, MenuMobileClose, DiscordSmall} from "../Icons";
+import { LogoWhiteText, LogoBlackText, MenuMobile, MenuMobileClose, DiscordSmall } from "../Icons";
 import { useWindowSize, useWindowScroll } from "react-use";
 
 const routes = [
