@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <filter id="q2pg3gceya">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.109804 0 0 0 0 0.109804 0 0 0 0 0.109804 0 0 0 1.000000 0"/>
+        </filter>
+        <filter id="x4s64m2qwb">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.000000 0 0 0 0 0.776471 0 0 0 0 0.368627 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <path fill="#00C65E" d="M57.5 37c0 9.389-7.611 17-17 17s-17-7.611-17-17 7.611-17 17-17 17 7.611 17 17z" transform="translate(-792 -1966) translate(0 1544) translate(792 422)"/>
+                    <g filter="url(#q2pg3gceya)" transform="translate(-792 -1966) translate(0 1544) translate(792 422)">
+                        <g>
+                            <g filter="url(#x4s64m2qwb)" transform="translate(8 6)">
+                                <g stroke="#222829" stroke-width="2">
+                                    <path stroke-linejoin="round" d="M47 58L63 58" transform="translate(.5)"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M59 62L63 58 59 54M36 8L32 4 36 0" transform="translate(.5)"/>
+                                    <path d="M32 4c14.912 0 27 12.088 27 27S46.912 58 32 58H0" transform="translate(.5)"/>
+                                    <path stroke-linejoin="round" d="M18.004 54.096C10.208 49.36 5 40.786 5 31 5 17.772 14.514 6.764 27.074 4.45" transform="translate(.5)"/>
+                                    <path d="M49 31c0 9.389-7.611 17-17 17s-17-7.611-17-17 7.611-17 17-17 17 7.611 17 17zM32 39L32 42M32 20L32 23" transform="translate(.5)"/>
+                                    <path d="M28 35c0 2.209 1.791 4 4 4s4-1.791 4-4-4-4-4-4-4-1.791-4-4 1.791-4 4-4 4 1.791 4 4M23 31L21 31M43 31L41 31" transform="translate(.5)"/>
+                                </g>
+                            </g>
+                            <path fill="#D8D8D8" d="M12 65H54V67H12z" transform="translate(8 6)"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

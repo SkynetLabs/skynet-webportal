@@ -1,72 +1,31 @@
 import * as React from "react";
+import { graphql } from "gatsby";
 import { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
 import Seo from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
 import { ArrowRight } from "../components/Icons";
-import SkynetToolBig from "../components/Icons/SkynetToolBig.svg";
-import SkynetUserBig from "../components/Icons/SkynetUserBig.svg";
-import SkynetPowerBig from "../components/Icons/SkynetPowerBig.svg";
-import SkynetMonetizationSmall from "../components/Icons/SkynetMonetizationSmall.svg";
-import SkynetPersistenceSmall from "../components/Icons/SkynetPersistenceSmall.svg";
-import SkynetSpeedSmall from "../components/Icons/SkynetSpeedSmall.svg";
-import SkynetUsageSmall from "../components/Icons/SkynetUsageSmall.svg";
-import SkynetSiaSmall from "../components/Icons/SkynetSiaSmall.svg";
 import Link from "../components/Link";
 
-const etosCards = [
-  {
-    src: SkynetToolBig,
-    title: "Build a better web",
-    alt: "The top of a wrench and a cube representing a new kind of Internet",
-  },
-  {
-    src: SkynetUserBig,
-    title: "Fight corporate control<br />of user data",
-    alt: "Symbol of a strong person stretching arms out of screen",
-  },
-  {
-    src: SkynetPowerBig,
-    title: "Empower global citizens",
-    alt: "Symbol of a fist in the air",
-  },
-];
+const IndexPage = ({ data }) => {
+  const etosCards = React.useMemo(
+    () =>
+      data.allPagesIndexYaml.edges[0].node.etosCards.map((card) => ({
+        ...card,
+        src: card.src.publicURL,
+      })),
+    [data]
+  );
+  const ecosystemCards = React.useMemo(
+    () =>
+      data.allPagesIndexYaml.edges[1].node.ecosystemCards.map((card) => ({
+        ...card,
+        src: card.src.publicURL,
+      })),
+    [data]
+  );
 
-const ecosystemCards = [
-  {
-    src: SkynetUsageSmall,
-    title: "Easy to use",
-    text: "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
-    alt: "Image of a finger pushing a button",
-  },
-  {
-    src: SkynetSpeedSmall,
-    title: "Fast",
-    text: "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
-    alt: "Image of a speedometer",
-  },
-  {
-    src: SkynetSiaSmall,
-    title: "Free to use",
-    text: "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
-    alt: "Image of a server database and a shield",
-  },
-  {
-    src: SkynetMonetizationSmall,
-    title: "Monetization",
-    text: "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
-    alt: "Image of a coin symbol",
-  },
-  {
-    src: SkynetPersistenceSmall,
-    title: "Persistence",
-    text: "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
-    alt: "Abstract image of a shield and a graph line",
-  },
-];
-
-const IndexPage = () => {
   return (
     <>
       <Seo title="Decentralized Internet for a Free Future" />
@@ -165,5 +124,31 @@ const IndexPage = () => {
     </>
   );
 };
+
+export const query = graphql`
+  query MainPageQuery {
+    allPagesIndexYaml {
+      edges {
+        node {
+          etosCards {
+            title
+            alt
+            src {
+              publicURL
+            }
+          }
+          ecosystemCards {
+            title
+            alt
+            text
+            src {
+              publicURL
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default IndexPage;

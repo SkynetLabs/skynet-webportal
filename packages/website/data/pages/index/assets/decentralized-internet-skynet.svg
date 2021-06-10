@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="131" viewBox="0 0 320 131">
+    <defs>
+        <filter id="tz44a43s9a">
+            <feColorMatrix in="SourceGraphic" values="0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 0 0.050980 0 0 0 1.000000 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g>
+                        <path fill="#00C65E" d="M112 49.889L112 80.111 142 99 172 80.111 172 49.889 142.938 31z" transform="translate(-448 -1089) translate(448 949) translate(0 140) translate(66)"/>
+                        <path stroke="#0D0D0D" stroke-width="2" d="M125.612 88.681L142 99 172 80.111 172 49.889 158.725 41.261" transform="translate(-448 -1089) translate(448 949) translate(0 140) translate(66)"/>
+                        <g filter="url(#tz44a43s9a)" transform="translate(-448 -1089) translate(448 949) translate(0 140) translate(66)">
+                            <g stroke="#222829" stroke-width="2">
+                                <path d="M32 14L48 4 64 14 64 30 48 40 32 30z" transform="translate(46 5)"/>
+                                <path d="M64 14L48 24 32 14M48.5 24L48.5 40M68.5 82L68.5 126M46 64.5L50 64.5M38 64.5L42 64.5M54 64.5L58 64.5" transform="translate(46 5)"/>
+                                <g>
+                                    <path d="M52 126v-24c0-2.207-1.791-4-4-4s-4 1.793-4 4v24M25 0h-5C6.762 8.547 0 21.074 0 38c0 19.43 11.396 36.449 28 44v44" transform="translate(46 5)"/>
+                                    <path d="M48 86c26.51 0 48-21.488 48-48 0-16.93-6.758-29.453-20-38h-4v36L48 52 24 36V0" transform="translate(46 5)"/>
+                                    <path d="M72.004 6C81.719 13.299 88 24.916 88 38c0 22.094-17.908 40-40 40S8 60.094 8 38" transform="translate(46 5)"/>
+                                </g>
+                            </g>
+                        </g>
+                        <path stroke="#0D0D0D" stroke-width="2" d="M29 11.5H0m34 9H15m29-20H25" transform="translate(-448 -1089) translate(448 949) translate(0 140) translate(66)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
