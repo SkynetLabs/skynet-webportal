@@ -10,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { SkynetClient } from "skynet-js";
 import { useTimeoutFn } from "react-use";
 import ms from "ms";
+import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
 import Link from "../Link";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
@@ -146,6 +147,9 @@ const UploadElement = ({ file, status, error, url = "", progress = 0 }) => {
 const Uploader = () => {
   const [mode, setMode] = React.useState("file");
   const [files, setFiles] = React.useState([]);
+
+  const { data: authenticationStatus } = useAuthenticatedStatus();
+  const authenticated = authenticationStatus?.authenticated ?? false;
 
   const handleDrop = async (acceptedFiles) => {
     if (mode === "directory" && acceptedFiles.length) {
@@ -307,7 +311,7 @@ const Uploader = () => {
         )}
       </div>
 
-      {files.length === 0 && (
+      {files.length === 0 && !authenticated && (
         <div className="z-0 relative flex flex-col items-center space-y-1 mt-10">
           <Unlock />
           <p className="text-sm font-light text-palette-600">

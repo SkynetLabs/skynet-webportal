@@ -1,66 +1,31 @@
 import * as React from "react";
+import { graphql } from "gatsby";
 import { Section, SectionTitle, CardWithDescription, CardWithTitle } from "../components/Layout";
 import { Carousel } from "../components/Carousel/Carousel";
 import Seo from "../components/seo";
 import CommunitySection from "../components/CommunitySection";
 import Uploader from "../components/Uploader";
-import {
-  ArrowRight,
-  SkynetToolBig,
-  SkynetUserBig,
-  SkynetPowerBig,
-  SkynetMonetizationSmall,
-  SkynetPersistenceSmall,
-  SkynetSpeedSmall,
-  SkynetUsageSmall,
-  SkynetSiaSmall,
-} from "../components/Icons";
+import { ArrowRight } from "../components/Icons";
 import Link from "../components/Link";
 
-const etosCards = [
-  {
-    Icon: SkynetToolBig,
-    title: "Build a better web",
-  },
-  {
-    Icon: SkynetUserBig,
-    title: "Fight corporate control<br />of user data",
-  },
-  {
-    Icon: SkynetPowerBig,
-    title: "Empower global citizens",
-  },
-];
+const IndexPage = ({ data }) => {
+  const etosCards = React.useMemo(
+    () =>
+      data.allPagesIndexYaml.edges[0].node.etosCards.map((card) => ({
+        ...card,
+        src: card.src.publicURL,
+      })),
+    [data]
+  );
+  const ecosystemCards = React.useMemo(
+    () =>
+      data.allPagesIndexYaml.edges[1].node.ecosystemCards.map((card) => ({
+        ...card,
+        src: card.src.publicURL,
+      })),
+    [data]
+  );
 
-const ecosystemCards = [
-  {
-    Icon: SkynetUsageSmall,
-    title: "Easy to use",
-    text: "Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.",
-  },
-  {
-    Icon: SkynetSpeedSmall,
-    title: "Fast",
-    text: "Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!",
-  },
-  {
-    Icon: SkynetSiaSmall,
-    title: "Free to use",
-    text: "Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.",
-  },
-  {
-    Icon: SkynetMonetizationSmall,
-    title: "Monetization",
-    text: "Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.",
-  },
-  {
-    Icon: SkynetPersistenceSmall,
-    title: "Persistence",
-    text: "Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.",
-  },
-];
-
-const IndexPage = () => {
   return (
     <>
       <Seo title="Decentralized Internet for a Free Future" />
@@ -74,11 +39,13 @@ const IndexPage = () => {
           </h1>
 
           <p className="mt-5 font-light text-lg leading-7 text-palette-300">
-            <span className="hidden desktop:block">Skynet is a content and application hosting platform bringing</span>
-            <span className="hidden desktop:block">decentralized storage to users, creators and app developers.</span>
+            <span className="hidden desktop:block">
+              Skynet is a hosting platform that makes it easy to join the decentralized
+            </span>
+            <span className="hidden desktop:block">internet movement. Start your free account today.</span>
             <span className="desktop:hidden text-justify text-sm">
-              Skynet is a content and application hosting platform bringing decentralized storage to users, creators and
-              app developers.
+              Skynet is a hosting platform that makes it easy to join the decentralized internet movement. Start your
+              free account today.
             </span>
           </p>
         </div>
@@ -105,7 +72,7 @@ const IndexPage = () => {
         <div className="flex flex-col items-center mt-16">
           <p className="max-w-screen-md text-center text-base font-content text-palette-400">
             Skynet apps pave the way for a new web that prioritizes the privacy, security, and experience of users. Join
-            our decentralized ecosystem and revolution.
+            our decentralized internet ecosystem and revolution.
           </p>
 
           <Link
@@ -157,5 +124,31 @@ const IndexPage = () => {
     </>
   );
 };
+
+export const query = graphql`
+  query MainPageQuery {
+    allPagesIndexYaml {
+      edges {
+        node {
+          etosCards {
+            title
+            alt
+            src {
+              publicURL
+            }
+          }
+          ecosystemCards {
+            title
+            alt
+            text
+            src {
+              publicURL
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default IndexPage;
