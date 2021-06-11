@@ -18,7 +18,7 @@
     "gatsby": "^3.7.1",
     "gatsby-background-image": "^1.5.3",
     "gatsby-image": "^3.7.1",
-    "gatsby-plugin-image": "^1.6.0",
+    "gatsby-plugin-image": "^1.7.1",
     "gatsby-plugin-manifest": "^3.6.0",
     "gatsby-plugin-matomo": "^0.10.0",
     "gatsby-plugin-offline": "^4.6.0",
