@@ -21,7 +21,7 @@
     "fast-levenshtein": "3.0.0",
     "formik": "2.2.9",
     "http-status-codes": "2.1.4",
-    "ky": "0.25.1",
+    "ky": "0.28.5",
     "next": "10.2.3",
     "postcss": "8.2.14",
     "prettier": "2.3.1",
