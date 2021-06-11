@@ -33,7 +33,7 @@
     "stripe": "8.154.0",
     "superagent": "6.1.0",
     "swr": "0.5.6",
-    "tailwindcss": "2.1.2",
+    "tailwindcss": "2.1.4",
     "yup": "0.32.9"
   }
 }
