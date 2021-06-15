@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@fontsource/metropolis": "4.3.0",
+    "@fontsource/metropolis": "4.4.5",
     "@ory/kratos-client": "0.5.4-alpha.1",
     "@stripe/react-stripe-js": "1.4.0",
     "@stripe/stripe-js": "1.15.0",
