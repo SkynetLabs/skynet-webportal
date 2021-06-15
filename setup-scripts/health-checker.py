@@ -350,9 +350,9 @@ async def check_portal_size():
     # Initialize variables
     num_files = 0
     max_files = 1500000  # 1.5 mln
-    files_text = "Files"
+    files_text = "Files:"
     for line in siac_renter_output.split("\n"):
-        if contains_string(line, files_text):
+        if line.strip().startswith(files_text):
             for el in line.split():
                 if el.isdigit():
                     num_files = int(el)
