@@ -33,35 +33,60 @@ async function uploadCheck(done) {
 
 // websiteCheck checks whether the main website is working
 async function websiteCheck(done) {
-  return genericAccessCheck("website", process.env.SKYNET_PORTAL_API, done);
+  return done(await genericAccessCheck("website", process.env.SKYNET_PORTAL_API));
 }
 
 // downloadCheck returns the result of downloading the hard coded link
 async function downloadCheck(done) {
   const url = await skynetClient.getSkylinkUrl(exampleSkylink);
 
-  return genericAccessCheck("skylink", url, done);
+  return done(await genericAccessCheck("skylink", url));
 }
 
 // skylinkSubdomainCheck returns the result of downloading the hard coded link via subdomain
 async function skylinkSubdomainCheck(done) {
   const url = await skynetClient.getSkylinkUrl(exampleSkylink, { subdomain: true });
 
-  return genericAccessCheck("skylink_via_subdomain", url, done);
+  return done(await genericAccessCheck("skylink_via_subdomain", url));
 }
 
 // handshakeSubdomainCheck returns the result of downloading the skylink via handshake domain
 async function handshakeSubdomainCheck(done) {
   const url = await skynetClient.getHnsUrl("note-to-self", { subdomain: true });
 
-  return genericAccessCheck("hns_via_subdomain", url, done);
+  return done(await genericAccessCheck("hns_via_subdomain", url));
 }
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
   const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
 
-  return genericAccessCheck("account_website", url, done);
+  return done(await genericAccessCheck("account_website", url));
+}
+
+// directServerApiAccessCheck returns the basic server api check on direct server address
+async function directServerApiAccessCheck(done) {
+  if (!process.env.SKYNET_SERVER_API) {
+    return done({ up: false, info: { message: "SKYNET_SERVER_API env variable not configured" } });
+  }
+
+  const [domainAccessCheck, directAccessCheck] = await Promise.all([
+    genericAccessCheck("domain", process.env.SKYNET_PORTAL_API),
+    genericAccessCheck("direct", process.env.SKYNET_SERVER_API),
+  ]);
+
+  if (domainAccessCheck.ip !== directAccessCheck.ip) {
+    directAccessCheck.up = false;
+    directAccessCheck.info = {
+      message: "Access ip mismatch between domain and direct access",
+      response: {
+        domain: { name: process.env.SKYNET_PORTAL_API, ip: domainAccessCheck.ip },
+        domain: { name: process.env.SKYNET_SERVER_API, ip: directAccessCheck.ip },
+      },
+    };
+  }
+
+  return done(directAccessCheck);
 }
 
 // accountHealthCheck returns the result of accounts service health checks
@@ -86,7 +111,7 @@ async function accountHealthCheck(done) {
   done({ name: "accounts", time: calculateElapsedTime(time), ...data });
 }
 
-async function genericAccessCheck(name, url, done) {
+async function genericAccessCheck(name, url) {
   const time = process.hrtime();
   const data = { up: false, url };
 
@@ -103,10 +128,17 @@ async function genericAccessCheck(name, url, done) {
     data.ip = error?.response?.ip ?? null;
   }
 
-  done({ name, time: calculateElapsedTime(time), ...data });
+  return { name, time: calculateElapsedTime(time), ...data };
 }
 
-const checks = [uploadCheck, websiteCheck, downloadCheck, skylinkSubdomainCheck, handshakeSubdomainCheck];
+const checks = [
+  uploadCheck,
+  websiteCheck,
+  downloadCheck,
+  skylinkSubdomainCheck,
+  handshakeSubdomainCheck,
+  directServerApiAccessCheck,
+];
 
 if (process.env.ACCOUNTS_ENABLED === "1") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
