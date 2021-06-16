@@ -71,8 +71,8 @@ async function directServerApiAccessCheck(done) {
   }
 
   const [domainAccessCheck, directAccessCheck] = await Promise.all([
-    genericAccessCheck("domain", process.env.SKYNET_PORTAL_API),
-    genericAccessCheck("direct", process.env.SKYNET_SERVER_API),
+    genericAccessCheck("portal_api_access", process.env.SKYNET_PORTAL_API),
+    genericAccessCheck("direct_server_api_access", process.env.SKYNET_SERVER_API),
   ]);
 
   if (domainAccessCheck.ip !== directAccessCheck.ip) {
