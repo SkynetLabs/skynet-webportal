@@ -38,5 +38,10 @@ require("yargs/yargs")(process.argv.slice(2)).command(
       .push(entry) // insert new record
       .remove(({ date }) => date < getYesterdayISOString()) // drop old records
       .write();
+
+    // exit with code 1 if any of the checks report failure
+    if (checks.some(({ up }) => !up)) {
+      process.exit(1);
+    }
   }
 ).argv;
