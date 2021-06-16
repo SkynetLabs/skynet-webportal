@@ -41,7 +41,7 @@ require("yargs/yargs")(process.argv.slice(2)).command(
 
     // exit with code 1 if any of the checks report failure
     if (entry.checks.some(({ up }) => !up)) {
-      console.log(entry.checks);
+      console.log(entry.checks.filter(({ up }) => !up));
       process.exit(1);
     }
   }
