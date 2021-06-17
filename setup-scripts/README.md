@@ -18,7 +18,7 @@ You may want to fork this repository and replace ssh keys in
   - [health-check](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/health-check): simple service that runs periodically and collects health data about the server (status and response times) - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/health-check/README.md)
   - [handshake](https://handshake.org) ([github](https://github.com/handshake-org/hsd)): full handshake node
   - [handshake-api](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/handshake-api/README.md)
-  - [webapp](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/webapp): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/webapp/README.md)
+  - [website](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/website): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/website/README.md)
   - [kratos](https://www.ory.sh/kratos/): user account management system
   - [oathkeeper](https://www.ory.sh/oathkeeper/): identity and access proxy
 - discord integration
