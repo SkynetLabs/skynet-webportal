@@ -53,7 +53,7 @@ def setup():
     bot_token = os.environ["DISCORD_BOT_TOKEN"]
 
     global portal_name
-    portal_name = os.getenv("PORTAL_NAME")
+    portal_name = os.getenv("SKYNET_SERVER_API")
 
     # Get a port or use default
     global port
