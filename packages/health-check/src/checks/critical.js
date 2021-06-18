@@ -70,23 +70,23 @@ async function directServerApiAccessCheck(done) {
     return done({ up: false, info: { message: "SKYNET_SERVER_API env variable not configured" } });
   }
 
-  const [domainAccessCheck, directAccessCheck] = await Promise.all([
+  const [portalAccessCheck, serverAccessCheck] = await Promise.all([
     genericAccessCheck("portal_api_access", process.env.SKYNET_PORTAL_API),
-    genericAccessCheck("direct_server_api_access", process.env.SKYNET_SERVER_API),
+    genericAccessCheck("server_api_access", process.env.SKYNET_SERVER_API),
   ]);
 
-  if (domainAccessCheck.ip !== directAccessCheck.ip) {
-    directAccessCheck.up = false;
-    directAccessCheck.info = {
+  if (portalAccessCheck.ip !== serverAccessCheck.ip) {
+    serverAccessCheck.up = false;
+    serverAccessCheck.info = {
       message: "Access ip mismatch between domain and direct access",
       response: {
-        domain: { name: process.env.SKYNET_PORTAL_API, ip: domainAccessCheck.ip },
-        domain: { name: process.env.SKYNET_SERVER_API, ip: directAccessCheck.ip },
+        portal: { name: process.env.SKYNET_PORTAL_API, ip: portalAccessCheck.ip },
+        server: { name: process.env.SKYNET_SERVER_API, ip: serverAccessCheck.ip },
       },
     };
   }
 
-  return done(directAccessCheck);
+  return done(serverAccessCheck);
 }
 
 // accountHealthCheck returns the result of accounts service health checks
