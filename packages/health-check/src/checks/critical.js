@@ -78,7 +78,7 @@ async function directServerApiAccessCheck(done) {
   if (portalAccessCheck.ip !== serverAccessCheck.ip) {
     serverAccessCheck.up = false;
     serverAccessCheck.info = {
-      message: "Access ip mismatch between domain and direct access",
+      message: "Access ip mismatch between portal and server access",
       response: {
         portal: { name: process.env.SKYNET_PORTAL_API, ip: portalAccessCheck.ip },
         server: { name: process.env.SKYNET_SERVER_API, ip: serverAccessCheck.ip },
