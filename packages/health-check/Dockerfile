@@ -26,7 +26,7 @@ ENV NODE_ENV production
 CMD [ "sh", "-c", \
       "echo address=/siasky.net/$(node src/whatismyip.js) > /etc/dnsmasq.d/siasky.net.conf ; \
        echo -e \"nameserver 127.0.0.1\n$(cat /etc/resolv.conf)\" > /etc/resolv.conf ; \
-       dnsmasq --log-queries --log-facility=/var/log/dnsmasq.log ; \
+       dnsmasq --no-resolv --log-queries --log-facility=/var/log/dnsmasq.log ; \
        crond ; \
        node --max-http-header-size=64000 src/index.js" \
     ]
