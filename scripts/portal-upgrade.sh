@@ -12,16 +12,12 @@ cwd=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 docker-compose build --no-cache --parallel --pull --quiet
 
 # stop the docker services
-docker-compose down
+docker-compose down -v
 
 # clear unused docker containers so we don't run into out of disk space
 # it should be done after the container have been stopped and before 
 # building them again
 docker system prune --force
-
-# prune all volumes to make sure there is no leftovers
-# important for webapp container, otherwise html files will not be updated)
-docker volume rm $(docker volume ls -q)
 
 # start the docker services
 docker-compose up -d

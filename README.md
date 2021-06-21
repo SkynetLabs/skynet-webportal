@@ -2,14 +2,14 @@
 
 ## Web application
 
-Use `yarn workspace webapp start` to start the development server.
+Use `yarn workspace website start` to start the development server.
 
-Use `yarn workspace webapp build` to compile the application to `/public` directory.
+Use `yarn workspace website build` to compile the application to `/public` directory.
 
 You can use the below build parameters to customize your web application.
 
-- development example `GATSBY_API_URL=https://siasky.dev yarn workspace webapp start`
-- production example `GATSBY_API_URL=https://siasky.net yarn workspace webapp build`
+- development example `GATSBY_API_URL=https://siasky.dev yarn workspace website start`
+- production example `GATSBY_API_URL=https://siasky.net yarn workspace website build`
 
 List of available parameters:
 
@@ -36,8 +36,8 @@ Mongo needs a couple of extra steps in order to start a secure cluster.
 - Manually run an initialisation `docker run` with extra environment variables that will initialise the admin user with
   a password (example below).
 - During the initialisation run mentioned above, we need to make two extra steps within the container:
-    - Change the ownership of `mgkey` to `mongodb:mongodb`
-    - Change its permissions to 400
+  - Change the ownership of `mgkey` to `mongodb:mongodb`
+  - Change its permissions to 400
 - After these steps are done we can open a mongo shell on the primary node and run `rs.add()` in order to add the new
   node to the cluster. If you don't know which node is primary, log onto any server and jump into the Mongo's container
   (`docker exec -it mongo mongo -u admin -p`) and then get the status of the replica set (`rs.status()`).
@@ -185,8 +185,8 @@ Before pushing your code, you should verify that it will pass our online test su
 **Cypress Tests**
 Verify the Cypress test suite by doing the following:
 
-1. In one terminal screen run `GATSBY_API_URL=https://siasky.net yarn workspace webapp start`
-1. In a second terminal screen run `yarn workspace webapp cypress run`
+1. In one terminal screen run `GATSBY_API_URL=https://siasky.net yarn workspace website serve`
+1. In a second terminal screen run `yarn workspace website cypress run`
 
 ## Setting up complete skynet server
 

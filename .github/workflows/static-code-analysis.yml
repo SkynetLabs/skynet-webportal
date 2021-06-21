@@ -1,0 +1,28 @@
+name: Static Code Analysis
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: "Static code analysis: handshake-api"
+        run: yarn workspace handshake-api prettier --check .
+
+      - name: "Static code analysis: health-check"
+        run: yarn workspace health-check prettier --check .
+
+      - name: "Static code analysis: website"
+        run: yarn workspace website prettier --check .
+
+      - name: "Static code analysis: dashboard"
+        run: yarn workspace dashboard prettier --check .
