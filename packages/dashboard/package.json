@@ -22,7 +22,7 @@
     "formik": "2.2.9",
     "http-status-codes": "2.1.4",
     "ky": "0.25.1",
-    "next": "10.2.3",
+    "next": "11.0.0",
     "postcss": "8.3.5",
     "prettier": "2.3.1",
     "pretty-bytes": "5.6.0",
