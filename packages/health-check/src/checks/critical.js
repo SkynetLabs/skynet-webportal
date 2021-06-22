@@ -67,7 +67,7 @@ async function accountWebsiteCheck(done) {
 // directServerApiAccessCheck returns the basic server api check on direct server address
 async function directServerApiAccessCheck(done) {
   if (!process.env.SKYNET_SERVER_API) {
-    return done({ up: false, info: { message: "SKYNET_SERVER_API env variable not configured" } });
+    return done({ up: false, errors: [{ message: "SKYNET_SERVER_API env variable not configured" }] });
   }
 
   const [portalAccessCheck, serverAccessCheck] = await Promise.all([
@@ -77,13 +77,14 @@ async function directServerApiAccessCheck(done) {
 
   if (portalAccessCheck.ip !== serverAccessCheck.ip) {
     serverAccessCheck.up = false;
-    serverAccessCheck.info = {
+    serverAccessCheck.errors = serverAccessCheck.errors ?? [];
+    serverAccessCheck.errors.push({
       message: "Access ip mismatch between portal and server access",
       response: {
         portal: { name: process.env.SKYNET_PORTAL_API, ip: portalAccessCheck.ip },
         server: { name: process.env.SKYNET_SERVER_API, ip: serverAccessCheck.ip },
       },
-    };
+    });
   }
 
   return done(serverAccessCheck);

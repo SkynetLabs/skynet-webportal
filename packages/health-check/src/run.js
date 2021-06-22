@@ -1,4 +1,5 @@
 const { getYesterdayISOString } = require("./utils");
+const createMiddleware = require("./checks/middleware");
 
 require("yargs/yargs")(process.argv.slice(2)).command(
   "$0 <type>",
@@ -27,10 +28,11 @@ require("yargs/yargs")(process.argv.slice(2)).command(
 
     const db = require("../src/db");
     const checks = require(`../src/checks/${type}`);
+    const middleware = await createMiddleware();
 
     const entry = {
       date: new Date().toISOString(),
-      checks: await Promise.all(checks.map((check) => new Promise(check))),
+      checks: (await Promise.all(checks.map((check) => new Promise(check)))).map(middleware),
     };
 
     db.read() // read before writing to make sure no external changes are overwritten
