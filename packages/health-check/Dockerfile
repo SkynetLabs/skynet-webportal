@@ -18,14 +18,13 @@ COPY cli cli
 EXPOSE 3100
 ENV NODE_ENV production
 
-# 1. alias siasky.net with current server ip to ommit load balancer
-# 2. prepend dnsmasq nameserver so it tries to resolve first
-# 3. start dnsmasq in the background
-# 4. start crond in the background
-# 5. start the health-check api service
+# 1. prepend dnsmasq nameserver so it tries to resolve first
+# 2. start dnsmasq in the background and alias siasky.net with current server ip to ommit load balancer
+# 3. start crond in the background
+# 4. start the health-check api service
 CMD [ "sh", "-c", \
       "echo -e \"nameserver 127.0.0.1\n$(cat /etc/resolv.conf)\" > /etc/resolv.conf ; \
-       dnsmasq --strict-order --log-debug --no-resolv --log-queries --log-facility=/var/log/dnsmasq.log --address=/siasky.net/$(node src/whatismyip.js) ; \
+       dnsmasq --strict-order --no-resolv --address=/siasky.net/$(node src/whatismyip.js) ; \
        crond ; \
        node --max-http-header-size=64000 src/index.js" \
     ]
