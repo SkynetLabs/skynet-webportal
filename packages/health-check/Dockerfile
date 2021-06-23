@@ -24,7 +24,7 @@ ENV NODE_ENV production
 # 4. start the health-check api service
 CMD [ "sh", "-c", \
       "echo -e \"nameserver 127.0.0.1\noptions ndots:0\" > /etc/resolv.conf ; \
-       dnsmasq --server=127.0.0.1 --address=/siasky.net/$(node src/whatismyip.js) ; \
+       dnsmasq --server=127.0.0.11 --address=/siasky.net/$(node src/whatismyip.js) ; \
        crond ; \
        node --max-http-header-size=64000 src/index.js" \
     ]
