@@ -23,8 +23,8 @@ ENV NODE_ENV production
 # 3. start crond in the background
 # 4. start the health-check api service
 CMD [ "sh", "-c", \
-      "dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/siasky.net/$(node src/whatismyip.js) --server=127.0.0.11 ; \
-       sed -i 's/127.0.0.11/127.0.0.1/g' /etc/resolv.conf ; \
+      "dnsmasq --strict-order --no-resolv --address=/siasky.net/$(node src/whatismyip.js) ; \
+       echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf ; \
        crond ; \
        node --max-http-header-size=64000 src/index.js" \
     ]
