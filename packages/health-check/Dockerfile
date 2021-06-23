@@ -26,5 +26,5 @@ CMD [ "sh", "-c", \
       "dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/siasky.net/$(node src/whatismyip.js) --server=127.0.0.11 ; \
        echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf ; \
        crond ; \
-       node --max-http-header-size=64000 src/index.js" \
+       node src/index.js" \
     ]
