@@ -18,7 +18,7 @@ COPY cli cli
 EXPOSE 3100
 ENV NODE_ENV production
 
-# 1. start dnsmasq in the backgroundand with:
+# 1. start dnsmasq in the background with:
 #    - alias to siasky.net with current server ip so it overrides load balancer request
 #    - default docker nameserver 127.0.0.11 for any other request
 # 2. replace docker nameserver with dnsmasq nameserver in /etc/resolv.conf
