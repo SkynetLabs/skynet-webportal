@@ -18,15 +18,15 @@ COPY cli cli
 EXPOSE 3100
 ENV NODE_ENV production
 
-# 1. alias siasky.net with current server ip to ommit load balancer
-# 2. prepend dnsmasq nameserver so it tries to resolve first
-# 3. start dnsmasq in the background
-# 4. start crond in the background
-# 5. start the health-check api service
+# 1. start dnsmasq in the background with:
+#    - alias to siasky.net with current server ip so it overrides load balancer request
+#    - default docker nameserver 127.0.0.11 for any other request
+# 2. replace docker nameserver with dnsmasq nameserver in /etc/resolv.conf
+# 3. start crond in the background to schedule periodic health checks
+# 4. start the health-check api service
 CMD [ "sh", "-c", \
-      "echo address=/siasky.net/$(node src/whatismyip.js) > /etc/dnsmasq.d/siasky.net.conf ; \
-       echo -e \"nameserver 127.0.0.1\n$(cat /etc/resolv.conf)\" > /etc/resolv.conf ; \
-       dnsmasq ; \
+      "dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/siasky.net/$(node src/whatismyip.js) --server=127.0.0.11 ; \
+       echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf ; \
        crond ; \
-       node --max-http-header-size=64000 src/index.js" \
+       node src/index.js" \
     ]
