@@ -26,3 +26,6 @@ jobs:
 
       - name: "Static code analysis: dashboard"
         run: yarn workspace dashboard prettier --check .
+
+      - name: "Static code analysis: dnslink-api"
+        run: yarn workspace dnslink-api prettier --check .
