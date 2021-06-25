@@ -1,0 +1,31 @@
+- etosCards:
+    - title: Build a better web
+      src: ./assets/decentralized-internet-skynet.svg
+      alt: The top of a wrench and a cube representing a new kind of Internet
+    - title: Fight corporate control<br />of user data
+      src: ./assets/fight-corporate-control-skynet.svg
+      alt: Symbol of a strong person stretching arms out of screen
+    - title: Empower global citizens
+      src: ./assets/empower-global-citizens-skynet.svg
+      alt: Symbol of a fist in the air
+- ecosystemCards:
+    - title: Easy to use
+      src: ./assets/decentralized-storage-without-wallet.svg
+      alt: Image of a finger pushing a button
+      text: Decentralized storage without needing to run a node or wallet. Skynet also includes SDKs for popular programming languages and APIs that integrate seamlessly with your existing apps.
+    - title: Fast
+      src: ./assets/skynet-decentralized-storage-speed.svg
+      alt: Image of a speedometer
+      text: Skynet's speeds rival centralized providers and surpass all decentralized offerings. A typical Skynet download starts in under 500 ms and can stream at rates as high as 1 Gbps!
+    - title: Free to use
+      src: ./assets/skynet-storage-free-use.svg
+      alt: Image of a server database and a shield
+      text: Focus on building, not overhead server costs. When users own their data, developers aren't asked to pay for it.
+    - title: Monetization
+      src: ./assets/monetization-skynet.svg
+      alt: Image of a coin symbol
+      text: Profit directly from the success of your skapp. Now you can truly prioritize your users, instead of advertisers.
+    - title: Persistence
+      src: ./assets/decentralized-storage-benefits.svg
+      alt: Abstract image of a shield and a graph line
+      text: Your skapp and data stay live, even if corporations pull your access to their resources. You can also use Skynet as a failover site for when centralized providers go down.

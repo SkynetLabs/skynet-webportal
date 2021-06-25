@@ -27,8 +27,9 @@ const NewsHeader = () => {
   if (!latestNews) return null; // no news
 
   // hardcoded news for now
-  const CURRENT_NEWS_URL = "https://blog.sia.tech/built-to-explore-the-skynet-spring-2021-hackathon-a0cff382bb0c";
-  const CURRENT_NEWS_TXT = "Built to Explore: The Skynet Spring 2021 Hackathon";
+  const CURRENT_NEWS_URL =
+    "https://blog.sia.tech/mysky-your-home-on-the-global-operating-system-of-the-future-5a288f89825c";
+  const CURRENT_NEWS_TXT = "MySky: Your Home on the Global Operating System of the Future";
 
   return (
     <div className="bg-palette-500 px-8 p-3">

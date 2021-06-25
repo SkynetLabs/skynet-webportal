@@ -1,0 +1,19 @@
+# register the download in accounts service (cookies should contain jwt)
+log_by_lua_block {
+    -- this block runs only when accounts are enabled
+    if os.getenv("ACCOUNTS_ENABLED", "0") == "0" then return end
+
+    local skylink = ngx.header["Skynet-Skylink"]
+    if skylink and ngx.status >= ngx.HTTP_OK and ngx.status < ngx.HTTP_SPECIAL_RESPONSE then
+        local http = require("socket.http")
+        local query = table.concat({ "status=" .. ngx.status, "bytes=" .. ngx.var.body_bytes_sent }, "&")
+        local ok, statusCode, headers, statusText = http.request {
+            url = "http://accounts:3000/track/download/" .. skylink .. "?" .. query,
+            method = "POST",
+            headers = ngx.req.get_headers()
+        }
+        if statusCode ~= ngx.HTTP_NO_CONTENT and statusCode ~= ngx.HTTP_UNAUTHORIZED then
+            ngx.log(ngx.ERR, "accounts endpoint /track/download/" .. skylink .. " failed with error " .. statusCode)
+        end
+    end
+}
