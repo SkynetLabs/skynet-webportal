@@ -1,7 +1,8 @@
 const got = require("got");
 const FormData = require("form-data");
+const { isEqual } = require("lodash");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
-const { SkynetClient } = require("skynet-js");
+const { SkynetClient, genKeyPairAndSeed } = require("skynet-js");
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -62,6 +63,29 @@ async function accountWebsiteCheck(done) {
   const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
 
   return done(await genericAccessCheck("account_website", url));
+}
+
+// registryWriteAndReadCheck writes to registry and immediately reads and compares the data
+async function registryWriteAndReadCheck(done) {
+  const time = process.hrtime();
+  const data = { name: "registry_write_and_read", up: false };
+  const { privateKey, publicKey } = genKeyPairAndSeed();
+  const expected = { datakey: "foo-key", data: "foo-data", revision: BigInt(0) };
+
+  try {
+    await skynetClient.registry.setEntry(privateKey, expected);
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.datakey);
+
+    if (isEqual(expected, entry)) {
+      data.up = true;
+    } else {
+      data.errors = [{ message: "Data mismatch in registry (read after write)", entry, expected }];
+    }
+  } catch (error) {
+    data.errors = [{ message: error.message }];
+  }
+
+  return done({ ...data, time: calculateElapsedTime(time) });
 }
 
 // directServerApiAccessCheck returns the basic server api check on direct server address
@@ -138,6 +162,7 @@ const checks = [
   downloadCheck,
   skylinkSubdomainCheck,
   handshakeSubdomainCheck,
+  registryWriteAndReadCheck,
   directServerApiAccessCheck,
 ];
 
