@@ -50,7 +50,7 @@ def setup():
     bot_token = os.getenv("DISCORD_BOT_TOKEN")
 
     global bot_channel
-    bot_channel = os.getenv("DISCORD_BOT_CHANNEL", "server-health")
+    bot_channel = os.getenv("DISCORD_BOT_CHANNEL", "skynet-server-health")
 
     global bot_notify_role
     bot_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
@@ -58,11 +58,8 @@ def setup():
     global portal_name
     portal_name = os.getenv("SKYNET_SERVER_API")
 
-    # Get a port or use default
     global port
-    port = os.getenv("API_PORT")
-    if not port:
-        port = "9980"
+    port = os.getenv("API_PORT", "9980")
 
     global api_endpoint
     api_endpoint = "http://{}:{}".format(get_api_ip(), port)
