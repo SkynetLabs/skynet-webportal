@@ -10,9 +10,6 @@ import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
 
-CHANNEL_NAME = "skynet-portal-health-check"
-ROLE_NAME = "skynet-prod"
-
 # Environment variable globals
 api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
 discord_client = None
@@ -50,16 +47,19 @@ def setup():
         load_dotenv(dotenv_path=env_path, override=True)
 
     global bot_token
-    bot_token = os.environ["DISCORD_BOT_TOKEN"]
+    bot_token = os.getenv("DISCORD_BOT_TOKEN")
+
+    global bot_channel
+    bot_channel = os.getenv("DISCORD_BOT_CHANNEL", "skynet-server-health")
+
+    global bot_notify_role
+    bot_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
 
     global portal_name
     portal_name = os.getenv("SKYNET_SERVER_API")
 
-    # Get a port or use default
     global port
-    port = os.getenv("API_PORT")
-    if not port:
-        port = "9980"
+    port = os.getenv("API_PORT", "9980")
 
     global api_endpoint
     api_endpoint = "http://{}:{}".format(get_api_ip(), port)
@@ -80,17 +80,17 @@ async def send_msg(client, msg, force_notify=False, file=None):
 
     chan = None
     for c in guild.channels:
-        if c.name == CHANNEL_NAME:
+        if c.name == bot_channel:
             chan = c
             break
 
     if chan is None:
-        print("Can't find channel {}".format(CHANNEL_NAME))
+        print("Can't find channel {}".format(bot_channel))
 
     # Get the prod team role
     role = None
     for r in guild.roles:
-        if r.name == ROLE_NAME:
+        if r.name == bot_notify_role:
             role = r
             break
 
@@ -113,7 +113,7 @@ async def send_msg(client, msg, force_notify=False, file=None):
                 io.BytesIO(file.encode()), filename=filename
             )  # wrap text into discord file wrapper
 
-    if force_notify:
+    if force_notify and role:
         msg = "{} /cc {}".format(msg, role.mention)
 
     await chan.send(msg, file=file)
