@@ -58,7 +58,7 @@
     "react-svg-loader": "^3.0.3",
     "react-syntax-highlighter": "^15.4.3",
     "react-use": "^17.2.4",
-    "skynet-js": "^3.0.2",
+    "skynet-js": "^4.0.10-beta",
     "stream-browserify": "^3.0.0",
     "swr": "^0.5.6",
     "tailwindcss": "^2.2.4"

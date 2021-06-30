@@ -201,7 +201,7 @@ const Uploader = () => {
             response = await client.uploadFile(file, { onUploadProgress });
           }
 
-          const url = client.getSkylinkUrl(response.skylink, { subdomain: mode === "directory" });
+          const url = await client.getSkylinkUrl(response.skylink, { subdomain: mode === "directory" });
 
           onFileStateChange(file, { status: "complete", url });
         } catch (error) {
