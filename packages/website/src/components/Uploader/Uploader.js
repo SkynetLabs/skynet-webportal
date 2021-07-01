@@ -293,20 +293,24 @@ const Uploader = () => {
               <UploadElement key={index} {...file} />
             ))}
 
-            <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
-              <Info />
+            {!authenticated && (
+              <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
+                <Info />
 
-              {/* mobile - 2 lines */}
-              <p className="text-sm font-light text-palette-600 desktop:hidden">Your files are available for 90 days</p>
-              <p className="text-sm font-light text-palette-600 desktop:hidden">
-                <RegistrationLink /> to keep them forever
-              </p>
+                {/* mobile - 2 lines */}
+                <p className="text-sm font-light text-palette-600 desktop:hidden">
+                  Your files are available for 90 days
+                </p>
+                <p className="text-sm font-light text-palette-600 desktop:hidden">
+                  <RegistrationLink /> to keep them forever
+                </p>
 
-              {/* desktop - 1 line */}
-              <p className="text-sm font-light text-palette-600 hidden desktop:block">
-                Your files are available for 90 days, <RegistrationLink /> to keep them forever
-              </p>
-            </div>
+                {/* desktop - 1 line */}
+                <p className="text-sm font-light text-palette-600 hidden desktop:block">
+                  Your files are available for 90 days, <RegistrationLink /> to keep them forever
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
