@@ -54,6 +54,13 @@ const createUploadErrorMessage = (error) => {
     return "Server failed to respond to your request, please try again later.";
   }
 
+  // Match the error message to a message returned by TUS when upload exceeds max file size
+  const matchTusMaxFileSizeError = error.message.match(/upload exceeds maximum size: \d+ > (?<limit>\d+)/);
+
+  if (matchTusMaxFileSizeError) {
+    return `File exceeds size limit of ${bytes(parseInt(matchTusMaxFileSizeError.groups.limit, 10))}`;
+  }
+
   // TODO: We should add a note "our team has been notified" and have some kind of notification with this error.
   return `Critical error, please refresh the application and try again. ${error.message}`;
 };
