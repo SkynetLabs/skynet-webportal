@@ -182,13 +182,6 @@ const Uploader = () => {
         onFileStateChange(file, { status, progress });
       };
 
-      // Reject files larger than our hard limit of 1 GB with proper message
-      if (file.size > bytes("1 GB")) {
-        onFileStateChange(file, { status: "error", error: "This file size exceeds the maximum allowed size of 1 GB." });
-
-        return;
-      }
-
       const upload = async () => {
         try {
           let response;
