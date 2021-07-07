@@ -2,13 +2,17 @@
 # It is useful in case you have services trying to reach the server through ip and not domain like health checks.
 # It will generate an internal certificate so browsers will warn you when connecting but that not a problem.
 
-# :443 {
-#     tls internal {
-#         on_demand
-#     }
-# 
-#     reverse_proxy nginx:80
-# }
+:443 {
+    tls internal {
+        on_demand
+    }
+
+    reverse_proxy nginx:80 {
+        # add Dnslink-Lookup header so nginx knows that the request comes from a domain
+        # outside of our certificate string and should perform a dnslink lookup
+        header_up Dnslink-Lookup true
+    }
+}
 
 :80 {
     reverse_proxy nginx:80 {
