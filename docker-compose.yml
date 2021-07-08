@@ -81,6 +81,7 @@ services:
     depends_on:
       - sia
       - handshake-api
+      - dnslink-api
       - website
 
   website:
@@ -141,6 +142,19 @@ services:
       - 3100
     depends_on:
       - handshake
+
+  dnslink-api:
+    build:
+      context: ./packages/dnslink-api
+      dockerfile: Dockerfile
+    container_name: dnslink-api
+    restart: unless-stopped
+    logging: *default-logging
+    networks:
+      shared:
+        ipv4_address: 10.10.10.55
+    expose:
+      - 3100
 
   health-check:
     build:

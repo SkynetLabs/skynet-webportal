@@ -1,0 +1,14 @@
+{
+  "name": "dnslink-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "express": "^4.17.1",
+    "is-valid-domain": "^0.0.20",
+    "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
+}
