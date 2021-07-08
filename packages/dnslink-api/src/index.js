@@ -3,15 +3,17 @@ const express = require("express");
 const NodeCache = require("node-cache");
 const isValidDomain = require("is-valid-domain");
 
-const host = process.env.HOSTNAME || "0.0.0.0";
-const port = Number(process.env.PORT) || 3100;
+const host = process.env.DNSLINK_API_HOSTNAME || "0.0.0.0";
+const port = Number(process.env.DNSLINK_API_PORT) || 3100;
+const cacheTTL = Number(process.env.DNSLINK_API_CACHE_TTL) || 300; // default to 5 minutes
 
 const server = express();
-const cache = new NodeCache({ stdTTL: 300 }); // cache for 5 minutes
+const cache = new NodeCache({ stdTTL: cacheTTL });
 
-const dnslinkRegExp = /^dnslink=.+$/;
-const skylinkDnslinkRegExp = /^dnslink=\/skynet-ns\/([a-zA-Z0-9_-]{46}|[a-z0-9]{55})/;
-const hint = "valid example: dnslink=/skynet-ns/3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ";
+const dnslinkNamespace = "skynet-ns";
+const dnslinkRegExp = new RegExp(`^dnslink=/${dnslinkNamespace}/.+$`);
+const dnslinkSkylinkRegExp = new RegExp(`^dnslink=/${dnslinkNamespace}/([a-zA-Z0-9_-]{46}|[a-z0-9]{55})`);
+const hint = `valid example: dnslink=/${dnslinkNamespace}/3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ`;
 
 server.get("/dnslink/:name", async (req, res) => {
   const success = (skylink) => res.set("Skynet-Skylink", skylink).send(skylink);
@@ -47,18 +49,18 @@ server.get("/dnslink/:name", async (req, res) => {
     const dnslinks = records.flat().filter((record) => dnslinkRegExp.test(record));
 
     if (dnslinks.length === 0) {
-      return failure(`TXT records for ${lookup} found but none of them contained valid dnslink - ${hint}`);
+      return failure(`TXT records for ${lookup} found but none of them contained valid skynet dnslink - ${hint}`);
     }
 
     if (dnslinks.length > 1) {
-      return failure(`Multiple TXT records with valid dnslink found for ${lookup}, only one allowed`);
+      return failure(`Multiple TXT records with valid skynet dnslink found for ${lookup}, only one allowed`);
     }
 
     const [dnslink] = dnslinks;
-    const matchSkylink = dnslink.match(skylinkDnslinkRegExp);
+    const matchSkylink = dnslink.match(dnslinkSkylinkRegExp);
 
     if (!matchSkylink) {
-      return failure(`TXT record with dnslink for ${lookup} contains invalid skylink - ${hint}`);
+      return failure(`TXT record with skynet dnslink for ${lookup} contains invalid skylink - ${hint}`);
     }
 
     const skylink = matchSkylink[1];
