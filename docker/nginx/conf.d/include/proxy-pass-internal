@@ -1,0 +1,10 @@
+# ----------------------------------------------------------------
+# this file should be included on all locations that proxy_pass to
+# another nginx location - internal nginx traffic
+# ----------------------------------------------------------------
+
+# increase the timeout on internal nginx proxy_pass locations to a
+# value that is significantly higher than expected and let the end
+# location handle correct timeout
+proxy_read_timeout 30m;
+proxy_send_timeout 30m;
