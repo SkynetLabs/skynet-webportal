@@ -145,6 +145,7 @@ services:
     volumes:
       - ./docker/kratos/oathkeeper:/etc/config/oathkeeper
     restart: on-failure
+    logging: *default-logging
     networks:
       shared:
         ipv4_address: 10.10.10.83
@@ -154,6 +155,8 @@ services:
   cockroach:
     image: cockroachdb/cockroach:v20.2.3
     container_name: cockroach
+    restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     command: start --advertise-addr=${CR_IP} --join=${CR_CLUSTER_NODES} --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
