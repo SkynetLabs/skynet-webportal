@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 import discord
 import requests
-from bot_utils import setup, send_msg
+from bot_utils import setup, send_msg, get_docker_container_ip
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -139,19 +139,27 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        res_check = requests.get("https://127.0.0.1/health-check", verify=False)
-        json_check = res_check.json()
-        json_critical = requests.get(
-            "https://127.0.0.1/health-check/critical", verify=False
-        ).json()
-        json_extended = requests.get(
-            "https://127.0.0.1/health-check/extended", verify=False
-        ).json()
+        endpoint = "http://{}:{}".format(get_docker_container_ip("health-check"), 3100)
     except:
-        trace = traceback.format_exc()
-        print("[DEBUG] check_health() failed.")
+        message = "Could not get health check service endpoint api!"
+        return await send_msg(client, message, force_notify=True)
+
+    try:
+        res = requests.get(endpoint + "/health-check", verify=False)
+        json_check = res.json()
+
+        res = requests.get(endpoint + "/health-check/critical", verify=False).json()
+        json_critical = res.json()
+
+        res = requests.get(endpoint + "/health-check/extended", verify=False).json()
+        json_extended = res.json()
+    except:
+        message = traceback.format_exc()
+        message += "\n" + "Request url: " + res.url if res.url else "-"
+        message += "\n" + "Status code: " + res.status_code if res.status_code else "-"
+        message += "\n" + "Response body: " + res.text if res.text else "-"
         return await send_msg(
-            client, "Failed to run the checks!", file=trace, force_notify=True
+            client, "Failed to run health checks!", file=message, force_notify=True
         )
 
     critical_checks_total = 0
