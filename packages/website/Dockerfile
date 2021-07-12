@@ -8,6 +8,7 @@ COPY package.json .
 COPY package-lock.json .
 
 ENV GATSBY_TELEMETRY_DISABLED 1
+ENV CYPRESS_INSTALL_BINARY 0
 RUN npm i
 
 COPY data ./data
