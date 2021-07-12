@@ -148,6 +148,8 @@ async def check_health():
         res = requests.get(endpoint + "/health-check", verify=False)
         json_check = res.json()
 
+        server_down = res.status_code is not requests.codes["ok"]
+
         res = requests.get(endpoint + "/health-check/critical", verify=False)
         json_critical = res.json()
 
@@ -208,7 +210,7 @@ async def check_health():
 
     if json_check["disabled"]:
         message += "__Portal manually disabled!__ "
-    elif res_check.status_code is not requests.codes["ok"]:
+    elif server_down:
         message += "__Portal down!!!__ "
         force_notify = True
 
