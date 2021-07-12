@@ -1,5 +1,11 @@
 version: "3.7"
 
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   sia:
     environment:
@@ -23,6 +29,7 @@ services:
       ]
     container_name: jaeger-agent
     restart: on-failure
+    logging: *default-logging
     expose:
       - 6831
       - 6832
@@ -40,6 +47,7 @@ services:
     entrypoint: /wait_to_start.sh
     container_name: jaeger-collector
     restart: on-failure
+    logging: *default-logging
     expose:
       - 14269
       - 14268
@@ -64,6 +72,7 @@ services:
     entrypoint: /wait_to_start.sh
     container_name: jaeger-query
     restart: on-failure
+    logging: *default-logging
     ports:
       - "127.0.0.1:16686:16686"
     expose:
@@ -87,6 +96,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
     container_name: elasticsearch
     restart: on-failure
+    logging: *default-logging
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
