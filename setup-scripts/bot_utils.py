@@ -21,11 +21,11 @@ if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
 
 # find out local siad ip by inspecting its docker container
-def get_api_ip():
+def get_docker_container_ip(container_name):
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
     docker_cmd = (
         "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "
-        + CONTAINER_NAME
+        + container_name
     )
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
@@ -62,7 +62,7 @@ def setup():
     port = os.getenv("API_PORT", "9980")
 
     global api_endpoint
-    api_endpoint = "http://{}:{}".format(get_api_ip(), port)
+    api_endpoint = "http://{}:{}".format(get_docker_container_ip(CONTAINER_NAME), port)
 
     siad.initialize()
 
