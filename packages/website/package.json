@@ -9,7 +9,7 @@
     "@fontsource/source-sans-pro": "^4.5.0",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/typography": "^0.4.1",
-    "autoprefixer": "^10.2.6",
+    "autoprefixer": "^10.3.0",
     "bytes": "^3.1.0",
     "classnames": "^2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
