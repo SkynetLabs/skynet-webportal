@@ -148,15 +148,15 @@ async def check_health():
         res = requests.get(endpoint + "/health-check", verify=False)
         json_check = res.json()
 
-        res = requests.get(endpoint + "/health-check/critical", verify=False).json()
+        res = requests.get(endpoint + "/health-check/critical", verify=False)
         json_critical = res.json()
 
-        res = requests.get(endpoint + "/health-check/extended", verify=False).json()
+        res = requests.get(endpoint + "/health-check/extended", verify=False)
         json_extended = res.json()
     except:
         message = traceback.format_exc()
         message += "\n" + "Request url: " + res.url if res.url else "-"
-        message += "\n" + "Status code: " + res.status_code if res.status_code else "-"
+        message += "\n" + "Status code: " + str(res.status_code) if res.status_code else "-"
         message += "\n" + "Response body: " + res.text if res.text else "-"
         return await send_msg(
             client, "Failed to run health checks!", file=message, force_notify=True
