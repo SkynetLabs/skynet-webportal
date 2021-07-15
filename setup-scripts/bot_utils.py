@@ -57,7 +57,7 @@ def setup():
 
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
-async def send_msg(msg, force_notify=False, file=None):
+async def send_msg(msg, force_notify=False, file="teeeeeest"):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     webhook_mention_user = os.getenv("DISCORD_MENTION_USER")
     webhook_mention_role = os.getenv("DISCORD_MENTION_ROLE", "699294748220850346")
@@ -73,7 +73,7 @@ async def send_msg(msg, force_notify=False, file=None):
         filename = "{}-{}.{}".format(
             CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
         )
-        skylink = upload_to_skynet(file, filename, content_type=content_type)
+        skylink = None # upload_to_skynet(file, filename, content_type=content_type)
         if skylink:
             msg = "{} {}".format(msg, skylink)  # append skylink to message
             file = None  # clean file reference, we're using a skylink
