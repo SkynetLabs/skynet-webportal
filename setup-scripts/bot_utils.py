@@ -60,7 +60,7 @@ def setup():
 async def send_msg(msg, force_notify=False, file=None):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     webhook_mention_user = os.getenv("DISCORD_MENTION_USER")
-    webhook_mention_role = os.getenv("DISCORD_MENTION_ROLE", "skynet-prod")
+    webhook_mention_role = os.getenv("DISCORD_MENTION_ROLE", "699294748220850346")
     webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
     # Add the portal name.
@@ -82,11 +82,11 @@ async def send_msg(msg, force_notify=False, file=None):
             webhook.add_file(file=file.read(), filename=filename)
 
     if force_notify and (webhook_mention_user or webhook_mention_role):
-        # webhook.allowed_mentions = {
-        #     "parse": ["users", "roles"],
-        #     "users": [webhook_mention_user],
-        #     "roles": [webhook_mention_role],
-        # }
+        webhook.allowed_mentions = {
+            "parse": ["users", "roles"],
+            "users": [webhook_mention_user],
+            "roles": [webhook_mention_role],
+        }
         msg = "{} /cc".format(msg)  # separate message from mentions
         if webhook_mention_role:
             msg = "{} <@&{}>".format(msg, webhook_mention_role)
