@@ -76,10 +76,9 @@ async def send_msg(msg, force_notify=False, file="teeeeeest"):
         skylink = None # upload_to_skynet(file, filename, content_type=content_type)
         if skylink:
             msg = "{} {}".format(msg, skylink)  # append skylink to message
-            file = None  # clean file reference, we're using a skylink
         else:
-            # io.BytesIO(file.encode())
-            webhook.add_file(file=file.read(), filename=filename)
+            file = io.BytesIO(file.encode())
+            webhook.add_file(file=file, filename=filename)
 
     if force_notify and (webhook_mention_user or webhook_mention_role):
         webhook.allowed_mentions = {
