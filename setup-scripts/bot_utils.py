@@ -73,7 +73,7 @@ async def send_msg(msg, force_notify=False, file="teeeeeest"):
         filename = "{}-{}.{}".format(
             CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
         )
-        skylink = None # upload_to_skynet(file, filename, content_type=content_type)
+        skylink = upload_to_skynet(file, filename, content_type=content_type)
         if skylink:
             msg = "{} {}".format(msg, skylink)  # append skylink to message
         else:
