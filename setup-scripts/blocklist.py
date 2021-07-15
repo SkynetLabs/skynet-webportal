@@ -2,50 +2,48 @@
 
 import traceback, os, re, asyncio, requests, json, discord
 from bot_utils import setup, send_msg
+# Google Imports
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
 
 bot_token = setup()
 client = discord.Client()
 
-AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
-AIRTABLE_BASE = os.getenv("AIRTABLE_BASE", "app89plJvA9EqTJEc")
-AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE", "Table%201")
-AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD", "Link")
 
+# Set the scope as google sheets and readonly
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+SERVICE_ACCOUNT_FILE = '/home/user/skynet-webportal/setup-scripts/.blocklist_gs_keys.json'
+
+# Set Google sheets credentials
+creds = None
+creds = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+# The ID and range of the spreadsheet.
+SPREADSHEET_ID = '1TX1FCsGCFLK0Cz_baT_njemPcAU5--QbjIDmmx_z70s'
+RANGE_NAME = 'Central Blocklist-General View!C2:C'
 
 def exec(command):
     return os.popen(command).read().strip()
 
 
 async def block_skylinks_from_airtable():
-    print("Pulling blocked skylinks from Airtable via api integration")
-    headers = {"Authorization": "Bearer " + AIRTABLE_API_KEY}
-    skylinks = []
-    offset = None
-    while len(skylinks) == 0 or offset:
-        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset")
-        query = "&".join(["fields%5B%5D=" + AIRTABLE_FIELD, ("offset=" + offset) if offset else ""])
-        response = requests.get(
-            "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query,
-            headers=headers,
-        )
+    print("Pulling blocked skylinks from Google Sheets via Google Service Account API")
+    # Initialize the google sheets service
+    service = build('sheets', 'v4', credentials=creds)
 
-        if response.status_code != 200:
-            status_code = str(response.status_code)
-            response_text = response.text or "empty response"
-            message = "Airtable blocklist integration responded with code " + status_code + ": " + response_text
-            return print(message) or await send_msg(client, message, force_notify=False)
+    # Call the Sheets API
+    sheet = service.spreadsheets()
+    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                range=RANGE_NAME).execute()
 
-        data = response.json()
+    # Grab the skylinks
+    skylinks_array = result.get('values', [])
+    # skylinks_array is an array of arrays, this line flattens it into a single
+    # array
+    skylinks = [link for linklist in skylinks_array for link in linklist]
 
-        if len(data["records"]) == 0:
-            return print("Airtable returned 0 records - make sure your configuration is correct")
-
-        skylinks = skylinks + [entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]]
-        skylinks = [skylink for skylink in skylinks if skylink] # filter empty skylinks, most likely empty rows
-
-        offset = data.get("offset")
-
-    print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
+    print("Google Sheets returned total " + str(len(skylinks)) + " skylinks to block")
 
     skylinks_returned = skylinks
     skylinks = [skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)]
