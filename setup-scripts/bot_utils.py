@@ -22,11 +22,6 @@ if len(sys.argv) > 2:
 # sc_precision is the number of hastings per siacoin
 sc_precision = 10 ** 24
 
-# sia deamon local ip address with port
-api_endpoint = "http://{}:{}".format(
-    get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
-)
-
 # Environment variable globals
 setup_done = False
 
@@ -40,6 +35,10 @@ def get_docker_container_ip(container_name):
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
 
+# sia deamon local ip address with port
+api_endpoint = "http://{}:{}".format(
+    get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
+)
 
 # find siad api password by getting it out of the docker container
 def get_api_password():
