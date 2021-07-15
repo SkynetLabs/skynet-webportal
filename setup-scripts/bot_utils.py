@@ -35,6 +35,7 @@ def get_docker_container_ip(container_name):
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
 
+
 # sia deamon local ip address with port
 api_endpoint = "http://{}:{}".format(
     get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
@@ -58,7 +59,8 @@ def setup():
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
 async def send_msg(msg, force_notify=False, file=None):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-    webhook_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
+    webhook_mention_user = os.getenv("DISCORD_MENTION_USER")
+    webhook_mention_role = os.getenv("DISCORD_MENTION_ROLE", "skynet-prod")
     webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
     # Add the portal name.
@@ -79,8 +81,17 @@ async def send_msg(msg, force_notify=False, file=None):
             # io.BytesIO(file.encode())
             webhook.add_file(file=file.read(), filename=filename)
 
-    if force_notify and role:
-        msg = "{} /cc {}".format(msg, role.mention)
+    if force_notify and (webhook_mention_user or webhook_mention_role):
+        webhook.allowed_mentions = {
+            "parse": ["users", "roles"],
+            "users": [webhook_mention_user],
+            "roles": [webhook_mention_role],
+        }
+        msg = "{} /cc".format(msg)  # separate message from mentions
+        if webhook_mention_role:
+            msg = "{} <@&{}>".format(msg, webhook_mention_role)
+        if webhook_mention_user:
+            msg = "{} <@{}>".format(msg, webhook_mention_user)
 
     webhook.content = msg
     webhook.execute()
