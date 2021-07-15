@@ -83,7 +83,6 @@ async def send_msg(msg, force_notify=False, file=None):
 
     if force_notify and (webhook_mention_user or webhook_mention_role):
         webhook.allowed_mentions = {
-            "parse": ["users", "roles"],
             "users": [webhook_mention_user],
             "roles": [webhook_mention_role],
         }
