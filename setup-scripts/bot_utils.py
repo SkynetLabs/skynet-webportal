@@ -4,21 +4,31 @@ from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
+from discord_webhook import DiscordWebhook
 
 import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 
-# sc_precision is the number of hastings per siacoin
-sc_precision = 10 ** 24
-
-# Environment variable globals
-api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
-discord_client = None
-setup_done = False
+# Load dotenv file if possible.
+# TODO: change all scripts to use named flags/params
+if len(sys.argv) > 1:
+    env_path = Path(sys.argv[1])
+    load_dotenv(dotenv_path=env_path, override=True)
 
 # Get the container name as an argument or use "sia" as default.
 CONTAINER_NAME = "sia"
 if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
+
+# sc_precision is the number of hastings per siacoin
+sc_precision = 10 ** 24
+
+# sia deamon local ip address with port
+api_endpoint = "http://{}:{}".format(
+    get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
+)
+
+# Environment variable globals
+setup_done = False
 
 # find out local siad ip by inspecting its docker container
 def get_docker_container_ip(container_name):
@@ -40,62 +50,20 @@ def get_api_password():
 
 
 def setup():
-    # Load dotenv file if possible.
-    # TODO: change all scripts to use named flags/params
-    if len(sys.argv) > 1:
-        env_path = Path(sys.argv[1])
-        load_dotenv(dotenv_path=env_path, override=True)
-
-    global bot_token
-    bot_token = os.getenv("DISCORD_BOT_TOKEN")
-
-    global bot_channel
-    bot_channel = os.getenv("DISCORD_BOT_CHANNEL", "skynet-server-health")
-
-    global bot_notify_role
-    bot_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
-
-    global portal_name
-    portal_name = os.getenv("SKYNET_SERVER_API")
-
-    global port
-    port = os.getenv("API_PORT", "9980")
-
-    global api_endpoint
-    api_endpoint = "http://{}:{}".format(get_docker_container_ip(CONTAINER_NAME), port)
-
     siad.initialize()
 
     global setup_done
     setup_done = True
 
-    return bot_token
-
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
 async def send_msg(client, msg, force_notify=False, file=None):
-    await client.wait_until_ready()
-
-    guild = client.guilds[0]
-
-    chan = None
-    for c in guild.channels:
-        if c.name == bot_channel:
-            chan = c
-            break
-
-    if chan is None:
-        print("Can't find channel {}".format(bot_channel))
-
-    # Get the prod team role
-    role = None
-    for r in guild.roles:
-        if r.name == bot_notify_role:
-            role = r
-            break
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    webhook_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
+    webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
     # Add the portal name.
-    msg = "**{}**: {}".format(portal_name, msg)
+    msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
 
     if file and isinstance(file, str):
         is_json = is_json_string(file)
@@ -109,14 +77,14 @@ async def send_msg(client, msg, force_notify=False, file=None):
             msg = "{} {}".format(msg, skylink)  # append skylink to message
             file = None  # clean file reference, we're using a skylink
         else:
-            file = discord.File(
-                io.BytesIO(file.encode()), filename=filename
-            )  # wrap text into discord file wrapper
+            # io.BytesIO(file.encode())
+            webhook.add_file(file=file.read(), filename=filename)
 
     if force_notify and role:
         msg = "{} /cc {}".format(msg, role.mention)
 
-    await chan.send(msg, file=file)
+    webhook.content = msg
+    webhook.execute()
 
 
 def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):
