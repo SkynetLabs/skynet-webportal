@@ -57,10 +57,10 @@ def setup():
 
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
-async def send_msg(msg, force_notify=False, file="teeeeeest"):
+async def send_msg(msg, force_notify=False, file=None):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-    webhook_mention_user = os.getenv("DISCORD_MENTION_USER")
-    webhook_mention_role = os.getenv("DISCORD_MENTION_ROLE", "699294748220850346")
+    webhook_mention_user_id = os.getenv("DISCORD_MENTION_USER_ID")
+    webhook_mention_role_id = os.getenv("DISCORD_MENTION_ROLE_ID")
     webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
     # Add the portal name.
@@ -77,19 +77,18 @@ async def send_msg(msg, force_notify=False, file="teeeeeest"):
         if skylink:
             msg = "{} {}".format(msg, skylink)  # append skylink to message
         else:
-            file = io.BytesIO(file.encode())
-            webhook.add_file(file=file, filename=filename)
+            webhook.add_file(file=io.BytesIO(file.encode()), filename=filename)
 
-    if force_notify and (webhook_mention_user or webhook_mention_role):
+    if force_notify and (webhook_mention_user_id or webhook_mention_role_id):
         webhook.allowed_mentions = {
-            "users": [webhook_mention_user],
-            "roles": [webhook_mention_role],
+            "users": [webhook_mention_user_id],
+            "roles": [webhook_mention_role_id],
         }
         msg = "{} /cc".format(msg)  # separate message from mentions
-        if webhook_mention_role:
-            msg = "{} <@&{}>".format(msg, webhook_mention_role)
-        if webhook_mention_user:
-            msg = "{} <@{}>".format(msg, webhook_mention_user)
+        if webhook_mention_role_id:
+            msg = "{} <@&{}>".format(msg, webhook_mention_role_id)
+        if webhook_mention_user_id:
+            msg = "{} <@{}>".format(msg, webhook_mention_user_id)
 
     webhook.content = msg
     webhook.execute()
