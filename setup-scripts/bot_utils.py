@@ -56,7 +56,7 @@ def setup():
 
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
-async def send_msg(client, msg, force_notify=False, file=None):
+async def send_msg(msg, force_notify=False, file=None):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     webhook_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
     webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
