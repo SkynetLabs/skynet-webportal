@@ -39,14 +39,14 @@ declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.sias
                       "us-pa-1.siasky.net" "us-pa-2.siasky.net"
                       "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net"
                       "as-hk-1.siasky.net"
-                      "siasky.xyz" "siasky.dev")
+                      "siasky.xyz" "dev1.siasky.dev" "dev2.siasky.dev" "dev3.siasky.dev")
 for server in "${servers[@]}";
 do
     for skylink in "${skylinks[@]}";
     do
         echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
 
-        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add $skylink && docker exec nginx curl -s -i -X PURGE http://localhost/$skylink | egrep \"^(OK|HTTP|X-)\""
+        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add $skylink && echo Cache entries cleared: \$(docker exec -it nginx bash -c \"find /data/nginx/cache/ -type f | xargs --no-run-if-empty grep -Els '^Skynet-Skylink: $skylink' | xargs -r rm -v | wc -l\")"
     done
 done
 
