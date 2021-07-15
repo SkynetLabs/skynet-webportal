@@ -56,7 +56,7 @@ async def block_skylinks_from_airtable():
                 + ": "
                 + response_text
             )
-            return print(message) or await send_msg(message, force_notify=False)
+            return print(message) or await send_msg(message, force_notify=True)
 
         data = response.json()
 
