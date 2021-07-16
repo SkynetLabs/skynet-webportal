@@ -32,7 +32,9 @@ docker-compose --version # sanity check
 # * AWS_SECRET_ACCESS_KEY - (optional) if using route53 as a dns loadbalancer
 # * API_PORT - (optional) the port on which siad is listening, defaults to 9980
 # * PORTAL_NAME - a string representing name of your portal e.g. `siasky.xyz` or `my skynet portal` (internal use only)
-# * DISCORD_BOT_TOKEN - (optional) only required if you're using the discord notifications integration
+# * DISCORD_WEBHOOK_URL - (required if using Discord notifications) discord webhook url (generate from discord app)
+# * DISCORD_MENTION_USER_ID - (optional) add `/cc @user` mention to important messages from webhook (has to be id not user name)
+# * DISCORD_MENTION_ROLE_ID - (optional) add `/cc @role` mention to important messages from webhook (has to be id not role name)
 # * SKYNET_DB_USER - (optional) if using `accounts` this is the MongoDB username
 # * SKYNET_DB_PASS - (optional) if using `accounts` this is the MongoDB password
 # * SKYNET_DB_HOST - (optional) if using `accounts` this is the MongoDB address or container name
@@ -44,7 +46,7 @@ docker-compose --version # sanity check
 # * CR_CLUSTER_NODES - (optional) if using `accounts` the list of servers (with ports) which make up your CockroachDB cluster, e.g. `helsinki.siasky.net:26257,germany.siasky.net:26257,us-east.siasky.net:26257`
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    printf "SSL_CERTIFICATE_STRING=siasky.net, *.siasky.net, *.hns.siasky.net\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\nDISCORD_BOT_TOKEN=\n" > /home/user/skynet-webportal/.env
+    printf "SSL_CERTIFICATE_STRING=siasky.net, *.siasky.net, *.hns.siasky.net\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\DISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
