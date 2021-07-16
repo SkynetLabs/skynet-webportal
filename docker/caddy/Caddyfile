@@ -14,14 +14,6 @@
     }
 }
 
-:80 {
-    reverse_proxy nginx:80 {
-        # add Dnslink-Lookup header so nginx knows that the request comes from a domain
-        # outside of our certificate string and should perform a dnslink lookup
-        header_up Dnslink-Lookup true
-    }
-}
-
 # Make sure you have SSL_CERTIFICATE_STRING specified in .env file because you need it to fetch correct certificates.
 # It needs to have at least 3 parts, the absolute part (ie. example.com), the wildcard part (ie. *.example.com) and
 # the hns wildcard part (ie. *.hns.example.com). The resulting string should look like:
