@@ -58,40 +58,46 @@ def setup():
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
 async def send_msg(msg, force_notify=False, file=None):
-    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-    webhook_mention_user_id = os.getenv("DISCORD_MENTION_USER_ID")
-    webhook_mention_role_id = os.getenv("DISCORD_MENTION_ROLE_ID")
-    webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
+    try:
+        webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+        webhook_mention_user_id = os.getenv("DISCORD_MENTION_USER_ID")
+        webhook_mention_role_id = os.getenv("DISCORD_MENTION_ROLE_ID")
+        webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
-    # Add the portal name.
-    msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
+        # Add the portal name.
+        msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
 
-    if file and isinstance(file, str):
-        is_json = is_json_string(file)
-        content_type = "application/json" if is_json else "text/plain"
-        ext = "json" if is_json else "txt"
-        filename = "{}-{}.{}".format(
-            CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
-        )
-        skylink = upload_to_skynet(file, filename, content_type=content_type)
-        if skylink:
-            msg = "{} {}".format(msg, skylink)  # append skylink to message
-        else:
-            webhook.add_file(file=io.BytesIO(file.encode()), filename=filename)
+        if file and isinstance(file, str):
+            is_json = is_json_string(file)
+            content_type = "application/json" if is_json else "text/plain"
+            ext = "json" if is_json else "txt"
+            filename = "{}-{}.{}".format(
+                CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
+            )
+            skylink = upload_to_skynet(file, filename, content_type=content_type)
+            if skylink:
+                msg = "{} {}".format(msg, skylink)  # append skylink to message
+            else:
+                webhook.add_file(file=io.BytesIO(file.encode()), filename=filename)
 
-    if force_notify and (webhook_mention_user_id or webhook_mention_role_id):
-        webhook.allowed_mentions = {
-            "users": [webhook_mention_user_id],
-            "roles": [webhook_mention_role_id],
-        }
-        msg = "{} /cc".format(msg)  # separate message from mentions
-        if webhook_mention_role_id:
-            msg = "{} <@&{}>".format(msg, webhook_mention_role_id)
-        if webhook_mention_user_id:
-            msg = "{} <@{}>".format(msg, webhook_mention_user_id)
+        if force_notify and (webhook_mention_user_id or webhook_mention_role_id):
+            webhook.allowed_mentions = {
+                "users": [webhook_mention_user_id],
+                "roles": [webhook_mention_role_id],
+            }
+            msg = "{} /cc".format(msg)  # separate message from mentions
+            if webhook_mention_role_id:
+                msg = "{} <@&{}>".format(msg, webhook_mention_role_id)
+            if webhook_mention_user_id:
+                msg = "{} <@{}>".format(msg, webhook_mention_user_id)
 
-    webhook.content = msg
-    webhook.execute()
+        webhook.content = msg
+        webhook.execute()
+
+        print("msg > " + msg)  # print message to std output for debugging purposes
+    except:
+        print("Failed to send message!")
+        print(traceback.format_exc())
 
 
 def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):

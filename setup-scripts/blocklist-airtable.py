@@ -39,7 +39,7 @@ async def block_skylinks_from_airtable():
             status_code = str(response.status_code)
             response_text = response.text or "empty response"
             message = "Airtable blocklist integration responded with code " + status_code + ": " + response_text
-            return print(message) or await send_msg(message, force_notify=False)
+            return await send_msg(message, force_notify=False)
 
         data = response.json()
 
@@ -59,7 +59,7 @@ async def block_skylinks_from_airtable():
     if len(skylinks_returned) != len(skylinks):
         invalid_skylinks = [str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))]
         message = str(len(invalid_skylinks)) + " of the skylinks returned from Airtable are not valid"
-        print(message) or await send_msg(message, file=("\n".join(invalid_skylinks)))
+        await send_msg(message, file=("\n".join(invalid_skylinks)))
 
     apipassword = exec("docker exec sia cat /sia-data/apipassword")
     ipaddress = exec("docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia")
@@ -78,7 +78,7 @@ async def block_skylinks_from_airtable():
         status_code = str(response.status_code)
         response_text = response.text or "empty response"
         message = "Siad blocklist endpoint responded with code " + status_code + ": " + response_text
-        return print(message) or await send_msg(message, force_notify=False)
+        return await send_msg(message, force_notify=False)
 
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
@@ -95,7 +95,7 @@ async def block_skylinks_from_airtable():
 
     exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs rm"')
     message = "Purged " + str(cached_files_count) + " blocklisted files from nginx cache"
-    return print(message) or await send_msg(message)
+    return await send_msg(message)
 
 
 loop = asyncio.get_event_loop()
