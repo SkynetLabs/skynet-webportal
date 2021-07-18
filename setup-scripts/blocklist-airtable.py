@@ -31,7 +31,7 @@ async def block_skylinks_from_airtable():
     offset = None
     retry = 0
     while len(skylinks) == 0 or offset:
-        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset" + (" (retry " + retry + ")" if retry else ""))
+        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset" + (" (retry " + str(retry) + ")" if retry else ""))
         query = "&".join(["fields%5B%5D=" + AIRTABLE_FIELD, ("offset=" + offset) if offset else ""])
         response = requests.get(
             "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query,
