@@ -103,7 +103,9 @@ async def block_skylinks_from_airtable():
             + "|".join(skylinks[i:i+1000])
             + ")'"
         )
-        cached_files_count+= int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs -r rm -v | wc -l"'))
+        output = exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs -r rm -v | wc -l"')
+        print(output)
+        cached_files_count+= int(output)
 
     if cached_files_count == 0:
         return print("No nginx cached files matching blocked skylinks were found")
