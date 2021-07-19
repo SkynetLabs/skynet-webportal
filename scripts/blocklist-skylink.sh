@@ -44,9 +44,10 @@ for server in "${servers[@]}";
 do
     for skylink in "${skylinks[@]}";
     do
-        echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
+        cached_files_command = "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els '^KEY: .*($skylink)'"        
+    	echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
 
-        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add $skylink && docker exec nginx curl -s -i -X PURGE http://localhost/$skylink | egrep \"^(OK|HTTP|X-)\""
+        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add $skylink && docker exec -it nginx bash -c $cached_files_command | xargs rm"
     done
 done
 
