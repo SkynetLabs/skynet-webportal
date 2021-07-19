@@ -550,7 +550,7 @@ function dappExampleCheck(done) {
     },
     headers: {
       "skynet-skylink": "EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA",
-      "content-disposition": 'inline; filename="build"',
+      "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html",
     },
   };
@@ -571,7 +571,7 @@ function developMomentumCheck(done) {
     // metadata: developMomentumMetadata,
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
-      "content-disposition": 'inline; filename="output"',
+      "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html",
     },
   };
@@ -589,7 +589,7 @@ function developMomentumRedirectCheck(done) {
     metadata: developMomentumMetadata,
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
-      "content-disposition": 'inline; filename="output"',
+      "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html",
     },
   };
@@ -604,15 +604,10 @@ function developMomentumIndexFileCheck(done) {
     name: "Develop Momentum Index File",
     skylink: "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html",
     bodyHash: developMomentumBodyHash,
-    // metadata: {
-    //   filename: "/index.html",
-    //   length: 4981,
-    //   subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 4981 } },
-    // },
     headers: {
       "skynet-skylink": "EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw",
       "content-disposition": 'inline; filename="index.html"',
-      "content-type": "text/html; charset=utf-8",
+      "content-type": "text/html",
     },
   };
 
@@ -779,7 +774,7 @@ function skyGalleryCheck(done) {
     metadata: skyGalleryMetadata,
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-      "content-disposition": 'inline; filename="skygallery-v0.1.1-76c4c115fcb526716b2564568850f433"',
+      "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html",
     },
   };
@@ -794,15 +789,10 @@ function skyGalleryIndexFileCheck(done) {
     name: "SkyGallery Index File",
     skylink: "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html",
     bodyHash: skyGalleryBodyHash,
-    // metadata: {
-    //   filename: "/index.html",
-    //   length: 2534,
-    //   subfiles: { "index.html": { filename: "index.html", contenttype: "text/html", len: 2534 } },
-    // },
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
       "content-disposition": 'inline; filename="index.html"',
-      "content-type": "text/html; charset=utf-8",
+      "content-type": "text/html",
     },
   };
 
@@ -819,7 +809,7 @@ function skyGalleryRedirectCheck(done) {
     metadata: skyGalleryMetadata,
     headers: {
       "skynet-skylink": "AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg",
-      "content-disposition": 'inline; filename="skygallery-v0.1.1-76c4c115fcb526716b2564568850f433"',
+      "content-disposition": 'inline; filename="index.html"',
       "content-type": "text/html",
     },
   };
