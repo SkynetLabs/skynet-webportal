@@ -2,6 +2,8 @@
 
 import traceback, os, re, asyncio, requests, json, discord
 from bot_utils import setup, send_msg
+from random import randint
+from time import sleep
 
 setup()
 
@@ -27,13 +29,26 @@ async def block_skylinks_from_airtable():
     headers = {"Authorization": "Bearer " + AIRTABLE_API_KEY}
     skylinks = []
     offset = None
+    retry = 0
     while len(skylinks) == 0 or offset:
-        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset")
+        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset" + (" (retry " + str(retry) + ")" if retry else ""))
         query = "&".join(["fields%5B%5D=" + AIRTABLE_FIELD, ("offset=" + offset) if offset else ""])
         response = requests.get(
             "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query,
             headers=headers,
         )
+
+        # rate limited - sleep for 2-10 secs and retry (up to 100 times, ~10 minutes)
+        # https://support.airtable.com/hc/en-us/articles/203313985-Public-REST-API
+        # > 5 requests per second, per base
+        if response.status_code == 429:
+            if retry < 100:
+                retry = retry + 1
+                sleep(randint(1,10))
+                continue
+            else:
+                return await send_msg("Airtable: too many retries, aborting!", force_notify=True)
+        retry = 0  # reset retry counter
 
         if response.status_code != 200:
             status_code = str(response.status_code)
@@ -82,18 +97,18 @@ async def block_skylinks_from_airtable():
 
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
-    for i in range(0, len(skylinks), 1000):
+    batch_size = 1000
+    for i in range(0, len(skylinks), batch_size):
         cached_files_command = (
-            "/usr/bin/find /data/nginx/cache/ -type f | /usr/bin/xargs --no-run-if-empty -n1000 /bin/grep -Els '^KEY: .*("
-            + "|".join(skylinks[i:i+1000])
+            "find /data/nginx/cache/ -type f | xargs --no-run-if-empty -n" + str(batch_size) + " grep -Els '^Skynet-Skylink: ("
+            + "|".join(skylinks[i:i+batch_size])
             + ")'"
         )
-        cached_files_count += int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | wc -l"') or 0)
+        cached_files_count+= int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs -r rm -v | wc -l"'))
 
     if cached_files_count == 0:
         return print("No nginx cached files matching blocked skylinks were found")
 
-    exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs rm"')
     message = "Purged " + str(cached_files_count) + " blocklisted files from nginx cache"
     return await send_msg(message)
 
