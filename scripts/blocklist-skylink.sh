@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+# This script is meant to be used when manually adding a skylink to the
+# blocklist on all the skynet web portals. The automatic script that is used to
+# continuously sync a google sheets list with the blocklist on the web portals
+# is /setup-scripts/blocklist.py 
+
 set -e # exit on first error
 
 if [ -z "$1" ]; then
