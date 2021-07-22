@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# This script is designed to be triggered and run automatically by crontab to
+# sync the list of blocked skylinks stored in google sheets with the skynet web
+# portals. For manually blocking a skylink on all web portals use
+# /scripts/blocklist-skylink.sh.
+
 import traceback, os, re, asyncio, requests, json
 from bot_utils import setup, send_msg
 # Google Imports
@@ -101,8 +106,3 @@ async def block_skylinks_from_airtable():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run_checks())
 
-# --- BASH EQUIVALENT
-# skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?fields%5B%5D=${AIRTABLE_FIELD}" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
-# apipassword=$(docker exec sia cat /sia-data/apipassword)
-# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
-# curl -A "Sia-Agent" --user "":"${apipassword}" --data "{\"add\" : ${skylinks}}" "${ipaddress}:9980/skynet/blocklist"
