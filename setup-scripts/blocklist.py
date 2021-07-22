@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import traceback, os, re, asyncio, requests, json, discord
+import traceback, os, re, asyncio, requests, json
 from bot_utils import setup, send_msg
 # Google Imports
 from googleapiclient.discovery import build
@@ -82,18 +82,18 @@ async def block_skylinks_from_airtable():
 
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
-    for i in range(0, len(skylinks), 1000):
+    batch_size = 1000
+    for i in range(0, len(skylinks), batch_size):
         cached_files_command = (
-            "find /data/nginx/cache/ -type f | xargs --no-run-if-empty -n1000 grep -Els '^Skynet-Skylink: ("
-            + "|".join(skylinks[i:i+1000])
+            "find /data/nginx/cache/ -type f | xargs --no-run-if-empty -n" + str(batch_size) + " grep -Els '^Skynet-Skylink: ("
+            + "|".join(skylinks[i:i+batch_size])
             + ")'"
         )
-        cached_files_count += int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | wc -l"') or 0)
+        cached_files_count+= int(exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs -r rm -v | wc -l"'))
 
     if cached_files_count == 0:
         return print("No nginx cached files matching blocked skylinks were found")
 
-    exec('docker exec -it nginx bash -c "' + cached_files_command + ' | xargs rm"')
     message = "Purged " + str(cached_files_count) + " blocklisted files from nginx cache"
     return await send_msg(message)
 
