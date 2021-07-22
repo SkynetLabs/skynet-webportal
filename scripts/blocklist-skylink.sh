@@ -39,7 +39,7 @@ declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.sias
                       "us-pa-1.siasky.net" "us-pa-2.siasky.net"
                       "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net"
                       "as-hk-1.siasky.net"
-                      "siasky.xyz" "siasky.dev")
+                      "siasky.xyz" "dev1.siasky.dev" "dev2.siasky.dev" "dev3.siasky.dev")
 for server in "${servers[@]}";
 do
     for skylink in "${skylinks[@]}";

@@ -8,19 +8,7 @@ dispatches messages to a Discord channel.
 import discord, traceback, asyncio, os
 from bot_utils import setup, send_msg, siad, sc_precision
 
-bot_token = setup()
-client = discord.Client()
-
-
-async def exit_after(delay):
-    await asyncio.sleep(delay)
-    os._exit(0)
-
-
-@client.event
-async def on_ready():
-    await run_checks()
-    asyncio.create_task(exit_after(3))
+setup()
 
 
 async def run_checks():
@@ -29,7 +17,7 @@ async def run_checks():
         await check_funds()
     except:  # catch all exceptions
         trace = traceback.format_exc()
-        await send_msg(client, "```\n{}\n```".format(trace), force_notify=True)
+        await send_msg("```\n{}\n```".format(trace), force_notify=True)
 
 
 # check_funds checks that the wallet is unlocked, that it has at least 1
@@ -41,7 +29,7 @@ async def check_funds():
     renter_get = siad.get_renter()
 
     if not wallet_get["unlocked"]:
-        await send_msg(client, "Wallet locked", force_notify=True)
+        await send_msg("Wallet locked", force_notify=True)
         return
 
     confirmed_coins = int(wallet_get["confirmedsiacoinbalance"])
@@ -67,8 +55,10 @@ async def check_funds():
     if balance < allowance_funds * WALLET_ALLOWANCE_THRESHOLD:
         wallet_address_res = siad.get("/wallet/address")
         wallet_msg = "Address: {}".format(wallet_address_res["address"])
-        message = "__Wallet balance running low!__ {} {}".format(balance_msg, wallet_msg)
-        return await send_msg(client, message, force_notify=True)
+        message = "__Wallet balance running low!__ {} {}".format(
+            balance_msg, wallet_msg
+        )
+        return await send_msg(message, force_notify=True)
 
     # Alert devs when only a fraction of the allowance is remaining.
     SPEND_THRESHOLD = 0.9
@@ -76,10 +66,11 @@ async def check_funds():
         message = "__More than {:.0%} of allowance spent!__ {}".format(
             SPEND_THRESHOLD, alloc_msg
         )
-        return await send_msg(client, message, force_notify=True)
+        return await send_msg(message, force_notify=True)
 
     # Send an informational heartbeat if all checks passed.
-    await send_msg(client, "Funds checks passed. {} {}".format(balance_msg, alloc_msg))
+    await send_msg("Funds checks passed. {} {}".format(balance_msg, alloc_msg))
 
 
-client.run(bot_token)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(run_checks())

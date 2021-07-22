@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import discord, sys, traceback, io, os, asyncio
+import sys, traceback, io, os, asyncio
 from bot_utils import setup, send_msg, upload_to_skynet
 from subprocess import Popen, PIPE
 
@@ -31,20 +31,7 @@ if len(sys.argv) > 3:
 # a lower limit in order to leave some space for additional message text.
 DISCORD_MAX_MESSAGE_LENGTH = 1900
 
-bot_token = setup()
-client = discord.Client()
-
-
-# exit_after kills the script if it hasn't exited on its own after `delay` seconds
-async def exit_after(delay):
-    await asyncio.sleep(delay)
-    os._exit(0)
-
-
-@client.event
-async def on_ready():
-    await run_checks()
-    asyncio.create_task(exit_after(3))
+setup()
 
 
 async def run_checks():
@@ -53,7 +40,7 @@ async def run_checks():
         await check_docker_logs()
     except:  # catch all exceptions
         trace = traceback.format_exc()
-        await send_msg(client, "```\n{}\n```".format(trace), force_notify=False)
+        await send_msg("```\n{}\n```".format(trace), force_notify=False)
 
 
 # check_docker_logs checks the docker logs by filtering on the docker image name
@@ -84,13 +71,12 @@ async def check_docker_logs():
             pos = std_err.find("\n", -one_mb)
             std_err = std_err[pos + 1 :]
             return await send_msg(
-                client, "Error(s) found in log!", file=std_err, force_notify=True
+                "Error(s) found in log!", file=std_err, force_notify=True
             )
 
     # If there are any critical or severe errors. upload the whole log file.
     if "Critical" in std_out or "Severe" in std_out or "panic" in std_out:
         return await send_msg(
-            client,
             "Critical or Severe error found in log!",
             file=std_out,
             force_notify=True,
@@ -98,9 +84,9 @@ async def check_docker_logs():
 
     # No critical or severe errors, return a heartbeat type message
     return await send_msg(
-        client,
         "No critical or severe warnings in log since {} hours".format(CHECK_HOURS),
     )
 
 
-client.run(bot_token)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(run_checks())
