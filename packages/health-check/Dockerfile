@@ -12,7 +12,7 @@ RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/ro
 
 COPY package.json yarn.lock ./
 
-RUN yarn
+RUN yarn --frozen-lockfile
 
 COPY src src
 COPY cli cli

@@ -8,7 +8,7 @@ COPY package.json yarn.lock ./
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV CYPRESS_INSTALL_BINARY 0
-RUN yarn
+RUN yarn --frozen-lockfile
 
 COPY data ./data
 COPY src ./src
