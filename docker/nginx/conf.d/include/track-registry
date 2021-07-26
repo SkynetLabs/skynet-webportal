@@ -1,7 +1,7 @@
 # register the registry access in accounts service (cookies should contain jwt)
 log_by_lua_block {
     -- this block runs only when accounts are enabled
-    if os.getenv("ACCOUNTS_ENABLED") ~= "1" then return end
+    if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
     if ngx.status == ngx.HTTP_OK or ngx.status == ngx.HTTP_NOT_FOUND then
         local http = require("socket.http")
