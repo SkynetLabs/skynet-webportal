@@ -39,4 +39,4 @@ jobs:
         with:
           upload-dir: packages/website/public
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          registry-seed: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.WEBSITE_REGISTRY_SEED || '' }}
+          registry-seed: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && secrets.WEBSITE_REGISTRY_SEED || '' }}

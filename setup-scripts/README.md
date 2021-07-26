@@ -15,10 +15,10 @@ You may want to fork this repository and replace ssh keys in
   - [sia](https://sia.tech) ([docker hub](https://hub.docker.com/r/nebulouslabs/sia)): storage provider, heart of the portal setup
   - [caddy](https://caddyserver.com) ([docker hub](https://hub.docker.com/r/caddy/caddy)): reverse proxy (similar to nginx) that handles ssl out of a box and acts as a transparent entry point
   - [openresty](https://openresty.org) ([docker hub](https://hub.docker.com/r/openresty/openresty)): nginx custom build, acts as a cached proxy to siad and exposes all api endpoints
-  - [health-check](https://github.com/NebulousLabs/skynet-webportal/tree/main/packages/health-check): simple service that runs periodically and collects health data about the server (status and response times) - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/main/packages/health-check/README.md)
+  - [health-check](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/health-check): simple service that runs periodically and collects health data about the server (status and response times) - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/health-check/README.md)
   - [handshake](https://handshake.org) ([github](https://github.com/handshake-org/hsd)): full handshake node
-  - [handshake-api](https://github.com/NebulousLabs/skynet-webportal/tree/main/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/main/packages/handshake-api/README.md)
-  - [website](https://github.com/NebulousLabs/skynet-webportal/tree/main/packages/website): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/main/packages/website/README.md)
+  - [handshake-api](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/handshake-api/README.md)
+  - [website](https://github.com/NebulousLabs/skynet-webportal/tree/master/packages/website): portal frontend application - [read more](https://github.com/NebulousLabs/skynet-webportal/blob/master/packages/website/README.md)
   - [kratos](https://www.ory.sh/kratos/): user account management system
   - [oathkeeper](https://www.ory.sh/oathkeeper/): identity and access proxy
 - discord integration
