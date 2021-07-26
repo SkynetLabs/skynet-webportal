@@ -1,10 +1,6 @@
 const { defaultIcons } = require("gatsby-plugin-manifest/common");
 
 module.exports = {
-  flags: {
-    // PARALLEL_QUERY_RUNNING: true,
-    // PARALLEL_SOURCING: true,
-  },
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,
