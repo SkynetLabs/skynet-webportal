@@ -53,8 +53,8 @@ const Navigation = ({ mode, uri }) => {
       <div className={classnames("max-w-layout mx-auto")}>
         <div className="flex justify-between">
           <Link to="/" className={classnames("flex flex-shrink-0 items-center")}>
-            {mode === "dark" && <LogoWhiteText className="h-8 desktop:h-10" />}
-            {mode === "light" && <LogoBlackText className="h-8 desktop:h-10" />}
+            {mode === "dark" && <LogoWhiteText className="h-10" />}
+            {mode === "light" && <LogoBlackText className="h-10" />}
           </Link>
           <div className="ml-auto flex items-center desktop:hidden z-10">
             <button
