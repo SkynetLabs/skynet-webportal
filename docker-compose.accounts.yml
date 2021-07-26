@@ -9,7 +9,7 @@ x-logging: &default-logging
 services:
   nginx:
     environment:
-      - ACCOUNTS_ENABLED=1
+      - ACCOUNTS_ENABLED=true
     volumes:
       - ./docker/accounts/nginx.account.conf:/etc/nginx/conf.extra.d/nginx.account.conf:ro
     depends_on:
@@ -17,7 +17,7 @@ services:
 
   health-check:
     environment:
-      - ACCOUNTS_ENABLED=1
+      - ACCOUNTS_ENABLED=true
 
   accounts:
     build:
