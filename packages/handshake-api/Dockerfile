@@ -15,4 +15,4 @@ ENV HSD_API_KEY="foo"
 
 EXPOSE 3100
 ENV NODE_ENV production
-CMD [ "node src" ]
+CMD node src/index.js

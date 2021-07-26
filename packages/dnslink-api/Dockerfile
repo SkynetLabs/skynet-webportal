@@ -9,4 +9,4 @@ RUN yarn
 COPY src/* src/
 
 EXPOSE 3100
-CMD node src
+CMD node src/index.js
