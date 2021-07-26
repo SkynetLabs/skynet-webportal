@@ -12,20 +12,22 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Install dependencies
-        run: yarn
-
       - name: "Static code analysis: handshake-api"
-        run: yarn workspace handshake-api prettier --check .
+        working-directory: packages/handshake-api
+        run: yarn && yarn prettier --check .
 
       - name: "Static code analysis: health-check"
-        run: yarn workspace health-check prettier --check .
+        working-directory: packages/health-check
+        run: yarn && yarn prettier --check .
 
       - name: "Static code analysis: website"
-        run: yarn workspace website prettier --check .
+        working-directory: packages/website
+        run: yarn && yarn prettier --check .
 
       - name: "Static code analysis: dashboard"
-        run: yarn workspace dashboard prettier --check .
+        working-directory: packages/dashboard
+        run: yarn && yarn prettier --check .
 
       - name: "Static code analysis: dnslink-api"
-        run: yarn workspace dnslink-api prettier --check .
+        working-directory: packages/dnslink-api
+        run: yarn && yarn prettier --check .
