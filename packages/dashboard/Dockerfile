@@ -1,11 +1,12 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
 COPY package.json .
+COPY yarn.lock .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN yarn --no-lockfile
+RUN yarn
 
 COPY public ./public
 COPY src ./src

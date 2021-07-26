@@ -1,9 +1,12 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
 COPY package.json .
-RUN yarn --no-lockfile
+COPY yarn.lock .
+
+RUN yarn
+
 COPY src/* src/
 
 ENV HSD_NETWORK="main"
@@ -13,4 +16,4 @@ ENV HSD_API_KEY="foo"
 
 EXPOSE 3100
 ENV NODE_ENV production
-CMD [ "node", "--max-http-header-size=64000", "src/index.js" ]
+CMD [ "node src" ]

@@ -1,9 +1,12 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
 COPY package.json .
-RUN yarn --no-lockfile
+COPY yarn.lock .
+
+RUN yarn
+
 COPY src/* src/
 
 EXPOSE 3100

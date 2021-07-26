@@ -1,15 +1,15 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 RUN apk update && apk add autoconf automake build-base libtool nasm pkgconfig
 
 WORKDIR /usr/app
 
 COPY package.json .
-COPY package-lock.json .
+COPY yarn.lock .
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV CYPRESS_INSTALL_BINARY 0
-RUN npm i
+RUN yarn
 
 COPY data ./data
 COPY src ./src
@@ -21,8 +21,8 @@ COPY gatsby-ssr.js .
 COPY postcss.config.js .
 COPY tailwind.config.js .
 
-RUN npm run build
+RUN yarn build
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "npm run serve -- --host 0.0.0.0"]
+CMD ["sh", "-c", "yarn serve --host 0.0.0.0"]

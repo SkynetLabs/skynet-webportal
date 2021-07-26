@@ -1,4 +1,4 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 RUN apk update && apk add dnsmasq
 
@@ -11,7 +11,10 @@ RUN echo '*/5 * * * * /usr/app/cli/run critical > /dev/stdout' >> /etc/crontabs/
 RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/root
 
 COPY package.json .
-RUN yarn --no-lockfile
+COPY yarn.lock .
+
+RUN yarn
+
 COPY src src
 COPY cli cli
 
@@ -28,5 +31,5 @@ CMD [ "sh", "-c", \
       "dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/siasky.net/$(node src/whatismyip.js) --server=127.0.0.11 ; \
        echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf ; \
        crond ; \
-       node src/index.js" \
+       node src" \
     ]
