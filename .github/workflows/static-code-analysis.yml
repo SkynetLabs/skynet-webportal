@@ -6,28 +6,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        pacakge: [dashboard, dnslink-api, handshake-api, health-check, website]
+      fail-fast: false
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
 
-      - name: "Static code analysis: handshake-api"
-        working-directory: packages/handshake-api
-        run: yarn && yarn prettier --check .
-
-      - name: "Static code analysis: health-check"
-        working-directory: packages/health-check
-        run: yarn && yarn prettier --check .
-
-      - name: "Static code analysis: website"
-        working-directory: packages/website
-        run: yarn && yarn prettier --check .
-
-      - name: "Static code analysis: dashboard"
-        working-directory: packages/dashboard
-        run: yarn && yarn prettier --check .
-
-      - name: "Static code analysis: dnslink-api"
-        working-directory: packages/dnslink-api
+      - name: Static code analysis for ${{ matrix.package }}
+        working-directory: packages/${{ matrix.package }}
         run: yarn && yarn prettier --check .
