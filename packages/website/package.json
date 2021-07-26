@@ -26,7 +26,7 @@
     "gatsby-plugin-purgecss": "^6.0.2",
     "gatsby-plugin-react-helmet": "^4.9.0",
     "gatsby-plugin-robots-txt": "^1.6.8",
-    "gatsby-plugin-sharp": "^3.9.0",
+    "gatsby-plugin-sharp": "^3.10.2",
     "gatsby-plugin-svgr": "^3.0.0-beta.0",
     "gatsby-remark-classes": "^1.0.0",
     "gatsby-remark-copy-linked-files": "^4.6.0",
