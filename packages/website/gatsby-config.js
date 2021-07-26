@@ -1,7 +1,6 @@
 const { defaultIcons } = require("gatsby-plugin-manifest/common");
 
 module.exports = {
-  flags: { PRESERVE_WEBPACK_CACHE: true },
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,

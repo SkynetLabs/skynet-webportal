@@ -1,10 +1,12 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
-COPY package.json .
-RUN yarn --no-lockfile
+COPY package.json yarn.lock ./
+
+RUN yarn --frozen-lockfile
+
 COPY src/* src/
 
 EXPOSE 3100
-CMD node src
+CMD node src/index.js

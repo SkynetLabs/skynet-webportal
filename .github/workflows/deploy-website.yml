@@ -15,16 +15,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: 15.x
+          node-version: 16.x
 
-      - name: Install dependencies
-        run: npm i --force
-
-      - name: "Build website"
-        run: npm run build
+      - run: yarn
+      - run: yarn build
 
       - name: "Integration tests"
         uses: cypress-io/github-action@v2
@@ -35,7 +31,7 @@ jobs:
           working-directory: packages/website
           install: false
           record: true
-          start: npm run serve
+          start: yarn serve
           wait-on: "http://127.0.0.1:9000"
 
       - name: "Deploy to Skynet"

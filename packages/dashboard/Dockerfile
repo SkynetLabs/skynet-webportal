@@ -1,17 +1,15 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
-COPY package.json .
+COPY package.json yarn.lock ./
 
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN yarn --no-lockfile
+RUN yarn --frozen-lockfile
 
 COPY public ./public
 COPY src ./src
 COPY styles ./styles
-COPY next.config.js .
-COPY postcss.config.js .
-COPY tailwind.config.js .
+COPY next.config.js postcss.config.js tailwind.config.js ./
 
 CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|KRATOS|STRIPE' > .env.local && yarn build && yarn start"]

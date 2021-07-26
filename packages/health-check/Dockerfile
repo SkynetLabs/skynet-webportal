@@ -1,4 +1,4 @@
-FROM node:16.3.0-alpine
+FROM node:16.5.0-alpine
 
 RUN apk update && apk add dnsmasq
 
@@ -10,8 +10,10 @@ RUN echo '*/5 * * * * /usr/app/cli/run critical > /dev/stdout' >> /etc/crontabs/
 # schedule extended checks to run on every hour (optional checks, report only)
 RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/root
 
-COPY package.json .
-RUN yarn --no-lockfile
+COPY package.json yarn.lock ./
+
+RUN yarn --frozen-lockfile
+
 COPY src src
 COPY cli cli
 
