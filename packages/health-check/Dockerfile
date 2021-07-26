@@ -10,8 +10,7 @@ RUN echo '*/5 * * * * /usr/app/cli/run critical > /dev/stdout' >> /etc/crontabs/
 # schedule extended checks to run on every hour (optional checks, report only)
 RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/root
 
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 
 RUN yarn
 

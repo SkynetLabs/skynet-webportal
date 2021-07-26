@@ -2,8 +2,7 @@ FROM node:16.5.0-alpine
 
 WORKDIR /usr/app
 
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 
 RUN yarn
 
