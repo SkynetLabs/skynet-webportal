@@ -45,7 +45,7 @@ services:
     env_file:
       - .env
     environment:
-      - CADDY_SKYDB_ENDPOINT=http://10.10.10.10:9980
+      - CADDY_SKYDB_ENDPOINT=10.10.10.10:9980
     volumes:
       - ./docker/data/caddy/data:/data
       - ./docker/data/caddy/config:/config
