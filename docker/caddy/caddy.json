@@ -20,9 +20,6 @@
                       "handle": [
                         {
                           "handler": "reverse_proxy",
-                          "headers": {
-                            "request": { "set": { "Dnslink-Lookup": ["true"] } }
-                          },
                           "upstreams": [
                             {
                               "dial": "nginx:80"
@@ -45,6 +42,9 @@
                       "handle": [
                         {
                           "handler": "reverse_proxy",
+                          "headers": {
+                            "request": { "set": { "Dnslink-Lookup": ["true"] } }
+                          },
                           "upstreams": [
                             {
                               "dial": "nginx:80"
