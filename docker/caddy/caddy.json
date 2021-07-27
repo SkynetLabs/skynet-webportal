@@ -20,6 +20,9 @@
                       "handle": [
                         {
                           "handler": "reverse_proxy",
+                          "headers": {
+                            "request": { "set": { "Dnslink-Lookup": ["true"] } }
+                          },
                           "upstreams": [
                             {
                               "dial": "nginx:80"
@@ -66,11 +69,11 @@
             "issuers": [
               {
                 "module": "acme",
-                "ca": "https://acme-staging-v02.api.letsencrypt.org/directory",
                 "challenges": {
                   "dns": {
                     "provider": {
-                      "name": "route53"
+                      "name": "route53",
+                      "max_retries": 50
                     }
                   }
                 }
@@ -80,7 +83,8 @@
                 "challenges": {
                   "dns": {
                     "provider": {
-                      "name": "route53"
+                      "name": "route53",
+                      "max_retries": 50
                     }
                   }
                 }
