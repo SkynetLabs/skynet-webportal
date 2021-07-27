@@ -8,7 +8,6 @@ FROM caddy:2.4.3
 
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 
-COPY pre-run /etc/caddy/
-COPY caddy.json /etc/caddy/
+COPY caddy.json pre-run /etc/caddy/
 
 CMD ["sh", "-c", "/etc/caddy/pre-run ; caddy run --config /etc/caddy/caddy.json"]
