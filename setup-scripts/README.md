@@ -92,7 +92,9 @@ At this point we have almost everything running, we just need to set up your wal
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
    - `PORTAL_NAME` a string representing name of your portal e.g. `siasky.xyz` or `my skynet portal`
-   - `DISCORD_BOT_TOKEN` (optional) if you're using Discord notifications for health checks and such
+   - `DISCORD_WEBHOOK_URL` (required if using Discord notifications) discord webhook url (generate from discord app)
+   - `DISCORD_MENTION_USER_ID` (optional) add `/cc @user` mention to important messages from webhook (has to be id not user name)
+   - `DISCORD_MENTION_ROLE_ID` (optional) add `/cc @role` mention to important messages from webhook (has to be id not role name)
    - `SKYNET_DB_USER` (optional) if using `accounts` this is the MongoDB username
    - `SKYNET_DB_PASS` (optional) if using `accounts` this is the MongoDB password
    - `SKYNET_DB_HOST` (optional) if using `accounts` this is the MongoDB address or container name

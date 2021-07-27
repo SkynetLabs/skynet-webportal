@@ -2,14 +2,16 @@
 
 ## Web application
 
-Use `yarn workspace website start` to start the development server.
+Change current directory with `cd packages/website`.
 
-Use `yarn workspace website build` to compile the application to `/public` directory.
+Use `yarn start` to start the development server.
+
+Use `yarn build` to compile the application to `/public` directory.
 
 You can use the below build parameters to customize your web application.
 
-- development example `GATSBY_API_URL=https://siasky.dev yarn workspace website start`
-- production example `GATSBY_API_URL=https://siasky.net yarn workspace website build`
+- development example `GATSBY_API_URL=https://siasky.dev yarn start`
+- production example `GATSBY_API_URL=https://siasky.net yarn build`
 
 List of available parameters:
 
@@ -185,8 +187,8 @@ Before pushing your code, you should verify that it will pass our online test su
 **Cypress Tests**
 Verify the Cypress test suite by doing the following:
 
-1. In one terminal screen run `GATSBY_API_URL=https://siasky.net yarn workspace website serve`
-1. In a second terminal screen run `yarn workspace website cypress run`
+1. In one terminal screen run `GATSBY_API_URL=https://siasky.net website serve`
+1. In a second terminal screen run `yarn cypress run`
 
 ## Setting up complete skynet server
 

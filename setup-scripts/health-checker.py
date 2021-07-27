@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 import discord
 import requests
-from bot_utils import setup, send_msg
+from bot_utils import setup, send_msg, get_docker_container_ip
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -38,20 +38,7 @@ GB = 1 << 30  # 1 GiB in bytes
 FREE_DISK_SPACE_THRESHOLD = 50 * GB
 FREE_DISK_SPACE_THRESHOLD_CRITICAL = 20 * GB
 
-bot_token = setup()
-client = discord.Client()
-
-
-# exit_after kills the script if it hasn't exited on its own after `delay` seconds
-async def exit_after(delay):
-    await asyncio.sleep(delay)
-    os._exit(0)
-
-
-@client.event
-async def on_ready():
-    await run_checks()
-    asyncio.create_task(exit_after(3))
+setup()
 
 
 async def run_checks():
@@ -66,7 +53,6 @@ async def run_checks():
         trace = traceback.format_exc()
         print("[DEBUG] run_checks() failed.")
         await send_msg(
-            client,
             "Failed to run the portal health checks!",
             file=trace,
             force_notify=True,
@@ -84,7 +70,7 @@ async def check_load_average():
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
         message = "High system load detected in uptime output: {}".format(uptime_string)
-        await send_msg(client, message, force_notify=True)
+        await send_msg(message, force_notify=True)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
@@ -109,7 +95,7 @@ async def check_disk():
             break
     if vol == "":
         message = "Failed to check free disk space! Didn't find a suitable mount point to check."
-        return await send_msg(client, message, file=df)
+        return await send_msg(message, file=df)
 
     # if we've reached a critical free disk space threshold we need to send proper notice
     # and shut down sia container so it doesn't get corrupted
@@ -125,13 +111,13 @@ async def check_disk():
             os.popen("docker exec health-check cli/disable")
             time.sleep(300)  # wait 5 minutes to propagate dns changes
             os.popen("docker stop sia")  # stop sia container
-        return await send_msg(client, message, force_notify=True)
+        return await send_msg(message, force_notify=True)
 
     # if we're reached a free disk space threshold we need to send proper notice
     if int(volumes[vol]) < FREE_DISK_SPACE_THRESHOLD:
         free_space_gb = "{:.2f}".format(int(volumes[vol]) / GB)
         message = "WARNING! Low disk space: {}GiB".format(free_space_gb)
-        return await send_msg(client, message, force_notify=True)
+        return await send_msg(message, force_notify=True)
 
 
 # check_health checks /health-check endpoint and reports recent issues
@@ -139,19 +125,31 @@ async def check_health():
     print("\nChecking portal health status...")
 
     try:
-        res_check = requests.get("https://127.0.0.1/health-check", verify=False)
-        json_check = res_check.json()
-        json_critical = requests.get(
-            "https://127.0.0.1/health-check/critical", verify=False
-        ).json()
-        json_extended = requests.get(
-            "https://127.0.0.1/health-check/extended", verify=False
-        ).json()
+        endpoint = "http://{}:{}".format(get_docker_container_ip("health-check"), 3100)
     except:
-        trace = traceback.format_exc()
-        print("[DEBUG] check_health() failed.")
+        message = "Could not get health check service endpoint api!"
+        return await send_msg(message, force_notify=True)
+
+    try:
+        res = requests.get(endpoint + "/health-check", verify=False)
+        json_check = res.json()
+
+        server_down = res.status_code is not requests.codes["ok"]
+
+        res = requests.get(endpoint + "/health-check/critical", verify=False)
+        json_critical = res.json()
+
+        res = requests.get(endpoint + "/health-check/extended", verify=False)
+        json_extended = res.json()
+    except:
+        message = traceback.format_exc()
+        message += "\n" + "Request url: " + res.url if res.url else "-"
+        message += (
+            "\n" + "Status code: " + str(res.status_code) if res.status_code else "-"
+        )
+        message += "\n" + "Response body: " + res.text if res.text else "-"
         return await send_msg(
-            client, "Failed to run the checks!", file=trace, force_notify=True
+            "Failed to run health checks!", file=message, force_notify=True
         )
 
     critical_checks_total = 0
@@ -200,7 +198,7 @@ async def check_health():
 
     if json_check["disabled"]:
         message += "__Portal manually disabled!__ "
-    elif res_check.status_code is not requests.codes["ok"]:
+    elif server_down:
         message += "__Portal down!!!__ "
         force_notify = True
 
@@ -231,7 +229,7 @@ async def check_health():
         or datetime.utcnow().hour == 1
     ):
         return await send_msg(
-            client, message, file=failed_records_file, force_notify=force_notify
+            message, file=failed_records_file, force_notify=force_notify
         )
 
 
@@ -330,7 +328,7 @@ async def check_alerts():
     # on 1 AM
     if force_notify or datetime.utcnow().hour == 1:
         return await send_msg(
-            client, message, file=siac_alert_output, force_notify=force_notify
+            message, file=siac_alert_output, force_notify=force_notify
         )
 
 
@@ -373,7 +371,8 @@ async def check_portal_size():
 
     # send a message if we force notification, or just once daily (heartbeat) on 1 AM
     if force_notify or datetime.utcnow().hour == 1:
-        return await send_msg(client, message, force_notify=force_notify)
+        return await send_msg(message, force_notify=force_notify)
 
 
-client.run(bot_token)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(run_checks())

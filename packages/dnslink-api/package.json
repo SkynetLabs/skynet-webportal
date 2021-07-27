@@ -1,15 +1,14 @@
 {
-  "name": "handshake-api",
+  "name": "dnslink-api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "express": "^4.17.1",
-    "hs-client": "^0.0.9",
-    "node-cache": "^5.1.2",
-    "punycode": "^2.1.1"
+    "is-valid-domain": "^0.1.2",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "prettier": "^2.3.2"
+    "prettier": "^2.2.1"
   }
 }

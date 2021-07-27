@@ -9,6 +9,14 @@ updates:
     assignees:
       - kwypchlo
   - package-ecosystem: npm
+    directory: "/packages/dnslink-api"
+    schedule:
+      interval: weekly
+      time: "10:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - kwypchlo
+  - package-ecosystem: npm
     directory: "/packages/handshake-api"
     schedule:
       interval: weekly

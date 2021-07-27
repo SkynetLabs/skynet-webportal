@@ -4,32 +4,42 @@ from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
+from discord_webhook import DiscordWebhook
 
 import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
 
-# sc_precision is the number of hastings per siacoin
-sc_precision = 10 ** 24
-
-# Environment variable globals
-api_endpoint, port, portal_name, bot_token, password = None, None, None, None, None
-discord_client = None
-setup_done = False
+# Load dotenv file if possible.
+# TODO: change all scripts to use named flags/params
+if len(sys.argv) > 1:
+    env_path = Path(sys.argv[1])
+    load_dotenv(dotenv_path=env_path, override=True)
 
 # Get the container name as an argument or use "sia" as default.
 CONTAINER_NAME = "sia"
 if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
 
+# sc_precision is the number of hastings per siacoin
+sc_precision = 10 ** 24
+
+# Environment variable globals
+setup_done = False
+
 # find out local siad ip by inspecting its docker container
-def get_api_ip():
+def get_docker_container_ip(container_name):
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
     docker_cmd = (
         "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "
-        + CONTAINER_NAME
+        + container_name
     )
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
     return ip_regex.findall(output)[0]
 
+
+# sia deamon local ip address with port
+api_endpoint = "http://{}:{}".format(
+    get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
+)
 
 # find siad api password by getting it out of the docker container
 def get_api_password():
@@ -40,83 +50,54 @@ def get_api_password():
 
 
 def setup():
-    # Load dotenv file if possible.
-    # TODO: change all scripts to use named flags/params
-    if len(sys.argv) > 1:
-        env_path = Path(sys.argv[1])
-        load_dotenv(dotenv_path=env_path, override=True)
-
-    global bot_token
-    bot_token = os.getenv("DISCORD_BOT_TOKEN")
-
-    global bot_channel
-    bot_channel = os.getenv("DISCORD_BOT_CHANNEL", "skynet-server-health")
-
-    global bot_notify_role
-    bot_notify_role = os.getenv("DISCORD_BOT_NOTIFY_ROLE", "skynet-prod")
-
-    global portal_name
-    portal_name = os.getenv("SKYNET_SERVER_API")
-
-    global port
-    port = os.getenv("API_PORT", "9980")
-
-    global api_endpoint
-    api_endpoint = "http://{}:{}".format(get_api_ip(), port)
-
     siad.initialize()
 
     global setup_done
     setup_done = True
 
-    return bot_token
-
 
 # send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
-async def send_msg(client, msg, force_notify=False, file=None):
-    await client.wait_until_ready()
+async def send_msg(msg, force_notify=False, file=None):
+    try:
+        webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+        webhook_mention_user_id = os.getenv("DISCORD_MENTION_USER_ID")
+        webhook_mention_role_id = os.getenv("DISCORD_MENTION_ROLE_ID")
+        webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
-    guild = client.guilds[0]
+        # Add the portal name.
+        msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
 
-    chan = None
-    for c in guild.channels:
-        if c.name == bot_channel:
-            chan = c
-            break
+        if file and isinstance(file, str):
+            is_json = is_json_string(file)
+            content_type = "application/json" if is_json else "text/plain"
+            ext = "json" if is_json else "txt"
+            filename = "{}-{}.{}".format(
+                CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
+            )
+            skylink = upload_to_skynet(file, filename, content_type=content_type)
+            if skylink:
+                msg = "{} {}".format(msg, skylink)  # append skylink to message
+            else:
+                webhook.add_file(file=io.BytesIO(file.encode()), filename=filename)
 
-    if chan is None:
-        print("Can't find channel {}".format(bot_channel))
+        if force_notify and (webhook_mention_user_id or webhook_mention_role_id):
+            webhook.allowed_mentions = {
+                "users": [webhook_mention_user_id],
+                "roles": [webhook_mention_role_id],
+            }
+            msg = "{} /cc".format(msg)  # separate message from mentions
+            if webhook_mention_role_id:
+                msg = "{} <@&{}>".format(msg, webhook_mention_role_id)
+            if webhook_mention_user_id:
+                msg = "{} <@{}>".format(msg, webhook_mention_user_id)
 
-    # Get the prod team role
-    role = None
-    for r in guild.roles:
-        if r.name == bot_notify_role:
-            role = r
-            break
+        webhook.content = msg
+        webhook.execute()
 
-    # Add the portal name.
-    msg = "**{}**: {}".format(portal_name, msg)
-
-    if file and isinstance(file, str):
-        is_json = is_json_string(file)
-        content_type = "application/json" if is_json else "text/plain"
-        ext = "json" if is_json else "txt"
-        filename = "{}-{}.{}".format(
-            CONTAINER_NAME, datetime.utcnow().strftime("%Y-%m-%d-%H:%M:%S"), ext
-        )
-        skylink = upload_to_skynet(file, filename, content_type=content_type)
-        if skylink:
-            msg = "{} {}".format(msg, skylink)  # append skylink to message
-            file = None  # clean file reference, we're using a skylink
-        else:
-            file = discord.File(
-                io.BytesIO(file.encode()), filename=filename
-            )  # wrap text into discord file wrapper
-
-    if force_notify and role:
-        msg = "{} /cc {}".format(msg, role.mention)
-
-    await chan.send(msg, file=file)
+        print("msg > " + msg)  # print message to std output for debugging purposes
+    except:
+        print("Failed to send message!")
+        print(traceback.format_exc())
 
 
 def upload_to_skynet(contents, filename="file.txt", content_type="text/plain"):

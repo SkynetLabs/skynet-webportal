@@ -54,6 +54,13 @@ const createUploadErrorMessage = (error) => {
     return "Server failed to respond to your request, please try again later.";
   }
 
+  // Match the error message to a message returned by TUS when upload exceeds max file size
+  const matchTusMaxFileSizeError = error.message.match(/upload exceeds maximum size: \d+ > (?<limit>\d+)/);
+
+  if (matchTusMaxFileSizeError) {
+    return `File exceeds size limit of ${bytes(parseInt(matchTusMaxFileSizeError.groups.limit, 10))}`;
+  }
+
   // TODO: We should add a note "our team has been notified" and have some kind of notification with this error.
   return `Critical error, please refresh the application and try again. ${error.message}`;
 };
@@ -182,13 +189,6 @@ const Uploader = () => {
         onFileStateChange(file, { status, progress });
       };
 
-      // Reject files larger than our hard limit of 1 GB with proper message
-      if (file.size > bytes("1 GB")) {
-        onFileStateChange(file, { status: "error", error: "This file size exceeds the maximum allowed size of 1 GB." });
-
-        return;
-      }
-
       const upload = async () => {
         try {
           let response;
@@ -293,20 +293,24 @@ const Uploader = () => {
               <UploadElement key={index} {...file} />
             ))}
 
-            <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
-              <Info />
+            {!authenticated && (
+              <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
+                <Info />
 
-              {/* mobile - 2 lines */}
-              <p className="text-sm font-light text-palette-600 desktop:hidden">Your files are available for 90 days</p>
-              <p className="text-sm font-light text-palette-600 desktop:hidden">
-                <RegistrationLink /> to keep them forever
-              </p>
+                {/* mobile - 2 lines */}
+                <p className="text-sm font-light text-palette-600 desktop:hidden">
+                  Your files are available for 90 days
+                </p>
+                <p className="text-sm font-light text-palette-600 desktop:hidden">
+                  <RegistrationLink /> to keep them forever
+                </p>
 
-              {/* desktop - 1 line */}
-              <p className="text-sm font-light text-palette-600 hidden desktop:block">
-                Your files are available for 90 days, <RegistrationLink /> to keep them forever
-              </p>
-            </div>
+                {/* desktop - 1 line */}
+                <p className="text-sm font-light text-palette-600 hidden desktop:block">
+                  Your files are available for 90 days, <RegistrationLink /> to keep them forever
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
