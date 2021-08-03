@@ -10,7 +10,7 @@ import { useTimeoutFn } from "react-use";
 import ms from "ms";
 import Link from "../Link";
 
-const TOO_MANY_REQUESTS_RETRY = ms("5s"); // retry delay after "492: TOO_MANY_REQUESTS"
+const TOO_MANY_REQUESTS_RETRY = ms("5s"); // retry delay after "429: TOO_MANY_REQUESTS"
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
