@@ -4,7 +4,7 @@ import { Add, Cloud, Unlock, Info } from "../Icons";
 import classNames from "classnames";
 import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
-import shortid from "shortid";
+import { nanoid } from "nanoid";
 import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
 import Link from "../Link";
 import UploaderElement from "./UploaderElement";
@@ -51,10 +51,7 @@ const Uploader = () => {
       files = [{ name, files }];
     }
 
-    setUploads((uploads) => [
-      ...files.map((file) => ({ id: shortid.generate(), file, mode, status: "enqueued" })),
-      ...uploads,
-    ]);
+    setUploads((uploads) => [...files.map((file) => ({ id: nanoid(), file, mode, status: "enqueued" })), ...uploads]);
   };
 
   React.useEffect(() => {
