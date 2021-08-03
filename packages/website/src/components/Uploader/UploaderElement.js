@@ -10,8 +10,6 @@ import { useTimeoutFn } from "react-use";
 import ms from "ms";
 import Link from "../Link";
 
-const TOO_MANY_REQUESTS_RETRY = ms("5s"); // retry delay after "429: TOO_MANY_REQUESTS"
-
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
 const getRelativeFilePath = (file) => {
@@ -62,6 +60,7 @@ const client = new SkynetClient(process.env.GATSBY_API_URL);
 export default function UploaderElement({ onUploadStateChange, upload }) {
   const [copied, setCopied] = React.useState(false);
   const [, , reset] = useTimeoutFn(() => setCopied(false), ms("3 seconds"));
+  const [retryTimeout, setRetryTimeout] = React.useState(ms("3 seconds")); // retry delay after "429: TOO_MANY_REQUESTS"
 
   const handleCopy = (url) => {
     copy(url);
@@ -102,14 +101,15 @@ export default function UploaderElement({ onUploadStateChange, upload }) {
 
             setTimeout(() => {
               onUploadStateChange(upload.id, { status: "enqueued", startedTime: null });
-            }, TOO_MANY_REQUESTS_RETRY);
+              setRetryTimeout((timeout) => timeout * 2); // increase timeout on next retry
+            }, retryTimeout);
           } else {
             onUploadStateChange(upload.id, { status: "error", error: createUploadErrorMessage(error) });
           }
         }
       })();
     }
-  }, [onUploadStateChange, upload]);
+  }, [onUploadStateChange, upload, retryTimeout]);
 
   return (
     <div>
@@ -138,7 +138,7 @@ export default function UploaderElement({ onUploadStateChange, upload }) {
               )}
               {upload.status === "error" && upload.error && <span className="text-error">{upload.error}</span>}
               {upload.status === "retrying" && (
-                <span>Too many parallel requests, retrying in {TOO_MANY_REQUESTS_RETRY / 1000} seconds</span>
+                <span>Too many parallel requests, retrying in {retryTimeout / 1000} seconds</span>
               )}
             </div>
             <div>
