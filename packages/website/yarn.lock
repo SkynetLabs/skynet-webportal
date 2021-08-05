@@ -6855,10 +6855,10 @@ gatsby-remark-prismjs@^5.8.0:
     parse-numeric-range "^1.2.0"
     unist-util-visit "^2.0.3"
 
-gatsby-remark-responsive-iframe@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-responsive-iframe/-/gatsby-remark-responsive-iframe-4.7.0.tgz#16b11186219a8ec42dcf204beaee843fb3d71545"
-  integrity sha512-kGOnzXL2Ivx6lQbyUZlYjZgEI4PeiseyxdtbAWu0gANdGNHI42KBdXkoG3bpb9mk/yQ95DddiYDgGUQ0dxzEzw==
+gatsby-remark-responsive-iframe@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-responsive-iframe/-/gatsby-remark-responsive-iframe-4.8.0.tgz#cea898f6978aa6bb6800ad2c999448e88d433854"
+  integrity sha512-0TAnjZd3DDxvZINgo3eMclg8OpSwlllDoTMVC0zftjLN53HM3oyZGOhdvm2v4OXEIGdCzrxXQr60hDRBdvU6+w==
   dependencies:
     "@babel/runtime" "^7.14.6"
     cheerio "^1.0.0-rc.9"
@@ -6895,7 +6895,7 @@ gatsby-source-filesystem@^3.10.0:
     valid-url "^1.0.9"
     xstate "^4.14.0"
 
-gatsby-telemetry@^2.10.0, gatsby-telemetry@^2.11.0:
+gatsby-telemetry@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-2.11.0.tgz#e5d2de76b3bfce6aa787d261830d21bbde8b92cd"
   integrity sha512-6GEcZpsY5N/+K+SGGdDHuOknjer6vsYLJsUuUWkz32t8OK9lE1cLvXIdO2eTHdS4rtWFM324a/yFMlizp59SbA==
