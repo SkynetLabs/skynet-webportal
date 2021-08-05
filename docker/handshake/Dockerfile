@@ -3,7 +3,9 @@ FROM node:16.5.0-alpine
 WORKDIR /opt/hsd
 
 RUN apk update && apk add bash unbound-dev gmp-dev g++ gcc make python2 git
-RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd
+# Checkout a specific commit until Handshake releases 2.4.0 then we should switch to that tag.
+RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd && \
+    cd /opt/hsd && git checkout 3870234780240faf571426e790ea412dc6592622 && cd -
 RUN npm install --production
 
 ENV PATH="${PATH}:/opt/hsd/bin:/opt/hsd/node_modules/.bin"
