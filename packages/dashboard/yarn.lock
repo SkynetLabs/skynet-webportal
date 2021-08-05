@@ -2770,10 +2770,10 @@ strip-eof@^1.0.0:
   resolved "https://registry.yarnpkg.com/strip-eof/-/strip-eof-1.0.0.tgz#bb43ff5598a6eb05d89b59fcd129c983313606bf"
   integrity sha1-u0P/VZim6wXYm1n80SnJgzE2Br8=
 
-stripe@8.167.0:
-  version "8.167.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.167.0.tgz#a7d7bd3828fa34210f9101b061b10f56b3a45b18"
-  integrity sha512-iWrof4zc/TRjzKr181Tj5Tz/RaxpNQjqkkVjjfqmzXuSY1tNV4HTbS26ucsBNkw2MJZr/q1Hx8gWDRdhZ8FG2g==
+stripe@8.168.0:
+  version "8.168.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.168.0.tgz#d60d2901bea00a7ab56115743dba85fa20f8a2ea"
+  integrity sha512-MQXTarijIOagtLajGe1zBFc9KMbB7jIoFv/kr1WsDPJO/S+/hhZjsXCgBkNvnlwK7Yl0VUn+YrgXl9/9wU6WCw==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
