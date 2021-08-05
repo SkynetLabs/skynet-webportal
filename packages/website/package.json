@@ -17,7 +17,7 @@
     "framer-motion": "^4.1.17",
     "gatsby": "^3.11.0",
     "gatsby-background-image": "^1.5.3",
-    "gatsby-image": "^3.10.0",
+    "gatsby-image": "^3.11.0",
     "gatsby-plugin-image": "^1.10.1",
     "gatsby-plugin-manifest": "^3.10.0",
     "gatsby-plugin-matomo": "^0.10.0",
