@@ -9,7 +9,7 @@ import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
 import Link from "../Link";
 import UploaderElement from "./UploaderElement";
 
-const MAX_PARALLEL_UPLOADS = 1;
+const MAX_PARALLEL_UPLOADS = 1000;
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
