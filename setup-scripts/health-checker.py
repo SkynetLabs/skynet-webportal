@@ -35,8 +35,8 @@ DISCORD_MAX_MESSAGE_LENGTH = 1900
 GB = 1 << 30  # 1 GiB in bytes
 
 # Free disk space threshold used for notices and shutting down siad.
-FREE_DISK_SPACE_THRESHOLD = 50 * GB
-FREE_DISK_SPACE_THRESHOLD_CRITICAL = 20 * GB
+FREE_DISK_SPACE_THRESHOLD = 100 * GB
+FREE_DISK_SPACE_THRESHOLD_CRITICAL = 60 * GB
 
 setup()
 
