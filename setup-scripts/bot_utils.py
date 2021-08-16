@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime
 from discord_webhook import DiscordWebhook
 
-import urllib, json, os, traceback, discord, sys, re, subprocess, requests, io
+import urllib, json, os, traceback, sys, re, subprocess, requests, io
 
 # Load dotenv file if possible.
 # TODO: change all scripts to use named flags/params

@@ -9,7 +9,6 @@ import time
 import traceback
 from datetime import datetime, timedelta
 
-import discord
 import requests
 from bot_utils import setup, send_msg, get_docker_container_ip
 
