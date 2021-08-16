@@ -25,7 +25,7 @@
     "gatsby-plugin-postcss": "^4.11.0",
     "gatsby-plugin-purgecss": "^6.0.2",
     "gatsby-plugin-react-helmet": "^4.11.0",
-    "gatsby-plugin-robots-txt": "^1.6.8",
+    "gatsby-plugin-robots-txt": "^1.6.9",
     "gatsby-plugin-sharp": "^3.11.0",
     "gatsby-plugin-svgr": "^3.0.0-beta.0",
     "gatsby-remark-classes": "^1.0.0",
