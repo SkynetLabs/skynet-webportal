@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import traceback, os, re, asyncio, requests, json, discord
+import traceback, os, re, asyncio, requests, json
 from bot_utils import setup, send_msg
 from random import randint
 from time import sleep

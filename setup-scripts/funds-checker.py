@@ -5,7 +5,7 @@ funds-checker runs simple checks on a portal node using the siad API and
 dispatches messages to a Discord channel.
 """
 
-import discord, traceback, asyncio, os
+import traceback, asyncio, os
 from bot_utils import setup, send_msg, siad, sc_precision
 
 setup()
