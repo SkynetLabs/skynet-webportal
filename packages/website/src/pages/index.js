@@ -92,7 +92,7 @@ const IndexPage = ({ data }) => {
             <SectionTitle>Ready to build your application?</SectionTitle>
 
             <Link
-              href="https://support.siasky.net/the-technology/developing-on-skynet"
+              href="https://docs.siasky.net"
               className="button-secondary-dark inline-block px-10 mt-7"
             >
               Learn more
@@ -110,7 +110,7 @@ const IndexPage = ({ data }) => {
 
         <div className="desktop:hidden mt-12 text-center">
           <Link
-            href="https://support.siasky.net/the-technology/developing-on-skynet"
+            href="https://docs.siasky.net"
             className="button-secondary-dark inline-block px-10 mt-7"
           >
             Learn more

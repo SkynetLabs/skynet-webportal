@@ -8,7 +8,7 @@ import Link from "../components/Link";
 
 const LearnMoreButton = () => (
   <Link
-    href="https://support.siasky.net/the-technology/developing-on-skynet"
+    href="https://docs.siasky.net"
     className="button-secondary-dark inline-block px-10 mt-7"
   >
     Learn more
@@ -47,7 +47,7 @@ const resources = [
   {
     title: "Skynet Developer Guide",
     description: "Developer portal for resources and guides.",
-    href: "https://support.siasky.net/the-technology/developing-on-skynet",
+    href: "https://docs.siasky.net",
   },
   {
     title: "Skynet SDK Docs",
@@ -77,7 +77,7 @@ const resources = [
 ];
 
 const docs = [
-  { name: "Developer Guide", href: "https://support.siasky.net/the-technology/developing-on-skynet" },
+  { name: "Developer Guide", href: "https://docs.siasky.net" },
   { name: "Skynet SDK Docs", href: "https://siasky.net/docs/" },
 ];
 
