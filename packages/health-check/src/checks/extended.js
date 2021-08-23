@@ -1036,6 +1036,90 @@ function hnsEndpointDirectoryRedirect(done) {
   skylinkVerification(done, expected, { followRedirect: false });
 }
 
+function skappSkySend(done) {
+  skylinkVerification(done, {
+    name: "skysend.hns",
+    source: "https://github.com/redsolver/skysend/",
+    skylink: "GADlWH3ALR2g1cDUBI6Ti8B22iD7R5dfn_8jLfq-atm5iw",
+    bodyHash: "35bc25301501a3b28913ca7a7a06120681365a9c",
+    headers: {
+      "skynet-skylink": "GADlWH3ALR2g1cDUBI6Ti8B22iD7R5dfn_8jLfq-atm5iw",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
+function skappNoteToSelf(done) {
+  skylinkVerification(done, {
+    name: "note-to-self.hns",
+    source: "https://github.com/kwypchlo/note-to-self/",
+    skylink: "EAD_w2YcqtpqVgtRwKXPno9VmKfTcVG3E_OIL-Np_Hz_1g",
+    bodyHash: "e00c1b7348dd419e96bf3c188185a5fb8d04af53",
+    headers: {
+      "skynet-skylink": "EAD_w2YcqtpqVgtRwKXPno9VmKfTcVG3E_OIL-Np_Hz_1g",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
+function skappUniswap(done) {
+  skylinkVerification(done, {
+    name: "uniswap skynet labs fork",
+    source: "https://github.com/SkynetLabs/uniswap-interface/",
+    skylink: "OAAy4_g9EYfuOiUZlz_irkoPgsc_seAjgGozerrT1QvE5A",
+    bodyHash: "db2882b7902f24d62e49905b77d536aaf7b7da75",
+    headers: {
+      "skynet-skylink": "OAAy4_g9EYfuOiUZlz_irkoPgsc_seAjgGozerrT1QvE5A",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
+function skappHackerPaste(done) {
+  skylinkVerification(done, {
+    name: "hackerpaste.hns",
+    source: "https://github.com/harej/hackerpaste/",
+    skylink: "_AGZuZCyRn5kZMFHBssWYc20poXyez1XMO6hmPqAVcM1qg",
+    bodyHash: "12817ac933b7f64fc63ae24a652132ed11e5b622",
+    headers: {
+      "skynet-skylink": "_AGZuZCyRn5kZMFHBssWYc20poXyez1XMO6hmPqAVcM1qg",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
+function skappHowAboutSkapp(done) {
+  skylinkVerification(done, {
+    name: "tirthahalli.hns",
+    source: "-",
+    skylink: "AAAsdvGalu2Fj9P5zLvZhfwoI0CpXeO_kPMSG_YU1PSIWg",
+    bodyHash: "734c49ddde2a49ac6ddbf1c6d90a014ff82e2f87",
+    headers: {
+      "skynet-skylink": "AAAsdvGalu2Fj9P5zLvZhfwoI0CpXeO_kPMSG_YU1PSIWg",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
+function skappSkyDeploy(done) {
+  skylinkVerification(done, {
+    name: "sky-deploy.hns",
+    source: "-",
+    skylink: "CABR1ic_lIPaN9JYLG6AiudkW5GShRd-Cr6Wkjur7z29Rw",
+    bodyHash: "b2b0498a8a7f6fcfe76c29ae1a1176b4e64cb5ab",
+    headers: {
+      "skynet-skylink": "CABR1ic_lIPaN9JYLG6AiudkW5GShRd-Cr6Wkjur7z29Rw",
+      "content-disposition": 'inline; filename="index.html"',
+      "content-type": "text/html",
+    },
+  });
+}
+
 function parseHeaderString(header) {
   try {
     return JSON.parse(header);
@@ -1061,7 +1145,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
     }
 
     // Check if the response body is valid by checking against the known hash
-    if (expected.bodyHash) {
+    if ("bodyHash" in expected) {
       const currentBodyHash = hasha(response.rawBody, { algorithm: "sha1" });
       if (currentBodyHash !== expected.bodyHash) {
         entry.up = false;
@@ -1153,4 +1237,10 @@ module.exports = [
   uniswapHNSResolverCheck,
   uniswapHNSResolverRedirectCheck,
   hnsEndpointDirectoryRedirect,
+  skappSkySend,
+  skappNoteToSelf,
+  skappUniswap,
+  skappHackerPaste,
+  skappHowAboutSkapp,
+  skappSkyDeploy,
 ];

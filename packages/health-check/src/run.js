@@ -1,3 +1,4 @@
+const util = require("util");
 const { getYesterdayISOString } = require("./utils");
 const createMiddleware = require("./checks/middleware");
 
@@ -43,7 +44,12 @@ require("yargs/yargs")(process.argv.slice(2)).command(
 
     // exit with code 1 if any of the checks report failure
     if (entry.checks.some(({ up }) => !up)) {
-      console.log(entry.checks.filter(({ up }) => !up));
+      console.log(
+        util.inspect(
+          entry.checks.filter(({ up }) => !up),
+          { colors: true, depth: 7 } // increase depth to ensure errors are printed
+        )
+      );
       process.exit(1);
     }
   }
