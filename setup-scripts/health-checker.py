@@ -173,6 +173,9 @@ async def check_health():
                 critical_checks_failed += 1
                 bad = True
         if bad:
+            critical["checks"] = [
+                check for check in critical["checks"] if check["up"] == False
+            ]
             failed_records.append(critical)
 
     for extended in json_extended:
@@ -186,6 +189,9 @@ async def check_health():
                 extended_checks_failed += 1
                 bad = True
         if bad:
+            extended["checks"] = [
+                check for check in extended["checks"] if check["up"] == False
+            ]
             failed_records.append(extended)
 
     ################################################################################
