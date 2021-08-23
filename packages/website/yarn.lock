@@ -3675,10 +3675,10 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.1.tgz#c80b3fab28bf6371e6863325eee67e618b77e6ad"
-  integrity sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
+  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
@@ -3724,7 +3724,7 @@ cheerio-select@^1.5.0:
     domhandler "^4.2.0"
     domutils "^2.7.0"
 
-cheerio@^1.0.0-rc.9:
+cheerio@^1.0.0-rc.10, cheerio@^1.0.0-rc.9:
   version "1.0.0-rc.10"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.10.tgz#2ba3dcdfcc26e7956fc1f440e61d51c643379f3e"
   integrity sha512-g0J0q/O6mW8z5zxQ3A8E8J1hUgp4SMOvEoW/x84OwyHKe/Zccz83PVT4y5Crcr530FV6NgmKI1qvGTKVl9XXVw==
@@ -6848,15 +6848,15 @@ gatsby-remark-copy-linked-files@^4.8.0:
     probe-image-size "^6.0.0"
     unist-util-visit "^2.0.3"
 
-gatsby-remark-images@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-5.8.0.tgz#d654e3359de808ff5a01729ad23c454c0e15b567"
-  integrity sha512-yxlynSYsDJJer3U1SYV+Xn1ACP9M4G1KkySZreU369L0/SDzG/a1mHUBVXuVg+0hu7KI0NzkofdhIaxHG6skhw==
+gatsby-remark-images@^5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-5.9.0.tgz#2903681af5a1968acd704d483ae26a860636f424"
+  integrity sha512-JXvUpUIiQo+tNxc5gPJ6h7k+HOrSOrwlWI+dGVWEm0VZO+PaJdaYBbpBrLa2/JQ4zI+GIp5lDl/ZL5B9b8kYlg==
   dependencies:
-    "@babel/runtime" "^7.14.6"
-    chalk "^4.1.1"
-    cheerio "^1.0.0-rc.9"
-    gatsby-core-utils "^2.11.0"
+    "@babel/runtime" "^7.14.8"
+    chalk "^4.1.2"
+    cheerio "^1.0.0-rc.10"
+    gatsby-core-utils "^2.12.0"
     is-relative-url "^3.0.0"
     lodash "^4.17.21"
     mdast-util-definitions "^4.0.0"
