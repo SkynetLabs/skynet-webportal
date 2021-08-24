@@ -7,10 +7,7 @@ import Seo from "../components/seo";
 import Link from "../components/Link";
 
 const LearnMoreButton = () => (
-  <Link
-    href="https://docs.siasky.net"
-    className="button-secondary-dark inline-block px-10 mt-7"
-  >
+  <Link href="https://docs.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
     Learn more
   </Link>
 );

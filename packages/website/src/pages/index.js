@@ -91,10 +91,7 @@ const IndexPage = ({ data }) => {
           <div className="hidden desktop:inline-block">
             <SectionTitle>Ready to build your application?</SectionTitle>
 
-            <Link
-              href="https://docs.siasky.net"
-              className="button-secondary-dark inline-block px-10 mt-7"
-            >
+            <Link href="https://docs.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
               Learn more
             </Link>
           </div>
@@ -109,10 +106,7 @@ const IndexPage = ({ data }) => {
         </div>
 
         <div className="desktop:hidden mt-12 text-center">
-          <Link
-            href="https://docs.siasky.net"
-            className="button-secondary-dark inline-block px-10 mt-7"
-          >
+          <Link href="https://docs.siasky.net" className="button-secondary-dark inline-block px-10 mt-7">
             Learn more
           </Link>
         </div>
