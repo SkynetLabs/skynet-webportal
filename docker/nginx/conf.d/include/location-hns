@@ -1,0 +1,94 @@
+include /etc/nginx/conf.d/include/proxy-buffer;
+include /etc/nginx/conf.d/include/proxy-pass-internal;
+
+# variable definititions - we need to define a variable to be able to access it in lua by ngx.var.something
+set $skylink ''; # placeholder for the raw 46 bit skylink
+
+# resolve handshake domain by requesting to /hnsres endpoint and assign correct values to $skylink and $rest
+access_by_lua_block {
+    local json = require('cjson')
+    local httpc = require("resty.http").new()
+
+    -- make a get request to /hnsres endpoint with the domain name from request_uri
+    -- 10.10.10.50 points to handshake-api service (alias not available when using resty-http)
+    local hnsres_res, hnsres_err = httpc:request_uri("http://10.10.10.50:3100/hnsres/" .. ngx.var.hns_domain)
+
+    -- print error and exit with 500 or exit with response if status is not 200
+    if hnsres_err or (hnsres_res and hnsres_res.status ~= ngx.HTTP_OK) then
+        ngx.status = (hnsres_err and ngx.HTTP_INTERNAL_SERVER_ERROR) or hnsres_res.status
+        ngx.header["content-type"] = "text/plain"
+        ngx.say(hnsres_err or hnsres_res.body)
+        return ngx.exit(ngx.status)
+    end
+
+    -- since /hnsres endpoint response is a json, we need to decode it before we access it
+    -- example response: '{"skylink":"sia://XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg"}'
+    local hnsres_json = json.decode(hnsres_res.body)
+
+    -- define local variable containing rest of the skylink if provided
+    local skylink_rest
+
+    if hnsres_json.skylink then
+        -- try to match the skylink with sia:// prefix
+        skylink, skylink_rest = string.match(hnsres_json.skylink, "sia://([^/?]+)(.*)")
+
+        -- in case the skylink did not match, assume that there is no sia:// prefix and try to match again
+        if skylink == nil then
+            skylink, skylink_rest = string.match(hnsres_json.skylink, "/?([^/?]+)(.*)")
+        end
+    elseif hnsres_json.registry then
+        local publickey = hnsres_json.registry.publickey
+        local datakey = hnsres_json.registry.datakey
+
+        -- make a get request to /skynet/registry endpoint with the credentials from text record
+        -- 10.10.10.10 points to sia service (alias not available when using resty-http)
+        local registry_res, registry_err = httpc:request_uri("http://10.10.10.10:9980/skynet/registry?publickey=" .. publickey .. "&datakey=" .. datakey, {
+            headers = { ["User-Agent"] = "Sia-Agent" }
+        })
+
+        -- print error and exit with 500 or exit with response if status is not 200
+        if registry_err or (registry_res and registry_res.status ~= ngx.HTTP_OK) then
+            ngx.status = (registry_err and ngx.HTTP_INTERNAL_SERVER_ERROR) or registry_res.status
+            ngx.header["content-type"] = "text/plain"
+            ngx.say(registry_err or registry_res.body)
+            return ngx.exit(ngx.status)
+        end
+
+        -- since /skynet/registry endpoint response is a json, we need to decode it before we access it
+        local registry_json = json.decode(registry_res.body)
+        -- response will contain a hex encoded skylink, we need to decode it
+        local data = (registry_json.data:gsub('..', function (cc)
+            return string.char(tonumber(cc, 16))
+        end))
+
+        skylink = data
+    end
+
+    -- fail with a generic 404 if skylink has not been extracted from a valid /hnsres response for some reason
+    if not skylink then
+        return ngx.exit(ngx.HTTP_NOT_FOUND)
+    end
+
+    ngx.var.skylink = skylink
+    if ngx.var.path == "/" and skylink_rest ~= nil and skylink_rest ~= "" and skylink_rest ~= "/" then
+        ngx.var.path = skylink_rest
+    end
+}
+
+# we proxy to another nginx location rather than directly to siad because we don't want to deal with caching here
+proxy_pass https://127.0.0.1/$skylink$path$is_args$args;
+
+# in case siad returns location header, we need to replace the skylink with the domain name
+header_filter_by_lua_block {
+    ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
+    ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+
+    if ngx.header.location then
+        -- match location redirect part after the skylink
+        local path = string.match(ngx.header.location, "[^/?]+(.*)");
+
+        -- because siad will set the location header to ie. XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg/index.html
+        -- we need to replace the skylink with the domain_name so we are not redirected to skylink
+        ngx.header.location = ngx.var.hns_domain .. path
+    end
+}

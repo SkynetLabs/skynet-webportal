@@ -1,0 +1,26 @@
+include /etc/nginx/conf.d/include/init-optional-variables;
+
+location / {
+    set $skylink "";
+    set $path $uri;
+
+    rewrite_by_lua_block {
+        local httpc = require("resty.http").new()
+
+        -- 10.10.10.55 points to dnslink-api service (alias not available when using resty-http)
+        local res, err = httpc:request_uri("http://10.10.10.55:3100/dnslink/" .. ngx.var.host)
+
+        if err or (res and res.status ~= ngx.HTTP_OK) then
+            ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
+            ngx.header["content-type"] = "text/plain"
+            ngx.say(err or res.body)
+            ngx.exit(ngx.status)
+        else
+            ngx.var.skylink = res.body
+            ngx.var.skylink_v1 = ngx.var.skylink
+            ngx.var.skylink_v2 = ngx.var.skylink
+        end
+    }
+
+    include /etc/nginx/conf.d/include/location-skylink;
+}

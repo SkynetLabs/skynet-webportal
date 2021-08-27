@@ -47,15 +47,9 @@ services:
     volumes:
       - ./docker/data/caddy/data:/data
       - ./docker/data/caddy/config:/config
-      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
     networks:
       shared:
         ipv4_address: 10.10.10.20
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - nginx
 
   nginx:
     build:
@@ -68,18 +62,20 @@ services:
       - .env
     volumes:
       - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
+      - ./docker/data/caddy/data:/data/caddy:ro
     networks:
       shared:
         ipv4_address: 10.10.10.30
-    expose:
-      - 80
+    ports:
+      - "443:443"
+      - "80:80"
     depends_on:
       - sia
+      - caddy
       - handshake-api
       - dnslink-api
       - website

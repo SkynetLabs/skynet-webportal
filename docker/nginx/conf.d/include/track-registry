@@ -3,16 +3,25 @@ log_by_lua_block {
     -- this block runs only when accounts are enabled
     if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
-    if ngx.status == ngx.HTTP_OK or ngx.status == ngx.HTTP_NOT_FOUND then
-        local http = require("socket.http")
-        local method = ngx.req.get_method() == ngx.HTTP_GET and "read" or "write"
-        local ok, statusCode, headers, statusText = http.request {
-            url = "http://accounts:3000/track/registry/" .. method,
+    local function track(premature, request_method, jwt)
+        if premature then return end
+
+        local httpc = require("resty.http").new()
+        local method = request_method == ngx.HTTP_GET and "read" or "write"
+
+        -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
+        local res, err = httpc:request_uri("http://10.10.10.70:3000/track/registry/" .. method, {
             method = "POST",
-            headers = ngx.req.get_headers()
-        }
-        if statusCode ~= ngx.HTTP_NO_CONTENT and statusCode ~= ngx.HTTP_UNAUTHORIZED then
-            ngx.log(ngx.ERR, "accounts endpoint /track/registry/" .. method .. " failed with error " .. statusCode)
+            headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+        })
+        
+        if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
+            ngx.log(ngx.ERR, "Failed accounts service request /track/registry/" .. method .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
         end
+    end
+
+    if ngx.var.skynet_jwt ~= "" and (ngx.status == ngx.HTTP_OK or ngx.status == ngx.HTTP_NOT_FOUND) then
+        local ok, err = ngx.timer.at(0, track, ngx.req.get_method(), ngx.var.skynet_jwt)
+        if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
 }

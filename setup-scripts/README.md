@@ -84,7 +84,8 @@ At this point we have almost everything running, we just need to set up your wal
 
 1. edit `/home/user/skynet-webportal/.env` and configure following environment variables
 
-   - `SSL_CERTIFICATE_STRING` is a list of comma separated paths that caddy will generate ssl certificates for
+   - `PORTAL_DOMAIN` (required) is a skynet portal domain (ex. siasky.net)
+   - `SERVER_DOMAIN` (optional) is an optional direct server domain (ex. eu-ger-1.siasky.net) - leave blank unless it is different than PORTAL_DOMAIN
    - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification (required if you're using http-01 challenge)
    - `SIA_WALLET_PASSWORD` is your wallet password (or seed if you did not set a password)
    - `HSD_API_KEY` this is a random security key for a handshake integration that gets generated automatically
@@ -106,7 +107,6 @@ At this point we have almost everything running, we just need to set up your wal
      with path to the location in the bucket where we want to store the daily backups.
 
 1. `docker-compose up -d` to restart the services so they pick up new env variables
-1. `docker exec caddy caddy reload --config /etc/caddy/Caddyfile` to reload Caddyfile configuration
 1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.
 
 ## Subdomains
@@ -118,78 +118,6 @@ You can convert Skylinks using this [converter skapp](https://convert-skylink.hn
 There is also an option to access handshake domain through the subdomain using `https://[domain_name].hns.portal.com`.
 
 To configure this on your portal, you have to make sure to configure the following:
-
-### Wildcard SSL Certificate
-
-We need to ensure SSL encryption for skapps that are accessed through their
-subdomain, therefore we need to have a wildcard certificate. This is very easily
-achieved using wildcard certificates in Caddy.
-
-```
-{$SSL_CERTIFICATE_STRING} {
-    ...
-}
-```
-
-Where `SSL_CERTIFICATE_STRING` environment variable should contain the wildcard for subdomains (ie. _.example.com) and
-wildcard for hns subdomains (ie. _.hns.example.com).
-
-(see [docker/caddy/Caddyfile](../docker/Caddy/Caddyfile))
-
-### Nginx configuration
-
-In Nginx two things need to happen:
-
-#### Match the specific parts of the uri
-
-```
-# understand the regex https://regex101.com/r/BGQvi6/6
-server_name "~^(((?<base32_subdomain>([a-z0-9]{55}))|(?<hns_domain>[^\.]+)\.hns)\.)?((?<portal_domain>[^.]+)\.)?(?<domain>[^.]+)\.(?<tld>[^.]+)$";
-```
-
-#### Redirect the requests to the appropriate location
-
-First you need to redirect the requests based on the regex above matching either `base32_subdomain` or `hns_domain`.
-
-```
-location / {
-  # This is the only safe workaround to reroute based on some conditions
-  # See https://www.nginx.com/resources/wiki/start/topics/depth/ifisevil/
-  recursive_error_pages on;
-
-  # redirect links with base32 encoded skylink in subdomain
-  error_page 418 = @base32_subdomain;
-  if ($base32_subdomain != "") {
-    return 418;
-  }
-
-  # redirect links with handshake domain on hns subdomain
-  error_page 419 = @hns_domain;
-  if ($hns_domain  != "") {
-    return 419;
-  }
-
-  ...
-}
-```
-
-Define locations for `@base32_subdomain` and `@hns_domain` redirects.
-
-```
-location @base32_subdomain {
-  include /etc/nginx/conf.d/include/proxy-buffer;
-
-  proxy_pass http://127.0.0.1/$base32_subdomain/$request_uri;
-}
-
-location @hns_domain {
-  include /etc/nginx/conf.d/include/proxy-buffer;
-
-  proxy_pass http://127.0.0.1/hns/$hns_domain/$request_uri;
-}
-```
-
-(see [docker/nginx/nginx.conf](../docker/nginx/nginx.conf))
 
 ## Useful Commands
 

@@ -3,16 +3,24 @@ log_by_lua_block {
     -- this block runs only when accounts are enabled
     if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
-    local skylink = ngx.header["Skynet-Skylink"]
-    if skylink and ngx.status >= ngx.HTTP_OK and ngx.status < ngx.HTTP_SPECIAL_RESPONSE then
-        local http = require("socket.http")
-        local ok, statusCode, headers, statusText = http.request {
-            url = "http://accounts:3000/track/upload/" .. skylink,
+    local function track(premature, skylink, jwt)
+        if premature then return end
+
+        local httpc = require("resty.http").new()
+
+        -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
+        local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
             method = "POST",
-            headers = ngx.req.get_headers()
-        }
-        if statusCode ~= ngx.HTTP_NO_CONTENT and statusCode ~= ngx.HTTP_UNAUTHORIZED then
-            ngx.log(ngx.ERR, "accounts endpoint /track/upload/" .. skylink .. " failed with error " .. statusCode)
+            headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+        })
+        
+        if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
+            ngx.log(ngx.ERR, "Failed accounts service request /track/upload/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
         end
+    end
+
+    if ngx.header["Skynet-Skylink"] and ngx.var.skynet_jwt ~= "" then
+        local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.var.skynet_jwt)
+        if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
 }

@@ -21,7 +21,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version # sanity check
 
 # Create dummy .env file for docker-compose usage with variables
-# * SSL_CERTIFICATE_STRING - certificate string that will be used to generate ssl certificates, read more in docker/caddy/Caddyfile
+# * PORTAL_DOMAIN - (required) is a skynet portal domain (ex. siasky.net)
+# * SERVER_DOMAIN - (optional) is an optional direct server domain (ex. eu-ger-1.siasky.net) - leave blank unless it is different than PORTAL_DOMAIN
 # * SKYNET_PORTAL_API - absolute url to the portal api ie. https://siasky.net (general portal address)
 # * SKYNET_SERVER_API - absolute url to the server api ie. https://eu-ger-1.siasky.net (direct server address, if this is single server portal use the same address as SKYNET_PORTAL_API)
 # * SKYNET_DASHBOARD_URL - (optional) absolute url to the portal dashboard ie. https://account.siasky.net
@@ -46,7 +47,7 @@ docker-compose --version # sanity check
 # * CR_CLUSTER_NODES - (optional) if using `accounts` the list of servers (with ports) which make up your CockroachDB cluster, e.g. `helsinki.siasky.net:26257,germany.siasky.net:26257,us-east.siasky.net:26257`
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    printf "SSL_CERTIFICATE_STRING=siasky.net, *.siasky.net, *.hns.siasky.net\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\DISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env
+    printf "PORTAL_DOMAIN=siasky.net\nSERVER_DOMAIN=\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\DISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
