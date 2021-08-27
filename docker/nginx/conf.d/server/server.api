@@ -175,7 +175,7 @@ location /skynet/tus {
 
         -- fetch account limits and set max upload size accordingly
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-            headers = { ["User-Agent"] = "Sia-Agent", ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+            headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
         })
 
         -- fail gracefully in case /user/limits failed
@@ -274,20 +274,18 @@ location /__internal/do/not/use/authenticated {
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user", {
-            headers = { ["User-Agent"] = "Sia-Agent", ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+            headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
         })
 
-        -- fail gracefully in case /user failed
-        if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-        elseif res and res.status == ngx.HTTP_OK then
-            local limits = json.decode(res.body)
-            ngx.say(json.encode{authenticated = limits.tier > 0})
+        -- endpoint /user should return HTTP_OK for authenticated and HTTP_UNAUTHORIZED for not authenticated
+        if res and (res.status == ngx.HTTP_OK or res.status == ngx.HTTP_UNAUTHORIZED) then
+            ngx.say(json.encode{authenticated = res.status == ngx.HTTP_OK})
+            return ngx.exit(ngx.HTTP_OK)
+        else
+            ngx.log(ngx.ERR, "Failed accounts service request /user: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            ngx.say(json.encode{authenticated = false})
             return ngx.exit(ngx.HTTP_OK)
         end
-
-        ngx.say(json.encode{authenticated = false})
-        return ngx.exit(ngx.HTTP_OK)
     }
 }
 

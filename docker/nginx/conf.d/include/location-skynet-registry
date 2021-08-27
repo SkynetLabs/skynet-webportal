@@ -17,7 +17,7 @@ access_by_lua_block {
 
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-        headers = { ["User-Agent"] = "Sia-Agent", ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+        headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
     })
     
     -- fail gracefully in case /user/limits failed
