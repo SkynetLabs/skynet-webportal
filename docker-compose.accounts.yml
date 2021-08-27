@@ -10,8 +10,6 @@ services:
   nginx:
     environment:
       - ACCOUNTS_ENABLED=true
-    volumes:
-      - ./docker/accounts/nginx.account.conf:/etc/nginx/conf.extra.d/nginx.account.conf:ro
     depends_on:
       - accounts
 

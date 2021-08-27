@@ -7,14 +7,23 @@ limit_req zone=registry_access_by_ip_throttled burst=200 nodelay;
 
 proxy_set_header User-Agent: Sia-Agent;
 proxy_read_timeout 600; # siad should timeout with 404 after 5 minutes
-proxy_pass http://siad/skynet/registry;
+proxy_pass http://sia:9980/skynet/registry;
 
 access_by_lua_block {
     -- this block runs only when accounts are enabled
     if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
-    local res = ngx.location.capture("/accounts/user/limits", { copy_all_vars = true })
-    if res.status == ngx.HTTP_OK then
+    local httpc = require("resty.http").new()
+
+    -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
+    local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
+        headers = { ["User-Agent"] = "Sia-Agent", ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+    })
+    
+    -- fail gracefully in case /user/limits failed
+    if err or (res and res.status ~= ngx.HTTP_OK) then
+        ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+    elseif res and res.status == ngx.HTTP_OK then
         local json = require('cjson')
         local limits = json.decode(res.body)
         if limits.registry > 0 then

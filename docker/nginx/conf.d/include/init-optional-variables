@@ -1,0 +1,9 @@
+# optional variables initialisation - those variables are used in log_format
+# but are not set on every route so we need to initialise them with empty value
+# because otherwise logger with throw error
+
+# set only on hns routes
+set $hns_domain '';
+
+# set only if server has been access through SERVER_DOMAIN
+set $server_alias '';

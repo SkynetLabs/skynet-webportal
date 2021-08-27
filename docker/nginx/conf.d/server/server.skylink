@@ -1,0 +1,12 @@
+listen 443 ssl http2;
+listen [::]:443 ssl http2;
+
+include /etc/nginx/conf.d/include/ssl-settings;
+include /etc/nginx/conf.d/include/init-optional-variables;
+
+location / {
+    set_by_lua_block $skylink { return string.match(ngx.var.host, "%w+") }
+    set $path $uri;
+
+    include /etc/nginx/conf.d/include/location-skylink;
+}

@@ -1,0 +1,38 @@
+{
+  "apps": {
+    "tls": {
+      "certificates": {
+        "automate": [
+          {{#PORTAL_DOMAIN}}
+              "{{PORTAL_DOMAIN}}", "*.{{PORTAL_DOMAIN}}", "*.hns.{{PORTAL_DOMAIN}}"
+          {{/PORTAL_DOMAIN}}
+
+          {{#PORTAL_DOMAIN}}{{#SERVER_DOMAIN}},{{/SERVER_DOMAIN}}{{/PORTAL_DOMAIN}}
+
+          {{#SERVER_DOMAIN}}
+              "{{SERVER_DOMAIN}}", "*.{{SERVER_DOMAIN}}", "*.hns.{{SERVER_DOMAIN}}"
+          {{/SERVER_DOMAIN}}
+        ]
+      },
+      "automation": {
+        "policies": [
+          {
+            "issuers": [
+              {
+                "module": "acme",
+                "challenges": {
+                  "dns": {
+                    "provider": {
+                      "name": "route53",
+                      "max_retries": 100
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

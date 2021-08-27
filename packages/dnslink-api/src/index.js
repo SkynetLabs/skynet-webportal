@@ -16,8 +16,8 @@ const dnslinkSkylinkRegExp = new RegExp(`^dnslink=/${dnslinkNamespace}/([a-zA-Z0
 const hint = `valid example: dnslink=/${dnslinkNamespace}/3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ`;
 
 server.get("/dnslink/:name", async (req, res) => {
-  const success = (skylink) => res.set("Skynet-Skylink", skylink).send(skylink);
-  const failure = (message) => res.status(400).set("Dnslink-Error", message).send(message);
+  const success = (skylink) => res.send(skylink);
+  const failure = (message) => res.status(400).send(message);
 
   if (!isValidDomain(req.params.name)) {
     return failure(`"${req.params.name}" is not a valid domain`);
