@@ -61,7 +61,7 @@
     "react-use": "^17.2.4",
     "skynet-js": "^4.0.11-beta",
     "stream-browserify": "^3.0.0",
-    "swr": "^0.5.6",
+    "swr": "^1.0.0",
     "tailwindcss": "^2.2.7"
   },
   "devDependencies": {
