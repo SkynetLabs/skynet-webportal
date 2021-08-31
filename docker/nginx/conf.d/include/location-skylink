@@ -19,9 +19,9 @@ limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 set $skylink_v1 $skylink;
 set $skylink_v2 $skylink;
 
-# variable for Skynet-Proof header that we need to inject 
-# into a response if the request was for skylink v2
+# initialise variables used to overwrite headers with empty value
 set $skynet_proof '';
+set $skynet_requested_skylink '';
 
 # default download rate to unlimited
 set $limit_rate 0;
@@ -51,6 +51,7 @@ access_by_lua_block {
         local resolve = json.decode(res.body)
         ngx.var.skylink_v1 = resolve.skylink
         ngx.var.skynet_proof = res.headers["Skynet-Proof"]
+        ngx.var.skynet_requested_skylink = res.headers["Skynet-Requested-Skylink"]
     end
 
     -- this block runs only when accounts are enabled
@@ -76,12 +77,14 @@ header_filter_by_lua_block {
     ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
     ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
 
-    -- not empty skynet_proof means this is a skylink v2 request
-    -- so we should replace the Skynet-Proof header with the one
-    -- we got from /skynet/resolve/ endpoint, otherwise we would
-    -- be serving cached empty v1 skylink Skynet-Proof header
-    if ngx.var.skynet_proof and ngx.var.skynet_proof ~= "" then
-        ngx.header["Skynet-Proof"] = ngx.var.skynet_proof
+    -- override Skynet-Proof response header from resolver skylink response
+    if ngx.var.skynet_proof ~= "" then
+        ngx.header["Skynet-Proof"] = ngx.var.skynet_requested_skylink
+    end
+
+    -- override Skynet-Requested-Skylink response header from resolver skylink response
+    if ngx.var.skynet_requested_skylink ~= "" then
+        ngx.header["Skynet-Requested-Skylink"] = ngx.var.skynet_proof
     end
 }
 
