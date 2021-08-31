@@ -19,9 +19,8 @@ limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 set $skylink_v1 $skylink;
 set $skylink_v2 $skylink;
 
-# initialise variables used to overwrite response headers for resolver skylink requests
+# initialise variable used to overwrite response header for resolver skylink requests
 set $override_skynet_proof "";
-set $override_skynet_requested_skylink "";
 
 # default download rate to unlimited
 set $limit_rate 0;
@@ -51,7 +50,6 @@ access_by_lua_block {
         local resolve = json.decode(res.body)
         ngx.var.skylink_v1 = resolve.skylink
         ngx.var.override_skynet_proof = res.headers["Skynet-Proof"]
-        ngx.var.override_skynet_requested_skylink = res.headers["Skynet-Requested-Skylink"]
     end
 
     -- this block runs only when accounts are enabled
@@ -80,11 +78,6 @@ header_filter_by_lua_block {
     -- override Skynet-Proof response header from resolver skylink response
     if ngx.var.override_skynet_proof ~= "" then
         ngx.header["Skynet-Proof"] = ngx.var.override_skynet_proof
-    end
-
-    -- override Skynet-Requested-Skylink response header from resolver skylink response
-    if ngx.var.override_skynet_requested_skylink ~= "" then
-        ngx.header["Skynet-Requested-Skylink"] = ngx.var.override_skynet_requested_skylink
     end
 }
 
