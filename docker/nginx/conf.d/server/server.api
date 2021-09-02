@@ -173,6 +173,8 @@ location /skynet/tus {
         -- this block runs only when accounts are enabled
         if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
+        local httpc = require("resty.http").new()
+
         -- fetch account limits and set max upload size accordingly
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
             headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
