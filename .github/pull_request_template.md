@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: Base Pull Request Template
-title: ''
-labels: ''
-assignees: ''
-
----
-
 # PULL REQUEST
 
 ## Overview
