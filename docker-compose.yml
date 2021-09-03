@@ -103,9 +103,8 @@ services:
     build:
       context: ./docker/handshake
       dockerfile: Dockerfile
-  # Uncomment this line if you need to migrate the handshake db for the chain
-  # migration.  For new portal set ups this line does not appear to be needed.
-  # command: --chain-migrate=1 --wallet-migrate=1
+    # Migration.  
+    command: --chain-migrate=1 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging

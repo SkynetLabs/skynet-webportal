@@ -5,7 +5,7 @@ WORKDIR /opt/hsd
 RUN apk update && apk add bash unbound-dev gmp-dev g++ gcc make python2 git
 # Checkout a specific commit until Handshake releases 2.4.0 then we should switch to that tag.
 RUN git clone https://github.com/handshake-org/hsd.git /opt/hsd && \
-    cd /opt/hsd && git checkout 3870234780240faf571426e790ea412dc6592622 && cd -
+    cd /opt/hsd && git checkout 6f0927db32723d6320c8bff255a6ccf70b2ccd32 && cd -
 RUN npm install --production
 
 ENV PATH="${PATH}:/opt/hsd/bin:/opt/hsd/node_modules/.bin"
