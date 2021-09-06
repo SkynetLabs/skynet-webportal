@@ -3868,7 +3868,7 @@ collection-visit@^1.0.0:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
 
-color-convert@^1.9.0, color-convert@^1.9.3:
+color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
   integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
@@ -3899,14 +3899,6 @@ color-string@^1.6.0:
   dependencies:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
-
-color@^3.1.3:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
-  integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
-  dependencies:
-    color-convert "^1.9.3"
-    color-string "^1.6.0"
 
 color@^4.0.1:
   version "4.0.1"
@@ -6256,16 +6248,16 @@ gatsby-plugin-image@^1.13.0:
     objectFitPolyfill "^2.3.0"
     prop-types "^15.7.2"
 
-gatsby-plugin-manifest@^3.12.0:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-3.12.0.tgz#6f9aa76489d84f3b71c88e29da209d8d497a9203"
-  integrity sha512-zEOgYi5sm+5SnElm5EGUkXfCUvyTAn8shWclVASNxGIHGexg2Lzuu90ZLaC8cXCuMwJ7keVIRZvivvBoDleIJQ==
+gatsby-plugin-manifest@^3.13.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-3.13.0.tgz#ad7c207239a8295ae0dffaee9e4a13b7845b7987"
+  integrity sha512-izBaVUUnOId7IlX7nDjgnFqxx2insGbm4r+CwlmyjF5slETdvxifERPX8ng+WAscbh3qvJ/vlgLlbbjjfvJe9w==
   dependencies:
     "@babel/runtime" "^7.14.8"
-    gatsby-core-utils "^2.12.0"
-    gatsby-plugin-utils "^1.12.0"
+    gatsby-core-utils "^2.13.0"
+    gatsby-plugin-utils "^1.13.0"
     semver "^7.3.5"
-    sharp "^0.28.3"
+    sharp "^0.29.0"
 
 gatsby-plugin-matomo@^0.10.0:
   version "0.10.0"
@@ -6375,7 +6367,7 @@ gatsby-plugin-typescript@^3.13.0:
     "@babel/runtime" "^7.14.8"
     babel-plugin-remove-graphql-queries "^3.13.0"
 
-gatsby-plugin-utils@^1.12.0, gatsby-plugin-utils@^1.13.0:
+gatsby-plugin-utils@^1.13.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-utils/-/gatsby-plugin-utils-1.13.0.tgz#8280541debaa4048c6f3830a124cef13c091695d"
   integrity sha512-Qen1qBe4qOm32856V7lCoPH3XxRhcVej36LxPElWWknLmLcmLY2sBnzXgx2gSMaOcepAw3jtoqgaSuVLFeYA6Q==
@@ -9696,11 +9688,6 @@ node-abi@^2.21.0:
   dependencies:
     semver "^5.4.1"
 
-node-addon-api@^3.2.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz#81325e0a2117789c0128dab65e7e38f07ceba161"
-  integrity sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==
-
 node-addon-api@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-4.1.0.tgz#f1722f1f60793584632ffffb79e12ca042c48bd0"
@@ -10863,25 +10850,6 @@ preact-svg-loader@^0.2.1:
   dependencies:
     htmlparser "^1.7.7"
     loader-utils "^1.1.0"
-
-prebuild-install@^6.1.2:
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-6.1.3.tgz#8ea1f9d7386a0b30f7ef20247e36f8b2b82825a2"
-  integrity sha512-iqqSR84tNYQUQHRXalSKdIaM8Ov1QxOVuBNWI7+BzZWv6Ih9k75wOnH1rGQ9WWTaaLkTpxWKIciOF0KyfM74+Q==
-  dependencies:
-    detect-libc "^1.0.3"
-    expand-template "^2.0.3"
-    github-from-package "0.0.0"
-    minimist "^1.2.3"
-    mkdirp-classic "^0.5.3"
-    napi-build-utils "^1.0.1"
-    node-abi "^2.21.0"
-    npmlog "^4.0.1"
-    pump "^3.0.0"
-    rc "^1.2.7"
-    simple-get "^3.0.3"
-    tar-fs "^2.0.0"
-    tunnel-agent "^0.6.0"
 
 prebuild-install@^6.1.4:
   version "6.1.4"
@@ -12154,20 +12122,6 @@ shallow-compare@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/shallow-compare/-/shallow-compare-1.2.2.tgz#fa4794627bf455a47c4f56881d8a6132d581ffdb"
   integrity sha512-LUMFi+RppPlrHzbqmFnINTrazo0lPNwhcgzuAXVVcfy/mqPDrQmHAyz5bvV0gDAuRFrk804V0HpQ6u9sZ0tBeg==
-
-sharp@^0.28.3:
-  version "0.28.3"
-  resolved "https://registry.yarnpkg.com/sharp/-/sharp-0.28.3.tgz#ecd74cefd020bee4891bb137c9850ee2ce277a8b"
-  integrity sha512-21GEP45Rmr7q2qcmdnjDkNP04Ooh5v0laGS5FDpojOO84D1DJwUijLiSq8XNNM6e8aGXYtoYRh3sVNdm8NodMA==
-  dependencies:
-    color "^3.1.3"
-    detect-libc "^1.0.3"
-    node-addon-api "^3.2.0"
-    prebuild-install "^6.1.2"
-    semver "^7.3.5"
-    simple-get "^3.1.0"
-    tar-fs "^2.1.1"
-    tunnel-agent "^0.6.0"
 
 sharp@^0.29.0:
   version "0.29.0"
