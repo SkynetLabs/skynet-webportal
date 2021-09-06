@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.19.3.2-3-bionic
+FROM openresty/openresty:1.19.9.1-bionic
 
 RUN luarocks install lua-resty-http && \
     openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
