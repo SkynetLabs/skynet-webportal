@@ -4,39 +4,59 @@ updates:
     directory: "/packages/dashboard"
     schedule:
       interval: weekly
-      time: "10:00"
-    open-pull-requests-limit: 10
-    assignees:
-      - kwypchlo
   - package-ecosystem: npm
     directory: "/packages/dnslink-api"
     schedule:
       interval: weekly
-      time: "10:00"
-    open-pull-requests-limit: 10
-    assignees:
-      - kwypchlo
   - package-ecosystem: npm
     directory: "/packages/handshake-api"
     schedule:
       interval: weekly
-      time: "10:00"
-    open-pull-requests-limit: 10
-    assignees:
-      - kwypchlo
   - package-ecosystem: npm
     directory: "/packages/health-check"
     schedule:
       interval: weekly
-      time: "10:00"
-    open-pull-requests-limit: 10
-    assignees:
-      - kwypchlo
   - package-ecosystem: npm
     directory: "/packages/website"
     schedule:
       interval: weekly
-      time: "10:00"
-    open-pull-requests-limit: 10
-    assignees:
-      - kwypchlo
+  - package-ecosystem: docker
+    directory: "/docker/accounts"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/docker/caddy"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/docker/handshake"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/docker/nginx"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/docker/sia"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/packages/dashboard"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/packages/dnslink-api"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/packages/handshake-api"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/packages/health-check"
+    schedule:
+      interval: weekly
+  - package-ecosystem: docker
+    directory: "/packages/website"
+    schedule:
+      interval: weekly
