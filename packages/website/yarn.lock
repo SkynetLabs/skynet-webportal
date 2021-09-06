@@ -7075,10 +7075,10 @@ gatsby-remark-prismjs@^5.9.0:
     parse-numeric-range "^1.2.0"
     unist-util-visit "^2.0.3"
 
-gatsby-remark-responsive-iframe@^4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-responsive-iframe/-/gatsby-remark-responsive-iframe-4.9.0.tgz#16da0a8bd3b354b80ea62ceb1cc0f55220a4a5fd"
-  integrity sha512-AAzxyIt7CUXTLPd6P6WcVrYpQFT5VwfFP4iASiqzYIcS/zXSmx/fNS2wrpK7j21zikIi7wcEFpR+276Cv+l/5w==
+gatsby-remark-responsive-iframe@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-responsive-iframe/-/gatsby-remark-responsive-iframe-4.10.0.tgz#f6ed029b867834132cf6eebbf7029c93ca089641"
+  integrity sha512-Z8VD88n2U+G9hNXkP+fJu9rd778bHEN0UfPjamtEaNQ01jrO9BxJW/J7bJd/9fJXuANRKJd0qQn1Y9RMZJDQ3A==
   dependencies:
     "@babel/runtime" "^7.14.8"
     cheerio "^1.0.0-rc.10"
