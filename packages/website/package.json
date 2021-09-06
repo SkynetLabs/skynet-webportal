@@ -30,7 +30,7 @@
     "gatsby-plugin-svgr": "^3.0.0-beta.0",
     "gatsby-remark-classes": "^1.0.0",
     "gatsby-remark-copy-linked-files": "^4.10.0",
-    "gatsby-remark-images": "^5.9.0",
+    "gatsby-remark-images": "^5.10.0",
     "gatsby-remark-prismjs": "^5.9.0",
     "gatsby-remark-responsive-iframe": "^4.9.0",
     "gatsby-remark-smartypants": "^4.9.0",
