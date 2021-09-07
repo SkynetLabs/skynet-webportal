@@ -1027,7 +1027,7 @@ function hnsEndpointDirectoryRedirect(done) {
   const expected = {
     name: "hns endpoint directory redirect",
     skylink: "hns/note-to-self",
-    statusCode: 307,
+    statusCode: 308,
     headers: {
       location: "note-to-self/",
     },
