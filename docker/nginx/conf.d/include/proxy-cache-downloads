@@ -2,6 +2,6 @@ set $nocache 0; # internal variable for bypassing the cache, nginx expects 0/1 f
 proxy_cache skynet; # cache name
 proxy_cache_key $skylink_v1$path$arg_format$arg_attachment$arg_start$arg_end$http_range; # unique cache key
 proxy_cache_min_uses 3; # cache after 3 uses
-proxy_cache_valid 200 206 307 48h; # keep 200, 206 and 307 responses valid for up to 2 days
+proxy_cache_valid 200 206 307 308 48h; # keep 200, 206, 307 and 308 responses valid for up to 2 days
 proxy_cache_bypass $nocache $cookie_nocache $arg_nocache; # add cache bypass option
 add_header X-Proxy-Cache $upstream_cache_status; # add response header to indicate cache hits and misses
