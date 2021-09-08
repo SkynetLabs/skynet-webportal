@@ -8,7 +8,7 @@ ARG branch=main
 
 WORKDIR /root
 
-RUN git clone --single-branch --branch ${branch} https://github.com/NebulousLabs/skynet-accounts.git && \
+RUN git clone --single-branch --branch ${branch} https://github.com/SkynetLabs/skynet-accounts.git && \
     cd skynet-accounts && \
     go mod download && \
     make release
