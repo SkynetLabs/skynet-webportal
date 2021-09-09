@@ -88,9 +88,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NebulousLabs/skynet-webportal"
+    "url": "https://github.com/SkynetLabs/skynet-webportal"
   },
   "bugs": {
-    "url": "https://github.com/NebulousLabs/skynet-webportal/issues"
+    "url": "https://github.com/SkynetLabs/skynet-webportal/issues"
   }
 }
