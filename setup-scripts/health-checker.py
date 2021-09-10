@@ -201,9 +201,7 @@ async def check_health():
     message = ""
     force_notify = False
 
-    if json_check["disabled"]:
-        message += "__Portal manually disabled!__ "
-    elif server_down:
+    if server_down and json_check["disabled"] == False:
         message += "__Portal down!!!__ "
         force_notify = True
 
