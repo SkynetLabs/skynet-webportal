@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
+
+require("yargs/yargs")(process.argv.slice(2))
+  .command(
+    "enable",
+    "Mark portal as enabled",
+    () => {},
+    () => {
+      const db = require("./src/db");
+
+      db.set("disabled", false).write();
+    }
+  )
+  .command(
+    "disable <reason>",
+    "Mark portal as disabled (provide meaningful reason)",
+    () => {},
+    ({ reason }) => {
+      const db = require("./src/db");
+
+      db.set("disabled", reason).write();
+    }
+  )
+  .command(
+    "run <type>",
+    "Skynet portal health checks",
+    (yargs) => {
+      yargs
+        .positional("type", {
+          describe: "Type of checks to run",
+          type: "string",
+          choices: ["critical", "extended"],
+        })
+        .option("portal-url", {
+          describe: "Skynet portal url",
+          default: process.env.SKYNET_PORTAL_API || "https://siasky.net",
+          type: "string",
+        })
+        .option("state-dir", {
+          describe: "State directory",
+          default: process.env.STATE_DIR || "state",
+          type: "string",
+        });
+    },
+    async ({ type, portalUrl, stateDir }) => {
+      process.env.SKYNET_PORTAL_API = portalUrl;
+      process.env.STATE_DIR = stateDir;
+
+      const util = require("util");
+      const { getYesterdayISOString } = require("./src/utils");
+      const createMiddleware = require("./src/checks/middleware");
+      const db = require("./src/db");
+      const checks = require(`./src/checks/${type}`);
+      const middleware = await createMiddleware();
+
+      const entry = {
+        date: new Date().toISOString(),
+        checks: (await Promise.all(checks.map((check) => new Promise(check)))).map(middleware),
+      };
+
+      db.read() // read before writing to make sure no external changes are overwritten
+        .get(type) // get the list of records of given type
+        .push(entry) // insert new record
+        .remove(({ date }) => date < getYesterdayISOString()) // drop old records
+        .write();
+
+      // exit with code 1 if any of the checks report failure
+      if (entry.checks.some(({ up }) => !up)) {
+        console.log(
+          util.inspect(
+            entry.checks.filter(({ up }) => !up),
+            { colors: true, depth: 7 } // increase depth to ensure errors are printed
+          )
+        );
+        process.exit(1);
+      }
+    }
+  ).argv;
