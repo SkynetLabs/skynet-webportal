@@ -10,6 +10,22 @@ Version History
 
 Latest:
 
+## Sep 10, 2021:
+### deploy-2021-09-13
+**Key Updates**
+- Change skyd 307 redirect code to 308
+- Set caddy dns entry ttl limit to 15 minutes to remove stranded entries.
+- Update health check disable command to require reason.
+- Add proper handling for options response on /skynet/tus endpoint
+
+**Bugs Fixed**
+- Fix extended checks error by rounding the reported datetime.
+
+**Other**
+- Remove outdated references to NebulousLabs
+
+
+
 ## August 9th, 2021:
 ### v0.1.1 
 Monthly release
