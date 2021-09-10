@@ -143,7 +143,7 @@ location /skynet/skyfile {
 
 # endpoint implementing resumable file uploads open protocol https://tus.io
 location /skynet/tus {
-    include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/cors-headers; # include cors headers but do not overwrite OPTIONS response
     include /etc/nginx/conf.d/include/track-upload;
 
     # TUS chunks size is 40M + leaving 10M of breathing room
