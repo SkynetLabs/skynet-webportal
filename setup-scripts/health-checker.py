@@ -160,7 +160,9 @@ async def check_health():
     failed_records = []
     failed_records_file = None
 
-    time_limit = datetime.utcnow() - timedelta(hours=CHECK_HOURS)
+    time_limit = datetime.utcnow().replace(
+        minute=0, second=0, microsecond=0
+    ) - timedelta(hours=CHECK_HOURS)
 
     for critical in json_critical:
         time = datetime.strptime(critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
