@@ -62,7 +62,7 @@
     "skynet-js": "^4.0.11-beta",
     "stream-browserify": "^3.0.0",
     "swr": "^1.0.0",
-    "tailwindcss": "^2.2.9"
+    "tailwindcss": "^2.2.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
