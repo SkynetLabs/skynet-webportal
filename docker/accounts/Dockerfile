@@ -1,4 +1,4 @@
-FROM golang:1.15
+FROM golang:1.17.1
 LABEL maintainer="NebulousLabs <devs@nebulous.tech>"
 
 ENV GOOS linux
