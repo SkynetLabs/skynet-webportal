@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import classnames from "classnames";
 
-function Button({ children, disabled, className, ...props }) {
+function Button({ children, disabled, ...props }) {
   return (
     <button
       type="button"
@@ -10,8 +10,7 @@ function Button({ children, disabled, className, ...props }) {
         {
           "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500": !disabled,
           "cursor-auto opacity-50": disabled,
-        },
-        className
+        }
       )}
       disabled={disabled}
       {...props}
@@ -21,7 +20,26 @@ function Button({ children, disabled, className, ...props }) {
   );
 }
 
-export default function Table({ items, count, headers, actions, offset, setOffset, pageSize = 10 }) {
+function ButtonAction({ children, disabled, ...props }) {
+  return (
+    <button
+      type="button"
+      className={classnames(
+        "inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white",
+        {
+          "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500": !disabled,
+          "cursor-auto opacity-50": disabled,
+        }
+      )}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default function Table({ items, count, headers, mutate, actions, offset, setOffset, pageSize = 10 }) {
   useEffect(() => {
     if (offset < 0) setOffset(0);
     else if (offset >= count && count > 0) setOffset(Math.floor(count / pageSize - 1) * pageSize);
@@ -45,8 +63,8 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                       {name}
                     </th>
                   ))}
-                  {actions.map(({ key, name }) => (
-                    <th key={key} scope="col" className="relative px-6 py-3">
+                  {actions.map(({ name }, index) => (
+                    <th key={index} scope="col" className="relative px-6 py-3">
                       <span className="sr-only">{name}</span>
                     </th>
                   ))}
@@ -77,11 +95,9 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                           )) || <>&mdash;</>}
                         </td>
                       ))}
-                      {actions.map(({ key, name, action }) => (
-                        <td key={key} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a href="#" className="text-green-600 hover:text-green-900" onClick={action}>
-                            {name}
-                          </a>
+                      {actions.map(({ name, action }, index) => (
+                        <td key={index} className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <ButtonAction onClick={() => action(row, mutate)}>{name}</ButtonAction>
                         </td>
                       ))}
                     </tr>
@@ -107,15 +123,11 @@ export default function Table({ items, count, headers, actions, offset, setOffse
                   <span className="font-medium">{count}</span> results
                 </p>
               </div>
-              <div className="flex-1 flex justify-between sm:justify-end">
+              <div className="flex-1 flex justify-between sm:justify-end space-x-3">
                 <Button disabled={offset - pageSize < 0} onClick={() => setOffset(offset - pageSize)}>
                   Previous
                 </Button>
-                <Button
-                  className="ml-3"
-                  disabled={offset + pageSize >= count}
-                  onClick={() => setOffset(offset + pageSize)}
-                >
+                <Button disabled={offset + pageSize >= count} onClick={() => setOffset(offset + pageSize)}>
                   Next
                 </Button>
               </div>
