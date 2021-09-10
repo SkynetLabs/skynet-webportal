@@ -1,4 +1,4 @@
-FROM golang:1.16.7 AS sia-builder
+FROM golang:1.17.1 AS sia-builder
 
 ENV GOOS linux
 ENV GOARCH amd64
