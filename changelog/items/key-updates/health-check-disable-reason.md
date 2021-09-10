@@ -1,0 +1,1 @@
+- Update health check disable command to require reason.
