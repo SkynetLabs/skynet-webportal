@@ -16,7 +16,7 @@
     "autoprefixer": "10.3.4",
     "classnames": "2.3.1",
     "clipboardy": "2.3.0",
-    "dayjs": "1.10.6",
+    "dayjs": "1.10.7",
     "express-jwt": "6.1.0",
     "fast-levenshtein": "3.0.0",
     "formik": "2.2.9",
