@@ -1,0 +1,3 @@
+#!/bin/ash
+
+/usr/app/bin/cli run $0
