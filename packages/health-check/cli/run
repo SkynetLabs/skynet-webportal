@@ -2,4 +2,4 @@
 
 echo "DEPRECATED: 'cli/run' command is deprecated, use 'cli run' instead"
 
-/usr/app/bin/cli run $0
+/usr/app/bin/cli run $@
