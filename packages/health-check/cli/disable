@@ -1,3 +1,5 @@
 #!/bin/ash
 
+echo "DEPRECATED: 'cli/disable' command is deprecated, use 'cli disable' instead"
+
 /usr/app/bin/cli disable $@
