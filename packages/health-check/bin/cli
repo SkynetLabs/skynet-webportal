@@ -3,12 +3,15 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 require("yargs/yargs")(process.argv.slice(2))
+  .help()
+  .demandCommand()
+  .strict(true)
   .command(
     "enable",
     "Mark portal as enabled",
     () => {},
     () => {
-      const db = require("./src/db");
+      const db = require("../src/db");
 
       db.set("disabled", false).write();
     }
@@ -18,7 +21,7 @@ require("yargs/yargs")(process.argv.slice(2))
     "Mark portal as disabled (provide meaningful reason)",
     () => {},
     ({ reason }) => {
-      const db = require("./src/db");
+      const db = require("../src/db");
 
       db.set("disabled", reason).write();
     }
@@ -49,9 +52,9 @@ require("yargs/yargs")(process.argv.slice(2))
       process.env.STATE_DIR = stateDir;
 
       const util = require("util");
-      const { getYesterdayISOString } = require("./src/utils");
-      const createMiddleware = require("./src/checks/middleware");
-      const db = require("./src/db");
+      const { getYesterdayISOString } = require("../src/utils");
+      const createMiddleware = require("../src/checks/middleware");
+      const db = require("../src/db");
       const checks = require(`./src/checks/${type}`);
       const middleware = await createMiddleware();
 

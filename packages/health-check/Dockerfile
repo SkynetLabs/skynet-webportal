@@ -4,11 +4,13 @@ RUN apk update && apk add dnsmasq
 
 WORKDIR /usr/app
 
+ENV PATH="/usr/app/bin:${PATH}"
+
 # schedule critical checks to run every 5 minutes (any failures will disable server)
-RUN echo '*/5 * * * * /usr/app/cli/run critical > /dev/stdout' >> /etc/crontabs/root
+RUN echo '*/5 * * * * /usr/app/bin/cli run critical > /dev/stdout' >> /etc/crontabs/root
 
 # schedule extended checks to run on every hour (optional checks, report only)
-RUN echo '0 * * * * /usr/app/cli/run extended > /dev/stdout' >> /etc/crontabs/root
+RUN echo '0 * * * * /usr/app/bin/cli run extended > /dev/stdout' >> /etc/crontabs/root
 
 COPY package.json yarn.lock ./
 
@@ -16,6 +18,7 @@ RUN yarn --frozen-lockfile
 
 COPY src src
 COPY cli cli
+COPY bin bin
 
 EXPOSE 3100
 ENV NODE_ENV production
