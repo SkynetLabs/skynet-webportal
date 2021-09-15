@@ -16,7 +16,7 @@
     "autoprefixer": "10.3.4",
     "classnames": "2.3.1",
     "clipboardy": "2.3.0",
-    "dayjs": "1.10.6",
+    "dayjs": "1.10.7",
     "express-jwt": "6.1.0",
     "fast-levenshtein": "3.0.0",
     "formik": "2.2.9",
@@ -31,7 +31,7 @@
     "skynet-js": "3.0.2",
     "stripe": "8.174.0",
     "superagent": "6.1.0",
-    "swr": "1.0.0",
+    "swr": "1.0.1",
     "tailwindcss": "2.2.15",
     "yup": "0.32.9"
   }
