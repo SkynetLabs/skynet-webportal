@@ -66,12 +66,12 @@ async function handleGetLink(
       return;
     }
 
-    if (record && !record.skylink) {
-      // TODO: we can retry the IPFS download and skynet upload here if
-      // time.Since(createdAt) exceeds some threshold
-      res.status(200).send({ error: "processing" });
-      return;
-    }
+    // if (record && !record.skylink) {
+    //   // TODO: we can retry the IPFS download and skynet upload here if
+    //   // time.Since(createdAt) exceeds some threshold
+    //   res.status(200).send({ error: "processing" });
+    //   return;
+    // }
 
     // insert an empty record for the cid
     await recordsDB.insertOne({ cid, createdAt: new Date(), skylink: "" });
