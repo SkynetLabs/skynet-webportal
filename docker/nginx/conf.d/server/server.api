@@ -92,6 +92,12 @@ location /hns {
     include /etc/nginx/conf.d/include/location-hns;
 }
 
+location /ipfs {
+    include /etc/nginx/conf.d/include/cors;
+
+    proxy_pass http://ipfs-api:3100;
+}
+
 location /hnsres {
     include /etc/nginx/conf.d/include/cors;
 

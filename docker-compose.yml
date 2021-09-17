@@ -78,6 +78,7 @@ services:
       - caddy
       - handshake-api
       - dnslink-api
+      - ipfs-api
       - website
 
   website:
@@ -174,3 +175,31 @@ services:
       - 3100
     depends_on:
       - caddy
+
+  ipfs-api:
+    build:
+      context: ./packages/ipfs-api
+      dockerfile: Dockerfile
+    container_name: ipfs-api
+    restart: unless-stopped
+    logging: *default-logging
+    networks:
+      shared:
+        ipv4_address: 10.10.10.58
+    expose:
+      - 3100
+    depends_on:
+      - ipfs-mongo
+
+  ipfs-mongo:
+    image: mongo:4.4.1
+    container_name: ipfs-mongo
+    restart: unless-stopped
+    logging: *default-logging
+    volumes:
+      - ./docker/data/ipfs-mongo/db:/data/db
+    networks:
+      shared:
+        ipv4_address: 10.10.10.59
+    expose:
+      - 27017
