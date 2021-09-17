@@ -42,7 +42,7 @@ require("dotenv").config();
   app.use(cors());
 
   // create the routes
-  app.get("/migrate/:cid", (req: Request, res: Response) => {
+  app.get("/ipfs/migrate/:cid", (req: Request, res: Response) => {
     return handleGetLink(req, res, recordsDB);
   });
 
