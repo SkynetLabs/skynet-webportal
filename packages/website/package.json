@@ -22,7 +22,7 @@
     "gatsby-plugin-manifest": "^3.13.0",
     "gatsby-plugin-matomo": "^0.10.0",
     "gatsby-plugin-offline": "^4.13.0",
-    "gatsby-plugin-postcss": "^4.13.0",
+    "gatsby-plugin-postcss": "^4.14.0",
     "gatsby-plugin-purgecss": "^6.0.2",
     "gatsby-plugin-react-helmet": "^4.14.0",
     "gatsby-plugin-robots-txt": "^1.6.10",
