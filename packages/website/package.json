@@ -36,7 +36,7 @@
     "gatsby-remark-smartypants": "^4.10.0",
     "gatsby-source-filesystem": "^3.14.0",
     "gatsby-transformer-json": "^3.13.0",
-    "gatsby-transformer-remark": "^4.10.0",
+    "gatsby-transformer-remark": "^4.11.0",
     "gatsby-transformer-sharp": "^3.13.0",
     "gatsby-transformer-yaml": "^3.14.0",
     "gbimage-bridge": "^0.1.4",
