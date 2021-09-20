@@ -6661,14 +6661,14 @@ gatsby-remark-classes@^1.0.0:
   dependencies:
     unist-util-select "^2.0.2"
 
-gatsby-remark-copy-linked-files@^4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-4.10.0.tgz#a5bc6df9b092d8a14f74f0d88098f63f97828e51"
-  integrity sha512-NaMMExnjnebrRty9poDXu57cdxU13GMoR2OAASriFzw9xJuvqJug+kyUdBxuZ71AQ+LOnyXNJjFGXiz4RVwCQQ==
+gatsby-remark-copy-linked-files@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-4.11.0.tgz#3596b218d4c025931989a4629ec005443cb42dd1"
+  integrity sha512-24VI4ZM7767b+2x/J5Ww7yzeTJhVtGCJOQGjH2NZgEAw4ryBoZLJ2WwHiVwBD03+JSMPKGutQxus95jkLmMD4w==
   dependencies:
-    "@babel/runtime" "^7.14.8"
+    "@babel/runtime" "^7.15.4"
     cheerio "^1.0.0-rc.10"
-    fs-extra "^8.1.0"
+    fs-extra "^10.0.0"
     is-relative-url "^3.0.0"
     lodash "^4.17.21"
     path-is-inside "^1.0.2"
