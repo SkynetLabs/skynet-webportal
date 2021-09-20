@@ -11,15 +11,24 @@ location / {
         local res, err = httpc:request_uri("http://10.10.10.55:3100/dnslink/" .. ngx.var.host)
 
         if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
-            ngx.header["content-type"] = "text/plain"
-            ngx.say(err or res.body)
-            ngx.exit(ngx.status)
+            -- check whether we can fallback to regular skylink request
+            local match_skylink = ngx.re.match(ngx.var.uri, "^/([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?")
+
+            if match_skylink then
+                ngx.var.skylink = match_skylink[1]
+                ngx.var.path = match_skylink[2]
+            else
+                ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
+                ngx.header["content-type"] = "text/plain"
+                ngx.say(err or res.body)
+                ngx.exit(ngx.status)
+            end
         else
             ngx.var.skylink = res.body
-            ngx.var.skylink_v1 = ngx.var.skylink
-            ngx.var.skylink_v2 = ngx.var.skylink
         end
+                
+        ngx.var.skylink_v1 = ngx.var.skylink
+        ngx.var.skylink_v2 = ngx.var.skylink
     }
 
     include /etc/nginx/conf.d/include/location-skylink;
