@@ -16,7 +16,7 @@ location / {
 
             if match_skylink then
                 ngx.var.skylink = match_skylink[1]
-                ngx.var.path = match_skylink[2]
+                ngx.var.path = match_skylink[2] or "/"
             else
                 ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
                 ngx.header["content-type"] = "text/plain"
