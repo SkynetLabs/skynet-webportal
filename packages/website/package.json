@@ -38,7 +38,7 @@
     "gatsby-transformer-json": "^3.13.0",
     "gatsby-transformer-remark": "^4.10.0",
     "gatsby-transformer-sharp": "^3.13.0",
-    "gatsby-transformer-yaml": "^3.13.0",
+    "gatsby-transformer-yaml": "^3.14.0",
     "gbimage-bridge": "^0.1.4",
     "http-status-codes": "^2.1.4",
     "jsonp": "^0.2.1",
