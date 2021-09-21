@@ -1,0 +1,5 @@
+more_set_headers 'Access-Control-Allow-Origin: $http_origin';
+more_set_headers 'Access-Control-Allow-Credentials: true';
+more_set_headers 'Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE';
+more_set_headers 'Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,If-None-Match,Cache-Control,Content-Type,Range,X-HTTP-Method-Override,upload-offset,upload-metadata,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';
+more_set_headers 'Access-Control-Expose-Headers: Content-Length,Content-Range,ETag,Skynet-File-Metadata,Skynet-Skylink,Skynet-Proof,Skynet-Portal-Api,Skynet-Server-Api,upload-offset,upload-metadata,upload-length,tus-version,tus-resumable,tus-extension,tus-max-size,location';

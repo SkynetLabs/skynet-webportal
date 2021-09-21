@@ -1,5 +1,5 @@
-#!/usr/bin/env node
+#!/bin/ash
 
-process.env.NODE_ENV = process.env.NODE_ENV || "production";
+echo "DEPRECATED: 'cli/run' command is deprecated, use 'cli run' instead"
 
-require("../src/run.js");
+/usr/app/bin/cli run $@

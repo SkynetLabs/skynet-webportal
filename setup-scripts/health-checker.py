@@ -133,7 +133,7 @@ async def check_health():
         res = requests.get(endpoint + "/health-check", verify=False)
         json_check = res.json()
 
-        server_down = res.status_code is not requests.codes["ok"]
+        server_failure = res.status_code is not requests.codes["ok"] and json_check["disabled"] == False:
 
         res = requests.get(endpoint + "/health-check/critical", verify=False)
         json_critical = res.json()
@@ -160,7 +160,9 @@ async def check_health():
     failed_records = []
     failed_records_file = None
 
-    time_limit = datetime.utcnow() - timedelta(hours=CHECK_HOURS)
+    time_limit = datetime.utcnow().replace(
+        minute=0, second=0, microsecond=0
+    ) - timedelta(hours=CHECK_HOURS)
 
     for critical in json_critical:
         time = datetime.strptime(critical["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -201,10 +203,8 @@ async def check_health():
     message = ""
     force_notify = False
 
-    if json_check["disabled"]:
-        message += "__Portal manually disabled!__ "
-    elif server_down:
-        message += "__Portal down!!!__ "
+    if server_failure:
+        message += "__Server down!!!__ "
         force_notify = True
 
     if critical_checks_failed:
@@ -229,7 +229,6 @@ async def check_health():
     # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
     if (
         force_notify
-        or json_check["disabled"]
         or failed_records_file
         or datetime.utcnow().hour == 1
     ):

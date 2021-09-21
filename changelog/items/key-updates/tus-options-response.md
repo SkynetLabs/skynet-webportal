@@ -1,0 +1,1 @@
+- Add proper handling for options response on /skynet/tus endpoint
