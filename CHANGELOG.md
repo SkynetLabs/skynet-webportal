@@ -10,8 +10,8 @@ Version History
 
 Latest:
 
-## Sep 10, 2021:
-### deploy-2021-09-13
+## Sep 21, 2021:
+### deploy-2021-09-21
 **Key Updates**
 - Change skyd 307 redirect code to 308
 - Set caddy dns entry ttl limit to 15 minutes to remove stranded entries.
