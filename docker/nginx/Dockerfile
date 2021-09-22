@@ -13,6 +13,7 @@ COPY conf.d.templates /etc/nginx/conf.d.templates
 CMD [ "bash", "-c", \
       "./mo < /etc/nginx/conf.d.templates/server.account.conf > /etc/nginx/conf.d/server.account.conf ; \
        ./mo < /etc/nginx/conf.d.templates/server.api.conf > /etc/nginx/conf.d/server.api.conf; \
+       ./mo < /etc/nginx/conf.d.templates/server.dnslink.conf > /etc/nginx/conf.d/server.dnslink.conf; \
        ./mo < /etc/nginx/conf.d.templates/server.hns.conf > /etc/nginx/conf.d/server.hns.conf; \
        ./mo < /etc/nginx/conf.d.templates/server.skylink.conf > /etc/nginx/conf.d/server.skylink.conf ; \
        /usr/local/openresty/bin/openresty '-g daemon off;'" \

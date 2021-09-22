@@ -12,7 +12,7 @@ import { write } from "clipboardy";
 
 dayjs.extend(relativeTime);
 
-const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.NEXT_PUBLIC_PORTAL_DOMAIN}`);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 
 export const getServerSideProps = authServerSideProps(async (context, api) => {

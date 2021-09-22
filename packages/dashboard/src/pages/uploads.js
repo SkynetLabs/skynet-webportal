@@ -7,7 +7,7 @@ import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
 import useAccountsApi from "../services/useAccountsApi";
 
-const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
 const getRelativeDate = ({ uploadedOn }) => dayjs(uploadedOn).format("YYYY-MM-DD HH:mm:ss");

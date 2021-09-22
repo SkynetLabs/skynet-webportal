@@ -86,10 +86,8 @@ At this point we have almost everything running, we just need to set up your wal
 
    - `PORTAL_DOMAIN` (required) is a skynet portal domain (ex. siasky.net)
    - `SERVER_DOMAIN` (optional) is an optional direct server domain (ex. eu-ger-1.siasky.net) - leave blank unless it is different than PORTAL_DOMAIN
-   - `EMAIL_ADDRESS` is your email address used for communication regarding SSL certification (required if you're using http-01 challenge)
    - `SIA_WALLET_PASSWORD` is your wallet password (or seed if you did not set a password)
    - `HSD_API_KEY` this is a random security key for a handshake integration that gets generated automatically
-   - `CLOUDFLARE_AUTH_TOKEN` (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
    - `AWS_ACCESS_KEY_ID` (optional) if using route53 as a dns loadbalancer
    - `AWS_SECRET_ACCESS_KEY` (optional) if using route53 as a dns loadbalancer
    - `DISCORD_WEBHOOK_URL` (required if using Discord notifications) discord webhook url (generate from discord app)

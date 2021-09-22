@@ -18,7 +18,7 @@ export default async (req, res) => {
     const customer = await getStripeCustomer(stripeCustomerId);
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      return_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
+      return_url: `https://account.${process.env.PORTAL_DOMAIN}/payments`,
     });
 
     res.redirect(session.url);

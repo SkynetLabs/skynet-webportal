@@ -92,7 +92,7 @@ export default function Layout({ title, children }) {
                         </a>
                       </Link>
                       <a
-                        href={process.env.NEXT_PUBLIC_SKYNET_PORTAL_API}
+                        href={`https://${process.env.NEXT_PUBLIC_PORTAL_DOMAIN}`}
                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -244,8 +244,8 @@ export default function Layout({ title, children }) {
                 </a>
               </Link>
               <a
-                href={process.env.NEXT_PUBLIC_SKYNET_PORTAL_API}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium flex items-center"
+                href={`https://${process.env.NEXT_PUBLIC_PORTAL_DOMAIN}`}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium flex items-center"
                 target="_blank"
                 rel="noopener noreferrer"
               >

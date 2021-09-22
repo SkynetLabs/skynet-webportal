@@ -4,7 +4,7 @@ const { isEqual } = require("lodash");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
 const { SkynetClient, genKeyPairAndSeed } = require("skynet-js");
 
-const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
 // uploadCheck returns the result of uploading a sample file
@@ -17,7 +17,7 @@ async function uploadCheck(done) {
   form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
 
   try {
-    const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, { body: form });
+    const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, { body: form });
 
     data.statusCode = response.statusCode;
     data.up = true;
@@ -34,7 +34,7 @@ async function uploadCheck(done) {
 
 // websiteCheck checks whether the main website is working
 async function websiteCheck(done) {
-  return done(await genericAccessCheck("website", process.env.SKYNET_PORTAL_API));
+  return done(await genericAccessCheck("website", `https://${process.env.PORTAL_DOMAIN}`));
 }
 
 // downloadCheck returns the result of downloading the hard coded link
@@ -60,7 +60,7 @@ async function handshakeSubdomainCheck(done) {
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
-  const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
+  const url = `https://account.${process.env.PORTAL_DOMAIN}/auth/login`;
 
   return done(await genericAccessCheck("account_website", url));
 }
@@ -90,13 +90,12 @@ async function registryWriteAndReadCheck(done) {
 
 // directServerApiAccessCheck returns the basic server api check on direct server address
 async function directServerApiAccessCheck(done) {
-  if (!process.env.SKYNET_SERVER_API) {
-    return done({ up: false, errors: [{ message: "SKYNET_SERVER_API env variable not configured" }] });
-  }
+  const portalApi = `https://${process.env.PORTAL_DOMAIN}`;
+  const serverApi = `https://${process.env.SERVER_DOMAIN}`;
 
   const [portalAccessCheck, serverAccessCheck] = await Promise.all([
-    genericAccessCheck("portal_api_access", process.env.SKYNET_PORTAL_API),
-    genericAccessCheck("server_api_access", process.env.SKYNET_SERVER_API),
+    genericAccessCheck("portal_api_access", portalApi),
+    genericAccessCheck("server_api_access", serverApi),
   ]);
 
   if (portalAccessCheck.ip !== serverAccessCheck.ip) {
@@ -105,8 +104,8 @@ async function directServerApiAccessCheck(done) {
     serverAccessCheck.errors.push({
       message: "Access ip mismatch between portal and server access",
       response: {
-        portal: { name: process.env.SKYNET_PORTAL_API, ip: portalAccessCheck.ip },
-        server: { name: process.env.SKYNET_SERVER_API, ip: serverAccessCheck.ip },
+        portal: { name: portalApi, ip: portalAccessCheck.ip },
+        server: { name: serverApi, ip: serverAccessCheck.ip },
       },
     });
   }
@@ -120,7 +119,7 @@ async function accountHealthCheck(done) {
   const data = { up: false };
 
   try {
-    const response = await got(`${process.env.SKYNET_DASHBOARD_URL}/health`, { responseType: "json" });
+    const response = await got(`https://account.${process.env.PORTAL_DOMAIN}/health`, { responseType: "json" });
 
     data.statusCode = response.statusCode;
     data.response = response.body;
@@ -163,8 +162,11 @@ const checks = [
   skylinkSubdomainCheck,
   handshakeSubdomainCheck,
   registryWriteAndReadCheck,
-  directServerApiAccessCheck,
 ];
+
+if (process.env.SERVER_DOMAIN) {
+  checks.push(directServerApiAccessCheck);
+}
 
 if (process.env.ACCOUNTS_ENABLED === "true") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
