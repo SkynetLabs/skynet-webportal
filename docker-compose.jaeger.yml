@@ -10,7 +10,6 @@ services:
   sia:
     environment:
       - JAEGER_DISABLED=${JAEGER_DISABLED:-false} # Enable/Disable tracing
-      - JAEGER_SERVICE_NAME=${PORTAL_NAME:-Skyd} # change to e.g. eu-ger-1
       # Configuration
       # See https://github.com/jaegertracing/jaeger-client-go#environment-variables
       # for all options.
