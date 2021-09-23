@@ -26,7 +26,7 @@
                       "name": "route53",
                       "max_retries": 100
                     },
-                    "ttl": "1800"
+                    "ttl": "1h"
                   }
                 }
               }
