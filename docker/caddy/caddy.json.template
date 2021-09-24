@@ -20,13 +20,12 @@
             "issuers": [
               {
                 "module": "acme",
+                "email": "{{EMAIL_ADDRESS}}",
                 "challenges": {
                   "dns": {
                     "provider": {
-                      "name": "route53",
-                      "max_retries": 100
-                    },
-                    "ttl": "15m"
+                      "name": "route53"
+                    }
                   }
                 }
               }
