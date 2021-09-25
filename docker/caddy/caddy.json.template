@@ -20,11 +20,11 @@
             "issuers": [
               {
                 "module": "acme",
+                "email": "{{EMAIL_ADDRESS}}",
                 "challenges": {
                   "dns": {
                     "provider": {
-                      "name": "route53",
-                      "max_retries": 100
+                      "name": "route53"
                     }
                   }
                 }
