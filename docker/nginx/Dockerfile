@@ -19,6 +19,6 @@ CMD [ "bash", "-c", \
        ./mo < /etc/nginx/conf.d.templates/server.hns.conf > /etc/nginx/conf.d/server.hns.conf; \
        ./mo < /etc/nginx/conf.d.templates/server.skylink.conf > /etc/nginx/conf.d/server.skylink.conf ; \
        mv /etc/cron.daily/logrotate /etc/cron.hourly/logrotate ; \
-       service cron start ; \
+       /usr/sbin/service cron start ; \
        /usr/local/openresty/bin/openresty '-g daemon off;'" \
     ]
