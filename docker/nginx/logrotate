@@ -5,9 +5,9 @@
     missingok
     notifempty
     nocompress
-    create 640 root root
+    create 644 root root
     sharedscripts
     postrotate
-        openresty -s reopen
+        /usr/local/openresty/bin/openresty -s reopen
     endscript
 }

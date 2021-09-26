@@ -11,8 +11,7 @@ RUN luarocks install lua-resty-http && \
 COPY mo ./
 COPY conf.d /etc/nginx/conf.d
 COPY conf.d.templates /etc/nginx/conf.d.templates
-
-COPY ./logrotate /etc/logrotate.d/nginx
+COPY logrotate /etc/logrotate.d/nginx
 
 CMD [ "bash", "-c", \
       "./mo < /etc/nginx/conf.d.templates/server.account.conf > /etc/nginx/conf.d/server.account.conf ; \
