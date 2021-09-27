@@ -183,6 +183,8 @@ services:
     container_name: ipfs-api
     restart: unless-stopped
     logging: *default-logging
+    env_file:
+      - .env
     networks:
       shared:
         ipv4_address: 10.10.10.58
@@ -196,6 +198,12 @@ services:
     container_name: ipfs-mongo
     restart: unless-stopped
     logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME: ${IPFS_MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD: ${IPFS_MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE: ipfs-to-skynet
     volumes:
       - ./docker/data/ipfs-mongo/db:/data/db
     networks:

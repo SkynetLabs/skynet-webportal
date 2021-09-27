@@ -6,7 +6,5 @@ export const IPFS_INFURA_API =
 export const IPFS_GATEWAY =
   process.env.IPFS_GATEWAY || "https://cloudflare-ipfs.com/ipfs/";
 export const SKYNET_PORTAL = process.env.SKYNET_PORTAL || "https://siasky.net";
-export const MONGO_CONNECTIONSTRING =
-  process.env.MONGO_CONNECTIONSTRING ||
-  "mongodb://root:password@ipfs-mongo:27017";
-export const MONGO_DBNAME = process.env.MONGO_DBNAME || "ipfs-to-skynet";
+export const MONGO_CONNECTIONSTRING = `mongodb://${process.env.IPFS_MONGO_USERNAME}:${process.env.IPFS_MONGO_PASSWORD}@ipfs-mongo:27017`;
+export const MONGO_DBNAME = "ipfs-to-skynet";
