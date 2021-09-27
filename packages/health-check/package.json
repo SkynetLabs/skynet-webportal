@@ -15,7 +15,7 @@
     "lowdb": "^1.0.0",
     "skynet-js": "^3.0.2",
     "write-file-atomic": "^3.0.3",
-    "yargs": "^17.1.1"
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
     "prettier": "^2.4.1"
