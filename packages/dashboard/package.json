@@ -34,5 +34,8 @@
     "swr": "1.0.1",
     "tailwindcss": "2.2.16",
     "yup": "0.32.9"
+  },
+  "resolutions": {
+    "axios": "0.21.4"
   }
 }
