@@ -23,7 +23,7 @@
     "http-status-codes": "2.1.4",
     "ky": "0.25.1",
     "next": "11.1.2",
-    "postcss": "8.3.6",
+    "postcss": "8.3.8",
     "prettier": "2.4.1",
     "pretty-bytes": "5.6.0",
     "react": "17.0.2",
