@@ -8,12 +8,14 @@ const client = new SkynetClient(SKYNET_PORTAL);
 
 export async function contentType(cid: string): Promise<string> {
   const url = `${IPFS_GATEWAY}/${cid}`;
+  console.log(`got(HEAD): ${url}`);
   const response = await got.head(url);
   return response.headers["content-type"];
 }
 
 export async function isDirectory(cid: string): Promise<boolean> {
   const url = `${IPFS_INFURA_API}/api/v0/object/get?arg=${cid}&encoding=json`;
+  console.log(`got(GET): ${url}`);
   const json = await got.get(url).json();
   return Boolean(json["Links"].length);
 }
@@ -30,6 +32,7 @@ export async function download(
   console.log(url);
 
   return new Promise((resolve, reject) => {
+    console.log(`got(STREAM): ${url}`);
     const downloadStream = got.stream(url);
     downloadStream.on("error", (error) => {
       console.error(`Download failed: ${error.message}`);
