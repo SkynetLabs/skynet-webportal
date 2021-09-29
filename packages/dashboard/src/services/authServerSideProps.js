@@ -5,6 +5,14 @@ const isProduction = process.env.NODE_ENV === "production";
 export default function authServerSideProps(getServerSideProps) {
   return function authenticate(context) {
     if (isProduction && (!("ory_kratos_session" in context.req.cookies) || !("skynet-jwt" in context.req.cookies))) {
+      if (!("ory_kratos_session" in context.req.cookies)) {
+        console.log(`Cookie ory_kratos_session is present but skynet-jwt is not - redirecting to login`);
+      }
+
+      if (!("skynet-jwt" in context.req.cookies)) {
+        console.log(`Cookie skynet-jwt is present but ory_kratos_session is not - redirecting to login`);
+      }
+
       return {
         redirect: {
           permanent: false,
