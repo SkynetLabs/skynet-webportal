@@ -77,6 +77,8 @@ async function handleGetLink(
     res.status(200).send({ skylink });
     return;
   } catch (error) {
+    console.log(error);
+
     res.status(500).send(error);
     return;
   }
