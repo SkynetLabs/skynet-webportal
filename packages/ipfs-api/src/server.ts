@@ -62,15 +62,15 @@ async function handleGetLink(
 
     const record = await recordsDB.findOne({ cid });
 
-    console.log(record);
-
     if (record && record.skylink) {
       res.status(200).send({ skylink: record.skylink });
       return;
     }
 
     // insert an empty record for the cid
-    await recordsDB.insertOne({ cid, createdAt: new Date(), skylink: "" });
+    if (!record) {
+      await recordsDB.insertOne({ cid, createdAt: new Date(), skylink: "" });
+    }
 
     // reupload the cid and return the skylink
     const skylink = await reuploadFile(cid, recordsDB);
