@@ -74,7 +74,7 @@ export default function Table({ items, count, headers, mutate, actions, offset, 
                 {items && items.length ? (
                   items.map((row, index) => (
                     <tr className={index % 2 ? "bg-gray-100" : "bg-white"} key={index}>
-                      {headers.map(({ key, formatter, href, nowrap = true }) => (
+                      {headers.map(({ key, formatter, href, nowrap }) => (
                         <td
                           key={key}
                           className={`${nowrap ? "whitespace-nowrap" : ""} px-6 py-4 text-sm font-medium text-gray-900`}

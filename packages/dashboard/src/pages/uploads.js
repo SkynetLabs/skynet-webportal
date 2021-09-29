@@ -14,8 +14,25 @@ const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
 const getRelativeDate = ({ uploadedOn }) => dayjs(uploadedOn).format("YYYY-MM-DD HH:mm:ss");
 const headers = [
-  { key: "name", name: "Name", nowrap: false, href: getSkylinkLink },
-  { key: "skylink", name: "Skylink" },
+  {
+    key: "name",
+    name: "File",
+    formatter: ({ name, skylink }) => (
+      <>
+        <p>
+          <a
+            href={getSkylinkLink({ skylink })}
+            className="text-green-600 hover:text-green-900 break-all"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {name}
+          </a>
+        </p>
+        <p className="text-gray-500 text-xs">{skylink}</p>
+      </>
+    ),
+  },
   { key: "size", name: "Size", formatter: ({ size }) => prettyBytes(size) },
   { key: "uploadedOn", name: "Uploaded on", formatter: getRelativeDate },
 ];
