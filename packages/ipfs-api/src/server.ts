@@ -3,10 +3,23 @@ import express, { Request, Response } from "express";
 import { rmdirSync, unlinkSync } from "fs";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
-import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
+import {
+  API_HOSTNAME,
+  API_PORT,
+  MONGO_CONNECTIONSTRING,
+  MONGO_DBNAME,
+  UPLOAD_PATH,
+} from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
-import { contentType, download, extractArchive, isDirectory, uploadDirectory, uploadFile } from "./utils";
+import {
+  contentType,
+  download,
+  extractArchive,
+  isDirectory,
+  uploadDirectory,
+  uploadFile,
+} from "./utils";
 
 require("dotenv").config();
 
@@ -39,20 +52,25 @@ require("dotenv").config();
   });
 })();
 
-async function handleGetLink(req: Request, res: Response, recordsDB: Collection<IRecord>) {
+async function handleGetLink(
+  req: Request,
+  res: Response,
+  recordsDB: Collection<IRecord>
+) {
   try {
     const { cid } = req.params;
 
     const record = await recordsDB.findOne({ cid });
-    if (record) {
-      if (record.skylink) {
-        res.status(200).send({ skylink: record.skylink });
-        return;
-      }
-    } else {
-      // insert an empty record for the cid
-      await recordsDB.insertOne({ cid, createdAt: new Date(), skylink: "" });
+
+    console.log(record);
+
+    if (record && record.skylink) {
+      res.status(200).send({ skylink: record.skylink });
+      return;
     }
+
+    // insert an empty record for the cid
+    await recordsDB.insertOne({ cid, createdAt: new Date(), skylink: "" });
 
     // reupload the cid and return the skylink
     const skylink = await reuploadFile(cid, recordsDB);
@@ -64,7 +82,10 @@ async function handleGetLink(req: Request, res: Response, recordsDB: Collection<
   }
 }
 
-async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promise<string> {
+async function reuploadFile(
+  cid: string,
+  recordsDB: Collection<IRecord>
+): Promise<string> {
   // get the content type
   const ct = await contentType(cid);
   const ext = toExtension(ct);
