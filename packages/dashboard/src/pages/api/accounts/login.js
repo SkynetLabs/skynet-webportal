@@ -10,6 +10,8 @@ export default async (req, res) => {
       res.setHeader("Set-Cookie", header["set-cookie"]);
       res.redirect(req.query.return_to ?? "/");
     } catch (error) {
+      console.log(`Cookie is present but authentication failed: ${error.message}`);
+
       // credentials were correct but accounts service failed
       res.redirect("/.ory/kratos/public/self-service/browser/flows/logout");
     }

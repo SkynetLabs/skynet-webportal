@@ -4,7 +4,17 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export default function authServerSideProps(getServerSideProps) {
   return function authenticate(context) {
-    if (isProduction && (!("ory_kratos_session" in context.req.cookies) || !("skynet-jwt" in context.req.cookies))) {
+    const authCookies = ["ory_kratos_session", "skynet-jwt"];
+
+    if (isProduction && !authCookies.every((cookie) => context.req.cookies[cookie])) {
+      // it is higly unusual that some of the cookies would be set but other would not
+      if (authCookies.some((cookie) => context.req.cookies[cookie])) {
+        console.log(
+          "Unexpected auth cookies state!",
+          authCookies.map((cookie) => `[${cookie}] is ${context.req.cookies[cookie] ? "set" : "not set"}`)
+        );
+      }
+
       return {
         redirect: {
           permanent: false,

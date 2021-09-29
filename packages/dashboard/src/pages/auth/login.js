@@ -32,6 +32,8 @@ export async function getServerSideProps(context) {
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
+    console.log(`Unexpected error retrieving login flow: ${error.message}`);
+
     return {
       redirect: {
         permanent: false,
