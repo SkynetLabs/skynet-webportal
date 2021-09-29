@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import { rmdirSync, unlinkSync } from "fs";
+import fs from "fs";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
 import {
@@ -110,8 +110,8 @@ async function reuploadFile(
     const skylink = await uploadDirectory(dirPathExtracted);
 
     // cleanup files
-    unlinkSync(tarPath);
-    rmdirSync(dirPath, { recursive: true });
+    fs.unlinkSync(tarPath);
+    fs.rmSync(dirPath, { recursive: true });
 
     // update record
     await recordsDB.updateOne({ cid }, { $set: { skylink } });
@@ -127,7 +127,7 @@ async function reuploadFile(
   const skylink = await uploadFile(filePath);
 
   // cleanup files
-  unlinkSync(filePath);
+  fs.unlinkSync(filePath);
 
   // update record
   await recordsDB.updateOne({ cid }, { $set: { skylink } });
