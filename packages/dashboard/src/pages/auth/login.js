@@ -32,6 +32,8 @@ export async function getServerSideProps(context) {
 
     throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
   } catch (error) {
+    console.log(error.message); // log failure message for debugging purpose
+
     return {
       redirect: {
         permanent: false,
