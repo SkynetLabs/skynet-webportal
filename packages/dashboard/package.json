@@ -23,16 +23,21 @@
     "http-status-codes": "2.1.4",
     "ky": "0.25.1",
     "next": "11.1.2",
+    "normalize.css": "8.0.1",
     "postcss": "8.3.8",
     "prettier": "2.4.1",
     "pretty-bytes": "5.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-toastify": "8.0.2",
     "skynet-js": "3.0.2",
     "stripe": "8.176.0",
     "superagent": "6.1.0",
     "swr": "1.0.1",
     "tailwindcss": "2.2.16",
     "yup": "0.32.9"
+  },
+  "resolutions": {
+    "axios": "0.21.4"
   }
 }
