@@ -4,6 +4,7 @@ import fs from "fs";
 import got from "got";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
+import { convertSkylinkToBase64 } from "skynet-js";
 import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
@@ -36,6 +37,8 @@ require("dotenv").config();
 
   app.get("/ipfs/eth/dns-query/:name", async (req: Request, res: Response) => {
     try {
+      console.log(`https://eth.link/dns-query?type=TXT&name=${req.params.name}`);
+
       const response = await got(`https://eth.link/dns-query?type=TXT&name=${req.params.name}`, {
         headers: { "content-type": "application/dns-json" },
       }).json();
