@@ -1,10 +1,10 @@
 import cors from "cors";
-import express, { Request, response, Response } from "express";
+import express, { Request, Response } from "express";
 import fs from "fs";
 import got from "got";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
-import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH, IPFS_INTERNAL_API } from "./consts";
+import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
 import { contentType, download, extractArchive, isDirectory, uploadDirectory, uploadFile } from "./utils";
