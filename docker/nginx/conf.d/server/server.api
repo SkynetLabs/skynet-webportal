@@ -101,6 +101,7 @@ location /ipfs {
 location /ipfs/api {
     include /etc/nginx/conf.d/include/cors;
 
+    rewrite /ipfs/(.*) /$1 break;
     proxy_pass http://ipfs-node:5001;
 }
 
