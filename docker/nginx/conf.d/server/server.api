@@ -105,13 +105,6 @@ location /ipfs/api {
     proxy_pass http://ipfs-node:5001;
 }
 
-location /eth/link {
-    include /etc/nginx/conf.d/include/cors;
-
-    rewrite /eth/link/(.*) /$1 break;
-    proxy_pass https://eth.link;
-}
-
 location /hnsres {
     include /etc/nginx/conf.d/include/cors;
 
