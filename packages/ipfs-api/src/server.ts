@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Request, Response } from "express";
+import express, { Request, response, Response } from "express";
 import fs from "fs";
 import got from "got";
 import { extension as toExtension } from "mime-types";
@@ -34,9 +34,18 @@ require("dotenv").config();
     return handleGetLink(req, res, recordsDB);
   });
 
-  app.get("/ipfs/name/resolve/:name", (req: Request, res: Response) => {
-    console.log(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`);
-    return got.post(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`).json();
+  app.get("/ipfs/eth/dns-query/:name", async (req: Request, res: Response) => {
+    try {
+      const response = await got(`https://eth.link/dns-query?type=TXT&name=${req.params.name}`, {
+        headers: { "content-type": "application/dns-json" },
+      }).json();
+
+      res.status(200).send(response);
+    } catch (error) {
+      console.log(error);
+
+      res.status(400);
+    }
   });
 
   // start the server
