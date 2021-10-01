@@ -218,5 +218,5 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.59
-    ports:
-      - "27017:27017"
+    expose:
+      - 27017

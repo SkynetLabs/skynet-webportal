@@ -1,25 +1,13 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 import fs from "fs";
+import got from "got";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
-import {
-  API_HOSTNAME,
-  API_PORT,
-  MONGO_CONNECTIONSTRING,
-  MONGO_DBNAME,
-  UPLOAD_PATH,
-} from "./consts";
+import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH, IPFS_INTERNAL_API } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
-import {
-  contentType,
-  download,
-  extractArchive,
-  isDirectory,
-  uploadDirectory,
-  uploadFile,
-} from "./utils";
+import { contentType, download, extractArchive, isDirectory, uploadDirectory, uploadFile } from "./utils";
 
 require("dotenv").config();
 
@@ -46,17 +34,17 @@ require("dotenv").config();
     return handleGetLink(req, res, recordsDB);
   });
 
+  app.get("/ipfs/name/resolve/:name", async (req: Request, res: Response) => {
+    return await got.post(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`).json();
+  });
+
   // start the server
   app.listen(parseInt(API_PORT, 10), API_HOSTNAME, () => {
     console.log(`IPFS to Skynet API listening at ${API_HOSTNAME}:${API_PORT}`);
   });
 })();
 
-async function handleGetLink(
-  req: Request,
-  res: Response,
-  recordsDB: Collection<IRecord>
-) {
+async function handleGetLink(req: Request, res: Response, recordsDB: Collection<IRecord>) {
   try {
     const { cid } = req.params;
 
@@ -84,10 +72,7 @@ async function handleGetLink(
   }
 }
 
-async function reuploadFile(
-  cid: string,
-  recordsDB: Collection<IRecord>
-): Promise<string> {
+async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promise<string> {
   // get the content type
   const ct = await contentType(cid);
   const ext = toExtension(ct);

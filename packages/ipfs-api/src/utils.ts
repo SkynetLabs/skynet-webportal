@@ -18,14 +18,8 @@ export async function isDirectory(cid: string): Promise<boolean> {
   return Boolean(json["Links"].length);
 }
 
-export async function download(
-  cid: string,
-  destination: string,
-  directory: boolean
-): Promise<boolean> {
-  const url = directory
-    ? `${IPFS_INFURA_API}/api/v0/get?arg=${cid}&archive=true`
-    : `${IPFS_GATEWAY}/${cid}`;
+export async function download(cid: string, destination: string, directory: boolean): Promise<boolean> {
+  const url = directory ? `${IPFS_INFURA_API}/api/v0/get?arg=${cid}&archive=true` : `${IPFS_GATEWAY}/${cid}`;
 
   return new Promise((resolve, reject) => {
     const downloadStream = got.stream(url);
@@ -50,10 +44,7 @@ export async function download(
 
 export async function extractArchive(src: string, dst: string) {
   return new Promise((resolve, reject) => {
-    createReadStream(src)
-      .pipe(extract(dst))
-      .on("finish", resolve)
-      .on("error", reject);
+    createReadStream(src).pipe(extract(dst)).on("finish", resolve).on("error", reject);
   });
 }
 

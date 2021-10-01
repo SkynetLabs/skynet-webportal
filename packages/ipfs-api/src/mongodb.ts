@@ -1,19 +1,10 @@
-import {
-  Collection,
-  CreateIndexesOptions,
-  Db,
-  MongoClient,
-  MongoClientOptions,
-} from "mongodb";
+import { Collection, CreateIndexesOptions, Db, MongoClient, MongoClientOptions } from "mongodb";
 
 export class MongoDB {
   private db: Db;
   private client: MongoClient;
 
-  public constructor(
-    private connectionString: string,
-    private databaseName: string
-  ) {}
+  public constructor(private connectionString: string, private databaseName: string) {}
 
   public async connect() {
     const options: MongoClientOptions = {
@@ -27,9 +18,7 @@ export class MongoDB {
     this.db = this.client.db(this.databaseName);
   }
 
-  public async createCollection<T>(
-    collectionName: string
-  ): Promise<Collection<T>> {
+  public async createCollection<T>(collectionName: string): Promise<Collection<T>> {
     return await this.db.createCollection<T>(collectionName);
   }
 
@@ -37,12 +26,8 @@ export class MongoDB {
     await this.db.dropCollection(collectionName);
   }
 
-  public async ensureCollection<T>(
-    collectionName: string
-  ): Promise<Collection<T>> {
-    const collections = await this.db
-      .listCollections({ name: collectionName })
-      .toArray();
+  public async ensureCollection<T>(collectionName: string): Promise<Collection<T>> {
+    const collections = await this.db.listCollections({ name: collectionName }).toArray();
 
     const collection = collections.length
       ? (this.db.collection(collectionName) as Collection<T>)
@@ -51,19 +36,13 @@ export class MongoDB {
     return collection;
   }
 
-  public async ensureIndex(
-    collectionName: string,
-    fieldOrSpec: any,
-    options?: CreateIndexesOptions
-  ): Promise<string> {
+  public async ensureIndex(collectionName: string, fieldOrSpec: any, options?: CreateIndexesOptions): Promise<string> {
     const collection = await this.ensureCollection(collectionName);
     const ensured = await collection.createIndex(fieldOrSpec, options);
     return ensured;
   }
 
-  public async getCollection<T>(
-    collectionName: string
-  ): Promise<Collection<T>> {
+  public async getCollection<T>(collectionName: string): Promise<Collection<T>> {
     return this.ensureCollection<T>(collectionName);
   }
 }

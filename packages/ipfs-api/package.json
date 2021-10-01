@@ -28,6 +28,7 @@
     "@types/got": "9.6.12",
     "@types/mime-types": "2.1.1",
     "@types/node": "16.9.2",
+    "prettier": "^2.4.1",
     "rimraf": "3.0.2",
     "ts-node": "10.2.1",
     "tslint": "6.1.3",
