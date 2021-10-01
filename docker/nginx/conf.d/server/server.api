@@ -98,6 +98,12 @@ location /ipfs {
     proxy_pass http://ipfs-api:3100;
 }
 
+location /ipfs/api {
+    include /etc/nginx/conf.d/include/cors;
+
+    proxy_pass http://ipfs-node:5001;
+}
+
 location /hnsres {
     include /etc/nginx/conf.d/include/cors;
 
