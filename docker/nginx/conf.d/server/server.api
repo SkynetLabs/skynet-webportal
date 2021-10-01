@@ -104,6 +104,7 @@ location /ipfs/api {
     rewrite /ipfs/(.*) /$1 break;
     proxy_set_header Origin "";
     proxy_set_header Referer "";
+    proxy_set_header User-Agent "";
     proxy_pass http://ipfs-node:5001;
 }
 
