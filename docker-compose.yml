@@ -176,6 +176,15 @@ services:
     depends_on:
       - caddy
 
+  ipfs-node:
+    image: ipfs/go-ipfs
+    container_name: ipfs-node
+    restart: unless-stopped
+    logging: *default-logging
+    networks:
+      shared:
+        ipv4_address: 10.10.10.57
+
   ipfs-api:
     build:
       context: ./packages/ipfs-api
@@ -209,5 +218,5 @@ services:
     networks:
       shared:
         ipv4_address: 10.10.10.59
-    expose:
-      - 27017
+    ports:
+      - "27017:27017"
