@@ -34,9 +34,9 @@ require("dotenv").config();
     return handleGetLink(req, res, recordsDB);
   });
 
-  app.get("/ipfs/name/resolve/:name", async (req: Request, res: Response) => {
+  app.get("/ipfs/name/resolve/:name", (req: Request, res: Response) => {
     console.log(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`);
-    return await got.post(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`).json();
+    return got.post(`${IPFS_INTERNAL_API}/api/v0/name/resolve?arg=${req.params.name}`).json();
   });
 
   // start the server
