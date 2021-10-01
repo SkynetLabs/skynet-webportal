@@ -4,7 +4,6 @@ import fs from "fs";
 import got from "got";
 import { extension as toExtension } from "mime-types";
 import { Collection } from "mongodb";
-import { convertSkylinkToBase64 } from "skynet-js";
 import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
