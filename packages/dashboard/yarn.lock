@@ -2533,10 +2533,10 @@ react-refresh@0.8.3:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
-react-toastify@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-8.0.2.tgz#11f73b3a847fcffeb47b1823e8974e9895f98fae"
-  integrity sha512-0Nud2d0VD4LIevgkB4L8NYoQ5plTpfqgj2CRVxs58SGA/TTO+2Ojz4C1bLUdGUWsw0zuWqd4GJqxNuMIv0cXMw==
+react-toastify@8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-8.0.3.tgz#7fbf65f69ec357aab8dd03c1496f9177aa92409a"
+  integrity sha512-rv3koC7f9lKKSkdpYgo/TGzgWlrB/aaiUInF1DyV7BpiM4kyTs+uhu6/r8XDMtBY2FOIHK+FlK3Iv7OzpA/tCA==
   dependencies:
     clsx "^1.1.1"
 
