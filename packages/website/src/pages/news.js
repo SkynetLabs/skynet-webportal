@@ -6,39 +6,36 @@ import { NewsSummary } from "../components/News";
 import Link from "../components/Link";
 import Seo from "../components/seo";
 
-const NewsCard = ({ ...props }) => {
-  const linkProps = { to: !props.frontmatter.external && props.fields.slug, href: props.frontmatter.external };
+const NewsCard = ({ frontmatter, fields }) => {
+  const { title, external, categories, description, thumbnail, avatar, author, date } = frontmatter;
+  const link = external ? { href: external } : { to: fields.slug };
 
   return (
     <div className="flex flex-col">
-      <Link {...linkProps} className="flex items-center">
-        <GatsbyImage image={getImage(props.frontmatter.thumbnail)} alt={props.frontmatter.title} />
+      <Link {...link} className="flex items-center">
+        <GatsbyImage image={getImage(thumbnail)} alt={title} />
       </Link>
 
-      {props.frontmatter.categories && (
+      {categories && (
         <div className="mt-6">
-          {props.frontmatter.categories.map((category) => (
+          {categories.map((category) => (
             <Label key={category}>{category}</Label>
           ))}
         </div>
       )}
 
-      <Link {...linkProps} className="text-xl mt-6">
-        {props.frontmatter.title}
+      <Link {...link} className="text-xl mt-6">
+        {title}
       </Link>
 
-      {props.frontmatter.description && (
-        <Link {...linkProps} className="font-content text-palette-400 mt-4">
-          {props.frontmatter.description}
+      {description && (
+        <Link {...link} className="font-content text-palette-400 mt-4">
+          {description}
         </Link>
       )}
 
       <div className="mt-6">
-        <NewsSummary
-          avatar={props.frontmatter.avatar}
-          author={props.frontmatter.author}
-          date={props.frontmatter.date}
-        />
+        <NewsSummary avatar={avatar} author={author} date={date} />
       </div>
     </div>
   );

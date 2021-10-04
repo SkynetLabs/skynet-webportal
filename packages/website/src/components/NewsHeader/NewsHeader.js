@@ -12,6 +12,7 @@ const NewsHeader = () => {
             id
             frontmatter {
               title
+              external
             }
             fields {
               slug
@@ -26,8 +27,9 @@ const NewsHeader = () => {
 
   if (!latestNews) return null; // no news
 
-  const title = latestNews.node.frontmatter.title;
-  const link = { to: latestNews.node.fields.slug };
+  const { frontmatter, fields } = latestNews.node;
+  const { title, external } = frontmatter;
+  const link = external ? { href: external } : { to: fields.slug };
 
   return (
     <div className="bg-palette-500 px-8 p-3">
