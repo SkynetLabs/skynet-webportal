@@ -181,6 +181,8 @@ services:
     container_name: ipfs-node
     restart: unless-stopped
     logging: *default-logging
+    environment:
+      - IPFS_PROFILE=server
     networks:
       shared:
         ipv4_address: 10.10.10.57
