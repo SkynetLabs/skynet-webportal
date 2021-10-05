@@ -2844,7 +2844,7 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.3.tgz#b55cd8e8ddf659fe89b064680e1c6a4dceab0325"
   integrity sha512-/lqqLAmuIPi79WYfRpy2i8z+x+vxU3zX2uAm0gs1q52qTuKwolOj1P8XbufpXcsydrpKx2yGn2wzAnxCMV86QA==
 
-axios@^0.21.0, axios@^0.21.1, axios@^0.21.4:
+axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -12064,12 +12064,12 @@ sjcl@^1.0.8:
   resolved "https://registry.yarnpkg.com/sjcl/-/sjcl-1.0.8.tgz#f2ec8d7dc1f0f21b069b8914a41a8f236b0e252a"
   integrity sha512-LzIjEQ0S0DpIgnxMEayM1rq9aGwGRG4OnZhCdjx7glTaJtf4zRfpg87ImfjSJjoW9vKpagd82McDOwbRT5kQKQ==
 
-skynet-js@^4.0.11-beta:
-  version "4.0.11-beta"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.11-beta.tgz#ec313d586f8e026e0b3b4b608f2f3b4a449e8a71"
-  integrity sha512-/fpxBeegGJeK+VWE8svUhBc2tVX0kJAZod5K172kKPO1g/GECeQLLSuWL2yvCMbSSTyH0dIFr5gemwGNsZHlMQ==
+skynet-js@4.0.17-beta:
+  version "4.0.17-beta"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.17-beta.tgz#0e0f07799e3635bef9c8f3387e2393a1255aafd2"
+  integrity sha512-Yl5qGdasrVf6ZQzz/huAkmNHxyNv1UsgfoX7OE6Yg1q8SxZXmQnTsPK9oupgow6xjN/VINenXuY5ZVjoEmhZyw==
   dependencies:
-    axios "^0.21.0"
+    axios "^0.21.1"
     base32-decode "^1.0.0"
     base32-encode "^1.1.1"
     base64-js "^1.3.1"
@@ -12080,16 +12080,16 @@ skynet-js@^4.0.11-beta:
     post-me "^0.4.5"
     randombytes "^2.1.0"
     sjcl "^1.0.8"
-    skynet-mysky-utils "^0.2.2"
+    skynet-mysky-utils "^0.3.0"
     tus-js-client "^2.2.0"
     tweetnacl "^1.0.3"
     url-join "^4.0.1"
     url-parse "^1.5.1"
 
-skynet-mysky-utils@^0.2.2:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/skynet-mysky-utils/-/skynet-mysky-utils-0.2.3.tgz#5007cf8f7599b665ccf016003b37a4ed0fb19abf"
-  integrity sha512-wRrAASn4haux2fu+2pJLv+uV/TGbBecXT1jaqD3/IQgqbEwZUpDNJJrYnYAfp/0cY5Xmuc2ZX90NNr34neAcWg==
+skynet-mysky-utils@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/skynet-mysky-utils/-/skynet-mysky-utils-0.3.0.tgz#87fdc0a5f8547cf660280ef86b7a762269919bad"
+  integrity sha512-X9L6SrVTdwTUFook/E6zUWCOpXHdyspLAu0elQbbPkZCWeFpr/XXTMbiyPV3m1liYsesngAKxzaSqylaTWOGUA==
   dependencies:
     post-me "^0.4.5"
 
