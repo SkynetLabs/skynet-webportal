@@ -206,11 +206,10 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
 }
 
 module.exports = [
-  audioExampleCheck,
+  corpusCheck,
   // uniswapIndexFileCheck,
   // uniswapCheck,
   // uniswapRedirectCheck,
   // uniswapHNSCheck,
   // uniswapHNSRedirectCheck,
-  uniswapHNSResolverCheck,
 ];
