@@ -105,7 +105,7 @@ async def check_disk():
         )
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
-        if inspect_json[0]["State"]["Running"] == True:
+        if inspect_json[0]["State"]["Running"] is True:
             # mark portal as unhealthy
             os.popen("docker exec health-check cli/disable")
             time.sleep(300)  # wait 5 minutes to propagate dns changes
@@ -133,7 +133,10 @@ async def check_health():
         res = requests.get(endpoint + "/health-check", verify=False)
         json_check = res.json()
 
-        server_failure = res.status_code is not requests.codes["ok"] and json_check["disabled"] == False:
+        server_failure = (
+            res.status_code is not requests.codes["ok"]
+            and json_check["disabled"] is False
+        )
 
         res = requests.get(endpoint + "/health-check/critical", verify=False)
         json_critical = res.json()
@@ -171,12 +174,12 @@ async def check_health():
         bad = False
         for check in critical["checks"]:
             critical_checks_total += 1
-            if check["up"] == False:
+            if check["up"] is False:
                 critical_checks_failed += 1
                 bad = True
         if bad:
             critical["checks"] = [
-                check for check in critical["checks"] if check["up"] == False
+                check for check in critical["checks"] if check["up"] is False
             ]
             failed_records.append(critical)
 
@@ -187,12 +190,12 @@ async def check_health():
         bad = False
         for check in extended["checks"]:
             extended_checks_total += 1
-            if check["up"] == False:
+            if check["up"] is False:
                 extended_checks_failed += 1
                 bad = True
         if bad:
             extended["checks"] = [
-                check for check in extended["checks"] if check["up"] == False
+                check for check in extended["checks"] if check["up"] is False
             ]
             failed_records.append(extended)
 
@@ -227,11 +230,7 @@ async def check_health():
         failed_records_file = json.dumps(failed_records, indent=2)
 
     # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
-    if (
-        force_notify
-        or failed_records_file
-        or datetime.utcnow().hour == 1
-    ):
+    if force_notify or failed_records_file or datetime.utcnow().hour == 1:
         return await send_msg(
             message, file=failed_records_file, force_notify=force_notify
         )
