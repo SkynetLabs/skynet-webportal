@@ -5,25 +5,23 @@ const { isEqual } = require("lodash");
 const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
 const { parseSkylink } = require("skynet-js");
 
-
 // corpusCheck runs through all the tests hosted at the resolver skylink created
 // by the testing-corpus repo https://github.com/SkynetLabs/testing-corpus
 function corpusCheck(done) {
-    // Query the resolver skylink that the testing corpus is stored at
-    const query = `https://040e2npojpl9tiahghgls0d13bvacn5qo9jodruda8lcp3l4q3h1ikg.siasky.net/`;
-    const json = await got(query).json();
-    json.forEach((test) => {
-        if (test.skylink) {
-            // Skylink Verification
-            skylinkVerification(done, test);
-        }
-        if (test.hns) {
-            // HNS verification
-            hnsVerification(done, test);
-	}
-    })
+  // Query the resolver skylink that the testing corpus is stored at
+  const query = `https://040e2npojpl9tiahghgls0d13bvacn5qo9jodruda8lcp3l4q3h1ikg.siasky.net/`;
+  const json = await got(query).json();
+  json.forEach((test) => {
+    if (test.skylink) {
+      // Skylink Verification
+      skylinkVerification(done, test);
+    }
+    if (test.hns) {
+      // HNS verification
+      hnsVerification(done, test);
+    }
+  });
 }
-
 
 const uniswapBodyHash = "3965f9a7def085b3a764ddc76a528eda38d72359";
 const uniswapMetadata = require("../fixtures/uniswapMetadata.json");
@@ -111,7 +109,7 @@ async function hnsVerification(done, expected) {
   const details = { name: expected.name, hns: expected.hns };
 
   try {
-    const portalDomain =`${process.env.SKYNET_PORTAL_API}` 
+    const portalDomain = `${process.env.SKYNET_PORTAL_API}`;
     const query = `https://${expected.hns}.hns.${portalDomain}`;
     const response = await got(query);
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
