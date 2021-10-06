@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-from urllib.request import urlopen, Request
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
 from discord_webhook import DiscordWebhook
 
-import urllib, json, os, traceback, sys, re, subprocess, requests, io
+import urllib
+import json
+import os
+import traceback
+import sys
+import re
+import subprocess
+import requests
+import io
 
 # Load dotenv file if possible.
 # TODO: change all scripts to use named flags/params
@@ -25,6 +32,7 @@ sc_precision = 10 ** 24
 # Environment variable globals
 setup_done = False
 
+
 # find out local siad ip by inspecting its docker container
 def get_docker_container_ip(container_name):
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
@@ -41,6 +49,7 @@ api_endpoint = "http://{}:{}".format(
     get_docker_container_ip(CONTAINER_NAME), os.getenv("API_PORT", "9980")
 )
 
+
 # find siad api password by getting it out of the docker container
 def get_api_password():
     api_password_regex = re.compile(r"^\w+$")
@@ -56,7 +65,8 @@ def setup():
     setup_done = True
 
 
-# send_msg sends the msg to the specified discord channel. If force_notify is set to true it adds "@here".
+# send_msg sends the msg to the specified discord channel.
+# If force_notify is set to true it adds "@here".
 async def send_msg(msg, force_notify=False, file=None):
     try:
         webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
