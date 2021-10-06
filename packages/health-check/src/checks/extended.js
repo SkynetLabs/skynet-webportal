@@ -109,7 +109,7 @@ async function hnsVerification(done, expected) {
   const details = { name: expected.name, hns: expected.hns };
 
   try {
-    const portalDomain = `${process.env.SKYNET_PORTAL_API}`;
+    const portalDomain = `${process.env.SKYNET_PORTAL_API}`.replace("https://", "");
     const query = `https://${expected.hns}.hns.${portalDomain}`;
     const response = await got(query);
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
