@@ -2,9 +2,9 @@ name: Update Test Data
 
 on:
   push:
-    # We don't want to update again on main
+    # We don't want to update again on master
     branches-ignore:
-      - main
+      - master
 
 jobs:
   update-test-data:
