@@ -2,7 +2,8 @@ name: Update Test Data
 
 on:
   schedule:
-    - cron: '* * * * *'
+    # Run job hourly
+    - cron: '0 * * * *'
 
 jobs:
   update-test-data:
