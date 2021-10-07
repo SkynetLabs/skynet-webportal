@@ -1,0 +1,400 @@
+[
+  {
+    name: 'Audio Example',
+    skylink: '_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA',
+    bodyHash: '1bea1f570043f20149ae4cb4d30089d90897b15b',
+    metadata: { filename: 'feel-good.mp3' },
+    headers: {
+      'skynet-skylink': '_A2zt5SKoqwnnZU4cBF8uBycSKULXMyeg1c5ZISBr2Q3dA',
+      'content-disposition': 'inline; filename="feel-good.mp3"',
+      'content-type': 'audio/mpeg'
+    }
+  },
+  {
+    name: 'Bitcoin Whitepaper',
+    skylink: '3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ',
+    bodyHash: '8de2fdb04edce612738eb51e14ecc426381f8ed8',
+    headers: {
+      'skynet-skylink': '3ACpC9Umme41zlWUgMQh1fw0sNwgWwyfDDhRQ9Sppz9hjQ',
+      'content-disposition': 'inline; filename="bitcoin.pdf"',
+      'content-type': 'application/pdf'
+    }
+  },
+  { name: 'Chat Bubble HNS', hns: 'chatbubble' },
+  { name: 'Covert Skylink HNS', hns: 'convert-skylink' },
+  {
+    name: 'Covid-19 Paper',
+    skylink: 'PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A',
+    bodyHash: '7ce20bfc4221503fd0bf909ad20c422eca125c7d',
+    metadata: {
+      filename: 'An Effective Treatment for Coronavirus (COVID-19).pdf',
+      subfiles: [Object]
+    },
+    headers: {
+      'skynet-skylink': 'PAMZVmfutxWoG6Wnl5BRKuWLkDNZR42k_okRRvksJekA3A',
+      'content-disposition': 'inline; filename="An Effective Treatment for Coronavirus (COVID-19).pdf"',
+      'content-type': 'application/pdf'
+    }
+  },
+  {
+    name: 'Covid-19 CoroNope Paper',
+    skylink: 'bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA',
+    bodyHash: '0db705da1b1232f8344ed74fd38245d35a49a965',
+    metadata: { filename: 'coronope.pdf' },
+    headers: {
+      'skynet-skylink': 'bACLKGmcmX4NCp47WwOOJf0lU666VLeT5HRWpWVtqZPjEA',
+      'content-disposition': 'inline; filename="coronope.pdf"',
+      'content-type': 'application/pdf'
+    }
+  },
+  {
+    name: 'Dapp Example (UniSwap)',
+    skylink: 'EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA',
+    bodyHash: '7b74cbb5927e964db493b82cc1f8a532f1ff72f5',
+    metadata: { filename: 'build', length: 15578459, subfiles: [Object] },
+    headers: {
+      'skynet-skylink': 'EADWpKD0myqH2tZa6xtKebg6kNnwYnI94fl4R8UKgNrmOA',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'Develop Momentum Index File',
+    skylink: 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/',
+    bodyHash: '08e96877dd6c99c3e1d98105f2fd9df377b53d65',
+    headers: {
+      'skynet-skylink': 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'Develop Momentum Index File - no trailing slash',
+    skylink: 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw',
+    bodyHash: '08e96877dd6c99c3e1d98105f2fd9df377b53d65',
+    metadata: { filename: 'output', subfiles: [Object] },
+    headers: {
+      'skynet-skylink': 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'Develop Momentum Index File',
+    skylink: 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw/index.html',
+    bodyHash: '08e96877dd6c99c3e1d98105f2fd9df377b53d65',
+    headers: {
+      'skynet-skylink': 'EAA1fG_ip4C1Vi1Ijvsr1oyr8jpH0Bo9HXya0T3kw-elGw',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'File endpoint check',
+    skylink: 'file/XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg',
+    bodyHash: '7e079f7afc9e5bc0c1be04543e22ac552a14a8da',
+    headers: {
+      'skynet-skylink': 'XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg',
+      'content-disposition': 'attachment; filename="sia.pdf"',
+      'content-type': 'application/pdf'
+    }
+  },
+  { name: 'Hackerpaste HNS', hns: 'hackerpaste' },
+  {
+    name: 'Hackerpaste Homescreen',
+    skylink: '_AFA8eHudO8vU10GdgSjvX_40P2gXJsIq5jZY2VoBiVQmg',
+    bodyHash: '22732193bdada20e533b6591696951e336ea1242',
+    headers: {
+      'skynet-skylink': '_AFA8eHudO8vU10GdgSjvX_40P2gXJsIq5jZY2VoBiVQmg'
+    }
+  },
+  {
+    name: 'hackerpaste.hns',
+    source: 'https://github.com/harej/hackerpaste/',
+    skylink: '_AGZuZCyRn5kZMFHBssWYc20poXyez1XMO6hmPqAVcM1qg',
+    bodyHash: '12817ac933b7f64fc63ae24a652132ed11e5b622',
+    headers: {
+      'skynet-skylink': '_AGZuZCyRn5kZMFHBssWYc20poXyez1XMO6hmPqAVcM1qg',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  { name: 'Homeapp HNS', hns: 'homeapp' },
+  { name: 'Homescreen HNS', hns: 'homescreen' },
+  {
+    name: 'HTML Example',
+    skylink: 'PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw',
+    bodyHash: 'ecffcfbb74e017698cad30a91a74b9ba0b046413',
+    metadata: { filename: 'introduction – Sia API Documentation.html' },
+    headers: {
+      'skynet-skylink': 'PAL0w4SdA5rFCDGEutgpeQ50Om-YkBabtXVOJAkmedslKw',
+      'content-disposition': 'inline; filename="introduction – Sia API Documentation.html"',
+      'content-type': 'text/html; charset=utf-8'
+    }
+  },
+  {
+    name: 'hns endpoint directory redirect',
+    skylink: 'hns/note-to-self',
+    statusCode: 307,
+    headers: { location: 'note-to-self/' }
+  },
+  {
+    name: 'Image Example',
+    skylink: 'IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ',
+    bodyHash: 'e318667a9d53a45a9d010ac4e0d120ad064279ac',
+    metadata: { filename: 'sia-lm.png' },
+    headers: {
+      'skynet-skylink': 'IADUs8d9CQjUO34LmdaaNPK_STuZo24rpKVfYW3wPPM2uQ',
+      'content-disposition': 'inline; filename="sia-lm.png"',
+      'content-type': 'image/png'
+    }
+  },
+  {
+    name: 'JSON Example',
+    skylink: 'AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ',
+    bodyHash: 'b514603ce8acd937197712700e21259f18a857d6',
+    metadata: { filename: 'consensus.json' },
+    headers: {
+      'skynet-skylink': 'AAC0uO43g64ULpyrW0zO3bjEknSFbAhm8c-RFP21EQlmSQ',
+      'content-disposition': 'inline; filename="consensus.json"',
+      'content-type': 'application/json'
+    }
+  },
+  { name: 'Note to Self HNS', hns: 'note-to-self' },
+  {
+    name: 'note-to-self.hns',
+    source: 'https://github.com/kwypchlo/note-to-self/',
+    skylink: 'EAD_w2YcqtpqVgtRwKXPno9VmKfTcVG3E_OIL-Np_Hz_1g',
+    bodyHash: 'e00c1b7348dd419e96bf3c188185a5fb8d04af53',
+    headers: {
+      'skynet-skylink': 'EAD_w2YcqtpqVgtRwKXPno9VmKfTcVG3E_OIL-Np_Hz_1g',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  { name: 'Marstorage HNS', hns: 'marstorage' },
+  {
+    name: 'PDF Example',
+    skylink: 'XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg',
+    bodyHash: '7e079f7afc9e5bc0c1be04543e22ac552a14a8da',
+    metadata: { filename: 'sia.pdf' },
+    headers: {
+      'skynet-skylink': 'XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg',
+      'content-disposition': 'inline; filename="sia.pdf"',
+      'content-type': 'application/pdf'
+    }
+  },
+  {
+    name: 'Rift Homescreen',
+    skylink: 'EABFLP0a9mYcPaRIhuTj9kqp0p-5vwmr1gWtXOVWBNORwA',
+    bodyHash: '5f884997344c5083740f42779eb4afee629aab1c',
+    headers: {
+      'skynet-skylink': 'EABFLP0a9mYcPaRIhuTj9kqp0p-5vwmr1gWtXOVWBNORwA'
+    }
+  },
+  {
+    name: 'SkyBay',
+    skylink: 'EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA/',
+    bodyHash: 'dfc0b1d3d1113254d7545d19f6118855ed9c778b',
+    metadata: { filename: 'skybay.html', subfiles: [Object] },
+    headers: {
+      'skynet-skylink': 'EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA',
+      'content-disposition': 'inline; filename="skybay.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'SkyBay Redirect',
+    skylink: 'EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA',
+    bodyHash: 'dfc0b1d3d1113254d7545d19f6118855ed9c778b',
+    metadata: { filename: 'skybay.html', subfiles: [Object] },
+    headers: {
+      'skynet-skylink': 'EABkMjXzxJRpPz0eO0Or5fy2eo-rz3prdigGwRlyNd9mwA',
+      'content-disposition': 'inline; filename="skybay.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'SkyBin',
+    skylink: 'CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA/',
+    bodyHash: '858ff733c4cb06a80060b8a62cf303fd5a051651',
+    metadata: { filename: 'skybin.html' },
+    headers: {
+      'skynet-skylink': 'CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA',
+      'content-disposition': 'inline; filename="skybin.html"',
+      'content-type': 'text/html; charset=utf-8'
+    }
+  },
+  { name: 'Sky Bin HNS', hns: 'sky-bin' },
+  {
+    name: 'SkyBin Redirect',
+    skylink: 'CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA',
+    bodyHash: '858ff733c4cb06a80060b8a62cf303fd5a051651',
+    metadata: { filename: 'skybin.html' },
+    headers: {
+      'skynet-skylink': 'CAAVU14pB9GRIqCrejD7rlS27HltGGiiCLICzmrBV0wVtA',
+      'content-disposition': 'inline; filename="skybin.html"',
+      'content-type': 'text/html; charset=utf-8'
+    }
+  },
+  { name: 'Sky Chess HNS', hns: 'skychess' },
+  { name: 'Sky Deploy HNS', hns: 'sky-deploy' },
+  {
+    name: 'sky-deploy.hns',
+    source: '-',
+    skylink: 'CABR1ic_lIPaN9JYLG6AiudkW5GShRd-Cr6Wkjur7z29Rw',
+    bodyHash: 'b2b0498a8a7f6fcfe76c29ae1a1176b4e64cb5ab',
+    headers: {
+      'skynet-skylink': 'CABR1ic_lIPaN9JYLG6AiudkW5GShRd-Cr6Wkjur7z29Rw',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  { name: 'SkyFeed HNS', hns: 'skyfeed' },
+  { name: 'SkyGallery HNS', hns: 'skygallery' },
+  {
+    name: 'SkyGallery Index File',
+    skylink: 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/index.html',
+    bodyHash: 'cb5905023a29bdd60d58817f26503345c9a1bd09',
+    headers: {
+      'skynet-skylink': 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'SkyGallery',
+    skylink: 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg/',
+    bodyHash: 'cb5905023a29bdd60d58817f26503345c9a1bd09',
+    metadata: {
+      filename: 'skygallery-v0.1.1-76c4c115fcb526716b2564568850f433',
+      subfiles: [Object],
+      defaultpath: '/index.html'
+    },
+    headers: {
+      'skynet-skylink': 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'SkyGallery Redirect',
+    skylink: 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg',
+    bodyHash: 'cb5905023a29bdd60d58817f26503345c9a1bd09',
+    metadata: {
+      filename: 'skygallery-v0.1.1-76c4c115fcb526716b2564568850f433',
+      subfiles: [Object],
+      defaultpath: '/index.html'
+    },
+    headers: {
+      'skynet-skylink': 'AADW6GsQcetwDBaDYnGCSTbYjSKY743NtY1A5VRx5sj3Dg',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  { name: 'Skynet Appstore HNS', hns: 'skyapps' },
+  { name: 'Skynet Connect 4 HNS', hns: 'skynect4' },
+  { name: 'Skynet Hackathon HNS', hns: 'skynet-hackathon' },
+  { name: 'SkyProfile HNS', hns: 'skyprofile' },
+  { name: 'SkySend HNS', hns: 'skysend' },
+  {
+    name: 'SkySend Homescreen',
+    skylink: 'GABvY0s2-FuyKHtvm90KCVTUvg-NvQJrYdQ7XG8NNqcPYg',
+    bodyHash: '35bc25301501a3b28913ca7a7a06120681365a9c',
+    headers: {
+      'skynet-skylink': 'GABvY0s2-FuyKHtvm90KCVTUvg-NvQJrYdQ7XG8NNqcPYg'
+    }
+  },
+  {
+    name: 'skysend.hns',
+    source: 'https://github.com/redsolver/skysend/',
+    skylink: 'GADlWH3ALR2g1cDUBI6Ti8B22iD7R5dfn_8jLfq-atm5iw',
+    bodyHash: '35bc25301501a3b28913ca7a7a06120681365a9c',
+    headers: {
+      'skynet-skylink': 'GADlWH3ALR2g1cDUBI6Ti8B22iD7R5dfn_8jLfq-atm5iw',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  { name: 'SkyTransfer HNS', hns: 'skytransfer' },
+  {
+    name: 'SkyTransfer Homescreen',
+    skylink: '_A1WQyJk2lwioirt-8_qrEG94jOT5D3RImMHDtq7dbfr7A',
+    bodyHash: 'e38e7a27a375e09bfe45ba5f749c591fd42d37ea',
+    headers: {
+      'skynet-skylink': '_A1WQyJk2lwioirt-8_qrEG94jOT5D3RImMHDtq7dbfr7A'
+    }
+  },
+  { name: 'How About Skapp HNS', hns: 'tirthahalli' },
+  {
+    name: 'tirthahalli.hns',
+    source: '-',
+    skylink: 'AAAsdvGalu2Fj9P5zLvZhfwoI0CpXeO_kPMSG_YU1PSIWg',
+    bodyHash: '734c49ddde2a49ac6ddbf1c6d90a014ff82e2f87',
+    headers: {
+      'skynet-skylink': 'AAAsdvGalu2Fj9P5zLvZhfwoI0CpXeO_kPMSG_YU1PSIWg',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  },
+  {
+    name: 'Unzip The Uncensored Library Map',
+    skylink: 'AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ',
+    bodyHash: 'cd0377661eefd656c8b46c497aa03112393ba893',
+    metadata: {
+      filename: 'Unzip_The_Uncensored_Library_Map.zip',
+      subfiles: [Object]
+    },
+    headers: {
+      'skynet-skylink': 'AAC5glnZyNJ4Ieb4MhnYJGtID6qdMqEjl0or5EvEMt7bWQ',
+      'content-disposition': 'inline; filename="Unzip_The_Uncensored_Library_Map.zip"',
+      'content-type': 'application/zip'
+    }
+  },
+  {
+    name: 'The Uncensored Library - Press Release',
+    skylink: 'AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA',
+    bodyHash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+    metadata: {
+      filename: 'press-release-Reporters-Without-Borders-The-Uncensored-Library.zip',
+      subfiles: [Object]
+    },
+    headers: {
+      'skynet-skylink': 'AABHwuml_EhvyY8Gm7j1E2xGwodUNAJgX0A6-Cd22p9kNA',
+      'content-disposition': 'inline; filename="press-release-Reporters-Without-Borders-The-Uncensored-Library.zip"',
+      'content-type': 'application/zip'
+    }
+  },
+  {
+    name: 'The Uncensored Library V2',
+    skylink: 'AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw',
+    bodyHash: 'f2a802c2b7482825613a08853538203a53c96bd1',
+    metadata: { filename: 'The Uncensored Library V2.zip', subfiles: [Object] },
+    headers: {
+      'skynet-skylink': 'AAAs-JOsRGWgABYIo7AwTDqSX79-BxQKjDj0wiRGoRPFnw',
+      'content-disposition': 'inline; filename="The Uncensored Library V2.zip"',
+      'content-type': 'application/zip'
+    }
+  },
+  {
+    name: 'Uniswap HNS Resolver',
+    skylink: 'hnsres/uniswap-dex/',
+    bodyHash: '3634496800c254b93f9dcbca2aeb53e644f706c0'
+  },
+  {
+    name: 'Uniswap HNS Resolver Redirect',
+    skylink: 'hnsres/uniswap-dex',
+    bodyHash: '3634496800c254b93f9dcbca2aeb53e644f706c0'
+  },
+  {
+    name: 'uniswap skynet labs fork',
+    source: 'https://github.com/SkynetLabs/uniswap-interface/',
+    skylink: 'OAAy4_g9EYfuOiUZlz_irkoPgsc_seAjgGozerrT1QvE5A',
+    bodyHash: 'db2882b7902f24d62e49905b77d536aaf7b7da75',
+    headers: {
+      'skynet-skylink': 'OAAy4_g9EYfuOiUZlz_irkoPgsc_seAjgGozerrT1QvE5A',
+      'content-disposition': 'inline; filename="index.html"',
+      'content-type': 'text/html'
+    }
+  }
+]

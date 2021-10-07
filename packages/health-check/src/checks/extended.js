@@ -8,10 +8,11 @@ const { parseSkylink } = require("skynet-js");
 // corpusCheck runs through all the tests hosted at the resolver skylink created
 // by the testing-corpus repo https://github.com/SkynetLabs/testing-corpus
 async function corpusCheck(done) {
-  // Query the resolver skylink that the testing corpus is stored at
-  const query = `https://040e2npojpl9tiahghgls0d13bvacn5qo9jodruda8lcp3l4q3h1ikg.siasky.net/`;
-  const json = await got(query).json();
-  json.forEach((test) => {
+  // Load Test Data from file
+  const testData = require("../fixtures/testdata.json");
+
+  // Loop over test data and execute tests
+  testData.forEach((test) => {
     if (test.skylink) {
       // Skylink Verification
       skylinkVerification(done, test);

@@ -1,0 +1,37 @@
+name: Update Test Data
+
+on:
+  push:
+    # We don't want to update again on main
+    branches-ignore:
+      - main
+
+jobs:
+  update-test-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Helper for grabbing the branch name
+      - uses: nelonoel/branch-name@v1.0.1
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      # Install node modules for updatetestdata.js script
+      - name: Install Dependencies
+        run: npm install got
+
+      # Generate the new test data for the Health Checks
+      - name: Generate test data
+        run: |
+          node packages/health-check/src/updatetestdata.js > packages/health-check/src/fixtures/testdata.json
+
+      # Commit the Updates to the test data
+      - name: Update test data
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: packages/health-check/src/fixtures/testdata.json
+          commit-msg: Update testdata from Github Actions
+          branch: ${{ env.BRANCH_NAME }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
