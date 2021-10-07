@@ -7,7 +7,7 @@ async function getTestData() {
   try {
     const query = `https://040e2npojpl9tiahghgls0d13bvacn5qo9jodruda8lcp3l4q3h1ikg.siasky.net/`;
     const json = await got(query).json();
-    console.log(json);
+    console.log(JSON.stringify(json));
   } catch (error) {
     console.log(error);
   }

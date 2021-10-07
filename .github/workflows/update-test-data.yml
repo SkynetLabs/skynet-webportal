@@ -20,12 +20,15 @@ jobs:
 
       # Install node modules for updatetestdata.js script
       - name: Install Dependencies
-        run: npm install got
+        run: |
+          npm install got
+          npm install prettier
 
       # Generate the new test data for the Health Checks
       - name: Generate test data
         run: |
           node packages/health-check/src/updatetestdata.js > packages/health-check/src/fixtures/testdata.json
+          npx prettier --write packages/health-check/src/fixtures/testdata.json
 
       # Commit the Updates to the test data
       - name: Update test data
