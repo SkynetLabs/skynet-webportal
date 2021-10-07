@@ -1,10 +1,8 @@
 name: Update Test Data
 
 on:
-  push:
-    # We don't want to update again on master
-    branches-ignore:
-      - master
+  schedule:
+    - cron: '* * * * *'
 
 jobs:
   update-test-data:
