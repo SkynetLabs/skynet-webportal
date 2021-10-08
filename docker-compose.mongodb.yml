@@ -20,4 +20,4 @@ services:
       shared:
         ipv4_address: 10.10.10.71
     ports:
-      - "27017:27017"
+      - "${SKYNET_DB_PORT}:27017"
