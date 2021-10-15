@@ -3,7 +3,7 @@ FROM caddy:2.4.5-builder AS caddy-builder
 # available dns resolvers: https://github.com/caddy-dns
 RUN xcaddy build --with github.com/caddy-dns/route53
 
-FROM caddy:2.4.5-builder
+FROM caddy:2.4.5-alpine
 
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 

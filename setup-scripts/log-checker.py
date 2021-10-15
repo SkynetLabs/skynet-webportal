@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
-import sys, traceback, io, os, asyncio
-from bot_utils import setup, send_msg, upload_to_skynet
+from bot_utils import setup, send_msg
 from subprocess import Popen, PIPE
+
+import sys
+import traceback
+import asyncio
 
 """
 log-checker checks the docker logs for siad.

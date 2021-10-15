@@ -97,7 +97,7 @@
     preserve_host: true
     url: "http://accounts:3000"
   match:
-    url: "http://oathkeeper<{,:4455}>/<{login,logout,user,user/uploads,user/downloads,user/stats}>"
+    url: "http://oathkeeper<{,:4455}>/<{login,logout,user,user/uploads,user/uploads/*,user/downloads,user/stats}>"
     methods:
       - GET
       - POST

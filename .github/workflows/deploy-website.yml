@@ -1,6 +1,11 @@
 name: Deploy website to Skynet
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - "packages/website/**"
   pull_request:
     paths:
       - "packages/website/**"
