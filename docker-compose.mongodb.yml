@@ -9,7 +9,7 @@ x-logging: &default-logging
 services:
   mongo:
     image: mongo:4.4.1
-    command: --keyFile=/data/mgkey --replSet=skynet
+    command: --keyFile=/data/mgkey --replSet=${SKYNET_DB_REPLICASET}
     container_name: mongo
     restart: unless-stopped
     logging: *default-logging
