@@ -43,7 +43,7 @@
     "http-status-codes": "^2.1.4",
     "jsonp": "^0.2.1",
     "ms": "^2.1.2",
-    "nanoid": "^3.1.29",
+    "nanoid": "^3.1.30",
     "normalize.css": "^8.0.1",
     "path-browserify": "^1.0.1",
     "polished": "^4.1.3",
