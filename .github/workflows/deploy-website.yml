@@ -40,7 +40,7 @@ jobs:
           wait-on: "http://127.0.0.1:9000"
 
       - name: "Deploy to Skynet"
-        uses: kwypchlo/deploy-to-skynet-action@main
+        uses: skynetlabs/deploy-to-skynet-action@v2
         with:
           upload-dir: packages/website/public
           github-token: ${{ secrets.GITHUB_TOKEN }}
