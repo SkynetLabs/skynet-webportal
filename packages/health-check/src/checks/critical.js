@@ -58,6 +58,13 @@ async function handshakeSubdomainCheck(done) {
   return done(await genericAccessCheck("hns_via_subdomain", url));
 }
 
+// websiteSkylinkCheck returns the result of accessing siasky.net website through skylink
+async function websiteSkylinkCheck(done) {
+  const websiteSkylink = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+
+  return done(await genericAccessCheck("website_skylink", websiteSkylink));
+}
+
 // accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
   const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
@@ -159,6 +166,7 @@ async function genericAccessCheck(name, url) {
 const checks = [
   uploadCheck,
   websiteCheck,
+  websiteSkylinkCheck,
   downloadCheck,
   skylinkSubdomainCheck,
   handshakeSubdomainCheck,
