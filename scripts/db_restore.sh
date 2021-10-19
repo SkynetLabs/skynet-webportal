@@ -88,7 +88,6 @@ if [ "$totalFoundObjects" -eq "0" ]; then
   echo "This backup doesn't exist!"
   exit 1
 fi
-cd $csd/..
 # Get the backup from S3:
 aws s3 cp $S3_BACKUP_PATH/$BACKUP/mongo.tgz mongo.tgz
 # Prepare a clean `to_restore` dir:
