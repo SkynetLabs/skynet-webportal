@@ -101,7 +101,7 @@ rm mongo.tgz
 # The name of the backup is not `mongo` due to the way we're creating it,
 # it's $BACKUP.
 docker exec mongo \
-  mongorestore -- drop\
+  mongorestore --drop \
   mongodb://$SKYNET_DB_USER:$SKYNET_DB_PASS@$SKYNET_DB_HOST:$SKYNET_DB_PORT \
   /data/db/backups/to_restore/$BACKUP
 # Clean up:
