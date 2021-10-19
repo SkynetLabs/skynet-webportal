@@ -85,20 +85,22 @@ if [ "$totalFoundObjects" -eq "0" ]; then
   echo "This backup doesn't exist!"
   exit 1
 fi
+cd $csd/..
 # Get the backup from S3:
 aws s3 cp $S3_BACKUP_PATH/$BACKUP/mongo.tgz mongo.tgz
 # Prepare a clean `to_restore` dir:
-rm -rf $csd/../docker/data/mongo/db/backups/to_restore
-mkdir -p $csd/../docker/data/mongo/db/backups/to_restore
+rm -rf docker/data/mongo/db/backups/to_restore
+mkdir -p docker/data/mongo/db/backups/to_restore
 # Decompress the backup:
-tar -xzf mongo.tgz -C $csd/../docker/data/mongo/db/backups/to_restore
+tar -xzf mongo.tgz -C docker/data/mongo/db/backups/to_restore
 rm mongo.tgz
 # Restore the backup:
 # The name of the backup is not `mongo` due to the way we're creating it,
 # it's $BACKUP.
 docker exec mongo \
-  mongorestore \
+  mongorestore --drop \
   mongodb://$SKYNET_DB_USER:$SKYNET_DB_PASS@$SKYNET_DB_HOST:$SKYNET_DB_PORT \
   /data/db/backups/to_restore/$BACKUP
 # Clean up:
-rm -rf $csd/../docker/data/mongo/db/backups/to_restore
+rm -rf docker/data/mongo/db/backups/to_restore
+cd -
