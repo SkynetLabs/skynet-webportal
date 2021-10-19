@@ -1,1 +1,0 @@
-- Set skyd up to connect to the local mongodb cluster for storing TUS metadata
