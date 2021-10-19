@@ -26,6 +26,16 @@ rewrite ^/skynet/blacklist /skynet/blocklist permanent;
 location / {
     include /etc/nginx/conf.d/include/cors;
 
+    set $skylink "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+    set $path $uri;
+
+    include /etc/nginx/conf.d/include/location-skylink;
+
+    proxy_intercept_errors on;
+    error_page 400 404 490 500 502 503 504 =200 @fallback;
+}
+
+location @fallback {
     proxy_pass http://website:9000;
 }
 
