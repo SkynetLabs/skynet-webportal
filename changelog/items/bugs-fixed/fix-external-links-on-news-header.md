@@ -1,1 +1,0 @@
-- fixed the latest news link redirect in the news header
