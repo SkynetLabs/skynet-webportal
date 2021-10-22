@@ -38,20 +38,30 @@ fi
 # iterate through all servers, block the skylinks and purge it from cache
 #########################################################################
 declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.siasky.net" "eu-ger-4.siasky.net" "eu-ger-5.siasky.net" "eu-ger-6.siasky.net" "eu-ger-7.siasky.net" "eu-ger-8.siasky.net"
-                      "eu-fin-1.siasky.net" "eu-fin-2.siasky.net" "eu-fin-3.siasky.net" "eu-fin-4.siasky.net"
-                      "eu-pol-1.siasky.net" "eu-pol-2.siasky.net" "eu-pol-3.siasky.net"
+                      "eu-ger-9.siasky.net" "eu-ger-10.siasky.net" "eu-ger-11.siasky.net" "eu-ger-12.siasky.net"
+                      "eu-fin-1.siasky.net" "eu-fin-2.siasky.net" "eu-fin-3.siasky.net" "eu-fin-4.siasky.net" "eu-fin-5.siasky.net" "eu-fin-6.siasky.net" "eu-fin-7-siasky.net" "eu-fin-8.siasky.net"
+                      "eu-fin-9.siasky.net" "eu-fin-10.siasky.net" "eu-fin-11.siasky.net" "eu-fin-12.siasky.net" "eu-fin-13.siasky.net" "eu-fin-14.siasky.net" "eu-fin-15.siasky.net"
+                      "eu-pol-1.siasky.net" "eu-pol-2.siasky.net" "eu-pol-3.siasky.net" "eu-pol-4.siasky.net" "eu-pol-5.siasky.net"
+                      "us-ny-1.siasky.net" "us-ny-2.siasky.net"
                       "us-or-1.siasky.net" "us-or-2.siasky.net"
+                      "us-la-1.siasky.net" "us-la-2.siasky.net" "us-la-3.siasky.net"
                       "us-pa-1.siasky.net" "us-pa-2.siasky.net"
-                      "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net"
-                      "as-hk-1.siasky.net"
+                      "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net" "us-va-4.siasky.net" "us-va-5.siasky.net" "us-va-6.siasky.net"
+                      "as-hk-1.siasky.net" "as-sp-1.siasky.net" "as-sp-2.siasky.net"
                       "siasky.xyz" "dev1.siasky.dev" "dev2.siasky.dev" "dev3.siasky.dev")
 for server in "${servers[@]}";
 do
     for skylink in "${skylinks[@]}";
     do
         echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
+        
+        # Add to blocklist
+        ssh -q -t user@${server} "docker exec sia siac skynet blocklist add ${skylink}"
+        
+        # Remove from NGINX cache
         cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
         ssh -q -t user@${server} "docker exec -it nginx bash -c ${cached_files_command} | xargs -r rm"
+        
         echo ".. ⌁ Skylink ${skylink} Blocked on ${server}"
         echo "--------------------------------------------"
     done
