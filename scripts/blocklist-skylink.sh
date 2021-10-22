@@ -54,12 +54,12 @@ do
     for skylink in "${skylinks[@]}";
     do
         echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
-       
+        
         # Add to blocklist
         ssh -q -t user@${server} "docker exec sia siac skynet blocklist add ${skylink}"
-      
+        
         # Remove from NGINX cache
-        cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Elsq '^Skynet-Skylink: ${skylink}'"
+        cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
         ssh -q -t user@${server} "docker exec -it nginx bash -c ${cached_files_command} | xargs -r rm"
         
         echo ".. ⌁ Skylink ${skylink} Blocked on ${server}"
