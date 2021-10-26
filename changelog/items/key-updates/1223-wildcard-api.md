@@ -1,0 +1,1 @@
+- expose generic skylink serving endpoint on domain aliases
