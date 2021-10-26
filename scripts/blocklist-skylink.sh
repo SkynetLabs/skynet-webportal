@@ -42,6 +42,7 @@ do
     docker exec sia siac skynet blocklist add "${skylink}"
     
     # Remove from NGINX cache
+    # NOTE:  If there are changes to how the NGINX cache is being cleared, the same changes need to be applied to the /setup-scripts/blocklist-airtable.py script.
     cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
     docker exec -it nginx bash -c "${cached_files_command}" | xargs -r rm
     
