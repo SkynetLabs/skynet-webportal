@@ -84,12 +84,12 @@ async function handshakeSubdomainCheck(done) {
 }
 
 // websiteSkylinkCheck returns the result of accessing siasky.net website through skylink
-// async function websiteSkylinkCheck(done) {
-//   const websiteSkylink = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
-//   const url = await skynetClient.getSkylinkUrl(websiteSkylink, { subdomain: true });
+async function websiteSkylinkCheck(done) {
+  const websiteSkylink = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+  const url = await skynetClient.getSkylinkUrl(websiteSkylink);
 
-//   return done(await genericAccessCheck("website_skylink", url));
-// }
+  return done(await genericAccessCheck("website_skylink", url));
+}
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
@@ -193,7 +193,7 @@ const checks = [
   skydConfigCheck,
   uploadCheck,
   websiteCheck,
-  // websiteSkylinkCheck,
+  websiteSkylinkCheck,
   downloadCheck,
   skylinkSubdomainCheck,
   handshakeSubdomainCheck,
