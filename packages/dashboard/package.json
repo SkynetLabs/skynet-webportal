@@ -34,7 +34,7 @@
     "stripe": "8.184.0",
     "superagent": "6.1.0",
     "swr": "1.0.1",
-    "tailwindcss": "2.2.16",
+    "tailwindcss": "2.2.17",
     "yup": "0.32.11"
   },
   "resolutions": {
