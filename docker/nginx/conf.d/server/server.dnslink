@@ -5,28 +5,38 @@ location / {
     set $path $uri;
 
     rewrite_by_lua_block {
-        local httpc = require("resty.http").new()
+        local cache = ngx.shared.dnslink
+        local cache_value = cache:get(ngx.var.host)
 
-        -- 10.10.10.55 points to dnslink-api service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.55:3100/dnslink/" .. ngx.var.host)
+        if cache_value == nil then
+            local httpc = require("resty.http").new()
 
-        if err or (res and res.status ~= ngx.HTTP_OK) then
-            -- check whether we can fallback to regular skylink request
-            local match_skylink = ngx.re.match(ngx.var.uri, "^/([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?")
+            -- 10.10.10.55 points to dnslink-api service (alias not available when using resty-http)
+            local res, err = httpc:request_uri("http://10.10.10.55:3100/dnslink/" .. ngx.var.host)
 
-            if match_skylink then
-                ngx.var.skylink = match_skylink[1]
-                ngx.var.path = match_skylink[2] or "/"
+            if err or (res and res.status ~= ngx.HTTP_OK) then
+                -- check whether we can fallback to regular skylink request
+                local match_skylink = ngx.re.match(ngx.var.uri, "^/([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?")
+
+                if match_skylink then
+                    ngx.var.skylink = match_skylink[1]
+                    ngx.var.path = match_skylink[2] or "/"
+                else
+                    ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
+                    ngx.header["content-type"] = "text/plain"
+                    ngx.say(err or res.body)
+                    ngx.exit(ngx.status)
+                end
             else
-                ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
-                ngx.header["content-type"] = "text/plain"
-                ngx.say(err or res.body)
-                ngx.exit(ngx.status)
+                ngx.var.skylink = res.body
             end
+
+            local cache_ttl = 300 -- 5 minutes cache expire time
+            cache:set(ngx.var.host, ngx.var.skylink, cache_ttl)
         else
-            ngx.var.skylink = res.body
+            ngx.var.skylink = cache_value
         end
-                
+
         ngx.var.skylink_v1 = ngx.var.skylink
         ngx.var.skylink_v2 = ngx.var.skylink
     }
