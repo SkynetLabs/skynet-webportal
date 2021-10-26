@@ -7,7 +7,7 @@ log_by_lua_block {
         if premature then return end
 
         local httpc = require("resty.http").new()
-        local method = request_method == ngx.HTTP_GET and "read" or "write"
+        local method = request_method == "GET" and "read" or "write"
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.70:3000/track/registry/" .. method, {
