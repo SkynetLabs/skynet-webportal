@@ -61,8 +61,9 @@ async function handshakeSubdomainCheck(done) {
 // websiteSkylinkCheck returns the result of accessing siasky.net website through skylink
 async function websiteSkylinkCheck(done) {
   const websiteSkylink = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+  const url = await skynetClient.getSkylinkUrl(websiteSkylink, { subdomain: true });
 
-  return done(await genericAccessCheck("website_skylink", websiteSkylink));
+  return done(await genericAccessCheck("website_skylink", url));
 }
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
