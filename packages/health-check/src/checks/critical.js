@@ -19,7 +19,7 @@ async function skydConfigCheck(done) {
     let actual = BigInt(response.settings.allowance.paymentcontractinitialfunding);
     let expected = BigInt(10000000000000000000000000); // 10 SC
     if (actual !== expected) {
-      throw new Error("Skynet Portal Per-Contract Budget is not set!");
+      throw new Error("Skynet Portal Per-Contract Budget is not set correctly!");
     }
 
     data.up = true;
