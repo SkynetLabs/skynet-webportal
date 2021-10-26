@@ -75,7 +75,7 @@ access_by_lua_block {
     end
 }
 
-# we proxy to another nginx location rather than directly to siad because we don't want to deal with caching here
+# we proxy to another nginx location rather than directly to siad because we do not want to deal with caching here
 proxy_pass https://127.0.0.1/$skylink$path$is_args$args;
 
 # in case siad returns location header, we need to replace the skylink with the domain name

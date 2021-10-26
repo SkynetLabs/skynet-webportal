@@ -141,6 +141,10 @@ async def block_skylinks_from_airtable():
         )
         return await send_msg(message, force_notify=False)
 
+    # Remove from NGINX cache
+    # NOTE:
+    # If there are changes to how the NGINX cache is being cleared, the same
+    # changes need to be applied to the /scripts/blocklist-skylink.sh script.
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
     batch_size = 1000
