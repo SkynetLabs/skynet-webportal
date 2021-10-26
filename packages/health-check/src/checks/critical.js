@@ -7,6 +7,31 @@ const { SkynetClient, genKeyPairAndSeed } = require("skynet-js");
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
+// check that any relevant configuration is properly set in skyd
+async function skydConfigCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`http://10.10.10.10:9980/renter`, { headers: { "User-Agent": "Sia-Agent" } }).json();
+
+    // make sure initial funding is set to a non zero value
+    if (BigInt(response.settings.allowance.paymentcontractinitialfunding) > 0) {
+      throw new Error("Skynet Portal Per-Contract Budget is not set!");
+    }
+
+    data.up = true;
+    data.ip = response.ip;
+  } catch (error) {
+    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
+  }
+
+  done({ name: "skyd_config", time: calculateElapsedTime(time), ...data });
+}
+
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
   const time = process.hrtime();
@@ -164,6 +189,7 @@ async function genericAccessCheck(name, url) {
 }
 
 const checks = [
+  skydConfigCheck,
   uploadCheck,
   websiteCheck,
   websiteSkylinkCheck,
