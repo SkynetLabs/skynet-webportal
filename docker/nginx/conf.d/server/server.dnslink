@@ -27,12 +27,12 @@ location / {
                     ngx.say(err or res.body)
                     ngx.exit(ngx.status)
                 end
+
+                local cache_ttl = 300 -- 5 minutes cache expire time
+                cache:set(ngx.var.host, ngx.var.skylink, cache_ttl)
             else
                 ngx.var.skylink = res.body
             end
-
-            local cache_ttl = 300 -- 5 minutes cache expire time
-            cache:set(ngx.var.host, ngx.var.skylink, cache_ttl)
         else
             ngx.var.skylink = cache_value
         end
