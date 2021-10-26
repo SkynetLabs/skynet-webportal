@@ -16,7 +16,9 @@ async function skydConfigCheck(done) {
     const response = await got(`http://10.10.10.10:9980/renter`, { headers: { "User-Agent": "Sia-Agent" } }).json();
 
     // make sure initial funding is set to a non zero value
-    if (BigInt(response.settings.allowance.paymentcontractinitialfunding) === 0) {
+    let actual = BigInt(response.settings.allowance.paymentcontractinitialfunding);
+    let expected = BigInt(10000000000000000000000000); // 10 SC
+    if (actual !== expected) {
       throw new Error("Skynet Portal Per-Contract Budget is not set!");
     }
 
