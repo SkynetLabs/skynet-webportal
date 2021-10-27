@@ -103,7 +103,7 @@ async function registryWriteAndReadCheck(done) {
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
-  const expected = { datakey: "foo-key", data: "foo-data", revision: BigInt(0) };
+  const expected = { dataKey: "foo-key", data: "foo-data", revision: BigInt(0) };
 
   try {
     await skynetClient.registry.setEntry(privateKey, expected);
