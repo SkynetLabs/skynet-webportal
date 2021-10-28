@@ -2,7 +2,7 @@ const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
-const { SkynetClient, genKeyPairAndSeed } = require("skynet-js");
+const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -103,11 +103,11 @@ async function registryWriteAndReadCheck(done) {
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
-  const expected = { dataKey: "foo-key", data: "foo-data", revision: BigInt(0) };
+  const expected = { dataKey: "foo-key", data: stringToUint8ArrayUtf8("foo-data"), revision: BigInt(0) };
 
   try {
     await skynetClient.registry.setEntry(privateKey, expected);
-    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.datakey);
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey);
 
     if (isEqual(expected, entry)) {
       data.up = true;
@@ -115,7 +115,7 @@ async function registryWriteAndReadCheck(done) {
       data.errors = [{ message: "Data mismatch in registry (read after write)", entry, expected }];
     }
   } catch (error) {
-    data.errors = [{ message: error.message }];
+    data.errors = [{ message: error?.response?.data?.message ?? error.message }];
   }
 
   return done({ ...data, time: calculateElapsedTime(time) });
