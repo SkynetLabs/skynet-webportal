@@ -2,10 +2,35 @@ const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime, getResponseContent } = require("../utils");
-const { SkynetClient, genKeyPairAndSeed } = require("skynet-js");
+const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
+
+// check that any relevant configuration is properly set in skyd
+async function skydConfigCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`http://10.10.10.10:9980/renter`, { headers: { "User-Agent": "Sia-Agent" } }).json();
+
+    // make sure initial funding is set to 10SC
+    if (response.settings.allowance.paymentcontractinitialfunding !== "10000000000000000000000000") {
+      throw new Error("Skynet Portal Per-Contract Budget is not set correctly!");
+    }
+
+    data.up = true;
+    data.ip = response.ip;
+  } catch (error) {
+    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
+  }
+
+  done({ name: "skyd_config", time: calculateElapsedTime(time), ...data });
+}
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
@@ -60,9 +85,10 @@ async function handshakeSubdomainCheck(done) {
 
 // websiteSkylinkCheck returns the result of accessing siasky.net website through skylink
 async function websiteSkylinkCheck(done) {
-  const websiteSkylink = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+  const websiteSkylink = "AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA";
+  const url = await skynetClient.getSkylinkUrl(websiteSkylink, { subdomain: true });
 
-  return done(await genericAccessCheck("website_skylink", websiteSkylink));
+  return done(await genericAccessCheck("website_skylink", url));
 }
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
@@ -77,11 +103,11 @@ async function registryWriteAndReadCheck(done) {
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
-  const expected = { datakey: "foo-key", data: "foo-data", revision: BigInt(0) };
+  const expected = { dataKey: "foo-key", data: stringToUint8ArrayUtf8("foo-data"), revision: BigInt(0) };
 
   try {
     await skynetClient.registry.setEntry(privateKey, expected);
-    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.datakey);
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey);
 
     if (isEqual(expected, entry)) {
       data.up = true;
@@ -89,7 +115,7 @@ async function registryWriteAndReadCheck(done) {
       data.errors = [{ message: "Data mismatch in registry (read after write)", entry, expected }];
     }
   } catch (error) {
-    data.errors = [{ message: error.message }];
+    data.errors = [{ message: error?.response?.data?.message ?? error.message }];
   }
 
   return done({ ...data, time: calculateElapsedTime(time) });
@@ -164,6 +190,7 @@ async function genericAccessCheck(name, url) {
 }
 
 const checks = [
+  skydConfigCheck,
   uploadCheck,
   websiteCheck,
   websiteSkylinkCheck,

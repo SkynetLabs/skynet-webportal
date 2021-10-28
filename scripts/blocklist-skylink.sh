@@ -47,7 +47,7 @@ do
     # changes need to be applied to the /setup-scripts/blocklist-airtable.py
     # script.
     cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
-    docker exec -it nginx bash -c "${cached_files_command}" | xargs -r rm
+    docker exec -it nginx bash -c "${cached_files_command} | xargs -r rm"
     
     echo ".. ⌁ Skylink ${skylink} Blocked"
     echo "--------------------------------------------"
