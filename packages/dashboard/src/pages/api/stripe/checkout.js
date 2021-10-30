@@ -49,6 +49,7 @@ export default async (req, res) => {
       allow_promotion_codes: true,
       success_url: `${process.env.SKYNET_DASHBOARD_URL}/payments?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
+      customer_email: user.email,
     });
 
     res.json({ sessionId: session.id });
