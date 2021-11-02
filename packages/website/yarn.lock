@@ -4358,10 +4358,10 @@ cypress-file-upload@^5.0.8:
   resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-5.0.8.tgz#d8824cbeaab798e44be8009769f9a6c9daa1b4a1"
   integrity sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==
 
-cypress@^8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.6.0.tgz#8d02fa58878b37cfc45bbfce393aa974fa8a8e22"
-  integrity sha512-F7qEK/6Go5FsqTueR+0wEw2vOVKNgk5847Mys8vsWkzPoEKdxs+7N9Y1dit+zhaZCLtMPyrMwjfA53ZFy+lSww==
+cypress@^8.7.0:
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.7.0.tgz#2ee371f383d8f233d3425b6cc26ddeec2668b6da"
+  integrity sha512-b1bMC3VQydC6sXzBMFnSqcvwc9dTZMgcaOzT0vpSD+Gq1yFc+72JDWi55sfUK5eIeNLAtWOGy1NNb6UlhMvB+Q==
   dependencies:
     "@cypress/request" "^2.88.6"
     "@cypress/xvfb" "^1.2.4"
@@ -6464,10 +6464,10 @@ gatsby-worker@^0.5.0:
     "@babel/core" "^7.15.5"
     "@babel/runtime" "^7.15.4"
 
-gatsby@^3.14.4:
-  version "3.14.4"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-3.14.4.tgz#e7ef5c3c1eda45ea3ad0bc1273f014fbc46b316c"
-  integrity sha512-cpsMhl2qkE0+TL0znwflVfycy143fFucGtFDkNxu8dbY0GRjA9MiDwlS/aSqg5U2HhhF39IcBvwuntiaP6vQ0g==
+gatsby@^3.14.5:
+  version "3.14.5"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-3.14.5.tgz#917dfa512f83ec3feddca2f68b236ab70eeb8df7"
+  integrity sha512-j1Dvm6iIlUcfYXXNKZWULanOF7UI/01uRMbIBP10iqjJClv+ZbqnFnkwQKvFwLaC88h6jPcEIbR7kZFTqbfbZQ==
   dependencies:
     "@babel/code-frame" "^7.14.0"
     "@babel/core" "^7.15.5"
