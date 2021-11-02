@@ -6142,10 +6142,10 @@ gatsby-plugin-postcss@^4.14.0:
     "@babel/runtime" "^7.15.4"
     postcss-loader "^4.3.0"
 
-gatsby-plugin-purgecss@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-purgecss/-/gatsby-plugin-purgecss-6.0.2.tgz#31f7b3c8a1e1d5ee8df0350f5339c0d78360479f"
-  integrity sha512-7LefFqQ9ZGqcmgE3wWbFdOna7lIUTAiS1KISmvAl5M25u2IKreN1Yj7xbOF1RVz8Ta6ClAmTtc9fgNCWlr7oKQ==
+gatsby-plugin-purgecss@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-purgecss/-/gatsby-plugin-purgecss-6.1.0.tgz#de5f90c67f2e567c6739941ec31b1228caa3e595"
+  integrity sha512-uykab5jWsUJDx4vhgim0UxIGY3i232dv5z/35nyCuc2KLyYgC3Vl1ptz/bh6fohlJaALZmAOiIoaShDMxvZUEQ==
   dependencies:
     fs-extra "^9.0.1"
     loader-utils "^2.0.0"
