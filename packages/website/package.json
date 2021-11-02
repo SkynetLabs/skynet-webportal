@@ -15,7 +15,7 @@
     "copy-text-to-clipboard": "^3.0.1",
     "crypto-browserify": "^3.12.0",
     "framer-motion": "^4.1.17",
-    "gatsby": "^3.14.4",
+    "gatsby": "^3.14.5",
     "gatsby-background-image": "^1.5.3",
     "gatsby-image": "^3.11.0",
     "gatsby-plugin-image": "^1.14.1",
@@ -62,7 +62,7 @@
     "skynet-js": "^4.0.11-beta",
     "stream-browserify": "^3.0.0",
     "swr": "^1.0.1",
-    "tailwindcss": "^2.2.17"
+    "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
