@@ -114,6 +114,7 @@ location /skynet/registry {
 
 location /skynet/restore {
     include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/sia-auth;
 
     client_max_body_size 5M;
 }
