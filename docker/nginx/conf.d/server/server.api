@@ -114,12 +114,11 @@ location /skynet/registry {
 
 location /skynet/restore {
     include /etc/nginx/conf.d/include/cors;
-    include /etc/nginx/conf.d/include/sia-auth;
 
     client_max_body_size 5M;
 
     proxy_set_header User-Agent: Sia-Agent;
-    proxy_pass http://sia:9980/skynet/restore;
+    proxy_pass http://sia:9980;
 }
 
 location /skynet/skyfile {
