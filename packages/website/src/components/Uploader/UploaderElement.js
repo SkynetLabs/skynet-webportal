@@ -85,7 +85,7 @@ export default function UploaderElement({ onUploadStateChange, upload }) {
           if (upload.mode === "directory") {
             const files = upload.file.files;
             const directory = files.reduce((acc, file) => ({ ...acc, [getRelativeFilePath(file)]: file }), {});
-            const name = encodeURIComponent(upload.name);
+            const name = encodeURIComponent(upload.file.name);
 
             response = await client.uploadDirectory(directory, name, { onUploadProgress });
           } else {
