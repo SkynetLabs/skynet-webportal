@@ -47,8 +47,9 @@ const Uploader = () => {
   const handleDrop = async (files) => {
     if (mode === "directory" && files.length) {
       const name = getRootDirectory(files[0]); // get the file path from the first file
+      const size = files.reduce((acc, file) => acc + file.size, 0);
 
-      files = [{ name, files }];
+      files = [{ name, size, files }];
     }
 
     setUploads((uploads) => [...files.map((file) => ({ id: nanoid(), file, mode, status: "enqueued" })), ...uploads]);
