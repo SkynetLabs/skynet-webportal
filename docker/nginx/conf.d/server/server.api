@@ -142,7 +142,7 @@ location /skynet/skyfile {
     limit_conn upload_conn 10;
     limit_conn upload_conn_rl 1;
 
-    client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
+    client_max_body_size 5000M; # make sure to limit the size of upload to a sane value
 
     # increase request timeouts
     proxy_read_timeout 600;
@@ -196,7 +196,7 @@ location /skynet/tus {
     # set max upload size dynamically based on account limits
     rewrite_by_lua_block {
         -- set default limit value to 1 GB
-        ngx.req.set_header("SkynetMaxUploadSize", 1073741824)
+        ngx.req.set_header("SkynetMaxUploadSize", 5368709120)
 
         -- this block runs only when accounts are enabled
         if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
