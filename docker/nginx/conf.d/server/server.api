@@ -112,6 +112,24 @@ location /skynet/registry {
     include /etc/nginx/conf.d/include/location-skynet-registry;
 }
 
+location /skynet/restore {
+    include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/sia-auth;
+
+    client_max_body_size 5M;
+
+    # increase request timeouts
+    proxy_read_timeout 600;
+    proxy_send_timeout 600;
+
+    proxy_request_buffering off; # stream uploaded files through the proxy as it comes in
+    proxy_set_header Expect $http_expect;
+    proxy_set_header User-Agent: Sia-Agent;
+
+    # proxy this call to siad endpoint (make sure the ip is correct)
+    proxy_pass http://sia:9980;
+}
+
 location /skynet/skyfile {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
@@ -158,8 +176,8 @@ location /skynet/tus {
 
     # TUS chunks size is 40M + leaving 10M of breathing room
     client_max_body_size 50M;
-    
-    # Those timeouts need to be elevated since skyd can stall reading 
+
+    # Those timeouts need to be elevated since skyd can stall reading
     # data for a while when overloaded which would terminate connection
     client_body_timeout 1h;
     proxy_send_timeout  1h;
@@ -234,7 +252,7 @@ location /skynet/metadata {
 
         -- do not expose internal header
         ngx.header["Skynet-Requested-Skylink"] = ""
-    }    
+    }
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;
@@ -249,7 +267,7 @@ location /skynet/resolve {
 
         -- do not expose internal header
         ngx.header["Skynet-Requested-Skylink"] = ""
-    }    
+    }
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;
