@@ -2905,10 +2905,10 @@ strip-eof@^1.0.0:
   resolved "https://registry.yarnpkg.com/strip-eof/-/strip-eof-1.0.0.tgz#bb43ff5598a6eb05d89b59fcd129c983313606bf"
   integrity sha1-u0P/VZim6wXYm1n80SnJgzE2Br8=
 
-stripe@8.184.0:
-  version "8.184.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.184.0.tgz#ea68470ca6045bb47516c4fea3b775fd6ce15a36"
-  integrity sha512-ZUdvyX+sizTxXLEbUjgTShrulSWSkMIt7hIKdAkhnajYrHdzVtdmhBJl8sQbR9chMVox3Ig5ohilyeIrvcCE2g==
+stripe@8.186.1:
+  version "8.186.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.186.1.tgz#fb717cfcb8c2e73c91e3873dc286f3e8442bfb65"
+  integrity sha512-BBByVyqKEBY2GNQDLmfwL1RtfsPmjForD+up7tu+P7KYxxvwEzF1gM2Iv4npfOQevGaBmR70sxIWRwn7utS5pg==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
