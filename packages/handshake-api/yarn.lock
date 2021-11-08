@@ -15,10 +15,10 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
 
-bcfg@~0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/bcfg/-/bcfg-0.1.6.tgz#f77a6323bddef14f3886222e7ef8ccc0bc2143ec"
-  integrity sha512-BR2vwQZwu24aRm588XHOnPVjjQtbK8sF0RopRFgMuke63/REJMWnePTa2YHKDBefuBYiVdgkowuB1/e4K7Ue3g==
+bcfg@~0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/bcfg/-/bcfg-0.1.7.tgz#610198a67a56160305fdc1f54b5b5c90b52530d7"
+  integrity sha512-+4beq5bXwfmxdcEoHYQsaXawh1qFzjLcRvPe5k5ww/NEWzZTm56Jk8LuPmfeGB7X584jZ8xGq6UgMaZnNDa5Ww==
   dependencies:
     bsert "~0.0.10"
 
@@ -194,12 +194,12 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-hs-client@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/hs-client/-/hs-client-0.0.9.tgz#05790253df1137cecde4bcb59a181ab79bd395b9"
-  integrity sha512-TAsexmpPhSVdCQ1iiX4bBnuqlThTSdGz/YKq+vjLSS1TZ2TwKxERJ8vZh1Wd6GGaMGLZl99uQR+2wUyk4HLSbg==
+hs-client@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/hs-client/-/hs-client-0.0.10.tgz#b2801441613fbb255cbeacbc764085a36c42ee5e"
+  integrity sha512-15tfeQEMRS1FZA0q9gFbQ1jYs8v4z9oKw9xFwVEyRuckn72hoVAglN4IrFxkOCDMYV7TWCY/nO/yNZp5njYFBw==
   dependencies:
-    bcfg "~0.1.6"
+    bcfg "~0.1.7"
     bcurl "~0.1.9"
     bsert "~0.0.10"
 
