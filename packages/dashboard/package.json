@@ -29,7 +29,7 @@
     "pretty-bytes": "5.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-toastify": "8.0.3",
+    "react-toastify": "8.1.0",
     "skynet-js": "3.0.2",
     "stripe": "8.184.0",
     "superagent": "6.1.0",
