@@ -249,9 +249,6 @@ location /skynet/metadata {
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
         ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
-
-        -- do not expose internal header
-        ngx.header["Skynet-Requested-Skylink"] = ""
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -264,9 +261,6 @@ location /skynet/resolve {
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
         ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
-
-        -- do not expose internal header
-        ngx.header["Skynet-Requested-Skylink"] = ""
     }
 
     proxy_set_header User-Agent: Sia-Agent;
