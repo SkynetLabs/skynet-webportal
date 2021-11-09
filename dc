@@ -18,7 +18,12 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
     COMPOSE_FILES+=" -f docker-compose.jaeger.yml"
   fi
 
-  # mongodb module - alias "m". implied by "a"
+  # malware-scanner module - alias "s"
+  if [[ ${PORTAL_MODULES:i-1:1} == "s" ]]; then
+    COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.malware-scanner.yml"
+  fi
+
+  # mongodb module - alias "m". implied by "a" and "c"
   if [[ ${PORTAL_MODULES:i-1:1} == "m" ]]; then
     COMPOSE_FILES+=" -f docker-compose.mongodb.yml"
   fi
