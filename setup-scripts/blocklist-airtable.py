@@ -14,9 +14,9 @@ import json
 setup()
 
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
-AIRTABLE_BASE = os.getenv("AIRTABLE_BASE", "app89plJvA9EqTJEc")
-AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE", "Table%201")
-AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD", "Link")
+AIRTABLE_BASE = os.getenv("AIRTABLE_BASE")
+AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE")
+AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD")
 
 
 async def run_checks():
