@@ -24,7 +24,7 @@ for e in airtable_env_vars:
     if not gete:
         sys.exit("Configuration error: Environment variable " + e + " is not defined")
     # Set variable
-    exec(e + " = \"" +gete + "\"")
+    exec(e + " = \"" + gete + "\"")
 
 
 async def run_checks():
