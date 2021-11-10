@@ -21,7 +21,7 @@ AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE")
 AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD")
 
 # Check environment variables are defined
-for e in [AIRTABLE_API_KEY, AIRTABLE_BASE, AIRTABLE_TABLE, AIRTABLE_FIELD]
+for e in [AIRTABLE_API_KEY, AIRTABLE_BASE, AIRTABLE_TABLE, AIRTABLE_FIELD]:
     if not e:
         sys.exit("Configuration error: Missing AirTable environment variable.")
 
