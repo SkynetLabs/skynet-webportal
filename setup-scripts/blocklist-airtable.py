@@ -6,6 +6,7 @@ from time import sleep
 
 import traceback
 import os
+import sys
 import re
 import asyncio
 import requests
@@ -13,10 +14,17 @@ import json
 
 setup()
 
-AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
-AIRTABLE_BASE = os.getenv("AIRTABLE_BASE")
-AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE")
-AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD")
+
+# Check and load Airtable environment variables
+airtable_env_vars = ["AIRTABLE_API_KEY", "AIRTABLE_BASE", "AIRTABLE_TABLE", "AIRTABLE_FIELD"]
+
+for e in airtable_env_vars:
+    # Check environment variable is defined
+    gete = os.getenv(e)
+    if not gete:
+        sys.exit("Configuration error: Environment variable " + e + " is not defined")
+    # Set variable
+    exec(e + " = \"" +gete + "\"")
 
 
 async def run_checks():
