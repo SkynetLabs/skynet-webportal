@@ -11,6 +11,10 @@ if ($request_method = PURGE) {
 
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
+# ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
+# this is important because we want only one format in cache keys and logs
+set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skylink) }
+
 # $skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
 # a) skylink v1 - it would not matter, no additional logic is executed
 # b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update 

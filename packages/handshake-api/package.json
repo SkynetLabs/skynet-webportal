@@ -5,7 +5,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "express": "^4.17.1",
-    "hs-client": "^0.0.9",
+    "hs-client": "^0.0.10",
     "node-cache": "^5.1.2",
     "punycode": "^2.1.1"
   },

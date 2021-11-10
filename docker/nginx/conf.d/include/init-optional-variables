@@ -7,3 +7,6 @@ set $hns_domain '';
 
 # set only if server has been access through SERVER_DOMAIN
 set $server_alias '';
+
+# expose skylink variable so we can use it in access log
+set $skylink '';

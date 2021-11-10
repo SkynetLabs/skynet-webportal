@@ -37,6 +37,7 @@ location / {
             ngx.var.skylink = cache_value
         end
 
+        ngx.var.skylink = require("skynet.skylink").parse(ngx.var.skylink)
         ngx.var.skylink_v1 = ngx.var.skylink
         ngx.var.skylink_v2 = ngx.var.skylink
     }
