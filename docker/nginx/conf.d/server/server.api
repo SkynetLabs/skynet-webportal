@@ -231,6 +231,8 @@ location /skynet/tus {
             end
         end
     }
+
+    include /etc/nginx/conf.d/include/location-skylink;
 }
 
 location /skynet/pin {
