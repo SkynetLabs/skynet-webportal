@@ -136,7 +136,7 @@ location /skynet/skyfile {
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
-    limit_req zone=uploads_by_ip burst=100 nodelay;
+    limit_req zone=uploads_by_ip burst=2 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
     limit_conn upload_conn 2;
@@ -174,7 +174,7 @@ location /skynet/tus {
     include /etc/nginx/conf.d/include/cors-headers; # include cors headers but do not overwrite OPTIONS response
     include /etc/nginx/conf.d/include/track-upload;
 
-    limit_req zone=uploads_by_ip burst=100 nodelay;
+    limit_req zone=uploads_by_ip burst=2 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
     limit_conn upload_conn 2;
@@ -245,7 +245,7 @@ location /skynet/pin {
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
-    limit_req zone=uploads_by_ip burst=100 nodelay;
+    limit_req zone=uploads_by_ip burst=2 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
     limit_conn upload_conn 2;
