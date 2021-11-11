@@ -29,7 +29,7 @@ set $skynet_proof '';
 
 # default download rate to unlimited
 # we start with our anonymous rate of 5mbps (5 * 1024 * 1024 / 8)
-set $limit_rate = 655360
+set $limit_rate = 131072
 
 access_by_lua_block {
     local httpc = require("resty.http").new()
