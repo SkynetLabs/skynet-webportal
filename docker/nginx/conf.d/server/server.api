@@ -139,7 +139,7 @@ location /skynet/skyfile {
     limit_req zone=uploads_by_ip burst=100 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
-    limit_conn upload_conn 10;
+    limit_conn upload_conn 2;
     limit_conn upload_conn_rl 1;
 
     client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
