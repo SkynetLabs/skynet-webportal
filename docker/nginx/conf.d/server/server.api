@@ -165,6 +165,8 @@ location /skynet/skyfile {
     # 	end
     # }
 
+    include /etc/nginx/conf.d/include/location-skylink;
+
     # proxy this call to siad endpoint (make sure the ip is correct)
     proxy_pass http://sia:9980/skynet/skyfile/$dir1/$dir2/$dir3$is_args$args;
 }
