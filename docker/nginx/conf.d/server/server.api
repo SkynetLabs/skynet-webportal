@@ -136,10 +136,10 @@ location /skynet/skyfile {
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
-    limit_req zone=uploads_by_ip burst=2 nodelay;
+    limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
-    limit_conn upload_conn 2;
+    limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
     client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
@@ -174,10 +174,10 @@ location /skynet/tus {
     include /etc/nginx/conf.d/include/cors-headers; # include cors headers but do not overwrite OPTIONS response
     include /etc/nginx/conf.d/include/track-upload;
 
-    limit_req zone=uploads_by_ip burst=2 nodelay;
+    limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
-    limit_conn upload_conn 2;
+    limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
     # TUS chunks size is 40M + leaving 10M of breathing room
@@ -245,10 +245,10 @@ location /skynet/pin {
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
-    limit_req zone=uploads_by_ip burst=2 nodelay;
+    limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
-    limit_conn upload_conn 2;
+    limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
     proxy_set_header User-Agent: Sia-Agent;
