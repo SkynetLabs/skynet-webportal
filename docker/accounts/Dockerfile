@@ -1,5 +1,5 @@
 FROM golang:1.16.7
-LABEL maintainer="NebulousLabs <devs@nebulous.tech>"
+LABEL maintainer="NebulousLabs <devs@siasky.net>"
 
 ENV GOOS linux
 ENV GOARCH amd64
