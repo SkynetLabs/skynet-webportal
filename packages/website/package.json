@@ -57,7 +57,7 @@
     "react-helmet": "^6.1.0",
     "react-share": "^4.4.0",
     "react-svg-loader": "^3.0.3",
-    "react-syntax-highlighter": "^15.4.4",
+    "react-syntax-highlighter": "^15.4.5",
     "react-use": "^17.3.1",
     "skynet-js": "^4.0.19-beta",
     "stream-browserify": "^3.0.0",
