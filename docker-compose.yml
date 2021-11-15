@@ -103,7 +103,7 @@ services:
     build:
       context: ./docker/handshake
       dockerfile: Dockerfile
-    command: --chain-migrate=1 --wallet-migrate=1
+    command: --chain-migrate=2 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging
