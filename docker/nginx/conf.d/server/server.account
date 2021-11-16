@@ -20,3 +20,17 @@ location /api {
     rewrite /api/(.*) /$1 break;
     proxy_pass http://accounts:3000;
 }
+
+location /api/register {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
+
+location /api/login {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
