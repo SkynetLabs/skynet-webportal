@@ -100,8 +100,8 @@ async def block_skylinks_from_airtable():
             entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]
         ]
         skylinks = [
-            skylink for skylink in skylinks if skylink
-        ]  # filter empty skylinks, most likely empty rows
+            skylink.strip() for skylink in skylinks if skylink
+        ]  # filter empty skylinks, most likely empty rows, trim whitespace
 
         offset = data.get("offset")
 
