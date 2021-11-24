@@ -6,6 +6,7 @@ from time import sleep
 
 import traceback
 import os
+import sys
 import re
 import asyncio
 import requests
@@ -13,10 +14,16 @@ import json
 
 setup()
 
+
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
-AIRTABLE_BASE = os.getenv("AIRTABLE_BASE", "app89plJvA9EqTJEc")
-AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE", "Table%201")
-AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD", "Link")
+AIRTABLE_BASE = os.getenv("AIRTABLE_BASE")
+AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE")
+AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD")
+
+# Check environment variables are defined
+for value in [AIRTABLE_API_KEY, AIRTABLE_BASE, AIRTABLE_TABLE, AIRTABLE_FIELD]:
+    if not value:
+        sys.exit("Configuration error: Missing AirTable environment variable.")
 
 
 async def run_checks():
@@ -93,8 +100,8 @@ async def block_skylinks_from_airtable():
             entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]
         ]
         skylinks = [
-            skylink for skylink in skylinks if skylink
-        ]  # filter empty skylinks, most likely empty rows
+            skylink.strip() for skylink in skylinks if skylink
+        ]  # filter empty skylinks, most likely empty rows, trim whitespace
 
         offset = data.get("offset")
 
@@ -141,6 +148,10 @@ async def block_skylinks_from_airtable():
         )
         return await send_msg(message, force_notify=False)
 
+    # Remove from NGINX cache
+    # NOTE:
+    # If there are changes to how the NGINX cache is being cleared, the same
+    # changes need to be applied to the /scripts/blocklist-skylink.sh script.
     print("Searching nginx cache for blocked files")
     cached_files_count = 0
     batch_size = 1000

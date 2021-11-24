@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# First of all, let's pamper awscli because Python is so special:
+pip3 install --upgrade awscli
+
 BACKUP=$1
 if [[ $BACKUP == "" ]]; then
   echo "No backup name given. It should look like '2020-01-29'."
@@ -97,7 +100,7 @@ rm mongo.tgz
 # The name of the backup is not `mongo` due to the way we're creating it,
 # it's $BACKUP.
 docker exec mongo \
-  mongorestore \
+  mongorestore --drop \
   mongodb://$SKYNET_DB_USER:$SKYNET_DB_PASS@$SKYNET_DB_HOST:$SKYNET_DB_PORT \
   /data/db/backups/to_restore/$BACKUP
 # Clean up:

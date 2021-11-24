@@ -36,11 +36,6 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-clone@2.x:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
-  integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
-
 content-disposition@0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.3.tgz#e130caf7e7279087c5616c2007d0485698984fbd"
@@ -203,10 +198,10 @@ ipaddr.js@1.9.1:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
 
-is-valid-domain@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.2.tgz#bd1b144716ca663df5996d62e2e7e45a971c7223"
-  integrity sha512-vm/9Ynw80MusgfSMffjGRuMhO8hjk5MOxLoFL7nYWvWXTPCxTGQtACiCwO055UqHICG8xP6hIvRXK1iwnuU9GA==
+is-valid-domain@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.4.tgz#5d5d811e1627cac9d39f504b645c57e76d946629"
+  integrity sha512-Caa6rwGze6pihA29wy3T1yNXzd53caGHvL0OfJ8RLtv0tVVzVZGlxFcQ0W8kls/uG0QUrv2B3J9xi/YB5/cfUQ==
   dependencies:
     punycode "^2.1.1"
 
@@ -256,13 +251,6 @@ negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
-
-node-cache@^5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/node-cache/-/node-cache-5.1.2.tgz#f264dc2ccad0a780e76253a694e9fd0ed19c398d"
-  integrity sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==
-  dependencies:
-    clone "2.x"
 
 on-finished@~2.3.0:
   version "2.3.0"

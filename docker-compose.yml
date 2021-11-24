@@ -24,7 +24,11 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - SIA_MODULES=gctwr
+      - SIA_MODULES=gctwra
+      - MONGODB_URI=mongodb://${SKYNET_DB_HOST}:${SKYNET_DB_PORT}
+      - MONGODB_USER=${SKYNET_DB_USER}
+      - MONGODB_PASSWORD=${SKYNET_DB_PASS}
+
     env_file:
       - .env
     volumes:
@@ -99,7 +103,7 @@ services:
     build:
       context: ./docker/handshake
       dockerfile: Dockerfile
-    command: --chain-migrate=1 --wallet-migrate=1
+    command: --chain-migrate=2 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging

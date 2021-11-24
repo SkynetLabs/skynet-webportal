@@ -26,6 +26,16 @@ rewrite ^/skynet/blacklist /skynet/blocklist permanent;
 location / {
     include /etc/nginx/conf.d/include/cors;
 
+    set $skylink "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
+    set $path $uri;
+
+    include /etc/nginx/conf.d/include/location-skylink;
+
+    proxy_intercept_errors on;
+    error_page 400 404 490 500 502 503 504 =200 @fallback;
+}
+
+location @fallback {
     proxy_pass http://website:9000;
 }
 
@@ -102,16 +112,34 @@ location /skynet/registry {
     include /etc/nginx/conf.d/include/location-skynet-registry;
 }
 
+location /skynet/restore {
+    include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/sia-auth;
+
+    client_max_body_size 5M;
+
+    # increase request timeouts
+    proxy_read_timeout 600;
+    proxy_send_timeout 600;
+
+    proxy_request_buffering off; # stream uploaded files through the proxy as it comes in
+    proxy_set_header Expect $http_expect;
+    proxy_set_header User-Agent: Sia-Agent;
+
+    # proxy this call to siad endpoint (make sure the ip is correct)
+    proxy_pass http://sia:9980;
+}
+
 location /skynet/skyfile {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
-    limit_req zone=uploads_by_ip burst=100 nodelay;
+    limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
-    limit_conn upload_conn 10;
+    limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
     client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
@@ -146,10 +174,16 @@ location /skynet/tus {
     include /etc/nginx/conf.d/include/cors-headers; # include cors headers but do not overwrite OPTIONS response
     include /etc/nginx/conf.d/include/track-upload;
 
+    limit_req zone=uploads_by_ip burst=10 nodelay;
+    limit_req zone=uploads_by_ip_throttled;
+
+    limit_conn upload_conn 5;
+    limit_conn upload_conn_rl 1;
+
     # TUS chunks size is 40M + leaving 10M of breathing room
     client_max_body_size 50M;
-    
-    # Those timeouts need to be elevated since skyd can stall reading 
+
+    # Those timeouts need to be elevated since skyd can stall reading
     # data for a while when overloaded which would terminate connection
     client_body_timeout 1h;
     proxy_send_timeout  1h;
@@ -211,6 +245,12 @@ location /skynet/pin {
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
 
+    limit_req zone=uploads_by_ip burst=10 nodelay;
+    limit_req zone=uploads_by_ip_throttled;
+
+    limit_conn upload_conn 5;
+    limit_conn upload_conn_rl 1;
+
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980$uri?siapath=$dir1/$dir2/$dir3&$args;
 }
@@ -221,10 +261,7 @@ location /skynet/metadata {
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
         ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
-
-        -- do not expose internal header
-        ngx.header["Skynet-Requested-Skylink"] = ""
-    }    
+    }
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;
@@ -236,10 +273,7 @@ location /skynet/resolve {
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
         ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
-
-        -- do not expose internal header
-        ngx.header["Skynet-Requested-Skylink"] = ""
-    }    
+    }
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;

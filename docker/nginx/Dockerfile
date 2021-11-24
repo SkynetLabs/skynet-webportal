@@ -7,6 +7,7 @@ RUN luarocks install lua-resty-http && \
     -out /etc/ssl/local-certificate.crt
 
 COPY mo ./
+COPY libs /etc/nginx/libs
 COPY conf.d /etc/nginx/conf.d
 COPY conf.d.templates /etc/nginx/conf.d.templates
 
