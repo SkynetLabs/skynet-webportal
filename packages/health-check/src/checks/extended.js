@@ -4,15 +4,13 @@ const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
 const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
 const { parseSkylink } = require("skynet-js");
+const { TestData } = require("testing-corpus");
 
 // corpusCheck runs through all the tests hosted at the resolver skylink created
 // by the testing-corpus repo https://github.com/SkynetLabs/testing-corpus
 async function corpusCheck(done) {
-  // Load Test Data from file
-  const testData = require("../fixtures/testdata.json");
-
   // Loop over test data and execute tests
-  testData.forEach((test) => {
+  TestData.forEach((test) => {
     if (test.skylink) {
       // Skylink Verification
       skylinkVerification(done, test);
