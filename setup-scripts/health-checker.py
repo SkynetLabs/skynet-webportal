@@ -43,7 +43,9 @@ setup()
 async def run_checks():
     print("Running Skynet portal health checks")
     try:
-        await check_load_average()
+        # Disabling load check until we have metrics solution and process to
+        # better address
+        # await check_load_average()
         await check_disk()
         await check_health()
         await check_alerts()
