@@ -107,7 +107,7 @@ async def check_disk():
         inspect_json = json.loads(inspect)
         if inspect_json[0]["State"]["Running"] is True:
             # mark portal as unhealthy
-            os.popen("docker exec health-check cli/disable")
+            os.popen("docker exec health-check cli disable 'critical free disk space'")
             time.sleep(300)  # wait 5 minutes to propagate dns changes
             os.popen("docker stop sia")  # stop sia container
         return await send_msg(message, force_notify=True)
