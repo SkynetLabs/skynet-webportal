@@ -201,7 +201,7 @@ location /skynet/tus {
 
     # set max upload size dynamically based on account limits
     rewrite_by_lua_block {
-        -- set default limit value to 1 GB
+        -- set default limit value to 5 GB
         ngx.req.set_header("SkynetMaxUploadSize", 5368709120)
 
         -- this block runs only when accounts are enabled
