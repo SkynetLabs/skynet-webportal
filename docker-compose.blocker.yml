@@ -11,8 +11,6 @@ services:
     build:
       context: ./docker/blocker
       dockerfile: Dockerfile
-      args:
-        branch: main
     container_name: blocker
     restart: unless-stopped
     logging: *default-logging
