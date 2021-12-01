@@ -37,6 +37,9 @@ GB = 1 << 30  # 1 GiB in bytes
 FREE_DISK_SPACE_THRESHOLD = 100 * GB
 FREE_DISK_SPACE_THRESHOLD_CRITICAL = 60 * GB
 
+# Disk usage dump log file (relative to this .py script).
+DISK_USAGE_DUMP_LOG = "../../devops/disk-monitor/disk-usage-dump.log"
+
 setup()
 
 
@@ -103,6 +106,11 @@ async def check_disk():
         message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(
             free_space_gb
         )
+
+        # dump disk usage
+        script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+        os.popen(script_dir + "/disk-usage-dump.sh " + script_dir + "/" + DISK_USAGE_DUMP_LOG)
+
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
         if inspect_json[0]["State"]["Running"] is True:
