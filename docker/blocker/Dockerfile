@@ -4,7 +4,7 @@ LABEL maintainer="NebulousLabs <devs@nebulous.tech>"
 ENV GOOS linux
 ENV GOARCH amd64
 
-ARG branch=main
+ARG branch=ivo/initial_impl
 
 WORKDIR /root
 
