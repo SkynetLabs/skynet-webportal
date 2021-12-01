@@ -1,0 +1,28 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  blocker:
+    build:
+      context: ./docker/blocker
+      dockerfile: Dockerfile
+      args:
+        branch: main
+    container_name: blocker
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    expose:
+      - 4000
+    networks:
+      shared:
+        ipv4_address: 10.10.10.102
+    depends_on:
+      - mongo
+      - sia
