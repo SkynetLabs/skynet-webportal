@@ -90,6 +90,10 @@ location /health-check {
     proxy_pass http://10.10.10.60:3100; # hardcoded ip because health-check waits for nginx
 }
 
+location /abuse {
+    proxy_pass http://10.10.10.102:4000;
+}
+
 location /hns {
     # match the request_uri and extract the hns domain and anything that is passed in the uri after it
     # example: /hns/something/foo/bar matches:
