@@ -46,9 +46,7 @@ setup()
 async def run_checks():
     print("Running Skynet portal health checks")
     try:
-        # Disabling load check until we have metrics solution and process to
-        # better address
-        # await check_load_average()
+        await check_load_average()
         await check_disk()
         await check_health()
         await check_alerts()
@@ -74,7 +72,9 @@ async def check_load_average():
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
         message = "High system load detected in uptime output: {}".format(uptime_string)
-        await send_msg(message, force_notify=True)
+        # Disabling pings until we have metrics solution and process to better
+        # address
+        await send_msg(message, force_notify=False)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
