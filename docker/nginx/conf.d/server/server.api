@@ -90,15 +90,22 @@ location /health-check {
     proxy_pass http://10.10.10.60:3100; # hardcoded ip because health-check waits for nginx
 }
 
-location /block/ {
-    proxy_method POST;
-    proxy_http_version 1.1;
+location /abuse/ {
     proxy_pass http://10.10.10.102:4000/;
-    client_max_body_size 10M;
 }
 
-location /abuse {
-    proxy_pass https://vg2e911ounsg4d87jppvj5mkcg3gvnceh28aobjl2puonuu24696uno.siasky.dev/;
+location /report-abuse {
+    # include /etc/nginx/conf.d/include/cors;
+
+    # set $skylink "vg2e911ounsg4d87jppvj5mkcg3gvnceh28aobjl2puonuu24696uno";
+    # set $path $uri;
+
+    # include /etc/nginx/conf.d/include/location-skylink;
+
+    # proxy_intercept_errors on;
+    # error_page 400 404 490 500 502 503 504 =200 @fallback2;
+    # TODO: wanted to use proxy pass but ran into error here
+    return https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net
 }
 
 location /hns {
