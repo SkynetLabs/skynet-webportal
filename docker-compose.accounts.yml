@@ -42,7 +42,7 @@ services:
       - KRATOS_ADDR=${KRATOS_ADDR}
       - OATHKEEPER_ADDR=${OATHKEEPER_ADDR}
     volumes:
-      - ./docker/accounts/conf:/conf
+      - ./docker/accounts/conf:/accounts/conf
     expose:
       - 3000
     networks:
