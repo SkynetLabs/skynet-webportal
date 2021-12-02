@@ -91,8 +91,7 @@ location /health-check {
 }
 
 location /abuse/ {
-    # TODO: this is probably temporary - it bypasses CORS issues on dev nodes
-    #       although it's not that bad as it only allows the correct origin
+    # set CORS headers
     if ($request_method = 'OPTIONS') {
         add_header 'Access-Control-Allow-Origin' 'https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net';
         #
@@ -111,18 +110,6 @@ location /abuse/ {
         add_header 'Content-Type' 'text/plain charset=UTF-8';
         add_header 'Content-Length' 0;
         return 204;
-    }
-    if ($request_method = 'POST') {
-        add_header 'Access-Control-Allow-Origin' 'https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net';
-        add_header 'Access-Control-Allow-Credentials' 'true';
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-    }
-    if ($request_method = 'GET') {
-        add_header 'Access-Control-Allow-Origin' 'https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net';
-        add_header 'Access-Control-Allow-Credentials' 'true';
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
     }
 
     proxy_pass http://10.10.10.102:4000/;
