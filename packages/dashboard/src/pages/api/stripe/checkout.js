@@ -1,11 +1,11 @@
-import ky from "ky/umd";
+import ky from "ky";
 import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
 import { isPaidTier } from "../../../services/tiers";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const getStripeCustomer = async (user, authorization) => {
+const getStripeCustomer = async (user, cookie) => {
   if (user.stripeCustomerId) {
     return stripe.customers.retrieve(user.stripeCustomerId);
   }
@@ -13,12 +13,12 @@ const getStripeCustomer = async (user, authorization) => {
   const customer = await stripe.customers.create();
 
   // update user instance and include the customer id once created
-  await ky.put(`http://accounts:3000/user`, { headers: { authorization }, json: { stripeCustomerId: customer.id } });
+  await ky.put("http://accounts:3000/user", { headers: { cookie }, json: { stripeCustomerId: customer.id } });
 
   return customer;
 };
 
-export default async (req, res) => {
+export default async function checkoutApi(req, res) {
   if (req.method !== "POST") {
     return res.status(StatusCodes.NOT_FOUND).end();
   }
@@ -30,8 +30,8 @@ export default async (req, res) => {
   }
 
   try {
-    const authorization = req.headers.authorization; // authorization header from request
-    const user = await ky("http://accounts:3000/user", { headers: { authorization } }).json();
+    const cookie = req.headers.cookie; // cookie header from request
+    const user = await ky("http://accounts:3000/user", { headers: { cookie } }).json();
 
     if (isPaidTier(user.tier)) {
       const message = `Customer can have only one active subscription at a time, use Stripe Customer Portal to manage active subscription`;
@@ -39,7 +39,7 @@ export default async (req, res) => {
       return res.status(StatusCodes.BAD_REQUEST).json({ error: { message } });
     }
 
-    const customer = await getStripeCustomer(user, authorization);
+    const customer = await getStripeCustomer(user, cookie);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
@@ -55,4 +55,4 @@ export default async (req, res) => {
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: { message: error.message } });
   }
-};
+}

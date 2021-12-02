@@ -1,62 +1,51 @@
-import Link from "next/link";
-import { Configuration, PublicApi } from "@ory/kratos-client";
-import config from "../config";
-import SelfServiceForm from "../components/Form/SelfServiceForm";
-import { useEffect } from "react";
+import * as Yup from "yup";
+import { useRouter } from "next/router";
+import accountsApi from "../../services/accountsApi";
+import useAnonRoute from "../../services/useAnonRoute";
+import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
-
-export async function getServerSideProps(context) {
-  const flow = context.query.flow;
-
-  // if (process.env.NODE_ENV === "development") {
-  //   return { props: { flow: require("../../stubs/recovery.json") } };
-  // }
-
-  if (!flow || typeof flow !== "string") {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/verification/browser`,
-      },
-    };
-  }
-
-  try {
-    const { status, data } = await kratos.getSelfServiceVerificationFlow(flow);
-
-    if (status === 200) return { props: { flow: data } };
-
-    throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
-  } catch (error) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/verification/browser`,
-      },
-    };
-  }
-}
-
-const fieldsConfig = {
-  email: {
-    label: "Your email",
-    autoComplete: "email",
+const fieldsConfig = [
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    autoComplete: "new-password",
     position: 0,
   },
-  csrf_token: {
-    position: 99,
+  {
+    name: "confirmPassword",
+    type: "password",
+    label: "Password repeated",
+    autoComplete: "new-password",
+    position: 1,
   },
-};
+  {
+    name: "token",
+    type: "hidden",
+  },
+];
 
-export default function Verify({ flow }) {
-  const state = flow.state;
+const validationSchema = Yup.object().shape({
+  password: Yup.string().required("Password is required").min(6, "Password has to be at least 6 characters long"),
+  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+});
 
-  useEffect(() => {
-    if (state === "passed_challenge") {
-      setTimeout(() => (window.location = "/"), 5000);
-    }
-  }, [state]);
+export default function Recover() {
+  useAnonRoute(); // ensure user is not logged in
+
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
+    await accountsApi.post("user/recover", {
+      json: {
+        token: router.query.token,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      },
+    });
+
+    router.push("/");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -74,30 +63,15 @@ export default function Verify({ flow }) {
             fillRule="evenodd"
           />
         </svg>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {flow.state === "passed_challenge" ? "Verification successful!" : "Account verification"}
-        </h2>
-
-        {flow.state === "passed_challenge" && (
-          <>
-            <p className="mt-2 text-center text-sm text-gray-600 max-w">You will be redirected automatically</p>
-            <p className="mt-2 text-center text-sm text-gray-600 max-w">
-              <Link href="/">
-                <a className="font-medium text-green-600 hover:text-green-500">go to dashboard</a>
-              </Link>
-            </p>
-          </>
-        )}
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Set new password</h2>
       </div>
 
-      {flow.state !== "passed_challenge" && (
-        <SelfServiceForm
-          flow={flow}
-          config={flow.methods.link.config}
-          fieldsConfig={fieldsConfig}
-          button="Resend verification link"
-        />
-      )}
+      <SelfServiceForm
+        fieldsConfig={fieldsConfig}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        button="Confirm"
+      />
     </div>
   );
 }
