@@ -71,6 +71,16 @@ location /skynet/stats {
     proxy_pass http://sia:9980/skynet/stats;
 }
 
+location /skynet/serverload {
+    include /etc/nginx/conf.d/include/cors;
+
+    proxy_cache skynet;
+    proxy_cache_valid any 1m; # cache stats for 1 minute
+    proxy_set_header User-Agent: Sia-Agent;
+    proxy_read_timeout 5m; # extend the read timeout
+    proxy_pass http://sia:9980/skynet/stats;
+}
+
 location /skynet/health {
     include /etc/nginx/conf.d/include/cors;
 
