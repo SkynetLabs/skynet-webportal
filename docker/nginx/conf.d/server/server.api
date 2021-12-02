@@ -139,7 +139,7 @@ location /report-abuse {
     # proxy_intercept_errors on;
     # error_page 400 404 490 500 502 503 504 =200 @fallback2;
     # TODO: wanted to use proxy pass but ran into error here
-    return https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net
+    return https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net;
 }
 
 location /hns {
