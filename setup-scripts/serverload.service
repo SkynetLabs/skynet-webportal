@@ -1,0 +1,8 @@
+[Unit]
+Description=Ensure serverload script is running to provide serverload stats.
+
+[Service]
+ExecStart=/bin/bash /home/user/skynet-webportal/serverload.sh
+
+[Install]
+WantedBy=multi-user.target
