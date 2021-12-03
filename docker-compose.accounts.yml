@@ -1,6 +1,7 @@
 version: "3.7"
 
-x-logging: &default-logging
+x-logging:
+  &default-logging
   driver: json-file
   options:
     max-size: "10m"
@@ -45,7 +46,7 @@ services:
       - SKYNET_ACCOUNTS_LOG_LEVEL=${SKYNET_ACCOUNTS_LOG_LEVEL:-info}
     volumes:
       - ./docker/data/accounts:/data
-      - ./docker/accounts/conf:/accounts/conf
+      - ./docker/accounts/conf:/conf
     expose:
       - 3000
     networks:
