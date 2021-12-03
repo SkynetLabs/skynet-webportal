@@ -9,8 +9,14 @@ top of the file and the file can easily be truncated if needed.
 
 # Define Loop Interval
 loop_interval=60
-logfile="cpu-disk-usage.log"
-jsonfile="cpu-disk-usage.json"
+logfile="serverload.log"
+jsonfile="serverload.json"
+nginx_docker_path="/usr/local/share"
+
+# Create logfile if it doesn't exist
+if [[ ! -e $logfile ]]; then
+    echo "init" > $logfile 
+fi
 
 # Write the output in an infinite loop.
 while true; do
@@ -26,9 +32,10 @@ while true; do
     timestamp=$(date)
     sed -i "1iTIMESTAMP: ${timestamp}" $logfile
 
-    # Write and copy file to nginx docker container to serve
+    # Write and copy a json file of the latest results to nginx docker container
+    # to serve
     printf '{"cpu":"%s","disk":"%s","timestamp":"%s"}' "$cpu" "$disk" "$timestamp" > $jsonfile
-    docker cp $jsonfile nginx:/data/stats.json
+    docker cp $jsonfile nginx:$nginx_docker_path/$jsonfile
 
     # Sleep
     sleep $loop_interval
