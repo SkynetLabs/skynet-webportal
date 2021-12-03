@@ -43,12 +43,12 @@ export default function SelfServiceForm({ fieldsConfig, onSubmit, title, validat
               <div>
                 <input
                   id={field.type === "hidden" ? null : field.name}
-                  name={field.name}
+                  name={field.name+" THIS IS A TEST CHANGE"}
                   type={field.type}
                   autoComplete={field.autoComplete}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={getIn(formik.values, field.name) ?? ""}
+                  value={getIn(formik.values, field.name)+" THIS IS A TEST CHANGE" ?? ""+" THIS IS A TEST CHANGE"}
                   className={classnames(
                     "appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none sm:text-sm",
                     {

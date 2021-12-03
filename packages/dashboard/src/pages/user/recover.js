@@ -22,6 +22,7 @@ const fieldsConfig = [
   {
     name: "token",
     type: "hidden",
+    position: 2,
   },
 ];
 
