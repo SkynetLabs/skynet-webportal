@@ -38,7 +38,7 @@ const actions = [
   {
     name: "Unpin Skylink",
     action: async ({ skylink }, mutate) => {
-      await toast.promise(ky.delete(`/services/user/uploads/${skylink}`), {
+      await toast.promise(ky.delete(`/user/uploads/${skylink}`), {
         pending: "Unpinning Skylink",
         success: "Skylink unpinned",
         error: (error) => error.message,
