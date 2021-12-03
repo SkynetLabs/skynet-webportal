@@ -37,6 +37,9 @@ GB = 1 << 30  # 1 GiB in bytes
 FREE_DISK_SPACE_THRESHOLD = 100 * GB
 FREE_DISK_SPACE_THRESHOLD_CRITICAL = 60 * GB
 
+# Disk usage dump log file (relative to this .py script).
+DISK_USAGE_DUMP_LOG = "../../devops/disk-monitor/disk-usage-dump.log"
+
 setup()
 
 
@@ -69,7 +72,9 @@ async def check_load_average():
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
         message = "High system load detected in uptime output: {}".format(uptime_string)
-        await send_msg(message, force_notify=True)
+        # Disabling pings until we have metrics solution and process to better
+        # address
+        await send_msg(message, force_notify=False)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
@@ -103,11 +108,18 @@ async def check_disk():
         message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(
             free_space_gb
         )
+
+        # dump disk usage
+        script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+        os.popen(
+            script_dir + "/disk-usage-dump.sh " + script_dir + "/" + DISK_USAGE_DUMP_LOG
+        )
+
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
         if inspect_json[0]["State"]["Running"] is True:
             # mark portal as unhealthy
-            os.popen("docker exec health-check cli/disable")
+            os.popen("docker exec health-check cli disable 'critical free disk space'")
             time.sleep(300)  # wait 5 minutes to propagate dns changes
             os.popen("docker stop sia")  # stop sia container
         return await send_msg(message, force_notify=True)
