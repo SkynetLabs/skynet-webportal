@@ -9,7 +9,9 @@ top of the file and the file can easily be truncated if needed.
 
 # Define Loop Interval
 loop_interval=60
-logfile="serverload.log"
+webportal_repo_setup_scripts="/home/user/skynet-webportal/setup-scripts"
+logfile_name="serverload.log"
+logfile=$webportal_repo_setup_scripts/$logfile_name
 jsonfile="serverload.json"
 nginx_docker_path="/usr/local/share"
 
@@ -34,8 +36,8 @@ while true; do
 
     # Write and copy a json file of the latest results to nginx docker container
     # to serve
-    printf '{"cpu":"%s","disk":"%s","timestamp":"%s"}' "$cpu" "$disk" "$timestamp" > $jsonfile
-    docker cp $jsonfile nginx:$nginx_docker_path/$jsonfile
+    printf '{"cpu":"%s","disk":"%s","timestamp":"%s"}' "$cpu" "$disk" "$timestamp" > $webportal_repo_setup_scripts/$jsonfile
+    docker cp $webportal_repo_setup_scripts/$jsonfile nginx:$nginx_docker_path/$jsonfile
 
     # Sleep
     sleep $loop_interval
