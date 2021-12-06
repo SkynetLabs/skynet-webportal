@@ -9,10 +9,16 @@ MAX_KEEP_FILE_SIZE=1000000000
 
 total=0
 
+# We sort files by time, newest files are first. Format is:
+# time (last modification as seconds since Epoch), filepath, size (bytes)
 find /home/user/skynet-webportal/docker/data/nginx/cache -type f -exec stat -c "%Y %n %s" {} + | sort -rgk1 | while read line
 do
     size=$(echo $line | awk '{print $3}')
     new_total=$(($total + $size))
+
+    # We always delete all files larger than MAX_KEEP_FILE_SIZE.
+    # We keep all files smaller than MAX_KEEP_FILE_SIZE when cache size is
+    # below MAX_CACHE_DIR_SIZE, then we delete also smaller files.
     if (("$size" <= "$MAX_KEEP_FILE_SIZE" && "$total" < "$new_total"))
     then
         total=$new_total
