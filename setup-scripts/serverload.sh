@@ -33,7 +33,7 @@ fi
 # Write the output in an infinite loop.
 while true; do
     # CPU usage
-    cpu=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}') 
+    cpu=$(echo $[100-$(vmstat 1 2|tail -1|awk '{print $15}')]) 
     sed -i "1iCPU: ${cpu}" $logfile
 
     # Disk Usage
