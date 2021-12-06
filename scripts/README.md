@@ -29,6 +29,12 @@ the health check.
 The `portal-upgrade.sh` script upgrades the docker images for a portal and
 clears and leftover images.
 
+**nginx-prune.sh**\
+The `nginx-prune.sh` script deletes all entries from nginx cache larger than
+the given size and smaller entries until nginx cache disk size is smaller than
+the given cache size limit. Both values are configured in
+`lib/nginx-prune-cache-subscript.sh`. The script doesn't require `sudo`.
+
 ## Webportal Upgrade Procedures
 
 TODO...
