@@ -19,7 +19,7 @@ do
     # We always delete all files larger than MAX_KEEP_FILE_SIZE.
     # We keep all files smaller than MAX_KEEP_FILE_SIZE when cache size is
     # below MAX_CACHE_DIR_SIZE, then we delete also smaller files.
-    if (("$size" <= "$MAX_KEEP_FILE_SIZE" && "$total" < "$new_total"))
+    if (("$size" <= "$MAX_KEEP_FILE_SIZE" && "$new_total" < "$MAX_CACHE_DIR_SIZE"))
     then
         total=$new_total
         continue
