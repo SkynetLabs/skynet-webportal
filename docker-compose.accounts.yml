@@ -41,6 +41,8 @@ services:
       - SKYNET_ACCOUNTS_LOG_LEVEL=${SKYNET_ACCOUNTS_LOG_LEVEL}
       - KRATOS_ADDR=${KRATOS_ADDR}
       - OATHKEEPER_ADDR=${OATHKEEPER_ADDR}
+    volumes:
+      - ./docker/accounts/conf:/accounts/conf
     expose:
       - 3000
     networks:
