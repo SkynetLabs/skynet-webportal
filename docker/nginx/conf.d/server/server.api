@@ -177,6 +177,7 @@ location /skynet/skyfile {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=20 nodelay;
     limit_req zone=downloads_by_ip_throttled;
 
     limit_conn upload_conn 5;
@@ -220,6 +221,7 @@ location /skynet/tus {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=20 nodelay;
     limit_req zone=downloads_by_ip_throttled;
 
     limit_conn upload_conn 3;
@@ -296,6 +298,7 @@ location /skynet/pin {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=20 nodelay;
     limit_req zone=downloads_by_ip_throttled;
 
     limit_conn upload_conn 3;
