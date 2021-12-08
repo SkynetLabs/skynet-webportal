@@ -1,6 +1,7 @@
 version: "3.7"
 
-x-logging: &default-logging
+x-logging:
+  &default-logging
   driver: json-file
   options:
     max-size: "10m"
@@ -29,11 +30,20 @@ services:
     env_file:
       - .env
     environment:
+      - ACCOUNTS_EMAIL_URI=${ACCOUNTS_EMAIL_URI}
+      - ACCOUNTS_JWKS_FILE=/conf/jwks.json
       - COOKIE_DOMAIN=${COOKIE_DOMAIN}
       - COOKIE_HASH_KEY=${COOKIE_HASH_KEY}
       - COOKIE_ENC_KEY=${COOKIE_ENC_KEY}
+      - PORTAL_DOMAIN=${PORTAL_DOMAIN}
+      - SERVER_DOMAIN=${SERVER_DOMAIN}
+      - SKYNET_DB_HOST=${SKYNET_DB_HOST:-mongo}
+      - SKYNET_DB_PORT=${SKYNET_DB_PORT:-27017}
+      - SKYNET_DB_USER=${SKYNET_DB_USER}
+      - SKYNET_DB_PASS=${SKYNET_DB_PASS}
       - STRIPE_API_KEY=${STRIPE_API_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - SKYNET_ACCOUNTS_LOG_LEVEL=${SKYNET_ACCOUNTS_LOG_LEVEL:-info}
     volumes:
       - ./docker/data/accounts:/data
       - ./docker/accounts/conf:/conf
@@ -58,6 +68,8 @@ services:
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
       - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+    volumes:
+      - ./docker/data/dashboard/.next:/usr/app/.next
     networks:
       shared:
         ipv4_address: 10.10.10.85
