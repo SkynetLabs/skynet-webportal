@@ -9,7 +9,7 @@ if ($request_method = PURGE) {
     return 462;
 }
 
-limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
+limit_conn downloads_by_ip 20; # ddos protection: max 100 downloads at a time
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
 # this is important because we want only one format in cache keys and logs
@@ -17,13 +17,13 @@ set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skyli
 
 # $skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
 # a) skylink v1 - it would not matter, no additional logic is executed
-# b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update 
-#      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key 
+# b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update
+#      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key
 #      in proxy-cache-downloads includes $skylink_v1 as a part of the cache key)
 set $skylink_v1 $skylink;
 set $skylink_v2 $skylink;
 
-# variable for Skynet-Proof header that we need to inject 
+# variable for Skynet-Proof header that we need to inject
 # into a response if the request was for skylink v2
 set $skynet_proof '';
 
@@ -36,7 +36,7 @@ access_by_lua_block {
     -- detect whether requested skylink is v2
     local isBase32v2 = string.len(ngx.var.skylink) == 55 and string.sub(ngx.var.skylink, 0, 2) == "04"
     local isBase64v2 = string.len(ngx.var.skylink) == 46 and string.sub(ngx.var.skylink, 0, 2) == "AQ"
-    
+
     if isBase32v2 or isBase64v2 then
         -- 10.10.10.10 points to sia service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.10:9980/skynet/resolve/" .. ngx.var.skylink_v2, {
@@ -64,7 +64,7 @@ access_by_lua_block {
     local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
         headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
     })
-    
+
     -- fail gracefully in case /user/limits failed
     if err or (res and res.status ~= ngx.HTTP_OK) then
         ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
@@ -95,8 +95,8 @@ limit_rate $limit_rate;
 proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
-# in case the requested skylink was v2 and we already resolved it to skylink v1, we are going to pass resolved 
-# skylink v1 to skyd to save that extra skylink v2 lookup in skyd but in turn, in case skyd returns a redirect 
+# in case the requested skylink was v2 and we already resolved it to skylink v1, we are going to pass resolved
+# skylink v1 to skyd to save that extra skylink v2 lookup in skyd but in turn, in case skyd returns a redirect
 # we need to rewrite the skylink v1 to skylink v2 in the location header with proxy_redirect
 proxy_redirect $skylink_v1 $skylink_v2;
 proxy_pass http://sia:9980/skynet/skylink/$skylink_v1$path$is_args$args;
