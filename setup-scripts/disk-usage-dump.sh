@@ -23,6 +23,11 @@ dump () {
     echo
     df -h /home/user
 
+    # Root dirs
+    echo
+    echo "Root dirs:"
+    docker run -v /:/host-root alpine:3.15.0 sh -c 'du -hs /host-root/*'
+
     # Home dirs
     echo
     echo "Home dirs:"
