@@ -33,6 +33,11 @@ dump () {
     echo "Home dirs:"
     docker run -v /home/user:/home/user alpine:3.15.0 du -hs /home/user/*
 
+    # Skynet webportal dirs
+    echo
+    echo "skynet-webportal dirs:"
+    docker run -v /home/user:/home/user alpine:3.15.0 du -hs /home/user/skynet-webportal/*
+
     # Docker data dirs
     echo
     echo "Docker data dirs:"
