@@ -77,3 +77,21 @@ services:
       - 3000
     depends_on:
       - mongo
+
+  cockroach:
+    image: cockroachdb/cockroach:v20.2.3
+    container_name: cockroach
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    command: start --advertise-addr=${CR_IP} --join=${CR_CLUSTER_NODES} --certs-dir=/certs --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080
+    volumes:
+      - ./docker/data/cockroach/sqlite:/cockroach/cockroach-data
+      - ./docker/cockroach/certs:/certs
+    ports:
+      - "4080:8080"
+      - "26257:26257"
+    networks:
+      shared:
+        ipv4_address: 10.10.10.84
