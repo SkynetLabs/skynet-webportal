@@ -76,7 +76,7 @@ location /serverload {
     # Define root directory in the nginx container to load file from
     root /usr/local/share;
 
-    # including this because of peer pressure from the other routes 
+    # including this because of peer pressure from the other routes
     include /etc/nginx/conf.d/include/cors;
 
     # tell nginx to expect json
@@ -177,8 +177,14 @@ location /skynet/skyfile {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=5 nodelay;
+    limit_req zone=downloads_by_ip_throttled;
+
     limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
+
+    limit_conn download_conn 5;
+    limit_conn download_conn_rl 1;
 
     client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
 
@@ -215,8 +221,14 @@ location /skynet/tus {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=5 nodelay;
+    limit_req zone=downloads_by_ip_throttled;
+
     limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
+
+    limit_conn download_conn 5;
+    limit_conn download_conn_rl 1;
 
     # TUS chunks size is 40M + leaving 10M of breathing room
     client_max_body_size 50M;
@@ -286,8 +298,14 @@ location /skynet/pin {
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
 
+    limit_req zone=downloads_by_ip burst=5 nodelay;
+    limit_req zone=downloads_by_ip_throttled;
+
     limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
+
+    limit_conn download_conn 5;
+    limit_conn download_conn_rl 1;
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980$uri?siapath=$dir1/$dir2/$dir3&$args;
