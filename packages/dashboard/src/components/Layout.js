@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import ky from "ky/umd";
 import { useState } from "react";
-import config from "../../src/config";
+import accountsApi from "../services/accountsApi";
 
 export default function Layout({ title, children }) {
   const [menuOpen, openMenu] = useState(false);
@@ -13,9 +12,8 @@ export default function Layout({ title, children }) {
     e.preventDefault();
 
     try {
-      await ky.post("/logout");
-
-      window.location = `${config.kratos.browser}/self-service/browser/flows/logout`;
+      await accountsApi.post("logout");
+      router.push("/auth/login");
     } catch (error) {
       console.log(error); // todo: handle errors with a message
     }
@@ -35,23 +33,15 @@ export default function Layout({ title, children }) {
                   <Link href="/">
                     <a className="flex-shrink-0">
                       <svg
-                        viewBox="19.88800048828125 37.1175193787 132.07760620117188 132.07760620117188"
-                        width={33}
-                        height={33}
+                        role="img"
+                        width="33"
+                        height="33"
+                        fill="#00C65E"
+                        viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path
-                          d="M 116.388 139.371 C 92.969 148.816 66.759 134.5 62.048 109.691 L 46.308 98.821 C 43.843 141.32 88.308 170.55 126.346 151.435 C 130.805 149.195 134.94 146.361 138.638 143.011 L 138.698 143.011 C 141.248 140.637 140.685 136.456 137.598 134.841 L 19.888 72.671 Z"
-                          style={{ fill: "rgb(88, 181, 96)" }}
-                        />
-                        <path
-                          d="M 149.398 127.121 L 149.398 127.021 C 150.067 124.651 148.83 122.161 146.538 121.261 L 67.478 90.011 L 142.478 130.011 C 145.178 131.489 148.552 130.08 149.398 127.121 Z"
-                          style={{ fill: "rgb(88, 181, 96)" }}
-                        />
-                        <path
-                          d="M 151.848 109.801 C 152.508 94.561 150.578 79.801 141.228 67.721 C 130.128 53.411 111.498 47.801 96.588 49.081 C 95.428 49.181 94.268 49.351 93.108 49.451 C 77.448 50.901 62.598 59.941 53.728 75.301 C 52.968 76.621 52.278 77.971 51.638 79.301 C 51.238 79.841 50.838 80.371 50.458 80.931 L 63.838 88.061 C 64.463 86.395 65.194 84.772 66.028 83.201 C 80.584 55.935 119.197 54.651 135.532 80.889 C 140.199 88.386 142.264 97.212 141.408 106.001 L 91.518 92.621 L 145.258 113.861 C 148.274 115.053 151.585 112.994 151.848 109.761 Z"
-                          style={{ fill: "rgb(88, 181, 96)" }}
-                        />
+                        <title>Skynet</title>
+                        <path d="m-.0004 6.4602 21.3893 11.297c.561.2935.6633 1.0532.1999 1.4846h-.011a10.0399 10.0399 0 0 1-2.2335 1.5307c-6.912 3.4734-14.9917-1.838-14.5438-9.5605l2.8601 1.9752c.856 4.508 5.6187 7.1094 9.8742 5.3932zm8.6477 3.1509 14.3661 5.6785a.8704.8704 0 0 1 .5197 1.0466v.0182c-.1537.5377-.7668.7938-1.2575.5252zm5.2896-7.4375c2.7093-.2325 6.0946.7869 8.1116 3.3871 1.699 2.1951 2.0497 4.8772 1.9298 7.6465v-.007c-.0478.5874-.6494.9616-1.1975.745l-9.7652-3.8596 9.0656 2.4313a7.296 7.296 0 0 0-1.0677-4.5631c-2.9683-4.7678-9.9847-4.5344-12.6297.4201a7.5048 7.5048 0 0 0-.398.8831L5.5546 7.9614c.069-.1017.1417-.198.2144-.2962.1163-.2416.2417-.487.3798-.7268 1.6118-2.7911 4.3102-4.4338 7.1558-4.6973.2108-.0182.4215-.049.6323-.0672z" />
                       </svg>
                     </a>
                   </Link>
@@ -152,7 +142,7 @@ export default function Layout({ title, children }) {
                           aria-orientation="vertical"
                           aria-labelledby="user-menu"
                         >
-                          <Link href="/settings">
+                          <Link href="/user/settings">
                             <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                               Settings
                             </a>
@@ -281,7 +271,7 @@ export default function Layout({ title, children }) {
                 </div>
               </div> */}
               <div className="mt-3 px-2 space-y-1">
-                <Link href="/settings">
+                <Link href="/user/settings">
                   <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
                     Settings
                   </a>

@@ -1,31 +1,39 @@
+import * as React from "react";
 import Link from "next/link";
-import { Configuration, PublicApi } from "@ory/kratos-client";
-import config from "../config";
+import * as Yup from "yup";
+import accountsApi from "../../services/accountsApi";
+import useAnonRoute from "../../services/useAnonRoute";
+import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
+const fieldsConfig = [
+  {
+    name: "email",
+    type: "text",
+    label: "Email address",
+    autoComplete: "email",
+    position: 0,
+  },
+];
 
-export async function getServerSideProps(context) {
-  const error = context.query.error;
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("This email is invalid"),
+});
 
-  // No error was send, redirecting back to home.
-  if (!error || typeof error !== "string") {
-    console.log("No error ID found in URL, redirecting to homepage.");
+export default function Recovery() {
+  useAnonRoute(); // ensure user is not logged in
 
-    return { redirect: { permanent: false, destination: "/" } };
-  }
+  const [success, setSuccess] = React.useState(false);
 
-  try {
-    const { status, data } = await kratos.getSelfServiceError(error);
+  const onSubmit = async (values) => {
+    await accountsApi.post("user/recover/request", {
+      json: {
+        email: values.email,
+      },
+    });
 
-    if ("errors" in data) return { props: { errors: data.errors } };
+    setSuccess(true);
+  };
 
-    throw new Error(`Expected error ${error} to contain "errors" but got ${JSON.stringify(data)}`);
-  } catch (error) {
-    return { redirect: { permanent: false, destination: "/" } };
-  }
-}
-
-export default function Error({ errors }) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -42,27 +50,36 @@ export default function Error({ errors }) {
             fillRule="evenodd"
           />
         </svg>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">An error occurred</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Recover your account</h2>
+        <p className="mt-2 text-center text-sm text-gray-600 max-w">
+          <Link href="/auth/login">
+            <a className="font-medium text-green-600 hover:text-green-500">sign in</a>
+          </Link>{" "}
+          if you suddenly remembered your password
+        </p>
+        <p className="mt-2 text-center text-sm text-gray-600 max-w">
+          or{" "}
+          <Link href="/auth/registration">
+            <a className="font-medium text-green-600 hover:text-green-500">sign up</a>
+          </Link>{" "}
+          for a new account
+        </p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          {errors.map((error, index) => (
-            <div className={`${index > 1 ? "mt-3 sm:mt-5" : ""} text-center`}>
-              <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                {error.code} - {error.message}
-              </h3>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500">{error.reason}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="text-center mt-8">
-        <Link href="/">
-          <a className="font-medium text-green-600 hover:text-green-500">back to homepage</a>
-        </Link>
-      </div>
+
+      {!success && (
+        <SelfServiceForm
+          fieldsConfig={fieldsConfig}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          button="Send recovery link"
+        />
+      )}
+
+      {success && (
+        <p className="mt-4 text-center text-primary">
+          Account recovery requested, please follow instructions sent in email.
+        </p>
+      )}
     </div>
   );
 }
