@@ -14,9 +14,25 @@ log_by_lua_block {
             method = "POST",
             headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
         })
-        
+
         if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
             ngx.log(ngx.ERR, "Failed accounts service request /track/download/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+        end
+    end
+
+    local function scan(premature, skylink, jwt)
+        if premature then return end
+
+        local httpc = require("resty.http").new()
+
+        -- 10.10.10.101 points to malware-scanner service (alias not available when using resty-http)
+        local res, err = httpc:request_uri("http://10.10.10.101:3000/scan/" .. skylink, {
+            method = "POST",
+            headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+        })
+
+        if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
+            ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
         end
     end
 
@@ -24,4 +40,9 @@ log_by_lua_block {
         local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.status, ngx.var.body_bytes_sent, ngx.var.skynet_jwt)
         if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
+
+    -- Unlike accounts, malware-scanner wants to be pinged about each skylink,
+    -- not only the ones downloaded by registered accounts.
+    local scan_ok, scan_err = ngx.timer.at(0, scan, ngx.header["Skynet-Skylink"], ngx.var.skynet_jwt)
+    if scan_err then ngx.log(ngx.ERR, "Failed to create timer: ", scan_err) end
 }
