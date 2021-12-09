@@ -16,6 +16,8 @@ services:
     logging: *default-logging
     env_file:
       - .env
+    volumes:
+      - ./docker/data/nginx/blocker:/data/nginx/blocker
     expose:
       - 4000
     networks:
