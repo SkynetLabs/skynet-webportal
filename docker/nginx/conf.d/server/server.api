@@ -71,6 +71,21 @@ location /skynet/stats {
     proxy_pass http://sia:9980/skynet/stats;
 }
 
+# Define path for server load endpoint
+location /serverload {
+    # Define root directory in the nginx container to load file from
+    root /usr/local/share;
+
+    # including this because of peer pressure from the other routes 
+    include /etc/nginx/conf.d/include/cors;
+
+    # tell nginx to expect json
+    default_type 'application/json';
+
+    # Allow for /serverload to load /serverload.json file
+    try_files $uri $uri.json =404;
+}
+
 location /skynet/health {
     include /etc/nginx/conf.d/include/cors;
 
