@@ -67,6 +67,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
+      - ./docker/data/nginx/blocker:/data/nginx/blocker
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
