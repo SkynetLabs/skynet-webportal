@@ -23,7 +23,7 @@
     "ky": "0.28.7",
     "next": "12.0.3",
     "normalize.css": "8.0.1",
-    "postcss": "8.3.11",
+    "postcss": "8.4.4",
     "prettier": "2.4.1",
     "pretty-bytes": "5.6.0",
     "react": "17.0.2",
