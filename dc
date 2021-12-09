@@ -13,6 +13,11 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
     COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.accounts.yml"
   fi
 
+  # blocker module - alias "b"
+  if [[ ${PORTAL_MODULES:i-1:1} == "b" ]]; then
+    COMPOSE_FILES+=" -f docker-compose.blocker.yml"
+  fi
+
   # jaeger module - alias "j"
   if [[ ${PORTAL_MODULES:i-1:1} == "j" ]]; then
     COMPOSE_FILES+=" -f docker-compose.jaeger.yml"

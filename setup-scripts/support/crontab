@@ -4,3 +4,4 @@
 30 */4 * * * /home/user/skynet-webportal/setup-scripts/blocklist-airtable.py /home/user/skynet-webportal/.env
 0 4 * * * /home/user/skynet-webportal/scripts/db_backup.sh 1 >> /home/user/skynet-webportal/logs/db_backup_`date +"%Y-%m-%d-%H%M"`.log 2 > &1
 0 5 * * * /home/user/skynet-webportal/scripts/es_cleaner.py 1 http://localhost:9200
+15 * * * * /home/user/skynet-webportal/scripts/nginx-prune.sh
