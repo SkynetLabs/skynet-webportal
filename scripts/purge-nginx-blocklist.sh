@@ -54,7 +54,7 @@ purge_skylinks () {
         echo ".. ⌁ Purging skylink ${skylink}"
         cached_files_command="find ${NGINX_CACHE_DIR} -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
         echo $cached_files_command
-        docker exec -it nginx bash -c "${cached_files_command} | xargs -r rm"
+        bash -c "${cached_files_command} | xargs -r rm"
         
         echo ".. ⌁ Skylink ${skylink} purged"
         echo "--------------------------------------------"
