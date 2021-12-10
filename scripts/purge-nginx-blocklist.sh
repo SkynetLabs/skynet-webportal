@@ -53,7 +53,6 @@ purge_skylinks () {
     do
         echo ".. ⌁ Purging skylink ${skylink}"
         cached_files_command="find ${NGINX_CACHE_DIR} -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
-        echo $cached_files_command
         bash -c "${cached_files_command} | xargs -r rm"
         
         echo ".. ⌁ Skylink ${skylink} purged"
@@ -110,9 +109,6 @@ fi
 
 # move the skylinks file to the queue under lock
 acquire_lock
-echo "moving file from -> to"
-echo $NGINX_PURGE_SKYLINKS_FILE
-echo $NGINX_PURGE_SKYLINKS_QUEUED
 mv $NGINX_PURGE_SKYLINKS_FILE $NGINX_PURGE_SKYLINKS_QUEUED
 release_lock
 
