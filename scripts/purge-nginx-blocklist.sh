@@ -30,10 +30,10 @@ set -e # exit on first error
 # that need to be purged, the file in which we store the queued skylinks and the
 # lock directory that ensures the blocker API and the crontab don't manipulate
 # the same files concurrently.
-NGINX_PURGE_SKYLINKS_FILE="/home/user/skynet-webportal/docker/data/nginx/blocker/skylinks.txt"
-NGINX_PURGE_SKYLINKS_QUEUED="/home/user/skynet-webportal/docker/data/nginx/blocker/queued.txt"
-NGINX_PURGE_SKYLINKS_LOCK="/home/user/skynet-webportal/docker/data/nginx/blocker/lock"
-NGINX_CACHE_DIR="/home/user/skynet-webportal/docker/data/nginx/cache/"
+NGINX_PURGE_SKYLINKS_FILE="/data/nginx/blocker/skylinks.txt"
+NGINX_PURGE_SKYLINKS_QUEUED="/data/nginx/blocker/queued.txt"
+NGINX_PURGE_SKYLINKS_LOCK="/data/nginx/blocker/lock"
+NGINX_CACHE_DIR="/data/nginx/cache/"
 
 purge_skylinks () {
     # read all skylinks from the queued skylinks file
