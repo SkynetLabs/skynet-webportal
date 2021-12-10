@@ -4,23 +4,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import prettyBytes from "pretty-bytes";
 import Link from "next/link";
 import Layout from "../components/Layout";
-import authServerSideProps from "../services/authServerSideProps";
 import { SkynetClient } from "skynet-js";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
-import { isFreeTier } from "../services/tiers";
+import React from "react";
 
 dayjs.extend(relativeTime);
 
 const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
-const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
-
-export const getServerSideProps = authServerSideProps(async (context, api) => {
-  const stripe = await api.get("stripe/prices").json();
-  const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
-
-  return { props: { plans } };
-});
 
 function SkylinkList({ items = [], timestamp }) {
   return (
@@ -99,13 +90,19 @@ function SkylinkList({ items = [], timestamp }) {
   );
 }
 
-export default function Home({ plans }) {
-  const { data: user } = useAccountsApi(`${apiPrefix}/user`);
-  const { data: stats } = useAccountsApi(`${apiPrefix}/user/stats`);
-  const { data: downloads } = useAccountsApi(`${apiPrefix}/user/downloads?pageSize=3&offset=0`);
-  const { data: uploads } = useAccountsApi(`${apiPrefix}/user/uploads?pageSize=3&offset=0`);
+export default function Home() {
+  const { data: prices } = useAccountsApi("stripe/prices");
+  const { data: user } = useAccountsApi("user");
+  const { data: stats } = useAccountsApi("user/stats");
+  const { data: downloads } = useAccountsApi("user/downloads?pageSize=3&offset=0");
+  const { data: uploads } = useAccountsApi("user/uploads?pageSize=3&offset=0");
+  const [plans, setPlans] = React.useState([config.tiers.starter]);
 
-  const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
+  React.useEffect(() => {
+    if (prices) setPlans((plans) => [...plans, ...prices].sort((a, b) => a.tier - b.tier));
+  }, [setPlans, prices]);
+
+  const activePlan = plans.find(({ tier }) => user && user.tier === tier);
 
   return (
     <Layout title="Dashboard">
@@ -135,7 +132,7 @@ export default function Home({ plans }) {
                 <div className="ml-5 w-0 flex-1">
                   <dt className="text-sm font-medium text-gray-500 truncate">Current plan</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-gray-900">{activePlan.name}</div>
+                    <div className="text-2xl font-semibold text-gray-900">{activePlan?.name}</div>
                   </dd>
                 </div>
               </div>

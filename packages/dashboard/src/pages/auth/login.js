@@ -1,65 +1,48 @@
 import Link from "next/link";
-import { Configuration, PublicApi } from "@ory/kratos-client";
-import config from "../../config";
+import { useRouter } from "next/router";
+import * as Yup from "yup";
+import accountsApi from "../../services/accountsApi";
+import useAnonRoute from "../../services/useAnonRoute";
 import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
-
-export async function getServerSideProps(context) {
-  const flow = context.query.flow;
-  const redirect = encodeURIComponent(`/api/accounts/login?return_to=${context.query.return_to ?? "/"}`);
-
-  if (process.env.NODE_ENV === "development") {
-    return { props: { flow: require("../../../stubs/login.json") } };
-  }
-
-  // The flow is used to identify the login and registration flow and
-  // return data like the csrf_token and so on.
-  if (!flow || typeof flow !== "string") {
-    // No flow ID found in URL, initializing login flow.
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${redirect}`,
-      },
-    };
-  }
-
-  try {
-    const { status, data } = await kratos.getSelfServiceLoginFlow(flow);
-
-    if (status === 200) return { props: { flow: data } };
-
-    throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
-  } catch (error) {
-    console.log(`Unexpected error retrieving login flow: ${error.message}`);
-
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/login/browser?return_to=${redirect}`,
-      },
-    };
-  }
-}
-
-const fieldsConfig = {
-  identifier: {
+const fieldsConfig = [
+  {
+    name: "email",
+    type: "text",
     label: "Email address",
     autoComplete: "email",
     position: 0,
   },
-  password: {
+  {
+    name: "password",
+    type: "password",
     label: "Password",
     autoComplete: "current-password",
     position: 1,
   },
-  csrf_token: {
-    position: 99,
-  },
-};
+];
 
-export default function Login({ flow }) {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("This email is invalid"),
+  password: Yup.string().required("Password is required"),
+});
+
+export default function Login() {
+  useAnonRoute(); // ensure user is not logged in
+
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
+    await accountsApi.post("login", {
+      json: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -82,14 +65,19 @@ export default function Login({ flow }) {
           <Link href="/auth/registration">
             <a className="font-medium text-green-600 hover:text-green-500">sign up</a>
           </Link>{" "}
-          if you don't have one yet
+          if you don&apos;t have one yet
         </p>
       </div>
 
-      <SelfServiceForm flow={flow} config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign in" />
+      <SelfServiceForm
+        fieldsConfig={fieldsConfig}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        button="Sign in"
+      />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mt-2">
-        <Link href="/recovery">
+        <Link href="/auth/recovery">
           <a className="text-sm font-medium text-green-600 hover:text-green-500">Forgot your password?</a>
         </Link>
       </div>

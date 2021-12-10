@@ -1,6 +1,7 @@
 version: "3.7"
 
-x-logging: &default-logging
+x-logging:
+  &default-logging
   driver: json-file
   options:
     max-size: "10m"
@@ -29,20 +30,23 @@ services:
     env_file:
       - .env
     environment:
-      - SKYNET_DB_HOST=${SKYNET_DB_HOST}
-      - SKYNET_DB_PORT=${SKYNET_DB_PORT}
-      - SKYNET_DB_USER=${SKYNET_DB_USER}
-      - SKYNET_DB_PASS=${SKYNET_DB_PASS}
+      - ACCOUNTS_EMAIL_URI=${ACCOUNTS_EMAIL_URI}
+      - ACCOUNTS_JWKS_FILE=/conf/jwks.json
       - COOKIE_DOMAIN=${COOKIE_DOMAIN}
       - COOKIE_HASH_KEY=${COOKIE_HASH_KEY}
       - COOKIE_ENC_KEY=${COOKIE_ENC_KEY}
+      - PORTAL_DOMAIN=${PORTAL_DOMAIN}
+      - SERVER_DOMAIN=${SERVER_DOMAIN}
+      - SKYNET_DB_HOST=${SKYNET_DB_HOST:-mongo}
+      - SKYNET_DB_PORT=${SKYNET_DB_PORT:-27017}
+      - SKYNET_DB_USER=${SKYNET_DB_USER}
+      - SKYNET_DB_PASS=${SKYNET_DB_PASS}
       - STRIPE_API_KEY=${STRIPE_API_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-      - SKYNET_ACCOUNTS_LOG_LEVEL=${SKYNET_ACCOUNTS_LOG_LEVEL}
-      - KRATOS_ADDR=${KRATOS_ADDR}
-      - OATHKEEPER_ADDR=${OATHKEEPER_ADDR}
+      - SKYNET_ACCOUNTS_LOG_LEVEL=${SKYNET_ACCOUNTS_LOG_LEVEL:-info}
     volumes:
-      - ./docker/accounts/conf:/accounts/conf
+      - ./docker/data/accounts:/data
+      - ./docker/accounts/conf:/conf
     expose:
       - 3000
     networks:
@@ -50,50 +54,6 @@ services:
         ipv4_address: 10.10.10.70
     depends_on:
       - mongo
-      - oathkeeper
-
-  kratos-migrate:
-    image: oryd/kratos:v0.5.5-alpha.1
-    container_name: kratos-migrate
-    restart: "no"
-    logging: *default-logging
-    environment:
-      - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
-      - SQA_OPT_OUT=true
-    volumes:
-      - ./docker/kratos/config:/etc/config/kratos
-      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
-      - ./docker/kratos/cr_certs:/certs
-    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
-    networks:
-      shared:
-        ipv4_address: 10.10.10.80
-    depends_on:
-      - cockroach
-
-  kratos:
-    image: oryd/kratos:v0.5.5-alpha.1
-    container_name: kratos
-    restart: unless-stopped
-    logging: *default-logging
-    expose:
-      - 4433 # public
-      - 4434 # admin
-    environment:
-      - DSN=cockroach://root@cockroach:26257/defaultdb?max_conns=20&max_idle_conns=4&sslmode=verify-full&sslcert=/certs/node.crt&sslkey=/certs/node.key&sslrootcert=/certs/ca.crt
-      - LOG_LEVEL=trace
-      - SERVE_PUBLIC_BASE_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public/
-      - SQA_OPT_OUT=true
-    command: serve -c /etc/config/kratos/kratos.yml
-    volumes:
-      - ./docker/kratos/config:/etc/config/kratos
-      - ./docker/data/cockroach/sqlite:/var/lib/sqlite
-      - ./docker/kratos/cr_certs:/certs
-    networks:
-      shared:
-        ipv4_address: 10.10.10.81
-    depends_on:
-      - kratos-migrate
 
   dashboard:
     build:
@@ -107,35 +67,16 @@ services:
     environment:
       - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
       - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
-      - NEXT_PUBLIC_KRATOS_BROWSER_URL=${SKYNET_DASHBOARD_URL}/.ory/kratos/public
-      - NEXT_PUBLIC_KRATOS_PUBLIC_URL=http://oathkeeper:4455/.ory/kratos/public
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+    volumes:
+      - ./docker/data/dashboard/.next:/usr/app/.next
     networks:
       shared:
         ipv4_address: 10.10.10.85
     expose:
       - 3000
     depends_on:
-      - oathkeeper
-
-  oathkeeper:
-    image: oryd/oathkeeper:v0.38
-    container_name: oathkeeper
-    expose:
-      - 4455
-      - 4456
-    command: serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
-    environment:
-      - LOG_LEVEL=debug
-    volumes:
-      - ./docker/kratos/oathkeeper:/etc/config/oathkeeper
-    restart: on-failure
-    logging: *default-logging
-    networks:
-      shared:
-        ipv4_address: 10.10.10.83
-    depends_on:
-      - kratos
+      - mongo
 
   cockroach:
     image: cockroachdb/cockroach:v20.2.3
