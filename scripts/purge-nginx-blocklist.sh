@@ -110,6 +110,9 @@ fi
 
 # move the skylinks file to the queue under lock
 acquire_lock
+echo "moving file from -> to"
+echo $NGINX_PURGE_SKYLINKS_FILE
+echo $NGINX_PURGE_SKYLINKS_QUEUED
 mv $NGINX_PURGE_SKYLINKS_FILE $NGINX_PURGE_SKYLINKS_QUEUED
 release_lock
 
