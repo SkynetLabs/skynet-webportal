@@ -1,15 +1,12 @@
 import dayjs from "dayjs";
 import Layout from "../components/Layout";
-import ky from "ky/umd";
-import { useEffect, useState } from "react";
-import authServerSideProps from "../services/authServerSideProps";
+import ky from "ky";
+import * as React from "react";
 import classnames from "classnames";
 import prettyBytes from "pretty-bytes";
 import config from "../config";
 import useAccountsApi from "../services/useAccountsApi";
 import { isFreeTier, isPaidTier } from "../services/tiers";
-
-const apiPrefix = process.env.NODE_ENV === "development" ? "/api/stubs" : "";
 
 const ActiveBadge = () => {
   return (
@@ -19,22 +16,23 @@ const ActiveBadge = () => {
   );
 };
 
-export const getServerSideProps = authServerSideProps(async (context, api) => {
-  const [user, stats, stripe] = await Promise.all([
-    api.get("user").json(),
-    api.get("user/stats").json(),
-    api.get("stripe/prices").json(),
-  ]);
-  const plans = [config.tiers.starter, ...stripe].sort((a, b) => a.tier - b.tier);
+export default function Payments() {
+  const { data: user } = useAccountsApi("user");
+  const { data: stats } = useAccountsApi("user/stats");
+  const { data: prices } = useAccountsApi("stripe/prices");
+  const [plans, setPlans] = React.useState([config.tiers.starter]);
+  const [selectedPlan, setSelectedPlan] = React.useState(null);
 
-  return { props: { plans, user, stats } };
-});
+  React.useEffect(() => {
+    if (prices) setPlans((plans) => [...plans, ...prices].sort((a, b) => a.tier - b.tier));
+  }, [setPlans, prices]);
 
-export default function Payments({ plans, user: initialUserData, stats: initialStatsData }) {
-  const { data: user } = useAccountsApi(`${apiPrefix}/user`, { initialData: initialUserData });
-  const { data: stats } = useAccountsApi(`${apiPrefix}/user/stats`, { initialData: initialStatsData });
-  const [selectedPlan, setSelectedPlan] = useState(plans.find(({ tier }) => isFreeTier(tier)));
-  const activePlan = plans.find(({ tier }) => (user ? user.tier === tier : isFreeTier(tier)));
+  const activePlan = plans.find(({ tier }) => user && user.tier === tier);
+
+  React.useEffect(() => {
+    setSelectedPlan(activePlan);
+  }, [activePlan, setSelectedPlan]);
+
   const handleSubscribe = async () => {
     try {
       const price = selectedPlan.stripe;
@@ -45,12 +43,6 @@ export default function Payments({ plans, user: initialUserData, stats: initialS
       console.log(error); // todo: handle error
     }
   };
-
-  useEffect(() => {
-    if (activePlan && isPaidTier(activePlan.tier)) {
-      setSelectedPlan(activePlan);
-    }
-  }, [activePlan, selectedPlan, setSelectedPlan]);
 
   return (
     <Layout title="Payments">

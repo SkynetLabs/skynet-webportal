@@ -10,6 +10,6 @@ RUN yarn --frozen-lockfile
 COPY public ./public
 COPY src ./src
 COPY styles ./styles
-COPY postcss.config.js tailwind.config.js ./
+COPY .eslintrc.json postcss.config.js tailwind.config.js ./
 
-CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|KRATOS|STRIPE' > .env.local && yarn build && yarn start"]
+CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|STRIPE' > .env.local && yarn build && yarn start"]
