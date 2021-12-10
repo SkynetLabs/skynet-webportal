@@ -33,6 +33,7 @@ set -e # exit on first error
 NGINX_PURGE_SKYLINKS_FILE="/home/user/skynet-webportal/docker/data/nginx/blocker/skylinks.txt"
 NGINX_PURGE_SKYLINKS_QUEUED="/home/user/skynet-webportal/docker/data/nginx/blocker/queued.txt"
 NGINX_PURGE_SKYLINKS_LOCK="/home/user/skynet-webportal/docker/data/nginx/blocker/lock"
+NGINX_CACHE_DIR="/home/user/skynet-webportal/docker/data/nginx/cache/"
 
 purge_skylinks () {
     # read all skylinks from the queued skylinks file
@@ -51,7 +52,8 @@ purge_skylinks () {
     for skylink in "${skylinks[@]}";
     do
         echo ".. ⌁ Purging skylink ${skylink}"
-        cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
+        cached_files_command="find ${NGINX_CACHE_DIR} -type f | xargs -r grep -Els '^Skynet-Skylink: ${skylink}'"
+        echo $cached_files_command
         docker exec -it nginx bash -c "${cached_files_command} | xargs -r rm"
         
         echo ".. ⌁ Skylink ${skylink} purged"
@@ -69,7 +71,7 @@ acquire_lock () {
     do 
         if ! mkdir $NGINX_PURGE_SKYLINKS_LOCK 2>/dev/null
         then
-            echo "skylinks file is locked, waiting..." + $attempts
+            echo "skylinks file is locked, waiting..."
             ((attempts++))
             sleep 1;
         else
