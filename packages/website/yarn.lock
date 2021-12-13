@@ -1125,10 +1125,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.0.tgz#bfd505c063fbfd77b42b1a8a05025aac52d4ea5f"
   integrity sha512-bXr7HZPHh/dtfcp9UfEIrYhiMzmcsGvooz9kkmxi5iYwuqs4O1YWfkNbbPSMoRH/cucrMtlGUuC9eRbFx4Yn5Q==
 
-"@fontsource/source-sans-pro@^4.5.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.0.tgz#19726a3c609f9450bfc53811b8497d4684ff2111"
-  integrity sha512-+ze+nO9dVN5pAVg9CdQmVgR6f8kDpq/elHMGcyx3qsW4+TN4mI7EuMdNzKP3E1xeZwTHSmHY5bezpfFHX7bQsg==
+"@fontsource/source-sans-pro@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.1.tgz#9c4f2b6061d38cd85e89fde21893e23b8a7f227c"
+  integrity sha512-JYEldSfnqxoDVUL6QgqT8Fiyjh0p7WlKcqKNevzDylpWabdejVRyFzPhTk2ZceKZd02KEOaL+K462U6u0/PQiA==
 
 "@gatsbyjs/reach-router@^1.3.6":
   version "1.3.6"
