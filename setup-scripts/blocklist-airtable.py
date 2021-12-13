@@ -173,7 +173,7 @@ async def block_skylinks_from_airtable():
         return print("No nginx cached files matching blocked skylinks were found")
     else:
         print("Hot reloading nginx")
-        exec('docker exec nginx nginx -s reload')
+        exec("docker exec nginx nginx -s reload")
 
     message = (
         "Purged " + str(cached_files_count) + " blocklisted files from nginx cache"
