@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# The dc command is an alias to docker-compose which also scans the current portal configuration (as defined in .env)
+# and selects the right docker-compose files to include in the operation. You can use the command in the same way you
+# would use docker-compose with the only difference being that you don't need to specify compose files. For more
+# information you can run `./dc` or `./dc help`.
+
 if [ -f .env ]; then
   OLD_IFS=$IFS; IFS=$'\n'; for x in `grep -v '^#.*' .env`; do export $x; done; IFS=$OLD_IFS
 fi
