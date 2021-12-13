@@ -1,0 +1,26 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  blocker:
+    build:
+      context: ./docker/abuse
+      dockerfile: Dockerfile
+    container_name: abuse
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - BLOCKER_API_URL=http://blocker
+    networks:
+      shared:
+        ipv4_address: 10.10.10.110
+    depends_on:
+      - mongo
+      - blocker
