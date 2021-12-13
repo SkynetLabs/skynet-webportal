@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     environment:
-      - BLOCKER_API_URL=http://blocker
+      - BLOCKER_API_URL=blocker
     networks:
       shared:
         ipv4_address: 10.10.10.110
