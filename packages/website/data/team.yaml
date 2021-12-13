@@ -76,13 +76,6 @@
   social:
     linkedin: https://www.linkedin.com/in/filiprysavy/
 
-- name: Nicole Tay
-  position: Head of Marketing
-  image: ./team/nicole-tay.png
-  social:
-    linkedin: https://www.linkedin.com/in/nicolehtay/
-    twitter: https://twitter.com/NicoleHTay
-
 - name: Daniel Helm
   position: Developer Evangelist
   image: ./team/daniel-helm.png
