@@ -7,7 +7,7 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  blocker:
+  abuse:
     build:
       context: ./docker/abuse
       dockerfile: Dockerfile
