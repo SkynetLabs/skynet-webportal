@@ -8,6 +8,6 @@
     "is-valid-domain": "^0.1.5"
   },
   "devDependencies": {
-    "prettier": "^2.4.1"
+    "prettier": "^2.5.1"
   }
 }
