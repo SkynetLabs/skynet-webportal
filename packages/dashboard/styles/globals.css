@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.maintenance-gradient {
+  background: #00c65e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #33d17e, #00c65e); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #33d17e, #00c65e);
+}
