@@ -76,7 +76,7 @@ location /serverload {
     # Define root directory in the nginx container to load file from
     root /usr/local/share;
 
-    # including this because of peer pressure from the other routes 
+    # including this because of peer pressure from the other routes
     include /etc/nginx/conf.d/include/cors;
 
     # tell nginx to expect json
@@ -120,7 +120,7 @@ location /abuse/ {
         return 204;
     }
 
-    proxy_pass http://10.10.10.102:4000/;
+    proxy_pass http://10.10.10.110:4000/;
 }
 
 location /report-abuse {

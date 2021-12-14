@@ -22,7 +22,7 @@ services:
       - 4000
     networks:
       shared:
-        ipv4_address: 10.10.10.102
+        ipv4_address: 10.10.10.110
     depends_on:
       - mongo
       - sia
