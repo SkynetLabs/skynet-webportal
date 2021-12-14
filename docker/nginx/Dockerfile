@@ -10,6 +10,7 @@ COPY mo ./
 COPY libs /etc/nginx/libs
 COPY conf.d /etc/nginx/conf.d
 COPY conf.d.templates /etc/nginx/conf.d.templates
+COPY scripts /etc/nginx/scripts
 
 CMD [ "bash", "-c", \
       "./mo < /etc/nginx/conf.d.templates/server.account.conf > /etc/nginx/conf.d/server.account.conf ; \

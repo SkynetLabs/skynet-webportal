@@ -23,10 +23,20 @@ dump () {
     echo
     df -h /home/user
 
+    # Root dirs
+    echo
+    echo "Root dirs:"
+    docker run -v /:/host-root alpine:3.15.0 sh -c 'du -hs /host-root/*' | sed 's#/host-root##'
+
     # Home dirs
     echo
     echo "Home dirs:"
     docker run -v /home/user:/home/user alpine:3.15.0 du -hs /home/user/*
+
+    # Skynet webportal dirs
+    echo
+    echo "skynet-webportal dirs:"
+    docker run -v /home/user:/home/user alpine:3.15.0 du -hs /home/user/skynet-webportal/*
 
     # Docker data dirs
     echo
