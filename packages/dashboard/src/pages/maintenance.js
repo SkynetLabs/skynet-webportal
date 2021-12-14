@@ -14,8 +14,6 @@ export default function Maintenance() {
             <a
               className="block lg:w-5/6 pt-5 text-xs hover:underline cursor-pointer text-palette-500 hover:text-palette-600"
               href="https://siasky.net"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
