@@ -30,7 +30,7 @@ log_by_lua_block {
             headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
         })
 
-        if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
+        if err or (res and res.status ~= ngx.HTTP_OK) then
             ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
         end
     end
