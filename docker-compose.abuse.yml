@@ -17,7 +17,14 @@ services:
     env_file:
       - .env
     environment:
-      - BLOCKER_API_URL=blocker:4000
+      - ABUSE_LOG_LEVEL=${ABUSE_LOG_LEVEL}
+      - ABUSE_SPONSOR=${ABUSE_SPONSOR}
+      - BLOCKER_API_URL=${BLOCKER_API_URL}
+      - BLOCKER_AUTH_HEADER=${BLOCKER_AUTH_HEADER}
+      - EMAIL_SERVER=${EMAIL_SERVER}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - MONGO_CONNECTIONSTRING=${MONGO_CONNECTIONSTRING}
     networks:
       shared:
         ipv4_address: 10.10.10.110

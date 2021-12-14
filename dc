@@ -15,7 +15,7 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
 
   # abuse module - alias "c"
   if [[ ${PORTAL_MODULES:i-1:1} == "c" ]]; then
-    COMPOSE_FILES+=" -f docker-compose.abuse.yml"
+    COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.blocker.yml -f docker-compose.abuse.yml"
   fi
 
   # blocker module - alias "b"
