@@ -16,8 +16,7 @@ const colors = {
 };
 
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
       sm: "640px",
@@ -57,15 +56,6 @@ module.exports = {
         desktop: "url('/bg.svg')",
         column: `linear-gradient(to right, ${colors.palette[100]}, ${colors.palette[100]} calc(50% - 288px), transparent calc(50% - 288px))`,
       },
-    },
-  },
-  variants: {
-    extend: {
-      animation: ["hover"],
-      rotate: ["hover"],
-      backgroundColor: ["disabled"],
-      textColor: ["disabled"],
-      margin: ["first"],
     },
   },
   plugins: [
