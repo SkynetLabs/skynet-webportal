@@ -8,8 +8,6 @@
     "@fontsource/sora": "^4.5.0",
     "@fontsource/source-sans-pro": "^4.5.1",
     "@svgr/webpack": "^5.5.0",
-    "@tailwindcss/typography": "^0.4.1",
-    "autoprefixer": "^10.4.0",
     "bytes": "^3.1.1",
     "classnames": "^2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
@@ -61,14 +59,16 @@
     "react-use": "^17.3.1",
     "skynet-js": "^4.0.19-beta",
     "stream-browserify": "^3.0.0",
-    "swr": "^1.1.1",
-    "tailwindcss": "^2.2.19"
+    "swr": "^1.1.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "0.5.0",
+    "autoprefixer": "10.4.0",
     "cross-env": "^7.0.3",
     "cypress": "^9.1.1",
     "cypress-file-upload": "^5.0.8",
-    "prettier": "^2.5.1"
+    "prettier": "2.5.1",
+    "tailwindcss": "3.0.5"
   },
   "keywords": [
     "gatsby"
