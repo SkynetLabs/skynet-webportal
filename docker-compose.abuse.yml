@@ -18,6 +18,7 @@ services:
       - .env
     environment:
       - ABUSE_LOG_LEVEL=${ABUSE_LOG_LEVEL}
+      - ABUSE_MAILBOX=${ABUSE_MAILBOX}
       - ABUSE_SPONSOR=${ABUSE_SPONSOR}
       - BLOCKER_API_URL=${BLOCKER_API_URL}
       - BLOCKER_AUTH_HEADER=${BLOCKER_AUTH_HEADER}
