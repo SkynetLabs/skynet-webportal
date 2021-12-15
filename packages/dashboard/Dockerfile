@@ -12,4 +12,4 @@ COPY src ./src
 COPY styles ./styles
 COPY .eslintrc.json postcss.config.js tailwind.config.js ./
 
-CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|STRIPE' > .env.local && yarn build && yarn start"]
+CMD ["sh", "-c", "env | grep -E 'NEXT_PUBLIC|STRIPE|ACCOUNTS' > .env.local && yarn build && yarn start"]
