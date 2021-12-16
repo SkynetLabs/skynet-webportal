@@ -53,23 +53,3 @@ else
   fi
   docker exec mongo rm -rf /data/db/backups/$DT
 fi
-
-### COCKROACH DB ###
-echo "Creating a backup of CockroachDB:"
-# Check if a backup already exists:
-totalFoundObjects=$(aws s3 ls $S3_BACKUP_PATH/$DT --recursive --summarize | grep "cockroach" | wc -l)
-if [ "$totalFoundObjects" -ge "1" ]; then
-  echo "Backup already exists for today. Skipping."
-else
-  # Create a cockroachdb backup:
-  docker exec cockroach \
-    cockroach sql \
-    --host cockroach:26257 \
-    --certs-dir=/certs \
-    --execute="BACKUP TO '$S3_BACKUP_PATH/$DT/cockroach/?AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID&AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY';"
-  if [[ $? > 0 ]]; then
-    echo "Creating a CockroachDB backup failed. Skipping."
-  else
-    echo "Successfully backed up CockroachDB."
-  fi
-fi
