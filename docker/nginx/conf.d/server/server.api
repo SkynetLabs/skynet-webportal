@@ -106,7 +106,7 @@ location /health-check {
 }
 
 location /abuse/ {
-    include /etc/nginx/conf.d/include/cors-wildcard;
+    include /etc/nginx/conf.d/include/cors;
 
     proxy_pass http://10.10.10.110:4000/;
 }
