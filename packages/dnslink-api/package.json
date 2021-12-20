@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "is-valid-domain": "^0.1.5"
   },
   "devDependencies": {
