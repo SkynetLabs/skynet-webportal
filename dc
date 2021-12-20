@@ -40,6 +40,11 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
   if [[ ${PORTAL_MODULES:i-1:1} == "m" ]]; then
     COMPOSE_FILES+=" -f docker-compose.mongodb.yml"
   fi
+
+  # abuse module - alias "u"
+  if [[ ${PORTAL_MODULES:i-1:1} == "u" ]]; then
+    COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.blocker.yml -f docker-compose.abuse.yml"
+  fi
 done
 
 # override file if exists
