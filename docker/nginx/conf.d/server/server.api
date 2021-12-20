@@ -334,11 +334,8 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
 }
 
 location @purge {
-    allow 10.0.0.0/8;
-    allow 127.0.0.1/32;
-    allow 172.16.0.0/12;
-    allow 192.168.0.0/16;
-    deny all;
+    # secure traffic by limiting to only local networks
+    include /etc/nginx/conf.d/include/local-network-only;
 
     set $lua_purge_path "/data/nginx/cache/";
     content_by_lua_file /etc/nginx/conf.d/scripts/purge-multi.lua;
