@@ -13,11 +13,6 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
     COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.accounts.yml"
   fi
 
-  # abuse module - alias "c"
-  if [[ ${PORTAL_MODULES:i-1:1} == "c" ]]; then
-    COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.blocker.yml -f docker-compose.abuse.yml"
-  fi
-
   # blocker module - alias "b"
   if [[ ${PORTAL_MODULES:i-1:1} == "b" ]]; then
     COMPOSE_FILES+=" -f docker-compose.blocker.yml"
@@ -28,9 +23,14 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
     COMPOSE_FILES+=" -f docker-compose.jaeger.yml"
   fi
 
-  # mongodb module - alias "m". implied by "a"
+  # mongodb module - alias "m". implied by "a" or "u"
   if [[ ${PORTAL_MODULES:i-1:1} == "m" ]]; then
     COMPOSE_FILES+=" -f docker-compose.mongodb.yml"
+  fi
+
+  # abuse module - alias "u"
+  if [[ ${PORTAL_MODULES:i-1:1} == "u" ]]; then
+    COMPOSE_FILES+=" -f docker-compose.mongodb.yml -f docker-compose.blocker.yml -f docker-compose.abuse.yml"
   fi
 done
 
