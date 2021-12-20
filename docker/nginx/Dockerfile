@@ -1,6 +1,7 @@
 FROM openresty/openresty:1.19.9.1-bionic
 
 RUN luarocks install lua-resty-http && \
+    luarocks install hasher && \
     openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
     -subj '/CN=local-certificate' \
     -keyout /etc/ssl/local-certificate.key \
