@@ -25,6 +25,7 @@ jobs:
           hererocks env --lua=5.1 -rlatest
           source env/bin/activate
           luarocks install busted
+          luarocks install hasher
 
       - name: Unit Tests
         run: |

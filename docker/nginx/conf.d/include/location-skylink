@@ -57,6 +57,14 @@ access_by_lua_block {
         ngx.var.skynet_proof = res.headers["Skynet-Proof"]
     end
 
+    -- check if skylink v1 is present on blocklist (compare hashes)
+    if require("skynet.blocklist").is_blocked(ngx.var.skylink_v1) then
+        ngx.status = ngx.HTTP_ILLEGAL
+        ngx.header["content-type"] = "text/plain"
+        ngx.say("Unavailable For Legal Reasons")
+        return ngx.exit(ngx.status)
+    end
+
     -- this block runs only when accounts are enabled
     if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
 
