@@ -46,8 +46,9 @@ function _M.is_blocked(skylink)
     -- hash skylink before comparing it with blocklist
     local hash = require("skynet.skylink").hash(skylink)
 
-    -- we need to use get stale because we're using expiring when updating blocklist
-    -- and we want to make sure that we're blocking the skylink 
+    -- we need to use get_stale because we are expiring previous
+    -- entries when the blocklist is reloading and we still want
+    -- to block them until the reloading is finished
     return ngx.shared.blocklist:get_stale(hash) == true
 end
 
