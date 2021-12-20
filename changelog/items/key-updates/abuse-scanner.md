@@ -1,1 +1,1 @@
-- Add abuse scanner service, activated by adding `c` to `PORTAL_MODULES`
+- Add abuse scanner service, activated by adding `u` to `PORTAL_MODULES`
