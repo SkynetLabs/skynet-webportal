@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "hs-client": "^0.0.10",
     "node-cache": "^5.1.2",
     "punycode": "^2.1.1"
