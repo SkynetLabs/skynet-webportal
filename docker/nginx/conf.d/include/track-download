@@ -26,7 +26,7 @@ log_by_lua_block {
         local httpc = require("resty.http").new()
 
         -- 10.10.10.101 points to malware-scanner service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.101:3000/scan/" .. skylink, {
+        local res, err = httpc:request_uri("http://10.10.10.101:4000/scan/" .. skylink, {
             method = "POST",
             headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
         })
