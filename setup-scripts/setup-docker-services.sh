@@ -43,8 +43,6 @@ docker-compose --version # sanity check
 # * COOKIE_DOMAIN - (optional) if using `accounts` this is the domain to which your cookies will be issued
 # * COOKIE_HASH_KEY - (optional) if using `accounts` hashing secret, at least 32 bytes
 # * COOKIE_ENC_KEY - (optional) if using `accounts` encryption key, at least 32 bytes
-# * CR_IP - (optional) if using `accounts` the public IP/domain of your server, e.g. `helsinki.siasky.net`
-# * CR_CLUSTER_NODES - (optional) if using `accounts` the list of servers (with ports) which make up your CockroachDB cluster, e.g. `helsinki.siasky.net:26257,germany.siasky.net:26257,us-east.siasky.net:26257`
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
     printf "PORTAL_DOMAIN=siasky.net\nSERVER_DOMAIN=\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nSKYNET_DASHBOARD_URL=https://account.example.com\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nPORTAL_NAME=\DISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env

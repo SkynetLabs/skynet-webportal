@@ -16,8 +16,7 @@ const colors = {
 };
 
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
       sm: "640px",
@@ -40,15 +39,15 @@ module.exports = {
       },
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
-    },
-  },
-  variants: {
-    extend: {
-      animation: ["hover"],
-      rotate: ["hover"],
-      backgroundColor: ["disabled"],
-      textColor: ["disabled"],
-      margin: ["first"],
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 3s ease-in-out infinite",
+      },
     },
   },
   plugins: [

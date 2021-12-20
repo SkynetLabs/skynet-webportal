@@ -1,4 +1,4 @@
-name: Python Lint
+name: Lint - Python Scripts
 
 on:
   push:
