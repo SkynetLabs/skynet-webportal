@@ -109,7 +109,6 @@ location /abuse {
     include /etc/nginx/conf.d/include/cors;
 
     set $skylink "0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no";
-    set $path $uri;
 
     include /etc/nginx/conf.d/include/location-skylink;
 }
