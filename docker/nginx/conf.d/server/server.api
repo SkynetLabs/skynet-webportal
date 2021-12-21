@@ -106,7 +106,7 @@ location /health-check {
 }
 
 location /abuse {
-    return 308 /0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no;
+    return 308 /0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no/;
 }
 
 location /abuse/report {
