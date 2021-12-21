@@ -105,15 +105,20 @@ location /health-check {
     proxy_pass http://10.10.10.60:3100; # hardcoded ip because health-check waits for nginx
 }
 
-location /abuse/ {
+location /abuse {
     include /etc/nginx/conf.d/include/cors;
 
-    proxy_pass http://10.10.10.110:4000/;
+    set $skylink "0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no";
+    set $path $uri;
+
+    include /etc/nginx/conf.d/include/location-skylink;
 }
 
-location /report-abuse {
-    # TODO: do a proxy_pass
-    return https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net;
+location /abuse/report {
+    include /etc/nginx/conf.d/include/cors;
+
+    # 10.10.10.110 points to blocker service
+    proxy_pass http://10.10.10.110:4000/powblock;
 }
 
 location /hns {
