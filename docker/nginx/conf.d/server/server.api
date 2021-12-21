@@ -105,27 +105,15 @@ location /health-check {
     proxy_pass http://10.10.10.60:3100; # hardcoded ip because health-check waits for nginx
 }
 
-location /abuse/ {
-    if ($request_method = 'OPTIONS') {
-        add_header 'Access-Control-Allow-Origin' 'https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net';
-
-        add_header 'Access-Control-Allow-Credentials' 'true';
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-
-        # pre-flight info is valid for 20 days
-        add_header 'Access-Control-Max-Age' 1728000;
-        add_header 'Content-Type' 'text/plain charset=UTF-8';
-        add_header 'Content-Length' 0;
-        return 204;
-    }
-
-    proxy_pass http://10.10.10.110:4000/;
+location /abuse {
+    return 308 /0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no/;
 }
 
-location /report-abuse {
-    # TODO: do a proxy_pass
-    return https://0404guluqu38oaqapku91ed11kbhkge55smh9lhjukmlrj37lfpm8no.siasky.net;
+location /abuse/report {
+    include /etc/nginx/conf.d/include/cors;
+
+    # 10.10.10.110 points to blocker service
+    proxy_pass http://10.10.10.110:4000/powblock;
 }
 
 location /hns {
@@ -180,7 +168,7 @@ location /skynet/skyfile {
     limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
-    client_max_body_size 1000M; # make sure to limit the size of upload to a sane value
+    client_max_body_size 5000M; # make sure to limit the size of upload to a sane value
 
     # increase request timeouts
     proxy_read_timeout 600;
@@ -239,8 +227,8 @@ location /skynet/tus {
 
     # set max upload size dynamically based on account limits
     rewrite_by_lua_block {
-        -- set default limit value to 1 GB
-        ngx.req.set_header("SkynetMaxUploadSize", 1073741824)
+        -- set default limit value to 5 GB
+        ngx.req.set_header("SkynetMaxUploadSize", 5368709120)
 
         -- this block runs only when accounts are enabled
         if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
@@ -334,11 +322,8 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
 }
 
 location @purge {
-    allow 10.0.0.0/8;
-    allow 127.0.0.1/32;
-    allow 172.16.0.0/12;
-    allow 192.168.0.0/16;
-    deny all;
+    # secure traffic by limiting to only local networks
+    include /etc/nginx/conf.d/include/local-network-only;
 
     set $lua_purge_path "/data/nginx/cache/";
     content_by_lua_file /etc/nginx/conf.d/scripts/purge-multi.lua;

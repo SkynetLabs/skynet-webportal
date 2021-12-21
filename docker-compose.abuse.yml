@@ -1,0 +1,39 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  abuse:
+    build:
+      context: ./docker/abuse
+      dockerfile: Dockerfile
+    container_name: abuse
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - ABUSE_LOG_LEVEL=${ABUSE_LOG_LEVEL}
+      - ABUSE_MAILADDRESS=${ABUSE_MAILADDRESS}
+      - ABUSE_MAILBOX=${ABUSE_MAILBOX}
+      - ABUSE_SPONSOR=${ABUSE_SPONSOR}
+      - BLOCKER_HOST=${BLOCKER_HOST}
+      - BLOCKER_PORT=${BLOCKER_PORT}
+      - BLOCKER_AUTH_HEADER=${BLOCKER_AUTH_HEADER}
+      - EMAIL_SERVER=${EMAIL_SERVER}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - SKYNET_DB_HOST=${SKYNET_DB_HOST}
+      - SKYNET_DB_PORT=${SKYNET_DB_PORT}
+      - SKYNET_DB_USER=${SKYNET_DB_USER}
+      - SKYNET_DB_PASS=${SKYNET_DB_PASS}
+    networks:
+      shared:
+        ipv4_address: 10.10.10.120
+    depends_on:
+      - mongo
+      - blocker

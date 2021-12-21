@@ -8,9 +8,9 @@ ARG branch=main
 
 WORKDIR /root
 
-RUN git clone --single-branch --branch ${branch} https://github.com/SkynetLabs/blocker.git && \
-    cd blocker && \
+RUN git clone --single-branch --branch ${branch} https://github.com/SkynetLabs/abuse-scanner.git && \
+    cd abuse-scanner && \
     go mod download && \
     make release
 
-ENTRYPOINT ["blocker"]
+ENTRYPOINT ["abuse-scanner"]
