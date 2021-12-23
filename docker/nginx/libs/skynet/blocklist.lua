@@ -52,4 +52,12 @@ function _M.is_blocked(skylink)
     return ngx.shared.blocklist:get_stale(hash) == true
 end
 
+-- exit with 416 illegal content status code
+function _M.exit_illegal()
+    ngx.status = ngx.HTTP_ILLEGAL
+    ngx.header["content-type"] = "text/plain"
+    ngx.say("Unavailable For Legal Reasons")
+    return ngx.exit(ngx.status)
+end
+
 return _M

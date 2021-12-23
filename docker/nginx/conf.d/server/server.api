@@ -28,6 +28,7 @@ location / {
 
     set $skylink "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
     set $path $uri;
+    set $internal_no_limits "true";
 
     include /etc/nginx/conf.d/include/location-skylink;
 
@@ -117,6 +118,8 @@ location /abuse/report {
 }
 
 location /hns {
+    include /etc/nginx/conf.d/include/cors;
+
     # match the request_uri and extract the hns domain and anything that is passed in the uri after it
     # example: /hns/something/foo/bar matches:
     # > hns_domain: something
@@ -130,6 +133,7 @@ location /hns {
 
 location /hnsres {
     include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     proxy_pass http://handshake-api:3100;
 }
@@ -141,6 +145,7 @@ location /skynet/registry {
 location /skynet/restore {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     client_max_body_size 5M;
 
@@ -197,6 +202,7 @@ location /skynet/skyfile {
     include /etc/nginx/conf.d/include/sia-auth;
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
@@ -213,19 +219,6 @@ location /skynet/skyfile {
     proxy_request_buffering off; # stream uploaded files through the proxy as it comes in
     proxy_set_header Expect $http_expect;
     proxy_set_header User-Agent: Sia-Agent;
-
-    # access_by_lua_block {
-    # 	-- this block runs only when accounts are enabled
-    # 	if not os.getenv("PORTAL_MODULES"):match("a") then return end
-
-    # 	ngx.var.upload_limit_rate = 5 * 1024 * 1024
-    # 	local res = ngx.location.capture("/accounts/user", { copy_all_vars = true })
-    # 	if res.status == ngx.HTTP_OK then
-    # 		local json = require('cjson')
-    # 		local user = json.decode(res.body)
-    # 		ngx.var.upload_limit_rate = ngx.var.upload_limit_rate * (user.tier + 1)
-    # 	end
-    # }
 
     # proxy this call to siad endpoint (make sure the ip is correct)
     proxy_pass http://sia:9980/skynet/skyfile/$dir1/$dir2/$dir3$is_args$args;
@@ -261,27 +254,17 @@ location /skynet/tus {
     # proxy /skynet/tus requests to siad endpoint with all arguments
     proxy_pass http://sia:9980;
 
-    # set max upload size dynamically based on account limits
-    rewrite_by_lua_block {
-        -- set default limit value to 5 GB
-        ngx.req.set_header("SkynetMaxUploadSize", 5368709120)
-
-        -- this block runs only when accounts are enabled
-        if not os.getenv("PORTAL_MODULES"):match("a") then return end
-
-        local httpc = require("resty.http").new()
-
-        -- fetch account limits and set max upload size accordingly
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-            headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
-        })
-
-        -- fail gracefully in case /user/limits failed
-        if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-        elseif res and res.status == ngx.HTTP_OK then
-            local json = require('cjson')
-            local limits = json.decode(res.body)
+    access_by_lua_block {
+        if require("skynet.account").accounts_enabled() then
+            -- check if portal is in authenticated only mode
+            if require("skynet.account").is_access_unauthorized() then
+                return require("skynet.account").exit_access_unauthorized()
+            end
+            
+            -- get account limits of currently authenticated user
+            local limits = require("skynet.account").get_account_limits()
+        
+            -- apply upload size limits
             ngx.req.set_header("SkynetMaxUploadSize", limits.maxUploadSize)
         end
     }
@@ -306,6 +289,7 @@ location /skynet/pin {
     include /etc/nginx/conf.d/include/sia-auth;
     include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
@@ -319,6 +303,7 @@ location /skynet/pin {
 
 location /skynet/metadata {
     include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
@@ -331,6 +316,7 @@ location /skynet/metadata {
 
 location /skynet/resolve {
     include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
         ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
@@ -357,7 +343,7 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     include /etc/nginx/conf.d/include/location-skylink;
 }
 
-location /__internal/do/not/use/authenticated {
+location /__internal/do/not/use/accounts {
     include /etc/nginx/conf.d/include/cors;
 
     charset utf-8;
@@ -366,29 +352,16 @@ location /__internal/do/not/use/authenticated {
 
     content_by_lua_block {
         local json = require('cjson')
+        local accounts_enabled = require("skynet.account").accounts_enabled()
+        local is_auth_required = require("skynet.account").is_auth_required()
+        local is_authenticated = accounts_enabled and require("skynet.account").is_authenticated()
 
-        -- this block runs only when accounts are enabled
-        if not os.getenv("PORTAL_MODULES"):match("a") then
-            ngx.say(json.encode{authenticated = false})
-            return ngx.exit(ngx.HTTP_OK)
-        end
-
-        local httpc = require("resty.http").new()
-
-        -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/user", {
-            headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+        ngx.say(json.encode{
+            enabled = accounts_enabled,
+            auth_required = is_auth_required,
+            authenticated = is_authenticated,
         })
-
-        -- endpoint /user should return HTTP_OK for authenticated and HTTP_UNAUTHORIZED for not authenticated
-        if res and (res.status == ngx.HTTP_OK or res.status == ngx.HTTP_UNAUTHORIZED) then
-            ngx.say(json.encode{authenticated = res.status == ngx.HTTP_OK})
-            return ngx.exit(ngx.HTTP_OK)
-        else
-            ngx.log(ngx.ERR, "Failed accounts service request /user: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-            ngx.say(json.encode{authenticated = false})
-            return ngx.exit(ngx.HTTP_OK)
-        end
+        return ngx.exit(ngx.HTTP_OK)
     }
 }
 

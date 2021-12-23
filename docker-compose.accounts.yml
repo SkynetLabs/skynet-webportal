@@ -1,7 +1,6 @@
 version: "3.7"
 
-x-logging:
-  &default-logging
+x-logging: &default-logging
   driver: json-file
   options:
     max-size: "10m"
@@ -11,6 +10,7 @@ services:
   nginx:
     environment:
       - ACCOUNTS_ENABLED=true
+      - ACCOUNTS_AUTH_REQUIRED=${ACCOUNTS_AUTH_REQUIRED:-true} # default to authenticated access only
     depends_on:
       - accounts
 
