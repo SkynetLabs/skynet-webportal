@@ -6659,10 +6659,10 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-gbimage-bridge@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/gbimage-bridge/-/gbimage-bridge-0.1.4.tgz#e6c966c933a0b6669b11f6cf1a515abc76d0597e"
-  integrity sha512-Q/AS8DQ0vav2eNYYZKAtf7ROQhfZ3/uwT6y5yc/K+nhNkpbB9foizuCaAQh7op/lfoxRaIqe2iNl1gf2EnlwGg==
+gbimage-bridge@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/gbimage-bridge/-/gbimage-bridge-0.2.0.tgz#634cd89888f2fd89a55b6af59cf2a16b355f6f88"
+  integrity sha512-40W8WPtSB2C39/5zvmpc1FoJbawSI6Bhquxp0Y3r4Xm6PSq7wXC3QeaFNiWu9yReewA0XQcoQQSEsytj3fWDQg==
 
 generate-robotstxt@^8.0.3:
   version "8.0.3"
