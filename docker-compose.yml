@@ -25,9 +25,6 @@ services:
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
-      - MONGODB_URI=mongodb://${SKYNET_DB_HOST}:${SKYNET_DB_PORT}
-      - MONGODB_USER=${SKYNET_DB_USER}
-      - MONGODB_PASSWORD=${SKYNET_DB_PASS}
 
     env_file:
       - .env
