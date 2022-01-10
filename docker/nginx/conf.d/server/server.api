@@ -321,14 +321,6 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     include /etc/nginx/conf.d/include/location-skylink;
 }
 
-location @purge {
-    # secure traffic by limiting to only local networks
-    include /etc/nginx/conf.d/include/local-network-only;
-
-    set $lua_purge_path "/data/nginx/cache/";
-    content_by_lua_file /etc/nginx/conf.d/scripts/purge-multi.lua;
-}
-
 location /__internal/do/not/use/authenticated {
     include /etc/nginx/conf.d/include/cors;
 

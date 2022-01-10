@@ -3,12 +3,6 @@ include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
 include /etc/nginx/conf.d/include/track-download;
 
-# redirect purge calls to separate location
-error_page 462 = @purge;
-if ($request_method = PURGE) {
-    return 462;
-}
-
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
