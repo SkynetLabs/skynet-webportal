@@ -156,6 +156,42 @@ location /skynet/restore {
     proxy_pass http://sia:9980;
 }
 
+location /skynet/registry/subscription {
+    include /etc/nginx/conf.d/include/cors;
+
+    # default to unlimited bandwidth and no delay
+    set $bandwidthlimit "0";
+    set $notificationdelay "0";
+
+    rewrite_by_lua_block {
+        -- this block runs only when accounts are enabled
+        if os.getenv("PORTAL_MODULES"):match("a") then
+            local httpc = require("resty.http").new()
+
+            -- fetch account limits and set download bandwidth and registry delays accordingly
+            local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
+                headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+            })
+
+            -- fail gracefully in case /user/limits failed
+            if err or (res and res.status ~= ngx.HTTP_OK) then
+                ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            elseif res and res.status == ngx.HTTP_OK then
+                local json = require('cjson')
+                local limits = json.decode(res.body)
+                ngx.var.bandwidthlimit = limits.download
+                ngx.var.notificationdelay = limits.registry
+            end
+        end
+    }
+
+    proxy_set_header User-Agent: Sia-Agent;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+
+    proxy_pass http://sia:9980/skynet/registry/subscription?bandwidthlimit=$bandwidthlimit&notificationdelay=$notificationdelay;
+}
+
 location /skynet/skyfile {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
