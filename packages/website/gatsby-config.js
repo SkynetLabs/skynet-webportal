@@ -117,6 +117,75 @@ module.exports = {
         siteUrl: "https://siasky.net",
       },
     },
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        output: "/",
+        createLinkInHead: true,
+        excludes: ["/using-typescript/"],
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            allSitePage {
+              nodes {
+                path
+              }
+            }
+            allMarkdownRemark {
+              nodes {
+                frontmatter {
+                  date,
+                  hidden
+                },
+                fields {
+                  slug
+                }
+              }
+            }
+          }
+        `,
+        resolvePages: ({ allSitePage: { nodes: allPages }, allMarkdownRemark: { nodes: allNews } }) => {
+          const pathToDateMap = {};
+
+          allNews.map((post) => {
+            pathToDateMap[post.fields.slug] = { date: post.frontmatter.date, hidden: post.frontmatter.hidden };
+          });
+
+          // modify pages to filter out hidden news items and add date
+          const pages = allPages
+            .filter((page) => {
+              if (pathToDateMap[page.path] && pathToDateMap[page.path].hidden) {
+                return false;
+              }
+
+              return true;
+            })
+            .map((page) => {
+              return { ...page, ...pathToDateMap[page.path] };
+            });
+
+          return pages;
+        },
+        serialize: ({ path, date }) => {
+          let entry = {
+            url: path,
+            changefreq: "daily",
+            priority: 0.5,
+          };
+
+          if (date) {
+            entry.priority = 0.7;
+            entry.lastmod = date;
+          }
+
+          return entry;
+        },
+      },
+    },
   ],
   // mapping: {
   //   "MarkdownRemark.frontmatter.author": `teamYaml`,
