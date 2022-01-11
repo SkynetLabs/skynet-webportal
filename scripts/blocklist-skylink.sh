@@ -1,18 +1,15 @@
 #! /usr/bin/env bash
 
-# This script adds a skylink to the sia blocklist and removes the skylink from
-# nginx cache. The script should be run locally on each skynet webportal
-# server. The automatic script that is used to continuously sync an Airtable
-# sheet list with the blocklist on the web portals is
-# /setup-scripts/blocklist-airtable.py 
+# This script is for manual skylink blocking. It accepts either a single 
+# skylink or a file containing list of skylinks. The script is intented
+# for manual use and it should be run locally on each skynet webportal server. 
+# The automatic script that is used to continuously sync an Airtable sheet 
+# list with the blocklist on the web portals is /setup-scripts/blocklist-airtable.py 
 
 set -e # exit on first error
 
-# Number of skylinks to block within one batch
-BATCH_SIZE=1000
-
 if [ -z "$1" ]; then
-    echo "Please provide either a skylink or file with skylinks separated by new lines" && exit 1
+    echo "Please provide either a skylink or a file with skylinks separated by new lines" && exit 1
 fi
 
 #########################################################
@@ -37,45 +34,18 @@ else
     skylinks=("$1") # just single skylink passed as input argument
 fi
 
-# Block skylinks in batches
-skylinks_len=${#skylinks[@]}
-for (( i = 0; i < $skylinks_len; i++ )); do
-    # Add skylink to batch
-    skylink="${skylinks[$i]}"
-    echo ".. ⌁ Adding skylink ${skylink} to batch..."
-    batch_skylinks+=("$skylink")
+# get local nginx ip adress
+nginx_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
 
-    # For performance reasons on each iteration we do not block a single
-    # skylink, but we block skylinks in batches with BATCH_SIZE size mainly
-    # because of nginx cache search.
-    # If (batch len == batch size) or (we have last batch):
-    if (( ${#batch_skylinks[@]} == $BATCH_SIZE || $i == $skylinks_len - 1 )); then
-        echo "--------------------------------------------"
+# iterate over provided skylinks and block them one by one
+for skylink in "${skylinks[@]}"; do
+    printf "Blocking ${skylink} ... "
+    status_code=$(curl --write-out '%{http_code}' --silent --output /dev/null --data "{\"add\":[\"$skylink\"]}" "http://${nginx_ip}:8000/skynet/blocklist")
 
-        # Add to Sia blocklist
-        echo "Blocking batch skylinks in skyd..."
-        skylinks_space_separated="$(IFS=' '; echo "${batch_skylinks[*]}")"
-        docker exec sia siac skynet blocklist add $skylinks_space_separated
-
-        # Remove from NGINX cache
-        # NOTE:
-        # If there are changes to how the NGINX cache is being cleared, the same
-        # changes need to be applied to the /setup-scripts/blocklist-airtable.py
-        # script.
-        echo "Removing batch skylinks from Nginx cache..."
-        skylinks_pipe_separated="$(IFS='|'; echo "${batch_skylinks[*]}")"
-        cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ($skylinks_pipe_separated)'"
-        docker exec -it nginx bash -c "${cached_files_command} | xargs -r rm"
-
-        # Clear batch
-        batch_skylinks=()
-
-        echo "--------------------------------------------"
+    # print blocklist response status code
+    if [ $status_code = "204" ]; then
+        echo "done"
+    else
+        echo "error $status_code"
     fi
 done
-
-# Hot reload Nginx to get rid of deleted open files
-echo "Hot reloading nginx..."
-docker exec nginx nginx -s reload
-
-echo "✓ All done !"
