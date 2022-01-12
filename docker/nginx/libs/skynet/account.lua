@@ -58,7 +58,7 @@ function _M.is_authenticated()
 end
 
 function _M.is_auth_required()
-    return os.getenv("ACCOUNTS_AUTH_REQUIRED") == "true"
+    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated"
 end
 
 -- check whether access to portal should be restricted

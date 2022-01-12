@@ -10,7 +10,7 @@ services:
   nginx:
     environment:
       - ACCOUNTS_ENABLED=true
-      - ACCOUNTS_AUTH_REQUIRED=${ACCOUNTS_AUTH_REQUIRED:-true} # default to authenticated access only
+      - ACCOUNTS_LIMIT_ACCESS=${ACCOUNTS_LIMIT_ACCESS:-authenticated} # default to authenticated access only
     depends_on:
       - accounts
 
