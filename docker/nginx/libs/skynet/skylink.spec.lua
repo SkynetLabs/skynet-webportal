@@ -1,4 +1,4 @@
-local skynet_skylink = require("skynet/skylink")
+local skynet_skylink = require("skynet.skylink")
 
 describe("parse", function()
    local base32 = "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30"

@@ -1,11 +1,12 @@
 include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-pass-internal;
+include /etc/nginx/conf.d/include/portal-access-check;
 
 # variable definititions - we need to define a variable to be able to access it in lua by ngx.var.something
 set $skylink ''; # placeholder for the raw 46 bit skylink
 
 # resolve handshake domain by requesting to /hnsres endpoint and assign correct values to $skylink and $rest
-access_by_lua_block {
+rewrite_by_lua_block {
     local json = require('cjson')
     local httpc = require("resty.http").new()
 

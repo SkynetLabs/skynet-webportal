@@ -3,10 +3,16 @@
 # because otherwise logger with throw error
 
 # set only on hns routes
-set $hns_domain '';
+set $hns_domain "";
 
 # set only if server has been access through SERVER_DOMAIN
-set $server_alias '';
+set $server_alias "";
 
 # expose skylink variable so we can use it in access log
-set $skylink '';
+set $skylink "";
+
+# cached account limits (json string) - applies only if accounts are enabled
+set $account_limits "";
+
+# set this internal flag to true if current request should not be limited in any way
+set $internal_no_limits "false";
