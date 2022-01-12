@@ -7,6 +7,12 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
+  sia:
+    environment:
+      - MONGODB_URI=mongodb://${SKYNET_DB_HOST}:${SKYNET_DB_PORT}
+      - MONGODB_USER=${SKYNET_DB_USER}
+      - MONGODB_PASSWORD=${SKYNET_DB_PASS}
+
   mongo:
     image: mongo:4.4.1
     command: --keyFile=/data/mgkey --replSet=${SKYNET_DB_REPLICASET:-skynet}

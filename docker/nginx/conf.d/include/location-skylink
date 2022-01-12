@@ -3,12 +3,6 @@ include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
 include /etc/nginx/conf.d/include/track-download;
 
-# redirect purge calls to separate location
-error_page 462 = @purge;
-if ($request_method = PURGE) {
-    return 462;
-}
-
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
@@ -65,8 +59,14 @@ access_by_lua_block {
         return ngx.exit(ngx.status)
     end
 
+    -- if skylink is found on nocache list then set internal nocache variable
+    -- to tell nginx that it should not try and cache this file (too large)
+    if ngx.shared.nocache:get(ngx.var.skylink_v1) then
+        ngx.var.nocache = "1"
+    end
+
     -- this block runs only when accounts are enabled
-    if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
+    if not os.getenv("PORTAL_MODULES"):match("a") then return end
 
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
@@ -94,6 +94,11 @@ header_filter_by_lua_block {
     -- be serving cached empty v1 skylink Skynet-Proof header
     if ngx.var.skynet_proof and ngx.var.skynet_proof ~= "" then
         ngx.header["Skynet-Proof"] = ngx.var.skynet_proof
+    end
+
+    -- add skylink to nocache list if it exceeds 1GB (1e+9 bytes) threshold
+    if tonumber(ngx.header["Content-Length"]) > 1e+9 then
+        ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
     end
 }
 

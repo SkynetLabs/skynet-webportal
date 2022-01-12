@@ -1,48 +1,51 @@
 # register the download in accounts service (cookies should contain jwt)
 log_by_lua_block {
     -- this block runs only when accounts are enabled
-    if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
+    if os.getenv("PORTAL_MODULES"):match("a") then
+        local function track(premature, skylink, status, body_bytes_sent, jwt)
+            if premature then return end
 
-    local function track(premature, skylink, status, body_bytes_sent, jwt)
-        if premature then return end
+            local httpc = require("resty.http").new()
+            local query = table.concat({ "status=" .. status, "bytes=" .. body_bytes_sent }, "&")
 
-        local httpc = require("resty.http").new()
-        local query = table.concat({ "status=" .. status, "bytes=" .. body_bytes_sent }, "&")
+            -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
+            local res, err = httpc:request_uri("http://10.10.10.70:3000/track/download/" .. skylink .. "?" .. query, {
+                method = "POST",
+                headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+            })
 
-        -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/track/download/" .. skylink .. "?" .. query, {
-            method = "POST",
-            headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
-        })
+            if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
+                ngx.log(ngx.ERR, "Failed accounts service request /track/download/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            end
+        end
 
-        if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
-            ngx.log(ngx.ERR, "Failed accounts service request /track/download/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+        if ngx.header["Skynet-Skylink"] and ngx.var.skynet_jwt ~= "" and ngx.status >= ngx.HTTP_OK and ngx.status < ngx.HTTP_SPECIAL_RESPONSE then
+            local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.status, ngx.var.body_bytes_sent, ngx.var.skynet_jwt)
+            if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
         end
     end
 
-    local function scan(premature, skylink, jwt)
-        if premature then return end
+    -- this block runs only when scanner module is enabled
+    if os.getenv("PORTAL_MODULES"):match("s") then
+        local function scan(premature, skylink)
+            if premature then return end
 
-        local httpc = require("resty.http").new()
+            local httpc = require("resty.http").new()
 
-        -- 10.10.10.101 points to malware-scanner service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.101:4000/scan/" .. skylink, {
-            method = "POST",
-            headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
-        })
+            -- 10.10.10.101 points to malware-scanner service (alias not available when using resty-http)
+            local res, err = httpc:request_uri("http://10.10.10.101:4000/scan/" .. skylink, {
+                method = "POST",
+            })
 
-        if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            if err or (res and res.status ~= ngx.HTTP_OK) then
+                ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            end
+        end
+
+        -- scan all skylinks but make sure to only run if skylink is present (empty if request failed)
+        if ngx.header["Skynet-Skylink"] then
+            local ok, err = ngx.timer.at(0, scan, ngx.header["Skynet-Skylink"])
+            if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
         end
     end
-
-    if ngx.header["Skynet-Skylink"] and ngx.var.skynet_jwt ~= "" and ngx.status >= ngx.HTTP_OK and ngx.status < ngx.HTTP_SPECIAL_RESPONSE then
-        local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.status, ngx.var.body_bytes_sent, ngx.var.skynet_jwt)
-        if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
-    end
-
-    -- Unlike accounts, malware-scanner wants to be pinged about each skylink,
-    -- not only the ones downloaded by registered accounts.
-    local scan_ok, scan_err = ngx.timer.at(0, scan, ngx.header["Skynet-Skylink"], ngx.var.skynet_jwt)
-    if scan_err then ngx.log(ngx.ERR, "Failed to create timer: ", scan_err) end
 }

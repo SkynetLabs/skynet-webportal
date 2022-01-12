@@ -1,6 +1,9 @@
 include /etc/nginx/conf.d/include/init-optional-variables;
 
 location /skynet/blocklist {
+    client_max_body_size 10m; # increase max body size to account for large lists
+    client_body_buffer_size 10m; # force whole body to memory so we can read it
+
     content_by_lua_block {        
         local httpc = require("resty.http").new()
 
