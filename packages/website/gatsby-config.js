@@ -93,7 +93,7 @@ module.exports = {
         background_color: `#f1f7f2`,
         theme_color: `#f1f7f2`,
         display: `minimal-ui`,
-        icon: `src/images/logo.svg`, // This path is relative to the root of the site.
+        icon: `src/images/logo-sq.svg`, // This path is relative to the root of the site.
         icons: [
           ...defaultIcons,
           // when we're serving content from the portal on our pathnames that do not have
@@ -105,6 +105,8 @@ module.exports = {
             type: `image/x-icon`,
           },
         ],
+        description: `Skynet portal homepage and upload widget`,
+        skylink: `AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA`,
       },
     },
     {

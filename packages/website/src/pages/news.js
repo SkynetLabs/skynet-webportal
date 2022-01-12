@@ -92,7 +92,12 @@ export const query = graphql`
             }
             avatar {
               childImageSharp {
-                gatsbyImageData(width: 40, placeholder: BLURRED, transformOptions: { fit: COVER, cropFocus: CENTER })
+                gatsbyImageData(
+                  width: 40
+                  placeholder: BLURRED
+                  formats: [AUTO, AVIF, WEBP]
+                  transformOptions: { fit: COVER, cropFocus: CENTER }
+                )
               }
             }
           }
