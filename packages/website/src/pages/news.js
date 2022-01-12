@@ -24,12 +24,12 @@ const NewsCard = ({ frontmatter, fields }) => {
         </div>
       )}
 
-      <Link {...link} className="text-xl mt-6">
+      <Link {...link} className="mt-6 text-xl">
         {title}
       </Link>
 
       {description && (
-        <Link {...link} className="font-content text-palette-400 mt-4">
+        <Link {...link} className="mt-4 font-content text-palette-400">
           {description}
         </Link>
       )}
@@ -49,7 +49,7 @@ const NewsPage = ({ data }) => {
       <Section className="bg-white" first={true}>
         {/* this is the gray box in the top left corner, 400px height is totally arbitrary but it works */}
         <div
-          className="hidden desktop:block bg-white bg-column absolute top-0 left-0 right-0"
+          className="absolute top-0 left-0 right-0 hidden bg-white desktop:block bg-column"
           style={{ height: "400px" }}
         />
 
@@ -81,12 +81,18 @@ export const query = graphql`
             external
             thumbnail {
               childImageSharp {
-                gatsbyImageData(width: 320, height: 170, placeholder: BLURRED, transformOptions: { cropFocus: CENTER })
+                gatsbyImageData(
+                  width: 320
+                  height: 170
+                  placeholder: BLURRED
+                  formats: [AUTO, AVIF, WEBP]
+                  transformOptions: { fit: COVER, cropFocus: CENTER }
+                )
               }
             }
             avatar {
               childImageSharp {
-                gatsbyImageData(width: 40, placeholder: BLURRED, transformOptions: { cropFocus: CENTER })
+                gatsbyImageData(width: 40, placeholder: BLURRED, transformOptions: { fit: COVER, cropFocus: CENTER })
               }
             }
           }
