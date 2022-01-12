@@ -6,6 +6,7 @@ import path from "path-browserify";
 import { useDropzone } from "react-dropzone";
 import { nanoid } from "nanoid";
 import useAccounts from "../../services/useAccounts";
+import useAccountsUrl from "../../services/useAccountsUrl";
 import Link from "../Link";
 import UploaderElement from "./UploaderElement";
 
@@ -20,23 +21,31 @@ const getRootDirectory = (file) => {
   return path.normalize(dir).slice(root.length).split(path.sep)[0];
 };
 
-const RegistrationLink = () => (
-  <Link
-    href="https://account.siasky.net/auth/registration"
-    className="uppercase underline-primary hover:text-primary transition-colors duration-200"
-  >
-    Sign up
-  </Link>
-);
+const RegistrationLink = () => {
+  const accountsUrl = useAccountsUrl();
 
-const LogInLink = () => (
-  <Link
-    href="https://account.siasky.net/auth/login"
-    className="uppercase underline-primary hover:text-primary transition-colors duration-200"
-  >
-    Log in
-  </Link>
-);
+  return (
+    <Link
+      href={`${accountsUrl}/auth/registration`}
+      className="uppercase underline-primary hover:text-primary transition-colors duration-200"
+    >
+      Sign up
+    </Link>
+  );
+};
+
+const LogInLink = () => {
+  const accountsUrl = useAccountsUrl();
+
+  return (
+    <Link
+      href={`${accountsUrl}/auth/login`}
+      className="uppercase underline-primary hover:text-primary transition-colors duration-200"
+    >
+      Log in
+    </Link>
+  );
+};
 
 const Uploader = () => {
   const [mode, setMode] = React.useState("file");
@@ -190,8 +199,8 @@ const Uploader = () => {
 
       {disabledComponent && (
         <div className="absolute inset-0 bg-palette-500 bg-opacity-90 rounded-lg">
-          <div class="flex h-full">
-            <div class="m-auto">
+          <div className="flex h-full">
+            <div className="m-auto">
               <h4 className="font-light text-palette-100 text-lg mt-2 text-center">
                 <LogInLink /> or <RegistrationLink /> for free
               </h4>

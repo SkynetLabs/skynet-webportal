@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Link from "../Link";
 import classnames from "classnames";
 import useAccounts from "../../services/useAccounts";
+import useAccountsUrl from "../../services/useAccountsUrl";
 import { LogoWhiteText, LogoBlackText, MenuMobile, MenuMobileClose, DiscordSmall } from "../Icons";
 import { useWindowSize, useWindowScroll } from "react-use";
 
@@ -25,6 +26,7 @@ const Navigation = ({ mode, uri }) => {
   const windowSize = useWindowSize();
   const isWindowTop = useWindowTop();
   const { data: accounts } = useAccounts();
+  const accountsUrl = useAccountsUrl();
 
   React.useEffect(() => {
     setOpen(false);
@@ -88,18 +90,18 @@ const Navigation = ({ mode, uri }) => {
 
             {showLoginNavigation && (
               <>
-                <Link href="https://account.siasky.net" className="button-link-primary">
+                <Link href={`${accountsUrl}/auth/login`} className="button-link-primary">
                   Log in
                 </Link>
 
-                <Link href="https://account.siasky.net/auth/registration" className="button-primary">
+                <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
                   Sign up
                 </Link>
               </>
             )}
 
             {showAccountNavigation && (
-              <Link href="https://account.siasky.net" className="button-primary">
+              <Link href={accountsUrl} className="button-primary">
                 My account
               </Link>
             )}
@@ -142,18 +144,18 @@ const Navigation = ({ mode, uri }) => {
             <div className="flex items-center justify-center px-4 space-x-6">
               {showLoginNavigation && (
                 <>
-                  <Link href="https://account.siasky.net" className="button-secondary-light">
+                  <Link href={`${accountsUrl}/auth/login`} className="button-secondary-light">
                     Log in
                   </Link>
 
-                  <Link href="https://account.siasky.net/auth/registration" className="button-primary">
+                  <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
                     Sign up
                   </Link>
                 </>
               )}
 
               {showAccountNavigation && (
-                <Link href="https://account.siasky.net" className="button-primary">
+                <Link href={accountsUrl} className="button-primary">
                   My account
                 </Link>
               )}
