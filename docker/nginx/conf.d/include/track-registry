@@ -1,7 +1,7 @@
 # register the registry access in accounts service (cookies should contain jwt)
 log_by_lua_block {
     -- this block runs only when accounts are enabled
-    if os.getenv("PORTAL_MODULES"):match("a") then
+    if require("skynet.account").accounts_enabled() then
         local function track(premature, request_method, jwt)
             if premature then return end
 

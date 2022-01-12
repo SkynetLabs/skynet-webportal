@@ -1,0 +1,6 @@
+access_by_lua_block {
+    -- check portal access rules and exit if access is restricted
+    if require("skynet.account").is_access_unauthorized() then
+        return require("skynet.account").exit_access_unauthorized()
+    end
+}

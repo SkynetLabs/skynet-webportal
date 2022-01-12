@@ -53,10 +53,7 @@ access_by_lua_block {
 
     -- check if skylink v1 is present on blocklist (compare hashes)
     if require("skynet.blocklist").is_blocked(ngx.var.skylink_v1) then
-        ngx.status = ngx.HTTP_ILLEGAL
-        ngx.header["content-type"] = "text/plain"
-        ngx.say("Unavailable For Legal Reasons")
-        return ngx.exit(ngx.status)
+        return require("skynet.blocklist").exit_illegal()
     end
 
     -- if skylink is found on nocache list then set internal nocache variable
@@ -65,21 +62,16 @@ access_by_lua_block {
         ngx.var.nocache = "1"
     end
 
-    -- this block runs only when accounts are enabled
-    if not os.getenv("PORTAL_MODULES"):match("a") then return end
+    if require("skynet.account").accounts_enabled() then
+        -- check if portal is in authenticated only mode
+        if require("skynet.account").is_access_unauthorized() then
+            return require("skynet.account").exit_access_unauthorized()
+        end
 
-    -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-    local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-        headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
-    })
-    
-    -- fail gracefully in case /user/limits failed
-    if err or (res and res.status ~= ngx.HTTP_OK) then
-        ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-        ngx.var.limit_rate = 2621440 -- (20 * 1024 * 1024 / 8) conservative fallback to 20 mbps in case accounts failed to return limits
-    elseif res and res.status == ngx.HTTP_OK then
-        local json = require('cjson')
-        local limits = json.decode(res.body)
+        -- get account limits of currently authenticated user
+        local limits = require("skynet.account").get_account_limits()
+
+        -- apply download speed limit
         ngx.var.limit_rate = limits.download
     end
 }
@@ -97,7 +89,8 @@ header_filter_by_lua_block {
     end
 
     -- add skylink to nocache list if it exceeds 1GB (1e+9 bytes) threshold
-    if tonumber(ngx.header["Content-Length"]) > 1e+9 then
+    -- (content length can be nil for already cached files - we can ignore them)
+    if ngx.header["Content-Length"] and tonumber(ngx.header["Content-Length"]) > 1e+9 then
         ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
     end
 }

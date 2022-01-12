@@ -5,9 +5,9 @@ import bytes from "bytes";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
-import { SkynetClient } from "skynet-js";
 import { useTimeoutFn } from "react-use";
 import ms from "ms";
+import skynetClient from "../../services/skynetClient";
 import Link from "../Link";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
@@ -55,8 +55,6 @@ const createUploadErrorMessage = (error) => {
   return `Critical error, please refresh the application and try again. ${error.message}`;
 };
 
-const client = new SkynetClient(process.env.GATSBY_API_URL);
-
 export default function UploaderElement({ onUploadStateChange, upload }) {
   const [copied, setCopied] = React.useState(false);
   const [, , reset] = useTimeoutFn(() => setCopied(false), ms("3 seconds"));
@@ -87,12 +85,12 @@ export default function UploaderElement({ onUploadStateChange, upload }) {
             const directory = files.reduce((acc, file) => ({ ...acc, [getRelativeFilePath(file)]: file }), {});
             const name = encodeURIComponent(upload.file.name);
 
-            response = await client.uploadDirectory(directory, name, { onUploadProgress });
+            response = await skynetClient.uploadDirectory(directory, name, { onUploadProgress });
           } else {
-            response = await client.uploadFile(upload.file, { onUploadProgress });
+            response = await skynetClient.uploadFile(upload.file, { onUploadProgress });
           }
 
-          const url = await client.getSkylinkUrl(response.skylink, { subdomain: upload.mode === "directory" });
+          const url = await skynetClient.getSkylinkUrl(response.skylink, { subdomain: upload.mode === "directory" });
 
           onUploadStateChange(upload.id, { status: "complete", url });
         } catch (error) {
