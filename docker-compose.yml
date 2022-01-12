@@ -25,6 +25,10 @@ services:
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
+      - SKYD_DISK_CACHE_DISABLED=true
+      - SKYD_DISK_CACHE_SIZE=53690000000
+      - SKYD_DISK_CACHE_MIN_HITS=3
+      - SKYD_DISK_CACHE_HIT_PERIOD=3600
 
     env_file:
       - .env
