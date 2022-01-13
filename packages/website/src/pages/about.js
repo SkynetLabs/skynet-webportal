@@ -293,7 +293,7 @@ export const query = graphql`
         }
         image {
           childImageSharp {
-            gatsbyImageData(width: 80, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+            gatsbyImageData(width: 80, height: 80, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
           }
         }
       }

@@ -83,3 +83,21 @@
     github: https://github.com/dghelm
     linkedin: https://www.linkedin.com/in/dghelm/
     twitter: https://twitter.com/danielgileshelm
+
+- name: Marissa Hudson
+  position: Engineering Intern
+  image: ./team/marissa-hudson.jpeg
+  social:
+    github: https://github.com/fluffy9
+
+- name: Alice Hlidkova
+  position: Executive Assistant
+  image: ./team/alice-hlidkova.jpeg
+
+- name: Ayoung Jeon
+  position: Developer Advocate
+  image: ./team/ayoung-jeon.jpeg
+  social:
+    github: https://github.com/ayoungjeon
+    linkedin: https://www.linkedin.com/in/ajeon/
+    twitter: https://twitter.com/ayoung_jeon
