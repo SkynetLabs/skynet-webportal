@@ -115,6 +115,7 @@ module.exports = {
         siteId: 3,
         matomoUrl: "https://surveillance.sia.tech",
         siteUrl: "https://siasky.net",
+        localScript: "/piwik.js",
       },
     },
     {
