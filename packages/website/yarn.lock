@@ -9143,6 +9143,11 @@ mime@^2.4.4, mime@^2.5.2:
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.6.0.tgz#a2a682a95cd4d0cb1d6257e28f83da7e35800367"
   integrity sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==
 
+mime@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
+  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
+
 mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
@@ -11884,10 +11889,10 @@ sjcl@^1.0.8:
   resolved "https://registry.yarnpkg.com/sjcl/-/sjcl-1.0.8.tgz#f2ec8d7dc1f0f21b069b8914a41a8f236b0e252a"
   integrity sha512-LzIjEQ0S0DpIgnxMEayM1rq9aGwGRG4OnZhCdjx7glTaJtf4zRfpg87ImfjSJjoW9vKpagd82McDOwbRT5kQKQ==
 
-skynet-js@4.0.19-beta:
-  version "4.0.19-beta"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.19-beta.tgz#d4c640898c79cf69e45aa1c3c1ed5c80aa1aeced"
-  integrity sha512-d8/q3E3OjUxgCCAW28gNFvbahj0ks8ym122XTopbRyvAZKk9+/Z4ians9v8Tov36Z4k/un+Ilw/0i6DtM8c8Dw==
+skynet-js@4.0.22-beta:
+  version "4.0.22-beta"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.22-beta.tgz#d4b199cdb6ac00f3859f2ac477d2668425546029"
+  integrity sha512-DpTCuMIT5JSBTwJX3nb/qkHVAFyCeEA8fanBGzZPj4QviYK3Mmk+lZKLETd5RzxavkBtgW7VlSogmxdTDjjbyg==
   dependencies:
     axios "^0.24.0"
     base32-decode "^1.0.0"
@@ -11895,7 +11900,7 @@ skynet-js@4.0.19-beta:
     base64-js "^1.3.1"
     blakejs "^1.1.0"
     buffer "^6.0.1"
-    mime "^2.5.2"
+    mime "^3.0.0"
     path-browserify "^1.0.1"
     post-me "^0.4.5"
     randombytes "^2.1.0"
