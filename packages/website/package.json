@@ -25,6 +25,7 @@
     "gatsby-plugin-react-helmet": "5.4.0",
     "gatsby-plugin-robots-txt": "1.6.14",
     "gatsby-plugin-sharp": "4.4.0",
+    "gatsby-plugin-sitemap": "5.5.0",
     "gatsby-plugin-svgr": "3.0.0-beta.0",
     "gatsby-remark-classes": "1.0.2",
     "gatsby-remark-copy-linked-files": "5.4.0",
