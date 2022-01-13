@@ -52,8 +52,10 @@ const Uploader = () => {
   const [uploads, setUploads] = React.useState([]);
 
   const { data: accounts } = useAccounts();
-  const showAccountFeatures = accounts?.enabled && !accounts?.auth_required && !accounts?.authenticated;
-  const disabledComponent = accounts?.enabled && accounts?.auth_required && !accounts?.authenticated;
+  const showAccountFeatures =
+    accounts && accounts.enabled !== false && !accounts?.auth_required && !accounts?.authenticated;
+  const disabledComponent =
+    accounts && accounts.enabled !== false && accounts?.auth_required && !accounts?.authenticated;
 
   const onUploadStateChange = React.useCallback((id, state) => {
     setUploads((uploads) => {

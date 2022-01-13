@@ -41,8 +41,8 @@ const Navigation = ({ mode, uri }) => {
   }, [open]);
 
   const mobileMenuOffset = navRef.current ? navRef.current.offsetTop : 0;
-  const showLoginNavigation = accounts?.enabled && !accounts?.authenticated;
-  const showAccountNavigation = accounts?.enabled && accounts?.authenticated;
+  const showLoginNavigation = accounts && accounts.enabled !== false && !accounts?.authenticated;
+  const showAccountNavigation = accounts && accounts.enabled !== false && accounts?.authenticated;
 
   return (
     <nav
