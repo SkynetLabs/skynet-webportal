@@ -85,6 +85,9 @@ function getAuthCookie() {
         // retry authentication
         return authenticate();
       }
+
+      // rethrow unhandled exception
+      throw error;
     }
   }
 
