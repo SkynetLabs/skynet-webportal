@@ -61,7 +61,7 @@ function getAuthCookie() {
 
   async function authenticate() {
     try {
-      // authenticate with given test credentials
+      // authenticate with given test user credentials
       const response = await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/login`, {
         json: { email, password },
       });
