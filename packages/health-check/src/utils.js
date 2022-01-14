@@ -69,8 +69,14 @@ function getAuthCookie() {
       // extract set-cookie from successful authentication request
       const cookies = response.headers["set-cookie"];
 
+      // throw meaningful error when set-cookie header is missing
+      if (!cookies) throw new Error(`Auth successful (code ${response.statusCode}) but 'set-cookie' header is missing`);
+
       // find the skynet-jwt cookie
       const jwtcookie = cookies.find((cookie) => cookie.startsWith("skynet-jwt"));
+
+      // throw meaningful error when skynet-jwt cookie is missing
+      if (!jwtcookie) throw new Error(`Header 'set-cookie' found but 'skynet-jwt' cookie is missing`);
 
       // extract just the cookie value (no set-cookie props) from set-cookie
       return jwtcookie.match(/skynet-jwt=[^;]+;/)[0];
