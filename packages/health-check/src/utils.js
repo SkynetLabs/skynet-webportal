@@ -43,7 +43,7 @@ function ensureValidJSON(object) {
  * isPortalModuleEnabled returns true if the given module is enabled
  */
 function isPortalModuleEnabled(module) {
-  return process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf(module) !== -1
+  return process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf(module) !== -1;
 }
 
 module.exports = {

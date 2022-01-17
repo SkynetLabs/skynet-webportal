@@ -4,7 +4,7 @@ const { isEqual } = require("lodash");
 const { calculateElapsedTime, getResponseContent, isPortalModuleEnabled } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
-const MODULE_BLOCKER = 'b'
+const MODULE_BLOCKER = "b";
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -177,7 +177,9 @@ async function blockerHealthCheck(done) {
   const data = { up: false };
 
   try {
-    const response = await got(`http://${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, { responseType: "json" });
+    const response = await got(`http://${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, {
+      responseType: "json",
+    });
 
     data.statusCode = response.statusCode;
     data.response = response.body;
@@ -191,7 +193,7 @@ async function blockerHealthCheck(done) {
   // this is a no-op but it's added to explicitly document the ip property
   // should not be set on the data object to prevent the IP from being compared
   // to the server's IP - this is not required for this check and will fail
-  delete data.ip
+  delete data.ip;
 
   done({ name: "blocker", time: calculateElapsedTime(time), ...data });
 }
