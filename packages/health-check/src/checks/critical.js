@@ -169,6 +169,28 @@ async function accountHealthCheck(done) {
   done({ name: "accounts", time: calculateElapsedTime(time), ...data });
 }
 
+// blockerHealthCheck returns the result of blocker container health endpoint
+async function blockerHealthCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, { responseType: "json" });
+
+    data.statusCode = response.statusCode;
+    data.response = response.body;
+    data.up = response.body.dbAlive === true;
+    data.ip = response.ip;
+  } catch (error) {
+    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
+  }
+
+  done({ name: "blocker", time: calculateElapsedTime(time), ...data });
+}
+
 async function genericAccessCheck(name, url) {
   const time = process.hrtime();
   const data = { up: false, url };
@@ -203,6 +225,10 @@ const checks = [
 
 if (process.env.ACCOUNTS_ENABLED === "true") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
+}
+
+if (process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf('b') !== -1) {
+  checks.push(blockerHealthCheck);
 }
 
 module.exports = checks;
