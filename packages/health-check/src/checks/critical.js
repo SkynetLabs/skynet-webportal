@@ -180,13 +180,16 @@ async function blockerHealthCheck(done) {
     data.statusCode = response.statusCode;
     data.response = response.body;
     data.up = response.body.dbAlive === true;
-    data.ip = response.ip;
   } catch (error) {
     data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
     data.errorMessage = error.message;
     data.errorResponseContent = getResponseContent(error.response);
-    data.ip = error?.response?.ip ?? null;
   }
+
+  // this is a no-op but it's added to explicitly document the ip property
+  // should not be set on the data object to prevent the IP from being compared
+  // to the server's IP - this is not required for this check and will fail
+  delete data.ip
 
   done({ name: "blocker", time: calculateElapsedTime(time), ...data });
 }
