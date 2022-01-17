@@ -16,7 +16,7 @@ export { ReactComponent as ExternalLink } from "./ExternalLink.svg";
 export { ReactComponent as FacebookSmall } from "./FacebookSmall.svg";
 export { ReactComponent as Fingerprint } from "./Fingerprint.svg";
 export { ReactComponent as GithubSmall } from "./GithubSmall.svg";
-export { ReactComponent as GitlabSmall } from "./GitlabSmall.svg";
+export { ReactComponent as Gitlab } from "./Gitlab.svg";
 export { ReactComponent as Info } from "./Info.svg";
 export { ReactComponent as Join } from "./Join.svg";
 export { ReactComponent as Layers } from "./Layers.svg";
