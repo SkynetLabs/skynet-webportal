@@ -93,11 +93,14 @@
 - name: Alice Hlidkova
   position: Executive Assistant
   image: ./team/alice-hlidkova.jpeg
+  social:
+    linkedin: https://www.linkedin.com/in/alice-hlidkova/
 
 - name: Ayoung Jeon
   position: Developer Advocate
   image: ./team/ayoung-jeon.jpeg
   social:
     github: https://github.com/ayoungjeon
+    gitlab: https://gitlab.com/ayoung_j
     linkedin: https://www.linkedin.com/in/ajeon/
     twitter: https://twitter.com/ayoung_jeon
