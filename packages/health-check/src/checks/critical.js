@@ -1,8 +1,10 @@
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent } = require("../utils");
+const { calculateElapsedTime, getResponseContent, isPortalModuleEnabled } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
+
+const MODULE_BLOCKER = 'b'
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -230,7 +232,7 @@ if (process.env.ACCOUNTS_ENABLED === "true") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
 }
 
-if (process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf('b') !== -1) {
+if (isPortalModuleEnabled(MODULE_BLOCKER)) {
   checks.push(blockerHealthCheck);
 }
 

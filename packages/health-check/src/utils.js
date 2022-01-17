@@ -39,9 +39,17 @@ function ensureValidJSON(object) {
   return JSON.parse(stringified);
 }
 
+/**
+ * isPortalModuleEnabled returns true if the given module is enabled
+ */
+function isPortalModuleEnabled(module) {
+  return process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf(module) !== -1
+}
+
 module.exports = {
   calculateElapsedTime,
   getYesterdayISOString,
   getResponseContent,
   ensureValidJSON,
+  isPortalModuleEnabled,
 };
