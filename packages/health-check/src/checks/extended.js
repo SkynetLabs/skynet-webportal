@@ -2,7 +2,7 @@ const got = require("got");
 const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, ensureValidJSON, getResponseContent } = require("../utils");
+const { calculateElapsedTime, ensureValidJSON, getResponseContent, getAuthCookie } = require("../utils");
 const { parseSkylink } = require("skynet-js");
 
 // audioExampleCheck returns the result of trying to download the skylink
@@ -1130,12 +1130,13 @@ function parseHeaderString(header) {
 
 // skylinkVerification verifies a skylink against provided information.
 async function skylinkVerification(done, expected, { followRedirect = true, method = "get" } = {}) {
+  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const details = { name: expected.name, skylink: expected.skylink };
 
   try {
     const query = `${process.env.SKYNET_PORTAL_API}/${expected.skylink}`;
-    const response = await got[method](query, { followRedirect, headers: { cookie: "nocache=true" } });
+    const response = await got[method](query, { followRedirect, headers: { cookie: `nocache=true;${authCookie}` } });
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
 
