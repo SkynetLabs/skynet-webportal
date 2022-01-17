@@ -1,8 +1,10 @@
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent, getAuthCookie } = require("../utils");
+const { calculateElapsedTime, getResponseContent, getAuthCookie, isPortalModuleEnabled } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
+
+const MODULE_BLOCKER = "b";
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -173,6 +175,33 @@ async function accountHealthCheck(done) {
   done({ name: "accounts", time: calculateElapsedTime(time), ...data });
 }
 
+// blockerHealthCheck returns the result of blocker container health endpoint
+async function blockerHealthCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`http://${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, {
+      responseType: "json",
+    });
+
+    data.statusCode = response.statusCode;
+    data.response = response.body;
+    data.up = response.body.dbAlive === true;
+  } catch (error) {
+    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+  }
+
+  // this is a no-op but it's added to explicitly document the ip property
+  // should not be set on the data object to prevent the IP from being compared
+  // to the server's IP - this is not required for this check and will fail
+  delete data.ip;
+
+  done({ name: "blocker", time: calculateElapsedTime(time), ...data });
+}
+
 async function genericAccessCheck(name, url) {
   const authCookie = await getAuthCookie();
   const time = process.hrtime();
@@ -208,6 +237,10 @@ const checks = [
 
 if (process.env.ACCOUNTS_ENABLED === "true") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
+}
+
+if (isPortalModuleEnabled(MODULE_BLOCKER)) {
+  checks.push(blockerHealthCheck);
 }
 
 module.exports = checks;
