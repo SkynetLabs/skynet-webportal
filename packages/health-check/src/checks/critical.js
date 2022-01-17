@@ -175,7 +175,7 @@ async function blockerHealthCheck(done) {
   const data = { up: false };
 
   try {
-    const response = await got(`${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, { responseType: "json" });
+    const response = await got(`http://${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, { responseType: "json" });
 
     data.statusCode = response.statusCode;
     data.response = response.body;
