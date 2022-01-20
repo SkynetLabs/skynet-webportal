@@ -26,9 +26,12 @@ function _M.reload()
         -- mark all existing entries as expired
         ngx.shared.blocklist:flush_all()
 
-        -- set all cache entries one by one (resets expiration)
-        for i, hash in ipairs(data.blocklist) do
-            ngx.shared.blocklist:set(hash, true)
+        -- check if blocklist is table (it is null when empty)
+        if type(data.blocklist) == "table" then
+            -- set all cache entries one by one (resets expiration)
+            for i, hash in ipairs(data.blocklist) do
+                ngx.shared.blocklist:set(hash, true)
+            end
         end
 
         -- ensure that init flag is persisted
