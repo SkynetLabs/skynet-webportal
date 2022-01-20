@@ -106,14 +106,15 @@ async function accountWebsiteCheck(done) {
 
 // registryWriteAndReadCheck writes to registry and immediately reads and compares the data
 async function registryWriteAndReadCheck(done) {
+  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
   const expected = { dataKey: "foo-key", data: stringToUint8ArrayUtf8("foo-data"), revision: BigInt(0) };
 
   try {
-    await skynetClient.registry.setEntry(privateKey, expected);
-    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey);
+    await skynetClient.registry.setEntry(privateKey, expected, { customCookie: authCookie });
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey, { customCookie: authCookie });
 
     if (isEqual(expected, entry)) {
       data.up = true;
