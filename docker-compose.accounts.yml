@@ -17,6 +17,7 @@ services:
   health-check:
     environment:
       - ACCOUNTS_ENABLED=true
+      - ACCOUNTS_LIMIT_ACCESS=${ACCOUNTS_LIMIT_ACCESS:-authenticated} # default to authenticated access only
 
   accounts:
     build:
