@@ -12,13 +12,13 @@ if [ -f .env ]; then
   IFS=$OLD_IFS
 fi
 
-if [ -z $(cat .env | grep -i '^SERVER_UID=') ];
+if [ -z $(grep -i '^SERVER_UID=' .env) ];
 then
   # add a SERVER_UID to .env if none was found
   SERVER_UID=$(openssl rand -hex 8)
   printf "\n# must be unique across servers\nSERVER_UID=$SERVER_UID" >> .env
   printf "\nIMPORTANT NOTE: added SERVER_UID '$SERVER_UID' to .env file\n\n"
-elif [ -z $(cat .env | grep -E -i '^SERVER_UID=.+') ];
+elif [ -z $(grep -E -i '^SERVER_UID=.+' .env) ];
 then
   # ensure the SERVER_UID is set if the current value is empty
   SERVER_UID=$(openssl rand -hex 8)
