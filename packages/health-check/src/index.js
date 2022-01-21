@@ -8,7 +8,7 @@ if (process.env.ACCOUNTS_ENABLED === "true") {
   if (!process.env.SKYNET_DASHBOARD_URL) {
     throw new Error("You need to provide SKYNET_DASHBOARD_URL environment variable when accounts are enabled");
   }
-  if (process.env.ACCOUNTS_LIMIT_ACCESS === "authenticated") {
+  if (["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) {
     if (!process.env.ACCOUNTS_TEST_USER_EMAIL) {
       throw new Error("ACCOUNTS_TEST_USER_EMAIL cannot be empty");
     }

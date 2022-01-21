@@ -6,12 +6,22 @@ local anon_limits = { ["tierName"] = "anonymous", ["upload"] = 655360, ["downloa
 -- no limits applied 
 local no_limits = { ["tierName"] = "internal", ["upload"] = 0, ["download"] = 0, ["maxUploadSize"] = 0, ["registry"] = 0 }
 
--- handle request exit when access to portal should be restricted
--- currently handles only HTTP_UNAUTHORIZED but can be extended in future
+-- free tier name
+local free_tier = "free"
+
+-- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
     ngx.status = ngx.HTTP_UNAUTHORIZED
     ngx.header["content-type"] = "text/plain"
     ngx.say(message or "Portal operator restricted access to authenticated users only")
+    return ngx.exit(ngx.status)
+end
+
+-- handle request exit when access to portal should be restricted to subscription users only
+function _M.exit_access_forbidden(message)
+    ngx.status = ngx.HTTP_FORBIDDEN
+    ngx.header["content-type"] = "text/plain"
+    ngx.say(message or "Portal operator restricted access to users with active subscription only")
     return ngx.exit(ngx.status)
 end
 
@@ -57,14 +67,31 @@ function _M.is_authenticated()
     return limits.tierName ~= anon_limits.tierName
 end
 
+-- detect whether current user has active subscription
+function _M.is_subscription_account()
+    local limits = _M.get_account_limits()
+
+    return limits.tierName ~= anon_limits.tierName and limits.tierName ~= free_tier
+end
+
 function _M.is_auth_required()
     return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated"
 end
 
--- check whether access to portal should be restricted
+function _M.is_subscription_required()
+    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "subscription"
+end
+
+-- check whether access to portal should be restricted to authenticated users only
 -- based on the configurable environment variable
 function _M.is_access_unauthorized()
     return _M.accounts_enabled() and _M.is_auth_required() and not _M.is_authenticated()
+end
+
+-- check whether access to portal should be restricted to users with active subscription
+-- based on the configurable environment variable
+function _M.is_access_forbidden()
+    return _M.accounts_enabled() and _M.is_subscription_required() and not _M.is_subscription_account()
 end
 
 return _M

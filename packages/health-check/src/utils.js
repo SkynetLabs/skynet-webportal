@@ -51,7 +51,7 @@ function getAuthCookie() {
   if (getAuthCookie.cache) return getAuthCookie.cache;
 
   // do not authenticate if it is not necessary
-  if (process.env.ACCOUNTS_LIMIT_ACCESS !== "authenticated") return {};
+  if (!["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) return {};
 
   const email = process.env.ACCOUNTS_TEST_USER_EMAIL;
   const password = process.env.ACCOUNTS_TEST_USER_PASSWORD;
