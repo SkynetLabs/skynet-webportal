@@ -10,6 +10,24 @@ if [ -f .env ]; then
   IFS=$'\n'
   for x in $(grep -v '^#.*' .env); do export $x; done
   IFS=$OLD_IFS
+else
+  # ensure a .env is present
+  touch .env
+fi
+
+if [ -z $(cat .env | grep -i '^SERVER_UID=') ];
+then
+  # add a SERVER_UID to .env if none was found
+  SERVER_UID=$(openssl rand -hex 8)
+  printf "# randomly generated 16 character string that must be unique across servers\nSERVER_UID=$SERVER_UID" >> .env
+  printf "\nIMPORTANT NOTE: added SERVER_UID '$SERVER_UID' to .env file\n\n"
+elif [ -z $(cat .env | grep -E -i '^SERVER_UID=[0-9A-F]{16}') ];
+then
+  # ensure the SERVER_UID is a valid 16 char hex string if the current value was
+  # either empty or malformed
+  SERVER_UID=$(openssl rand -hex 8)
+  sed -i '' "/^SERVER_UID=/s/=.*/=$SERVER_UID/" .env
+  printf "\nIMPORTANT NOTE: added SERVER_UID '$SERVER_UID' to .env file\n\n"
 fi
 
 # include base docker compose file
