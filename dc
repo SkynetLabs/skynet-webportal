@@ -10,9 +10,6 @@ if [ -f .env ]; then
   IFS=$'\n'
   for x in $(grep -v '^#.*' .env); do export $x; done
   IFS=$OLD_IFS
-else
-  # ensure a .env is present
-  touch .env
 fi
 
 if [ -z $(cat .env | grep -i '^SERVER_UID=') ];
