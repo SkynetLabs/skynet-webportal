@@ -260,6 +260,11 @@ location /skynet/tus {
             if require("skynet.account").is_access_unauthorized() then
                 return require("skynet.account").exit_access_unauthorized()
             end
+
+            -- check if portal is in subscription only mode
+            if require("skynet.account").is_access_forbidden() then
+                return require("skynet.account").exit_access_forbidden()
+            end
             
             -- get account limits of currently authenticated user
             local limits = require("skynet.account").get_account_limits()
