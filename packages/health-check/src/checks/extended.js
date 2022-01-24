@@ -1173,7 +1173,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
       const skylink = parseSkylink(expected.skylink);
       const url = `${process.env.SKYNET_PORTAL_API}/skynet/metadata/${skylink}`;
       try {
-        const metadata = await got(url).json();
+        const metadata = await got(url, { headers: { cookie: `nocache=true;${authCookie}` } }).json();
         if (!isEqual(expected.metadata, metadata)) {
           entry.up = false;
           info.metadata = { url, diff: ensureValidJSON(detailedDiff(expected.metadata, metadata)) };
