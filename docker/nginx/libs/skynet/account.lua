@@ -82,16 +82,26 @@ function _M.is_subscription_required()
     return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "subscription"
 end
 
--- check whether access to portal should be restricted to authenticated users only
--- based on the configurable environment variable
-function _M.is_access_unauthorized()
-    return _M.accounts_enabled() and _M.is_auth_required() and not _M.is_authenticated()
+function is_access_always_allowed()
+    -- options requests do not attach cookies - should always be available
+    -- requests should not be limited based on accounts if accounts are not enabled
+    return ngx.req.get_method() == "OPTIONS" or not _M.accounts_enabled()
 end
 
--- check whether access to portal should be restricted to users with active subscription
--- based on the configurable environment variable
+-- check whether access is restricted if portal requires authorization
+function _M.is_access_unauthorized()
+    if is_access_always_allowed() then return false end
+
+    -- check if authentication is required and request is not authenticated
+    return _M.is_auth_required() and not _M.is_authenticated()
+end
+
+-- check whether user is authenticated but does not have access to given resources
 function _M.is_access_forbidden()
-    return _M.accounts_enabled() and _M.is_subscription_required() and not _M.is_subscription_account()
+    if is_access_always_allowed() then return false end
+
+    -- check if active subscription is required and request is from user without it
+    return _M.is_subscription_required() and not _M.is_subscription_account()
 end
 
 return _M
