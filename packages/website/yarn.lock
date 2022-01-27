@@ -6342,10 +6342,10 @@ gatsby-remark-classes@1.0.2:
   dependencies:
     unist-util-select "^2.0.2"
 
-gatsby-remark-copy-linked-files@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-5.5.0.tgz#2d4d0791144a0686fe3e8f5edf1a7b802ba0b5a6"
-  integrity sha512-RrntAHQErYpuk3lETieMKykIkaOFOSAbbjQGJq/3XKPqjyG2WatzdKRMTnw9cixH/u+DWpw59Z2bZMDpD6ncxg==
+gatsby-remark-copy-linked-files@5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-5.6.0.tgz#05d1aaecbb1a1114b1339071fde0429ed3c41671"
+  integrity sha512-/gsuAK7KNj9Zuc0ADo6m5rhxemRcPulHKNEr/7VSH521/mZwp6FxK6Co0ngxfL6Z5I4ha65IBCcAFgdPksQQeA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     cheerio "^1.0.0-rc.10"
