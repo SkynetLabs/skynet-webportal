@@ -20,7 +20,7 @@
     "formik": "2.2.9",
     "http-status-codes": "2.2.0",
     "ky": "0.28.7",
-    "next": "12.0.8",
+    "next": "12.0.9",
     "normalize.css": "8.0.1",
     "pretty-bytes": "5.6.0",
     "react": "17.0.2",
