@@ -58,10 +58,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.1.tgz#2bf6a815074fe4db61930050f0db392bc3ccbb8e"
   integrity sha512-NCtO8MWU/t+Q3Gnm8Yjb3i8gLlayIUH/cWr8dz3GiNO82fCUs8RWov6hCFpUg5LMdTnVHNUjgtN1Xn1JsXqt4w==
 
-"@fontsource/source-sans-pro@4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.1.tgz#9c4f2b6061d38cd85e89fde21893e23b8a7f227c"
-  integrity sha512-JYEldSfnqxoDVUL6QgqT8Fiyjh0p7WlKcqKNevzDylpWabdejVRyFzPhTk2ZceKZd02KEOaL+K462U6u0/PQiA==
+"@fontsource/source-sans-pro@4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.2.tgz#3c6cccb29e24d784b851cc6914cd9a5f967f8f3b"
+  integrity sha512-uN2iIKDbpHpGZjUT+/kkwS67MPDn2tfFXBCkHjzu7JQPA6kIHZeOyKseshvZ/pyrCYqnAL9cAot5Nygt08/HRQ==
 
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
