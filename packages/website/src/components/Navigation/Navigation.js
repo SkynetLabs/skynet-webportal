@@ -90,11 +90,11 @@ const Navigation = ({ mode, uri }) => {
 
             {showLoginNavigation && (
               <>
-                <Link href={`${accountsUrl}/auth/login`} className="button-link-primary">
+                <Link href={`${accountsUrl}auth/login`} className="button-link-primary">
                   Log in
                 </Link>
 
-                <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
+                <Link href={`${accountsUrl}auth/registration`} className="button-primary">
                   Sign up
                 </Link>
               </>
@@ -144,11 +144,11 @@ const Navigation = ({ mode, uri }) => {
             <div className="flex items-center justify-center px-4 space-x-6">
               {showLoginNavigation && (
                 <>
-                  <Link href={`${accountsUrl}/auth/login`} className="button-secondary-light">
+                  <Link href={`${accountsUrl}auth/login`} className="button-secondary-light">
                     Log in
                   </Link>
 
-                  <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
+                  <Link href={`${accountsUrl}auth/registration`} className="button-primary">
                     Sign up
                   </Link>
                 </>
