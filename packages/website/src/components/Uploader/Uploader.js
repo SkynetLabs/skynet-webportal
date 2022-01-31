@@ -26,7 +26,7 @@ const RegistrationLink = () => {
 
   return (
     <Link
-      href={`${accountsUrl}/auth/registration`}
+      href={`${accountsUrl}auth/registration`}
       className="uppercase underline-primary hover:text-primary transition-colors duration-200"
     >
       Sign up
@@ -39,7 +39,7 @@ const LogInLink = () => {
 
   return (
     <Link
-      href={`${accountsUrl}/auth/login`}
+      href={`${accountsUrl}auth/login`}
       className="uppercase underline-primary hover:text-primary transition-colors duration-200"
     >
       Log in
