@@ -101,7 +101,7 @@ const Navigation = ({ mode, uri }) => {
             )}
 
             {showAccountNavigation && (
-              <Link href={accountsUrl} className="button-primary">
+              <Link href={createAccountsUrl()} className="button-primary">
                 My account
               </Link>
             )}
@@ -144,18 +144,18 @@ const Navigation = ({ mode, uri }) => {
             <div className="flex items-center justify-center px-4 space-x-6">
               {showLoginNavigation && (
                 <>
-                  <Link href={`${accountsUrl}auth/login`} className="button-secondary-light">
+                  <Link href={createAccountsUrl("auth/login")} className="button-secondary-light">
                     Log in
                   </Link>
 
-                  <Link href={`${accountsUrl}auth/registration`} className="button-primary">
+                  <Link href={createAccountsUrl("/auth/registration")} className="button-primary">
                     Sign up
                   </Link>
                 </>
               )}
 
               {showAccountNavigation && (
-                <Link href={accountsUrl} className="button-primary">
+                <Link href={createAccountsUrl()} className="button-primary">
                   My account
                 </Link>
               )}
