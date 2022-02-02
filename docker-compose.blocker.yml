@@ -7,6 +7,11 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
+  health-check:
+    environment:
+      - BLOCKER_HOST=10.10.10.110
+      - BLOCKER_PORT=4000
+
   blocker:
     build:
       context: ./docker/blocker

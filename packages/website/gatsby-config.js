@@ -93,7 +93,7 @@ module.exports = {
         background_color: `#f1f7f2`,
         theme_color: `#f1f7f2`,
         display: `minimal-ui`,
-        icon: `src/images/logo.svg`, // This path is relative to the root of the site.
+        icon: `src/images/logo-sq.svg`, // This path is relative to the root of the site.
         icons: [
           ...defaultIcons,
           // when we're serving content from the portal on our pathnames that do not have
@@ -105,6 +105,8 @@ module.exports = {
             type: `image/x-icon`,
           },
         ],
+        description: `Skynet portal homepage and upload widget`,
+        skylink: `AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA`,
       },
     },
     {
@@ -113,6 +115,76 @@ module.exports = {
         siteId: 3,
         matomoUrl: "https://surveillance.sia.tech",
         siteUrl: "https://siasky.net",
+        localScript: "/piwik.js",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        output: "/",
+        createLinkInHead: true,
+        excludes: ["/using-typescript/"],
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            allSitePage {
+              nodes {
+                path
+              }
+            }
+            allMarkdownRemark {
+              nodes {
+                frontmatter {
+                  date,
+                  hidden
+                },
+                fields {
+                  slug
+                }
+              }
+            }
+          }
+        `,
+        resolvePages: ({ allSitePage: { nodes: allPages }, allMarkdownRemark: { nodes: allNews } }) => {
+          const pathToDateMap = {};
+
+          allNews.map((post) => {
+            pathToDateMap[post.fields.slug] = { date: post.frontmatter.date, hidden: post.frontmatter.hidden };
+          });
+
+          // modify pages to filter out hidden news items and add date
+          const pages = allPages
+            .filter((page) => {
+              if (pathToDateMap[page.path] && pathToDateMap[page.path].hidden) {
+                return false;
+              }
+
+              return true;
+            })
+            .map((page) => {
+              return { ...page, ...pathToDateMap[page.path] };
+            });
+
+          return pages;
+        },
+        serialize: ({ path, date }) => {
+          let entry = {
+            url: path,
+            changefreq: "daily",
+            priority: 0.5,
+          };
+
+          if (date) {
+            entry.priority = 0.7;
+            entry.lastmod = date;
+          }
+
+          return entry;
+        },
       },
     },
   ],

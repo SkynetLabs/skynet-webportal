@@ -1,8 +1,10 @@
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent } = require("../utils");
+const { calculateElapsedTime, getResponseContent, getAuthCookie, isPortalModuleEnabled } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
+
+const MODULE_BLOCKER = "b";
 
 const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
@@ -34,6 +36,7 @@ async function skydConfigCheck(done) {
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
+  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const form = new FormData();
   const payload = Buffer.from(new Date()); // current date to ensure data uniqueness
@@ -42,7 +45,10 @@ async function uploadCheck(done) {
   form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
 
   try {
-    const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, { body: form });
+    const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, {
+      body: form,
+      headers: { cookie: authCookie },
+    });
 
     data.statusCode = response.statusCode;
     data.up = true;
@@ -100,14 +106,15 @@ async function accountWebsiteCheck(done) {
 
 // registryWriteAndReadCheck writes to registry and immediately reads and compares the data
 async function registryWriteAndReadCheck(done) {
+  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
   const expected = { dataKey: "foo-key", data: stringToUint8ArrayUtf8("foo-data"), revision: BigInt(0) };
 
   try {
-    await skynetClient.registry.setEntry(privateKey, expected);
-    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey);
+    await skynetClient.registry.setEntry(privateKey, expected, { customCookie: authCookie });
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey, { customCookie: authCookie });
 
     if (isEqual(expected, entry)) {
       data.up = true;
@@ -169,12 +176,40 @@ async function accountHealthCheck(done) {
   done({ name: "accounts", time: calculateElapsedTime(time), ...data });
 }
 
+// blockerHealthCheck returns the result of blocker container health endpoint
+async function blockerHealthCheck(done) {
+  const time = process.hrtime();
+  const data = { up: false };
+
+  try {
+    const response = await got(`http://${process.env.BLOCKER_HOST}:${process.env.BLOCKER_PORT}/health`, {
+      responseType: "json",
+    });
+
+    data.statusCode = response.statusCode;
+    data.response = response.body;
+    data.up = response.body.dbAlive === true;
+  } catch (error) {
+    data.statusCode = error?.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+  }
+
+  // this is a no-op but it's added to explicitly document the ip property
+  // should not be set on the data object to prevent the IP from being compared
+  // to the server's IP - this is not required for this check and will fail
+  delete data.ip;
+
+  done({ name: "blocker", time: calculateElapsedTime(time), ...data });
+}
+
 async function genericAccessCheck(name, url) {
+  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const data = { up: false, url };
 
   try {
-    const response = await got(url, { headers: { cookie: "nocache=true" } });
+    const response = await got(url, { headers: { cookie: `nocache=true;${authCookie}` } });
 
     data.statusCode = response.statusCode;
     data.up = true;
@@ -203,6 +238,10 @@ const checks = [
 
 if (process.env.ACCOUNTS_ENABLED === "true") {
   checks.push(accountHealthCheck, accountWebsiteCheck);
+}
+
+if (isPortalModuleEnabled(MODULE_BLOCKER)) {
+  checks.push(blockerHealthCheck);
 }
 
 module.exports = checks;
