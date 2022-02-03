@@ -1,5 +1,9 @@
 # Skynet Portal Setup Scripts
 
+> :warning: This documentation is outdated and should be used for reference
+only. Portal setup documentation is located at
+https://docs.siasky.net/webportal-management/overview.
+
 This directory contains a setup guide and scripts that will install and
 configure some basic requirements for running a Skynet Portal. The assumption is
 that we are working with a Debian Buster Minimal system or similar.
