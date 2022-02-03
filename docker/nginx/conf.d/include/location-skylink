@@ -3,16 +3,14 @@ include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
 include /etc/nginx/conf.d/include/track-download;
 
-# redirect purge calls to separate location
-error_page 462 = @purge;
-if ($request_method = PURGE) {
-    return 462;
-}
-
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
+# ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
+# this is important because we want only one format in cache keys and logs
+set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skylink) }
+
 # $skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
-# a) skylink v1 - it wouldn't matter, no additional logic is executed
+# a) skylink v1 - it would not matter, no additional logic is executed
 # b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update 
 #      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key 
 #      in proxy-cache-downloads includes $skylink_v1 as a part of the cache key)
@@ -53,21 +51,32 @@ access_by_lua_block {
         ngx.var.skynet_proof = res.headers["Skynet-Proof"]
     end
 
-    -- this block runs only when accounts are enabled
-    if os.getenv("ACCOUNTS_ENABLED") ~= "true" then return end
+    -- check if skylink v1 is present on blocklist (compare hashes)
+    if require("skynet.blocklist").is_blocked(ngx.var.skylink_v1) then
+        return require("skynet.blocklist").exit_illegal()
+    end
 
-    -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-    local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-        headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
-    })
-    
-    -- fail gracefully in case /user/limits failed
-    if err or (res and res.status ~= ngx.HTTP_OK) then
-        ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-        ngx.var.limit_rate = 2621440 -- (20 * 1024 * 1024 / 8) conservative fallback to 20 mbps in case accounts failed to return limits
-    elseif res and res.status == ngx.HTTP_OK then
-        local json = require('cjson')
-        local limits = json.decode(res.body)
+    -- if skylink is found on nocache list then set internal nocache variable
+    -- to tell nginx that it should not try and cache this file (too large)
+    if ngx.shared.nocache:get(ngx.var.skylink_v1) then
+        ngx.var.nocache = "1"
+    end
+
+    if require("skynet.account").accounts_enabled() then
+        -- check if portal is in authenticated only mode
+        if require("skynet.account").is_access_unauthorized() then
+            return require("skynet.account").exit_access_unauthorized()
+        end
+
+        -- check if portal is in subscription only mode
+        if require("skynet.account").is_access_forbidden() then
+            return require("skynet.account").exit_access_forbidden()
+        end
+
+        -- get account limits of currently authenticated user
+        local limits = require("skynet.account").get_account_limits()
+
+        -- apply download speed limit
         ngx.var.limit_rate = limits.download
     end
 }
@@ -83,6 +92,12 @@ header_filter_by_lua_block {
     if ngx.var.skynet_proof and ngx.var.skynet_proof ~= "" then
         ngx.header["Skynet-Proof"] = ngx.var.skynet_proof
     end
+
+    -- add skylink to nocache list if it exceeds 1GB (1e+9 bytes) threshold
+    -- (content length can be nil for already cached files - we can ignore them)
+    if ngx.header["Content-Length"] and tonumber(ngx.header["Content-Length"]) > 1e+9 then
+        ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
+    end
 }
 
 limit_rate_after 512k;
@@ -91,7 +106,7 @@ limit_rate $limit_rate;
 proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
-# in case the requested skylink was v2 and we already resolved it to skylink v1, we're going to pass resolved 
+# in case the requested skylink was v2 and we already resolved it to skylink v1, we are going to pass resolved 
 # skylink v1 to skyd to save that extra skylink v2 lookup in skyd but in turn, in case skyd returns a redirect 
 # we need to rewrite the skylink v1 to skylink v2 in the location header with proxy_redirect
 proxy_redirect $skylink_v1 $skylink_v2;

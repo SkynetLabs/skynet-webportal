@@ -1,14 +1,15 @@
 #! /usr/bin/env bash
 
-# This script is meant to be used when manually adding a skylink to the
-# blocklist on all the skynet web portals. The automatic script that is used to
-# continuously sync a google sheets list with the blocklist on the web portals
-# is /setup-scripts/blocklist-airtable.py 
+# This script is for manual skylink blocking. It accepts either a single 
+# skylink or a file containing list of skylinks. The script is intented
+# for manual use and it should be run locally on each skynet webportal server. 
+# The automatic script that is used to continuously sync an Airtable sheet 
+# list with the blocklist on the web portals is /setup-scripts/blocklist-airtable.py 
 
 set -e # exit on first error
 
 if [ -z "$1" ]; then
-    echo "Please provide either a skylink or file with skylinks separated by new lines" && exit 1
+    echo "Please provide either a skylink or a file with skylinks separated by new lines" && exit 1
 fi
 
 #########################################################
@@ -17,44 +18,34 @@ fi
 #########################################################
 skylinks=()
 if test -f "$1"; then
-    OLDIFS=$IFS
-    IFS=','
     line_number=1
-    while read line
+
+    # Read file including the last line even when it doesn't end with newline
+    while IFS="" read -r line || [ -n "$line" ];
     do
-        if [[ $line =~ ([a-zA-Z0-9_-]{46}) ]]; then
-            skylinks+=("$BASH_REMATCH")
+        if [[ $line =~ (^[a-zA-Z0-9_-]{46}$) ]]; then
+            skylinks+=("$line")
         else
             echo "Incorrect skylink at line ${line_number}: $line" && exit 1
         fi
         let line_number+=1
     done < $1;
-    IFS=$OLDIFS
 else
     skylinks=("$1") # just single skylink passed as input argument
 fi
 
-#########################################################################
-# iterate through all servers, block the skylinks and purge it from cache
-#########################################################################
-declare -a servers=(  "eu-ger-1.siasky.net" "eu-ger-2.siasky.net" "eu-ger-3.siasky.net" "eu-ger-4.siasky.net" "eu-ger-5.siasky.net" "eu-ger-6.siasky.net" "eu-ger-7.siasky.net" "eu-ger-8.siasky.net"
-                      "eu-fin-1.siasky.net" "eu-fin-2.siasky.net" "eu-fin-3.siasky.net" "eu-fin-4.siasky.net"
-                      "eu-pol-1.siasky.net" "eu-pol-2.siasky.net" "eu-pol-3.siasky.net"
-                      "us-or-1.siasky.net" "us-or-2.siasky.net"
-                      "us-pa-1.siasky.net" "us-pa-2.siasky.net"
-                      "us-va-1.siasky.net" "us-va-2.siasky.net" "us-va-3.siasky.net"
-                      "as-hk-1.siasky.net"
-                      "siasky.xyz" "dev1.siasky.dev" "dev2.siasky.dev" "dev3.siasky.dev")
-for server in "${servers[@]}";
-do
-    for skylink in "${skylinks[@]}";
-    do
-        echo ".. ⌁ Blocking skylink ${skylink} on ${server}"
-        cached_files_command="find /data/nginx/cache/ -type f | xargs -r grep -Elsq '^Skynet-Skylink: ${skylink}'"
-        ssh -q -t user@${server} "docker exec -it nginx bash -c ${cached_files_command} | xargs -r rm"
-        echo ".. ⌁ Skylink ${skylink} Blocked on ${server}"
-        echo "--------------------------------------------"
-    done
-done
+# get local nginx ip adress
+nginx_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
 
-echo "✓ All done !"
+# iterate over provided skylinks and block them one by one
+for skylink in "${skylinks[@]}"; do
+    printf "Blocking ${skylink} ... "
+    status_code=$(curl --write-out '%{http_code}' --silent --output /dev/null --data "{\"add\":[\"$skylink\"]}" "http://${nginx_ip}:8000/skynet/blocklist")
+
+    # print blocklist response status code
+    if [ $status_code = "204" ]; then
+        echo "done"
+    else
+        echo "error $status_code"
+    fi
+done

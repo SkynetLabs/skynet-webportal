@@ -2,7 +2,8 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Link from "../Link";
 import classnames from "classnames";
-import useAuthenticatedStatus from "../../services/useAuthenticatedStatus";
+import useAccounts from "../../services/useAccounts";
+import useAccountsUrl from "../../services/useAccountsUrl";
 import { LogoWhiteText, LogoBlackText, MenuMobile, MenuMobileClose, DiscordSmall } from "../Icons";
 import { useWindowSize, useWindowScroll } from "react-use";
 
@@ -24,8 +25,8 @@ const Navigation = ({ mode, uri }) => {
   const [open, setOpen] = React.useState(false);
   const windowSize = useWindowSize();
   const isWindowTop = useWindowTop();
-  const { data: authenticationStatus } = useAuthenticatedStatus();
-  const authenticated = authenticationStatus?.authenticated ?? false;
+  const { data: accounts } = useAccounts();
+  const accountsUrl = useAccountsUrl();
 
   React.useEffect(() => {
     setOpen(false);
@@ -40,6 +41,8 @@ const Navigation = ({ mode, uri }) => {
   }, [open]);
 
   const mobileMenuOffset = navRef.current ? navRef.current.offsetTop : 0;
+  const showLoginNavigation = accounts && accounts.enabled !== false && !accounts?.authenticated;
+  const showAccountNavigation = accounts && accounts.enabled !== false && accounts?.authenticated;
 
   return (
     <nav
@@ -85,20 +88,20 @@ const Navigation = ({ mode, uri }) => {
               </Link>
             ))}
 
-            {!authenticated && (
-              <Link href="https://account.siasky.net" className="button-link-primary">
-                Log in
-              </Link>
+            {showLoginNavigation && (
+              <>
+                <Link href={`${accountsUrl}/auth/login`} className="button-link-primary">
+                  Log in
+                </Link>
+
+                <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
+                  Sign up
+                </Link>
+              </>
             )}
 
-            {!authenticated && (
-              <Link href="https://account.siasky.net/auth/registration" className="button-primary">
-                Sign up
-              </Link>
-            )}
-
-            {authenticated && (
-              <Link href="https://account.siasky.net" className="button-primary">
+            {showAccountNavigation && (
+              <Link href={accountsUrl} className="button-primary">
                 My account
               </Link>
             )}
@@ -139,20 +142,20 @@ const Navigation = ({ mode, uri }) => {
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
             <div className="flex items-center justify-center px-4 space-x-6">
-              {!authenticated && (
-                <Link href="https://account.siasky.net" className="button-secondary-light">
-                  Log in
-                </Link>
+              {showLoginNavigation && (
+                <>
+                  <Link href={`${accountsUrl}/auth/login`} className="button-secondary-light">
+                    Log in
+                  </Link>
+
+                  <Link href={`${accountsUrl}/auth/registration`} className="button-primary">
+                    Sign up
+                  </Link>
+                </>
               )}
 
-              {!authenticated && (
-                <Link href="https://account.siasky.net/auth/registration" className="button-primary">
-                  Sign up
-                </Link>
-              )}
-
-              {authenticated && (
-                <Link href="https://account.siasky.net" className="button-primary">
+              {showAccountNavigation && (
+                <Link href={accountsUrl} className="button-primary">
                   My account
                 </Link>
               )}

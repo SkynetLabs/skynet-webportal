@@ -1,0 +1,33 @@
+# Install and run unit tests with busted
+# Docs: http://olivinelabs.com/busted/
+
+name: Nginx Lua Unit Tests
+
+on:
+  pull_request:
+    paths:
+      - "docker/nginx/libs/**.lua"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+          architecture: "x64"
+
+      - name: Install Dependencies
+        run: |
+          pip install hererocks
+          hererocks env --lua=5.1 -rlatest
+          source env/bin/activate
+          luarocks install busted
+          luarocks install hasher
+
+      - name: Unit Tests
+        run: |
+          source env/bin/activate
+          busted --verbose --pattern=spec --directory=docker/nginx/libs .

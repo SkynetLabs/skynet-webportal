@@ -76,13 +76,6 @@
   social:
     linkedin: https://www.linkedin.com/in/filiprysavy/
 
-- name: Nicole Tay
-  position: Head of Marketing
-  image: ./team/nicole-tay.png
-  social:
-    linkedin: https://www.linkedin.com/in/nicolehtay/
-    twitter: https://twitter.com/NicoleHTay
-
 - name: Daniel Helm
   position: Developer Evangelist
   image: ./team/daniel-helm.png
@@ -90,3 +83,24 @@
     github: https://github.com/dghelm
     linkedin: https://www.linkedin.com/in/dghelm/
     twitter: https://twitter.com/danielgileshelm
+
+- name: Marissa Hudson
+  position: Engineering Intern
+  image: ./team/marissa-hudson.jpeg
+  social:
+    github: https://github.com/fluffy9
+
+- name: Alice Hlidkova
+  position: Executive Assistant
+  image: ./team/alice-hlidkova.jpeg
+  social:
+    linkedin: https://www.linkedin.com/in/alice-hlidkova/
+
+- name: Ayoung Jeon
+  position: Developer Advocate
+  image: ./team/ayoung-jeon.jpeg
+  social:
+    github: https://github.com/ayoungjeon
+    gitlab: https://gitlab.com/ayoung_j
+    linkedin: https://www.linkedin.com/in/ajeon/
+    twitter: https://twitter.com/ayoung_jeon

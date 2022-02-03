@@ -1,5 +1,13 @@
 # Skynet Portal
 
+## Latest Setup Documentation
+
+Latest Skynet Webportal setup documentation and the setup process Skynet Labs
+supports is located at https://docs.siasky.net/webportal-management/overview.
+
+Some of the scripts and setup documentation contained in this repository
+(`skynet-webportal`) can be outdated and generally should not be used.
+
 ## Web application
 
 Change current directory with `cd packages/website`.
@@ -27,7 +35,7 @@ For the purposes of complying with our code license, you can use the following S
 `fb6c9320bc7e01fbb9cd8d8c3caaa371386928793c736837832e634aaaa484650a3177d6714a`
 
 ## Running a Portal
-For those interested in running a Webportal, head over to our developer docs [here](https://docs.siasky.net/developer-guides/operating-a-skynet-webportal) to learn more.
+For those interested in running a Webportal, head over to our developer docs [here](https://docs.siasky.net/webportal-management/overview.) to learn more.
 
 ## Contributing
 

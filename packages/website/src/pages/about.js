@@ -14,7 +14,7 @@ import {
   Cogs,
   TwitterSmall,
   GithubSmall,
-  GitlabSmall,
+  Gitlab,
   LinkedinSmall,
 } from "../components/Icons";
 import Link from "../components/Link";
@@ -75,7 +75,7 @@ const SocialIcon = ({ name }) => {
     case "github":
       return <GithubSmall />;
     case "gitlab":
-      return <GitlabSmall />;
+      return <Gitlab width={16} height={16} />;
     default:
       throw new Error(`Cannot find an icon for "${name}"`);
   }
@@ -83,7 +83,7 @@ const SocialIcon = ({ name }) => {
 
 const TeamCard = ({ image, name, position, social }) => (
   <div className="flex">
-    <GatsbyImage image={getImage(image)} alt={name} />
+    <GatsbyImage image={getImage(image)} alt={name} className="rounded" />
     <div className="flex flex-col justify-between ml-3">
       <div className="flex flex-col">
         <span className="font-light text-lg">{name}</span>
@@ -94,7 +94,7 @@ const TeamCard = ({ image, name, position, social }) => (
           {Object.entries(social)
             .filter(([platform, href]) => href)
             .map(([platform, href]) => (
-              <Link key={platform} href={href} title={platform}>
+              <Link key={platform} href={href} title={platform} className="w-6 h-6 flex items-center justify-center">
                 <SocialIcon name={platform} />
               </Link>
             ))}
@@ -293,7 +293,7 @@ export const query = graphql`
         }
         image {
           childImageSharp {
-            gatsbyImageData(width: 80, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+            gatsbyImageData(width: 80, height: 80, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
           }
         }
       }

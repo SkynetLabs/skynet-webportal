@@ -24,10 +24,11 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - SIA_MODULES=gctwr
-      - MONGODB_URI=mongodb://${SKYNET_DB_HOST}:${SKYNET_DB_PORT}
-      - MONGODB_USER=${SKYNET_DB_USER}
-      - MONGODB_PASSWORD=${SKYNET_DB_PASS}
+      - SIA_MODULES=gctwra
+      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-false}
+      - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
+      - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
+      - SKYD_DISK_CACHE_HIT_PERIOD=${SKYD_DISK_CACHE_HIT_PERIOD:-3600} # 1h
 
     env_file:
       - .env
@@ -65,8 +66,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       - ./docker/data/nginx/cache:/data/nginx/cache
+      - ./docker/data/nginx/blocker:/data/nginx/blocker
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
@@ -103,7 +104,7 @@ services:
     build:
       context: ./docker/handshake
       dockerfile: Dockerfile
-    command: --chain-migrate=1 --wallet-migrate=1
+    command: --chain-migrate=2 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging
