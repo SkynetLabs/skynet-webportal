@@ -25,7 +25,8 @@
                   "dns": {
                     "provider": {
                       "name": "route53"
-                    }
+                    },
+                    "ttl": "30m"
                   }
                 }
               }
