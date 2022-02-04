@@ -59,7 +59,7 @@
     "react-use": "17.3.2",
     "skynet-js": "4.0.23-beta",
     "stream-browserify": "3.0.0",
-    "swr": "1.2.0"
+    "swr": "1.2.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "0.5.1",
