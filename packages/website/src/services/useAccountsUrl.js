@@ -3,6 +3,7 @@ import skynetClient from "./skynetClient";
 
 export default function useAccountsUrl() {
   const [url, setUrl] = React.useState("");
+  const createAccountsUrl = React.useCallback((path = "") => url && new URL(path, url).toString(), [url]);
 
   React.useEffect(() => {
     (async function resolve() {
@@ -14,5 +15,5 @@ export default function useAccountsUrl() {
     })();
   }, [setUrl]);
 
-  return url;
+  return createAccountsUrl;
 }
