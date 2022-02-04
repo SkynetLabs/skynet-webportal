@@ -164,9 +164,11 @@ const Uploader = () => {
 
         {uploads.length > 0 && (
           <div className="flex flex-col space-y-5 px-4 py-10 desktop:p-14">
-            {uploads.map((upload) => (
-              <UploaderElement key={upload.id} onUploadStateChange={onUploadStateChange} upload={upload} />
-            ))}
+            <div className="home-uploaded-files">
+              {uploads.map((upload) => (
+                <UploaderElement key={upload.id} onUploadStateChange={onUploadStateChange} upload={upload} />
+              ))}
+            </div>
 
             {showAccountFeatures && (
               <div className="z-0 relative flex flex-col items-center space-y-1 pt-8">
