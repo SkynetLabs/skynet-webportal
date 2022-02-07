@@ -7,10 +7,10 @@ WORKDIR /usr/app
 ENV PATH="/usr/app/bin:${PATH}"
 
 # schedule critical checks to run every 5 minutes (any failures will disable server)
-RUN echo '*/5 * * * * /usr/app/bin/cli run critical > /dev/stdout' >> /etc/crontabs/root
+RUN echo '*/5 * * * * source /etc/environment ; /usr/app/bin/cli run critical >> /proc/1/fd/1' >> /etc/crontabs/root
 
 # schedule extended checks to run on every hour (optional checks, report only)
-RUN echo '0 * * * * /usr/app/bin/cli run extended > /dev/stdout' >> /etc/crontabs/root
+RUN echo '0 * * * * source /etc/environment ; /usr/app/bin/cli run extended >> /proc/1/fd/1' >> /etc/crontabs/root
 
 COPY package.json yarn.lock ./
 
@@ -30,9 +30,10 @@ ENV NODE_ENV production
 # 3. start crond in the background to schedule periodic health checks
 # 4. start the health-check api service
 CMD [ "sh", "-c", \
-      "serverip=$(node src/whatismyip.js) ; \
-       dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/$PORTAL_DOMAIN/$serverip --server=127.0.0.11 ; \
-       echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf ; \
-       crond ; \
+      "serverip=$(node src/whatismyip.js) && \
+       echo export serverip=${serverip} >> /etc/environment && \
+       dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/$PORTAL_DOMAIN/$serverip --server=127.0.0.11 && \
+       echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf && \
+       crond && \
        node src/index.js" \
     ]

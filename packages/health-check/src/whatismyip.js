@@ -1,13 +1,18 @@
 const http = require("http");
+const { ipCheckService, ipRegex } = require("./utils");
 
-const request = http.request({ host: "whatismyip.akamai.com" }, (response) => {
+const request = http.request({ host: ipCheckService }, (response) => {
   response.on("data", (data) => {
-    process.stdout.write(data);
+    if (ipRegex.test(data)) {
+      process.stdout.write(data);
+    } else {
+      throw new Error(`${ipCheckService} responded with invalid ip: "${data}"`);
+    }
   });
 });
 
 request.on("error", (error) => {
-  console.error(error);
+  throw error; // throw error to exit with code 1
 });
 
 request.end();
