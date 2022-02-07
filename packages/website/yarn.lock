@@ -1091,10 +1091,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/sora@4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.1.tgz#2bf6a815074fe4db61930050f0db392bc3ccbb8e"
-  integrity sha512-NCtO8MWU/t+Q3Gnm8Yjb3i8gLlayIUH/cWr8dz3GiNO82fCUs8RWov6hCFpUg5LMdTnVHNUjgtN1Xn1JsXqt4w==
+"@fontsource/sora@4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.2.tgz#ea7ad9e0f238ac8878fa9fe1aa6147444fcaa6b7"
+  integrity sha512-KD7WpqNvnviMyfBsQKEWsKtMve/uP4Hpq/rxfvOWggURMEEGSTciDarEwxs9HIbj/C7u4mCKjFQSFYLteG2+xQ==
 
 "@fontsource/source-sans-pro@4.5.3":
   version "4.5.3"
