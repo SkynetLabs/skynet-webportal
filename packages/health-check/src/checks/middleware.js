@@ -3,11 +3,20 @@ const { ipCheckService, ipRegex } = require("../utils");
 
 const getCurrentAddress = async () => {
   // use serverip env variable when available (set via Dockerfile)
-  if (process.env.serverip) return process.env.serverip;
+  if (process.env.serverip) {
+    if (ipRegex.test(process.env.serverip)) return process.env.serverip;
+
+    // log error to console for future reference but do not break
+    console.log(`Environment variable serverip contains invalid ip: "${process.env.serverip}"`);
+  }
 
   try {
     const { body } = await got(`http://${ipCheckService}`);
-    if (ipRegex.test(body)) return body;
+    if (ipRegex.test(body)) {
+      console.info(`Server public ip: ${body} (source: ${ipCheckService})`);
+
+      return body;
+    }
 
     throw new Error(`${ipCheckService} responded with invalid ip: "${body}"`);
   } catch (error) {

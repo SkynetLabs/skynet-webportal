@@ -23,14 +23,15 @@ COPY bin bin
 EXPOSE 3100
 ENV NODE_ENV production
 
-# 1. start dnsmasq in the background with:
+# 1. get public server ip and save it in /etc/environment (passed to cron tasks as env variable)
+# 2. start dnsmasq in the background with:
 #    - alias PORTAL_DOMAIN with current server ip so it overrides potential load balancer request
 #    - default docker nameserver 127.0.0.11 for any other request
-# 2. replace docker nameserver with dnsmasq nameserver in /etc/resolv.conf
-# 3. start crond in the background to schedule periodic health checks
-# 4. start the health-check api service
+# 3. replace docker nameserver with dnsmasq nameserver in /etc/resolv.conf
+# 4. start crond in the background to schedule periodic health checks
+# 5. start the health-check api service
 CMD [ "sh", "-c", \
-      "serverip=$(node src/whatismyip.js) && \
+      "export serverip=$(node src/whatismyip.js) && \
        echo \"export serverip=${serverip}\" >> /etc/environment && \
        dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/$PORTAL_DOMAIN/$serverip --server=127.0.0.11 && \
        echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf && \

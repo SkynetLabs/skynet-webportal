@@ -42,4 +42,10 @@ server.listen(port, host, (error) => {
   if (error) throw error;
 
   console.info(`Server listening at http://${host}:${port} (NODE_ENV: ${process.env.NODE_ENV})`);
+
+  const { ipRegex } = require("./utils");
+
+  if (ipRegex.test(process.env.serverip)) {
+    console.info(`Server public ip: ${process.env.serverip}`);
+  }
 });
