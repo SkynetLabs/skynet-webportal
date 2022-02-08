@@ -1,4 +1,7 @@
-const got = require("got");
+const ipCheckService = "whatismyip.akamai.com";
+const ipRegex = new RegExp(
+  `^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$`
+);
 
 /**
  * Get the time between start and now in milliseconds
@@ -60,6 +63,8 @@ function getAuthCookie() {
   if (!password) throw new Error("ACCOUNTS_TEST_USER_PASSWORD cannot be empty");
 
   async function authenticate() {
+    const got = require("got");
+
     try {
       // authenticate with given test user credentials
       const response = await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/login`, {
@@ -114,4 +119,6 @@ module.exports = {
   ensureValidJSON,
   getAuthCookie,
   isPortalModuleEnabled,
+  ipCheckService,
+  ipRegex,
 };

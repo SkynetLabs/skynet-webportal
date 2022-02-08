@@ -18,6 +18,7 @@
     "yargs": "^17.3.1"
   },
   "devDependencies": {
+    "jest": "^27.5.0",
     "prettier": "^2.5.1"
   }
 }
