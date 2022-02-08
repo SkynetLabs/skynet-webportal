@@ -21,6 +21,8 @@ services:
     logging: *default-logging
     env_file:
       - .env
+    environment:
+      - SERVER_UID=${SERVER_UID:?cannot be empty}
     volumes:
       - ./docker/data/nginx/blocker:/data/nginx/blocker
     expose:
