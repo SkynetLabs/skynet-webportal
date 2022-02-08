@@ -31,7 +31,7 @@ ENV NODE_ENV production
 # 4. start the health-check api service
 CMD [ "sh", "-c", \
       "serverip=$(node src/whatismyip.js) && \
-       echo export serverip=${serverip} >> /etc/environment && \
+       echo \"export serverip=${serverip}\" >> /etc/environment && \
        dnsmasq --no-resolv --log-facility=/var/log/dnsmasq.log --address=/$PORTAL_DOMAIN/$serverip --server=127.0.0.11 && \
        echo \"$(sed 's/127.0.0.11/127.0.0.1/' /etc/resolv.conf)\" > /etc/resolv.conf && \
        crond && \
