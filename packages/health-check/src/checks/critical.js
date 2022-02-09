@@ -99,7 +99,7 @@ async function websiteSkylinkCheck(done) {
 
 // accountWebsiteCheck returns the result of accessing account dashboard website
 async function accountWebsiteCheck(done) {
-  const url = `${process.env.SKYNET_DASHBOARD_URL}/auth/login`;
+  const url = `https://account.${process.env.PORTAL_DOMAIN}/auth/login`;
 
   return done(await genericAccessCheck("account_website", url));
 }
@@ -160,7 +160,7 @@ async function accountHealthCheck(done) {
   const data = { up: false };
 
   try {
-    const response = await got(`${process.env.SKYNET_DASHBOARD_URL}/health`, { responseType: "json" });
+    const response = await got(`https://account.${process.env.PORTAL_DOMAIN}/health`, { responseType: "json" });
 
     data.statusCode = response.statusCode;
     data.response = response.body;

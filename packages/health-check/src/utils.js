@@ -67,7 +67,7 @@ function getAuthCookie() {
 
     try {
       // authenticate with given test user credentials
-      const response = await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/login`, {
+      const response = await got.post(`https://account.${process.env.PORTAL_DOMAIN}/api/login`, {
         json: { email, password },
       });
 
@@ -89,7 +89,7 @@ function getAuthCookie() {
       // 401 means that service worked but user could not have been authenticated
       if (error.response && error.response.statusCode === 401) {
         // sign up with the given credentials
-        await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/user`, {
+        await got.post(`https://account.${process.env.PORTAL_DOMAIN}/api/user`, {
           json: { email, password },
         });
 
