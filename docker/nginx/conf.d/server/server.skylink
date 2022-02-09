@@ -9,7 +9,7 @@ location / {
     set_by_lua_block $path {
         -- strip ngx.var.request_uri from query params - this is basically the same as ngx.var.uri but
         -- do not use ngx.var.uri because it will already be unescaped and we need to use escaped path
-        -- examples: escaped uri "/b%20r56+7" and unescaped uri: "/b r56 7"
+        -- examples: escaped uri "/b%20r56+7" and unescaped uri "/b r56 7"
         return string.gsub(ngx.var.request_uri, "?.*", "")
     }
 
