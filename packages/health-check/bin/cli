@@ -7,6 +7,16 @@ require("yargs/yargs")(process.argv.slice(2))
   .demandCommand()
   .strict(true)
   .command(
+    "__authenticate", // Internal only function - this function will be removed when API keys are implemented
+    false, // hide this function cli help
+    () => {},
+    async () => {
+      const { getAuthCookie } = require("../src/utils");
+
+      console.log(await getAuthCookie(true));
+    }
+  )
+  .command(
     "enable",
     "Mark portal as enabled",
     () => {},
