@@ -27,7 +27,7 @@ if len(sys.argv) > 2:
     CONTAINER_NAME = sys.argv[2]
 
 # sc_precision is the number of hastings per siacoin
-sc_precision = 10 ** 24
+sc_precision = 10**24
 
 # Environment variable globals
 setup_done = False

@@ -22,11 +22,11 @@ const getRootDirectory = (file) => {
 };
 
 const RegistrationLink = () => {
-  const accountsUrl = useAccountsUrl();
+  const createAccountsUrl = useAccountsUrl();
 
   return (
     <Link
-      href={`${accountsUrl}/auth/registration`}
+      href={createAccountsUrl("auth/registration")}
       className="uppercase underline-primary hover:text-primary transition-colors duration-200"
     >
       Sign up
@@ -35,11 +35,11 @@ const RegistrationLink = () => {
 };
 
 const LogInLink = () => {
-  const accountsUrl = useAccountsUrl();
+  const createAccountsUrl = useAccountsUrl();
 
   return (
     <Link
-      href={`${accountsUrl}/auth/login`}
+      href={createAccountsUrl("auth/login")}
       className="uppercase underline-primary hover:text-primary transition-colors duration-200"
     >
       Log in
@@ -91,7 +91,10 @@ const Uploader = () => {
     }
   }, [uploads]);
 
-  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({ onDrop: handleDrop });
+  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
+    onDrop: handleDrop,
+    useFsAccessApi: false,
+  });
   const inputElement = inputRef.current;
 
   React.useEffect(() => {

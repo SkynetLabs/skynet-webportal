@@ -104,3 +104,10 @@
     gitlab: https://gitlab.com/ayoung_j
     linkedin: https://www.linkedin.com/in/ajeon/
     twitter: https://twitter.com/ayoung_jeon
+
+- name: Michał Leszczyk
+  position: Full Stack Developer
+  image: ./team/michal-leszczyk.jpg
+  social:
+    github: https://github.com/meeh0w
+    linkedin: https://www.linkedin.com/in/micha%C5%82-leszczyk/
