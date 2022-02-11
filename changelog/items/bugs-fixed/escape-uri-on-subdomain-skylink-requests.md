@@ -1,0 +1,1 @@
+- fixed a bug when accessing file from skylink via subdomain with a filename that had escaped characters
