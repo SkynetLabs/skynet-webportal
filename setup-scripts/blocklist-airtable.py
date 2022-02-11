@@ -126,6 +126,10 @@ async def block_skylinks_from_airtable():
         "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
     )
 
+    if ipaddress == "":
+        print("Nginx's IP could not be detected. Exiting.")
+        return
+
     print("Sending blocklist request to siad through nginx")
     response = requests.post(
         "http://" + ipaddress + ":8000/skynet/blocklist",
