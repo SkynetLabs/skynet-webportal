@@ -11,4 +11,11 @@ proxy_cache_bypass $cookie_nocache $arg_nocache;
 # no cache - this will ignore cache on request (status MISS)
 # and does not store file in cache under no condition
 set_if_empty $nocache "0";
-proxy_no_cache $nocache;
+
+# map skyd env variable value to "1" for true and "0" for false (expected by proxy_no_cache)
+set_by_lua_block $skyd_disk_cache_enabled {
+    return os.getenv("SKYD_DISK_CACHE_ENABLED") == "true" and "1" or "0"
+}
+
+# disable cache when nocache is set or skyd cache is enabled
+proxy_no_cache $nocache $skyd_disk_cache_enabled;

@@ -29,7 +29,6 @@ services:
       - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
       - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
       - SKYD_DISK_CACHE_HIT_PERIOD=${SKYD_DISK_CACHE_HIT_PERIOD:-3600} # 1h
-
     env_file:
       - .env
     volumes:
@@ -65,6 +64,8 @@ services:
     logging: *default-logging
     env_file:
       - .env
+    environment:
+      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-false}
     volumes:
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/blocker:/data/nginx/blocker
