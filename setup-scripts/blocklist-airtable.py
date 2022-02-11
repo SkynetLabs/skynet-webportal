@@ -39,6 +39,16 @@ def exec(command):
 
 
 async def block_skylinks_from_airtable():
+    # Get nginx's IP before doing anything else. If this step fails we don't
+    # need to continue with the execution of the script.
+    ipaddress = exec(
+        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
+    )
+
+    if ipaddress == "":
+        print("Nginx's IP could not be detected. Exiting.")
+        return
+
     print("Pulling blocked skylinks from Airtable via api integration")
     headers = {"Authorization": "Bearer " + AIRTABLE_API_KEY}
     skylinks = []
@@ -121,14 +131,6 @@ async def block_skylinks_from_airtable():
             + " of the skylinks returned from Airtable are not valid"
         )
         await send_msg(message, file=("\n".join(invalid_skylinks)))
-
-    ipaddress = exec(
-        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
-    )
-
-    if ipaddress == "":
-        print("Nginx's IP could not be detected. Exiting.")
-        return
 
     print("Sending blocklist request to siad through nginx")
     response = requests.post(
