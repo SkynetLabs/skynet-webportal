@@ -7,7 +7,6 @@ from time import sleep
 import traceback
 import os
 import sys
-import re
 import asyncio
 import requests
 import json
@@ -115,32 +114,17 @@ async def block_skylinks_from_airtable():
 
         offset = data.get("offset")
 
-    print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
-
-    skylinks_returned = skylinks
-    skylinks = [
-        skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)
-    ]
-
-    if len(skylinks_returned) != len(skylinks):
-        invalid_skylinks = [
-            str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))
-        ]
-        message = (
-            str(len(invalid_skylinks))
-            + " of the skylinks returned from Airtable are not valid"
-        )
-        await send_msg(message, file=("\n".join(invalid_skylinks)))
-
-    print("Sending blocklist request to siad through nginx")
+    print(
+        "Sending /skynet/blocklist request with "
+        + str(len(skylinks))
+        + " skylinks to siad through nginx"
+    )
     response = requests.post(
         "http://" + ipaddress + ":8000/skynet/blocklist",
         data=json.dumps({"add": skylinks}),
     )
 
-    print(json.dumps({"add": skylinks}))
-
-    if response.status_code != 204:
+    if response.status_code != 200:
         status_code = str(response.status_code)
         response_text = response.text or "empty response"
         message = (
@@ -151,7 +135,17 @@ async def block_skylinks_from_airtable():
         )
         return await send_msg(message, force_notify=False)
 
-    return await send_msg("Siad blocklist successfully updated with provided skylink")
+    response_json = json.loads(response.text)
+    invalid_skylinks = response_json["invalids"]
+
+    if invalid_skylinks is None:
+        return await send_msg("Blocklist successfully updated all skylinks")
+    return await send_msg(
+        "Blocklist responded ok but failed to update "
+        + str(len(invalid_skylinks))
+        + " skylinks: "
+        + json.dumps(invalid_skylinks)
+    )
 
 
 loop = asyncio.get_event_loop()
