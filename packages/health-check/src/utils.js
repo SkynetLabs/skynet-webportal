@@ -138,7 +138,6 @@ module.exports = {
   getResponseContent,
   ensureValidJSON,
   getAuthCookie,
-  getAPIKey,
   isPortalModuleEnabled,
   ipCheckService,
   ipRegex,
