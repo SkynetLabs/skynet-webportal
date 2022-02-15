@@ -1,12 +1,14 @@
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent, getAuthCookie, isPortalModuleEnabled } = require("../utils");
+const { calculateElapsedTime, getResponseContent, isPortalModuleEnabled } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
 const MODULE_BLOCKER = "b";
 
-const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API, {
+  skynetApiKey: process.env.ACCOUNTS_TEST_USER_API_KEY,
+});
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
 // check that any relevant configuration is properly set in skyd
@@ -36,7 +38,6 @@ async function skydConfigCheck(done) {
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
-  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const form = new FormData();
   const payload = Buffer.from(new Date()); // current date to ensure data uniqueness
@@ -47,7 +48,9 @@ async function uploadCheck(done) {
   try {
     const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, {
       body: form,
-      headers: { cookie: authCookie },
+      headers: {
+        "Skynet-Api-Key": process.env.ACCOUNTS_TEST_USER_API_KEY,
+      },
     });
 
     data.statusCode = response.statusCode;
@@ -106,15 +109,14 @@ async function accountWebsiteCheck(done) {
 
 // registryWriteAndReadCheck writes to registry and immediately reads and compares the data
 async function registryWriteAndReadCheck(done) {
-  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const data = { name: "registry_write_and_read", up: false };
   const { privateKey, publicKey } = genKeyPairAndSeed();
   const expected = { dataKey: "foo-key", data: stringToUint8ArrayUtf8("foo-data"), revision: BigInt(0) };
 
   try {
-    await skynetClient.registry.setEntry(privateKey, expected, { customCookie: authCookie });
-    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey, { customCookie: authCookie });
+    await skynetClient.registry.setEntry(privateKey, expected);
+    const { entry } = await skynetClient.registry.getEntry(publicKey, expected.dataKey);
 
     if (isEqual(expected, entry)) {
       data.up = true;
@@ -204,12 +206,16 @@ async function blockerHealthCheck(done) {
 }
 
 async function genericAccessCheck(name, url) {
-  const authCookie = await getAuthCookie();
   const time = process.hrtime();
   const data = { up: false, url };
 
   try {
-    const response = await got(url, { headers: { cookie: `nocache=true;${authCookie}` } });
+    const response = await got(url, {
+      headers: {
+        cookie: "nocache=true",
+        "Skynet-Api-Key": process.env.ACCOUNTS_TEST_USER_API_KEY,
+      },
+    });
 
     data.statusCode = response.statusCode;
     data.up = true;
