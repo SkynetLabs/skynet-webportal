@@ -17,6 +17,16 @@ require("yargs/yargs")(process.argv.slice(2))
     }
   )
   .command(
+    "apikey",
+    "Get test user's API key",
+    () => {},
+    async () => {
+      const { getAPIKey } = require("../src/utils");
+
+      console.log(await getAPIKey());
+    }
+  )
+  .command(
     "enable",
     "Mark portal as enabled",
     () => {},
