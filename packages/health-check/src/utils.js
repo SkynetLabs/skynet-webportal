@@ -62,19 +62,6 @@ function getRequiredEnvironmentVariable(name) {
 }
 
 /**
- * Fetches test user's API key from the environment. Raises an error if that
- * is not possible.
- * @returns {string} API key
- */
-function getAPIKey() {
-  const apiKey = getRequiredEnvironmentVariable("ACCOUNTS_TEST_USER_API_KEY");
-  if (!apiKey) {
-    throw new Error("Missing or empty environment variable ACCOUNTS_TEST_USER_API_KEY.");
-  }
-  return apiKey;
-}
-
-/**
  * Authenticate with given credentials and return auth cookie
  * Creates new account if username does not exist
  * Only authenticates when portal is set to authenticated users only mode
