@@ -4,10 +4,11 @@ if (!process.env.SKYNET_PORTAL_API) {
   throw new Error("You need to provide SKYNET_PORTAL_API environment variable");
 }
 
+if (!process.env.PORTAL_DOMAIN) {
+  throw new Error("You need to provide PORTAL_DOMAIN environment variable");
+}
+
 if (process.env.ACCOUNTS_ENABLED === "true") {
-  if (!process.env.SKYNET_DASHBOARD_URL) {
-    throw new Error("You need to provide SKYNET_DASHBOARD_URL environment variable when accounts are enabled");
-  }
   if (["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) {
     if (!process.env.ACCOUNTS_TEST_USER_EMAIL) {
       throw new Error("ACCOUNTS_TEST_USER_EMAIL cannot be empty");
