@@ -353,7 +353,7 @@ location /skynet/trustless/basesector {
     include /etc/nginx/conf.d/include/proxy-buffer;
     include /etc/nginx/conf.d/include/track-download;
 
-    limit_conn downloads_by_ip 10; # ddos protection: max 100 downloads at a time
+    limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
     # default download rate to unlimited
     set $limit_rate 0;
