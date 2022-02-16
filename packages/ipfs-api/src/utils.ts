@@ -15,7 +15,10 @@ export async function contentType(cid: string): Promise<string> {
 export async function isDirectory(cid: string): Promise<boolean> {
   const url = `${IPFS_INFURA_API}/api/v0/object/get?arg=${cid}&encoding=json`;
   const json = await got.get(url).json();
-  return Boolean(json["Links"].length);
+  // TODO: terribly hacky but needed quick fix, it turns out files now contain
+  // multiple link objects as well so this method of checking whether it's a
+  // directory or not is not as great as it used to be
+  return (json["Links"].length && json["Links"][0] && json["Links"][0]["Name"] && json["Links"][0]["Name"] !== "")
 }
 
 export async function download(cid: string, destination: string, directory: boolean): Promise<boolean> {
