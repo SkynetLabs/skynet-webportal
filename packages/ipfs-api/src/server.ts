@@ -123,6 +123,7 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
   // download cid as file
   const filePath = `${UPLOAD_PATH}/${cid}.${ext}`;
   try {
+    console.log('starting download')
     await download(cid, filePath, isDir);
   } catch (error) {
     console.log('download error: ', error)
@@ -132,7 +133,9 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
   // upload the file
   let skylink;
   try {
+    console.log('starting upload')
     skylink = await uploadFile(filePath);
+    console.log('upload finsihed')
   } catch (error) { 
     console.log('upload error: ', error)
     throw error;
@@ -143,6 +146,7 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
 
   // update record
   await recordsDB.updateOne({ cid }, { $set: { skylink } });
+  console.log('database updated')
 
   return skylink;
 }
