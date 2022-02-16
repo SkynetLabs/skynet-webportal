@@ -82,8 +82,8 @@ access_by_lua_block {
 }
 
 header_filter_by_lua_block {
-    ngx.header["Skynet-Portal-Api"] = "https://" .. os.getenv("PORTAL_DOMAIN")
-    ngx.header["Skynet-Server-Api"] = "https://" .. os.getenv("SERVER_DOMAIN")
+    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
 
     -- not empty skynet_proof means this is a skylink v2 request
     -- so we should replace the Skynet-Proof header with the one

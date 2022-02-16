@@ -276,8 +276,8 @@ location /skynet/tus {
 
     # extract skylink from base64 encoded upload metadata and assign to a proper header
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = "https://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = "https://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
 
         if ngx.header["Upload-Metadata"] then
             local encodedSkylink = string.match(ngx.header["Upload-Metadata"], "Skylink ([^,?]+)")
@@ -311,8 +311,8 @@ location /skynet/metadata {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = "https://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = "https://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -324,8 +324,8 @@ location /skynet/resolve {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = "https://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = "https://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;
