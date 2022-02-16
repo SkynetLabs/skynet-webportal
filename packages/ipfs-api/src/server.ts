@@ -21,7 +21,7 @@ require("dotenv").config();
   console.log("ensuring database model");
   const recordsDB = await mongo.getCollection<IRecord>("records");
   await mongo.ensureIndex("records", "cid", { unique: true });
-  await recordsDB.deleteMany({});
+  // await recordsDB.deleteMany({});
 
   // create the server
   console.log("creating express server");
