@@ -1,5 +1,5 @@
 import { SkynetClient } from "@skynetlabs/skynet-nodejs";
-import { createReadStream, createWriteStream } from "fs";
+import { createReadStream, createWriteStream, statSync } from "fs";
 import got from "got";
 import { extract } from "tar-fs";
 import { IPFS_GATEWAY, IPFS_INFURA_API, SKYNET_PORTAL } from "./consts";
@@ -29,12 +29,23 @@ export async function isDirectory(cid: string): Promise<boolean> {
 export async function download(cid: string, destination: string, directory: boolean): Promise<void> {
   const url = directory ? `${IPFS_INFURA_API}/api/v0/get?arg=${cid}&archive=true` : `${IPFS_GATEWAY}/${cid}`;
   
-  console.log('downloading from url', url)
-  const pipeline = promisify(stream.pipeline);
-  await pipeline(
-    got.stream(url),
-    createWriteStream(destination)
-  );
+  let fileSize = 0;
+  let attempts = 0;
+
+  while (fileSize === 0 && attempts <= 3) {
+    attempts++
+
+    console.log('downloading from url', url, ' attempt ', attempts)
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(
+      got.stream(url),
+      createWriteStream(destination)
+    );
+
+    const fileStats = statSync(destination)
+    fileSize = fileStats.size
+    console.log('file size', fileSize)
+  }
 }
 
 export async function extractArchive(src: string, dst: string) {

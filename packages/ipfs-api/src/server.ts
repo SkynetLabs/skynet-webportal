@@ -130,12 +130,6 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
     throw error;
   }
 
-  // sleep 3s
-  // TODO: hacky addition because I saw some 0-byte uploads
-  await sleep(3000)
-  const fileStats = fs.statSync(filePath)
-  console.log('file size', fileStats.size)
-
   // upload the file
   let skylink;
   try {
