@@ -20,6 +20,7 @@ export async function isDirectory(cid: string): Promise<boolean> {
 
 export async function download(cid: string, destination: string, directory: boolean): Promise<boolean> {
   const url = directory ? `${IPFS_INFURA_API}/api/v0/get?arg=${cid}&archive=true` : `${IPFS_GATEWAY}/${cid}`;
+  console.log('downloading from url', url)
 
   return new Promise((resolve, reject) => {
     const downloadStream = got.stream(url);

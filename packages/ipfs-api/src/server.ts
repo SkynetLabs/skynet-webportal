@@ -85,12 +85,16 @@ async function handleGetLink(req: Request, res: Response, recordsDB: Collection<
 }
 
 async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promise<string> {
+  console.log('reuploading file with cid', cid)
+
   // get the content type
   const ct = await contentType(cid);
   const ext = toExtension(ct);
+  console.log('extension found', ext)
 
   // find out whether it's a directory
   const isDir = await isDirectory(cid);
+  console.log('is directory', isDir)
 
   // upload directory
   if (isDir) {
@@ -118,10 +122,21 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
 
   // download cid as file
   const filePath = `${UPLOAD_PATH}/${cid}.${ext}`;
-  await download(cid, filePath, isDir);
+  try {
+    await download(cid, filePath, isDir);
+  } catch (error) {
+    console.log('download error: ', error)
+    throw error;
+  }
 
   // upload the file
-  const skylink = await uploadFile(filePath);
+  let skylink;
+  try {
+    skylink = await uploadFile(filePath);
+  } catch (error) { 
+    console.log('upload error: ', error)
+    throw error;
+  }
 
   // cleanup files
   fs.unlinkSync(filePath);
