@@ -7,7 +7,7 @@ import { Collection } from "mongodb";
 import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
-import { contentType, download, extractArchive, isDirectory, uploadDirectory, uploadFile } from "./utils";
+import { contentType, download, extractArchive, isDirectory, sleep, uploadDirectory, uploadFile } from "./utils";
 
 require("dotenv").config();
 
@@ -130,8 +130,11 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
     throw error;
   }
 
+  // sleep 3s
+  // TODO: hacky addition because I saw some 0-byte uploads
+  await sleep(3000)
   const fileStats = fs.statSync(filePath)
-  console.log('file stats', fileStats)
+  console.log('file size', fileStats.size)
 
   // upload the file
   let skylink;
@@ -149,7 +152,7 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
 
   // update record
   await recordsDB.updateOne({ cid }, { $set: { skylink } });
-  console.log('database updated')
+  console.log('database updated', skylink)
 
   return skylink;
 }
