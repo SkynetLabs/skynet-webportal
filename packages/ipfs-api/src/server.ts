@@ -130,6 +130,9 @@ async function reuploadFile(cid: string, recordsDB: Collection<IRecord>): Promis
     throw error;
   }
 
+  const fileStats = fs.statSync(filePath)
+  console.log('file stats', fileStats)
+
   // upload the file
   let skylink;
   try {
