@@ -381,6 +381,7 @@ location /skynet/trustless/basesector {
     limit_rate_after 512k;
     limit_rate $limit_rate;
 
+    proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;
 }
 
