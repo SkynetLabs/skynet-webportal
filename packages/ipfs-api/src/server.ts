@@ -7,7 +7,7 @@ import { Collection } from "mongodb";
 import { API_HOSTNAME, API_PORT, MONGO_CONNECTIONSTRING, MONGO_DBNAME, UPLOAD_PATH } from "./consts";
 import { MongoDB } from "./mongodb";
 import { IRecord } from "./types";
-import { contentType, download, extractArchive, isDirectory, sleep, uploadDirectory, uploadFile } from "./utils";
+import { contentType, download, extractArchive, isDirectory, uploadDirectory, uploadFile } from "./utils";
 
 require("dotenv").config();
 
