@@ -3,6 +3,9 @@ import { createReadStream, createWriteStream } from "fs";
 import got from "got";
 import { extract } from "tar-fs";
 import { IPFS_GATEWAY, IPFS_INFURA_API, SKYNET_PORTAL } from "./consts";
+import { promisify } from 'node:util';
+import stream from 'node:stream';
+
 
 const client = new SkynetClient(SKYNET_PORTAL);
 
@@ -23,29 +26,15 @@ export async function isDirectory(cid: string): Promise<boolean> {
   return isDir
 }
 
-export async function download(cid: string, destination: string, directory: boolean): Promise<boolean> {
+export async function download(cid: string, destination: string, directory: boolean): Promise<void> {
   const url = directory ? `${IPFS_INFURA_API}/api/v0/get?arg=${cid}&archive=true` : `${IPFS_GATEWAY}/${cid}`;
+  
   console.log('downloading from url', url)
-
-  return new Promise((resolve, reject) => {
-    const downloadStream = got.stream(url);
-    downloadStream.on("error", (error) => {
-      console.error(`Download fail ${url}: ${error.message}`);
-    });
-
-    const fileWriterStream = createWriteStream(destination);
-    fileWriterStream
-      .on("error", (error) => {
-        console.error(`Could not write file to system: ${error.message}`);
-        reject(error);
-      })
-      .on("finish", () => {
-        console.log(`File downloaded to ${destination}`);
-        resolve(true);
-      });
-
-    downloadStream.pipe(fileWriterStream);
-  });
+  const pipeline = promisify(stream.pipeline);
+  await pipeline(
+    got.stream(url),
+    createWriteStream(destination)
+  );
 }
 
 export async function extractArchive(src: string, dst: string) {
