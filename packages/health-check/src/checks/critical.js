@@ -6,7 +6,7 @@ const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("sky
 
 const MODULE_BLOCKER = "b";
 
-const skynetClient = new SkynetClient(process.env.SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
 // check that any relevant configuration is properly set in skyd
@@ -45,7 +45,7 @@ async function uploadCheck(done) {
   form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
 
   try {
-    const response = await got.post(`${process.env.SKYNET_PORTAL_API}/skynet/skyfile`, {
+    const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, {
       body: form,
       headers: { cookie: authCookie },
     });
@@ -65,7 +65,7 @@ async function uploadCheck(done) {
 
 // websiteCheck checks whether the main website is working
 async function websiteCheck(done) {
-  return done(await genericAccessCheck("website", process.env.SKYNET_PORTAL_API));
+  return done(await genericAccessCheck("website", `https://${process.env.PORTAL_DOMAIN}`));
 }
 
 // downloadCheck returns the result of downloading the hard coded link
@@ -130,13 +130,13 @@ async function registryWriteAndReadCheck(done) {
 
 // directServerApiAccessCheck returns the basic server api check on direct server address
 async function directServerApiAccessCheck(done) {
-  if (!process.env.SKYNET_SERVER_API) {
-    return done({ up: false, errors: [{ message: "SKYNET_SERVER_API env variable not configured" }] });
+  if (!process.env.SERVER_DOMAIN) {
+    return done({ up: false, errors: [{ message: "SERVER_DOMAIN env variable not configured" }] });
   }
 
   const [portalAccessCheck, serverAccessCheck] = await Promise.all([
-    genericAccessCheck("portal_api_access", process.env.SKYNET_PORTAL_API),
-    genericAccessCheck("server_api_access", process.env.SKYNET_SERVER_API),
+    genericAccessCheck("portal_api_access", `https://${process.env.PORTAL_DOMAIN}`),
+    genericAccessCheck("server_api_access", `https://${process.env.SERVER_DOMAIN}`),
   ]);
 
   if (portalAccessCheck.ip !== serverAccessCheck.ip) {
@@ -145,8 +145,8 @@ async function directServerApiAccessCheck(done) {
     serverAccessCheck.errors.push({
       message: "Access ip mismatch between portal and server access",
       response: {
-        portal: { name: process.env.SKYNET_PORTAL_API, ip: portalAccessCheck.ip },
-        server: { name: process.env.SKYNET_SERVER_API, ip: serverAccessCheck.ip },
+        portal: { name: process.env.PORTAL_DOMAIN, ip: portalAccessCheck.ip },
+        server: { name: process.env.SERVER_DOMAIN, ip: serverAccessCheck.ip },
       },
     });
   }

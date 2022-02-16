@@ -23,8 +23,6 @@ docker-compose --version # sanity check
 # Create dummy .env file for docker-compose usage with variables
 # * PORTAL_DOMAIN - (required) is a skynet portal domain (ex. siasky.net)
 # * SERVER_DOMAIN - (optional) is an optional direct server domain (ex. eu-ger-1.siasky.net) - leave blank unless it is different than PORTAL_DOMAIN
-# * SKYNET_PORTAL_API - absolute url to the portal api ie. https://siasky.net (general portal address)
-# * SKYNET_SERVER_API - absolute url to the server api ie. https://eu-ger-1.siasky.net (direct server address, if this is single server portal use the same address as SKYNET_PORTAL_API)
 # * EMAIL_ADDRESS - this is the administrator contact email you need to supply for communication regarding SSL certification
 # * HSD_API_KEY - this is auto generated secure key for your handshake service integration
 # * CLOUDFLARE_AUTH_TOKEN - (optional) if using cloudflare as dns loadbalancer (need to change it in Caddyfile too)
@@ -43,7 +41,7 @@ docker-compose --version # sanity check
 # * COOKIE_ENC_KEY - (optional) if using `accounts` encryption key, at least 32 bytes
 if ! [ -f /home/user/skynet-webportal/.env ]; then
     HSD_API_KEY=$(openssl rand -base64 32) # generate safe random key for handshake
-    printf "PORTAL_DOMAIN=siasky.net\nSERVER_DOMAIN=\nSKYNET_PORTAL_API=https://siasky.net\nSKYNET_SERVER_API=https://eu-dc-1.siasky.net\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nDISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env
+    printf "PORTAL_DOMAIN=siasky.net\nSERVER_DOMAIN=\nEMAIL_ADDRESS=email@example.com\nSIA_WALLET_PASSWORD=\nHSD_API_KEY=${HSD_API_KEY}\nCLOUDFLARE_AUTH_TOKEN=\nAWS_ACCESS_KEY_ID=\nAWS_SECRET_ACCESS_KEY=\nDISCORD_WEBHOOK_URL=\nDISCORD_MENTION_USER_ID=\nDISCORD_MENTION_ROLE_ID=\n" > /home/user/skynet-webportal/.env
 fi
 
 # Start docker container with nginx and client
