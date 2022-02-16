@@ -1,4 +1,4 @@
-import ky from "ky/umd";
+import ky from "ky";
 import Stripe from "stripe";
 import { StatusCodes } from "http-status-codes";
 
@@ -11,18 +11,18 @@ const getStripeCustomer = (stripeCustomerId = null) => {
   return stripe.customers.create();
 };
 
-export default async (req, res) => {
+export default async function billingApi(req, res) {
   try {
-    const authorization = req.headers.authorization; // authorization header from request
-    const { stripeCustomerId } = await ky("http://accounts:3000/user", { headers: { authorization } }).json();
+    const cookie = req.headers.cookie; // cookie header from request
+    const { stripeCustomerId } = await ky("http://accounts:3000/user", { headers: { cookie } }).json();
     const customer = await getStripeCustomer(stripeCustomerId);
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      return_url: `${process.env.SKYNET_DASHBOARD_URL}/payments`,
+      return_url: `https://account.${process.env.PORTAL_DOMAIN}/payments`,
     });
 
     res.redirect(session.url);
   } catch ({ message }) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: { message } });
   }
-};
+}

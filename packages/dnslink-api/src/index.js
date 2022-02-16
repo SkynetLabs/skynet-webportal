@@ -1,14 +1,11 @@
 const dns = require("dns");
 const express = require("express");
-const NodeCache = require("node-cache");
 const isValidDomain = require("is-valid-domain");
 
 const host = process.env.DNSLINK_API_HOSTNAME || "0.0.0.0";
 const port = Number(process.env.DNSLINK_API_PORT) || 3100;
-const cacheTTL = Number(process.env.DNSLINK_API_CACHE_TTL) || 300; // default to 5 minutes
 
 const server = express();
-const cache = new NodeCache({ stdTTL: cacheTTL });
 
 const dnslinkNamespace = "skynet-ns";
 const dnslinkRegExp = new RegExp(`^dnslink=/${dnslinkNamespace}/.+$`);
@@ -21,10 +18,6 @@ server.get("/dnslink/:name", async (req, res) => {
 
   if (!isValidDomain(req.params.name)) {
     return failure(`"${req.params.name}" is not a valid domain`);
-  }
-
-  if (cache.has(req.params.name)) {
-    return success(cache.get(req.params.name));
   }
 
   const lookup = `_dnslink.${req.params.name}`;
@@ -64,8 +57,6 @@ server.get("/dnslink/:name", async (req, res) => {
     }
 
     const skylink = matchSkylink[1];
-
-    cache.set(req.params.name, skylink);
 
     console.log(`${req.params.name} => ${skylink}`);
 

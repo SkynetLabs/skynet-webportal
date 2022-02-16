@@ -5,6 +5,40 @@ include /etc/nginx/conf.d/include/ssl-settings;
 include /etc/nginx/conf.d/include/init-optional-variables;
 
 location / {
-    proxy_redirect http://127.0.0.1/ https://$host/;
-    proxy_pass http://oathkeeper:4455;
+    proxy_pass http://dashboard:3000;
+}
+
+location /health {
+    proxy_pass http://accounts:3000;
+}
+
+location /stripe/webhook {
+    proxy_pass http://accounts:3000;
+}
+
+location /api/stripe/billing {
+    proxy_pass http://dashboard:3000;
+}
+
+location /api/stripe/checkout {
+    proxy_pass http://dashboard:3000;
+}
+
+location /api {
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
+
+location /api/register {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
+
+location /api/login {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
 }

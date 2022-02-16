@@ -1,0 +1,23 @@
+name: Lint - packages/health-check
+
+on:
+  pull_request:
+    paths:
+      - packages/health-check/**
+
+defaults:
+  run:
+    working-directory: packages/health-check
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - run: yarn
+      - run: yarn prettier --check .

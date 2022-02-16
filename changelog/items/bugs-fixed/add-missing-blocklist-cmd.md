@@ -1,0 +1,1 @@
+- Add missing servers and blocklist command to the manual blocklist script.

@@ -1,0 +1,1 @@
+- add new critical health check that scans config and makes sure that all relevant configurations are set

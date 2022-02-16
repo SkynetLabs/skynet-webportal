@@ -53,7 +53,6 @@ typings/
 
 # dotenv environment variable files
 .env*
-./docker/kratos/config/kratos.yml
 
 # Mac files
 .DS_Store
@@ -87,12 +86,6 @@ __pycache__
 /.idea/
 /venv*
 
-# CockroachDB certificates
-docker/cockroach/certs/*.crt
-docker/cockroach/certs/*.key
-docker/kratos/cr_certs/*.crt
-docker/kratos/cr_certs/*.key
-
-# Oathkeeper JWKS signing token
-docker/kratos/oathkeeper/id_token.jwks.json
-/docker/kratos/config/kratos.yml
+# Setup-script log files
+setup-scripts/serverload.log
+setup-scripts/serverload.json

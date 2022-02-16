@@ -1,0 +1,33 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  health-check:
+    environment:
+      - BLOCKER_HOST=10.10.10.110
+      - BLOCKER_PORT=4000
+
+  blocker:
+    build:
+      context: ./docker/blocker
+      dockerfile: Dockerfile
+    container_name: blocker
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    volumes:
+      - ./docker/data/nginx/blocker:/data/nginx/blocker
+    expose:
+      - 4000
+    networks:
+      shared:
+        ipv4_address: 10.10.10.110
+    depends_on:
+      - mongo
+      - sia

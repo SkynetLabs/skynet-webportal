@@ -1,8 +1,20 @@
 # Skynet Portal Setup Scripts
 
+> :warning: This documentation is outdated and should be used for reference
+only. Portal setup documentation is located at
+https://docs.siasky.net/webportal-management/overview.
+
 This directory contains a setup guide and scripts that will install and
 configure some basic requirements for running a Skynet Portal. The assumption is
 that we are working with a Debian Buster Minimal system or similar.
+
+## Latest Setup Documentation
+
+Latest Skynet Webportal setup documentation and the setup process Skynet Labs
+supports is located at https://docs.siasky.net/webportal-management/overview.
+
+Some of the scripts and setup documentation contained in this repository
+(`skynet-webportal`) can be outdated and generally should not be used.
 
 ## Initial Setup
 
@@ -19,8 +31,6 @@ You may want to fork this repository and replace ssh keys in
   - [handshake](https://handshake.org) ([github](https://github.com/handshake-org/hsd)): full handshake node
   - [handshake-api](https://github.com/SkynetLabs/skynet-webportal/tree/master/packages/handshake-api): simple API talking to the handshake node - [read more](https://github.com/SkynetLabs/skynet-webportal/blob/master/packages/handshake-api/README.md)
   - [website](https://github.com/SkynetLabs/skynet-webportal/tree/master/packages/website): portal frontend application - [read more](https://github.com/SkynetLabs/skynet-webportal/blob/master/packages/website/README.md)
-  - [kratos](https://www.ory.sh/kratos/): user account management system
-  - [oathkeeper](https://www.ory.sh/oathkeeper/): identity and access proxy
 - discord integration
   - [funds-checker](funds-checker.py): script that checks wallet balance and sends status messages to discord periodically
   - [health-checker](health-checker.py): script that monitors health-check service for server health issues and reports them to discord periodically
@@ -107,7 +117,6 @@ At this point we have almost everything running, we just need to set up your wal
      with path to the location in the bucket where we want to store the daily backups.
 
 1. `docker-compose up -d` to restart the services so they pick up new env variables
-1. add your custom Kratos configuration to `/home/user/skynet-webportal/docker/kratos/config/kratos.yml` (in particular, the credentials for your mail server should be here, rather than in your source control). For a starting point you can take `docker/kratos/config/kratos.yml.sample`.
 
 ## Subdomains
 

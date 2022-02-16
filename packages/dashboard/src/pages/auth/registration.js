@@ -1,88 +1,66 @@
 import Link from "next/link";
-import { Configuration, PublicApi } from "@ory/kratos-client";
-import { getIn } from "formik";
-import config from "../../config";
+import { useRouter } from "next/router";
 import levenshtein from "fast-levenshtein";
+import * as Yup from "yup";
+import accountsApi from "../../services/accountsApi";
+import useAnonRoute from "../../services/useAnonRoute";
 import lcs from "../../services/longestCommonSequence";
 import SelfServiceForm from "../../components/Form/SelfServiceForm";
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
-
-export async function getServerSideProps(context) {
-  const flow = context.query.flow;
-  const redirect = encodeURIComponent(`/api/accounts/login?return_to=${context.query.return_to ?? "/"}`);
-
-  if (process.env.NODE_ENV === "development") {
-    return { props: { flow: require("../../../stubs/registration.json") } };
-  }
-
-  // The flow is used to identify the login and registration flow and
-  // return data like the csrf_token and so on.
-  if (!flow || typeof flow !== "string") {
-    // No flow ID found in URL, initializing registration flow.
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/registration/browser?return_to=${redirect}`,
-      },
-    };
-  }
-
-  try {
-    const { status, data } = await kratos.getSelfServiceRegistrationFlow(flow);
-
-    if (status === 200) return { props: { flow: data } };
-
-    throw new Error(`Failed to retrieve flow ${flow} with code ${status}`);
-  } catch (error) {
-    console.log(`Unexpected error retrieving registration flow: ${error.message}`);
-
-    return {
-      redirect: {
-        permanent: false,
-        destination: `${config.kratos.browser}/self-service/registration/browser?return_to=${redirect}`,
-      },
-    };
-  }
-}
-
-const fieldsConfig = {
-  "traits.email": {
+const fieldsConfig = [
+  {
+    name: "email",
+    type: "text",
     label: "Email address",
     autoComplete: "email",
     position: 0,
   },
-  password: {
+  {
+    name: "password",
+    type: "password",
     label: "Password",
     autoComplete: "new-password",
     position: 1,
-    checks: [
-      {
-        label: "At least 6 characters long",
-        validate: (values, field) => {
-          const value = getIn(values, field);
-
-          return value && value.length > 5;
-        },
-      },
-      {
-        label: "Significantly different from the email",
-        validate: (values, field) => {
-          const value = getIn(values, field);
-          const email = getIn(values, "traits.email");
-
-          // levenshtein distance higher than 5 and longest common sequence shorter than half of the password
-          return value && email && levenshtein.get(value, email) > 5 && lcs(value, email).length / value.length <= 0.5;
-        },
-      },
-    ],
   },
-  csrf_token: {
-    position: 99,
+  {
+    name: "confirmPassword",
+    type: "password",
+    label: "Password repeated",
+    autoComplete: "new-password",
+    position: 2,
   },
-};
+];
 
-export default function Registration({ flow }) {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("This email is invalid"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password has to be at least 6 characters long")
+    .test("levenshtein", "This password is too similar to your email", function (value) {
+      const email = this.parent.email;
+
+      // levenshtein distance higher than 5 and longest common sequence shorter than half of the password
+      return value && email && levenshtein.get(value, email) > 5 && lcs(value, email).length / value.length <= 0.5;
+    }),
+  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+});
+
+export default function Registration() {
+  useAnonRoute(); // ensure user is not logged in
+
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
+    await accountsApi.post("user", {
+      json: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -109,7 +87,12 @@ export default function Registration({ flow }) {
         </p>
       </div>
 
-      <SelfServiceForm flow={flow} config={flow.methods.password.config} fieldsConfig={fieldsConfig} button="Sign up" />
+      <SelfServiceForm
+        fieldsConfig={fieldsConfig}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        button="Sign up"
+      />
     </div>
   );
 }

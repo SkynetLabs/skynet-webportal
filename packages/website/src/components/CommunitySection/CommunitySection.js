@@ -12,7 +12,6 @@ import {
 } from "../../components/Icons";
 import useSubscribe from "./useSubscribe";
 import Link from "../Link";
-
 const social = [
   { name: "Discord", Icon: DiscordSmall, href: "https://discord.gg/skynetlabs" },
   { name: "Twitter", Icon: TwitterSmall, href: "https://twitter.com/SkynetLabs" },
@@ -73,7 +72,7 @@ const CommunitySection = () => {
             />
             <button type="button" onClick={() => setExperienced(!experienced)}>
               <CheckActive
-                className={classnames("bg-palette-600 rounded-full h-6 w-6", { "opacity-20": !experienced })}
+                className={classnames("bg-palette-600 rounded-full h-8 w-8", { "opacity-20": !experienced })}
               />
             </button>
             <label htmlFor="newsletter-experience" className="text-xs font-content pl-2 leading-6 cursor-pointer">

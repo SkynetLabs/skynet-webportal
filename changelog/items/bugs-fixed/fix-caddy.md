@@ -1,1 +1,0 @@
-- fixed issue with caddy requesting new certificates instead of using existing ones from file storage

@@ -1,16 +1,29 @@
 #!/usr/bin/env python3
 
-import traceback, os, re, asyncio, requests, json
 from bot_utils import setup, send_msg
 from random import randint
 from time import sleep
 
+import traceback
+import os
+import sys
+import asyncio
+import requests
+import json
+
 setup()
 
+
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
-AIRTABLE_BASE = os.getenv("AIRTABLE_BASE", "app89plJvA9EqTJEc")
-AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE", "Table%201")
-AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD", "Link")
+AIRTABLE_BASE = os.getenv("AIRTABLE_BASE")
+AIRTABLE_TABLE = os.getenv("AIRTABLE_TABLE")
+AIRTABLE_FIELD = os.getenv("AIRTABLE_FIELD")
+
+# Check environment variables are defined
+for value in [AIRTABLE_API_KEY, AIRTABLE_BASE, AIRTABLE_TABLE, AIRTABLE_FIELD]:
+    if not value:
+        sys.exit("Configuration error: Missing AirTable environment variable.")
+
 
 async def run_checks():
     try:
@@ -25,16 +38,38 @@ def exec(command):
 
 
 async def block_skylinks_from_airtable():
+    # Get nginx's IP before doing anything else. If this step fails we don't
+    # need to continue with the execution of the script.
+    ipaddress = exec(
+        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
+    )
+
+    if ipaddress == "":
+        print("Nginx's IP could not be detected. Exiting.")
+        return
+
     print("Pulling blocked skylinks from Airtable via api integration")
     headers = {"Authorization": "Bearer " + AIRTABLE_API_KEY}
     skylinks = []
     offset = None
     retry = 0
     while len(skylinks) == 0 or offset:
-        print("Requesting a batch of records from Airtable with " + (offset if offset else "empty") + " offset" + (" (retry " + str(retry) + ")" if retry else ""))
-        query = "&".join(["fields%5B%5D=" + AIRTABLE_FIELD, ("offset=" + offset) if offset else ""])
+        print(
+            "Requesting a batch of records from Airtable with "
+            + (offset if offset else "empty")
+            + " offset"
+            + (" (retry " + str(retry) + ")" if retry else "")
+        )
+        query = "&".join(
+            ["fields%5B%5D=" + AIRTABLE_FIELD, ("offset=" + offset) if offset else ""]
+        )
         response = requests.get(
-            "https://api.airtable.com/v0/" + AIRTABLE_BASE + "/" + AIRTABLE_TABLE + "?" + query,
+            "https://api.airtable.com/v0/"
+            + AIRTABLE_BASE
+            + "/"
+            + AIRTABLE_TABLE
+            + "?"
+            + query,
             headers=headers,
         )
 
@@ -44,73 +79,73 @@ async def block_skylinks_from_airtable():
         if response.status_code == 429:
             if retry < 100:
                 retry = retry + 1
-                sleep(randint(1,10))
+                sleep(randint(1, 10))
                 continue
             else:
-                return await send_msg("Airtable: too many retries, aborting!", force_notify=True)
+                return await send_msg(
+                    "Airtable: too many retries, aborting!", force_notify=True
+                )
         retry = 0  # reset retry counter
 
         if response.status_code != 200:
             status_code = str(response.status_code)
             response_text = response.text or "empty response"
-            message = "Airtable blocklist integration responded with code " + status_code + ": " + response_text
+            message = (
+                "Airtable blocklist integration responded with code "
+                + status_code
+                + ": "
+                + response_text
+            )
             return await send_msg(message, force_notify=False)
 
         data = response.json()
 
         if len(data["records"]) == 0:
-            return print("Airtable returned 0 records - make sure your configuration is correct")
+            return print(
+                "Airtable returned 0 records - make sure your configuration is correct"
+            )
 
-        skylinks = skylinks + [entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]]
-        skylinks = [skylink for skylink in skylinks if skylink] # filter empty skylinks, most likely empty rows
+        skylinks = skylinks + [
+            entry["fields"].get(AIRTABLE_FIELD, "") for entry in data["records"]
+        ]
+        skylinks = [
+            skylink.strip() for skylink in skylinks if skylink
+        ]  # filter empty skylinks, most likely empty rows, trim whitespace
 
         offset = data.get("offset")
 
-    print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
-
-    skylinks_returned = skylinks
-    skylinks = [skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)]
-
-    if len(skylinks_returned) != len(skylinks):
-        invalid_skylinks = [str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))]
-        message = str(len(invalid_skylinks)) + " of the skylinks returned from Airtable are not valid"
-        await send_msg(message, file=("\n".join(invalid_skylinks)))
-
-    apipassword = exec("docker exec sia cat /sia-data/apipassword")
-    ipaddress = exec("docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia")
-
-    print("Sending blocklist request to siad")
+    print(
+        "Sending /skynet/blocklist request with "
+        + str(len(skylinks))
+        + " skylinks to siad through nginx"
+    )
     response = requests.post(
-        "http://" + ipaddress + ":9980/skynet/blocklist",
-        auth=("", apipassword),
-        headers={"user-agent": "Sia-Agent"},
+        "http://" + ipaddress + ":8000/skynet/blocklist",
         data=json.dumps({"add": skylinks}),
     )
 
-    if response.status_code == 204:
-        print("Siad blocklist successfully updated with provided skylink")
-    else:
+    if response.status_code != 200:
         status_code = str(response.status_code)
         response_text = response.text or "empty response"
-        message = "Siad blocklist endpoint responded with code " + status_code + ": " + response_text
+        message = (
+            "Airtable blocklist request responded with code "
+            + status_code
+            + ": "
+            + response_text
+        )
         return await send_msg(message, force_notify=False)
 
-    print("Searching nginx cache for blocked files")
-    cached_files_count = 0
-    batch_size = 1000
-    for i in range(0, len(skylinks), batch_size):
-        cached_files_command = (
-            "find /data/nginx/cache/ -type f | xargs -r grep -Els '^Skynet-Skylink: ("
-            + "|".join(skylinks[i:i+batch_size])
-            + ")'"
-        )
-        cached_files_count+= int(exec('docker exec nginx bash -c "' + cached_files_command + ' | xargs -r rm -v | wc -l"'))
+    response_json = json.loads(response.text)
+    invalid_skylinks = response_json["invalids"]
 
-    if cached_files_count == 0:
-        return print("No nginx cached files matching blocked skylinks were found")
-
-    message = "Purged " + str(cached_files_count) + " blocklisted files from nginx cache"
-    return await send_msg(message)
+    if invalid_skylinks is None:
+        return await send_msg("Blocklist successfully updated all skylinks")
+    return await send_msg(
+        "Blocklist responded ok but failed to update "
+        + str(len(invalid_skylinks))
+        + " skylinks: "
+        + json.dumps(invalid_skylinks)
+    )
 
 
 loop = asyncio.get_event_loop()
@@ -118,6 +153,5 @@ loop.run_until_complete(run_checks())
 
 # --- BASH EQUIVALENT
 # skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?fields%5B%5D=${AIRTABLE_FIELD}" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
-# apipassword=$(docker exec sia cat /sia-data/apipassword)
-# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
-# curl -A "Sia-Agent" --user "":"${apipassword}" --data "{\"add\" : ${skylinks}}" "${ipaddress}:9980/skynet/blocklist"
+# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
+# curl --data "{\"add\" : ${skylinks}}" "${ipaddress}:8000/skynet/blocklist"

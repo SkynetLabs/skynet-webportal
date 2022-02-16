@@ -10,6 +10,11 @@ import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
+const matomoTagManagerScript = `var _mtm = window._mtm = window._mtm || [];
+_mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+g.async=true; g.src='https://surveillance.sia.tech/js/container_Z7P9k6Ok.js'; s.parentNode.insertBefore(g,s);`;
+
 function SEO({ description, lang, meta, title }) {
   const { site } = useStaticQuery(
     graphql`
@@ -73,8 +78,20 @@ function SEO({ description, lang, meta, title }) {
           name: `twitter:description`,
           content: pageDescription,
         },
+        // do not index public portal pages until we switch to dedicated portal landing page
+        // otherwise skynetlabs.com and all its copies will be marked as duplicates by crawlers
+        {
+          name: "robots",
+          content: "noindex",
+        },
+        {
+          name: "googlebot",
+          content: "noindex",
+        },
       ].concat(meta)}
-    />
+    >
+      <script type="text/javascript">{matomoTagManagerScript}</script>
+    </Helmet>
   );
 }
 

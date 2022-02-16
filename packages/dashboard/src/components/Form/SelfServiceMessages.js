@@ -32,8 +32,9 @@ import classnames from "classnames";
 export default function SelfServiceMessages({ messages = [] }) {
   if (!messages) return null; // make sure we don't throw on invalid data
 
-  return messages.map(({ text, type }) => (
+  return messages.map(({ text, type }, index) => (
     <p
+      key={index}
       className={classnames("mt-2 text-sm", {
         "text-red-600": type === "error",
         "text-blue-600": type === "info",

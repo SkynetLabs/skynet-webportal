@@ -37,6 +37,9 @@ GB = 1 << 30  # 1 GiB in bytes
 FREE_DISK_SPACE_THRESHOLD = 100 * GB
 FREE_DISK_SPACE_THRESHOLD_CRITICAL = 60 * GB
 
+# Disk usage dump log file (relative to this .py script).
+DISK_USAGE_DUMP_LOG = "../../devops/disk-monitor/disk-usage-dump.log"
+
 setup()
 
 
@@ -69,7 +72,9 @@ async def check_load_average():
     load_av = re.match(pattern, uptime_string).group(1)
     if float(load_av) > 10:
         message = "High system load detected in uptime output: {}".format(uptime_string)
-        await send_msg(message, force_notify=True)
+        # Disabling pings until we have metrics solution and process to better
+        # address
+        await send_msg(message, force_notify=False)
 
 
 # check_disk checks the amount of free space on the /home partition and issues
@@ -103,11 +108,18 @@ async def check_disk():
         message = "CRITICAL! Very low disk space: {}GiB, **siad stopped**!".format(
             free_space_gb
         )
+
+        # dump disk usage
+        script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))
+        os.popen(
+            script_dir + "/disk-usage-dump.sh " + script_dir + "/" + DISK_USAGE_DUMP_LOG
+        )
+
         inspect = os.popen("docker inspect sia").read().strip()
         inspect_json = json.loads(inspect)
-        if inspect_json[0]["State"]["Running"] == True:
+        if inspect_json[0]["State"]["Running"] is True:
             # mark portal as unhealthy
-            os.popen("docker exec health-check cli/disable")
+            os.popen("docker exec health-check cli disable 'critical free disk space'")
             time.sleep(300)  # wait 5 minutes to propagate dns changes
             os.popen("docker stop sia")  # stop sia container
         return await send_msg(message, force_notify=True)
@@ -133,7 +145,10 @@ async def check_health():
         res = requests.get(endpoint + "/health-check", verify=False)
         json_check = res.json()
 
-        server_failure = res.status_code is not requests.codes["ok"] and json_check["disabled"] == False:
+        server_failure = (
+            res.status_code is not requests.codes["ok"]
+            and json_check["disabled"] is False
+        )
 
         res = requests.get(endpoint + "/health-check/critical", verify=False)
         json_critical = res.json()
@@ -171,12 +186,12 @@ async def check_health():
         bad = False
         for check in critical["checks"]:
             critical_checks_total += 1
-            if check["up"] == False:
+            if check["up"] is False:
                 critical_checks_failed += 1
                 bad = True
         if bad:
             critical["checks"] = [
-                check for check in critical["checks"] if check["up"] == False
+                check for check in critical["checks"] if check["up"] is False
             ]
             failed_records.append(critical)
 
@@ -187,12 +202,12 @@ async def check_health():
         bad = False
         for check in extended["checks"]:
             extended_checks_total += 1
-            if check["up"] == False:
+            if check["up"] is False:
                 extended_checks_failed += 1
                 bad = True
         if bad:
             extended["checks"] = [
-                check for check in extended["checks"] if check["up"] == False
+                check for check in extended["checks"] if check["up"] is False
             ]
             failed_records.append(extended)
 
@@ -211,7 +226,8 @@ async def check_health():
         message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(
             critical_checks_failed, critical_checks_total, CHECK_HOURS
         )
-        force_notify = True
+        # Disabling as it creates notification fatigue.
+        # force_notify = True
     else:
         message += "All {} critical checks passed. ".format(critical_checks_total)
 
@@ -219,7 +235,8 @@ async def check_health():
         message += "{}/{} extended checks failed over the last {} hours! ".format(
             extended_checks_failed, extended_checks_total, CHECK_HOURS
         )
-        force_notify = True
+        # Disabling as it creates notification fatigue.
+        # force_notify = True
     else:
         message += "All {} extended checks passed. ".format(extended_checks_total)
 
@@ -227,11 +244,7 @@ async def check_health():
         failed_records_file = json.dumps(failed_records, indent=2)
 
     # send a message if we force notification, there is a failures dump or just once daily (heartbeat) on 1 AM
-    if (
-        force_notify
-        or failed_records_file
-        or datetime.utcnow().hour == 1
-    ):
+    if force_notify or failed_records_file or datetime.utcnow().hour == 1:
         return await send_msg(
             message, file=failed_records_file, force_notify=force_notify
         )

@@ -44,7 +44,7 @@ export default function Table({ items, count, headers, mutate, actions, offset, 
     if (offset < 0) setOffset(0);
     else if (offset >= count && count > 0) setOffset(Math.floor(count / pageSize - 1) * pageSize);
     else if (offset % pageSize) setOffset(offset - (offset % pageSize));
-  }, [offset, pageSize, setOffset]);
+  }, [count, offset, pageSize, setOffset]);
 
   return (
     <div className="flex flex-col">
@@ -104,7 +104,7 @@ export default function Table({ items, count, headers, mutate, actions, offset, 
                   ))
                 ) : (
                   <tr className="bg-white">
-                    <td colspan={headers.length + actions.length} className="text-center py-6 text-sm text-gray-500">
+                    <td colSpan={headers.length + actions.length} className="text-center py-6 text-sm text-gray-500">
                       no entries
                     </td>
                   </tr>

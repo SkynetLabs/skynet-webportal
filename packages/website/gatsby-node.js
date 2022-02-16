@@ -114,6 +114,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       external: String
       hidden: Boolean
       categories: [String]
+      avatar: File! @fileByRelativePath
     }
     type Fields {
       slug: String

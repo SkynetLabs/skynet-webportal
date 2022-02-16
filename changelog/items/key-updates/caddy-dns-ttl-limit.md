@@ -1,1 +1,0 @@
-- Set caddy dns entry ttl limit to 15 minutes to remove stranded entries.
