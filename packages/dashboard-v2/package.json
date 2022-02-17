@@ -13,7 +13,8 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prettier": "prettier ."
   },
   "dependencies": {
     "@fontsource/sora": "^4.5.0",
@@ -39,6 +40,7 @@
     "gatsby-source-filesystem": "^4.6.0",
     "gatsby-transformer-sharp": "^4.6.0",
     "postcss": "^8.4.6",
+    "prettier": "2.5.1",
     "react-is": "^17.0.2",
     "styled-components": "^5.3.3"
   }

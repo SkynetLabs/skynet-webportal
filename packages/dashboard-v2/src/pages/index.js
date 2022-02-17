@@ -1,13 +1,8 @@
-import * as React from "react"
+import * as React from 'react'
 
 // markup
 const IndexPage = () => {
-
-  return (
-    <>
-      Dashboard
-    </>
-  )
+  return <>Dashboard</>
 }
 
 export default IndexPage

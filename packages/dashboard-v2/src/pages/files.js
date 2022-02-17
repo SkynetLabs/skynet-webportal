@@ -1,13 +1,8 @@
-import * as React from "react"
+import * as React from 'react'
 
 // markup
 const FilesPage = () => {
-
-  return (
-    <>
-      FILES
-    </>
-  )
+  return <>FILES</>
 }
 
 export default FilesPage
