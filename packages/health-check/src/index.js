@@ -1,9 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-if (!process.env.SKYNET_PORTAL_API) {
-  throw new Error("You need to provide SKYNET_PORTAL_API environment variable");
-}
-
 if (!process.env.PORTAL_DOMAIN) {
   throw new Error("You need to provide PORTAL_DOMAIN environment variable");
 }

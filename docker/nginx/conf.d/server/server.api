@@ -248,8 +248,8 @@ location /skynet/tus {
     proxy_set_header X-Forwarded-Proto $scheme;
 
     # rewrite proxy request to use correct host uri from env variable (required to return correct location header)
-    set_by_lua $SKYNET_SERVER_API 'return os.getenv("SKYNET_SERVER_API")';
-    proxy_redirect $scheme://$host $SKYNET_SERVER_API;
+    set_by_lua_block $server_domain { return os.getenv("SERVER_DOMAIN") }
+    proxy_redirect $scheme://$host $scheme://$server_domain;
 
     # proxy /skynet/tus requests to siad endpoint with all arguments
     proxy_pass http://sia:9980;
@@ -276,8 +276,8 @@ location /skynet/tus {
 
     # extract skylink from base64 encoded upload metadata and assign to a proper header
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
 
         if ngx.header["Upload-Metadata"] then
             local encodedSkylink = string.match(ngx.header["Upload-Metadata"], "Skylink ([^,?]+)")
@@ -311,8 +311,8 @@ location /skynet/metadata {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -324,8 +324,8 @@ location /skynet/resolve {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;

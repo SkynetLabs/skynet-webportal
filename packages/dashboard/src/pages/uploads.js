@@ -8,7 +8,7 @@ import Table from "../components/Table";
 import { SkynetClient } from "skynet-js";
 import useAccountsApi from "../services/useAccountsApi";
 
-const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.NEXT_PUBLIC_PORTAL_DOMAIN}`);
 const getSkylinkLink = ({ skylink }) => skynetClient.getSkylinkUrl(skylink);
 const getRelativeDate = ({ uploadedOn }) => dayjs(uploadedOn).format("YYYY-MM-DD HH:mm:ss");
 const headers = [
