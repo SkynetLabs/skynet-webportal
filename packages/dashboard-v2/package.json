@@ -14,7 +14,9 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint .",
-    "prettier": "prettier ."
+    "prettier": "prettier .",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -o storybook-build"
   },
   "dependencies": {
     "@fontsource/sora": "^4.5.0",
@@ -26,11 +28,23 @@
     "tailwindcss": "^3.0.22"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.4",
+    "@storybook/addon-actions": "^6.4.19",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-interactions": "^6.4.19",
+    "@storybook/addon-links": "^6.4.19",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack5": "^6.4.19",
+    "@storybook/manager-webpack5": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@storybook/testing-library": "^0.0.9",
     "autoprefixer": "^10.4.2",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
     "babel-plugin-styled-components": "^2.0.2",
     "eslint": "^8.9.0",
     "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-storybook": "^0.5.6",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-image": "^2.6.0",
     "gatsby-plugin-postcss": "^5.7.0",
