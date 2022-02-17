@@ -34,7 +34,8 @@ module.exports = {
         content: ["Source\\ Sans\\ Pro", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        tab: ["18px", "28px"],
+        body: ['21px', { lineHeight: '1.58' }],
+        tab: ['18px', '28px'],
       },
       backgroundColor: ["disabled"],
       textColor: ["disabled"],
@@ -52,6 +53,9 @@ module.exports = {
         "page-md": "640px",
         "page-lg": "896px",
         "page-xl": "1312px",
+      },
+      minWidth: {
+        button: '112px',
       },
     },
   },
