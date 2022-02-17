@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.19.9.1-bionic
+FROM openresty/openresty:1.19.9.1-focal
 
 RUN luarocks install lua-resty-http && \
     luarocks install hasher && \
