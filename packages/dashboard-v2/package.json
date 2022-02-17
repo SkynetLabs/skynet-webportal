@@ -12,7 +12,8 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fontsource/sora": "^4.5.0",
@@ -32,6 +33,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "eslint": "^8.9.0",
+    "eslint-config-react-app": "^7.0.0",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-postcss": "^5.7.0",
     "postcss": "^8.4.6",
