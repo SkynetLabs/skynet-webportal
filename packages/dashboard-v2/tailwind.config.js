@@ -16,10 +16,7 @@ const colors = {
 };
 
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/skynet-storybook/dist/**/*.{js,jsx,ts,tsx}", // Also apply Tailwind classes to our shared components library
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
       sm: "640px",
@@ -55,7 +52,7 @@ module.exports = {
         "page-md": "640px",
         "page-lg": "896px",
         "page-xl": "1312px",
-      }
+      },
     },
   },
   plugins: [
