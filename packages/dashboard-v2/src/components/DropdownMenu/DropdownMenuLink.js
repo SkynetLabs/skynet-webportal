@@ -21,5 +21,4 @@ DropdownMenuLink.propTypes = {
   label: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
   active: PropTypes.bool,
   icon: PropTypes.func,
-  children: PropTypes.node.isRequired,
 };

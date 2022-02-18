@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 export const StyledTab = styled.button.attrs(({ active, variant }) => ({
-  className: `m-0 px-2 pb-2
+  className: `m-0 pr-2 pb-2
               text-tab text-left font-sans
               transition-colors hover:text-palette-500
               ${active ? "font-semibold text-palette-600" : "font-light text-palette-300"}

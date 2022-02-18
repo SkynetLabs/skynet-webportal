@@ -1,8 +1,11 @@
 import * as React from "react";
 
-// markup
+import DashboardLayout from "../layouts/DashboardLayout";
+
 const IndexPage = () => {
   return <>Dashboard</>;
 };
+
+IndexPage.Layout = DashboardLayout;
 
 export default IndexPage;
