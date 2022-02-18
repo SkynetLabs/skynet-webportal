@@ -75,7 +75,7 @@ async def send_msg(msg, force_notify=False, file=None):
         webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
         # Add the portal name.
-        msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
+        msg = "**{}**: {}".format(os.getenv("SERVER_DOMAIN"), msg)
 
         if file and isinstance(file, str):
             is_json = is_json_string(file)

@@ -11,7 +11,7 @@ import React from "react";
 
 dayjs.extend(relativeTime);
 
-const skynetClient = new SkynetClient(process.env.NEXT_PUBLIC_SKYNET_PORTAL_API);
+const skynetClient = new SkynetClient(`https://${process.env.NEXT_PUBLIC_PORTAL_DOMAIN}`);
 
 function SkylinkList({ items = [], timestamp }) {
   return (
