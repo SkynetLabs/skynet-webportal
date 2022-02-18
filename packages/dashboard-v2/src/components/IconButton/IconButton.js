@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 /**
  * Primary UI component for user interaction
@@ -8,30 +8,30 @@ export const IconButton = ({ primary, size, icon, ...props }) => {
     <button
       type="button"
       className={`${
-        size === 'small'
-          ? 'h-iconButtonSm w-buttonIconSm'
-          : size === 'large'
-          ? 'h-iconButtonLg w-iconButtonLg'
-          : 'w-iconButton h-iconButton'
+        size === "small"
+          ? "h-iconButtonSm w-buttonIconSm"
+          : size === "large"
+          ? "h-iconButtonLg w-iconButtonLg"
+          : "w-iconButton h-iconButton"
       } rounded-full 
             inline-flex justify-center items-center
-            ${primary ? 'bg-primary' : null}`}
+            ${primary ? "bg-primary" : null}`}
       {...props}
     >
       <div
         className={
-          size === 'small'
-            ? 'h-buttonIconSm w-buttonIconSm'
-            : size === 'large'
-            ? 'h-buttonIconLg w-buttonIconLg'
-            : 'h-buttonIcon w-buttonIcon'
+          size === "small"
+            ? "h-buttonIconSm w-buttonIconSm"
+            : size === "large"
+            ? "h-buttonIconLg w-buttonIconLg"
+            : "h-buttonIcon w-buttonIcon"
         }
       >
         {icon}
       </div>
     </button>
-  )
-}
+  );
+};
 
 IconButton.propTypes = {
   /**
@@ -41,7 +41,7 @@ IconButton.propTypes = {
   /**
    * How large should the button be?
    */
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  size: PropTypes.oneOf(["small", "medium", "large"]),
   /**
    * Icon component
    */
@@ -50,11 +50,11 @@ IconButton.propTypes = {
    * Optional click handler
    */
   onClick: PropTypes.func,
-}
+};
 
 IconButton.defaultProps = {
   backgroundColor: null,
   primary: false,
-  size: 'medium',
+  size: "medium",
   onClick: undefined,
-}
+};

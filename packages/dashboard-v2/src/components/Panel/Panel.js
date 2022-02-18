@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const PanelBody = styled.div.attrs({
-  className: 'p-6 bg-white rounded',
-})``
+  className: "p-6 bg-white rounded",
+})``;
 
 const PanelTitle = styled.h6.attrs({
-  className: 'uppercase text-xs text-palette-400 h-8 flex items-center',
-})``
+  className: "uppercase text-xs text-palette-400 h-8 flex items-center",
+})``;
 
 /**
  * Besides documented props, it accepts all HMTL attributes a `<div>` element does.
@@ -19,15 +19,15 @@ export const Panel = ({ title, ...props }) => (
     {title && <PanelTitle>{title}</PanelTitle>}
     <PanelBody {...props} />
   </div>
-)
+);
 
 Panel.propTypes = {
   /**
    * Label of the panel
    */
   title: PropTypes.string,
-}
+};
 
 Panel.defaultProps = {
-  title: '',
-}
+  title: "",
+};

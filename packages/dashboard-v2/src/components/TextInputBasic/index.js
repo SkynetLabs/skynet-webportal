@@ -1,1 +1,1 @@
-export * from './TextInputBasic'
+export * from "./TextInputBasic";

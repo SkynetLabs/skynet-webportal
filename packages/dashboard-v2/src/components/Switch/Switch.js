@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
-import './Switch.css'
+import PropTypes from "prop-types";
+import "./Switch.css";
 
 /**
  * Primary UI component for user interaction
@@ -14,12 +14,12 @@ export const Switch = ({ isOn, handleToggle }) => {
         id={`react-switch-new`}
         type="checkbox"
       />
-      <label className={'react-switch-label'} htmlFor={`react-switch-new`}>
-        <span className={`react-switch-button ${isOn ? 'bg-primary' : 'bg-palette-200'}`} />
+      <label className={"react-switch-label"} htmlFor={`react-switch-new`}>
+        <span className={`react-switch-button ${isOn ? "bg-primary" : "bg-palette-200"}`} />
       </label>
     </>
-  )
-}
+  );
+};
 
 Switch.propTypes = {
   /**
@@ -30,8 +30,8 @@ Switch.propTypes = {
    * Function to execute on change
    */
   handleToggle: PropTypes.func,
-}
+};
 
 Switch.defaultProps = {
   isOn: false,
-}
+};

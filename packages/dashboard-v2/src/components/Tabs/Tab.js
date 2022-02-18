@@ -1,21 +1,21 @@
-import { forwardRef } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { forwardRef } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 export const StyledTab = styled.button.attrs(({ active, variant }) => ({
   className: `m-0 px-2 pb-2
               text-tab text-left font-sans
               transition-colors hover:text-palette-500
-              ${active ? 'font-semibold text-palette-600' : 'font-light text-palette-300'}
-              ${variant === 'regular' ? 'sm:min-w-[180px]' : ''}`,
-}))``
+              ${active ? "font-semibold text-palette-600" : "font-light text-palette-300"}
+              ${variant === "regular" ? "sm:min-w-[180px]" : ""}`,
+}))``;
 
 export const Tab = forwardRef(({ active, title, id, variant, ...props }, ref) => (
   <StyledTab
     ref={ref}
     role="tab"
     type="button"
-    ariaSelected={`${active ? 'true' : 'false'}`}
+    ariaSelected={`${active ? "true" : "false"}`}
     ariaControls={`tabpanel-${id}`}
     id={`tab-${id}`}
     active={active}
@@ -24,9 +24,9 @@ export const Tab = forwardRef(({ active, title, id, variant, ...props }, ref) =>
   >
     {title}
   </StyledTab>
-))
+));
 
-Tab.displayName = 'Tab'
+Tab.displayName = "Tab";
 
 Tab.propTypes = {
   /**
@@ -48,8 +48,8 @@ Tab.propTypes = {
    * Controlled by `Tabs` component.
    */
   variant: PropTypes.string,
-}
+};
 
 Tab.defaultProps = {
-  variant: 'regular',
-}
+  variant: "regular",
+};

@@ -20,7 +20,7 @@
 }
 
 .react-switch-label .react-switch-button {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;

@@ -1,20 +1,20 @@
-import { Panel } from '../Panel'
-import { Select, SelectOption } from '.'
+import { Panel } from "../Panel";
+import { Select, SelectOption } from ".";
 
 export default {
-  title: 'SkynetLibrary/Select',
+  title: "SkynetLibrary/Select",
   component: Select,
   subcomponents: {
     SelectOption,
   },
   decorators: [
     (Story) => (
-      <Panel style={{ margin: 50, textAlign: 'center' }}>
+      <Panel style={{ margin: 50, textAlign: "center" }}>
         <Story />
       </Panel>
     ),
   ],
-}
+};
 
 const Template = (props) => (
   <Select {...props}>
@@ -25,23 +25,23 @@ const Template = (props) => (
     <SelectOption value="date-desc" label="Latest" />
     <SelectOption value="date-asc" label="Oldest" />
   </Select>
-)
-Template.args = {}
+);
+Template.args = {};
 
-export const NoDefaultNoPlaceholder = Template.bind({})
+export const NoDefaultNoPlaceholder = Template.bind({});
 NoDefaultNoPlaceholder.args = {
-  onChange: console.info.bind(console, 'onChange'),
-}
+  onChange: console.info.bind(console, "onChange"),
+};
 
-export const WithPlaceholder = Template.bind({})
+export const WithPlaceholder = Template.bind({});
 WithPlaceholder.args = {
-  placeholder: 'Select...',
-  onChange: console.info.bind(console, 'onChange'),
-}
+  placeholder: "Select...",
+  onChange: console.info.bind(console, "onChange"),
+};
 
-export const WithDefautValue = Template.bind({})
+export const WithDefautValue = Template.bind({});
 WithDefautValue.args = {
-  defaultValue: 'size-desc',
-  placeholder: 'Select...',
-  onChange: console.info.bind(console, 'onChange'),
-}
+  defaultValue: "size-desc",
+  placeholder: "Select...",
+  onChange: console.info.bind(console, "onChange"),
+};

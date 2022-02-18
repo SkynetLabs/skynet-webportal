@@ -1,1 +1,1 @@
-export * from './TextInputIcon'
+export * from "./TextInputIcon";

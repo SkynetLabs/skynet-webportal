@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 /**
  * Accepts all HMTL attributes a `<th>` element does.
@@ -8,6 +8,6 @@ export const TableHeadCell = styled.th.attrs({
               text-palette-600 font-sans font-light text-xs
               first:rounded-l-sm last:rounded-r-sm`,
 })`
-  text-align: ${({ align }) => align ?? 'left'};
-  max-width: ${({ maxWidth }) => maxWidth ?? 'none'};
-`
+  text-align: ${({ align }) => align ?? "left"};
+  max-width: ${({ maxWidth }) => maxWidth ?? "none"};
+`;

@@ -1,1 +1,1 @@
-export * from './TextIndicator'
+export * from "./TextIndicator";

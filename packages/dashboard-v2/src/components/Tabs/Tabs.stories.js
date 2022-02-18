@@ -1,10 +1,10 @@
-import { Tab, TabPanel, Tabs } from './'
+import { Tab, TabPanel, Tabs } from "./";
 
 export default {
-  title: 'SkynetLibrary/Tabs',
+  title: "SkynetLibrary/Tabs",
   component: Tabs,
   subcomponents: { Tab, TabPanel },
-}
+};
 
 const Template = (props) => (
   <>
@@ -29,39 +29,39 @@ const Template = (props) => (
       </TabPanel>
     </Tabs>
   </>
-)
+);
 
-const RegularTabs = Template.bind({})
+const RegularTabs = Template.bind({});
 
-const FillingTabs = Template.bind({})
+const FillingTabs = Template.bind({});
 FillingTabs.args = {
-  variant: 'fill',
-}
+  variant: "fill",
+};
 
-const FillingTabsInNarrowContainer = Template.bind({})
+const FillingTabsInNarrowContainer = Template.bind({});
 FillingTabsInNarrowContainer.args = {
-  variant: 'fill',
-  defaultTab: 'downloads',
-}
+  variant: "fill",
+  defaultTab: "downloads",
+};
 FillingTabsInNarrowContainer.decorators = [
   (Story) => (
-    <div style={{ width: 360, background: '#fafafa', padding: 10, border: '1px solid #eee' }}>
+    <div style={{ width: 360, background: "#fafafa", padding: 10, border: "1px solid #eee" }}>
       <Story />
     </div>
   ),
-]
+];
 
-const MultipleTabsComponents = Template.bind({})
+const MultipleTabsComponents = Template.bind({});
 MultipleTabsComponents.args = {
-  variant: 'fill',
-}
+  variant: "fill",
+};
 MultipleTabsComponents.decorators = [
   (Story) => (
-    <div style={{ width: 360, background: '#fafafa', padding: 10, border: '1px solid #eee' }}>
+    <div style={{ width: 360, background: "#fafafa", padding: 10, border: "1px solid #eee" }}>
       <Story />
       <Story />
     </div>
   ),
-]
+];
 
-export { RegularTabs, FillingTabs, FillingTabsInNarrowContainer, MultipleTabsComponents }
+export { RegularTabs, FillingTabs, FillingTabsInNarrowContainer, MultipleTabsComponents };

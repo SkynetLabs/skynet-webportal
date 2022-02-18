@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 /**
  * Primary UI component for user interaction
@@ -10,15 +10,15 @@ export const IconButtonText = ({ primary, label, icon, ...props }) => {
       className={`flex justify-center items-center w-iconButtonTextWidth py-iconButtonTextY`}
       {...props}
     >
-      <div className={`h-buttonTextIcon w-buttonTextIcon ${primary ? 'text-primary' : 'text-palette-600'}`}>{icon}</div>
+      <div className={`h-buttonTextIcon w-buttonTextIcon ${primary ? "text-primary" : "text-palette-600"}`}>{icon}</div>
       <p
-        className={'ml-iconButtonTextTextLeft tracking-wide text-iconButtonText font-sans font-light text-palette-600'}
+        className={"ml-iconButtonTextTextLeft tracking-wide text-iconButtonText font-sans font-light text-palette-600"}
       >
         {label}
       </p>
     </button>
-  )
-}
+  );
+};
 
 IconButtonText.propTypes = {
   /**
@@ -37,10 +37,10 @@ IconButtonText.propTypes = {
    * Optional click handler
    */
   onClick: PropTypes.func,
-}
+};
 
 IconButtonText.defaultProps = {
   primary: false,
-  label: '',
+  label: "",
   onClick: undefined,
-}
+};

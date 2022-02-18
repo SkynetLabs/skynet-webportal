@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 const propTypes = {
   /**
    * Size of the icon's bounding box.
    */
   size: PropTypes.number,
-}
+};
 
 const defaultProps = {
   size: 32,
-}
+};
 
 export const withIconProps = (IconComponent) => {
-  IconComponent.propTypes = propTypes
-  IconComponent.defaultProps = defaultProps
+  IconComponent.propTypes = propTypes;
+  IconComponent.defaultProps = defaultProps;
 
-  return IconComponent
-}
+  return IconComponent;
+};

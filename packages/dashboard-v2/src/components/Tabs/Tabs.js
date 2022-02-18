@@ -1,61 +1,61 @@
-import { cloneElement, useCallback, useEffect, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-import { ActiveTabIndicator } from './ActiveTabIndicator'
-import { usePrefixedTabIds, useTabsChildren } from './hooks'
+import { ActiveTabIndicator } from "./ActiveTabIndicator";
+import { usePrefixedTabIds, useTabsChildren } from "./hooks";
 
 const Container = styled.div.attrs({
-  className: 'tabs-container',
-})``
+  className: "tabs-container",
+})``;
 
 const Header = styled.div.attrs({
-  className: 'relative flex justify-start overflow-hidden',
-})``
+  className: "relative flex justify-start overflow-hidden",
+})``;
 
 const TabList = styled.div.attrs(({ variant }) => ({
-  role: 'tablist',
+  role: "tablist",
   className: `relative inline-grid grid-flow-col auto-cols-fr
-              ${variant === 'regular' ? 'w-full sm:w-auto' : 'w-full'}`,
-}))``
+              ${variant === "regular" ? "w-full sm:w-auto" : "w-full"}`,
+}))``;
 
 const Divider = styled.div.attrs({
-  'aria-hidden': 'true',
-  className: 'absolute bottom-0 w-screen border-b border-b-palette-200',
+  "aria-hidden": "true",
+  className: "absolute bottom-0 w-screen border-b border-b-palette-200",
 })`
   right: calc(-100vw - 2px);
-`
+`;
 
-const Body = styled.div``
+const Body = styled.div``;
 
 /**
  * Besides documented props, it accepts all HMTL attributes a `<div>` element does.
  */
 export const Tabs = ({ defaultTab, children, variant }) => {
-  const getTabId = usePrefixedTabIds()
-  const { tabs, panels, tabsRefs } = useTabsChildren(children, getTabId)
-  const defaultTabId = useMemo(() => getTabId(defaultTab || tabs[0].props.id), [getTabId, defaultTab, tabs])
-  const [activeTabId, setActiveTabId] = useState(defaultTabId)
-  const [activeTabRef, setActiveTabRef] = useState(tabsRefs[activeTabId])
-  const isActive = (id) => id === activeTabId
+  const getTabId = usePrefixedTabIds();
+  const { tabs, panels, tabsRefs } = useTabsChildren(children, getTabId);
+  const defaultTabId = useMemo(() => getTabId(defaultTab || tabs[0].props.id), [getTabId, defaultTab, tabs]);
+  const [activeTabId, setActiveTabId] = useState(defaultTabId);
+  const [activeTabRef, setActiveTabRef] = useState(tabsRefs[activeTabId]);
+  const isActive = (id) => id === activeTabId;
   const onTabChange = useCallback(
     (id) => {
-      setActiveTabId(id)
+      setActiveTabId(id);
     },
     [setActiveTabId]
-  )
+  );
 
   useEffect(() => {
     // Refresh active tab indicator whenever active tab changes.
-    setActiveTabRef(tabsRefs[activeTabId])
-  }, [setActiveTabRef, tabsRefs, activeTabId])
+    setActiveTabRef(tabsRefs[activeTabId]);
+  }, [setActiveTabRef, tabsRefs, activeTabId]);
 
   return (
     <Container>
       <Header>
         <TabList variant={variant}>
           {tabs.map((tab) => {
-            const tabId = getTabId(tab.props.id)
+            const tabId = getTabId(tab.props.id);
 
             return cloneElement(tab, {
               ref: tabsRefs[tabId],
@@ -63,7 +63,7 @@ export const Tabs = ({ defaultTab, children, variant }) => {
               variant,
               active: isActive(tabId),
               onClick: () => onTabChange(tabId),
-            })
+            });
           })}
           <Divider />
           <ActiveTabIndicator tabRef={activeTabRef} />
@@ -71,18 +71,18 @@ export const Tabs = ({ defaultTab, children, variant }) => {
       </Header>
       <Body>
         {panels.map((panel) => {
-          const tabId = getTabId(panel.props.tabId)
+          const tabId = getTabId(panel.props.tabId);
 
           return cloneElement(panel, {
             ...panel.props,
             tabId,
             active: isActive(tabId),
-          })
+          });
         })}
       </Body>
     </Container>
-  )
-}
+  );
+};
 
 Tabs.propTypes = {
   /**
@@ -98,9 +98,9 @@ Tabs.propTypes = {
    *
    * `fill` will make the tabs spread throughout the available width
    */
-  variant: PropTypes.oneOf(['regular', 'fill']),
-}
+  variant: PropTypes.oneOf(["regular", "fill"]),
+};
 
 Tabs.defaultProps = {
-  variant: 'regular',
-}
+  variant: "regular",
+};

@@ -1,1 +1,1 @@
-export * from './IconButtonText'
+export * from "./IconButtonText";

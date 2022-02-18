@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 /**
  * Primary UI component for user interaction
@@ -8,13 +8,13 @@ export const Button = ({ primary, label, ...props }) => {
     <button
       type="button"
       className={`min-w-button min-h-button rounded-full font-sans uppercase tracking-wide text-button 
-            ${primary ? 'bg-primary' : 'bg-white border-2 border-black'}`}
+            ${primary ? "bg-primary" : "bg-white border-2 border-black"}`}
       {...props}
     >
       {label}
     </button>
-  )
-}
+  );
+};
 
 Button.propTypes = {
   /**
@@ -33,9 +33,9 @@ Button.propTypes = {
    * Optional click handler
    */
   onClick: PropTypes.func,
-}
+};
 
 Button.defaultProps = {
   primary: false,
   onClick: undefined,
-}
+};

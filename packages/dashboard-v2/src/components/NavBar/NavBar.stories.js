@@ -1,13 +1,13 @@
-import { NavBar, NavBarLink, NavBarSection } from '.'
+import { NavBar, NavBarLink, NavBarSection } from ".";
 
 export default {
-  title: 'SkynetLibrary/NavBar',
+  title: "SkynetLibrary/NavBar",
   component: NavBar,
   subcomponents: {
     NavBarSection,
     NavBarLink,
   },
-}
+};
 
 const Template = (props) => (
   <NavBar {...props}>
@@ -19,7 +19,7 @@ const Template = (props) => (
       <NavBarLink href="/payments">Payments</NavBarLink>
     </NavBarSection>
   </NavBar>
-)
+);
 
-export const DashboardTopNavigation = Template.bind({})
-DashboardTopNavigation.args = {}
+export const DashboardTopNavigation = Template.bind({});
+DashboardTopNavigation.args = {};

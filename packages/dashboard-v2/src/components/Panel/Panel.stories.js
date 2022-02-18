@@ -1,7 +1,7 @@
-import { Panel } from './Panel'
+import { Panel } from "./Panel";
 
 export default {
-  title: 'SkynetLibrary/Panel',
+  title: "SkynetLibrary/Panel",
   component: Panel,
   decorators: [
     (Story) => (
@@ -12,7 +12,7 @@ export default {
       </div>
     ),
   ],
-}
+};
 
 const SampleContent = () => (
   <>
@@ -20,21 +20,21 @@ const SampleContent = () => (
     <p>This is the second paragraph</p>
     <p>This is the third paragraph</p>
   </>
-)
+);
 
 const Template = (args) => (
   <Panel {...args}>
     <SampleContent />
   </Panel>
-)
+);
 
-export const RawPanel = Template.bind({})
-RawPanel.args = {}
+export const RawPanel = Template.bind({});
+RawPanel.args = {};
 
-export const TitledPanel = Template.bind({})
+export const TitledPanel = Template.bind({});
 TitledPanel.args = {
-  title: 'Latest activity',
-}
+  title: "Latest activity",
+};
 
 export const InlinePanelsExample = () => (
   <div className="grid gap-4 grid-flow-col auto-cols-fr">
@@ -45,7 +45,7 @@ export const InlinePanelsExample = () => (
       <SampleContent />
     </Panel>
   </div>
-)
+);
 
 export const FullWidthPanelsExample = () => (
   <>
@@ -56,10 +56,10 @@ export const FullWidthPanelsExample = () => (
       <SampleContent />
     </Panel>
   </>
-)
+);
 
-export const CustomPanelBackground = Template.bind({})
+export const CustomPanelBackground = Template.bind({});
 CustomPanelBackground.args = {
-  className: 'bg-red-500',
-  title: 'Background below should be red',
-}
+  className: "bg-red-500",
+  title: "Background below should be red",
+};

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 /**
  * Accepts all HMTL attributes a `<td>` element does.
@@ -8,6 +8,6 @@ export const TableCell = styled.td.attrs({
               text-palette-600 even:text-palette-400
               first:rounded-l-sm last:rounded-r-sm`,
 })`
-  text-align: ${({ align }) => align ?? 'left'};
-  max-width: ${({ maxWidth }) => maxWidth ?? 'none'};
-`
+  text-align: ${({ align }) => align ?? "left"};
+  max-width: ${({ maxWidth }) => maxWidth ?? "none"};
+`;
