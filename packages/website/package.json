@@ -61,7 +61,7 @@
     "swr": "1.2.1"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "0.5.1",
+    "@tailwindcss/typography": "0.5.2",
     "autoprefixer": "10.4.2",
     "cross-env": "7.0.3",
     "cypress": "9.4.1",
