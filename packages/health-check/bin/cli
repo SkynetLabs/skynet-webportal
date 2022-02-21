@@ -7,6 +7,16 @@ require("yargs/yargs")(process.argv.slice(2))
   .demandCommand()
   .strict(true)
   .command(
+    "__authenticate", // Internal only function - this function will be removed when API keys are implemented
+    false, // hide this function cli help
+    () => {},
+    async () => {
+      const { getAuthCookie } = require("../src/utils");
+
+      console.log(await getAuthCookie(true));
+    }
+  )
+  .command(
     "enable",
     "Mark portal as enabled",
     () => {},
@@ -38,7 +48,7 @@ require("yargs/yargs")(process.argv.slice(2))
         })
         .option("portal-url", {
           describe: "Skynet portal url",
-          default: process.env.SKYNET_PORTAL_API || "https://siasky.net",
+          default: process.env.PORTAL_DOMAIN ? `https://${process.env.PORTAL_DOMAIN}` : "https://siasky.net",
           type: "string",
         })
         .option("state-dir", {
@@ -48,7 +58,8 @@ require("yargs/yargs")(process.argv.slice(2))
         });
     },
     async ({ type, portalUrl, stateDir }) => {
-      process.env.SKYNET_PORTAL_API = portalUrl;
+      const { hostname: portalDomain } = new URL(portalUrl); // extract domain from portal url
+      process.env.PORTAL_DOMAIN = portalDomain;
       process.env.STATE_DIR = stateDir;
 
       const util = require("util");

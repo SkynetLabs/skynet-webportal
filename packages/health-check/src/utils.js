@@ -1,4 +1,7 @@
-const got = require("got");
+const ipCheckService = "whatismyip.akamai.com";
+const ipRegex = new RegExp(
+  `^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$`
+);
 
 /**
  * Get the time between start and now in milliseconds
@@ -42,27 +45,49 @@ function ensureValidJSON(object) {
 }
 
 /**
+ * Get variable value from environment (process.env)
+ * Exit with code 1 if variable is not set or empty
+ * @param {string} name variable name
+ * @returns {string}
+ */
+function getRequiredEnvironmentVariable(name) {
+  const value = process.env[name];
+
+  if (!value) {
+    console.log(`${name} cannot be empty`);
+    process.exit(1);
+  }
+
+  return value;
+}
+
+/**
  * Authenticate with given credentials and return auth cookie
  * Creates new account if username does not exist
  * Only authenticates when portal is set to authenticated users only mode
+ * @param {boolean} forceAuth forcibly ensure authentication with test credentials
  */
-function getAuthCookie() {
+function getAuthCookie(forceAuth = false) {
   // cache auth promise so only one actual request will be made
   if (getAuthCookie.cache) return getAuthCookie.cache;
 
-  // do not authenticate if it is not necessary
-  if (!["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) return {};
+  // accounts disabled, do not try to authenticate
+  if (!isPortalModuleEnabled("a")) return "";
 
-  const email = process.env.ACCOUNTS_TEST_USER_EMAIL;
-  const password = process.env.ACCOUNTS_TEST_USER_PASSWORD;
+  // do not authenticate if it is not required by portal limit access rule
+  if (!forceAuth && !["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) return "";
 
-  if (!email) throw new Error("ACCOUNTS_TEST_USER_EMAIL cannot be empty");
-  if (!password) throw new Error("ACCOUNTS_TEST_USER_PASSWORD cannot be empty");
+  // assign all required environment variables
+  const portalDomain = getRequiredEnvironmentVariable("PORTAL_DOMAIN");
+  const email = getRequiredEnvironmentVariable("ACCOUNTS_TEST_USER_EMAIL");
+  const password = getRequiredEnvironmentVariable("ACCOUNTS_TEST_USER_PASSWORD");
 
   async function authenticate() {
+    const got = require("got");
+
     try {
       // authenticate with given test user credentials
-      const response = await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/login`, {
+      const response = await got.post(`https://account.${portalDomain}/api/login`, {
         json: { email, password },
       });
 
@@ -84,7 +109,7 @@ function getAuthCookie() {
       // 401 means that service worked but user could not have been authenticated
       if (error.response && error.response.statusCode === 401) {
         // sign up with the given credentials
-        await got.post(`${process.env.SKYNET_DASHBOARD_URL}/api/user`, {
+        await got.post(`https://account.${portalDomain}/api/user`, {
           json: { email, password },
         });
 
@@ -114,4 +139,6 @@ module.exports = {
   ensureValidJSON,
   getAuthCookie,
   isPortalModuleEnabled,
+  ipCheckService,
+  ipRegex,
 };

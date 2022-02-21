@@ -1,13 +1,10 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-if (!process.env.SKYNET_PORTAL_API) {
-  throw new Error("You need to provide SKYNET_PORTAL_API environment variable");
+if (!process.env.PORTAL_DOMAIN) {
+  throw new Error("You need to provide PORTAL_DOMAIN environment variable");
 }
 
 if (process.env.ACCOUNTS_ENABLED === "true") {
-  if (!process.env.SKYNET_DASHBOARD_URL) {
-    throw new Error("You need to provide SKYNET_DASHBOARD_URL environment variable when accounts are enabled");
-  }
   if (["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) {
     if (!process.env.ACCOUNTS_TEST_USER_EMAIL) {
       throw new Error("ACCOUNTS_TEST_USER_EMAIL cannot be empty");
@@ -42,4 +39,10 @@ server.listen(port, host, (error) => {
   if (error) throw error;
 
   console.info(`Server listening at http://${host}:${port} (NODE_ENV: ${process.env.NODE_ENV})`);
+
+  const { ipRegex } = require("./utils");
+
+  if (ipRegex.test(process.env.serverip)) {
+    console.info(`Server public ip: ${process.env.serverip}`);
+  }
 });

@@ -91,7 +91,10 @@ const Uploader = () => {
     }
   }, [uploads]);
 
-  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({ onDrop: handleDrop });
+  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
+    onDrop: handleDrop,
+    useFsAccessApi: false,
+  });
   const inputElement = inputRef.current;
 
   React.useEffect(() => {

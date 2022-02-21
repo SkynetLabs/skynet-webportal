@@ -1135,7 +1135,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
   const details = { name: expected.name, skylink: expected.skylink };
 
   try {
-    const query = `${process.env.SKYNET_PORTAL_API}/${expected.skylink}`;
+    const query = `https://${process.env.PORTAL_DOMAIN}/${expected.skylink}`;
     const response = await got[method](query, { followRedirect, headers: { cookie: `nocache=true;${authCookie}` } });
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
@@ -1171,7 +1171,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
 
     if (expected.metadata && expected.skylink) {
       const skylink = parseSkylink(expected.skylink);
-      const url = `${process.env.SKYNET_PORTAL_API}/skynet/metadata/${skylink}`;
+      const url = `https://${process.env.PORTAL_DOMAIN}/skynet/metadata/${skylink}`;
       try {
         const metadata = await got(url, { headers: { cookie: `nocache=true;${authCookie}` } }).json();
         if (!isEqual(expected.metadata, metadata)) {

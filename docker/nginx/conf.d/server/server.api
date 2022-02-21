@@ -248,8 +248,8 @@ location /skynet/tus {
     proxy_set_header X-Forwarded-Proto $scheme;
 
     # rewrite proxy request to use correct host uri from env variable (required to return correct location header)
-    set_by_lua $SKYNET_SERVER_API 'return os.getenv("SKYNET_SERVER_API")';
-    proxy_redirect $scheme://$host $SKYNET_SERVER_API;
+    set_by_lua_block $server_domain { return os.getenv("SERVER_DOMAIN") }
+    proxy_redirect $scheme://$host $scheme://$server_domain;
 
     # proxy /skynet/tus requests to siad endpoint with all arguments
     proxy_pass http://sia:9980;
@@ -276,8 +276,8 @@ location /skynet/tus {
 
     # extract skylink from base64 encoded upload metadata and assign to a proper header
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
 
         if ngx.header["Upload-Metadata"] then
             local encodedSkylink = string.match(ngx.header["Upload-Metadata"], "Skylink ([^,?]+)")
@@ -311,8 +311,8 @@ location /skynet/metadata {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -324,8 +324,8 @@ location /skynet/resolve {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = os.getenv("SKYNET_PORTAL_API")
-        ngx.header["Skynet-Server-Api"] = os.getenv("SKYNET_SERVER_API")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -346,6 +346,43 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     #set $is_args ?;
 
     include /etc/nginx/conf.d/include/location-skylink;
+}
+
+location /skynet/trustless/basesector {
+    include /etc/nginx/conf.d/include/cors;
+    include /etc/nginx/conf.d/include/proxy-buffer;
+    include /etc/nginx/conf.d/include/track-download;
+
+    limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
+
+    # default download rate to unlimited
+    set $limit_rate 0;
+
+    access_by_lua_block {
+        if require("skynet.account").accounts_enabled() then
+            -- check if portal is in authenticated only mode
+            if require("skynet.account").is_access_unauthorized() then
+                return require("skynet.account").exit_access_unauthorized()
+            end
+
+            -- check if portal is in subscription only mode
+            if require("skynet.account").is_access_forbidden() then
+                return require("skynet.account").exit_access_forbidden()
+            end
+
+            -- get account limits of currently authenticated user
+            local limits = require("skynet.account").get_account_limits()
+
+            -- apply download speed limit
+            ngx.var.limit_rate = limits.download
+        end
+    }
+
+    limit_rate_after 512k;
+    limit_rate $limit_rate;
+
+    proxy_set_header User-Agent: Sia-Agent;
+    proxy_pass http://sia:9980;
 }
 
 location /__internal/do/not/use/accounts {

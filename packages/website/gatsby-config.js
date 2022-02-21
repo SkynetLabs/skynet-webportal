@@ -44,7 +44,6 @@ module.exports = {
     `gatsby-plugin-svgr`,
     `gatsby-plugin-robots-txt`,
     `gatsby-transformer-sharp`,
-    `gatsby-transformer-json`,
     `gatsby-transformer-yaml`,
     {
       resolve: `gatsby-transformer-remark`,

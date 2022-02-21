@@ -78,6 +78,16 @@ function SEO({ description, lang, meta, title }) {
           name: `twitter:description`,
           content: pageDescription,
         },
+        // do not index public portal pages until we switch to dedicated portal landing page
+        // otherwise skynetlabs.com and all its copies will be marked as duplicates by crawlers
+        {
+          name: "robots",
+          content: "noindex",
+        },
+        {
+          name: "googlebot",
+          content: "noindex",
+        },
       ].concat(meta)}
     >
       <script type="text/javascript">{matomoTagManagerScript}</script>

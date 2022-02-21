@@ -66,8 +66,7 @@ services:
     env_file:
       - .env
     environment:
-      - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
-      - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
+      - NEXT_PUBLIC_PORTAL_DOMAIN=${PORTAL_DOMAIN}
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.next:/usr/app/.next
