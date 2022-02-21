@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "0.4.0",
-    "@tailwindcss/typography": "0.5.1",
+    "@tailwindcss/typography": "0.5.2",
     "autoprefixer": "10.4.2",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
