@@ -4,7 +4,14 @@
 
 @layer base {
   html {
-    @apply font-content bg-palette-200 bg-opacity-20;
+    @apply font-content bg-palette-200 bg-opacity-[.30] h-screen tracking-wide;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold;
   }
 
   h1,
@@ -13,6 +20,26 @@
   h4,
   h5,
   h6 {
-    @apply font-sans;
+    @apply font-sans tracking-normal;
+  }
+
+  h1 {
+    font-size: 3.75rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.875rem;
+  }
+  h4 {
+    font-size: 1.125rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    @apply uppercase;
+    font-size: 0.875rem;
   }
 }
