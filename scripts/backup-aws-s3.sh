@@ -22,7 +22,7 @@ done
 
 # create bucket skynet-backup-[portaldomain] (portal domain is stripped of all non alnum characters)
 # ie. siasky.net backup results in skynet-backup-siaskynet basket name
-BUCKET_NAME=$(echo skynet-backup-${PORTAL_DOMAIN} | tr -cd '[[:alnum:]]')
+BUCKET_NAME=$(echo skynet-backup-${PORTAL_DOMAIN} | tr -cd '[[:alnum:]]-')
 
 # create server prefix
 if test -z "${SERVER_DOMAIN}"; then
