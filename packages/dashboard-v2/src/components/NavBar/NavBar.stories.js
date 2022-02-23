@@ -9,17 +9,7 @@ export default {
   },
 };
 
-const Template = (props) => (
-  <NavBar {...props}>
-    <NavBarSection>
-      <NavBarLink href="/dashboard" active>
-        Dashboard
-      </NavBarLink>
-      <NavBarLink href="/files">Files</NavBarLink>
-      <NavBarLink href="/payments">Payments</NavBarLink>
-    </NavBarSection>
-  </NavBar>
-);
+const Template = (props) => <NavBar {...props} />;
 
 export const DashboardTopNavigation = Template.bind({});
 DashboardTopNavigation.args = {};
