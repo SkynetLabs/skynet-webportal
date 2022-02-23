@@ -61,12 +61,14 @@ const Slider = ({ slides, breakpoints }) => {
           );
         })}
       </Scroller>
-      <Bullets
-        activeIndex={activeIndex}
-        allSlides={slides.length}
-        visibleSlides={visibleSlides}
-        changeSlide={changeSlide}
-      />
+      {scrollable && (
+        <Bullets
+          activeIndex={activeIndex}
+          allSlides={slides.length}
+          visibleSlides={visibleSlides}
+          changeSlide={changeSlide}
+        />
+      )}
     </Container>
   );
 };
