@@ -21,6 +21,7 @@
   "dependencies": {
     "@fontsource/sora": "^4.5.3",
     "@fontsource/source-sans-pro": "^4.5.3",
+    "byte-size": "^8.1.0",
     "gatsby": "^4.6.2",
     "gatsby-plugin-postcss": "^5.7.0",
     "postcss": "^8.4.6",
