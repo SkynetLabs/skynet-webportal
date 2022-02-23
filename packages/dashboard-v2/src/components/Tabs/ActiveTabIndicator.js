@@ -35,6 +35,9 @@ export const ActiveTabIndicator = ({ tabRef }) => {
   );
 };
 
-ActiveTabIndicator.propTypes = {
-  tabRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]),
-};
+// Needed, because we're using an Element constant here which Gatsby doesn't recognize during build time.
+if (typeof window !== "undefined") {
+  ActiveTabIndicator.propTypes = {
+    tabRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]),
+  };
+}

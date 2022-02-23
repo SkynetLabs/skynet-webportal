@@ -53,7 +53,7 @@ const IndexPage = () => {
               </ul>
             </Panel>,
           ]}
-        ></Slider>
+        />
       </div>
       {showRecentActivity && (
         <div className="mt-10">
