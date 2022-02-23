@@ -75,6 +75,10 @@ location /skynet/stats {
 location /nginx/stats {
     include /etc/nginx/conf.d/include/cors;
 
+    charset utf-8;
+    charset_types application/json;
+    default_type application/json;
+
     content_by_lua_block {
         local json = require('cjson')
         ngx.say(json.encode{
