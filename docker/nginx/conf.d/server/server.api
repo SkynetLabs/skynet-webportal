@@ -72,6 +72,25 @@ location /skynet/stats {
     proxy_pass http://sia:9980/skynet/stats;
 }
 
+location /nginx/stats {
+    include /etc/nginx/conf.d/include/cors;
+
+    content_by_lua_block {
+        local json = require('cjson')
+        ngx.say(json.encode{
+            -- current number of active client connections including waiting connections
+            connections_active = ngx.var.connections_active,
+            -- current number of connections where nginx is reading the request header
+            connections_reading = ngx.var.connections_reading,
+            -- current number of connections where nginx is writing the response back to the client
+            connections_writing = ngx.var.connections_writing,
+            -- current number of idle client connections waiting for a request
+            connections_waiting = ngx.var.connections_waiting,
+        })
+        return ngx.exit(ngx.HTTP_OK)
+    }
+}
+
 # Define path for server load endpoint
 location /serverload {
     # Define root directory in the nginx container to load file from
