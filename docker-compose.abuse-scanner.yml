@@ -7,11 +7,9 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  abuse:
-    build:
-      context: ./docker/abuse
-      dockerfile: Dockerfile
-    container_name: abuse
+  abuse-scanner:
+    image: skynetlabs/abuse-scanner
+    container_name: abuse-scanner
     restart: unless-stopped
     logging: *default-logging
     env_file:
