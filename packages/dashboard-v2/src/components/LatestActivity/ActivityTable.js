@@ -8,11 +8,11 @@ export default function ActivityTable({ data }) {
         {data.map(({ name, type, size, uploaded, skylink }) => (
           <TableRow key={skylink}>
             <TableCell>{name}</TableCell>
-            <TableCell width="80px">{type}</TableCell>
-            <TableCell width="80px" align="right">
+            <TableCell className="w-[80px]">{type}</TableCell>
+            <TableCell className="w-[80px]" align="right">
               {size}
             </TableCell>
-            <TableCell width="180px">{uploaded}</TableCell>
+            <TableCell className="w-[180px]">{uploaded}</TableCell>
             <TableCell>{skylink}</TableCell>
           </TableRow>
         ))}
