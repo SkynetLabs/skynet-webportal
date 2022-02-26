@@ -55,14 +55,14 @@ const Slider = ({ slides, breakpoints }) => {
         $activeIndex={activeIndex}
         $scrollable={scrollable}
       >
-        {slides.map((slide, i) => {
-          const isVisible = i >= activeIndex && i < activeIndex + visibleSlides;
+        {slides.map((slide, index) => {
+          const isVisible = index >= activeIndex && index < activeIndex + visibleSlides;
 
           return (
-            <div key={`slide-${i}`}>
+            <div key={`slide-${index}`}>
               <Slide
                 isVisible={isVisible || !scrollable}
-                onClick={scrollable && !isVisible ? () => changeSlide(i) : null}
+                onClick={scrollable && !isVisible ? () => changeSlide(index) : null}
               >
                 {slide}
               </Slide>

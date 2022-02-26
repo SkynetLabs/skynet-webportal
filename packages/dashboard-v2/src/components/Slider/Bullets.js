@@ -9,11 +9,12 @@ export default function Bullets({ visibleSlides, activeIndex, allSlides, changeS
     <div className="flex gap-3 pt-6">
       {Array(allSlides - visibleSlides + 1)
         .fill(null)
-        .map((_, i) => (
-          <span
-            key={`slider-bullets-${i}`}
-            className={`rounded-full w-3 h-3 ${activeIndex === i ? "bg-primary" : "border-2 cursor-pointer"}`}
-            onClick={() => changeSlide(i)}
+        .map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            className={`rounded-full w-3 h-3 ${activeIndex === index ? "bg-primary" : "border-2 cursor-pointer"}`}
+            onClick={() => changeSlide(index)}
           />
         ))}
     </div>
