@@ -1,5 +1,5 @@
 import * as React from "react";
-import fileSize from "byte-size";
+import fileSize from "pretty-bytes";
 import { Link } from "gatsby";
 
 import { GraphBar } from "./GraphBar";
@@ -7,31 +7,50 @@ import { UsageGraph } from "./UsageGraph";
 
 // TODO: get real data
 const useUsageData = () => ({
-  filesUsed: 19_521,
-  filesLimit: 20_000,
-  storageUsed: 23_000_000_000,
-  storageLimit: 1_000_000_000_000,
+  files: {
+    used: 19_521,
+    limit: 20_000,
+  },
+  storage: {
+    used: 23_000_000_000,
+    limit: 1_000_000_000_000,
+  },
 });
 
-const size = (bytes) => fileSize(bytes, { precision: 0 });
+const size = (bytes) => {
+  const text = fileSize(bytes, { maximumFractionDigits: 1 });
+  const [value, unit] = text.split(" ");
+
+  return {
+    text,
+    value,
+    unit,
+  };
+};
 
 export default function CurrentUsage() {
-  const { filesUsed, filesLimit, storageUsed, storageLimit } = useUsageData();
+  const { files, storage } = useUsageData();
+
+  const storageUsage = size(storage.used);
+  const storageLimit = size(storage.limit);
+  const filesUsedLabel = React.useMemo(() => ({ value: files.used, unit: "files" }), [files.used]);
 
   return (
     <>
-      <h4>{`${size(storageUsed)} of ${size(storageLimit)}`}</h4>
+      <h4>
+        {storageUsage.text} of {storageLimit.text}
+      </h4>
       <p className="text-palette-400">
-        {filesUsed} of {filesLimit} files
+        {files.used} of {files.limit} files
       </p>
       <div className="relative mt-7 font-sans uppercase text-xs">
         <div className="flex place-content-between">
           <span>Storage</span>
-          <span>{`${size(storageLimit)}`}</span>
+          <span>{storageLimit.text}</span>
         </div>
         <UsageGraph>
-          <GraphBar value={storageUsed} limit={storageLimit} label={size(storageUsed)} />
-          <GraphBar value={filesUsed} limit={filesLimit} label={{ value: filesUsed, unit: "files" }} />
+          <GraphBar value={storage.used} limit={storage.limit} label={storageUsage} />
+          <GraphBar value={files.used} limit={files.limit} label={filesUsedLabel} />
         </UsageGraph>
         <div className="flex place-content-between">
           <span>Files</span>
@@ -43,7 +62,7 @@ export default function CurrentUsage() {
               UPGRADE
             </Link>{" "}
             {/* TODO: proper URL */}
-            <span>{filesLimit}</span>
+            <span>{files.limit}</span>
           </span>
         </div>
       </div>

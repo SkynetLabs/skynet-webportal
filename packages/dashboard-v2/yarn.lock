@@ -5127,11 +5127,6 @@ busboy@^0.2.11:
     dicer "0.2.5"
     readable-stream "1.1.x"
 
-byte-size@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/byte-size/-/byte-size-8.1.0.tgz#6353d0bc14ab7a69abcefbf11f8db0145a862cb5"
-  integrity sha512-FkgMTAg44I0JtEaUAvuZTtU2a2YDmBRbQxdsQNSMtLCjhG0hMcF5b1IMN9UjSCJaU4nvlj/GER7B9sI4nKdCgA==
-
 bytes@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
@@ -12454,6 +12449,11 @@ pretty-bytes@^5.4.1:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.6.0.tgz#356256f643804773c82f64723fe78c92c62beaeb"
   integrity sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==
+
+pretty-bytes@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-6.0.0.tgz#928be2ad1f51a2e336add8ba764739f9776a8140"
+  integrity sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==
 
 pretty-error@^2.1.1, pretty-error@^2.1.2:
   version "2.1.2"
