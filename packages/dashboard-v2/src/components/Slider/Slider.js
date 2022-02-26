@@ -86,8 +86,20 @@ Slider.propTypes = {
   slides: PropTypes.arrayOf(PropTypes.node.isRequired),
   breakpoints: PropTypes.arrayOf(
     PropTypes.shape({
-      minWidth: PropTypes.number.isRequired,
+      /**
+       * Breakpoint name as defined in Tailwind config. If not defined, config
+       * will be applied to all non-configured screen sizes.
+       */
+      name: PropTypes.string,
+      /**
+       * Number of slides visible for a given breakpoint.
+       */
       visibleSlides: PropTypes.number.isRequired,
+      /**
+       * Whether or not the list should be scrollable horizontally at the given breakpoint.
+       * If set to false, all slides will be visible & rendered in a column.
+       */
+      scrollable: PropTypes.bool.isRequired,
     })
   ),
 };
@@ -95,18 +107,17 @@ Slider.propTypes = {
 Slider.defaultProps = {
   breakpoints: [
     {
-      minWidth: parseInt(theme.screens.xl),
+      name: "xl",
       scrollable: true,
       visibleSlides: 3,
     },
     {
-      minWidth: parseInt(theme.screens.md, 10),
+      name: "md",
       scrollable: true,
       visibleSlides: 2,
     },
     {
       // For the smallest screens, we won't scroll but instead stack the slides vertically.
-      minWidth: -Infinity,
       scrollable: false,
       visibleSlides: 1,
     },
