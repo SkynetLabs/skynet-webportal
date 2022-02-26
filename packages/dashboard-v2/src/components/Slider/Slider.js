@@ -38,6 +38,15 @@ const Slider = ({ slides, breakpoints }) => {
     [slides, visibleSlides, setActiveIndex]
   );
 
+  React.useEffect(() => {
+    const maxIndex = slides.length - visibleSlides;
+
+    // Make sure to not scroll too far when screen size changes.
+    if (activeIndex > maxIndex) {
+      setActiveIndex(maxIndex);
+    }
+  }, [slides.length, visibleSlides, activeIndex]);
+
   return (
     <Container>
       <Scroller
