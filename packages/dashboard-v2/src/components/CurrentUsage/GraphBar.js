@@ -20,7 +20,7 @@ const BarLabel = styled.span.attrs({
 `;
 
 export const GraphBar = ({ value, limit, label }) => {
-  const percentage = (value / limit) * 100;
+  const percentage = typeof limit !== "number" || limit === 0 ? 0 : (value / limit) * 100;
 
   return (
     <div className="relative flex items-center">
