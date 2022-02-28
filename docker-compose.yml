@@ -102,9 +102,7 @@ services:
       - 9000
 
   handshake:
-    build:
-      context: ./docker/handshake
-      dockerfile: Dockerfile
+    image: skynetlabs/hsd:3.0.1
     command: --chain-migrate=2 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
