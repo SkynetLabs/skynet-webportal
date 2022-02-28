@@ -182,10 +182,10 @@ ipaddr.js@1.9.1:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
 
-is-valid-domain@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.5.tgz#38b00f8fb70778b650c71356915a184321d22609"
-  integrity sha512-ilzfGo1kXzoVpSLplJWOexoiuAc6mRK+vPlNAeEPVJ29RagETpCz0izg6CZfY72DCuA+PCrEAEJeaecRLMNq5Q==
+is-valid-domain@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/is-valid-domain/-/is-valid-domain-0.1.6.tgz#3c85469d2938f170c8f82ce6e52df8ad9fca8105"
+  integrity sha512-ZKtq737eFkZr71At8NxOFcP9O1K89gW3DkdrGMpp1upr/ueWjj+Weh4l9AI4rN0Gt8W2M1w7jrG2b/Yv83Ljpg==
   dependencies:
     punycode "^2.1.1"
 

@@ -5,7 +5,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "express": "^4.17.3",
-    "is-valid-domain": "^0.1.5"
+    "is-valid-domain": "^0.1.6"
   },
   "devDependencies": {
     "prettier": "^2.5.1"
