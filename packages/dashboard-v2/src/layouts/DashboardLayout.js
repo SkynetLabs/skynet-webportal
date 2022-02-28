@@ -1,5 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
+import { SWRConfig } from "swr";
+
+import { authenticatedOnly } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/Navbar";
@@ -16,13 +19,15 @@ const Layout = styled.div.attrs({
 const DashboardLayout = ({ children }) => {
   return (
     <>
-      <Layout>
-        <NavBar />
-        <PageContainer>
-          <main className="mt-14">{children}</main>
-        </PageContainer>
-        <Footer />
-      </Layout>
+      <SWRConfig value={authenticatedOnly}>
+        <Layout>
+          <NavBar />
+          <PageContainer>
+            <main className="mt-14">{children}</main>
+          </PageContainer>
+          <Footer />
+        </Layout>
+      </SWRConfig>
     </>
   );
 };
