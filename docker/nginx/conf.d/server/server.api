@@ -393,14 +393,20 @@ location /__internal/do/not/use/accounts {
 
     content_by_lua_block {
         local json = require('cjson')
-        local accounts_enabled = require("skynet.account").accounts_enabled()
-        local is_auth_required = require("skynet.account").is_auth_required()
-        local is_authenticated = accounts_enabled and require("skynet.account").is_authenticated()
+        local skynet_account = require("skynet.account")
+
+        local accounts_enabled = skynet_account.accounts_enabled()
+        local is_auth_required = skynet_account.is_auth_required()
+        local is_subscription_required = skynet_account.is_subscription_required()
+        local is_authenticated = skynet_account.is_authenticated()
+        local has_subscription = skynet_account.has_subscription()
 
         ngx.say(json.encode{
             enabled = accounts_enabled,
             auth_required = is_auth_required,
+            subscription_required = is_subscription_required,
             authenticated = is_authenticated,
+            subscription = has_subscription,
         })
         return ngx.exit(ngx.HTTP_OK)
     }
