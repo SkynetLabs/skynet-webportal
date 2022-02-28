@@ -81,8 +81,8 @@ proxy_pass https://127.0.0.1/$skylink$path$is_args$args;
 
 # in case siad returns location header, we need to replace the skylink with the domain name
 header_filter_by_lua_block {
-    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
-    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
+    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
+    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
 
     if ngx.header.location then
         -- match location redirect part after the skylink
