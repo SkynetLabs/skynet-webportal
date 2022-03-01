@@ -5720,10 +5720,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@6.2.6:
-  version "6.2.6"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-6.2.6.tgz#75277b4944a1234beaf7453da19028bbf4f75cce"
-  integrity sha512-7eGav5MxEEzDHozQTDY6+psTIOw2i2kM1QVoJOC3bCp9VOKoo+mKR5n7aT5JPh7ksEKFYJYz0GJDils/9S+oLA==
+framer-motion@6.2.8:
+  version "6.2.8"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-6.2.8.tgz#02abb529191af7e2df444185fe27e932215b715d"
+  integrity sha512-4PtBWFJ6NqR350zYVt9AsFDtISTqsdqna79FvSYPfYDXuuqFmiKtZdkTnYPslnsOMedTW0pEvaQ7eqjD+sA+HA==
   dependencies:
     framesync "6.0.1"
     hey-listen "^1.0.8"
@@ -6154,10 +6154,10 @@ gatsby-remark-responsive-iframe@5.8.0:
     lodash "^4.17.21"
     unist-util-visit "^2.0.3"
 
-gatsby-remark-smartypants@5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-smartypants/-/gatsby-remark-smartypants-5.7.0.tgz#0f67db6287a7243c66db0090d122ff1cdbced283"
-  integrity sha512-ujPx/bwqal/Xosw6J0B6aHObGjQHPTFO9rh348FOOILEUvZxMfoyfkQEer/z4b3XCrxFXe3qxkUTfvCZwH63Dg==
+gatsby-remark-smartypants@5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-smartypants/-/gatsby-remark-smartypants-5.8.0.tgz#64bc17acf43191740f948801f35f28ac308cc47a"
+  integrity sha512-HJIEXoMFUbxySf130xjoC91WV2she/uuEyfji1KocSJSWgnkCN+M3mot/bNpCPgbnmbYFJAbXQT0llEFjFGzuw==
   dependencies:
     "@babel/runtime" "^7.15.4"
     retext "^7.0.1"
