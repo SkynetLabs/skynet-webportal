@@ -20,7 +20,7 @@
     "gatsby-plugin-matomo": "0.11.0",
     "gatsby-plugin-offline": "5.9.0",
     "gatsby-plugin-postcss": "5.9.0",
-    "gatsby-plugin-purgecss": "6.1.0",
+    "gatsby-plugin-purgecss": "6.1.1",
     "gatsby-plugin-react-helmet": "5.8.0",
     "gatsby-plugin-robots-txt": "1.7.0",
     "gatsby-plugin-sharp": "4.9.0",
