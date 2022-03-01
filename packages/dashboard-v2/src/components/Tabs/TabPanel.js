@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 /**
  * Besides documented props, it accepts all HMTL attributes a `<div>` element does.
  */
-export const TabPanel = ({ children, active, tabId, ...props }) => {
-  if (!active) {
-    return null;
-  }
-
-  return (
-    <div role="tabpanel" id={`tabpanel-${tabId}`} aria-labelledby={`tab-${tabId}`} {...props}>
-      {children}
-    </div>
-  );
-};
+export const TabPanel = ({ children, active, tabId, ...props }) => (
+  <div
+    role="tabpanel"
+    id={`tabpanel-${tabId}`}
+    aria-labelledby={`tab-${tabId}`}
+    {...props}
+    style={{ display: active ? "block" : "none" }}
+  >
+    {children}
+  </div>
+);
 
 TabPanel.propTypes = {
   /**
