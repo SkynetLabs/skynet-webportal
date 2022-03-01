@@ -79,11 +79,11 @@ export default function UploaderItem({ onUploadStateChange, upload }) {
 
   return (
     <div>
-      <div className="flex items-center">
-        <div className="flex-shrink-0 w-[40px] h-[40px] p-1">
+      <div className="grid grid-cols-[40px_1fr_min-content]">
+        <div className="p-1">
           <UploaderItemIcon status={upload.status} />
         </div>
-        <div className="flex flex-col flex-grow ml-3 overflow-hidden">
+        <div className="flex flex-col ml-3 overflow-hidden">
           <div className="text-palette-600">
             <div className="truncate">{upload.file.name}</div>
           </div>
