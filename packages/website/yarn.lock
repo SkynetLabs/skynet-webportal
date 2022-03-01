@@ -6383,7 +6383,7 @@ gatsby-cli@^4.9.0:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^3.7.0, gatsby-core-utils@^3.8.1, gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.0:
+gatsby-core-utils@^3.7.0, gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.9.0.tgz#7be5969622e44c4475cb14f1ac64b49a4072ab6c"
   integrity sha512-SvPnr86oXTY3ldbQ4QAkEew3BQE9vlzUXcXVJqTOhMUeGEz2kibBFUmVp8ia9Y1eOD+K/0xXQ54jUqaResj69w==
@@ -6617,7 +6617,7 @@ gatsby-plugin-typescript@^4.9.0:
     "@babel/runtime" "^7.15.4"
     babel-plugin-remove-graphql-queries "^4.9.0"
 
-gatsby-plugin-utils@^3.2.0, gatsby-plugin-utils@^3.3.0:
+gatsby-plugin-utils@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-utils/-/gatsby-plugin-utils-3.3.0.tgz#f37dac15f381acf876eaef94636d41f7671b0604"
   integrity sha512-wmwSQ/IMVQ8lII015IRToeXzu4LsRayKhlrBpuCbzJJgzBEgTH5ezHkGnxAGKvMn7xP9Oekz6DX/XYwUnAe4ug==
@@ -6727,7 +6727,7 @@ gatsby-source-filesystem@4.7.0:
     valid-url "^1.0.9"
     xstate "^4.26.1"
 
-gatsby-telemetry@^3.8.1, gatsby-telemetry@^3.9.0:
+gatsby-telemetry@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-3.9.0.tgz#d438841a6351ab1fd02c71244cdf78350694f070"
   integrity sha512-ifqJ4KS16mbpfZ5oVaU4WEbk6gccivVqjCbzfVGgqtl+C8B0u1CeShvr4NcJE1FdVFYIOB4uJeV9Wym03B075A==
@@ -6774,10 +6774,10 @@ gatsby-transformer-remark@5.9.0:
     unist-util-select "^3.0.4"
     unist-util-visit "^2.0.3"
 
-gatsby-transformer-sharp@4.8.0:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-4.8.0.tgz#081e8a8f654706feacb12dc4891de9830cda6389"
-  integrity sha512-741C9WQtCt6ch9lfxsxofeHGyVjulfh+a4h7jHs+CIDhCBWVA6yu+dH+yMFG3Xyy9knOSkEwz0JUcf2F1QMM0A==
+gatsby-transformer-sharp@4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-4.9.0.tgz#0f9b70716245d768532927601774bc266534ca24"
+  integrity sha512-Mclg6lf+PugFtl9XX+fZ8Wt+DTb3q4HzFkQgHjErZdK/YpUh6jeThcZGDU4tRhmFHfjx5xUQ9J926D6RFAaI8w==
   dependencies:
     "@babel/runtime" "^7.15.4"
     bluebird "^3.7.2"
