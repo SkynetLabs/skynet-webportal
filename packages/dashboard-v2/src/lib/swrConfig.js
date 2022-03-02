@@ -8,6 +8,7 @@ const redirectUnauthenticated = (key) =>
   fetch(`${baseUrl}/${key}`).then((response) => {
     if (response.status === StatusCodes.UNAUTHORIZED) {
       navigate(`/auth/login?return_to=${encodeURIComponent(window.location.href)}`);
+      return null;
     }
 
     return response.json();
