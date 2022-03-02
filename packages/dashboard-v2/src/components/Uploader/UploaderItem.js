@@ -5,7 +5,6 @@ import { StatusCodes } from "http-status-codes";
 import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
 import { useTimeoutFn } from "react-use";
-// import ms from "ms";
 import { SkynetClient } from "skynet-js";
 import { ProgressBar } from "./ProgressBar";
 import UploaderItemIcon from "./UploaderItemIcon";
