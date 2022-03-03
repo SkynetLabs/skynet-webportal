@@ -1,7 +1,7 @@
 - header: Skynet Labs
   links:
     - title: About us
-      to: https://skynetlabs.com/about
+      href: https://skynetlabs.com/about
     - title: Brand Guidelines
       href: https://support.skynetlabs.com/key-concepts/skynet-brand-guidelines
     - title: Careers
@@ -15,7 +15,7 @@
     - title: Developer Guide
       href: https://docs.skynetlabs.com
     - title: API & SDK Documentation
-      href: https://siasky.net/docs/
+      href: https://sdk.skynetlabs.com
     - title: Portal Setup
       href: https://support.skynetlabs.com/the-technology/running-a-web-portal
     - title: Github
