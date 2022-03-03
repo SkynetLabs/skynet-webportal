@@ -21,6 +21,7 @@ client_max_body_size 128k;
 rewrite ^/portals /skynet/portals permanent;
 rewrite ^/stats /skynet/stats permanent;
 rewrite ^/skynet/blacklist /skynet/blocklist permanent;
+rewrite ^/docs https://sdk.skynetlabs.com permanent;
 
 location / {
     include /etc/nginx/conf.d/include/cors;
@@ -37,10 +38,6 @@ location / {
 
 location @fallback {
     proxy_pass http://website:9000;
-}
-
-location /docs {
-    proxy_pass https://skynetlabs.github.io/skynet-docs;
 }
 
 location /skynet/blocklist {
