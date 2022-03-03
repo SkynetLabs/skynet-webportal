@@ -6,11 +6,11 @@ import { ActiveTabIndicator } from "./ActiveTabIndicator";
 import { usePrefixedTabIds, useTabsChildren } from "./hooks";
 
 const Container = styled.div.attrs({
-  className: "tabs-container",
+  className: "tabs-container flex flex-col h-full",
 })``;
 
 const Header = styled.div.attrs({
-  className: "relative flex justify-start overflow-hidden",
+  className: "relative flex justify-start overflow-hidden grow-0 shrink-0",
 })``;
 
 const TabList = styled.div.attrs(({ variant }) => ({
@@ -26,7 +26,7 @@ const Divider = styled.div.attrs({
   right: calc(-100vw - 2px);
 `;
 
-const Body = styled.div``;
+const Body = styled.div.attrs({ className: "grow min-h-0" })``;
 
 /**
  * Besides documented props, it accepts all HMTL attributes a `<div>` element does.

@@ -14,7 +14,7 @@ export default function Bullets({ visibleSlides, activeIndex, allSlides, changeS
             key={index}
             type="button"
             className={`rounded-full w-3 h-3 ${activeIndex === index ? "bg-primary" : "border-2 cursor-pointer"}`}
-            onClick={() => changeSlide(index)}
+            onClick={(event) => changeSlide(event, index)}
           />
         ))}
     </div>

@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import theme from "../../lib/theme";
 
 import useActiveBreakpoint from "./useActiveBreakpoint";
 import Bullets from "./Bullets";
@@ -32,7 +31,9 @@ const Slider = ({ slides, breakpoints }) => {
   const { visibleSlides, scrollable } = useActiveBreakpoint(breakpoints);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const changeSlide = React.useCallback(
-    (index) => {
+    (event, index) => {
+      event.preventDefault();
+      event.stopPropagation();
       setActiveIndex(Math.min(index, slides.length - visibleSlides)); // Don't let it scroll too far
     },
     [slides, visibleSlides, setActiveIndex]
@@ -62,7 +63,7 @@ const Slider = ({ slides, breakpoints }) => {
             <div key={`slide-${index}`}>
               <Slide
                 isVisible={isVisible || !scrollable}
-                onClick={scrollable && !isVisible ? () => changeSlide(index) : null}
+                onClickCapture={scrollable && !isVisible ? (event) => changeSlide(event, index) : null}
               >
                 {slide}
               </Slide>
