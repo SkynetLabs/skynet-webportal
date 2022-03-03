@@ -7,13 +7,6 @@ import useAccountsUrl from "../../services/useAccountsUrl";
 import { LogoWhiteText, LogoBlackText, MenuMobile, MenuMobileClose, DiscordSmall } from "../Icons";
 import { useWindowSize, useWindowScroll } from "react-use";
 
-const routes = [
-  { title: "Home", to: "/" },
-  { title: "About", to: "/about" },
-  { title: "Developers", to: "/developers" },
-  { title: "News", to: "/news" },
-];
-
 const useWindowTop = () => {
   const { y } = useWindowScroll();
 
@@ -74,20 +67,6 @@ const Navigation = ({ mode, uri }) => {
           </div>
 
           <div className="hidden desktop:ml-6 desktop:flex desktop:items-center desktop:space-x-12">
-            {routes.map(({ title, to }) => (
-              <Link
-                key={to}
-                to={to}
-                activeClassName="underline-primary"
-                className={classnames("text-sm font-light transition-colors duration-200 hover:text-primary", {
-                  "text-white": mode === "dark",
-                  "text-palette-600": mode === "light",
-                })}
-              >
-                {title}
-              </Link>
-            ))}
-
             {showLoginNavigation && (
               <>
                 <Link href={createAccountsUrl("/auth/login")} className="button-link-primary">
@@ -117,27 +96,13 @@ const Navigation = ({ mode, uri }) => {
           )}
           style={{ marginTop: mobileMenuOffset }}
         >
-          <ul className="py-10 space-y-2">
-            {routes.map(({ title, to }) => (
-              <li key={title}>
-                <Link
-                  key={to}
-                  to={to}
-                  activeClassName="underline-primary"
-                  className="text-xl leading-7 font-semibold text-white transition-colors duration-200 hover:text-primary"
-                >
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </ul>
           <div className="border-t border-palette-500 py-7">
             <Link
               href="https://discord.gg/skynetlabs"
               className="text-palette-300 text-m font-content flex items-center"
             >
               <DiscordSmall className="mr-2 fill-current text-white" />
-              <span>Join our Discord</span>
+              <span>Join Skynet Discord</span>
             </Link>
           </div>
           <div className="pt-12 pb-8 border-t border-palette-500">
