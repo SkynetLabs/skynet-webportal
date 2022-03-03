@@ -21,7 +21,7 @@ client_max_body_size 128k;
 rewrite ^/portals /skynet/portals permanent;
 rewrite ^/stats /skynet/stats permanent;
 rewrite ^/skynet/blacklist /skynet/blocklist permanent;
-rewrite ^/docs https://sdk.skynetlabs.com permanent;
+rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 
 location / {
     include /etc/nginx/conf.d/include/cors;
