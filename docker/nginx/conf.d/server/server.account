@@ -35,7 +35,21 @@ location /api/register {
     proxy_pass http://accounts:3000;
 }
 
+location /api/user/pubkey/register {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
+
 location /api/login {
+    include /etc/nginx/conf.d/include/cors;
+
+    rewrite /api/(.*) /$1 break;
+    proxy_pass http://accounts:3000;
+}
+
+location /api/logout {
     include /etc/nginx/conf.d/include/cors;
 
     rewrite /api/(.*) /$1 break;

@@ -85,8 +85,8 @@ access_by_lua_block {
 }
 
 header_filter_by_lua_block {
-    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
-    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
+    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
+    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
 
     -- the block below only makes sense if we are using nginx cache
     if not ngx.var.skyd_disk_cache_enabled then
