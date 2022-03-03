@@ -1,18 +1,36 @@
 import * as React from "react";
+import useSWR from "swr";
+
 import { Table, TableBody, TableCell, TableRow } from "../Table";
 
-export default function ActivityTable({ data }) {
+import useFormattedActivityData from "./useFormattedActivityData";
+
+export default function ActivityTable({ type }) {
+  const { data, error } = useSWR(`user/${type}?pageSize=3`);
+  const items = useFormattedActivityData(data?.items || []);
+
+  if (!items.length) {
+    return (
+      <div className="flex w-full h-full justify-center items-center text-palette-400">
+        {/* TODO: proper loading indicator / error message */}
+        {!data && !error && <p>Loading...</p>}
+        {!data && error && <p>An error occurred while loading this data.</p>}
+        {data && <p>No files found.</p>}
+      </div>
+    );
+  }
+
   return (
     <Table style={{ tableLayout: "fixed" }}>
       <TableBody>
-        {data.map(({ name, type, size, uploaded, skylink }) => (
-          <TableRow key={skylink}>
+        {items.map(({ id, name, type, size, date, skylink }) => (
+          <TableRow key={id}>
             <TableCell>{name}</TableCell>
             <TableCell className="w-[80px]">{type}</TableCell>
             <TableCell className="w-[80px]" align="right">
               {size}
             </TableCell>
-            <TableCell className="w-[180px]">{uploaded}</TableCell>
+            <TableCell className="w-[180px]">{date}</TableCell>
             <TableCell>{skylink}</TableCell>
           </TableRow>
         ))}
