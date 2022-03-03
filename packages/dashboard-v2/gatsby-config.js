@@ -1,3 +1,5 @@
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
 module.exports = {
   siteMetadata: {
     title: `Accounts Dashboard`,
@@ -20,4 +22,14 @@ module.exports = {
       __key: "images",
     },
   ],
+  developMiddleware: (app) => {
+    app.use(
+      "/api/",
+      createProxyMiddleware({
+        target: "https://account.siasky.net",
+        secure: false, // Do not reject self-signed certificates.
+        changeOrigin: true,
+      })
+    );
+  },
 };

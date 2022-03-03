@@ -9,6 +9,8 @@ import LatestActivity from "../components/LatestActivity/LatestActivity";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Slider from "../components/Slider/Slider";
 import CurrentUsage from "../components/CurrentUsage";
+import Uploader from "../components/Uploader/Uploader";
+import CurrentPlan from "../components/CurrentPlan";
 
 const IndexPage = () => {
   const showRecentActivity = useMedia(`(min-width: ${theme.screens.md})`);
@@ -18,15 +20,15 @@ const IndexPage = () => {
       <div className="w-full">
         <Slider
           slides={[
-            <Panel title="Upload">
+            <Panel title="Upload" className="h-[330px]">
               <Tabs variant="fill">
                 <Tab id="files" title="Files" />
                 <Tab id="directory" title="Directory" />
-                <TabPanel tabId="files">
-                  <div className="w-full py-16 bg-palette-100/50 text-center">Upload files...</div>
+                <TabPanel tabId="files" className="h-full overflow-y-auto">
+                  <Uploader mode="file" />
                 </TabPanel>
-                <TabPanel tabId="directory">
-                  <div className="w-full py-16 bg-palette-100/50 text-center">Upload a directory...</div>
+                <TabPanel tabId="directory" className="h-full overflow-y-auto">
+                  <Uploader mode="directory" />
                 </TabPanel>
               </Tabs>
             </Panel>,
@@ -36,6 +38,7 @@ const IndexPage = () => {
                   <ArrowRightIcon /> Usage
                 </>
               }
+              className="h-[330px]"
             >
               <CurrentUsage />
             </Panel>,
@@ -45,12 +48,9 @@ const IndexPage = () => {
                   <ArrowRightIcon /> Current plan
                 </>
               }
+              className="h-[330px]"
             >
-              <ul>
-                <li>Current</li>
-                <li>Plan</li>
-                <li>Info</li>
-              </ul>
+              <CurrentPlan />
             </Panel>,
           ]}
         />

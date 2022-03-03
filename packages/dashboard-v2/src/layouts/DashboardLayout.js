@@ -1,11 +1,15 @@
 import * as React from "react";
 import styled from "styled-components";
+import { SWRConfig } from "swr";
+
+import { authenticatedOnly } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { UserProvider, useUser } from "../contexts/user";
 
-const Layout = styled.div.attrs({
+const Wrapper = styled.div.attrs({
   className: "min-h-screen overflow-hidden",
 })`
   background-image: url(/images/dashboard-bg.svg);
@@ -13,16 +17,36 @@ const Layout = styled.div.attrs({
   background-repeat: no-repeat;
 `;
 
+const Layout = ({ children }) => {
+  const { user } = useUser();
+
+  // Prevent from flashing the dashboard screen to unauthenticated users.
+  return (
+    <Wrapper>
+      {!user && (
+        <div className="fixed inset-0 flex justify-center items-center bg-palette-100/50">
+          <p>Loading...</p> {/* TODO: Do something nicer here */}
+        </div>
+      )}
+      {user && <>{children}</>}
+    </Wrapper>
+  );
+};
+
 const DashboardLayout = ({ children }) => {
   return (
     <>
-      <Layout>
-        <NavBar />
-        <PageContainer>
-          <main className="mt-14">{children}</main>
-        </PageContainer>
-        <Footer />
-      </Layout>
+      <SWRConfig value={authenticatedOnly}>
+        <UserProvider>
+          <Layout>
+            <NavBar />
+            <PageContainer>
+              <main className="mt-14">{children}</main>
+            </PageContainer>
+            <Footer />
+          </Layout>
+        </UserProvider>
+      </SWRConfig>
     </>
   );
 };

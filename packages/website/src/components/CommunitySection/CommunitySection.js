@@ -24,11 +24,11 @@ const SectionTitle = ({ children }) => (
 
 const CommunitySection = () => {
   return (
-    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8 max-w-column desktop:max-w-full">
-      <div className="desktop:col-span-2">
+    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8 max-w-full">
+      <div className="tablet:col-span-2">
         <SectionHeader>Community</SectionHeader>
         <SectionTitle>Join Skynet community</SectionTitle>
-        <div className="grid grid-cols-2 desktop:grid-cols-6 max-w-column desktop:max-w-full">
+        <div className="grid grid-cols-2 tablet:grid-cols-6 max-w-full">
           {social.map(({ name, Icon, href }) => (
             <Link
               key={name}

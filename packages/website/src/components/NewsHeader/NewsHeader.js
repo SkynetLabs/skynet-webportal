@@ -6,19 +6,19 @@ const NewsHeader = () => {
   const link = null;
   const title = null;
 
+  if (!link) return null;
+
   return (
     <div className="bg-palette-500 px-8 p-3">
       <div className="max-w-layout mx-auto">
         <div className="flex justify-between">
-          {link && (
-            <Link
-              {...link}
-              className="text-palette-300 font-content leading-8 flex items-center overflow-hidden text-base hover:text-primary transition-colors duration-200"
-            >
-              <ArrowRight className="mr-2 flex-shrink-0 fill-current text-primary" />
-              <span className="truncate">{title}</span>
-            </Link>
-          )}
+          <Link
+            {...link}
+            className="text-palette-300 font-content leading-8 flex items-center overflow-hidden text-base hover:text-primary transition-colors duration-200"
+          >
+            <ArrowRight className="mr-2 flex-shrink-0 fill-current text-primary" />
+            <span className="truncate">{title}</span>
+          </Link>
 
           <div className="ml-auto items-center pl-8 hidden desktop:block">
             <Link
