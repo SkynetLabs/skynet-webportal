@@ -52,6 +52,14 @@ location /skynet/blocklist {
     proxy_pass http://sia:9980/skynet/blocklist;
 }
 
+location /skynet/portal/blocklist {
+    include /etc/nginx/conf.d/include/cors;
+
+    proxy_cache skynet;
+    proxy_cache_valid any 15m; # cache portal blocklist for 15 minutes
+    proxy_pass http://blocker:4000/blocklist;
+}
+
 location /skynet/portals {
     include /etc/nginx/conf.d/include/cors;
 
