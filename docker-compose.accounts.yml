@@ -20,7 +20,11 @@ services:
       - ACCOUNTS_LIMIT_ACCESS=${ACCOUNTS_LIMIT_ACCESS:-authenticated} # default to authenticated access only
 
   accounts:
-    image: skynetlabs/skynet-accounts
+    build:
+      context: ./docker/accounts
+      dockerfile: Dockerfile
+      args:
+        branch: main
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
