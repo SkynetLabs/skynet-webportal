@@ -46,14 +46,28 @@ location /docs {
 location /skynet/blocklist {
     include /etc/nginx/conf.d/include/cors;
 
+    add_header X-Proxy-Cache $upstream_cache_status;
+
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache blocklist for 1 minute
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980/skynet/blocklist;
 }
 
+location /skynet/portal/blocklist {
+    include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
+
+    proxy_cache skynet;
+    proxy_cache_valid 200 204 15m; # cache portal blocklist for 15 minutes
+    proxy_pass http://blocker:4000/blocklist;
+}
+
 location /skynet/portals {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache portals for 1 minute
@@ -63,6 +77,8 @@ location /skynet/portals {
 
 location /skynet/stats {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache stats for 1 minute
@@ -88,6 +104,8 @@ location /serverload {
 
 location /skynet/health {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_key $request_uri; # use whole request uri (uri + args) as cache key
