@@ -10,6 +10,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Slider from "../components/Slider/Slider";
 import CurrentUsage from "../components/CurrentUsage";
 import Uploader from "../components/Uploader/Uploader";
+import CurrentPlan from "../components/CurrentPlan";
 
 const IndexPage = () => {
   const showRecentActivity = useMedia(`(min-width: ${theme.screens.md})`);
@@ -49,11 +50,7 @@ const IndexPage = () => {
               }
               className="h-[330px]"
             >
-              <ul>
-                <li>Current</li>
-                <li>Plan</li>
-                <li>Info</li>
-              </ul>
+              <CurrentPlan />
             </Panel>,
           ]}
         />

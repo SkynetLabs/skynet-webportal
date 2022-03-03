@@ -23,6 +23,7 @@
     "@fontsource/source-sans-pro": "^4.5.3",
     "classnames": "^2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
+    "dayjs": "^1.10.8",
     "gatsby": "^4.6.2",
     "gatsby-plugin-postcss": "^5.7.0",
     "http-status-codes": "^2.2.0",
