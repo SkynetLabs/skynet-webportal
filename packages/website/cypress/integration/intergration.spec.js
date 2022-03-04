@@ -1,6 +1,10 @@
 /// <reference types="cypress" />
 
 context("Skynet website", () => {
+  Cypress.on("uncaught:exception", (err, runnable) => {
+    return false; // returning false here prevents Cypress from failing the test
+  });
+
   beforeEach(() => {
     cy.visit("");
   });

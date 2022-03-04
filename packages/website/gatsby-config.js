@@ -30,13 +30,6 @@ module.exports = {
         path: `${__dirname}/data/`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/data/news`,
-        name: `news`,
-      },
-    },
     `gatsby-plugin-postcss`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
@@ -45,44 +38,6 @@ module.exports = {
     `gatsby-plugin-robots-txt`,
     `gatsby-transformer-sharp`,
     `gatsby-transformer-yaml`,
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-classes`,
-            options: {
-              classMap: {
-                heading: "font-semibold text-palette-600",
-                paragraph: "font-content text-base text-palette-400",
-                strong: "font-semibold",
-                link: "text-primary hover:underline transition-colors duration-200",
-                "heading[depth=1]": "text-4xl",
-                "heading[depth=2]": "text-3xl",
-                "paragraph + paragraph": "mt-8",
-                "paragraph + heading": "mt-20",
-                "heading + paragraph": "mt-12",
-              },
-            },
-          },
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 630,
-            },
-          },
-          {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
-          `gatsby-remark-prismjs`,
-          `gatsby-remark-copy-linked-files`,
-          `gatsby-remark-smartypants`,
-        ],
-      },
-    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -135,25 +90,10 @@ module.exports = {
                 path
               }
             }
-            allMarkdownRemark {
-              nodes {
-                frontmatter {
-                  date,
-                  hidden
-                },
-                fields {
-                  slug
-                }
-              }
-            }
           }
         `,
-        resolvePages: ({ allSitePage: { nodes: allPages }, allMarkdownRemark: { nodes: allNews } }) => {
+        resolvePages: ({ allSitePage: { nodes: allPages } }) => {
           const pathToDateMap = {};
-
-          allNews.map((post) => {
-            pathToDateMap[post.fields.slug] = { date: post.frontmatter.date, hidden: post.frontmatter.hidden };
-          });
 
           // modify pages to filter out hidden news items and add date
           const pages = allPages
@@ -187,7 +127,4 @@ module.exports = {
       },
     },
   ],
-  // mapping: {
-  //   "MarkdownRemark.frontmatter.author": `teamYaml`,
-  // },
 };
