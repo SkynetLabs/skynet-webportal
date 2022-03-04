@@ -2,6 +2,7 @@ import * as React from "react";
 import useSWR from "swr";
 
 import { Table, TableBody, TableCell, TableRow } from "../Table";
+import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import useFormattedActivityData from "./useFormattedActivityData";
 
@@ -12,8 +13,8 @@ export default function ActivityTable({ type }) {
   if (!items.length) {
     return (
       <div className="flex w-full h-full justify-center items-center text-palette-400">
-        {/* TODO: proper loading indicator / error message */}
-        {!data && !error && <p>Loading...</p>}
+        {/* TODO: proper error message */}
+        {!data && !error && <ContainerLoadingIndicator />}
         {!data && error && <p>An error occurred while loading this data.</p>}
         {data && <p>No files found.</p>}
       </div>

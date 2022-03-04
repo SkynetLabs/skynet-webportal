@@ -3,6 +3,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import { useUser } from "../../contexts/user";
 import useActivePlan from "../../hooks/useActivePlan";
+import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import LatestPayment from "./LatestPayment";
 import SuggestedPlan from "./SuggestedPlan";
@@ -14,10 +15,7 @@ const CurrentPlan = () => {
   const { plans, activePlan, error: plansError } = useActivePlan(user);
 
   if (!user || !activePlan) {
-    return (
-      // TODO: a nicer loading indicator
-      <div className="flex flex-col space-y-4 h-full justify-center items-center">Loading...</div>
-    );
+    return <ContainerLoadingIndicator />;
   }
 
   if (userError || plansError) {
