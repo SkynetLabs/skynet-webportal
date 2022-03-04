@@ -144,7 +144,6 @@ location /hns {
     set_by_lua_block $hns_domain { return string.match(ngx.var.uri, "/hns/([^/?]+)") }
     set_by_lua_block $path { return string.match(ngx.var.uri, "/hns/[^/?]+(.*)") }
 
-    proxy_set_header Host $host;
     include /etc/nginx/conf.d/include/location-hns;
 }
 
