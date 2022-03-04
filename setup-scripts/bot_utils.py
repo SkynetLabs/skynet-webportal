@@ -52,6 +52,9 @@ api_endpoint = "http://{}:{}".format(
 
 # find siad api password by getting it out of the docker container
 def get_api_password():
+    if os.getenv("SIA_API_PASSWORD"):
+        return os.getenv("SIA_API_PASSWORD")
+
     api_password_regex = re.compile(r"^\w+$")
     docker_cmd = "docker exec {} cat /sia-data/apipassword".format(CONTAINER_NAME)
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
