@@ -1,24 +1,46 @@
-import * as React from "react";
+import { useEffect, useMemo, useState } from "react";
 import fileSize from "pretty-bytes";
 import { Link } from "gatsby";
+import useSWR from "swr";
+
+import { useUser } from "../../contexts/user";
+import useActivePlan from "../../hooks/useActivePlan";
+import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import { GraphBar } from "./GraphBar";
 import { UsageGraph } from "./UsageGraph";
 
-// TODO: get real data
-const useUsageData = () => ({
-  files: {
-    used: 19_521,
-    limit: 20_000,
-  },
-  storage: {
-    used: 23_000_000_000,
-    limit: 1_000_000_000_000,
-  },
-});
+const useUsageData = () => {
+  const { user } = useUser();
+  const { activePlan, error } = useActivePlan(user);
+  const [loading, setLoading] = useState(true);
+  const { data: stats, error: statsError } = useSWR("user/stats");
+  const [usage, setUsage] = useState({});
+
+  useEffect(() => {
+    if ((activePlan && stats) || error || statsError) {
+      setLoading(false);
+    }
+
+    if (activePlan && stats && !error && !statsError) {
+      setUsage({
+        filesUsed: stats?.numUploads,
+        filesLimit: activePlan?.limits?.maxNumberUploads,
+        storageUsed: stats?.totalUploadsSize,
+        storageLimit: activePlan?.limits?.storageLimit,
+      });
+    }
+  }, [activePlan, stats, error, statsError]);
+
+  return {
+    error: error || statsError,
+    loading,
+    usage,
+  };
+};
 
 const size = (bytes) => {
-  const text = fileSize(bytes, { maximumFractionDigits: 1 });
+  const text = fileSize(bytes ?? 0, { maximumFractionDigits: 0 });
   const [value, unit] = text.split(" ");
 
   return {
@@ -28,12 +50,26 @@ const size = (bytes) => {
   };
 };
 
-export default function CurrentUsage() {
-  const { files, storage } = useUsageData();
+const ErrorMessage = () => (
+  <div className="flex text-palette-300 flex-col space-y-4 h-full justify-center items-center">
+    <p>We were not able to fetch the current usage data.</p>
+    <p>We'll try again automatically.</p>
+  </div>
+);
 
-  const storageUsage = size(storage.used);
-  const storageLimit = size(storage.limit);
-  const filesUsedLabel = React.useMemo(() => ({ value: files.used, unit: "files" }), [files.used]);
+export default function CurrentUsage() {
+  const { usage, error, loading } = useUsageData();
+  const storageUsage = size(usage.storageUsed);
+  const storageLimit = size(usage.storageLimit);
+  const filesUsedLabel = useMemo(() => ({ value: usage.filesUsed, unit: "files" }), [usage.filesUsed]);
+
+  if (loading) {
+    return <ContainerLoadingIndicator />;
+  }
+
+  if (error) {
+    return <ErrorMessage />;
+  }
 
   return (
     <>
@@ -41,7 +77,7 @@ export default function CurrentUsage() {
         {storageUsage.text} of {storageLimit.text}
       </h4>
       <p className="text-palette-400">
-        {files.used} of {files.limit} files
+        {usage.filesUsed} of {usage.filesLimit} files
       </p>
       <div className="relative mt-7 font-sans uppercase text-xs">
         <div className="flex place-content-between">
@@ -49,8 +85,8 @@ export default function CurrentUsage() {
           <span>{storageLimit.text}</span>
         </div>
         <UsageGraph>
-          <GraphBar value={storage.used} limit={storage.limit} label={storageUsage} />
-          <GraphBar value={files.used} limit={files.limit} label={filesUsedLabel} />
+          <GraphBar value={usage.storageUsed} limit={usage.storageLimit} label={storageUsage} />
+          <GraphBar value={usage.filesUsed} limit={usage.filesLimit} label={filesUsedLabel} />
         </UsageGraph>
         <div className="flex place-content-between">
           <span>Files</span>
@@ -62,7 +98,7 @@ export default function CurrentUsage() {
               UPGRADE
             </Link>{" "}
             {/* TODO: proper URL */}
-            <span>{files.limit}</span>
+            <span>{usage.filesLimit}</span>
           </span>
         </div>
       </div>
