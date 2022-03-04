@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { useUser } from "../../contexts/user";
-import useSubscriptionPlans from "../../hooks/useSubscriptionPlans";
+import useActivePlan from "../../hooks/useActivePlan";
 
 import LatestPayment from "./LatestPayment";
 import SuggestedPlan from "./SuggestedPlan";
@@ -11,7 +11,7 @@ dayjs.extend(relativeTime);
 
 const CurrentPlan = () => {
   const { user, error: userError } = useUser();
-  const { activePlan, plans, error: plansError } = useSubscriptionPlans(user);
+  const { plans, activePlan, error: plansError } = useActivePlan(user);
 
   if (!user || !activePlan) {
     return (

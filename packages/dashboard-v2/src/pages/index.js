@@ -2,6 +2,7 @@ import * as React from "react";
 import { useMedia } from "react-use";
 
 import theme from "../lib/theme";
+import { PlansProvider } from "../contexts/plans/PlansProvider";
 import { ArrowRightIcon } from "../components/Icons";
 import { Panel } from "../components/Panel";
 import { Tab, TabPanel, Tabs } from "../components/Tabs";
@@ -16,7 +17,7 @@ const IndexPage = () => {
   const showRecentActivity = useMedia(`(min-width: ${theme.screens.md})`);
 
   return (
-    <>
+    <PlansProvider>
       <div className="w-full">
         <Slider
           slides={[
@@ -60,7 +61,7 @@ const IndexPage = () => {
           <LatestActivity />
         </div>
       )}
-    </>
+    </PlansProvider>
   );
 };
 
