@@ -140,7 +140,8 @@ location /hns {
     rewrite_by_lua_block {
         local hns_domain = string.match(ngx.var.uri, "/hns/([^/?]+)")
         local path = string.match(ngx.var.uri, "/hns/[^/?]+(.*)")
-        local hns_subdomain_url = ngx.var.scheme .. "://" .. hns_domain .. ".hns." .. ngx.var.skynet_portal_domain .. path .. ngx.var.is_args .. ngx.var.args
+        local args = ngx.var.args and ngx.var.is_args .. ngx.var.args or ""
+        local hns_subdomain_url = ngx.var.scheme .. "://" .. hns_domain .. ".hns." .. ngx.var.skynet_portal_domain .. path .. args
 
         return ngx.redirect(hns_subdomain_url, ngx.HTTP_MOVED_PERMANENTLY)
     }
@@ -353,7 +354,8 @@ location ~ "^/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     rewrite_by_lua_block {
         local skynet_skylink = require("skynet.skylink")
         local base32_skylink = skynet_skylink.base32(ngx.var.skylink)
-        local base32_url = ngx.var.scheme .. "://" .. base32_skylink .. "." .. ngx.var.skynet_portal_domain .. ngx.var.path .. ngx.var.is_args .. ngx.var.args
+        local args = ngx.var.args and ngx.var.is_args .. ngx.var.args or ""
+        local base32_url = ngx.var.scheme .. "://" .. base32_skylink .. "." .. ngx.var.skynet_portal_domain .. ngx.var.path .. args
 
         return ngx.redirect(base32_url, ngx.HTTP_MOVED_PERMANENTLY)
     }
