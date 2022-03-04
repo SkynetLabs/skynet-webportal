@@ -16,20 +16,16 @@ context("Skynet website", () => {
   it("should be able to upload a file", () => {
     cy.intercept("POST", "/skynet/skyfile").as("upload");
 
-    const fileName = "example.json";
-
     cy.wait(1000); // delay for drag-and-drop to work properly every time
-    cy.get('.home-upload-dropzone input[type="file"]').attachFile(fileName, { force: true });
+    cy.get('.home-upload-dropzone input[type="file"]').selectFile("cypress/fixtures/example.json", { force: true });
 
     cy.get(".home-uploaded-files").children().should("have.length", 1);
 
     // wait max 2 minutes, the portal might be slow at times
     cy.wait("@upload", { responseTimeout: 2 * 60 * 1000 });
 
-    cy.contains(".upload-file", fileName).within(() => {
-      cy.get("a")
-        .invoke("text")
-        .should("match", /\/[a-zA-Z0-9-_]{46}/);
+    cy.contains(".upload-file", "example.json").within(() => {
+      cy.get("a").invoke("text").should("include", "AADXKUI_ddg_CEkQ747MzMVndJDbCma5jtkgmAzFbl9-Iw");
 
       cy.contains("Copy").click();
       cy.contains("Copied").should("be.visible");
