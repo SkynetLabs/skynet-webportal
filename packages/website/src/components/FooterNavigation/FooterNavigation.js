@@ -13,7 +13,6 @@ const FooterNavigation = () => {
           links {
             href
             title
-            to
           }
         }
       }
