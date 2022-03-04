@@ -20,24 +20,29 @@ for ENV_VARIABLE in "${ENV_VARIABLES[@]}"; do
     export ${ENV_VARIABLE_VALUE}
 done
 
-# create bucket skynet-backup-[portaldomain] (portal domain is stripped of all non alnum characters)
-# ie. siasky.net backup results in skynet-backup-siaskynet basket name
-BUCKET_NAME=$(echo skynet-backup-${PORTAL_DOMAIN} | tr -cd '[[:alnum:]]')
+# create bucket skynet-backup-[portaldomain] (replace dots with dashes and strip anything other than alnum)
+# ie. siasky.net backup results in skynet-backup-siasky-net basket name
+BUCKET_NAME=$(echo skynet-backup-${PORTAL_DOMAIN} | tr  '.'  '-' | tr -cd '[[:alnum:]]-')
 
 # create server prefix
 if test -z "${SERVER_DOMAIN}"; then
-    SERVER_PREFIX=$(echo ${SERVER_UID} | tr -cd '[[:alnum:]]-') # if domain name is empty use just uid
+    # if domain name is empty use just uid (replace dots with dashes and strip anything other than alnum)
+    SERVER_PREFIX=$(echo ${SERVER_UID} | tr  '.'  '-' | tr -cd '[[:alnum:]]-')
 else
-    SERVER_PREFIX=$(echo ${SERVER_UID}-${SERVER_DOMAIN} | tr -cd '[[:alnum:]]-') # use both uid and server domain if available
+    # use both uid and server domain if available (replace dots with dashes and strip anything other than alnum)
+    SERVER_PREFIX=$(echo ${SERVER_UID}-${SERVER_DOMAIN} | tr  '.'  '-' | tr -cd '[[:alnum:]]-')
 fi
 
 aws s3api create-bucket --acl private --bucket ${BUCKET_NAME}
 
 # sync all nginx logs
+mkdir -p /home/user/skynet-webportal/docker/data/nginx/logs # ensure path exists
 aws s3 sync --no-progress /home/user/skynet-webportal/docker/data/nginx/logs s3://${BUCKET_NAME}/${SERVER_PREFIX}/docker/data/nginx/logs
 
-# generate and sync skylinks
-docker exec sia siac skynet ls --recursive --alert-suppress > /home/user/skynet-webportal/logs/skylinks-$(date +"%Y-%m-%d").log
-aws s3 cp --no-progress /home/user/skynet-webportal/logs/skylinks.log s3://${BUCKET_NAME}/${SERVER_PREFIX}/logs/skylinks.log
+# generate and sync skylinks dump
+SKYLINKS_PATH=logs/skylinks/$(date +"%Y-%m-%d").log
+mkdir -p /home/user/skynet-webportal/logs/skylinks # ensure path exists
+docker exec sia siac skynet ls --recursive --alert-suppress > /home/user/skynet-webportal/${SKYLINKS_PATH}
+aws s3 cp --no-progress /home/user/skynet-webportal/${SKYLINKS_PATH} s3://${BUCKET_NAME}/${SERVER_PREFIX}/${SKYLINKS_PATH}
 
 echo "`date +"%Y-%m-%d %H:%M"` Backup finished successfully"

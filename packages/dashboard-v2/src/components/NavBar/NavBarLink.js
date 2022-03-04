@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const NavBarLink = styled.a.attrs(({ active }) => ({
   className: `
-    min-w-[168px]
+    sm:min-w-[133px] lg:min-w-[168px]
     flex h-full items-center justify-center
     border-x border-x-palette-100 border-b-2
     text-palette-600 transition-colors hover:bg-palette-100/50

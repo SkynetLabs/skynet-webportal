@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Link } from "gatsby";
 import LogoWhiteText from "./Icons/LogoWhiteText.svg";
 
 const Header = () => (
@@ -60,18 +59,6 @@ const Header = () => (
         <div className="flex items-center">
           <div className="hidden desktop:ml-6 desktop:flex desktop:items-center desktop:space-x-4">
             {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-            <Link to="/" className="text-white px-3 py-2 text-sm font-medium">
-              Home
-            </Link>
-            <Link to="/about" className="text-white px-3 py-2 text-sm font-medium">
-              About
-            </Link>
-            <a href="#" className="text-white px-3 py-2 text-sm font-medium">
-              Developers
-            </a>
-            <a href="#" className="text-white px-3 py-2 text-sm font-medium">
-              News
-            </a>
             <a href="#" className="text-white px-3 py-2 rounded-md text-sm font-medium uppercase">
               Log in
             </a>

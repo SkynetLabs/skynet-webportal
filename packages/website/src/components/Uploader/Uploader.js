@@ -199,7 +199,7 @@ const Uploader = () => {
         <div className="z-0 relative flex flex-col items-center space-y-1 mt-10">
           <Unlock />
           <p className="text-sm font-light text-palette-600">
-            <RegistrationLink /> for free and unlock features
+            <RegistrationLink /> and unlock features
           </p>
         </div>
       )}
@@ -209,7 +209,7 @@ const Uploader = () => {
           <div className="flex h-full">
             <div className="m-auto">
               <h4 className="font-light text-palette-100 text-lg mt-2 text-center">
-                <LogInLink /> or <RegistrationLink /> for free
+                <LogInLink /> or <RegistrationLink />
               </h4>
             </div>
           </div>

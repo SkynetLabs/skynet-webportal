@@ -25,7 +25,7 @@ Panel.propTypes = {
   /**
    * Label of the panel
    */
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 Panel.defaultProps = {

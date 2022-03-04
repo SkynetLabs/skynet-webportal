@@ -25,7 +25,7 @@ services:
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
-      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-false}
+      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
       - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
       - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
       - SKYD_DISK_CACHE_HIT_PERIOD=${SKYD_DISK_CACHE_HIT_PERIOD:-3600} # 1h
@@ -65,7 +65,7 @@ services:
     env_file:
       - .env
     environment:
-      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-false}
+      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
     volumes:
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/blocker:/data/nginx/blocker
@@ -102,9 +102,7 @@ services:
       - 9000
 
   handshake:
-    build:
-      context: ./docker/handshake
-      dockerfile: Dockerfile
+    image: skynetlabs/hsd:3.0.1
     command: --chain-migrate=2 --wallet-migrate=1
     container_name: handshake
     restart: unless-stopped
