@@ -1,5 +1,6 @@
 import { TextInputIcon } from "./TextInputIcon";
-import { CogIcon } from "../Icons";
+import { SearchIcon } from "../Icons";
+import { Panel } from "../Panel";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -9,19 +10,21 @@ export default {
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = (args) => <TextInputIcon {...args} />;
+const Template = (args) => (
+  <Panel>
+    <TextInputIcon {...args} />
+  </Panel>
+);
 
 export const IconLeft = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 IconLeft.args = {
-  icon: <CogIcon />,
-  position: "left",
+  icon: <SearchIcon size={20} />,
   placeholder: "Search",
 };
 
 export const IconRight = Template.bind({});
 IconRight.args = {
-  icon: <CogIcon />,
-  position: "right",
+  icon: <SearchIcon size={20} />,
   placeholder: "Search",
 };
