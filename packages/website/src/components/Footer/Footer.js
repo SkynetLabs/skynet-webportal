@@ -2,9 +2,13 @@ import * as React from "react";
 import { LogoWhiteText } from "../Icons";
 import Link from "../Link";
 
-const hostname = typeof window !== "undefined" ? window.location.hostname : "";
-const domain = hostname.substring(hostname.lastIndexOf(".", hostname.lastIndexOf(".") - 1) + 1);
-const emails = domain ? [`hello@${domain}`, `abuse@${domain}`] : [];
+// const hostname = typeof window !== "undefined" ? window.location.hostname : "";
+// const domain = hostname.substring(hostname.lastIndexOf(".", hostname.lastIndexOf(".") - 1) + 1);
+// const emails = domain ? [`hello@${domain}`, `report@${domain}`] : [];
+
+// temporary hardcode siasky.net emails until we have environment
+// variables for them and we can reflect that in the terms of service
+const emails = ["hello@siasky.net", "report@siasky.net"];
 
 const Footer = () => {
   return (
