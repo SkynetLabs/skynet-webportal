@@ -182,10 +182,10 @@
   resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.23.0.tgz#62eed14e83c63c3e8c27f14f6b1e6feb8496c867"
   integrity sha512-+7w4rVs71Fk8/8uzyzQB5GotHSH9mjOjxM3EYDq/3MR3I2ewELHtvWVMOqfS/9WSKCaKv7h7eFLsMZGpK5jApQ==
 
-"@tailwindcss/forms@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@tailwindcss/forms/-/forms-0.4.0.tgz#a46715e347a32d216a3973eb67473bd29ae3798e"
-  integrity sha512-DeaQBx6EgEeuZPQACvC+mKneJsD8am1uiJugjgQK1+/Vt+Ai0GpFBC2T2fqnUad71WgOxyrZPE6BG1VaI6YqfQ==
+"@tailwindcss/forms@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/forms/-/forms-0.5.0.tgz#d4bea2560a10aac642573e72d3b4d62a88960449"
+  integrity sha512-KzWugryEBFkmoaYcBE18rs6gthWCFHHO7cAZm2/hv3hwD67AzwP7udSCa22E7R1+CEJL/FfhYsJWrc0b1aeSzw==
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
