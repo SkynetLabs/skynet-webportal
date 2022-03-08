@@ -1,1 +1,0 @@
-- Block skylinks in batches to improve performance.
