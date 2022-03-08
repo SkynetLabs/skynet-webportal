@@ -43,6 +43,9 @@
   h1 {
     @apply font-semibold text-3xl desktop:text-6xl desktop:leading-16;
   }
+  h2 {
+    @apply font-semibold text-2xl desktop:text-3xl desktop:leading-16;
+  }
 }
 
 .circle {
