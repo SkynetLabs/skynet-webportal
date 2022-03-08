@@ -16,7 +16,7 @@ export default function ActivityTable({ type }) {
         {/* TODO: proper error message */}
         {!data && !error && <ContainerLoadingIndicator />}
         {!data && error && <p>An error occurred while loading this data.</p>}
-        {data && <p>No files found.</p>}
+        {data && !error && <p>No files found.</p>}
       </div>
     );
   }
