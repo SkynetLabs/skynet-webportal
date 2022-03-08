@@ -26,17 +26,6 @@ rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 location / {
     include /etc/nginx/conf.d/include/cors;
 
-    set $skylink "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
-    set $path $uri;
-    set $internal_no_limits "true";
-
-    include /etc/nginx/conf.d/include/location-skylink;
-
-    proxy_intercept_errors on;
-    error_page 400 404 490 500 502 503 504 =200 @fallback;
-}
-
-location @fallback {
     proxy_pass http://website:9000;
 }
 
@@ -134,15 +123,14 @@ location /abuse/report {
 location /hns {
     include /etc/nginx/conf.d/include/cors;
 
-    # match the request_uri and extract the hns domain and anything that is passed in the uri after it
-    # example: /hns/something/foo/bar matches:
-    # > hns_domain: something
-    # > path: /foo/bar/
-    set_by_lua_block $hns_domain { return string.match(ngx.var.uri, "/hns/([^/?]+)") }
-    set_by_lua_block $path { return string.match(ngx.var.uri, "/hns/[^/?]+(.*)") }
+    rewrite_by_lua_block {
+        local hns_domain = string.match(ngx.var.uri, "/hns/([^/?]+)")
+        local path = string.match(ngx.var.uri, "/hns/[^/?]+(.*)")
+        local args = ngx.var.args and ngx.var.is_args .. ngx.var.args or ""
+        local hns_subdomain_url = ngx.var.scheme .. "://" .. hns_domain .. ".hns." .. ngx.var.skynet_portal_domain .. path .. args
 
-    proxy_set_header Host $host;
-    include /etc/nginx/conf.d/include/location-hns;
+        return ngx.redirect(hns_subdomain_url, ngx.HTTP_MOVED_PERMANENTLY)
+    }
 }
 
 location /hnsres {
@@ -352,7 +340,8 @@ location ~ "^/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     rewrite_by_lua_block {
         local skynet_skylink = require("skynet.skylink")
         local base32_skylink = skynet_skylink.base32(ngx.var.skylink)
-        local base32_url = ngx.var.scheme .. "://" .. base32_skylink .. "." .. ngx.var.skynet_portal_domain .. ngx.var.path .. ngx.var.is_args .. ngx.var.args
+        local args = ngx.var.args and ngx.var.is_args .. ngx.var.args or ""
+        local base32_url = ngx.var.scheme .. "://" .. base32_skylink .. "." .. ngx.var.skynet_portal_domain .. ngx.var.path .. args
 
         return ngx.redirect(base32_url, ngx.HTTP_MOVED_PERMANENTLY)
     }
