@@ -1,13 +1,18 @@
 local _M = {}
 
+-- constant tier ids
+local tier_id_anonymous = 0
+local tier_id_free = 1
+
 -- fallback - remember to keep those updated
-local anon_limits = { ["tierName"] = "anonymous", ["upload"] = 655360, ["download"] = 655360, ["maxUploadSize"] = 1073741824, ["registry"] = 250 }
-
--- no limits applied 
-local no_limits = { ["tierName"] = "internal", ["upload"] = 0, ["download"] = 0, ["maxUploadSize"] = 0, ["registry"] = 0 }
-
--- free tier name
-local free_tier = "free"
+local anon_limits = {
+    ["tierID"] = tier_id_anonymous,
+    ["tierName"] = "anonymous",
+    ["upload"] = 655360,
+    ["download"] = 655360,
+    ["maxUploadSize"] = 1073741824,
+    ["registry"] = 250
+}
 
 -- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
@@ -31,10 +36,6 @@ end
 
 function _M.get_account_limits()
     local cjson = require('cjson')
-
-    if ngx.var.internal_no_limits == "true" then
-        return no_limits
-    end
 
     if ngx.var.skynet_jwt == "" then
         return anon_limits
@@ -62,16 +63,18 @@ end
 
 -- detect whether current user is authenticated
 function _M.is_authenticated()
+    if not _M.accounts_enabled() then return false end
+
     local limits = _M.get_account_limits()
 
-    return limits.tierName ~= anon_limits.tierName
+    return limits.tierID > tier_id_anonymous
 end
 
 -- detect whether current user has active subscription
-function _M.is_subscription_account()
+function _M.has_subscription()
     local limits = _M.get_account_limits()
 
-    return limits.tierName ~= anon_limits.tierName and limits.tierName ~= free_tier
+    return limits.tierID > tier_id_free
 end
 
 function _M.is_auth_required()
@@ -101,7 +104,7 @@ function _M.is_access_forbidden()
     if is_access_always_allowed() then return false end
 
     -- check if active subscription is required and request is from user without it
-    return _M.is_subscription_required() and not _M.is_subscription_account()
+    return _M.is_subscription_required() and not _M.has_subscription()
 end
 
 return _M

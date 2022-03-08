@@ -13,6 +13,3 @@ set $skylink "";
 
 # cached account limits (json string) - applies only if accounts are enabled
 set $account_limits "";
-
-# set this internal flag to true if current request should not be limited in any way
-set $internal_no_limits "false";
