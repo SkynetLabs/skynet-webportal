@@ -6310,11 +6310,6 @@ gatsby-plugin-manifest@4.9.0:
     semver "^7.3.5"
     sharp "^0.30.1"
 
-gatsby-plugin-matomo@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-matomo/-/gatsby-plugin-matomo-0.11.0.tgz#2a4322df78045af0b3f44ba7b8c455d57b526f96"
-  integrity sha512-yvQFOGky3vyEEmmtopDvsrlnZ8htYrgHHD9CCvlFQ6DrGSL+Y01wkbJZBMpiGAiRt/GKh/8MGWcMfSAGoMQM9g==
-
 gatsby-plugin-page-creator@^4.9.0:
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-page-creator/-/gatsby-plugin-page-creator-4.9.0.tgz#b0ddff77698f2d33f4789e0396e7788a2930fd70"

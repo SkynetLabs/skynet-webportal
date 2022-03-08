@@ -64,15 +64,6 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-matomo",
-      options: {
-        siteId: 3,
-        matomoUrl: "https://surveillance.sia.tech",
-        siteUrl: "https://siasky.net",
-        localScript: "/piwik.js",
-      },
-    },
-    {
       resolve: "gatsby-plugin-sitemap",
       options: {
         output: "/",
