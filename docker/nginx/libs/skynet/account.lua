@@ -1,7 +1,6 @@
 local _M = {}
 
 -- constant tier ids
-local tier_id_internal = -1
 local tier_id_anonymous = 0
 local tier_id_free = 1
 
@@ -13,16 +12,6 @@ local anon_limits = {
     ["download"] = 655360,
     ["maxUploadSize"] = 1073741824,
     ["registry"] = 250
-}
-
--- no limits applied 
-local no_limits = {
-    ["tierID"] = tier_id_internal,
-    ["tierName"] = "internal",
-    ["upload"] = 0,
-    ["download"] = 0,
-    ["maxUploadSize"] = 0,
-    ["registry"] = 0
 }
 
 -- handle request exit when access to portal should be restricted to authenticated users only
@@ -47,10 +36,6 @@ end
 
 function _M.get_account_limits()
     local cjson = require('cjson')
-
-    if ngx.var.internal_no_limits == "true" then
-        return no_limits
-    end
 
     if ngx.var.skynet_jwt == "" then
         return anon_limits
