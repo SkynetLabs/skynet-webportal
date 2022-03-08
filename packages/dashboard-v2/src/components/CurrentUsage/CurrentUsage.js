@@ -13,16 +13,20 @@ import { UsageGraph } from "./UsageGraph";
 const useUsageData = () => {
   const { user } = useUser();
   const { activePlan, error } = useActivePlan(user);
-  const [loading, setLoading] = useState(true);
   const { data: stats, error: statsError } = useSWR("user/stats");
+
+  const [loading, setLoading] = useState(true);
   const [usage, setUsage] = useState({});
 
+  const hasError = error || statsError;
+  const hasData = activePlan && stats;
+
   useEffect(() => {
-    if ((activePlan && stats) || error || statsError) {
+    if (hasData || hasError) {
       setLoading(false);
     }
 
-    if (activePlan && stats && !error && !statsError) {
+    if (hasData && !hasError) {
       setUsage({
         filesUsed: stats?.numUploads,
         filesLimit: activePlan?.limits?.maxNumberUploads,
@@ -30,7 +34,7 @@ const useUsageData = () => {
         storageLimit: activePlan?.limits?.storageLimit,
       });
     }
-  }, [activePlan, stats, error, statsError]);
+  }, [hasData, hasError, stats, activePlan]);
 
   return {
     error: error || statsError,
