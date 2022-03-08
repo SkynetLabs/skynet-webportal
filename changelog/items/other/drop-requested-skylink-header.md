@@ -1,1 +1,0 @@
-- Drop `Skynet-Requested-Skylink` header

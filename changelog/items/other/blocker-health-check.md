@@ -1,1 +1,0 @@
-- Add health check for the blocker container

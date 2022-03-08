@@ -1,2 +1,0 @@
-- fixed uploaded directory name (was "undefined" before)
-- fixed empty directory upload progress (size was not calculated for directories)
