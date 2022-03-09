@@ -1023,13 +1023,27 @@ function fileEndpointCheck(done) {
 }
 
 // check whether hns/note-to-self would properly redirect to note-to-self/
-function hnsEndpointDirectoryRedirect(done) {
+function skylinkRootDomainEndpointRedirect(done) {
   const expected = {
-    name: "hns endpoint directory redirect",
-    skylink: "hns/note-to-self",
-    statusCode: 308,
+    name: "skylink root domain endpoint redirect",
+    skylink: "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q",
+    statusCode: 301,
     headers: {
-      location: "note-to-self/",
+      location: `https://000ah0pqo256c3orhmmgpol19dslep1v32v52v23ohqur9uuuuc9bm8.${process.env.PORTAL_DOMAIN}`,
+    },
+  };
+
+  skylinkVerification(done, expected, { followRedirect: false });
+}
+
+// check whether hns/note-to-self would properly redirect to note-to-self/
+function hnsRootDomainEndpointRedirect(done) {
+  const expected = {
+    name: "hns root domain endpoint redirect",
+    skylink: "hns/note-to-self",
+    statusCode: 301,
+    headers: {
+      location: `https://note-to-self.hns.${process.env.PORTAL_DOMAIN}`,
     },
   };
 
@@ -1136,7 +1150,12 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
 
   try {
     const query = `https://${process.env.PORTAL_DOMAIN}/${expected.skylink}`;
-    const response = await got[method](query, { followRedirect, headers: { cookie: `nocache=true;${authCookie}` } });
+    const cookie = `nocache=true;${authCookie}`;
+    const response = await got[method](query, {
+      followRedirect,
+      headers: { cookie },
+      hooks: { beforeRedirect: [(options) => (options.headers.cookie = cookie)] },
+    });
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
 
@@ -1237,7 +1256,8 @@ module.exports = [
   // uniswapHNSRedirectCheck,
   uniswapHNSResolverCheck,
   uniswapHNSResolverRedirectCheck,
-  hnsEndpointDirectoryRedirect,
+  skylinkRootDomainEndpointRedirect,
+  hnsRootDomainEndpointRedirect,
   skappSkySend,
   skappNoteToSelf,
   skappUniswap,
