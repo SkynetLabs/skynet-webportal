@@ -47,15 +47,37 @@ const LogInLink = () => {
   );
 };
 
+const SubscribeLink = () => {
+  const createAccountsUrl = useAccountsUrl();
+
+  return (
+    <Link
+      href={createAccountsUrl("payments")}
+      className="uppercase underline-primary hover:text-primary transition-colors duration-200"
+    >
+      available plans
+    </Link>
+  );
+};
+
 const Uploader = () => {
   const [mode, setMode] = React.useState("file");
   const [uploads, setUploads] = React.useState([]);
 
   const { data: accounts } = useAccounts();
-  const showAccountFeatures =
-    accounts && accounts.enabled !== false && !accounts?.auth_required && !accounts?.authenticated;
-  const disabledComponent =
-    accounts && accounts.enabled !== false && accounts?.auth_required && !accounts?.authenticated;
+
+  // variables extracted from useAccounts response
+  const isAccountsEnabled = accounts?.enabled === true;
+  const isSubscriptionRequired = accounts?.subscription_required === true;
+  const isAuthRequired = isSubscriptionRequired || accounts?.auth_required === true;
+  const isAuthenticated = accounts?.authenticated === true;
+  const hasSubscription = accounts?.subscription === true;
+
+  // derive current app state and extract it into variables
+  const showAccountFeatures = isAccountsEnabled && !isAuthRequired && !isAuthenticated;
+  const showAuthenticationRequired = isAccountsEnabled && isAuthRequired && !isAuthenticated;
+  const showSubscriptionRequired = isAccountsEnabled && isAuthenticated && isSubscriptionRequired && !hasSubscription;
+  const isComponentDisabled = showAuthenticationRequired || showSubscriptionRequired;
 
   const onUploadStateChange = React.useCallback((id, state) => {
     setUploads((uploads) => {
@@ -104,7 +126,7 @@ const Uploader = () => {
   }, [inputElement, mode]);
 
   return (
-    <div className={classnames("relative", { "p-8": disabledComponent })}>
+    <div className={classnames("relative", { "p-8": isComponentDisabled })}>
       <div className="max-w-content mx-auto rounded-lg shadow bg-white z-0 relative">
         <div className="flex">
           <button
@@ -156,7 +178,7 @@ const Uploader = () => {
               {mode === "directory" && <span>Drop any folder with an index.html file to deploy to Skynet</span>}
             </h4>
           </div>
-          {!disabledComponent && (
+          {!isComponentDisabled && (
             <div className="absolute left-1/2 -bottom-4 desktop:-bottom-8">
               <div className="relative -left-1/2 transform transition-transform hover:rotate-180" role="button">
                 <Add />
@@ -204,12 +226,24 @@ const Uploader = () => {
         </div>
       )}
 
-      {disabledComponent && (
+      {showAuthenticationRequired && (
         <div className="absolute inset-0 bg-palette-500 bg-opacity-90 rounded-lg">
           <div className="flex h-full">
             <div className="m-auto">
               <h4 className="font-light text-palette-100 text-lg mt-2 text-center">
                 <LogInLink /> or <RegistrationLink />
+              </h4>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSubscriptionRequired && (
+        <div className="absolute inset-0 bg-palette-500 bg-opacity-90 rounded-lg">
+          <div className="flex h-full">
+            <div className="m-auto">
+              <h4 className="font-light text-palette-100 text-lg mt-2 text-center">
+                Active subscription required - <SubscribeLink />
               </h4>
             </div>
           </div>
