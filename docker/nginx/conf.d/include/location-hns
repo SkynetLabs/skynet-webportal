@@ -3,8 +3,7 @@ include /etc/nginx/conf.d/include/proxy-pass-internal;
 include /etc/nginx/conf.d/include/portal-access-check;
 
 # variable definititions - we need to define a variable to be able to access it in lua by ngx.var.something
-set $skylink ''; # placeholder for the base64 skylink
-set $skylink_base32 ''; # placeholder for the base32 skylink
+set $skylink ''; # placeholder for the raw 46 bit skylink
 
 # resolve handshake domain by requesting to /hnsres endpoint and assign correct values to $skylink and $rest
 rewrite_by_lua_block {
@@ -75,16 +74,10 @@ rewrite_by_lua_block {
     if ngx.var.path == "/" and skylink_rest ~= nil and skylink_rest ~= "" and skylink_rest ~= "/" then
         ngx.var.path = skylink_rest
     end
-
-    -- assign base32 skylink to be used in proxy_pass
-    ngx.var.skylink_base32 = require("skynet.skylink").base32(ngx.var.skylink)
 }
 
-# host header has to be adjusted to properly match server name
-proxy_set_header Host $skylink_base32.$skynet_portal_domain;
-
-# pass the skylink request to subdomain skylink server
-proxy_pass $scheme://$server_addr$path$is_args$args;
+# we proxy to another nginx location rather than directly to siad because we do not want to deal with caching here
+proxy_pass https://127.0.0.1/$skylink$path$is_args$args;
 
 # in case siad returns location header, we need to replace the skylink with the domain name
 header_filter_by_lua_block {
