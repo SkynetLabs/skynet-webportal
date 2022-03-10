@@ -56,12 +56,6 @@ access_by_lua_block {
         if require("skynet.blocklist").is_blocked(ngx.var.skylink_v1) then
             return require("skynet.blocklist").exit_illegal()
         end
-
-        -- if skylink is found on nocache list then set internal nocache variable
-        -- to tell nginx that it should not try and cache this file (too large)
-        if ngx.shared.nocache:get(ngx.var.skylink_v1) then
-            ngx.var.nocache = "1"
-        end
     end
 
     if require("skynet.account").accounts_enabled() then
