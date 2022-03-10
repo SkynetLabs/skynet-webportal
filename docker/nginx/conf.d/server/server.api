@@ -338,13 +338,7 @@ location ~ "^/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
     set $skylink $2;
     set $path $3;
 
-    rewrite_by_lua_block {
-        local skynet_skylink = require("skynet.skylink")
-        local base32_skylink = skynet_skylink.base32(ngx.var.skylink)
-        local base32_url = ngx.var.scheme .. "://" .. base32_skylink .. "." .. ngx.var.skynet_portal_domain .. ngx.var.path .. ngx.var.is_args .. ngx.var.args
-
-        return ngx.redirect(base32_url, ngx.HTTP_MOVED_PERMANENTLY)
-    }
+    include /etc/nginx/conf.d/include/location-skylink;
 }
 
 location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
