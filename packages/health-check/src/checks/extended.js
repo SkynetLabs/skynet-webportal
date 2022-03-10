@@ -1023,27 +1023,13 @@ function fileEndpointCheck(done) {
 }
 
 // check whether hns/note-to-self would properly redirect to note-to-self/
-function skylinkRootDomainEndpointRedirect(done) {
+function hnsEndpointDirectoryRedirect(done) {
   const expected = {
-    name: "skylink root domain endpoint redirect",
-    skylink: "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q",
-    statusCode: 301,
-    headers: {
-      location: `https://000ah0pqo256c3orhmmgpol19dslep1v32v52v23ohqur9uuuuc9bm8.${process.env.PORTAL_DOMAIN}`,
-    },
-  };
-
-  skylinkVerification(done, expected, { followRedirect: false });
-}
-
-// check whether hns/note-to-self would properly redirect to note-to-self/
-function hnsRootDomainEndpointRedirect(done) {
-  const expected = {
-    name: "hns root domain endpoint redirect",
+    name: "hns endpoint directory redirect",
     skylink: "hns/note-to-self",
-    statusCode: 301,
+    statusCode: 308,
     headers: {
-      location: `https://note-to-self.hns.${process.env.PORTAL_DOMAIN}`,
+      location: "note-to-self/",
     },
   };
 
@@ -1150,12 +1136,7 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
 
   try {
     const query = `https://${process.env.PORTAL_DOMAIN}/${expected.skylink}`;
-    const cookie = `nocache=true;${authCookie}`;
-    const response = await got[method](query, {
-      followRedirect,
-      headers: { cookie },
-      hooks: { beforeRedirect: [(options) => (options.headers.cookie = cookie)] },
-    });
+    const response = await got[method](query, { followRedirect, headers: { cookie: `nocache=true;${authCookie}` } });
     const entry = { ...details, up: true, statusCode: response.statusCode, time: calculateElapsedTime(time) };
     const info = {};
 
@@ -1256,8 +1237,7 @@ module.exports = [
   // uniswapHNSRedirectCheck,
   uniswapHNSResolverCheck,
   uniswapHNSResolverRedirectCheck,
-  skylinkRootDomainEndpointRedirect,
-  hnsRootDomainEndpointRedirect,
+  hnsEndpointDirectoryRedirect,
   skappSkySend,
   skappNoteToSelf,
   skappUniswap,
