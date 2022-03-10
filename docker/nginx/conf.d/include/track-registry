@@ -7,16 +7,20 @@ log_by_lua_block {
 
             local httpc = require("resty.http").new()
 
-            -- based on request method we assign a registry action string used 
+            -- based on request method we assign a registry action string used
             -- in track endpoint namely "read" for GET and "write" for POST
             local registry_action = request_method == "GET" and "read" or "write"
 
             -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
             local res, err = httpc:request_uri("http://10.10.10.70:3000/track/registry/" .. registry_action, {
                 method = "POST",
-                headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+                headers = {
+                    ["Cookie"] = "skynet-jwt=" .. jwt,
+                    ["Authorization"] = ngx.header["Authorization"],
+                    ["Skynet-Api-Key"] = ngx.header["Skynet-Api-Key"],
+                },
             })
-            
+
             if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
                 ngx.log(ngx.ERR, "Failed accounts service request /track/registry/" .. registry_action .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
             end

@@ -10,7 +10,11 @@ log_by_lua_block {
             -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
             local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
                 method = "POST",
-                headers = { ["Cookie"] = "skynet-jwt=" .. jwt },
+                headers = {
+                    ["Cookie"] = "skynet-jwt=" .. jwt,
+                    ["Authorization"] = ngx.header["Authorization"],
+                    ["Skynet-Api-Key"] = ngx.header["Skynet-Api-Key"],
+                },
             })
 
             if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
