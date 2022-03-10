@@ -201,11 +201,7 @@ async function genericAccessCheck(name, url) {
   const data = { up: false, url };
 
   try {
-    const cookie = `nocache=true;${authCookie}`;
-    const response = await got(url, {
-      headers: { cookie },
-      hooks: { beforeRedirect: [(options) => (options.headers.cookie = cookie)] },
-    });
+    const response = await got(url, { headers: { cookie: `nocache=true;${authCookie}` } });
 
     data.statusCode = response.statusCode;
     data.up = true;
