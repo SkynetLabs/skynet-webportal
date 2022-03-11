@@ -1,7 +1,6 @@
 include /etc/nginx/conf.d/include/cors;
 include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
-include /etc/nginx/conf.d/include/track-download;
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
 # this is important because we want only one format in cache keys and logs
