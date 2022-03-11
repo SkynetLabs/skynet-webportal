@@ -1,5 +1,4 @@
 include /etc/nginx/conf.d/include/cors;
-include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
