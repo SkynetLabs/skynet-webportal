@@ -1,10 +1,4 @@
 include /etc/nginx/conf.d/include/cors;
-include /etc/nginx/conf.d/include/proxy-cache-downloads;
-
-# ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
-# this is important because we want only one format in cache keys and logs
-set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skylink) }
 
 proxy_set_header User-Agent: Sia-Agent;
-
 proxy_pass http://sia:9980/skynet/skylink/$skylink$path$is_args$args;
