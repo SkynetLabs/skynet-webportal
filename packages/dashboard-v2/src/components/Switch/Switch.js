@@ -1,37 +1,86 @@
 import PropTypes from "prop-types";
-import "./Switch.css";
+import { useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
+import { nanoid } from "nanoid";
 
-/**
- * Primary UI component for user interaction
- */
-export const Switch = ({ isOn, handleToggle }) => {
+const Container = styled.div.attrs({
+  className: "inline-flex items-center gap-1 cursor-pointer select-none",
+})``;
+
+const Checkbox = styled.input.attrs({
+  type: "checkbox",
+  className: `h-0 w-0 hidden`,
+})``;
+
+const Label = styled.label.attrs({
+  className: "cursor-pointer inline-flex items-center gap-2",
+})`
+  &:active .toggle-pin {
+    width: 20px;
+  }
+`;
+
+const Toggle = styled.span.attrs({
+  className: `flex flex-row items-center justify-between
+              w-[44px] h-[22px] bg-white rounded-full
+              border border-palette-200 relative cursor-pointer`,
+})`
+  &:active .toggle-pin {
+    width: 20px;
+  }
+`;
+
+const TogglePin = styled.span.attrs(({ $checked }) => ({
+  className: `toggle-pin
+              absolute top-[2px] w-4 h-4 rounded-full
+              transition-[width_left] active:w-5
+
+              ${$checked ? "checked bg-primary" : "bg-palette-200"}`,
+}))`
+  left: 2px;
+
+  &.checked {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+`;
+
+export const Switch = ({ children, defaultChecked, onChange, ...props }) => {
+  const id = useMemo(nanoid, [onChange]);
+  const [checked, setChecked] = useState(defaultChecked);
+
+  useEffect(() => {
+    onChange(checked);
+  }, [checked, onChange]);
+
   return (
-    <>
-      <input
-        checked={isOn}
-        onChange={handleToggle}
-        className="react-switch-checkbox"
-        id={`react-switch-new`}
-        type="checkbox"
-      />
-      <label className={"react-switch-label"} htmlFor={`react-switch-new`}>
-        <span className={`react-switch-button ${isOn ? "bg-primary" : "bg-palette-200"}`} />
-      </label>
-    </>
+    <Container {...props}>
+      <Checkbox checked={checked} onChange={(ev) => setChecked(ev.target.checked)} id={id} />
+      <Label htmlFor={id}>
+        <Toggle>
+          <TogglePin $checked={checked} />
+        </Toggle>
+        {children}
+      </Label>
+    </Container>
   );
 };
 
 Switch.propTypes = {
   /**
-   * Switch's current value
+   * Should the checkbox be checked by default?
    */
-  isOn: PropTypes.bool,
+  defaultChecked: PropTypes.bool,
+  /**
+   * Element to be rendered as the switch label
+   */
+  children: PropTypes.element,
   /**
    * Function to execute on change
    */
-  handleToggle: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
 };
 
 Switch.defaultProps = {
-  isOn: false,
+  defaultChecked: false,
 };
