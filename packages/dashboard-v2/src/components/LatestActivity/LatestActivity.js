@@ -23,7 +23,7 @@ export default function LatestActivity() {
         <Tab id="uploads" title="Uploads" />
         <Tab id="downloads" title="Downloads" />
         <TabPanel tabId="uploads" className="pt-4">
-          <ActivityTable type="uplodads" />
+          <ActivityTable type="uploads" />
           <ViewAllLink to="/files?tab=uploads" />
         </TabPanel>
         <TabPanel tabId="downloads" className="pt-4">
