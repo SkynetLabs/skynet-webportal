@@ -10,3 +10,5 @@ export * from "./icons/CircledProgressIcon";
 export * from "./icons/CircledArrowUpIcon";
 export * from "./icons/PlusIcon";
 export * from "./icons/SearchIcon";
+export * from "./icons/CopyIcon";
+export * from "./icons/ShareIcon";
