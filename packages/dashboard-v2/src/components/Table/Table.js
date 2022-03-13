@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div.attrs({
-  className: "p-1 max-w-full overflow-x-auto",
+  className: "p-1 max-w-full",
 })``;
 
 const StyledTable = styled.table.attrs({
