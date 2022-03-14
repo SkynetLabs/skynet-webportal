@@ -1,5 +1,5 @@
 include /etc/nginx/conf.d/include/cors;
-###include /etc/nginx/conf.d/include/proxy-buffer;
+include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
 include /etc/nginx/conf.d/include/track-download;
 
