@@ -68,8 +68,14 @@ export const NavBar = () => (
         </NavBarSection>
         <NavBarSection className="dropdown-area justify-end">
           <DropdownMenu title="My account">
-            <DropdownMenuLink href="/settings" icon={CogIcon} label="Settings" />
-            <DropdownMenuLink href="/logout" icon={LockClosedIcon} label="Log out" />
+            <DropdownMenuLink to="/settings" as={Link} activeClassName="text-primary" icon={CogIcon} label="Settings" />
+            <DropdownMenuLink
+              to="/logout"
+              as={Link}
+              activeClassName="text-primary"
+              icon={LockClosedIcon}
+              label="Log out"
+            />
           </DropdownMenu>
         </NavBarSection>
       </NavBarBody>
