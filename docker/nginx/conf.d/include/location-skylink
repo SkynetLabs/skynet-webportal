@@ -32,14 +32,14 @@ access_by_lua_block {
             return accounts.exit_access_unauthorized()
         end
 
---        -- check if portal is in subscription only mode
---        if accounts.is_access_forbidden() then
---            return accounts.exit_access_forbidden()
---        end
---
+        -- check if portal is in subscription only mode
+        if accounts.is_access_forbidden() then
+            return accounts.exit_access_forbidden()
+        end
+
 --        -- get account limits of currently authenticated user
 --        local limits = accounts.get_account_limits()
---
+
 --        -- apply download speed limit
 --        ngx.var.limit_rate = limits.download
     end
