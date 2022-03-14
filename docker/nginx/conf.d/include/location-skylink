@@ -37,8 +37,8 @@ access_by_lua_block {
             return accounts.exit_access_forbidden()
         end
 
---        -- get account limits of currently authenticated user
---        local limits = accounts.get_account_limits()
+        -- get account limits of currently authenticated user
+        local limits = accounts.get_account_limits()
 
 --        -- apply download speed limit
 --        ngx.var.limit_rate = limits.download
