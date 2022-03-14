@@ -25,6 +25,25 @@ set $skynet_proof '';
 set $limit_rate 0;
 
 access_by_lua_block {
+    if require("skynet.account").accounts_enabled() then
+        -- check if portal is in authenticated only mode
+        if require("skynet.account").is_access_unauthorized() then
+            return require("skynet.account").exit_access_unauthorized()
+        end
+
+        -- check if portal is in subscription only mode
+        if require("skynet.account").is_access_forbidden() then
+            return require("skynet.account").exit_access_forbidden()
+        end
+
+        -- get account limits of currently authenticated user
+        local limits = require("skynet.account").get_account_limits()
+
+        -- apply download speed limit
+        ngx.var.limit_rate = limits.download
+    end
+}
+
 ###    -- the block below only makes sense if we are using nginx cache
 ###    if not ngx.var.skyd_disk_cache_enabled then
 ###        local httpc = require("resty.http").new()
@@ -64,27 +83,8 @@ access_by_lua_block {
 ###            ngx.var.nocache = "1"
 ###        end
 ###    end
-###
-###    if require("skynet.account").accounts_enabled() then
-###        -- check if portal is in authenticated only mode
-###        if require("skynet.account").is_access_unauthorized() then
-###            return require("skynet.account").exit_access_unauthorized()
-###        end
-###
-###        -- check if portal is in subscription only mode
-###        if require("skynet.account").is_access_forbidden() then
-###            return require("skynet.account").exit_access_forbidden()
-###        end
-###
-###        -- get account limits of currently authenticated user
-###        local limits = require("skynet.account").get_account_limits()
-###
-###        -- apply download speed limit
-###        ngx.var.limit_rate = limits.download
-###    end
-}
 
-###header_filter_by_lua_block {
+header_filter_by_lua_block {
 ###    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
 ###    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
 ###
@@ -104,7 +104,7 @@ access_by_lua_block {
 ###            ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
 ###        end
 ###    end
-###}
+}
 
 limit_rate_after 512k;
 limit_rate $limit_rate;
