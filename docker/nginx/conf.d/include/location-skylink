@@ -9,22 +9,22 @@ limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 # this is important because we want only one format in cache keys and logs
 set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skylink) }
 
-###$skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
-#### a) skylink v1 - it would not matter, no additional logic is executed
-#### b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update
-####      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key
-####      in proxy-cache-downloads includes $skylink_v1 as a part of the cache key)
+#$skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
+# a) skylink v1 - it would not matter, no additional logic is executed
+# b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update
+#      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key
+#      in proxy-cache-downloads includes $skylink_v1 as a part of the cache key)
 set $skylink_v1 $skylink;
 set $skylink_v2 $skylink;
-###
-#### variable for Skynet-Proof header that we need to inject
-#### into a response if the request was for skylink v2
-###set $skynet_proof '';
-###
-#### default download rate to unlimited
-###set $limit_rate 0;
-###
-###access_by_lua_block {
+
+# variable for Skynet-Proof header that we need to inject
+# into a response if the request was for skylink v2
+set $skynet_proof '';
+
+# default download rate to unlimited
+set $limit_rate 0;
+
+access_by_lua_block {
 ###    -- the block below only makes sense if we are using nginx cache
 ###    if not ngx.var.skyd_disk_cache_enabled then
 ###        local httpc = require("resty.http").new()
@@ -82,8 +82,8 @@ set $skylink_v2 $skylink;
 ###        -- apply download speed limit
 ###        ngx.var.limit_rate = limits.download
 ###    end
-###}
-###
+}
+
 ###header_filter_by_lua_block {
 ###    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
 ###    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
@@ -105,7 +105,7 @@ set $skylink_v2 $skylink;
 ###        end
 ###    end
 ###}
-###
+
 limit_rate_after 512k;
 limit_rate $limit_rate;
 
