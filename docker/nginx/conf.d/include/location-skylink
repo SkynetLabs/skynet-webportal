@@ -40,8 +40,8 @@ access_by_lua_block {
         -- get account limits of currently authenticated user
         local limits = accounts.get_account_limits()
 
---        -- apply download speed limit
---        ngx.var.limit_rate = limits.download
+        -- apply download speed limit
+        ngx.var.limit_rate = limits.download
     end
 --     -- the block below only makes sense if we are using nginx cache
 --     if not ngx.var.skyd_disk_cache_enabled then
