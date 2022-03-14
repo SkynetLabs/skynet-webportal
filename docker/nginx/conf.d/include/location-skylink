@@ -24,6 +24,9 @@ set $skynet_proof '';
 # default download rate to unlimited
 set $limit_rate 0;
 
+# use this nocache in place of the proxy-cache-downloads
+set $nocache "1";
+
 access_by_lua_block {
     -- the block below only makes sense if we are using nginx cache
     if not ngx.var.skyd_disk_cache_enabled then
