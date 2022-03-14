@@ -14,6 +14,9 @@ local anon_limits = {
     ["registry"] = 250
 }
 
+-- basic caching of user data
+local curr_limits
+
 -- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
     ngx.status = ngx.HTTP_UNAUTHORIZED
@@ -35,20 +38,25 @@ function _M.accounts_enabled()
 end
 
 function _M.get_account_limits()
+    if curr_limits ~= nil then
+        return curr_limits
+    end
+
     local cjson = require('cjson')
 
+    -- TODO: This needs to accommodate authorization tokens and api keys.
     if ngx.var.skynet_jwt == "" then
         return anon_limits
     end
 
     if ngx.var.account_limits == "" then
         local httpc = require("resty.http").new()
-        
+
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
             headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
         })
-        
+
         -- fail gracefully in case /user/limits failed
         if err or (res and res.status ~= ngx.HTTP_OK) then
             ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
@@ -58,7 +66,8 @@ function _M.get_account_limits()
         end
     end
 
-    return cjson.decode(ngx.var.account_limits)
+    curr_limits = cjson.decode(ngx.var.account_limits)
+    return curr_limits
 end
 
 -- detect whether current user is authenticated
@@ -78,7 +87,7 @@ function _M.has_subscription()
 end
 
 function _M.is_auth_required()
-    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated"
+    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated" or os.getenv("ACCOUNTS_LIMIT_ACCESS") == "subscription"
 end
 
 function _M.is_subscription_required()
