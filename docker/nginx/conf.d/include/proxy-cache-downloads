@@ -18,4 +18,4 @@ proxy_cache_bypass $cookie_nocache $arg_nocache $skyd_disk_cache_enabled;
 set $nocache "1";
 
 # disable cache when nocache is set or skyd cache is enabled
-proxy_no_cache $nocache
+proxy_no_cache $nocache;
