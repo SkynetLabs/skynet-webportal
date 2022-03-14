@@ -1,7 +1,7 @@
 include /etc/nginx/conf.d/include/cors;
 ###include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-cache-downloads;
-###include /etc/nginx/conf.d/include/track-download;
+include /etc/nginx/conf.d/include/track-download;
 
 ###limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
@@ -109,7 +109,7 @@ set $skylink_v2 $skylink;
 ###limit_rate_after 512k;
 ###limit_rate $limit_rate;
 
-###proxy_read_timeout 600;
+proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
 # in case the requested skylink was v2 and we already resolved it to skylink v1, we are going to pass resolved
