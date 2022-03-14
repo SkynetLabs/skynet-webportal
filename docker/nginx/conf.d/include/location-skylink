@@ -85,6 +85,8 @@ access_by_lua_block {
 ###    end
 
 header_filter_by_lua_block {
+
+}
 ###    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
 ###    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
 ###
@@ -104,7 +106,6 @@ header_filter_by_lua_block {
 ###            ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
 ###        end
 ###    end
-}
 
 limit_rate_after 512k;
 limit_rate $limit_rate;
