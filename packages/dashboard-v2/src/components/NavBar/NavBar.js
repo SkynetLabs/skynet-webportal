@@ -9,7 +9,7 @@ import { PageContainer } from "../PageContainer";
 import { NavBarLink, NavBarSection } from ".";
 
 const NavBarContainer = styled.div.attrs({
-  className: `grid sticky top-0 bg-white`,
+  className: `grid sticky top-0 bg-white z-10`,
 })``;
 
 const NavBarBody = styled.nav.attrs({
@@ -68,7 +68,14 @@ export const NavBar = () => (
         </NavBarSection>
         <NavBarSection className="dropdown-area justify-end">
           <DropdownMenu title="My account">
-            <DropdownMenuLink to="/settings" as={Link} activeClassName="text-primary" icon={CogIcon} label="Settings" />
+            <DropdownMenuLink
+              to="/settings"
+              as={Link}
+              activeClassName="text-primary"
+              icon={CogIcon}
+              label="Settings"
+              partiallyActive
+            />
             <DropdownMenuLink
               to="/logout"
               as={Link}
