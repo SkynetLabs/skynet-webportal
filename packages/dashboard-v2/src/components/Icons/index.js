@@ -12,3 +12,4 @@ export * from "./icons/PlusIcon";
 export * from "./icons/SearchIcon";
 export * from "./icons/CopyIcon";
 export * from "./icons/ShareIcon";
+export * from "./icons/SimpleUploadIcon";
