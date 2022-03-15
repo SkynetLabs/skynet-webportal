@@ -14,15 +14,6 @@ local anon_limits = {
     ["registry"] = 250
 }
 
--- utility function for checking if table is empty
-function is_table_empty(check)
-    -- bind next to local variable to achieve ultimate efficiency
-    -- https://stackoverflow.com/a/1252776
-    local next = next
-
-    return next(check) == nil
-end
-
 -- get all non empty authentication headers from request, we want to return
 -- all of them and let accounts service deal with validation and prioritisation
 function _M.get_auth_headers()
@@ -69,10 +60,11 @@ end
 
 function _M.get_account_limits()
     local cjson = require('cjson')
+    local utils = require('utils')
     local auth_headers = _M.get_auth_headers()
 
     -- simple case of anonymous request - none of available auth headers exist
-    if is_table_empty(auth_headers) then
+    if utils.is_table_empty(auth_headers) then
         return anon_limits
     end
 
