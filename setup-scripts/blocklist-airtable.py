@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from bot_utils import setup, send_msg
+from bot_utils import get_api_password, setup, send_msg
 from random import randint
 from time import sleep
 
@@ -10,6 +10,8 @@ import sys
 import asyncio
 import requests
 import json
+
+from requests.auth import HTTPBasicAuth
 
 setup()
 
@@ -38,14 +40,14 @@ def exec(command):
 
 
 async def block_skylinks_from_airtable():
-    # Get nginx's IP before doing anything else. If this step fails we don't
+    # Get sia IP before doing anything else. If this step fails we don't
     # need to continue with the execution of the script.
     ipaddress = exec(
-        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
+        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia"
     )
 
     if ipaddress == "":
-        print("Nginx's IP could not be detected. Exiting.")
+        print("Skyd IP could not be detected. Exiting.")
         return
 
     print("Pulling blocked skylinks from Airtable via api integration")
@@ -117,11 +119,13 @@ async def block_skylinks_from_airtable():
     print(
         "Sending /skynet/blocklist request with "
         + str(len(skylinks))
-        + " skylinks to siad through nginx"
+        + " skylinks to siad"
     )
     response = requests.post(
-        "http://" + ipaddress + ":8000/skynet/blocklist",
+        "http://" + ipaddress + ":9980/skynet/blocklist",
         data=json.dumps({"add": skylinks}),
+        headers={"User-Agent": "Sia-Agent"},
+        auth=HTTPBasicAuth("", get_api_password()),
     )
 
     if response.status_code != 200:
@@ -153,5 +157,5 @@ loop.run_until_complete(run_checks())
 
 # --- BASH EQUIVALENT
 # skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?fields%5B%5D=${AIRTABLE_FIELD}" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
-# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
+# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
 # curl --data "{\"add\" : ${skylinks}}" "${ipaddress}:8000/skynet/blocklist"
