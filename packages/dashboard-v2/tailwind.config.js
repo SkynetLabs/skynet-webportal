@@ -39,6 +39,10 @@ module.exports = {
         tab: ["18px", "28px"],
       },
       backgroundColor: ["disabled"],
+      backgroundImage: {
+        "corner-circle":
+          "radial-gradient(circle at calc(100% - 60px) -50px, #F5F5F7 0%, #f5f5f7 250px,rgba(0,0,0,0) 250px)",
+      },
       textColor: ["disabled"],
       keyframes: {
         wiggle: {
@@ -54,6 +58,8 @@ module.exports = {
         "page-md": "640px",
         "page-lg": "896px",
         "page-xl": "1312px",
+        "settings-lg": "704px",
+        "settings-xl": "928px",
       },
       minWidth: {
         button: "112px",
