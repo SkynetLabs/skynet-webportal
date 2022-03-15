@@ -8,6 +8,7 @@ import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { UserProvider, useUser } from "../contexts/user";
+import { ContainerLoadingIndicator } from "../components/LoadingIndicator";
 
 const Wrapper = styled.div.attrs({
   className: "min-h-screen overflow-hidden",
@@ -25,7 +26,7 @@ const Layout = ({ children }) => {
     <Wrapper>
       {!user && (
         <div className="fixed inset-0 flex justify-center items-center bg-palette-100/50">
-          <p>Loading...</p> {/* TODO: Do something nicer here */}
+          <ContainerLoadingIndicator className="!text-palette-200/50" />
         </div>
       )}
       {user && <>{children}</>}
