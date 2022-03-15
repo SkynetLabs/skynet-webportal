@@ -1,12 +1,4 @@
 add_header X-Proxy-Cache $upstream_cache_status; # add response header to indicate cache hits and misses
 
-# bypass - this will bypass cache hit on request (status BYPASS)
-# but still stores file in cache if cache conditions are met
-proxy_cache_bypass $cookie_nocache $arg_nocache "1";
-
-# no cache - this will ignore cache on request (status MISS)
-# and does not store file in cache under no condition
-set $nocache "1";
-
-# disable cache when nocache is set or skyd cache is enabled
-proxy_no_cache $nocache;
+# disable caching
+proxy_no_cache "1";

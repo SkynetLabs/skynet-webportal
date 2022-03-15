@@ -14,9 +14,6 @@ local anon_limits = {
     ["registry"] = 250
 }
 
--- basic caching of user data
-local curr_limits
-
 -- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
     ngx.status = ngx.HTTP_UNAUTHORIZED
@@ -38,10 +35,6 @@ function _M.accounts_enabled()
 end
 
 function _M.get_account_limits()
-    if curr_limits ~= nil then
-        return curr_limits
-    end
-
     local cjson = require('cjson')
 
     -- TODO: This needs to accommodate authorization tokens and api keys.
@@ -66,8 +59,7 @@ function _M.get_account_limits()
         end
     end
 
-    curr_limits = cjson.decode(ngx.var.account_limits)
-    return curr_limits
+    return cjson.decode(ngx.var.account_limits)
 end
 
 -- detect whether current user is authenticated
