@@ -172,28 +172,25 @@ location /skynet/registry/subscription {
     set $notificationdelay "0";
 
     rewrite_by_lua_block {
-        -- this block runs only when accounts are enabled
-        if os.getenv("PORTAL_MODULES"):match("a") then
-            local httpc = require("resty.http").new()
+        local skynet_account = require("skynet.account")
 
-            -- fetch account limits and set download bandwidth and registry delays accordingly
-            local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-                headers = {
-                    ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt,
-                    ["Authorization"] = ngx.header["Authorization"],
-                    ["Skynet-Api-Key"] = ngx.header["Skynet-Api-Key"],
-                }
-            })
-
-            -- fail gracefully in case /user/limits failed
-            if err or (res and res.status ~= ngx.HTTP_OK) then
-                ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-            elseif res and res.status == ngx.HTTP_OK then
-                local json = require('cjson')
-                local limits = json.decode(res.body)
-                ngx.var.bandwidthlimit = limits.download
-                ngx.var.notificationdelay = limits.registry
+        if skynet_account.accounts_enabled() then
+            -- check if portal is in authenticated only mode
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
+
+            -- check if portal is in subscription only mode
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
+            end
+
+            -- get account limits of currently authenticated user
+            local limits = skynet_account.get_account_limits()
+
+            -- apply bandwidth limit and notification delay
+            ngx.var.bandwidthlimit = limits.download
+            ngx.var.notificationdelay = limits.registry
         end
     }
 
@@ -261,19 +258,21 @@ location /skynet/tus {
     proxy_pass http://sia:9980;
 
     access_by_lua_block {
-        if require("skynet.account").accounts_enabled() then
+        local skynet_account = require("skynet.account")
+
+        if skynet_account.accounts_enabled() then
             -- check if portal is in authenticated only mode
-            if require("skynet.account").is_access_unauthorized() then
-                return require("skynet.account").exit_access_unauthorized()
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
 
             -- check if portal is in subscription only mode
-            if require("skynet.account").is_access_forbidden() then
-                return require("skynet.account").exit_access_forbidden()
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
             end
 
             -- get account limits of currently authenticated user
-            local limits = require("skynet.account").get_account_limits()
+            local limits = skynet_account.get_account_limits()
 
             -- apply upload size limits
             ngx.req.set_header("SkynetMaxUploadSize", limits.maxUploadSize)
@@ -365,19 +364,21 @@ location /skynet/trustless/basesector {
     set $limit_rate 0;
 
     access_by_lua_block {
-        if require("skynet.account").accounts_enabled() then
+        local skynet_account = require("skynet.account")
+
+        if skynet_account.accounts_enabled() then
             -- check if portal is in authenticated only mode
-            if require("skynet.account").is_access_unauthorized() then
-                return require("skynet.account").exit_access_unauthorized()
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
 
             -- check if portal is in subscription only mode
-            if require("skynet.account").is_access_forbidden() then
-                return require("skynet.account").exit_access_forbidden()
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
             end
 
             -- get account limits of currently authenticated user
-            local limits = require("skynet.account").get_account_limits()
+            local limits = skynet_account.get_account_limits()
 
             -- apply download speed limit
             ngx.var.limit_rate = limits.download

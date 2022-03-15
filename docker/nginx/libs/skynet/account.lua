@@ -14,6 +14,39 @@ local anon_limits = {
     ["registry"] = 250
 }
 
+-- utility function for checking if table is empty
+function is_table_empty(check)
+    -- bind next to local variable to achieve ultimate efficiency
+    -- https://stackoverflow.com/a/1252776
+    local next = next
+
+    return next(check) == nil
+end
+
+-- get all non empty authentication headers from request, we want to return
+-- all of them and let accounts service deal with validation and prioritisation
+function _M.get_auth_headers()
+    local request_headers = ngx.req.get_headers()
+    local headers = {}
+
+    -- if skynet_jwt is set, include it as a cookie
+    if ngx.var.skynet_jwt ~= "" then
+        headers["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt
+    end
+
+    -- if authorization header is set, pass it as is
+    if request_headers["Authorization"] then
+        headers["Authorization"] = request_headers["Authorization"]
+    end
+
+    -- if skynet api key header is set, pass it as is
+    if request_headers["Skynet-Api-Key"] then
+        headers["Skynet-Api-Key"] = request_headers["Skynet-Api-Key"]
+    end
+
+    return headers
+end
+
 -- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
     ngx.status = ngx.HTTP_UNAUTHORIZED
@@ -36,8 +69,10 @@ end
 
 function _M.get_account_limits()
     local cjson = require('cjson')
+    local auth_headers = _M.get_auth_headers()
 
-    if ngx.var.skynet_jwt == "" then
+    -- simple case of anonymous request - none of available auth headers exist
+    if is_table_empty(auth_headers) then
         return anon_limits
     end
 
@@ -46,11 +81,7 @@ function _M.get_account_limits()
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-            headers = {
-                ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt,
-                ["Authorization"] = ngx.header["Authorization"],
-                ["Skynet-Api-Key"] = ngx.header["Skynet-Api-Key"],
-            }
+            headers = auth_headers,
         })
 
         -- fail gracefully in case /user/limits failed
