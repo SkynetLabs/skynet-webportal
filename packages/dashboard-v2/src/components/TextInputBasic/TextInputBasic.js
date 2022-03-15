@@ -1,18 +1,20 @@
+import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 
-/**
- * Primary UI component for user interaction
- */
-export const TextInputBasic = ({ label, placeholder }) => {
+export const TextInputBasic = ({ label, placeholder, ...props }) => {
+  const id = useMemo(() => `input-${nanoid()}`, []);
+
   return (
-    <div className={""}>
-      <p className={"font-sans uppercase text-palette-300 text-inputLabel mb-textInputLabelBottom"}>{label}</p>
+    <div className="flex flex-col w-full gap-1">
+      <label className="font-sans uppercase text-palette-300 text-xs" htmlFor={id}>
+        {label}
+      </label>
       <input
+        id={id}
         placeholder={placeholder}
-        className={
-          "w-full bg-palette-100 h-textInput px-textInputBasicX focus:outline-none bg-transparent " +
-          "placeholder-palette-400 text-content tracking-inputPlaceholder text-textInput"
-        }
+        className="w-full py-2 px-4 bg-palette-100 rounded-sm placeholder:text-palette-200 focus:outline outline-1 outline-palette-200"
+        {...props}
       />
     </div>
   );
