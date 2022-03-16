@@ -22,7 +22,7 @@ const TooltipContent = styled.div.attrs({
   className: "bg-primary-light/10 text-palette-600 py-2 px-4 ",
 })``;
 
-export const CopyButton = ({ value }) => {
+export const CopyButton = ({ value, className }) => {
   const containerRef = useRef();
   const [copied, setCopied] = useState(false);
   const [timer, setTimer] = useState(null);
@@ -32,13 +32,13 @@ export const CopyButton = ({ value }) => {
     copy(value);
     setCopied(true);
 
-    setTimer(setTimeout(() => setCopied(false), 150000));
+    setTimer(setTimeout(() => setCopied(false), 1500));
   }, [value, timer]);
 
   useClickAway(containerRef, () => setCopied(false));
 
   return (
-    <div ref={containerRef} className="inline-flex relative overflow-visible pr-2">
+    <div ref={containerRef} className={`inline-flex relative overflow-visible pr-2 ${className ?? ""}`}>
       <Button onClick={handleCopy} className={copied ? "text-primary" : ""}>
         <CopyIcon size={16} />
       </Button>
