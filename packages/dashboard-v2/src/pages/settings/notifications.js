@@ -14,9 +14,7 @@ const NotificationsPage = () => {
           <section>
             {/* TODO: saves on change */}
             <Switch onChange={console.info.bind(console)} labelClassName="!items-start flex-col md:flex-row">
-              <span className="ml-2">
-                I agreee to get the latest news, updates and special offers delivered to my email inbox.
-              </span>
+              I agreee to get the latest news, updates and special offers delivered to my email inbox.
             </Switch>
           </section>
           <hr />

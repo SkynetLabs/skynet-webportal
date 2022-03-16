@@ -60,7 +60,7 @@ export const Switch = ({ children, defaultChecked, labelClassName, onChange, ...
         <Toggle>
           <TogglePin $checked={checked} />
         </Toggle>
-        {children}
+        <div className="-mt-0.5">{children}</div>
       </Label>
     </Container>
   );
