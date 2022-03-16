@@ -64,8 +64,6 @@ services:
     logging: *default-logging
     env_file:
       - .env
-    environment:
-      - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
     volumes:
       - ./docker/data/nginx/cache:/data/nginx/cache
       - ./docker/data/nginx/blocker:/data/nginx/blocker
