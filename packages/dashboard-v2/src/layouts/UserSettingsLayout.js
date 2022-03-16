@@ -61,7 +61,7 @@ const SidebarLink = styled(Link).attrs({
 })``;
 
 const Content = styled.main.attrs({
-  className: "relative bg-white rounded px-16 py-14 mt-6 lg:mt-0 bg-none xl:bg-corner-circle",
+  className: "relative bg-white rounded px-6 py-6 sm:px-16 sm:py-14 mt-6 lg:mt-0 bg-none xl:bg-corner-circle",
 })`
   background-repeat: no-repeat;
 `;
