@@ -13,7 +13,7 @@ services:
       - BLOCKER_PORT=4000
 
   blocker:
-    image: skynetlabs/blocker:deploy-2022-03-08
+    image: skynetlabs/blocker:deploy-2022-03-08-1
     container_name: blocker
     restart: unless-stopped
     logging: *default-logging
