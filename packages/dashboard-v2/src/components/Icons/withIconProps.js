@@ -4,7 +4,7 @@ const propTypes = {
   /**
    * Size of the icon's bounding box.
    */
-  size: PropTypes.number,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 const defaultProps = {
