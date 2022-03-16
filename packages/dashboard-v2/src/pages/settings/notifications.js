@@ -40,7 +40,7 @@ const NotificationsPage = () => {
             </ul>
           </section>
         </div>
-        <div className="text-right w-full pr-14 pt-20">
+        <div className="hidden xl:block text-right w-full pr-14 pt-20">
           <StaticImage src="../../../static/images/inbox.svg" alt="" placeholder="none" />
         </div>
       </div>
