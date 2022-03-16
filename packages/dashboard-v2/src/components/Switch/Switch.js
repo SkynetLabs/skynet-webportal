@@ -74,7 +74,7 @@ Switch.propTypes = {
   /**
    * Element to be rendered as the switch label
    */
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   /**
    * Pass additional CSS classes to the `label` element.
    */
