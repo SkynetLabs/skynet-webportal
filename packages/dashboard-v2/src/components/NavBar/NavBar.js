@@ -9,7 +9,7 @@ import { PageContainer } from "../PageContainer";
 import { NavBarLink, NavBarSection } from ".";
 
 const NavBarContainer = styled.div.attrs({
-  className: `grid sticky top-0 bg-white z-10`,
+  className: `grid sticky top-0 bg-white z-10 shadow-sm`,
 })``;
 
 const NavBarBody = styled.nav.attrs({
