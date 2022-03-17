@@ -28,7 +28,7 @@ for i in $(seq 1 ${#PORTAL_MODULES}); do
 
   # gundb module - alias "g"
   if [[ ${PORTAL_MODULES:i-1:1} == "g" ]]; then
-    COMPOSE_FILES+=" -f docker-compose.gun.yml"
+    COMPOSE_FILES+=" -f docker-compose.gundb.yml"
   fi
 
   # jaeger module - alias "j"

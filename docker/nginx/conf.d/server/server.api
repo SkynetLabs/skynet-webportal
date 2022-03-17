@@ -164,7 +164,7 @@ location /skynet/restore {
     proxy_pass http://sia:9980;
 }
 
-location /gun {
+location /gundb {
     include /etc/nginx/conf.d/include/cors;
 
     proxy_set_header Upgrade $http_upgrade;

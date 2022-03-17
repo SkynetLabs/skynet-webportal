@@ -2,6 +2,9 @@ version: "3.7"
 
 x-logging: &default-logging
   driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 services:
   gun:
