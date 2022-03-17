@@ -1,0 +1,16 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+
+services:
+  gun:
+    image: pupcakes/zenbase-integrated
+    container_name: gundb-relay
+    restart: unless-stopped
+    logging: *default-logging
+    expose:
+      - "8765:8765"
+    networks:
+      shared:
+        ipv4_address: 10.10.10.163
