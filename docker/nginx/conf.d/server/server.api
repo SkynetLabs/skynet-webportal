@@ -47,7 +47,9 @@ location /skynet/portal/blocklist {
 
     proxy_cache skynet;
     proxy_cache_valid 200 204 15m; # cache portal blocklist for 15 minutes
-    proxy_pass http://blocker:4000/blocklist;
+
+    # 10.10.10.110 points to blocker service
+    proxy_pass http://10.10.10.110:4000/blocklist;
 }
 
 location /skynet/portals {
