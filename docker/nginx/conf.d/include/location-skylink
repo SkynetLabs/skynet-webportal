@@ -1,5 +1,4 @@
 include /etc/nginx/conf.d/include/cors;
-include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/track-download;
 
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time

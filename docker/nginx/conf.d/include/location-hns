@@ -1,4 +1,3 @@
-include /etc/nginx/conf.d/include/proxy-buffer;
 include /etc/nginx/conf.d/include/proxy-pass-internal;
 include /etc/nginx/conf.d/include/portal-access-check;
 
