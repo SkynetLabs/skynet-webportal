@@ -43,15 +43,15 @@ function _M.get_account_limits()
 
     if ngx.var.account_limits == "" then
         local httpc = require("resty.http").new()
-        
+
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
+        local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits?unit=byte", {
             headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
         })
-        
+
         -- fail gracefully in case /user/limits failed
         if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            ngx.log(ngx.ERR, "Failed accounts service request /user/limits?unit=byte: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
             ngx.var.account_limits = cjson.encode(anon_limits)
         elseif res and res.status == ngx.HTTP_OK then
             ngx.var.account_limits = res.body

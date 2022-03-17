@@ -177,13 +177,13 @@ location /skynet/registry/subscription {
             local httpc = require("resty.http").new()
 
             -- fetch account limits and set download bandwidth and registry delays accordingly
-            local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
+            local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits?unit=byte", {
                 headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
             })
 
             -- fail gracefully in case /user/limits failed
             if err or (res and res.status ~= ngx.HTTP_OK) then
-                ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+                ngx.log(ngx.ERR, "Failed accounts service request /user/limits?unit=byte: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
             elseif res and res.status == ngx.HTTP_OK then
                 local json = require('cjson')
                 local limits = json.decode(res.body)
@@ -267,10 +267,10 @@ location /skynet/tus {
             if require("skynet.account").is_access_forbidden() then
                 return require("skynet.account").exit_access_forbidden()
             end
-            
+
             -- get account limits of currently authenticated user
             local limits = require("skynet.account").get_account_limits()
-        
+
             -- apply upload size limits
             ngx.req.set_header("SkynetMaxUploadSize", limits.maxUploadSize)
         end
