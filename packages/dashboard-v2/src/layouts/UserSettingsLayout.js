@@ -45,7 +45,7 @@ const Sidebar = () => (
         Notifications
       </SidebarLink>
       <SidebarLink activeClassName="!border-l-primary" to="/settings/export">
-        Import / Export
+        Export
       </SidebarLink>
       <SidebarLink activeClassName="!border-l-primary" to="/settings/api-keys">
         API Keys
