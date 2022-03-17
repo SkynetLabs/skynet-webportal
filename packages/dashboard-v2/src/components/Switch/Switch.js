@@ -21,7 +21,7 @@ const Label = styled.label.attrs({
 `;
 
 const Toggle = styled.span.attrs({
-  className: `flex flex-row items-center justify-between
+  className: `flex flex-row items-center justify-between shrink-0
               w-[44px] h-[22px] bg-white rounded-full
               border border-palette-200 relative cursor-pointer`,
 })`
@@ -45,7 +45,7 @@ const TogglePin = styled.span.attrs(({ $checked }) => ({
   }
 `;
 
-export const Switch = ({ children, defaultChecked, onChange, ...props }) => {
+export const Switch = ({ children, defaultChecked, labelClassName, onChange, ...props }) => {
   const id = useMemo(nanoid, [onChange]);
   const [checked, setChecked] = useState(defaultChecked);
 
@@ -56,11 +56,11 @@ export const Switch = ({ children, defaultChecked, onChange, ...props }) => {
   return (
     <Container {...props}>
       <Checkbox checked={checked} onChange={(ev) => setChecked(ev.target.checked)} id={id} />
-      <Label htmlFor={id}>
+      <Label htmlFor={id} className={labelClassName}>
         <Toggle>
           <TogglePin $checked={checked} />
         </Toggle>
-        {children}
+        <div className="-mt-0.5">{children}</div>
       </Label>
     </Container>
   );
@@ -74,7 +74,11 @@ Switch.propTypes = {
   /**
    * Element to be rendered as the switch label
    */
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  /**
+   * Pass additional CSS classes to the `label` element.
+   */
+  labelClassName: PropTypes.string,
   /**
    * Function to execute on change
    */
@@ -83,4 +87,5 @@ Switch.propTypes = {
 
 Switch.defaultProps = {
   defaultChecked: false,
+  labelClassName: "",
 };

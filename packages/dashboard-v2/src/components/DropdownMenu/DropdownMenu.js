@@ -30,7 +30,7 @@ const TriggerIcon = styled(ChevronDownIcon).attrs({
 `;
 
 const Flyout = styled.div.attrs(({ open }) => ({
-  className: `absolute top-full right-0 p-0
+  className: `absolute top-full right-0 p-0 z-10
               border rounded border-palette-100
               bg-white shadow-md shadow-palette-200/50
               ${open ? "visible" : "invisible"}`,
