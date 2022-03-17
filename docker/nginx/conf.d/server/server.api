@@ -352,7 +352,6 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
 
 location /skynet/trustless/basesector {
     include /etc/nginx/conf.d/include/cors;
-    include /etc/nginx/conf.d/include/proxy-buffer;
     include /etc/nginx/conf.d/include/track-download;
 
     limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time

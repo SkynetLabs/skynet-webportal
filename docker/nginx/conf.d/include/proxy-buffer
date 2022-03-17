@@ -1,5 +1,0 @@
-# if you are expecting large headers (ie. Skynet-Skyfile-Metadata), tune these values to your needs
-# read more: https://www.getpagespeed.com/server-setup/nginx/tuning-proxy_buffer_size-in-nginx
-proxy_buffer_size 4096k;
-proxy_buffers 64 256k;
-proxy_busy_buffers_size 4096k; # at least as high as proxy_buffer_size
