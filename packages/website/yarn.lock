@@ -6350,10 +6350,10 @@ gatsby-plugin-robots-txt@1.7.0:
     "@babel/runtime" "^7.16.7"
     generate-robotstxt "^8.0.3"
 
-gatsby-plugin-sharp@4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sharp/-/gatsby-plugin-sharp-4.9.0.tgz#c1370d00d55e025d2e5d1d9b3017865ea9d890c7"
-  integrity sha512-65JcqL11kyecTDYl3uZ/SvBI2FRJgSC7JTxzoV1ZOJkNQpn4nRLRUFL5UTijnnwU9+tba3i6gxKtZEAlE94pcA==
+gatsby-plugin-sharp@4.9.1:
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sharp/-/gatsby-plugin-sharp-4.9.1.tgz#44667f134be1855fe666ed58839bd280527337bd"
+  integrity sha512-oHnuxIok0Ct3nktn53XQFX36QXwa4H9hjj5lkxaY3zh0giYJmFAsHyvus6DKzGQ14cTC3AkvaD+rqv4SGdjRcg==
   dependencies:
     "@babel/runtime" "^7.15.4"
     async "^3.2.3"
@@ -6361,9 +6361,9 @@ gatsby-plugin-sharp@4.9.0:
     debug "^4.3.3"
     filenamify "^4.3.0"
     fs-extra "^10.0.0"
-    gatsby-core-utils "^3.9.0"
+    gatsby-core-utils "^3.9.1"
     gatsby-plugin-utils "^3.3.0"
-    gatsby-telemetry "^3.9.0"
+    gatsby-telemetry "^3.9.1"
     got "^11.8.3"
     lodash "^4.17.21"
     mini-svg-data-uri "^1.4.3"
