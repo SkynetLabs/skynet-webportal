@@ -8,10 +8,14 @@ x-logging: &default-logging
 
 services:
   gun:
-    image: pupcakes/zenbase-integrated
+    image: skynetlabs/gundb-relay
     container_name: gundb-relay
     restart: unless-stopped
     logging: *default-logging
+    env_file:
+      - .env
+    environment: 
+      - PORTAL=http://${SERVER_DOMAIN}
     expose:
       - "8765:8765"
     networks:
