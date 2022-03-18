@@ -34,7 +34,11 @@ const Body = styled.div.attrs({ className: "grow min-h-0" })``;
 export const Tabs = ({ defaultTab, children, variant }) => {
   const getTabId = usePrefixedTabIds();
   const { tabs, panels, tabsRefs } = useTabsChildren(children, getTabId);
-  const defaultTabId = useMemo(() => getTabId(defaultTab || tabs[0].props.id), [getTabId, defaultTab, tabs]);
+  const defaultTabId = useMemo(() => {
+    const requestedTabIsPresent = tabs.find(({ props }) => props.id === defaultTab);
+
+    return getTabId(requestedTabIsPresent ? defaultTab : tabs[0].props.id);
+  }, [getTabId, defaultTab, tabs]);
   const [activeTabId, setActiveTabId] = useState(defaultTabId);
   const [activeTabRef, setActiveTabRef] = useState(tabsRefs[activeTabId]);
   const isActive = (id) => id === activeTabId;

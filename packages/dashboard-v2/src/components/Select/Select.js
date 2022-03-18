@@ -21,9 +21,11 @@ const dropDown = keyframes`
 
 const Container = styled.div.attrs({ className: "relative inline-flex" })``;
 
-const Trigger = styled.button.attrs(({ placeholder }) => ({
-  className: `flex items-center cursor-pointer ${placeholder ? "text-palette-300" : ""}`,
-}))``;
+const Trigger = styled.button.attrs(({ $placeholder }) => ({
+  className: `flex items-center cursor-pointer font-bold ${$placeholder ? "text-palette-300" : ""}`,
+}))`
+  text-transform: inherit;
+`;
 
 const TriggerIcon = styled(ChevronDownIcon).attrs({
   className: "transition-transform text-primary",
@@ -32,13 +34,14 @@ const TriggerIcon = styled(ChevronDownIcon).attrs({
 `;
 
 const Flyout = styled.ul.attrs(({ open }) => ({
-  className: `absolute top-[20px] right-0
-              p-0 h-0 border rounded bg-white
+  className: `absolute right-0 z-10
+              p-0 border rounded bg-white
               overflow-hidden pointer-events-none
               shadow-md shadow-palette-200/50
               ${open ? "pointer-events-auto h-auto overflow-visible border-primary" : ""}
               ${open ? "visible" : "invisible"}`,
 }))`
+  top: calc(100% + 2px);
   animation: ${({ open }) =>
     open
       ? css`
@@ -47,7 +50,7 @@ const Flyout = styled.ul.attrs(({ open }) => ({
       : "none"};
 `;
 
-export const Select = ({ defaultValue, children, onChange, placeholder }) => {
+export const Select = ({ defaultValue, children, onChange, placeholder, ...props }) => {
   const selectRef = useRef();
   const options = useMemo(() => Children.toArray(children).filter(({ type }) => type === SelectOption), [children]);
   const [state, dispatch] = useSelectReducer({ defaultValue, placeholder, options });
@@ -65,8 +68,8 @@ export const Select = ({ defaultValue, children, onChange, placeholder }) => {
   const activeLabel = activeOption?.props?.label ?? null;
 
   return (
-    <Container ref={selectRef}>
-      <Trigger placeholder={!activeLabel && placeholder} onClick={toggle}>
+    <Container ref={selectRef} {...props}>
+      <Trigger $placeholder={!activeLabel && placeholder} onClick={toggle} className={state.open ? "text-primary" : ""}>
         {activeLabel ?? placeholder} <TriggerIcon open={state.open} />
       </Trigger>
       <Flyout role="listbox" open={state.open}>
