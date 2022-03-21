@@ -67,11 +67,11 @@ const Uploader = () => {
   const { data: accounts } = useAccounts();
 
   // variables extracted from useAccounts response
-  const isAccountsEnabled = accounts?.enabled === true;
-  const isSubscriptionRequired = accounts?.subscription_required === true;
-  const isAuthRequired = isSubscriptionRequired || accounts?.auth_required === true;
-  const isAuthenticated = accounts?.authenticated === true;
-  const hasSubscription = accounts?.subscription === true;
+  const isAccountsEnabled = accounts?.enabled;
+  const isSubscriptionRequired = accounts?.subscription_required;
+  const isAuthRequired = isSubscriptionRequired || accounts?.auth_required;
+  const isAuthenticated = accounts?.authenticated;
+  const hasSubscription = accounts?.subscription;
 
   // derive current app state and extract it into variables
   const showAccountFeatures = isAccountsEnabled && !isAuthRequired && !isAuthenticated;
