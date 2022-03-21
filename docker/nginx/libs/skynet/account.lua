@@ -14,6 +14,34 @@ local anon_limits = {
     ["registry"] = 250
 }
 
+-- get all non empty authentication headers from request, we want to return
+-- all of them and let accounts service deal with validation and prioritisation
+function _M.get_auth_headers()
+    local utils = require("utils")
+    local request_headers = ngx.req.get_headers()
+    local headers = {}
+
+    -- try to extract skynet-jwt cookie from cookie header
+    local skynet_jwt_cookie = utils.extract_cookie(request_headers["Cookie"], "skynet[-]jwt")
+
+    -- if skynet-jwt cookie is present, pass it as is
+    if skynet_jwt_cookie then
+        headers["Cookie"] = skynet_jwt_cookie
+    end
+
+    -- if authorization header is set, pass it as is
+    if request_headers["Authorization"] then
+        headers["Authorization"] = request_headers["Authorization"]
+    end
+
+    -- if skynet api key header is set, pass it as is
+    if request_headers["Skynet-Api-Key"] then
+        headers["Skynet-Api-Key"] = request_headers["Skynet-Api-Key"]
+    end
+
+    return headers
+end
+
 -- handle request exit when access to portal should be restricted to authenticated users only
 function _M.exit_access_unauthorized(message)
     ngx.status = ngx.HTTP_UNAUTHORIZED
@@ -36,8 +64,11 @@ end
 
 function _M.get_account_limits()
     local cjson = require('cjson')
+    local utils = require('utils')
+    local auth_headers = _M.get_auth_headers()
 
-    if ngx.var.skynet_jwt == "" then
+    -- simple case of anonymous request - none of available auth headers exist
+    if utils.is_table_empty(auth_headers) then
         return anon_limits
     end
 
@@ -46,7 +77,7 @@ function _M.get_account_limits()
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
         local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits?unit=byte", {
-            headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
+            headers = auth_headers,
         })
 
         -- fail gracefully in case /user/limits failed
