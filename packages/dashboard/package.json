@@ -11,7 +11,7 @@
     "@fontsource/sora": "4.5.3",
     "@fontsource/source-sans-pro": "4.5.4",
     "@stripe/react-stripe-js": "1.7.0",
-    "@stripe/stripe-js": "1.24.0",
+    "@stripe/stripe-js": "1.25.0",
     "classnames": "2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
     "dayjs": "1.11.0",
