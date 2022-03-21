@@ -13,7 +13,10 @@ end
 -- note: name matcher argument is a pattern so you will need to escape
 -- any special characters, read more https://www.lua.org/pil/20.2.html
 function _M.extract_cookie(cookie_string, name_matcher)
-    if cookie_string == nil then return nil end -- nil safeguard
+    -- nil cookie string safeguard
+    if cookie_string == nil then
+        return nil
+    end
 
     local start, stop = string.find(cookie_string, name_matcher .. "=[^;]+")
 
@@ -30,7 +33,9 @@ end
 function _M.extract_cookie_value(cookie_string, name_matcher)
     local cookie = _M.extract_cookie(cookie_string, name_matcher)
 
-    if cookie == nil then return nil end
+    if cookie == nil then
+        return nil
+    end
 
     local value_start = string.find(cookie, "=") + 1
 
