@@ -17,12 +17,16 @@ local anon_limits = {
 -- get all non empty authentication headers from request, we want to return
 -- all of them and let accounts service deal with validation and prioritisation
 function _M.get_auth_headers()
+    local utils = require("utils")
     local request_headers = ngx.req.get_headers()
     local headers = {}
 
-    -- if skynet_jwt is set, include it as a cookie
-    if ngx.var.skynet_jwt ~= "" then
-        headers["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt
+    -- try to extract skynet-jwt cookie from cookie header
+    local skynet_jwt_cookie = utils.extract_cookie(request_headers["Cookie"], "skynet[-]jwt")
+
+    -- if skynet-jwt cookie is present, pass it as is
+    if skynet_jwt_cookie then
+        headers["Cookie"] = skynet_jwt_cookie
     end
 
     -- if authorization header is set, pass it as is
