@@ -1,4 +1,3 @@
-# register the registry access in accounts service (cookies should contain jwt)
 log_by_lua_block {
     local skynet_account = require("skynet.account")
 
@@ -25,7 +24,8 @@ log_by_lua_block {
         end
 
         if ngx.status == ngx.HTTP_OK or ngx.status == ngx.HTTP_NOT_FOUND then
-            local ok, err = ngx.timer.at(0, track, ngx.req.get_method(), skynet_account.get_auth_headers())
+            local auth_headers = skynet_account.get_auth_headers()
+            local ok, err = ngx.timer.at(0, track, ngx.req.get_method(), auth_headers)
             if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
         end
     end

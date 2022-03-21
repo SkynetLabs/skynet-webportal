@@ -1,4 +1,3 @@
-# register the download in accounts service (cookies should contain jwt)
 log_by_lua_block {
     local skynet_account = require("skynet.account")
 
@@ -22,7 +21,8 @@ log_by_lua_block {
         end
 
         if ngx.header["Skynet-Skylink"] and ngx.status >= ngx.HTTP_OK and ngx.status < ngx.HTTP_SPECIAL_RESPONSE then
-            local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.status, ngx.var.body_bytes_sent, skynet_account.get_auth_headers())
+            local auth_headers = skynet_account.get_auth_headers()
+            local ok, err = ngx.timer.at(0, track, ngx.header["Skynet-Skylink"], ngx.status, ngx.var.body_bytes_sent, auth_headers)
             if err then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
         end
     end
