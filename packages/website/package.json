@@ -20,7 +20,7 @@
     "gatsby-plugin-postcss": "5.9.0",
     "gatsby-plugin-react-helmet": "5.10.0",
     "gatsby-plugin-robots-txt": "1.7.0",
-    "gatsby-plugin-sharp": "4.9.1",
+    "gatsby-plugin-sharp": "4.10.1",
     "gatsby-plugin-sitemap": "5.10.1",
     "gatsby-plugin-svgr": "3.0.0-beta.0",
     "gatsby-source-filesystem": "4.10.0",
