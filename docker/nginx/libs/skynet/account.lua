@@ -78,7 +78,9 @@ function _M.has_subscription()
 end
 
 function _M.is_auth_required()
-    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated"
+    -- authentication is required if mode is set to "authenticated" 
+    -- or "subscription" (require active subscription to a premium plan)
+    return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated" or _M.is_subscription_required()
 end
 
 function _M.is_subscription_required()
