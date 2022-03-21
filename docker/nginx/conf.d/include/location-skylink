@@ -1,70 +1,16 @@
 include /etc/nginx/conf.d/include/cors;
-include /etc/nginx/conf.d/include/proxy-buffer;
-include /etc/nginx/conf.d/include/proxy-cache-downloads;
 include /etc/nginx/conf.d/include/track-download;
 
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
 # ensure that skylink that we pass around is base64 encoded (transform base32 encoded ones)
 # this is important because we want only one format in cache keys and logs
-set_by_lua_block $skylink { return require("skynet.skylink").base64(ngx.var.skylink) }
-
-# $skylink_v1 and $skylink_v2 variables default to the same value but in case the requested skylink was:
-# a) skylink v1 - it would not matter, no additional logic is executed
-# b) skylink v2 - in a lua block below we will resolve the skylink v2 into skylink v1 and update 
-#      $skylink_v1 variable so then the proxy request to skyd can be cached in nginx (proxy_cache_key 
-#      in proxy-cache-downloads includes $skylink_v1 as a part of the cache key)
-set $skylink_v1 $skylink;
-set $skylink_v2 $skylink;
-
-# variable for Skynet-Proof header that we need to inject 
-# into a response if the request was for skylink v2
-set $skynet_proof '';
+set_by_lua_block $skylink { return require("skynet.skylink").parse(ngx.var.skylink) }
 
 # default download rate to unlimited
 set $limit_rate 0;
 
 access_by_lua_block {
-    -- the block below only makes sense if we are using nginx cache
-    if not ngx.var.skyd_disk_cache_enabled then
-        local httpc = require("resty.http").new()
-
-        -- detect whether requested skylink is v2
-        local isBase32v2 = string.len(ngx.var.skylink) == 55 and string.sub(ngx.var.skylink, 0, 2) == "04"
-        local isBase64v2 = string.len(ngx.var.skylink) == 46 and string.sub(ngx.var.skylink, 0, 2) == "AQ"
-        
-        if isBase32v2 or isBase64v2 then
-            -- 10.10.10.10 points to sia service (alias not available when using resty-http)
-            local res, err = httpc:request_uri("http://10.10.10.10:9980/skynet/resolve/" .. ngx.var.skylink_v2, {
-                headers = { ["User-Agent"] = "Sia-Agent" }
-            })
-
-            -- print error and exit with 500 or exit with response if status is not 200
-            if err or (res and res.status ~= ngx.HTTP_OK) then
-                ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
-                ngx.header["content-type"] = "text/plain"
-                ngx.say(err or res.body)
-                return ngx.exit(ngx.status)
-            end
-
-            local json = require('cjson')
-            local resolve = json.decode(res.body)
-            ngx.var.skylink_v1 = resolve.skylink
-            ngx.var.skynet_proof = res.headers["Skynet-Proof"]
-        end
-
-        -- check if skylink v1 is present on blocklist (compare hashes)
-        if require("skynet.blocklist").is_blocked(ngx.var.skylink_v1) then
-            return require("skynet.blocklist").exit_illegal()
-        end
-
-        -- if skylink is found on nocache list then set internal nocache variable
-        -- to tell nginx that it should not try and cache this file (too large)
-        if ngx.shared.nocache:get(ngx.var.skylink_v1) then
-            ngx.var.nocache = "1"
-        end
-    end
-
     if require("skynet.account").accounts_enabled() then
         -- check if portal is in authenticated only mode
         if require("skynet.account").is_access_unauthorized() then
@@ -84,36 +30,10 @@ access_by_lua_block {
     end
 }
 
-header_filter_by_lua_block {
-    ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
-    ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
-
-    -- the block below only makes sense if we are using nginx cache
-    if not ngx.var.skyd_disk_cache_enabled then
-        -- not empty skynet_proof means this is a skylink v2 request
-        -- so we should replace the Skynet-Proof header with the one
-        -- we got from /skynet/resolve/ endpoint, otherwise we would
-        -- be serving cached empty v1 skylink Skynet-Proof header
-        if ngx.var.skynet_proof and ngx.var.skynet_proof ~= "" then
-            ngx.header["Skynet-Proof"] = ngx.var.skynet_proof
-        end
-
-        -- add skylink to nocache list if it exceeds 1GB (1e+9 bytes) threshold
-        -- (content length can be nil for already cached files - we can ignore them)
-        if ngx.header["Content-Length"] and tonumber(ngx.header["Content-Length"]) > 1e+9 then
-            ngx.shared.nocache:set(ngx.var.skylink_v1, ngx.header["Content-Length"])
-        end
-    end
-}
-
 limit_rate_after 512k;
 limit_rate $limit_rate;
 
 proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
-# in case the requested skylink was v2 and we already resolved it to skylink v1, we are going to pass resolved 
-# skylink v1 to skyd to save that extra skylink v2 lookup in skyd but in turn, in case skyd returns a redirect 
-# we need to rewrite the skylink v1 to skylink v2 in the location header with proxy_redirect
-proxy_redirect $skylink_v1 $skylink_v2;
-proxy_pass http://sia:9980/skynet/skylink/$skylink_v1$path$is_args$args;
+proxy_pass http://sia:9980/skynet/skylink/$skylink$path$is_args$args;
