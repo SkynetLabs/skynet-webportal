@@ -6491,17 +6491,17 @@ gatsby-telemetry@^3.10.0, gatsby-telemetry@^3.9.1:
     lodash "^4.17.21"
     node-fetch "^2.6.7"
 
-gatsby-transformer-sharp@4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-4.9.0.tgz#0f9b70716245d768532927601774bc266534ca24"
-  integrity sha512-Mclg6lf+PugFtl9XX+fZ8Wt+DTb3q4HzFkQgHjErZdK/YpUh6jeThcZGDU4tRhmFHfjx5xUQ9J926D6RFAaI8w==
+gatsby-transformer-sharp@4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-4.10.0.tgz#9db793a219d0fa85b7d33cb37b32aba63df4c58a"
+  integrity sha512-Gp9eRkGQOrkoD+yJgK2ZdXuVbet/opxdEnuTZ6BhLEVhfTwOnMEaui6ZqO0cKJ7/NYlptO38p+C5cyizC0FRYA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     bluebird "^3.7.2"
     common-tags "^1.8.2"
     fs-extra "^10.0.0"
     potrace "^2.1.8"
-    probe-image-size "^6.0.0"
+    probe-image-size "^7.0.0"
     semver "^7.3.5"
     sharp "^0.30.1"
 
@@ -9959,6 +9959,15 @@ probe-image-size@^6.0.0:
   integrity sha512-99PZ5+RU4gqiTfK5ZDMDkZtn6eL4WlKfFyVJV7lFQvH3iGmQ85DqMTOdxorERO26LHkevR2qsxnHp0x/2UDJPA==
   dependencies:
     deepmerge "^4.0.0"
+    needle "^2.5.2"
+    stream-parser "~0.3.1"
+
+probe-image-size@^7.0.0:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.2.3.tgz#d49c64be540ec8edea538f6f585f65a9b3ab4309"
+  integrity sha512-HubhG4Rb2UH8YtV4ba0Vp5bQ7L78RTONYu/ujmCu5nBI8wGv24s4E9xSKBi0N1MowRpxk76pFCpJtW0KPzOK0w==
+  dependencies:
+    lodash.merge "^4.6.2"
     needle "^2.5.2"
     stream-parser "~0.3.1"
 
