@@ -1,31 +1,35 @@
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
 module.exports = {
   siteMetadata: {
-      title: `Accounts Dashboard`,
-    siteUrl: `https://www.yourdomain.tld`
+    title: `Accounts Dashboard`,
+    siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [
     "gatsby-plugin-image",
+    "gatsby-plugin-provide-react",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    "gatsby-plugin-postcss", {
-      resolve: 'gatsby-source-filesystem',
+    "gatsby-plugin-styled-components",
+    "gatsby-plugin-postcss",
+    {
+      resolve: "gatsby-source-filesystem",
       options: {
-        "name": "images",
-        "path": "./src/images/"
+        name: "images",
+        path: "./src/images/",
       },
-      __key: "images"
-    }, {
-      resolve: `gatsby-plugin-alias-imports`,
-      options: {
-        alias: {
-          // Allows npm link-ing skynet-storybook during development.
-          "styled-components": "./node_modules/styled-components",
-        },
-        extensions: [
-          "js",
-        ],
-      }
-    }
-  ]
+      __key: "images",
+    },
+  ],
+  developMiddleware: (app) => {
+    app.use(
+      "/api/",
+      createProxyMiddleware({
+        target: "https://account.siasky.net",
+        secure: false, // Do not reject self-signed certificates.
+        changeOrigin: true,
+      })
+    );
+  },
 };

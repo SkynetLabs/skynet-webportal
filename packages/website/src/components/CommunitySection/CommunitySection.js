@@ -1,8 +1,5 @@
 import * as React from "react";
-import classnames from "classnames";
 import {
-  ArrowRight,
-  CheckActive,
   DiscordSmall,
   TwitterSmall,
   RedditSmall,
@@ -10,7 +7,6 @@ import {
   YoutubeSmall,
   TikTokSmall,
 } from "../../components/Icons";
-import useSubscribe from "./useSubscribe";
 import Link from "../Link";
 const social = [
   { name: "Discord", Icon: DiscordSmall, href: "https://discord.gg/skynetlabs" },
@@ -27,77 +23,12 @@ const SectionTitle = ({ children }) => (
 );
 
 const CommunitySection = () => {
-  const [experienced, setExperienced] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const { subscribe, complete, success, message, pending } = useSubscribe();
-
-  const onSubscribe = async (event) => {
-    event.preventDefault();
-
-    subscribe(email, experienced);
-  };
-
   return (
-    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8 max-w-column desktop:max-w-full">
-      <div>
-        <SectionHeader>Newsletter</SectionHeader>
-        <SectionTitle>Stay up to date</SectionTitle>
-
-        <form onSubmit={onSubscribe} className="flex flex-col space-y-4">
-          <div className="relative rounded-md shadow-sm">
-            <label htmlFor="newsletter-email" className="sr-only">
-              Email
-            </label>
-            <input
-              type="text"
-              name="email"
-              id="newsletter-email"
-              className="block w-full rounded pr-10 pl-4 py-2 bg-transparent border-2 border-palette-600 text-sm placeholder-palette-600"
-              placeholder="Email address"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <button type="submit" className="absolute inset-y-0 right-0 px-2 flex items-center" disabled={pending}>
-              <ArrowRight />
-            </button>
-          </div>
-
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="newsletter-experience"
-              className="sr-only"
-              value={experienced}
-              onChange={() => setExperienced(!experienced)}
-            />
-            <button type="button" onClick={() => setExperienced(!experienced)}>
-              <CheckActive
-                className={classnames("bg-palette-600 rounded-full h-8 w-8", { "opacity-20": !experienced })}
-              />
-            </button>
-            <label htmlFor="newsletter-experience" className="text-xs font-content pl-2 leading-6 cursor-pointer">
-              Do you have previous experience using Skynet?
-            </label>
-          </div>
-
-          {complete && message && (
-            <div
-              className={classnames(
-                "newsletter-message text-left desktop:text-center py-2 px-4 rounded bg-palette-600 font-semibold font-content text-white",
-                {
-                  "text-error": !success,
-                }
-              )}
-              dangerouslySetInnerHTML={{ __html: message }}
-            ></div>
-          )}
-        </form>
-      </div>
-
-      <div className="desktop:col-span-2">
+    <div className="grid gap-y-12 desktop:grid-cols-3 desktop:gap-x-8 max-w-full">
+      <div className="tablet:col-span-2">
         <SectionHeader>Community</SectionHeader>
-        <SectionTitle>Join our community</SectionTitle>
-        <div className="grid grid-cols-2 desktop:grid-cols-6 max-w-column desktop:max-w-full">
+        <SectionTitle>Join Skynet community</SectionTitle>
+        <div className="grid grid-cols-2 tablet:grid-cols-6 max-w-full">
           {social.map(({ name, Icon, href }) => (
             <Link
               key={name}

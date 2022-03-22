@@ -13,9 +13,7 @@ services:
       - BLOCKER_PORT=4000
 
   blocker:
-    build:
-      context: ./docker/blocker
-      dockerfile: Dockerfile
+    image: skynetlabs/blocker
     container_name: blocker
     restart: unless-stopped
     logging: *default-logging

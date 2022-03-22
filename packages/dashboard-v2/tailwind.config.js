@@ -16,10 +16,7 @@ const colors = {
 };
 
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/skynet-storybook/dist/**/*.{js,jsx,ts,tsx}", // Also apply Tailwind classes to our shared components library
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
       sm: "640px",
@@ -31,15 +28,21 @@ module.exports = {
     borderColor: (theme) => ({ ...theme("colors"), ...colors }),
     textColor: (theme) => ({ ...theme("colors"), ...colors }),
     placeholderColor: (theme) => ({ ...theme("colors"), ...colors }),
+    outlineColor: (theme) => ({ ...theme("colors"), ...colors }),
     extend: {
       fontFamily: {
         sans: ["Sora", ...defaultTheme.fontFamily.sans],
         content: ["Source\\ Sans\\ Pro", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
+        body: ["21px", { lineHeight: "1.58" }],
         tab: ["18px", "28px"],
       },
       backgroundColor: ["disabled"],
+      backgroundImage: {
+        "corner-circle":
+          "radial-gradient(circle at calc(100% - 60px) -50px, #F5F5F7 0%, #f5f5f7 250px,rgba(0,0,0,0) 250px)",
+      },
       textColor: ["disabled"],
       keyframes: {
         wiggle: {
@@ -55,7 +58,12 @@ module.exports = {
         "page-md": "640px",
         "page-lg": "896px",
         "page-xl": "1312px",
-      }
+        "settings-lg": "704px",
+        "settings-xl": "928px",
+      },
+      minWidth: {
+        button: "112px",
+      },
     },
   },
   plugins: [

@@ -110,7 +110,7 @@ export default function UploaderElement({ onUploadStateChange, upload }) {
   }, [onUploadStateChange, upload, retryTimeout]);
 
   return (
-    <div>
+    <div className="upload-file">
       <div className="flex items-center">
         {upload.status === "enqueued" && <ArrowUpCircle className="flex-shrink-0 fill-current text-palette-300" />}
         {upload.status === "retrying" && <ArrowUpCircle className="flex-shrink-0" />}

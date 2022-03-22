@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "deep-object-diff": "^1.1.7",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "form-data": "^4.0.0",
     "got": "^11.8.2",
     "graceful-fs": "^4.2.9",
@@ -15,10 +15,10 @@
     "lowdb": "^1.0.0",
     "skynet-js": "^4.0.25-beta",
     "write-file-atomic": "^4.0.1",
-    "yargs": "^17.3.1"
+    "yargs": "^17.4.0"
   },
   "devDependencies": {
     "jest": "^27.5.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.0"
   }
 }

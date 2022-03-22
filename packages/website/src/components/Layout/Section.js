@@ -15,9 +15,9 @@ export const Section = ({
     className={classnames(
       "px-8",
       {
-        "pt-48 desktop:pt-80": marginTop && first, // + navigation offset => pt-32 desktop:pt-48
-        "pt-16 desktop:pt-32": marginTop && !first,
-        "pb-16 desktop:pb-32": marginBottom,
+        "pt-32 desktop:pt-48": marginTop && first, // + navigation offset => pt-32 desktop:pt-48
+        "pt-12 desktop:pt-24": marginTop && !first,
+        "pb-12 desktop:pb-24": marginBottom,
       },
       className
     )}

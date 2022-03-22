@@ -1,5 +1,4 @@
 listen 443 ssl http2;
-listen [::]:443 ssl http2;
 
 include /etc/nginx/conf.d/include/ssl-settings;
 include /etc/nginx/conf.d/include/init-optional-variables;
@@ -22,30 +21,18 @@ client_max_body_size 128k;
 rewrite ^/portals /skynet/portals permanent;
 rewrite ^/stats /skynet/stats permanent;
 rewrite ^/skynet/blacklist /skynet/blocklist permanent;
+rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 
 location / {
     include /etc/nginx/conf.d/include/cors;
 
-    set $skylink "0404dsjvti046fsua4ktor9grrpe76erq9jot9cvopbhsvsu76r4r30";
-    set $path $uri;
-    set $internal_no_limits "true";
-
-    include /etc/nginx/conf.d/include/location-skylink;
-
-    proxy_intercept_errors on;
-    error_page 400 404 490 500 502 503 504 =200 @fallback;
-}
-
-location @fallback {
     proxy_pass http://website:9000;
-}
-
-location /docs {
-    proxy_pass https://skynetlabs.github.io/skynet-docs;
 }
 
 location /skynet/blocklist {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache blocklist for 1 minute
@@ -53,8 +40,22 @@ location /skynet/blocklist {
     proxy_pass http://sia:9980/skynet/blocklist;
 }
 
+location /skynet/portal/blocklist {
+    include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
+
+    proxy_cache skynet;
+    proxy_cache_valid 200 204 15m; # cache portal blocklist for 15 minutes
+
+    # 10.10.10.110 points to blocker service
+    proxy_pass http://10.10.10.110:4000/blocklist;
+}
+
 location /skynet/portals {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache portals for 1 minute
@@ -64,6 +65,8 @@ location /skynet/portals {
 
 location /skynet/stats {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_valid any 1m; # cache stats for 1 minute
@@ -89,6 +92,8 @@ location /serverload {
 
 location /skynet/health {
     include /etc/nginx/conf.d/include/cors;
+
+    add_header X-Proxy-Cache $upstream_cache_status;
 
     proxy_cache skynet;
     proxy_cache_key $request_uri; # use whole request uri (uri + args) as cache key
@@ -169,24 +174,25 @@ location /skynet/registry/subscription {
     set $notificationdelay "0";
 
     rewrite_by_lua_block {
-        -- this block runs only when accounts are enabled
-        if os.getenv("PORTAL_MODULES"):match("a") then
-            local httpc = require("resty.http").new()
+        local skynet_account = require("skynet.account")
 
-            -- fetch account limits and set download bandwidth and registry delays accordingly
-            local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits", {
-                headers = { ["Cookie"] = "skynet-jwt=" .. ngx.var.skynet_jwt }
-            })
-
-            -- fail gracefully in case /user/limits failed
-            if err or (res and res.status ~= ngx.HTTP_OK) then
-                ngx.log(ngx.ERR, "Failed accounts service request /user/limits: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
-            elseif res and res.status == ngx.HTTP_OK then
-                local json = require('cjson')
-                local limits = json.decode(res.body)
-                ngx.var.bandwidthlimit = limits.download
-                ngx.var.notificationdelay = limits.registry
+        if skynet_account.accounts_enabled() then
+            -- check if portal is in authenticated only mode
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
+
+            -- check if portal is in subscription only mode
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
+            end
+
+            -- get account limits of currently authenticated user
+            local limits = skynet_account.get_account_limits()
+
+            -- apply bandwidth limit and notification delay
+            ngx.var.bandwidthlimit = limits.download
+            ngx.var.notificationdelay = limits.registry
         end
     }
 
@@ -248,27 +254,28 @@ location /skynet/tus {
     proxy_set_header X-Forwarded-Proto $scheme;
 
     # rewrite proxy request to use correct host uri from env variable (required to return correct location header)
-    set_by_lua_block $server_domain { return os.getenv("SERVER_DOMAIN") }
-    proxy_redirect $scheme://$host $scheme://$server_domain;
+    proxy_redirect $scheme://$host $scheme://$skynet_server_domain;
 
     # proxy /skynet/tus requests to siad endpoint with all arguments
     proxy_pass http://sia:9980;
 
     access_by_lua_block {
-        if require("skynet.account").accounts_enabled() then
+        local skynet_account = require("skynet.account")
+
+        if skynet_account.accounts_enabled() then
             -- check if portal is in authenticated only mode
-            if require("skynet.account").is_access_unauthorized() then
-                return require("skynet.account").exit_access_unauthorized()
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
 
             -- check if portal is in subscription only mode
-            if require("skynet.account").is_access_forbidden() then
-                return require("skynet.account").exit_access_forbidden()
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
             end
-            
+
             -- get account limits of currently authenticated user
-            local limits = require("skynet.account").get_account_limits()
-        
+            local limits = skynet_account.get_account_limits()
+
             -- apply upload size limits
             ngx.req.set_header("SkynetMaxUploadSize", limits.maxUploadSize)
         end
@@ -276,8 +283,8 @@ location /skynet/tus {
 
     # extract skylink from base64 encoded upload metadata and assign to a proper header
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
 
         if ngx.header["Upload-Metadata"] then
             local encodedSkylink = string.match(ngx.header["Upload-Metadata"], "Skylink ([^,?]+)")
@@ -311,8 +318,8 @@ location /skynet/metadata {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -324,8 +331,8 @@ location /skynet/resolve {
     include /etc/nginx/conf.d/include/portal-access-check;
 
     header_filter_by_lua_block {
-        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. os.getenv("PORTAL_DOMAIN")
-        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. os.getenv("SERVER_DOMAIN")
+        ngx.header["Skynet-Portal-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_portal_domain
+        ngx.header["Skynet-Server-Api"] = ngx.var.scheme .. "://" .. ngx.var.skynet_server_domain
     }
 
     proxy_set_header User-Agent: Sia-Agent;
@@ -350,7 +357,6 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
 
 location /skynet/trustless/basesector {
     include /etc/nginx/conf.d/include/cors;
-    include /etc/nginx/conf.d/include/proxy-buffer;
     include /etc/nginx/conf.d/include/track-download;
 
     limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
@@ -359,19 +365,21 @@ location /skynet/trustless/basesector {
     set $limit_rate 0;
 
     access_by_lua_block {
-        if require("skynet.account").accounts_enabled() then
+        local skynet_account = require("skynet.account")
+
+        if skynet_account.accounts_enabled() then
             -- check if portal is in authenticated only mode
-            if require("skynet.account").is_access_unauthorized() then
-                return require("skynet.account").exit_access_unauthorized()
+            if skynet_account.is_access_unauthorized() then
+                return skynet_account.exit_access_unauthorized()
             end
 
             -- check if portal is in subscription only mode
-            if require("skynet.account").is_access_forbidden() then
-                return require("skynet.account").exit_access_forbidden()
+            if skynet_account.is_access_forbidden() then
+                return skynet_account.exit_access_forbidden()
             end
 
             -- get account limits of currently authenticated user
-            local limits = require("skynet.account").get_account_limits()
+            local limits = skynet_account.get_account_limits()
 
             -- apply download speed limit
             ngx.var.limit_rate = limits.download
@@ -394,14 +402,20 @@ location /__internal/do/not/use/accounts {
 
     content_by_lua_block {
         local json = require('cjson')
-        local accounts_enabled = require("skynet.account").accounts_enabled()
-        local is_auth_required = require("skynet.account").is_auth_required()
-        local is_authenticated = accounts_enabled and require("skynet.account").is_authenticated()
+        local skynet_account = require("skynet.account")
+
+        local accounts_enabled = skynet_account.accounts_enabled()
+        local is_auth_required = skynet_account.is_auth_required()
+        local is_subscription_required = skynet_account.is_subscription_required()
+        local is_authenticated = skynet_account.is_authenticated()
+        local has_subscription = skynet_account.has_subscription()
 
         ngx.say(json.encode{
             enabled = accounts_enabled,
             auth_required = is_auth_required,
+            subscription_required = is_subscription_required,
             authenticated = is_authenticated,
+            subscription = has_subscription,
         })
         return ngx.exit(ngx.HTTP_OK)
     }
