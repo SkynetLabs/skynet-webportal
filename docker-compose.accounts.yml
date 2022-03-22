@@ -24,7 +24,7 @@ services:
       context: ./docker/accounts
       dockerfile: Dockerfile
       args:
-        branch: main
+        branch: deploy-2022-03-22
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
