@@ -39,21 +39,19 @@ services:
     expose:
       - 9980
 
-  caddy:
-    build:
-      context: ./docker/caddy
-      dockerfile: Dockerfile
-    container_name: caddy
+  certbot:
+    image: certbot/dns-route53:v1.25.0
+    entrypoint: sh /entrypoint.sh
+    container_name: certbot
     restart: unless-stopped
     logging: *default-logging
     env_file:
       - .env
+    environment:
+      - CERTBOT_ARGS=--dns-route53
     volumes:
-      - ./docker/data/caddy/data:/data
-      - ./docker/data/caddy/config:/config
-    networks:
-      shared:
-        ipv4_address: 10.10.10.20
+      - ./docker/certbot/entrypoint.sh:/entrypoint.sh
+      - ./docker/data/certbot:/etc/letsencrypt
 
   nginx:
     build:
@@ -70,7 +68,7 @@ services:
       - ./docker/data/nginx/logs:/usr/local/openresty/nginx/logs
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
-      - ./docker/data/caddy/data:/data/caddy:ro
+      - ./docker/data/certbot:/etc/letsencrypt
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -79,7 +77,6 @@ services:
       - "80:80"
     depends_on:
       - sia
-      - caddy
       - handshake-api
       - dnslink-api
       - website
@@ -174,5 +171,3 @@ services:
       - STATE_DIR=/usr/app/state
     expose:
       - 3100
-    depends_on:
-      - caddy
