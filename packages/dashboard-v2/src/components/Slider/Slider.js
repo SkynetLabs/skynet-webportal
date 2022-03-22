@@ -22,12 +22,12 @@ const scrollableStyles = css`
 `;
 
 const Scroller = styled.div.attrs({
-  className: "slider-scroller grid gap-4 transition-transform",
+  className: "slider-scroller grid transition-transform",
 })`
   ${({ $scrollable }) => ($scrollable ? scrollableStyles : "")}
 `;
 
-const Slider = ({ slides, breakpoints }) => {
+const Slider = ({ slides, breakpoints, scrollerClassName, className }) => {
   const { visibleSlides, scrollable } = useActiveBreakpoint(breakpoints);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const changeSlide = React.useCallback(
@@ -49,12 +49,13 @@ const Slider = ({ slides, breakpoints }) => {
   }, [slides.length, visibleSlides, activeIndex]);
 
   return (
-    <Container>
+    <Container className={className}>
       <Scroller
         $visibleSlides={visibleSlides}
         $allSlides={slides.length}
         $activeIndex={activeIndex}
         $scrollable={scrollable}
+        className={scrollerClassName}
       >
         {slides.map((slide, index) => {
           const isVisible = index >= activeIndex && index < activeIndex + visibleSlides;
@@ -63,7 +64,11 @@ const Slider = ({ slides, breakpoints }) => {
             <div key={`slide-${index}`}>
               <Slide
                 isVisible={isVisible || !scrollable}
-                onClickCapture={scrollable && !isVisible ? (event) => changeSlide(event, index) : null}
+                onClickCapture={
+                  scrollable && !isVisible
+                    ? (event) => changeSlide(event, index > activeIndex ? activeIndex + 1 : activeIndex - 1)
+                    : null
+                }
               >
                 {slide}
               </Slide>
@@ -101,6 +106,14 @@ Slider.propTypes = {
        * If set to false, all slides will be visible & rendered in a column.
        */
       scrollable: PropTypes.bool.isRequired,
+      /**
+       * Additional class names to apply to the <Scroller /> element.
+       */
+      scrollerClassName: PropTypes.string,
+      /**
+       * Additional class names to apply to the <Container /> element.
+       */
+      className: PropTypes.string,
     })
   ),
 };
@@ -123,6 +136,8 @@ Slider.defaultProps = {
       visibleSlides: 1,
     },
   ],
+  scrollerClassName: "gap-4",
+  className: "",
 };
 
 export default Slider;
