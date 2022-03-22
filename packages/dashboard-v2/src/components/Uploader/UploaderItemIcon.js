@@ -1,6 +1,6 @@
 import cn from "classnames";
 
-import { CircledCheckmarkIcon, CircledErrorIcon, CircledProgressIcon, CircledArrowUpIcon } from "../Icons";
+import { CheckmarkIcon, CircledErrorIcon, CircledProgressIcon, CircledArrowUpIcon } from "../Icons";
 
 export default function UploaderItemIcon({ status }) {
   switch (status) {
@@ -11,7 +11,7 @@ export default function UploaderItemIcon({ status }) {
     case "processing":
       return <CircledProgressIcon className="animate-[spin_3s_linear_infinite]" />;
     case "complete":
-      return <CircledCheckmarkIcon />;
+      return <CheckmarkIcon circled />;
     case "error":
       return <CircledErrorIcon className="text-error" />;
     default:
