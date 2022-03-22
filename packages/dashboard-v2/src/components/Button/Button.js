@@ -6,9 +6,17 @@ import styled from "styled-components";
  */
 export const Button = styled.button.attrs(({ disabled, $primary }) => ({
   type: "button",
-  className: `px-6 py-2.5 rounded-full font-sans uppercase text-xs tracking-wide text-palette-600 transition-[filter]
-            ${$primary ? "bg-primary" : "bg-white border-2 border-black"}
-            ${disabled ? "saturate-50 brightness-125 cursor-default text-palette-400" : "hover:brightness-90"}`,
+  className: `px-6 py-2.5 rounded-full font-sans uppercase text-xs tracking-wide transition-[filter]
+            ${
+              $primary
+                ? `bg-primary ${disabled ? "" : "text-palette-600"}`
+                : `bg-white border-2 ${disabled ? "border-palette-300" : "border-black text-palette-600"}`
+            }
+            ${
+              disabled
+                ? `${$primary ? "saturate-50 brightness-125 text-palette-400" : "text-palette-300"} cursor-default`
+                : "hover:brightness-90"
+            }`,
 }))``;
 Button.propTypes = {
   /**
