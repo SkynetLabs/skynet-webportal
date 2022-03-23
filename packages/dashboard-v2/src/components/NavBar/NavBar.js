@@ -1,4 +1,4 @@
-import { Link } from "gatsby";
+import { Link, navigate } from "gatsby";
 import styled from "styled-components";
 
 import { screen } from "../../lib/cssHelpers";
@@ -7,6 +7,7 @@ import { CogIcon, LockClosedIcon, SkynetLogoIcon } from "../Icons";
 import { PageContainer } from "../PageContainer";
 
 import { NavBarLink, NavBarSection } from ".";
+import accountsService from "../../services/accountsService";
 
 const NavBarContainer = styled.div.attrs({
   className: `grid sticky top-0 bg-white z-10 shadow-sm`,
@@ -77,9 +78,12 @@ export const NavBar = () => (
               partiallyActive
             />
             <DropdownMenuLink
-              to="/logout"
-              as={Link}
+              onClick={async () => {
+                await accountsService.post("logout");
+                navigate("/auth/login");
+              }}
               activeClassName="text-primary"
+              className="cursor-pointer"
               icon={LockClosedIcon}
               label="Log out"
             />
