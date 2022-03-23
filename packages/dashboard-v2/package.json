@@ -10,6 +10,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
+    "secure": "gatsby develop --https --host=local.skynetpro.net -p=443",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
