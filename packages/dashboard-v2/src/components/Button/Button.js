@@ -1,3 +1,4 @@
+import cn from "classnames";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -6,17 +7,12 @@ import styled from "styled-components";
  */
 export const Button = styled.button.attrs(({ disabled, $primary }) => ({
   type: "button",
-  className: `px-6 py-2.5 rounded-full font-sans uppercase text-xs tracking-wide transition-[filter]
-            ${
-              $primary
-                ? `bg-primary ${disabled ? "" : "text-palette-600"}`
-                : `bg-white border-2 ${disabled ? "border-palette-300" : "border-black text-palette-600"}`
-            }
-            ${
-              disabled
-                ? `${$primary ? "saturate-50 brightness-125 text-palette-400" : "text-palette-300"} cursor-default`
-                : "hover:brightness-90"
-            }`,
+  className: cn("px-6 py-2.5 rounded-full font-sans uppercase text-xs tracking-wide transition-[opacity_filter]", {
+    "bg-primary text-palette-600": $primary,
+    "bg-white border-2 border-black text-palette-600": !$primary,
+    "cursor-not-allowed opacity-60": disabled,
+    "hover:brightness-90": !disabled,
+  }),
 }))``;
 Button.propTypes = {
   /**

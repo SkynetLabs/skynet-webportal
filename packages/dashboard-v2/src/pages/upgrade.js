@@ -82,15 +82,15 @@ const PlansSlider = () => {
     <div className="w-full mb-24">
       {!loading && (
         <Slider
-          slides={plans.map((p) => {
-            const isHigherThanCurrent = p.tier > activePlan?.tier;
-            const isCurrent = p.tier === activePlan?.tier;
+          slides={plans.map((plan) => {
+            const isHigherThanCurrent = plan.tier > activePlan?.tier;
+            const isCurrent = plan.tier === activePlan?.tier;
 
             return (
               <Panel className="min-h-[620px] px-6 py-10 flex flex-col">
-                <h3>{p.name}</h3>
-                <Description>{p.description}</Description>
-                <Price price={p.price} />
+                <h3>{plan.name}</h3>
+                <Description>{plan.description}</Description>
+                <Price price={plan.price} />
 
                 <div className="text-center my-6">
                   <Button $primary={isHigherThanCurrent} disabled={isCurrent}>
@@ -101,13 +101,13 @@ const PlansSlider = () => {
                 </div>
                 <ul className="-ml-2">
                   <PlanSummaryItem>
-                    Pin up to {storage(p.limits.storageLimit)} of censorship-resistant storage
+                    Pin up to {storage(plan.limits.storageLimit)} of censorship-resistant storage
                   </PlanSummaryItem>
                   <PlanSummaryItem>
-                    Support for up to {localizedNumber(p.limits.maxNumberUploads)} files
+                    Support for up to {localizedNumber(plan.limits.maxNumberUploads)} files
                   </PlanSummaryItem>
-                  <PlanSummaryItem>{bandwidth(p.limits.uploadBandwidth)} mbps upload bandwidth</PlanSummaryItem>
-                  <PlanSummaryItem>{bandwidth(p.limits.downloadBandwidth)} mbps download bandwidth</PlanSummaryItem>
+                  <PlanSummaryItem>{bandwidth(plan.limits.uploadBandwidth)} mbps upload bandwidth</PlanSummaryItem>
+                  <PlanSummaryItem>{bandwidth(plan.limits.downloadBandwidth)} mbps download bandwidth</PlanSummaryItem>
                 </ul>
               </Panel>
             );
