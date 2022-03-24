@@ -8,6 +8,8 @@ x-logging: &default-logging
 
 services:
   abuse-scanner:
+    # uncomment "build" and comment out "image" to build from sources
+    # build: https://github.com/SkynetLabs/abuse-scanner.git#main
     image: skynetlabs/abuse-scanner
     container_name: abuse-scanner
     restart: unless-stopped
