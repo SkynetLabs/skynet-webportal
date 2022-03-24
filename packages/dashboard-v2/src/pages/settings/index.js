@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useMedia } from "react-use";
 import { navigate } from "gatsby";
 
 import { useUser } from "../../contexts/user";
-import theme from "../../lib/theme";
 import UserSettingsLayout from "../../layouts/UserSettingsLayout";
-import { AvatarUploader } from "../../components/AvatarUploader";
 import { AccountSettingsForm } from "../../components/forms/AccountSettingsForm";
 import { Modal } from "../../components/Modal/Modal";
 import { AccountRemovalForm } from "../../components/forms/AccountRemovalForm";
@@ -18,7 +15,6 @@ const State = {
 };
 
 const AccountPage = () => {
-  const isLargeScreen = useMedia(`(min-width: ${theme.screens.xl})`);
   const { user, mutate: reloadUser } = useUser();
   const [state, setState] = useState(State.Pure);
   const [removalInitiated, setRemovalInitiated] = useState(false);
@@ -38,11 +34,6 @@ const AccountPage = () => {
             </p>
           </section>
           <hr />
-          {!isLargeScreen && (
-            <section>
-              <AvatarUploader className="flex flex-col sm:flex-row gap-8 items-center" />
-            </section>
-          )}
           <section className="flex flex-col gap-8">
             {state === State.Failure && (
               <Alert $variant="error">There was an error processing your request. Please try again later.</Alert>
@@ -69,9 +60,6 @@ const AccountPage = () => {
               Delete account
             </button>
           </section>
-        </div>
-        <div className="flex w-full justify-start xl:justify-end">
-          {isLargeScreen && <AvatarUploader className="flex flex-col gap-4" />}
         </div>
         {removalInitiated && (
           <Modal onClose={abort} className="text-center">
