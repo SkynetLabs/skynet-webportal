@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import { Link } from "gatsby";
@@ -16,72 +17,78 @@ const loginSchema = Yup.object().shape({
 
 const INVALID_CREDENTIALS_ERRORS = ["password mismatch", "user not found"];
 
-export const LoginForm = ({ onSuccess }) => (
-  <Formik
-    initialValues={{
-      email: "",
-      password: "",
-    }}
-    validationSchema={loginSchema}
-    onSubmit={async (values, { setErrors }) => {
-      try {
-        await accountsService.post("login", {
-          json: values,
-        });
+export const LoginForm = ({ onSuccess }) => {
+  const [error, setError] = useState(null);
 
-        onSuccess();
-      } catch (err) {
-        if (err.response) {
-          const data = await err.response.json();
+  return (
+    <Formik
+      initialValues={{
+        email: "",
+        password: "",
+      }}
+      validationSchema={loginSchema}
+      onSubmit={async (values) => {
+        try {
+          await accountsService.post("login", {
+            json: values,
+          });
 
-          if (INVALID_CREDENTIALS_ERRORS.includes(data.message)) {
-            setErrors({
-              email: "Invalid e-mail address or password",
-              password: "Invalid e-mail address or password",
-            });
+          onSuccess();
+        } catch (err) {
+          if (err.response) {
+            const data = await err.response.json();
+
+            if (INVALID_CREDENTIALS_ERRORS.includes(data.message)) {
+              setError("Invalid email address or password.");
+            } else {
+              setError(data.message);
+            }
+          } else {
+            setError("An error occured when logging you in. Please try again.");
           }
         }
-      }
-    }}
-  >
-    {({ errors, touched }) => (
-      <Form className="flex flex-col gap-4">
-        <h3 className="mt-4 mb-8">Log in to your account</h3>
-        <TextField
-          type="text"
-          id="email"
-          name="email"
-          label="Email address"
-          error={errors.email}
-          touched={touched.email}
-        />
-        <TextField
-          type="password"
-          id="password"
-          name="password"
-          label="Password"
-          error={errors.password}
-          touched={touched.password}
-        />
-        <div>
-          <Link to="/auth/recover" className="text-sm inline transition-colors hover:text-primary">
-            Forgot your password?
-          </Link>
-        </div>
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form className="flex flex-col gap-4">
+          <h3 className="mt-4 mb-4">Log in to your account</h3>
+          {error && <p className="px-4 py-3 rounded border border-error bg-red-50 text-error mb-4">{error}</p>}
+          <TextField
+            type="text"
+            id="email"
+            name="email"
+            label="Email address"
+            error={errors.email}
+            touched={touched.email}
+          />
+          <TextField
+            type="password"
+            id="password"
+            name="password"
+            label="Password"
+            error={errors.password}
+            touched={touched.password}
+          />
+          <div>
+            <Link to="/auth/recover" className="text-sm inline transition-colors hover:text-primary">
+              Forgot your password?
+            </Link>
+          </div>
 
-        <div className="flex w-full justify-center mt-4">
-          <Button type="submit" className="px-12" $primary>
-            Log in
-          </Button>
-        </div>
+          <div className="flex w-full justify-center mt-4">
+            <Button type="submit" className="px-12" $primary>
+              Log in
+            </Button>
+          </div>
 
-        <p className="text-sm text-center mt-8">
-          Don't have an account? <HighlightedLink to="/auth/signup">Sign up</HighlightedLink>
-        </p>
-      </Form>
-    )}
-  </Formik>
-);
+          <p className="text-sm text-center mt-8">
+            Don't have an account? <HighlightedLink to="/auth/signup">Sign up</HighlightedLink>
+          </p>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
 LoginForm.propTypes = {
   onSuccess: PropTypes.func.isRequired,

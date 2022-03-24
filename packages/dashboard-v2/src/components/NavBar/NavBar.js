@@ -81,6 +81,7 @@ export const NavBar = () => (
               onClick={async () => {
                 await accountsService.post("logout");
                 navigate("/auth/login");
+                // TODO: handle errors
               }}
               activeClassName="text-primary"
               className="cursor-pointer"
