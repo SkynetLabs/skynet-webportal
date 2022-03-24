@@ -6,7 +6,7 @@ import { UserProvider } from "../contexts/user";
 import { guestsOnly, allUsers } from "../lib/swrConfig";
 
 const Layout = styled.div.attrs({
-  className: "h-screen w-screen bg-black flex",
+  className: "min-h-screen w-screen bg-black flex",
 })`
   background-image: url(/images/auth-bg.svg);
   background-repeat: no-repeat;
