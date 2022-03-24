@@ -6,7 +6,7 @@ export default function Bullets({ visibleSlides, activeIndex, allSlides, changeS
   }
 
   return (
-    <div className="flex gap-3 pt-6">
+    <div className="flex gap-3 pt-6 justify-center sm:justify-start">
       {Array(allSlides - visibleSlides + 1)
         .fill(null)
         .map((_, index) => (

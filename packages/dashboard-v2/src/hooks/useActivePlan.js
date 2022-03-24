@@ -4,7 +4,7 @@ import freeTier from "../lib/tiers";
 import { usePlans } from "../contexts/plans";
 
 export default function useActivePlan(user) {
-  const { plans, error } = usePlans();
+  const { plans, loading, error } = usePlans();
 
   const [activePlan, setActivePlan] = useState(freeTier);
 
@@ -17,6 +17,7 @@ export default function useActivePlan(user) {
   return {
     error,
     plans,
+    loading,
     activePlan,
   };
 }

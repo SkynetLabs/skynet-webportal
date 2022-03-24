@@ -4,7 +4,7 @@ export * from "./icons/LockClosedIcon";
 export * from "./icons/SkynetLogoIcon";
 export * from "./icons/ArrowRightIcon";
 export * from "./icons/InfoIcon";
-export * from "./icons/CircledCheckmarkIcon";
+export * from "./icons/CheckmarkIcon";
 export * from "./icons/CircledErrorIcon";
 export * from "./icons/CircledProgressIcon";
 export * from "./icons/CircledArrowUpIcon";
