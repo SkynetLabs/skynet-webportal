@@ -1,63 +1,97 @@
 import useSWR from "swr";
-import dayjs from "dayjs";
+import { useCallback, useRef } from "react";
 
 import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 
-import { TextInputBasic } from "../../components/TextInputBasic";
-import { Button } from "../../components/Button";
-import { TrashIcon } from "../../components/Icons";
+import { AddAPIKeyForm, APIKeyType } from "../../components/forms/AddAPIKeyForm";
+import { APIKeyList } from "../../components/APIKeyList/APIKeyList";
+import { Alert } from "../../components/Alert";
 
 const APIKeysPage = () => {
-  const { data: apiKeys } = useSWR("user/apikeys");
+  const { data: apiKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
+  const generalKeys = apiKeys.filter(({ public: isPublic }) => isPublic === "false");
+  const publicKeys = apiKeys.filter(({ public: isPublic }) => isPublic === "true");
+
+  const publicFormRef = useRef();
+  const generalFormRef = useRef();
+
+  const refreshState = useCallback(
+    (resetForms) => {
+      if (resetForms) {
+        publicFormRef.current?.reset();
+        generalFormRef.current?.reset();
+      }
+      reloadKeys();
+    },
+    [reloadKeys]
+  );
 
   return (
     <>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
-          <section>
+          <div>
             <h4>API Keys</h4>
-            <p>
-              At vero eos et caritatem, quae sine metu contineret, saluti prospexit civium, qua. Laudem et dolorem
-              aspernari ut ad naturam aut fu.
+            <p className="leading-relaxed">There are two types of API keys that you can generate for your account.</p>
+            <p>Make sure to use the appropriate type.</p>
+          </div>
+
+          <hr />
+
+          <section className="flex flex-col gap-2">
+            <h5>Public keys</h5>
+            <p className="text-palette-500">
+              Give read access to a selected list of Skylinks. You can share them publicly.
             </p>
+
+            <div className="mt-4">
+              <AddAPIKeyForm ref={publicFormRef} onSuccess={refreshState} type={APIKeyType.Public} />
+            </div>
+
+            {error ? (
+              <Alert $variant="error" className="mt-4">
+                An error occurred while loading your API keys. Please try again later.
+              </Alert>
+            ) : (
+              <div className="mt-4">
+                {publicKeys?.length > 0 ? (
+                  <APIKeyList title="Your public keys" keys={publicKeys} reloadKeys={() => refreshState(true)} />
+                ) : (
+                  <Alert $variant="info">No public API keys found.</Alert>
+                )}
+              </div>
+            )}
           </section>
           <hr />
-          <section className="flex flex-col gap-8">
-            <div className="grid sm:grid-cols-[1fr_min-content] w-full gap-y-2 gap-x-4 items-end">
-              <TextInputBasic label="API Key Name" placeholder="my_applications_statistics" />
-              <div className="flex mt-2 sm:mt-0 justify-center">
-                <Button onClick={() => console.info("TODO: generate ky")}>Generate</Button>
-              </div>
+
+          <section className="flex flex-col gap-2">
+            <h5>General keys</h5>
+            <p className="text-palette-500">
+              Give full access to <b>Accounts</b> service and are equivalent to using a JWT token.
+            </p>
+            <p className="underline">This type of API keys need to be kept secret and never shared with anyone.</p>
+
+            <div className="mt-4">
+              <AddAPIKeyForm ref={generalFormRef} onSuccess={refreshState} type={APIKeyType.General} />
             </div>
+
+            {error ? (
+              <Alert $variant="error" className="mt-4">
+                An error occurred while loading your API keys. Please try again later.
+              </Alert>
+            ) : (
+              <div className="mt-4">
+                {generalKeys?.length > 0 ? (
+                  <APIKeyList title="Your general keys" keys={generalKeys} reloadKeys={() => refreshState(true)} />
+                ) : (
+                  <Alert $variant="info">No general API keys found.</Alert>
+                )}
+              </div>
+            )}
           </section>
-          {apiKeys?.length > 0 && (
-            <section className="mt-4">
-              <h6 className="text-palette-300">API Keys</h6>
-              <ul className="mt-4">
-                {apiKeys.map(({ id, name, createdAt }) => (
-                  <li
-                    key={id}
-                    className="grid grid-cols-2 sm:grid-cols-[1fr_repeat(2,_max-content)] py-6 sm:py-4 px-4 gap-x-8 bg-white odd:bg-palette-100/50"
-                  >
-                    <span className="truncate col-span-2 sm:col-span-1">{name || id}</span>
-                    <span className="col-span-2 my-4 border-t border-t-palette-200/50 sm:hidden" />
-                    <span className="text-palette-400">{dayjs(createdAt).format("MMM DD, YYYY")}</span>
-                    <span className="text-right">
-                      <button
-                        className="p-1 transition-colors hover:text-error"
-                        onClick={() => window.confirm("TODO: confirmation modal")}
-                      >
-                        <TrashIcon size={14} />
-                      </button>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
-        <div className="hidden xl:block w-full text-right pt-20 pr-6">
-          <img src="/images/import-export.svg" alt="" className="inline-block w-[200px]" />
+        <div className="hidden xl:block w-full text-right pt-16 pr-5">
+          <img src="/images/api-keys.svg" alt="" className="inline-block h-[150px]" />
         </div>
       </div>
     </>

@@ -54,6 +54,7 @@ module.exports = {
         wiggle: "wiggle 3s ease-in-out infinite",
       },
       width: {
+        modal: "500px",
         page: "100%",
         "page-md": "640px",
         "page-lg": "896px",
@@ -63,6 +64,9 @@ module.exports = {
       },
       minWidth: {
         button: "112px",
+      },
+      maxWidth: {
+        modal: "calc(100vw - 1rem)",
       },
     },
   },

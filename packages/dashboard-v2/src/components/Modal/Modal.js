@@ -10,7 +10,7 @@ import { Overlay } from "./Overlay";
 export const Modal = ({ children, className, onClose }) => (
   <ModalPortal>
     <Overlay onClick={onClose}>
-      <div className="relative">
+      <div className={cn("relative w-modal max-w-modal shadow-sm rounded")}>
         <button onClick={onClose} className="absolute top-[20px] right-[20px]">
           <PlusIcon size={14} className="rotate-45" />
         </button>
