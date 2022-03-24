@@ -59,7 +59,7 @@ const Price = ({ price }) => (
   </div>
 );
 
-const bandwidth = (value) => parseFloat(bytes(value, { bits: true, binary: true }));
+const bandwidth = (value) => `${bytes(value, { bits: true })}/s`;
 
 const storage = (value) => bytes(value, { binary: true });
 
@@ -71,7 +71,7 @@ const PlansSlider = () => {
 
   if (userError || plansError) {
     return (
-      <div className="flex items-center justify-center text-error">
+      <div className="flex flex-col items-center justify-center">
         <h3>Oooops!</h3>
         <p>Something went wrong, please try again later.</p>
       </div>
@@ -99,16 +99,18 @@ const PlansSlider = () => {
                     {!isHigherThanCurrent && !isCurrent && "Choose"}
                   </Button>
                 </div>
-                <ul className="-ml-2">
-                  <PlanSummaryItem>
-                    Pin up to {storage(plan.limits.storageLimit)} of censorship-resistant storage
-                  </PlanSummaryItem>
-                  <PlanSummaryItem>
-                    Support for up to {localizedNumber(plan.limits.maxNumberUploads)} files
-                  </PlanSummaryItem>
-                  <PlanSummaryItem>{bandwidth(plan.limits.uploadBandwidth)} mbps upload bandwidth</PlanSummaryItem>
-                  <PlanSummaryItem>{bandwidth(plan.limits.downloadBandwidth)} mbps download bandwidth</PlanSummaryItem>
-                </ul>
+                {plan.limits && (
+                  <ul className="-ml-2">
+                    <PlanSummaryItem>
+                      Pin up to {storage(plan.limits.storageLimit)} of censorship-resistant storage
+                    </PlanSummaryItem>
+                    <PlanSummaryItem>
+                      Support for up to {localizedNumber(plan.limits.maxNumberUploads)} files
+                    </PlanSummaryItem>
+                    <PlanSummaryItem>{bandwidth(plan.limits.uploadBandwidth)} upload bandwidth</PlanSummaryItem>
+                    <PlanSummaryItem>{bandwidth(plan.limits.downloadBandwidth)} download bandwidth</PlanSummaryItem>
+                  </ul>
+                )}
               </Panel>
             );
           })}
