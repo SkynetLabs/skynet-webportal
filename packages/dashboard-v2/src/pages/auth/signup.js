@@ -34,7 +34,7 @@ const SignUpPage = () => {
 
       {state === State.Success && (
         <div className="text-center">
-          <p className="text-primary font-semibold">Please check your email inbox and confirm your email address.</p>
+          <p className="text-primary font-semibold">Please check your inbox and confirm your email address.</p>
           <p>You will be redirected to your dashboard shortly.</p>
           <HighlightedLink to="/">Click here to go there now.</HighlightedLink>
         </div>

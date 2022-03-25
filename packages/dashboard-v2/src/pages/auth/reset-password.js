@@ -24,9 +24,7 @@ const ResetPasswordPage = () => {
       )}
 
       {state === State.Success && (
-        <p className="text-primary text-center font-semibold">
-          Please check your email inbox for further instructions.
-        </p>
+        <p className="text-primary text-center font-semibold">Please check your inbox for further instructions.</p>
       )}
 
       {state === State.Failure && (
@@ -38,7 +36,7 @@ const ResetPasswordPage = () => {
           Suddenly remembered your password? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
         </p>
         <p>
-          Don't actually have an account? <HighlightedLink to="/auth/register">Create one!</HighlightedLink>
+          Don't actually have an account? <HighlightedLink to="/auth/signup">Create one!</HighlightedLink>
         </p>
       </div>
     </div>

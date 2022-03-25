@@ -70,7 +70,7 @@ export const LoginForm = ({ onSuccess }) => {
             touched={touched.password}
           />
           <div>
-            <Link to="/auth/recover" className="text-sm inline transition-colors hover:text-primary">
+            <Link to="/auth/reset-password" className="text-sm inline transition-colors hover:text-primary">
               Forgot your password?
             </Link>
           </div>
