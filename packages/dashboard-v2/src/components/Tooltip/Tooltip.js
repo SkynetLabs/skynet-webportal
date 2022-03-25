@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useState } from "react";
+import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
