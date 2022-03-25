@@ -41,8 +41,8 @@ const AccountPage = () => {
             {state === State.Success && <Alert $variant="success">Changes saved successfully.</Alert>}
             <AccountSettingsForm
               user={user}
-              onSuccess={() => {
-                reloadUser();
+              onSuccess={async () => {
+                await reloadUser();
                 setState(State.Success);
               }}
               onFailure={() => setState(State.Failure)}
