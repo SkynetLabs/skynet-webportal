@@ -5,6 +5,7 @@ module.exports = {
     title: `Accounts Dashboard`,
     siteUrl: `https://www.yourdomain.tld`,
   },
+  trailingSlash: "never",
   plugins: [
     "gatsby-plugin-image",
     "gatsby-plugin-provide-react",

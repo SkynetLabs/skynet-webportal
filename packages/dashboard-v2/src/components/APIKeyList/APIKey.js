@@ -5,12 +5,11 @@ import { useCallback, useState } from "react";
 import { Alert } from "../Alert";
 import { Button } from "../Button";
 import { AddSkylinkToAPIKeyForm } from "../forms/AddSkylinkToAPIKeyForm";
-import { CogIcon, ImportantNoteIcon, TrashIcon } from "../Icons";
+import { CogIcon, TrashIcon } from "../Icons";
 import { Modal } from "../Modal";
 
 import { useAPIKeyEdit } from "./useAPIKeyEdit";
 import { useAPIKeyRemoval } from "./useAPIKeyRemoval";
-import { Tooltip } from "../Tooltip/Tooltip";
 
 export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
   const { id, name, createdAt, skylinks } = apiKey;
@@ -53,22 +52,28 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
     abortEdit();
   }, [abortEdit]);
 
-  const needsAttention = isPublic && skylinks?.length === 0;
+  const skylinksNumber = skylinks?.length ?? 0;
+  const isNotConfigured = isPublic && skylinksNumber === 0;
 
   return (
     <li
-      className={cn("grid grid-cols-2 sm:grid-cols-[1fr_repeat(2,_max-content)] py-6 sm:py-4 px-4 gap-x-8", {
-        "bg-red-100": needsAttention,
-        "bg-white odd:bg-palette-100/50": !needsAttention,
-      })}
+      className={cn(
+        "grid grid-cols-2 sm:grid-cols-[1fr_repeat(2,_max-content)] py-3 px-4 gap-x-8 items-center bg-white odd:bg-palette-100/50"
+      )}
     >
       <span className="col-span-2 sm:col-span-1 flex items-center">
-        <span className={cn("truncate", { "text-palette-300": !name })}>{name || "unnamed key"}</span>
-        {needsAttention && (
-          <Tooltip message="This key has no Skylinks configured.">
-            <ImportantNoteIcon className="text-error -mt-2" size={24} />
-          </Tooltip>
-        )}
+        <span className="flex flex-col">
+          <span className={cn("truncate", { "text-palette-300": !name })}>{name || "unnamed key"}</span>
+          <button
+            onClick={promptEdit}
+            className={cn("text-xs hover:underline decoration-dotted", {
+              "text-error": isNotConfigured,
+              "text-palette-400": !isNotConfigured,
+            })}
+          >
+            {skylinksNumber} {skylinksNumber === 1 ? "Skylink" : "Skylinks"} configured
+          </button>
+        </span>
       </span>
       <span className="col-span-2 my-4 border-t border-t-palette-200/50 sm:hidden" />
       <span className="text-palette-400">{dayjs(createdAt).format("MMM DD, YYYY")}</span>
@@ -77,16 +82,12 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
           <button
             title="Add or remove Skylinks"
             className="p-1 transition-colors hover:text-primary"
-            onClick={() => promptEdit({ id, name, skylinks })}
+            onClick={promptEdit}
           >
             <CogIcon size={22} />
           </button>
         )}
-        <button
-          title="Delete this API key"
-          className="p-1 transition-colors hover:text-error"
-          onClick={() => promptRemoval({ id, name })}
-        >
+        <button title="Delete this API key" className="p-1 transition-colors hover:text-error" onClick={promptRemoval}>
           <TrashIcon size={16} />
         </button>
       </span>

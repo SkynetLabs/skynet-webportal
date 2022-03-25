@@ -6,6 +6,7 @@ import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 import { AddAPIKeyForm, APIKeyType } from "../../components/forms/AddAPIKeyForm";
 import { APIKeyList } from "../../components/APIKeyList/APIKeyList";
 import { Alert } from "../../components/Alert";
+import { AddPublicAPIKeyForm } from "../../components/forms/AddPublicAPIKeyForm";
 
 const APIKeysPage = () => {
   const { data: apiKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
@@ -45,7 +46,7 @@ const APIKeysPage = () => {
             </p>
 
             <div className="mt-4">
-              <AddAPIKeyForm ref={publicFormRef} onSuccess={refreshState} type={APIKeyType.Public} />
+              <AddPublicAPIKeyForm ref={publicFormRef} onSuccess={refreshState} />
             </div>
 
             {error ? (
