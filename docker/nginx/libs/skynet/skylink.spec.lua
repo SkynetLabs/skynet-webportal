@@ -7,7 +7,7 @@ describe("parse", function()
    it("should return unchanged base64 skylink", function()
       assert.is.same(skynet_skylink.parse(base64), base64)
    end)
-   
+
    it("should transform base32 skylink into base64", function()
       assert.is.same(skynet_skylink.parse(base32), base64)
    end)

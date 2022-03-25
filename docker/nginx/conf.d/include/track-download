@@ -16,7 +16,8 @@ log_by_lua_block {
             })
 
             if err or (res and res.status ~= ngx.HTTP_NO_CONTENT) then
-                ngx.log(ngx.ERR, "Failed accounts service request /track/download/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+                local error_response = err or ("[HTTP " .. res.status .. "] " .. res.body)
+                ngx.log(ngx.ERR, "Failed accounts service request /track/download/" .. skylink .. ": ", error_response)
             end
         end
 
@@ -40,7 +41,8 @@ log_by_lua_block {
             })
 
             if err or (res and res.status ~= ngx.HTTP_OK) then
-                ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+                local error_response = err or ("[HTTP " .. res.status .. "] " .. res.body)
+                ngx.log(ngx.ERR, "Failed malware-scanner request /scan/" .. skylink .. ": ", error_response)
             end
         end
 

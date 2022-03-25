@@ -34,6 +34,12 @@ jobs:
           luarocks install busted
           luarocks install luacov
           luarocks install hasher
+          luarocks install luacheck
+
+      - name: Lint code
+        run: |
+          source env/bin/activate
+          luacheck docker/nginx/libs --std ngx_lua+busted
 
       - name: Unit Tests
         run: |
