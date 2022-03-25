@@ -16,7 +16,7 @@ const emailUpdateSchema = Yup.object().shape({
       is: isPopulated,
       then: (schema) => schema.required("Please confirm new email address"),
     }),
-  password: Yup.string().min(6, "Password has to be at least 6 characters long"),
+  password: Yup.string().min(1, "Password can't be blank"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .when("password", {
@@ -38,7 +38,10 @@ export const AccountSettingsForm = ({ user, onSuccess, onFailure }) => {
       onSubmit={async ({ email, password }, { resetForm }) => {
         try {
           await accountsService.put("user", {
-            json: { email, password },
+            json: {
+              email: email || undefined,
+              password: password || undefined,
+            },
           });
 
           resetForm();
