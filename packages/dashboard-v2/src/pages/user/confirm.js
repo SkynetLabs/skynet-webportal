@@ -19,18 +19,25 @@ const EmailConfirmationPage = ({ location }) => {
   const [state, setState] = useState(State.Pure);
 
   useEffect(() => {
+    const controller = new AbortController();
     let timer;
 
     async function confirm(token) {
       try {
-        await accountsService.get("user/confirm", { searchParams: { token } });
+        await accountsService.get("user/confirm", {
+          signal: controller.signal,
+          searchParams: { token },
+        });
 
         timer = setTimeout(() => {
           navigate("/");
         }, 3000);
         setState(State.Success);
-      } catch {
-        setState(State.Failure);
+      } catch (err) {
+        // Don't show an error message if request was aborted due to `token` changing.
+        if (err.code !== DOMException.ABORT_ERR) {
+          setState(State.Failure);
+        }
       }
     }
 
@@ -38,7 +45,10 @@ const EmailConfirmationPage = ({ location }) => {
       confirm(token);
     }
 
-    return () => clearTimeout(timer);
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
   }, [token]);
 
   return (
