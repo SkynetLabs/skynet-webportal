@@ -39,6 +39,7 @@ export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
             id="skylink"
             name="skylink"
             label="New Skylink"
+            placeholder="Paste a new Skylink here"
             error={errors.skylink}
             touched={touched.skylink}
           />

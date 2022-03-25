@@ -1,12 +1,16 @@
 import dayjs from "dayjs";
+import cn from "classnames";
 import { useCallback, useState } from "react";
+
 import { Alert } from "../Alert";
 import { Button } from "../Button";
 import { AddSkylinkToAPIKeyForm } from "../forms/AddSkylinkToAPIKeyForm";
-import { CogIcon, TrashIcon } from "../Icons";
+import { CogIcon, ImportantNoteIcon, TrashIcon } from "../Icons";
 import { Modal } from "../Modal";
+
 import { useAPIKeyEdit } from "./useAPIKeyEdit";
 import { useAPIKeyRemoval } from "./useAPIKeyRemoval";
+import { Tooltip } from "../Tooltip/Tooltip";
 
 export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
   const { id, name, createdAt, skylinks } = apiKey;
@@ -49,9 +53,23 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
     abortEdit();
   }, [abortEdit]);
 
+  const needsAttention = isPublic && skylinks?.length === 0;
+
   return (
-    <li className="grid grid-cols-2 sm:grid-cols-[1fr_repeat(2,_max-content)] py-6 sm:py-4 px-4 gap-x-8 bg-white odd:bg-palette-100/50">
-      <span className="truncate col-span-2 sm:col-span-1">{name || id}</span>
+    <li
+      className={cn("grid grid-cols-2 sm:grid-cols-[1fr_repeat(2,_max-content)] py-6 sm:py-4 px-4 gap-x-8", {
+        "bg-red-100": needsAttention,
+        "bg-white odd:bg-palette-100/50": !needsAttention,
+      })}
+    >
+      <span className="col-span-2 sm:col-span-1 flex items-center">
+        <span className={cn("truncate", { "text-palette-300": !name })}>{name || "unnamed key"}</span>
+        {needsAttention && (
+          <Tooltip message="This key has no Skylinks configured.">
+            <ImportantNoteIcon className="text-error -mt-2" size={24} />
+          </Tooltip>
+        )}
+      </span>
       <span className="col-span-2 my-4 border-t border-t-palette-200/50 sm:hidden" />
       <span className="text-palette-400">{dayjs(createdAt).format("MMM DD, YYYY")}</span>
       <span className="flex items-center justify-end">
