@@ -1,16 +1,11 @@
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 
 import { TextField } from "../Form/TextField";
 import { Button } from "../Button";
+import { passwordSchema } from "./SignUpForm";
 
 import accountsService from "../../services/accountsService";
-
-const resetPasswordSchema = Yup.object().shape({
-  password: Yup.string().required("Password is required").min(6, "Password has to be at least 6 characters long"),
-  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
-});
 
 export const ResetPasswordForm = ({ token, onSuccess, onFailure }) => (
   <Formik
@@ -18,7 +13,7 @@ export const ResetPasswordForm = ({ token, onSuccess, onFailure }) => (
       password: "",
       confirmPassword: "",
     }}
-    validationSchema={resetPasswordSchema}
+    validationSchema={passwordSchema}
     onSubmit={async ({ password, confirmPassword }) => {
       try {
         await accountsService.post("user/recover", {

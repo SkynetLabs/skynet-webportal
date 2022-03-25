@@ -7,12 +7,18 @@ import { Button } from "../Button";
 
 import accountsService from "../../services/accountsService";
 
-// TODO: better password strength validation
-const registrationSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Please provide a valid email address"),
-  password: Yup.string().required("Password is required").min(6, "Password has to be at least 6 characters long"),
-  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+export const passwordSchema = Yup.object().shape({
+  password: Yup.string().required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Please re-type your password"),
 });
+
+const registrationSchema = Yup.object()
+  .shape({
+    email: Yup.string().required("Email is required").email("Please provide a valid email address"),
+  })
+  .concat(passwordSchema);
 
 const USER_EXISTS_ERROR = "identity already belongs to an existing user";
 
@@ -77,12 +83,6 @@ export const SignUpForm = ({ onSuccess, onFailure }) => (
           error={errors.password}
           touched={touched.password}
         />
-        <div className="text-xs text-palette-400">
-          <ul>
-            <li>At least 6 characters long</li>
-            <li>Significantly different from the email</li>
-          </ul>
-        </div>
 
         <TextField
           type="password"
