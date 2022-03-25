@@ -26,7 +26,7 @@ module.exports = {
     app.use(
       "/api/",
       createProxyMiddleware({
-        target: "https://account.siasky.net",
+        target: "https://account.skynetpro.net",
         secure: false, // Do not reject self-signed certificates.
         changeOrigin: true,
       })

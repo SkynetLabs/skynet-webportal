@@ -23,6 +23,10 @@ const redirectAuthenticated = (key) =>
     return response.json();
   });
 
+export const allUsers = {
+  fetcher: (key) => fetch(`${baseUrl}/${key}`).then((response) => response.json()),
+};
+
 export const authenticatedOnly = {
   fetcher: redirectUnauthenticated,
 };
