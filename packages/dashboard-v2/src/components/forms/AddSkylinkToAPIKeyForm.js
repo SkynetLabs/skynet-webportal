@@ -1,15 +1,22 @@
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
-
-import accountsService from "../../services/accountsService";
+import { parseSkylink } from "skynet-js";
 
 import { Button } from "../Button";
 import { TextField } from "../Form/TextField";
 import { CircledProgressIcon, PlusIcon } from "../Icons";
 
 const newSkylinkSchema = Yup.object().shape({
-  skylink: Yup.string().required("Provide a valid Skylink"), // TODO: Comprehensive Skylink validation
+  skylink: Yup.string()
+    .required("Skylink is required")
+    .test("skylink", "Provide a valid Skylink", (value) => {
+      try {
+        return parseSkylink(value) !== null;
+      } catch {
+        return false;
+      }
+    }),
 });
 
 export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
@@ -19,7 +26,7 @@ export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
     }}
     validationSchema={newSkylinkSchema}
     onSubmit={async ({ skylink }, { resetForm }) => {
-      if (await addSkylink(skylink)) {
+      if (await addSkylink(parseSkylink(skylink))) {
         resetForm();
       }
     }}
