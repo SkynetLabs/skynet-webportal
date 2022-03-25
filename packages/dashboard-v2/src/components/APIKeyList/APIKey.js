@@ -36,11 +36,12 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
     editInitiated,
     prompt: promptEdit,
     abort: abortEdit,
+    addSkylink,
     removeSkylink,
   } = useAPIKeyEdit({
     key: apiKey,
-    onSkylinkRemoved: onSkylinkListEdited,
-    onSkylinkRemovalFailure: onSkylinkListEditFailure,
+    onSkylinkListUpdate: onSkylinkListEdited,
+    onSkylinkListUpdateFailure: onSkylinkListEditFailure,
   });
 
   const closeEditModal = useCallback(() => {
@@ -95,8 +96,8 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
           {skylinks?.length > 0 ? (
             <ul className="text-xs flex flex-col gap-2">
               {skylinks.map((skylink) => (
-                <li className="grid grid-cols-[1fr_min-content] w-full gap-4 items-center">
-                  <code className="whitespace-nowrap select-all truncate bg-palette-100 odd:bg-white rounded border border-palette-200/50 p-1">
+                <li key={skylink} className="grid grid-cols-[1fr_min-content] w-full gap-4 items-center">
+                  <code className="whitespace-nowrap select-all truncate bg-palette-100 odd:bg-white p-1">
                     {skylink}
                   </code>
                   <button className="p-1 transition-colors hover:text-error" onClick={() => removeSkylink(skylink)}>
@@ -111,7 +112,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
 
           <div className="flex flex-col gap-4">
             {error && <Alert $variant="error">{error}</Alert>}
-            <AddSkylinkToAPIKeyForm onSuccess={onSkylinkListEdited} onFailure={onSkylinkListEditFailure} keyId={id} />
+            <AddSkylinkToAPIKeyForm addSkylink={addSkylink} />
           </div>
           <div className="flex gap-4 justify-center mt-4">
             <Button onClick={closeEditModal}>Close</Button>

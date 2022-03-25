@@ -12,31 +12,15 @@ const newSkylinkSchema = Yup.object().shape({
   skylink: Yup.string().required("Provide a valid Skylink"), // TODO: Comprehensive Skylink validation
 });
 
-export const AddSkylinkToAPIKeyForm = ({ keyId, onSuccess, onFailure }) => (
+export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
   <Formik
     initialValues={{
       skylink: "",
     }}
     validationSchema={newSkylinkSchema}
     onSubmit={async ({ skylink }, { resetForm }) => {
-      try {
-        await accountsService
-          .patch(`user/apikeys/${keyId}`, {
-            json: {
-              add: [skylink],
-            },
-          })
-          .json();
-
+      if (await addSkylink(skylink)) {
         resetForm();
-        onSuccess();
-      } catch (err) {
-        if (err.response) {
-          const { message } = await err.response.json();
-          onFailure(message);
-        } else {
-          onFailure("Unknown error occured, please try again.");
-        }
       }
     }}
   >
@@ -67,7 +51,5 @@ export const AddSkylinkToAPIKeyForm = ({ keyId, onSuccess, onFailure }) => (
 );
 
 AddSkylinkToAPIKeyForm.propTypes = {
-  onFailure: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  keyId: PropTypes.string.isRequired,
+  addSkylink: PropTypes.func.isRequired,
 };

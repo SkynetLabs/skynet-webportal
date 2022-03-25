@@ -5,7 +5,10 @@ export const useAPIKeyRemoval = ({ key, onSuccess }) => {
   const [removalInitiated, setRemovalInitiated] = useState(false);
   const [removalError, setRemovalError] = useState(null);
 
-  const prompt = () => setRemovalInitiated(true);
+  const prompt = () => {
+    setRemovalError(null);
+    setRemovalInitiated(true);
+  };
   const abort = () => setRemovalInitiated(false);
 
   const confirm = useCallback(async () => {
@@ -19,7 +22,6 @@ export const useAPIKeyRemoval = ({ key, onSuccess }) => {
 
       if (err.response) {
         const response = await err.response.json();
-
         if (response.message) {
           message = response.message;
         }
