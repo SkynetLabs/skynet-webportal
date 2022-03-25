@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { navigate } from "gatsby";
 
 import { useUser } from "../../contexts/user";
@@ -22,6 +22,21 @@ const AccountPage = () => {
   const prompt = () => setRemovalInitiated(true);
   const abort = () => setRemovalInitiated(false);
 
+  const onSettingsUpdated = useCallback(
+    async (updatedState) => {
+      try {
+        // Update state locally and request revalidation.
+        await reloadUser(updatedState);
+      } finally {
+        // If revalidation fails, we can't really do much. Request
+        // will be auto-retried by SWR, so we'll just show a message
+        // about the update request being successful.
+        setState(State.Success);
+      }
+    },
+    [reloadUser]
+  );
+
   return (
     <>
       <div className="flex flex-col xl:flex-row">
@@ -39,14 +54,7 @@ const AccountPage = () => {
               <Alert $variant="error">There was an error processing your request. Please try again later.</Alert>
             )}
             {state === State.Success && <Alert $variant="success">Changes saved successfully.</Alert>}
-            <AccountSettingsForm
-              user={user}
-              onSuccess={async () => {
-                await reloadUser();
-                setState(State.Success);
-              }}
-              onFailure={() => setState(State.Failure)}
-            />
+            <AccountSettingsForm user={user} onSuccess={onSettingsUpdated} onFailure={() => setState(State.Failure)} />
           </section>
           <hr />
           <section>

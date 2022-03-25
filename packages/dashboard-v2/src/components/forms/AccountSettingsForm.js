@@ -37,15 +37,17 @@ export const AccountSettingsForm = ({ user, onSuccess, onFailure }) => {
       validationSchema={emailUpdateSchema}
       onSubmit={async ({ email, password }, { resetForm }) => {
         try {
-          await accountsService.put("user", {
-            json: {
-              email: email || undefined,
-              password: password || undefined,
-            },
-          });
+          const user = await accountsService
+            .put("user", {
+              json: {
+                email: email || undefined,
+                password: password || undefined,
+              },
+            })
+            .json();
 
           resetForm();
-          onSuccess();
+          await onSuccess(user);
         } catch {
           onFailure();
         }
