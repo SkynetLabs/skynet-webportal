@@ -42,7 +42,7 @@ const APIKeysPage = () => {
           <section className="flex flex-col gap-2">
             <h5>Public keys</h5>
             <p className="text-palette-500">
-            Public keys provide read access to a selected list of skylinks. You can share them publicly.
+              Public keys provide read access to a selected list of skylinks. You can share them publicly.
             </p>
 
             <div className="mt-4">
