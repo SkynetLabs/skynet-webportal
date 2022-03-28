@@ -1103,10 +1103,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.5.tgz#25e8e0a11d0a2a861ccce23a94383448c5beaa50"
   integrity sha512-SeePOM5pvXaa2a1c9VuGPJGmHNcFSUBzVxfHMuQ/FrVeiXvF3XXyPbt68N6QmHK2rAH844BN1Y5zImxqa5ok6g==
 
-"@fontsource/source-sans-pro@4.5.4":
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.4.tgz#51510723ff40f446c7800f133e9ae604ae2f38d7"
-  integrity sha512-+YYw6HRvH9wYE+U2Hvxyossg+MHPApAj7VIjEqaXenNeNQa4U3uPD0e7pc+1Gic3srCQATN15O3S9WSFLXTmwQ==
+"@fontsource/source-sans-pro@4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@fontsource/source-sans-pro/-/source-sans-pro-4.5.6.tgz#1c74aa0168f0ad851e7c69a5ff25914c7691b6cb"
+  integrity sha512-MPv0Ye2OmcRD4wQ/7lOkysQpXpWkDSqZ2QHdNNLj7CQVtG03BScLMYQXZbYNhNMbH518tdMFewqDSu+/ikAMTg==
 
 "@gatsbyjs/parcel-namer-relative-to-cwd@0.0.2":
   version "0.0.2"
