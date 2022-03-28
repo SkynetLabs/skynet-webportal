@@ -54,6 +54,8 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
 
   const skylinksNumber = skylinks?.length ?? 0;
   const isNotConfigured = isPublic && skylinksNumber === 0;
+  const skylinksPhrasePrefix = skylinksNumber === 0 ? "No" : skylinksNumber;
+  const skylinksPhrase = `${skylinksPhrasePrefix} ${skylinksNumber === 1 ? "skylink" : "skylinks"} configured`;
 
   return (
     <li
@@ -71,7 +73,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
               "text-palette-400": !isNotConfigured,
             })}
           >
-            {skylinksNumber} {skylinksNumber === 1 ? "Skylink" : "Skylinks"} configured
+            {skylinksPhrase}
           </button>
         </span>
       </span>
@@ -80,7 +82,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
       <span className="flex items-center justify-end">
         {isPublic && (
           <button
-            title="Add or remove Skylinks"
+            title="Add or remove skylinks"
             className="p-1 transition-colors hover:text-primary"
             onClick={promptEdit}
           >
@@ -111,7 +113,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
       )}
       {editInitiated && (
         <Modal onClose={closeEditModal} className="flex flex-col gap-4 text-center sm:px-8 sm:py-6">
-          <h4>Covered Skylinks</h4>
+          <h4>Covered skylinks</h4>
           {skylinks?.length > 0 ? (
             <ul className="text-xs flex flex-col gap-2">
               {skylinks.map((skylink) => (

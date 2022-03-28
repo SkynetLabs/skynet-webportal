@@ -132,7 +132,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                           <TextField
                             type="text"
                             name={`skylinks.${index}`}
-                            placeholder={`${index + 1}. Skylink`}
+                            placeholder={`${index + 1}. skylink`}
                             error={skylinksErrors[index]}
                             touched={skylinksTouched[index]}
                           />
@@ -148,7 +148,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                         <TextField
                           type="text"
                           name="nextSkylink"
-                          placeholder={`${skylinks.length + 1}. Skylink`}
+                          placeholder={`Paste next skylink here`}
                           error={errors.nextSkylink}
                           touched={touched.nextSkylink}
                           onKeyPress={(event) => {
@@ -176,7 +176,11 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
             </div>
 
             <div className="flex mt-5 justify-center">
-              <Button type="submit" className={cn("px-2.5", { "cursor-wait": isSubmitting })} disabled={!isValid || isSubmitting}>
+              <Button
+                type="submit"
+                className={cn("px-2.5", { "cursor-wait": isSubmitting })}
+                disabled={!isValid || isSubmitting}
+              >
                 {isSubmitting ? "Generating" : "Generate"} your public key
               </Button>
             </div>

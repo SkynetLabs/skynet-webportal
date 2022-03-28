@@ -42,7 +42,7 @@ const APIKeysPage = () => {
           <section className="flex flex-col gap-2">
             <h5>Public keys</h5>
             <p className="text-palette-500">
-              Give read access to a selected list of Skylinks. You can share them publicly.
+            Public keys provide read access to a selected list of skylinks. You can share them publicly.
             </p>
 
             <div className="mt-4">
@@ -68,7 +68,7 @@ const APIKeysPage = () => {
           <section className="flex flex-col gap-2">
             <h5>General keys</h5>
             <p className="text-palette-500">
-              Give full access to <b>Accounts</b> service and are equivalent to using a JWT token.
+              These keys provide full access to <b>Accounts</b> service and are equivalent to using a JWT token.
             </p>
             <p className="underline">This type of API keys need to be kept secret and never shared with anyone.</p>
 
