@@ -3339,7 +3339,7 @@ babel-plugin-polyfill-regenerator@^0.3.0:
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.3.1"
 
-babel-plugin-remove-graphql-queries@^4.10.0, babel-plugin-remove-graphql-queries@^4.10.1:
+babel-plugin-remove-graphql-queries@^4.10.1:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-remove-graphql-queries/-/babel-plugin-remove-graphql-queries-4.10.1.tgz#09357b7afad1d1bf359d97701ba267bf968197f4"
   integrity sha512-1Irx5lUoQtU56u1hMtrgipjlRsUF4Pz6WDCDNVyTuvcHqlKHQK6pna4igHrdoWhSSgEcbimlxSy6tTvP6bkplg==
@@ -6311,14 +6311,14 @@ gatsby-plugin-image@2.10.1:
     objectFitPolyfill "^2.3.5"
     prop-types "^15.7.2"
 
-gatsby-plugin-manifest@4.10.1:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-4.10.1.tgz#01949125a70bac22f2d8946d5829b49f7f188ca2"
-  integrity sha512-D4WYQD1gDdyvWt8RYl4OC/i7thPkgtkm+kZW+d1JVpUTu+BrbdPYCIUMGdSrDyKxx3x0bhMmEf9hZW25acew0Q==
+gatsby-plugin-manifest@4.10.2:
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-4.10.2.tgz#117b44e0e219fa85d6b710d2ed985268d82a1e25"
+  integrity sha512-2QGrG3qFkUnp0IcxQ+uQS4/jPL4NMHShOEs/7JPsuIJSIdumnG7QYJ9xHbIBb8U5mIFLpeonADYJVbdTsnGtrg==
   dependencies:
     "@babel/runtime" "^7.15.4"
-    gatsby-core-utils "^3.10.0"
-    gatsby-plugin-utils "^3.4.1"
+    gatsby-core-utils "^3.10.1"
+    gatsby-plugin-utils "^3.4.2"
     semver "^7.3.5"
     sharp "^0.30.1"
 
@@ -6415,7 +6415,7 @@ gatsby-plugin-typescript@^4.10.1:
     "@babel/runtime" "^7.15.4"
     babel-plugin-remove-graphql-queries "^4.10.1"
 
-gatsby-plugin-utils@^3.4.1, gatsby-plugin-utils@^3.4.2:
+gatsby-plugin-utils@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-utils/-/gatsby-plugin-utils-3.4.2.tgz#bdc66fd52c052c91af443981e1facbc097429dc7"
   integrity sha512-HkVR8BnEdc915pmY2L9wPwFgjq303ThMH9UtT+frDOPzn+GFjPlBF5+YGJ3tZaxH0ouwpnGTn3Pu37tcRZcctA==
@@ -6463,7 +6463,7 @@ gatsby-source-filesystem@4.10.1:
     valid-url "^1.0.9"
     xstate "^4.26.1"
 
-gatsby-telemetry@^3.10.0, gatsby-telemetry@^3.10.1:
+gatsby-telemetry@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/gatsby-telemetry/-/gatsby-telemetry-3.10.1.tgz#129c4309811cd9b2ba5e9d326ba47dddb59202ca"
   integrity sha512-935quI1YsQfzYREuvPLNKBb7IUE2vX9p7WoS7Dc9TbV2xDZPTAzeOfX+HE56ZltkxMi8Zivp7mqe5+n//WL7EQ==
