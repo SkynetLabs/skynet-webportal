@@ -1,19 +1,42 @@
-import * as React from "react";
-import { useMedia } from "react-use";
-import styled from "styled-components";
+import { useCallback, useState } from "react";
+import { navigate } from "gatsby";
 
-import theme from "../../lib/theme";
+import { useUser } from "../../contexts/user";
 import UserSettingsLayout from "../../layouts/UserSettingsLayout";
-import { TextInputBasic } from "../../components/TextInputBasic/TextInputBasic";
-import { Button } from "../../components/Button";
-import { AvatarUploader } from "../../components/AvatarUploader";
+import { AccountSettingsForm } from "../../components/forms/AccountSettingsForm";
+import { Modal } from "../../components/Modal/Modal";
+import { AccountRemovalForm } from "../../components/forms/AccountRemovalForm";
+import { Alert } from "../../components/Alert";
 
-const FormGroup = styled.div.attrs({
-  className: "grid sm:grid-cols-[1fr_min-content] w-full gap-y-2 gap-x-4 items-end",
-})``;
+const State = {
+  Pure: "PURE",
+  Success: "SUCCESS",
+  Failure: "FAILURE",
+};
 
 const AccountPage = () => {
-  const isLargeScreen = useMedia(`(min-width: ${theme.screens.xl})`);
+  const { user, mutate: reloadUser } = useUser();
+  const [state, setState] = useState(State.Pure);
+  const [removalInitiated, setRemovalInitiated] = useState(false);
+
+  const prompt = () => setRemovalInitiated(true);
+  const abort = () => setRemovalInitiated(false);
+
+  const onSettingsUpdated = useCallback(
+    async (updatedState) => {
+      try {
+        // Update state locally and request revalidation.
+        await reloadUser(updatedState);
+      } finally {
+        // If revalidation fails, we can't really do much. Request
+        // will be auto-retried by SWR, so we'll just show a message
+        // about the update request being successful.
+        setState(State.Success);
+      }
+    },
+    [reloadUser]
+  );
+
   return (
     <>
       <div className="flex flex-col xl:flex-row">
@@ -26,34 +49,12 @@ const AccountPage = () => {
             </p>
           </section>
           <hr />
-          {!isLargeScreen && (
-            <section>
-              <AvatarUploader className="flex flex-col sm:flex-row gap-8 items-center" />
-            </section>
-          )}
           <section className="flex flex-col gap-8">
-            <FormGroup>
-              <TextInputBasic label="Display name" placeholder="John Doe" />
-              <div className="flex mt-2 sm:mt-0 justify-center">
-                <Button>Update</Button>
-              </div>
-            </FormGroup>
-            <FormGroup>
-              <TextInputBasic label="Email" placeholder="john.doe@example.com" />
-              <div className="flex mt-2 sm:mt-0 justify-center">
-                <Button>Update</Button>
-              </div>
-            </FormGroup>
-            <FormGroup>
-              <TextInputBasic type="password" label="Password" placeholder="dbf3htf*efh4pcy@PXB" />
-              <div className="flex mt-2 sm:mt-0 justify-center order-last sm:order-none">
-                <Button>Update</Button>
-              </div>
-              <small className="text-palette-400">
-                The password must be at least 6 characters long. Significantly different from the email and old
-                password.
-              </small>
-            </FormGroup>
+            {state === State.Failure && (
+              <Alert $variant="error">There was an error processing your request. Please try again later.</Alert>
+            )}
+            {state === State.Success && <Alert $variant="success">Changes saved successfully.</Alert>}
+            <AccountSettingsForm user={user} onSuccess={onSettingsUpdated} onFailure={() => setState(State.Failure)} />
           </section>
           <hr />
           <section>
@@ -61,16 +62,18 @@ const AccountPage = () => {
             <p>This will completely delete your account. This process can't be undone.</p>
             <button
               type="button"
-              onClick={() => window.confirm("TODO: confirmation modal")}
+              onClick={prompt}
               className="text-error underline decoration-1 hover:decoration-dashed"
             >
               Delete account
             </button>
           </section>
         </div>
-        <div className="flex w-full justify-start xl:justify-end">
-          {isLargeScreen && <AvatarUploader className="flex flex-col gap-4" />}
-        </div>
+        {removalInitiated && (
+          <Modal onClose={abort} className="text-center">
+            <AccountRemovalForm abort={abort} onSuccess={() => navigate("/auth/login")} />
+          </Modal>
+        )}
       </div>
     </>
   );

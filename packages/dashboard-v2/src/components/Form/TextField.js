@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import cn from "classnames";
 import { Field } from "formik";
 
-export const TextField = ({ id, label, name, error, touched, ...props }) => {
+export const TextField = ({ id, label, name, error, touched, className, ...props }) => {
   return (
     <div className="flex flex-col w-full gap-1">
       {label && (
@@ -13,7 +13,7 @@ export const TextField = ({ id, label, name, error, touched, ...props }) => {
       <Field
         id={id}
         name={name}
-        className={cn("w-full py-2 px-4 bg-palette-100 rounded-sm placeholder:text-palette-200 outline-1", {
+        className={cn("w-full py-2 px-4 bg-palette-100 rounded-sm placeholder:text-palette-200 outline-1", className, {
           "focus:outline outline-palette-200": !error || !touched,
           "outline outline-error": touched && error,
         })}
