@@ -70,7 +70,9 @@ const APIKeysPage = () => {
             <p className="text-palette-500">
               These keys provide full access to <b>Accounts</b> service and are equivalent to using a JWT token.
             </p>
-            <p className="underline">This type of API keys need to be kept secret and never shared with anyone.</p>
+            <p className="underline">
+              This type of API keys needs to be kept secret and should never be shared with anyone.
+            </p>
 
             <div className="mt-4">
               <AddAPIKeyForm ref={generalFormRef} onSuccess={refreshState} type={APIKeyType.General} />
