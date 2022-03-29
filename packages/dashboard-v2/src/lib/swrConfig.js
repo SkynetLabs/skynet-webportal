@@ -15,12 +15,15 @@ const redirectUnauthenticated = (key) =>
   });
 
 const redirectAuthenticated = (key) =>
-  fetch(`${baseUrl}/${key}`).then((response) => {
-    if (response.status === StatusCodes.OK) {
-      navigate(`/`);
+  fetch(`${baseUrl}/${key}`).then(async (response) => {
+    if (response.ok) {
+      await navigate("/");
+      return response.json();
     }
 
-    return response.json();
+    // If there was an error, let's throw so useSWR's "error" property is populated instead "data".
+    const data = await response.json();
+    throw new Error(data?.message || `Error occured when trying to fetch: ${key}`);
   });
 
 export const allUsers = {

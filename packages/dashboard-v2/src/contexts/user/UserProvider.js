@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
 import { UserContext } from "./UserContext";
 
 export const UserProvider = ({ children }) => {
-  const { data: user, error, mutate } = useSWR("user");
+  const { data: user, error, mutate } = useSWRImmutable("user");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
