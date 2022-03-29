@@ -10,13 +10,11 @@ import { Panel } from "../components/Panel";
 import Slider from "../components/Slider/Slider";
 import { CheckmarkIcon } from "../components/Icons";
 import { Button } from "../components/Button";
+import { usePortalSettings } from "../contexts/portal-settings";
+import { Alert } from "../components/Alert";
+import HighlightedLink from "../components/HighlightedLink";
 
-const SLIDER_BREAKPOINTS = [
-  {
-    name: "xl",
-    scrollable: true,
-    visibleSlides: 4,
-  },
+const PAID_PORTAL_BREAKPOINTS = [
   {
     name: "lg",
     scrollable: true,
@@ -31,6 +29,15 @@ const SLIDER_BREAKPOINTS = [
     scrollable: true,
     visibleSlides: 1,
   },
+];
+
+const FREE_PORTAL_BREAKPOINTS = [
+  {
+    name: "xl",
+    scrollable: true,
+    visibleSlides: 4,
+  },
+  ...PAID_PORTAL_BREAKPOINTS,
 ];
 
 const PlanSummaryItem = ({ children }) => (
@@ -68,6 +75,7 @@ const localizedNumber = (value) => value.toLocaleString();
 const PlansSlider = () => {
   const { user, error: userError } = useUser();
   const { plans, loading, activePlan, error: plansError } = useActivePlan(user);
+  const { settings } = usePortalSettings();
 
   if (userError || plansError) {
     return (
@@ -80,6 +88,18 @@ const PlansSlider = () => {
 
   return (
     <div className="w-full mb-24">
+      {settings.isSubscriptionRequired && !activePlan && (
+        <Alert $variant="info" className="mb-6">
+          <p className="font-semibold mt-0">This Skynet portal requires a paid subscription.</p>
+          <p>
+            If you're not ready for that yet, you can use your account on{" "}
+            <HighlightedLink as="a" href="https://skynetfree.net">
+              SkynetFree.net
+            </HighlightedLink>{" "}
+            to store up to 100GB for free.
+          </p>
+        </Alert>
+      )}
       {!loading && (
         <Slider
           slides={plans.map((plan) => {
@@ -114,8 +134,7 @@ const PlansSlider = () => {
               </Panel>
             );
           })}
-          breakpoints={SLIDER_BREAKPOINTS}
-          scrollerClassName="gap-4 xl:gap-8"
+          breakpoints={settings.isSubscriptionRequired ? PAID_PORTAL_BREAKPOINTS : FREE_PORTAL_BREAKPOINTS}
           className="px-8 sm:px-4 md:px-0 lg:px-0"
         />
       )}
