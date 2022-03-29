@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
 import freePlan from "../../lib/tiers";
+import { usePortalSettings } from "../portal-settings";
 
 import { PlansContext } from "./PlansContext";
 
@@ -12,8 +13,9 @@ import { PlansContext } from "./PlansContext";
  *
  * @see https://github.com/SkynetLabs/skynet-accounts/blob/7337e740b71b77e6d08016db801e293b8ad81abc/database/user.go#L53-L101
  */
-const aggregatePlansAndLimits = (plans, limits) => {
-  const sortedPlans = [freePlan, ...plans].sort((planA, planB) => planA.tier - planB.tier);
+const aggregatePlansAndLimits = (plans, limits, { includeFreePlan }) => {
+  const allPlans = includeFreePlan ? [freePlan, ...plans] : [...plans];
+  const sortedPlans = allPlans.sort((planA, planB) => planA.tier - planB.tier);
 
   // Decorate each plan with its corresponding limits data, if available.
   if (limits?.length) {
@@ -26,10 +28,11 @@ const aggregatePlansAndLimits = (plans, limits) => {
 };
 
 export const PlansProvider = ({ children }) => {
-  const { data: rawPlans, error: plansError } = useSWR("stripe/prices");
-  const { data: limits, error: limitsError } = useSWR("limits");
+  const { settings } = usePortalSettings();
+  const { data: rawPlans, error: plansError } = useSWRImmutable("stripe/prices");
+  const { data: limits, error: limitsError } = useSWRImmutable("limits");
 
-  const [plans, setPlans] = useState([freePlan]);
+  const [plans, setPlans] = useState(settings.isSubscriptionRequired ? [] : [freePlan]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -39,9 +42,11 @@ export const PlansProvider = ({ children }) => {
       setError(plansError || limitsError);
     } else if (rawPlans) {
       setLoading(false);
-      setPlans(aggregatePlansAndLimits(rawPlans, limits?.userLimits));
+      setPlans(
+        aggregatePlansAndLimits(rawPlans, limits?.userLimits, { includeFreePlan: !settings.isSubscriptionRequired })
+      );
     }
-  }, [rawPlans, limits, plansError, limitsError]);
+  }, [rawPlans, limits, plansError, limitsError, settings.isSubscriptionRequired]);
 
   return <PlansContext.Provider value={{ plans, error, loading }}>{children}</PlansContext.Provider>;
 };
