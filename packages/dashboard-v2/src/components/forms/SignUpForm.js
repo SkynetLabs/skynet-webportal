@@ -61,11 +61,6 @@ export const SignUpForm = ({ onSuccess, onFailure }) => (
   >
     {({ errors, touched }) => (
       <Form className="flex flex-col gap-4">
-        <div className="mt-4 mb-8">
-          <h3>Create your free account</h3>
-          <p className="font-light font-sans text-lg">Includes 100 GB storage at basic speed</p>
-        </div>
-
         <TextField
           type="text"
           id="email"
