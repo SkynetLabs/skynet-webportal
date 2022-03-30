@@ -4,8 +4,15 @@
 name: Nginx Lua Unit Tests
 
 on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - ".github/workflows/nginx-lua-unit-tests.yml"
+      - "docker/nginx/libs/**.lua"
   pull_request:
     paths:
+      - ".github/workflows/nginx-lua-unit-tests.yml"
       - "docker/nginx/libs/**.lua"
 
 jobs:
@@ -25,9 +32,22 @@ jobs:
           hererocks env --lua=5.1 -rlatest
           source env/bin/activate
           luarocks install busted
+          luarocks install luacov
           luarocks install hasher
+          luarocks install luacheck
+
+      - name: Lint code
+        run: |
+          source env/bin/activate
+          luacheck docker/nginx/libs --std ngx_lua+busted
 
       - name: Unit Tests
         run: |
           source env/bin/activate
-          busted --verbose --pattern=spec --directory=docker/nginx/libs .
+          busted --verbose --coverage --pattern=spec --directory=docker/nginx/libs .
+          cd docker/nginx/libs && luacov
+
+      - uses: codecov/codecov-action@v2
+        with:
+          directory: docker/nginx/libs
+          flags: nginx-lua

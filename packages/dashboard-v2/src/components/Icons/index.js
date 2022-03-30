@@ -14,3 +14,4 @@ export * from "./icons/CopyIcon";
 export * from "./icons/ShareIcon";
 export * from "./icons/SimpleUploadIcon";
 export * from "./icons/TrashIcon";
+export * from "./icons/ImportantNoteIcon";
