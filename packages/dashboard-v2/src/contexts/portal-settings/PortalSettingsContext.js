@@ -2,8 +2,8 @@ import { createContext } from "react";
 
 export const defaultSettings = {
   areAccountsEnabled: false,
-  isAuthenticationRequired: true,
-  isSubscriptionRequired: true,
+  isAuthenticationRequired: false,
+  isSubscriptionRequired: false,
 };
 
 export const PortalSettingsContext = createContext(defaultSettings);
