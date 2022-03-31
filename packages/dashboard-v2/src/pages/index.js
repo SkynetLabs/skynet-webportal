@@ -12,9 +12,16 @@ import Slider from "../components/Slider/Slider";
 import CurrentUsage from "../components/CurrentUsage";
 import Uploader from "../components/Uploader/Uploader";
 import CurrentPlan from "../components/CurrentPlan";
+import { FullScreenLoadingIndicator } from "../components/LoadingIndicator";
+import useUpgradeRedirect from "../hooks/useUpgradeRedirect";
 
 const IndexPage = () => {
   const showRecentActivity = useMedia(`(min-width: ${theme.screens.md})`);
+  const { verifyingSubscription } = useUpgradeRedirect();
+
+  if (verifyingSubscription) {
+    return <FullScreenLoadingIndicator />;
+  }
 
   return (
     <PlansProvider>

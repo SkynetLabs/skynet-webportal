@@ -5,12 +5,10 @@ import { StatusCodes } from "http-status-codes";
 import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
 import { useTimeoutFn } from "react-use";
-import { SkynetClient } from "skynet-js";
 import { ProgressBar } from "./ProgressBar";
 import UploaderItemIcon from "./UploaderItemIcon";
 import buildUploadErrorMessage from "./buildUploadErrorMessage";
-
-const skynetClient = new SkynetClient("https://siasky.net"); //TODO: proper API url
+import skynetClient from "../../services/skynetClient";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
