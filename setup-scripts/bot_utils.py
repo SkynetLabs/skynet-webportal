@@ -32,6 +32,7 @@ sc_precision = 10**24
 # Environment variable globals
 setup_done = False
 
+
 # get docker container id and return None if container not found
 def get_docker_container_id(container_name):
     docker_cmd = "docker ps -q -f name=" + container_name
