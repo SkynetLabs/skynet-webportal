@@ -1,16 +1,15 @@
 FROM node:16.14.2-alpine
 
-RUN apk update && apk add dnsmasq
+RUN apk --no-cache add dnsmasq=2.86-r0 && rm -rf /var/cache/apk/*
 
 WORKDIR /usr/app
 
 ENV PATH="/usr/app/bin:${PATH}"
 
 # schedule critical checks to run every 5 minutes (any failures will disable server)
-RUN echo '*/5 * * * * source /etc/environment ; /usr/app/bin/cli run critical >> /proc/1/fd/1' >> /etc/crontabs/root
-
 # schedule extended checks to run on every hour (optional checks, report only)
-RUN echo '0 * * * * source /etc/environment ; /usr/app/bin/cli run extended >> /proc/1/fd/1' >> /etc/crontabs/root
+RUN echo '*/5 * * * * source /etc/environment ; /usr/app/bin/cli run critical >> /proc/1/fd/1' >> /etc/crontabs/root && \
+    echo '0 * * * * source /etc/environment ; /usr/app/bin/cli run extended >> /proc/1/fd/1' >> /etc/crontabs/root
 
 COPY package.json yarn.lock ./
 
