@@ -9,4 +9,4 @@ RUN yarn --frozen-lockfile
 COPY src/* src/
 
 EXPOSE 3100
-CMD node src/index.js
+CMD ["node", "src/index.js"]
