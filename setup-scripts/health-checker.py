@@ -42,7 +42,7 @@ DISK_USAGE_DUMP_LOG = "../../devops/disk-monitor/disk-usage-dump.log"
 
 setup()
 
-
+# run_checks runs the health checks
 async def run_checks():
     print("Running Skynet portal health checks")
     try:

@@ -195,6 +195,7 @@ async function blockerHealthCheck(done) {
   done({ name: "blocker", time: calculateElapsedTime(time), ...data });
 }
 
+// genericAccessCheck
 async function genericAccessCheck(name, url) {
   const authCookie = await getAuthCookie();
   const time = process.hrtime();

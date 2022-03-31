@@ -12,5 +12,6 @@ FROM nebulouslabs/sia:1.5.6
 
 COPY --from=sia-builder /go/bin/ /usr/bin/
 
+# rename binaries to old siac siad naming
 RUN if [ -f "/usr/bin/skyd" ]; then mv /usr/bin/skyd /usr/bin/siad; fi && \
     if [ -f "/usr/bin/skyc" ]; then mv /usr/bin/skyc /usr/bin/siac; fi

@@ -1,0 +1,106 @@
+name: Lint
+
+on:
+  pull_request:
+
+jobs:
+  # Determine what the prettier changes are
+  prettier-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+    steps:
+      # Use paths-filter to determine which paths have changes
+      # https://github.com/dorny/paths-filter
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Format of key: value. When there is a change detected in value, the
+          # key will be returned in the output.
+          filters: |
+            packages/dashboard: packages/dashboard/**
+            packages/dnslink-api: packages/dnslink-api/**
+            packages/handshake-api: packages/handshake-api/**
+            packages/health-check: packages/health-check/**
+            packages/website: packages/website/**
+
+  # Determine what the dockerfile changes are
+  dockerfile-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+    steps:
+      # Use paths-filter to determine which paths have changes
+      # https://github.com/dorny/paths-filter
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Format of key: value. When there is a change detected in value, the
+          # key will be returned in the output.
+          filters: |
+            docker/nginx/Dockerfile: docker/nginx/Dockerfile
+            docker/sia/Dockerfile: docker/sia/Dockerfile
+            packages/dashboard/Dockerfile: packages/dashboard/Dockerfile
+            packages/dnslink-api/Dockerfile: packages/dnslink-api/Dockerfile
+            packages/handshake-api/Dockerfile: packages/handshake-api/Dockerfile
+            packages/health-check/Dockerfile: packages/health-check/Dockerfile
+            packages/website/Dockerfile: packages/website/Dockerfile
+
+  # Run the prettier lint if there are changes to any of the prettier packages
+  prettier:
+    needs: prettier-changes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        working-directory: ${{ fromJSON(needs.prettier-changes.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Prettier Action
+        uses: ./.github/actions/prettier
+        with:
+          working-directory: ${{ matrix.working-directory }}
+
+  # Run the hadolint dockefile lint if there are changes to any of the
+  # dockerfiles
+  hadolint:
+    needs: dockerfile-changes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile: ${{ fromJSON(needs.dockerfile-changes.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
+
+  # Determine if there are python changes
+  python-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      # Check if the changed status of py is true
+      updates: steps.changes.outputs.py == 'true'
+    steps:
+      # Use paths-filter to determine which paths have changes
+      # https://github.com/dorny/paths-filter
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            py: "**.py"
+
+  # Run the hadolint dockefile lint if there are changes to any of the
+  # dockerfiles
+  python-lint:
+    needs: python-changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Black python linter
+        if: ${{ needs.python-changes.outputs.updates }}
+        uses: ./.github/actions/python-black-lint
+      - name: Run Flake8 python linter
+        if: ${{ needs.python-changes.outputs.updates }}
+        uses: ./.github/actions/python-flake8-lint
