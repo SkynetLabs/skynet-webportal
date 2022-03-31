@@ -1,7 +1,6 @@
 FROM node:16.14.2-alpine
 
-RUN apk add --no-cache dnsmasq=2.86-r0 && \
-    rm -rf /var/cache/apk/*
+RUN apk add --no-cache dnsmasq=2.86-r0
 
 WORKDIR /usr/app
 
