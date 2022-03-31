@@ -12,5 +12,5 @@ FROM nebulouslabs/sia:1.5.6
 
 COPY --from=sia-builder /go/bin/ /usr/bin/
 
-RUN mv /usr/bin/skyd /usr/bin/siad || true && \
-    mv /usr/bin/skyc /usr/bin/siac || true
+RUN if [[ -f "/usr/bin/skyd" ]]; then mv /usr/bin/skyd /usr/bin/siad; fi && \
+    if [[ -f "/usr/bin/skyc" ]]; then mv /usr/bin/skyc /usr/bin/siac; fi
