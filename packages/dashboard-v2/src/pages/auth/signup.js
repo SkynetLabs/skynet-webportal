@@ -62,7 +62,7 @@ const SignUpPage = () => {
           <img src="/images/logo-black-text.svg" alt="Skynet" />
         </div>
 
-        {!settings.areAccountsEnabled && <Alert $variant="info">Sorry, registrations are currently disabled.</Alert>}
+        {!settings.areAccountsEnabled && <Alert $variant="info">Accounts are not enabled on this portal.</Alert>}
 
         {settings.areAccountsEnabled && (
           <>
