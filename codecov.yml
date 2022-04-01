@@ -1,0 +1,5 @@
+flags:
+  nginx-lua:
+    carryforward: true
+    fixes:
+      - "::docker/nginx/libs/"

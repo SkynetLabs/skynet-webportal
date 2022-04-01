@@ -6,48 +6,69 @@ name: Nginx Lua Unit Tests
 on:
   push:
     branches:
-      - "master"
-    paths:
-      - ".github/workflows/nginx-lua-unit-tests.yml"
-      - "docker/nginx/libs/**.lua"
+      - master
   pull_request:
-    paths:
-      - ".github/workflows/nginx-lua-unit-tests.yml"
-      - "docker/nginx/libs/**.lua"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
+    container: openresty/openresty:1.19.9.1-focal
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.x"
-          architecture: "x64"
-
+      - uses: actions/checkout@v3
       - name: Install Dependencies
         run: |
-          pip install hererocks
-          hererocks env --lua=5.1 -rlatest
-          source env/bin/activate
+          luarocks install lua-resty-http
+          luarocks install hasher
           luarocks install busted
           luarocks install luacov
-          luarocks install hasher
           luarocks install luacheck
-
-      - name: Lint code
-        run: |
-          source env/bin/activate
-          luacheck docker/nginx/libs --std ngx_lua+busted
-
-      - name: Unit Tests
-        run: |
-          source env/bin/activate
-          busted --verbose --coverage --pattern=spec --directory=docker/nginx/libs .
-          cd docker/nginx/libs && luacov
-
-      - uses: codecov/codecov-action@v2
+      - name: Lint Code
+        run: luacheck docker/nginx/libs --std ngx_lua+busted
+      - name: Run Busted Tests
+        run: docker/nginx/testing/rbusted --lpath='docker/nginx/libs/?.lua;docker/nginx/libs/?/?.lua' --verbose --coverage --pattern=spec docker/nginx/libs
+      - run: cat luacov.stats.out
+      - name: Run Code Coverage
+        run: cp docker/nginx/testing/.luacov . && luacov && rm .luacov
+      - run: cat luacov.report.out
+      - name: Generate Code Coverage Report
+        uses: codecov/codecov-action@v3
         with:
-          directory: docker/nginx/libs
+          root_dir: ${GITHUB_WORKSPACE}
+          files: ./luacov.report.out
           flags: nginx-lua
+
+  # lint:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: "3.x"
+  #         architecture: "x64"
+
+  #     - name: Install Dependencies
+  #       run: |
+  #         pip install hererocks
+  #         hererocks env --lua=5.1 -rlatest
+  #         source env/bin/activate
+  #         luarocks install busted
+  #         luarocks install luacov
+  #         luarocks install hasher
+  #         luarocks install luacheck
+
+  #     - name: Lint code
+  #       run: |
+  #         source env/bin/activate
+  #         luacheck docker/nginx/libs --std ngx_lua+busted
+
+  #     - name: Unit Tests
+  #       run: |
+  #         source env/bin/activate
+  #         busted --verbose --coverage --pattern=spec --directory=docker/nginx/libs .
+  #         cd docker/nginx/libs && luacov
+
+  #     - uses: codecov/codecov-action@v2
+  #       with:
+  #         directory: docker/nginx/libs
+  #         flags: nginx-lua

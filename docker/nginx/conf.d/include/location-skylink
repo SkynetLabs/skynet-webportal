@@ -1,5 +1,4 @@
 include /etc/nginx/conf.d/include/cors;
-include /etc/nginx/conf.d/include/track-download;
 
 limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
@@ -37,3 +36,18 @@ proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
 proxy_pass http://sia:9980/skynet/skylink/$skylink$path$is_args$args;
+
+log_by_lua_block {
+    local skynet_account = require("skynet.account")
+    local skynet_modules = require("skynet.modules")
+    local skynet_scanner = require("skynet.scanner")
+    local skynet_tracker = require("skynet.tracker")
+
+    if skynet_modules.is_enabled("a") then
+        skynet_tracker.track_download(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers(), ngx.var.body_bytes_sent)
+    end
+
+    if skynet_modules.is_enabled("s") then
+        skynet_scanner.scan_skylink(ngx.header["Skynet-Skylink"])
+    end
+}

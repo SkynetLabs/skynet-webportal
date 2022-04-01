@@ -206,7 +206,6 @@ location /skynet/registry/subscription {
 location /skynet/skyfile {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
-    include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
     include /etc/nginx/conf.d/include/portal-access-check;
 
@@ -228,12 +227,26 @@ location /skynet/skyfile {
 
     # proxy this call to siad endpoint (make sure the ip is correct)
     proxy_pass http://sia:9980/skynet/skyfile/$dir1/$dir2/$dir3$is_args$args;
+
+    log_by_lua_block {
+        local skynet_account = require("skynet.account")
+        local skynet_modules = require("skynet.modules")
+        local skynet_scanner = require("skynet.scanner")
+        local skynet_tracker = require("skynet.tracker")
+
+        if skynet_modules.is_enabled("a") then
+            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+        end
+
+        if skynet_modules.is_enabled("s") then
+            skynet_scanner.scan_skylink(ngx.header["Skynet-Skylink"])
+        end
+    }
 }
 
 # endpoint implementing resumable file uploads open protocol https://tus.io
 location /skynet/tus {
     include /etc/nginx/conf.d/include/cors-headers; # include cors headers but do not overwrite OPTIONS response
-    include /etc/nginx/conf.d/include/track-upload;
 
     limit_req zone=uploads_by_ip burst=10 nodelay;
     limit_req zone=uploads_by_ip_throttled;
@@ -294,12 +307,26 @@ location /skynet/tus {
             end
         end
     }
+
+    log_by_lua_block {
+        local skynet_account = require("skynet.account")
+        local skynet_modules = require("skynet.modules")
+        local skynet_scanner = require("skynet.scanner")
+        local skynet_tracker = require("skynet.tracker")
+
+        if skynet_modules.is_enabled("a") then
+            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+        end
+
+        if skynet_modules.is_enabled("s") then
+            skynet_scanner.scan_skylink(ngx.header["Skynet-Skylink"])
+        end
+    }
 }
 
 location /skynet/pin {
     include /etc/nginx/conf.d/include/cors;
     include /etc/nginx/conf.d/include/sia-auth;
-    include /etc/nginx/conf.d/include/track-upload;
     include /etc/nginx/conf.d/include/generate-siapath;
     include /etc/nginx/conf.d/include/portal-access-check;
 
@@ -311,6 +338,21 @@ location /skynet/pin {
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980$uri?siapath=$dir1/$dir2/$dir3&$args;
+
+    log_by_lua_block {
+        local skynet_account = require("skynet.account")
+        local skynet_modules = require("skynet.modules")
+        local skynet_scanner = require("skynet.scanner")
+        local skynet_tracker = require("skynet.tracker")
+
+        if skynet_modules.is_enabled("a") then
+            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+        end
+
+        if skynet_modules.is_enabled("s") then
+            skynet_scanner.scan_skylink(ngx.header["Skynet-Skylink"])
+        end
+    }
 }
 
 location /skynet/metadata {
@@ -357,7 +399,6 @@ location ~ "^/file/(([a-zA-Z0-9-_]{46}|[a-z0-9]{55})(/.*)?)$" {
 
 location /skynet/trustless/basesector {
     include /etc/nginx/conf.d/include/cors;
-    include /etc/nginx/conf.d/include/track-download;
 
     limit_conn downloads_by_ip 100; # ddos protection: max 100 downloads at a time
 
@@ -391,6 +432,21 @@ location /skynet/trustless/basesector {
 
     proxy_set_header User-Agent: Sia-Agent;
     proxy_pass http://sia:9980;
+
+    log_by_lua_block {
+        local skynet_account = require("skynet.account")
+        local skynet_modules = require("skynet.modules")
+        local skynet_scanner = require("skynet.scanner")
+        local skynet_tracker = require("skynet.tracker")
+
+        if skynet_modules.is_enabled("a") then
+            skynet_tracker.track_download(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers(), ngx.var.body_bytes_sent)
+        end
+
+        if skynet_modules.is_enabled("s") then
+            skynet_scanner.scan_skylink(ngx.header["Skynet-Skylink"])
+        end
+    }
 }
 
 location /__internal/do/not/use/accounts {

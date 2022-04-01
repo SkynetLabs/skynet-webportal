@@ -59,7 +59,9 @@ function _M.exit_access_forbidden(message)
 end
 
 function _M.accounts_enabled()
-    return os.getenv("PORTAL_MODULES"):match("a") ~= nil
+    local skynet_modules = require("skynet.modules")
+
+    return skynet_modules.is_enabled("a")
 end
 
 function _M.get_account_limits()
