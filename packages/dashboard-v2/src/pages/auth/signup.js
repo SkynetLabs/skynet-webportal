@@ -15,7 +15,7 @@ const FreePortalHeader = () => {
   const { plans } = usePlans();
 
   const freePlan = plans.find(({ price }) => price === 0);
-  const freeStorage = freePlan ? bytes(freePlan.limits?.storageLimit, { binary: true }) : null;
+  const freeStorage = freePlan?.limits ? bytes(freePlan.limits?.storageLimit, { binary: true }) : null;
 
   return (
     <div className="mt-4 mb-8 font-sans">
