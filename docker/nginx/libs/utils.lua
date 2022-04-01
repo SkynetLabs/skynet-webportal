@@ -42,4 +42,42 @@ function _M.extract_cookie_value(cookie_string, name_matcher)
     return string.sub(cookie, value_start)
 end
 
+-- utility function that builds on os.getenv to get environment variable value
+-- * will always return nil for both unset and empty env vars
+-- * parse "boolean": "true" and "1" as true, "false" and "0" as false, throws for others
+-- * parse "integer": any numerical string gets converted, otherwise returns nil
+function _M.getenv(name, parse)
+    local value = os.getenv(name)
+
+    -- treat empty string value as nil to simplify comparisons
+    if value == nil or value == "" then
+        return nil
+    end
+
+    -- do not parse the value
+    if parse == nil then
+        return value
+    end
+
+    -- try to parse as boolean
+    if parse == "boolean" then
+        if value == "true" or value == "1" then
+            return true
+        end
+
+        if value == "false" or value == "0" then
+            return false
+        end
+
+        error("utils.getenv: Parsing value '" .. tostring(value) .. "' to boolean is not supported")
+    end
+
+    -- try to parse as integer
+    if parse == "integer" then
+        return tonumber(value)
+    end
+
+    error("utils.getenv: Parsing to '" .. parse .. "' is not supported")
+end
+
 return _M

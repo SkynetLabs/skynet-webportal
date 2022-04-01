@@ -1,0 +1,6 @@
+exclude = { 
+    "/usr/local/openresty", -- internal openresty libraries
+    "rbusted", -- busted executable
+    "basexx", -- external library https://github.com/aiq/basexx
+}
+includeuntestedfiles = true
