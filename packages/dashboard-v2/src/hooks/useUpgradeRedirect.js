@@ -17,7 +17,6 @@ export default function useUpgradeRedirect() {
 
     if (isDataLoaded) {
       if (settings.isSubscriptionRequired && !hasPaidSubscription) {
-        console.log("redirecting", user, settings);
         navigate("/upgrade");
       } else {
         setVerifyingSubscription(false);
