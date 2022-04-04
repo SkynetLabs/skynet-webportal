@@ -1,6 +1,6 @@
 # Define action name, description, and inputs
 name: "Python Flake8 Lint"
-description: "Lint python code with black"
+description: "Lint python code with flake8"
 
 # Define action steps
 runs:
