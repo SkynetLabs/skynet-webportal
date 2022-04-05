@@ -20,6 +20,7 @@ export const Metadata = ({ children }) => {
     <Helmet htmlAttributes={{ lang: "en" }} titleTemplate={`%s | ${title}`} defaultTitle={title}>
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       <meta name="description" content="Manage your Skynet uploads, account subscription, settings and API keys" />
+      <link rel="preconnect" href={`https://${process.env.GATSBY_PORTAL_DOMAIN}/`} />
       {children}
     </Helmet>
   );
