@@ -1,6 +1,6 @@
 # Define action name, description, and inputs
-name: "Prettier Lint"
-description: "Lint code with Prettier"
+name: "JS Lint"
+description: "Lint code with Prettier and eslint"
 inputs:
   working-directory:
     required: false

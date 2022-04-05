@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  # Determine what the prettier changes are
-  prettier-changes:
+  # Determine what the js changes are
+  js-changes:
     runs-on: ubuntu-latest
     outputs:
       packages: ${{ steps.filter.outputs.changes }}
@@ -19,6 +19,7 @@ jobs:
           # key will be returned in the output.
           filters: |
             packages/dashboard: packages/dashboard/**
+            packages/dashboard-v2: packages/dashboard-v2/**
             packages/dnslink-api: packages/dnslink-api/**
             packages/handshake-api: packages/handshake-api/**
             packages/health-check: packages/health-check/**
@@ -46,18 +47,18 @@ jobs:
             packages/health-check/Dockerfile: packages/health-check/Dockerfile
             packages/website/Dockerfile: packages/website/Dockerfile
 
-  # Run the prettier lint if there are changes to any of the prettier packages
-  prettier:
-    needs: prettier-changes
+  # Run the js lint if there are changes to any of the js packages
+  js-lint:
+    needs: js-changes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        working-directory: ${{ fromJSON(needs.prettier-changes.outputs.packages) }}
+        working-directory: ${{ fromJSON(needs.js-changes.outputs.packages) }}
     steps:
       - uses: actions/checkout@v2
-      - name: Run Prettier Action
-        uses: ./.github/actions/prettier
+      - name: Run JS-Lint Action
+        uses: ./.github/actions/js-lint
         with:
           working-directory: ${{ matrix.working-directory }}
 
