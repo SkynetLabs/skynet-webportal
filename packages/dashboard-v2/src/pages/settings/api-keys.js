@@ -7,6 +7,7 @@ import { AddAPIKeyForm, APIKeyType } from "../../components/forms/AddAPIKeyForm"
 import { APIKeyList } from "../../components/APIKeyList/APIKeyList";
 import { Alert } from "../../components/Alert";
 import { AddPublicAPIKeyForm } from "../../components/forms/AddPublicAPIKeyForm";
+import { Metadata } from "../../components/Metadata";
 
 const APIKeysPage = () => {
   const { data: apiKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
@@ -29,6 +30,9 @@ const APIKeysPage = () => {
 
   return (
     <>
+      <Metadata>
+        <title>API Keys</title>
+      </Metadata>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
           <div>
