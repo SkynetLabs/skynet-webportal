@@ -11,9 +11,7 @@ runs:
         python-version: "3.x"
         architecture: x64
 
-    - run: |
-        pip install black
+    - run: pip install black
       shell: bash
-    - run: |
-        black --check .
+    - run: black --check .
       shell: bash
