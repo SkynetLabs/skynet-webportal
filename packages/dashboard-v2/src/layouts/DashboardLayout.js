@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { SWRConfig } from "swr";
 
-import { authenticatedOnly } from "../lib/swrConfig";
+import { allUsers } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/NavBar";
@@ -33,8 +33,8 @@ const Layout = ({ children }) => {
 const DashboardLayout = ({ children }) => {
   return (
     <>
-      <SWRConfig value={authenticatedOnly}>
-        <UserProvider>
+      <SWRConfig value={allUsers}>
+        <UserProvider allowAuthenticated>
           <Layout>
             <NavBar />
             <PageContainer>

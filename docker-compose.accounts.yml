@@ -21,8 +21,8 @@ services:
 
   accounts:
     # uncomment "build" and comment out "image" to build from sources
-    # build: https://github.com/SkynetLabs/skynet-accounts.git#main
-    image: skynetlabs/skynet-accounts
+    build: https://github.com/SkynetLabs/skynet-accounts.git#main
+    # image: skynetlabs/skynet-accounts
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging

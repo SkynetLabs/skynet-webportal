@@ -4,7 +4,7 @@ include /etc/nginx/conf.d/include/ssl-settings;
 include /etc/nginx/conf.d/include/init-optional-variables;
 
 location / {
-    proxy_pass http://dashboard:3000;
+    proxy_pass http://dashboard-v2:9000;
 }
 
 location /health {

@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import styled from "styled-components";
 import { SWRConfig } from "swr";
 
-import { authenticatedOnly } from "../lib/swrConfig";
+import { allUsers } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/NavBar";
@@ -67,8 +67,8 @@ const Content = styled.main.attrs({
 `;
 
 const UserSettingsLayout = ({ children }) => (
-  <SWRConfig value={authenticatedOnly}>
-    <UserProvider>
+  <SWRConfig value={allUsers}>
+    <UserProvider allowAuthenticated>
       <Layout>
         <NavBar />
         <PageContainer className="mt-2 md:mt-14">

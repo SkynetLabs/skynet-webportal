@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { SWRConfig } from "swr";
 
 import { UserProvider } from "../contexts/user";
-import { guestsOnly, allUsers } from "../lib/swrConfig";
+import { allUsers } from "../lib/swrConfig";
 
 const Layout = styled.div.attrs({
   className: "min-h-screen w-screen bg-black flex",
@@ -22,12 +22,12 @@ const Content = styled.div.attrs({
 })``;
 
 const AuthLayout =
-  (swrConfig) =>
+  (userProviderProps) =>
   ({ children }) => {
     return (
       <>
-        <SWRConfig value={swrConfig}>
-          <UserProvider>
+        <SWRConfig value={allUsers}>
+          <UserProvider {...userProviderProps}>
             <Layout>
               <SloganContainer className="pl-20 pr-20 lg:pr-30 xl:pr-40">
                 <div className="">
@@ -45,6 +45,12 @@ const AuthLayout =
   };
 
 // Some pages (e.g. email confirmation) need to be accessible to both logged-in and guest users.
-export const AllUsersAuthLayout = AuthLayout(allUsers);
+export const AllUsersAuthLayout = AuthLayout({
+  allowGuests: true,
+  allowAuthenticated: true,
+});
 
-export default AuthLayout(guestsOnly);
+export default AuthLayout({
+  allowGuests: true,
+  allowAuthenticated: false,
+});
