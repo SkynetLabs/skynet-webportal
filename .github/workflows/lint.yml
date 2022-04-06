@@ -56,7 +56,7 @@ jobs:
       matrix:
         working-directory: ${{ fromJSON(needs.js-changes.outputs.packages) }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run JS-Lint Action
         uses: ./.github/actions/js-lint
         with:
@@ -73,7 +73,7 @@ jobs:
         dockerfile: ${{ fromJSON(needs.dockerfile-changes.outputs.packages) }}
     steps:
       - uses: actions/checkout@v3
-      - uses: hadolint/hadolint-action@v2.0.0
+      - uses: hadolint/hadolint-action@v2.1.0
         with:
           dockerfile: ${{ matrix.dockerfile }}
 
@@ -98,7 +98,7 @@ jobs:
     needs: python-changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run Black python linter
         if: ${{ needs.python-changes.outputs.updates }}
         uses: ./.github/actions/python-black-lint
