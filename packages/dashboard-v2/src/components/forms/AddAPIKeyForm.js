@@ -44,7 +44,7 @@ export const AddAPIKeyForm = forwardRef(({ onSuccess, type }, ref) => {
             <code className="p-2 rounded border border-palette-200 text-xs selection:bg-primary/30 truncate">
               {generatedKey}
             </code>
-            <CopyButton value={generatedKey} className="whitespace-nowrap" />
+            <CopyButton value={generatedKey} className="whitespace-nowrap" aria-label="Copy the new API key" />
           </div>
         </Alert>
       )}
@@ -94,7 +94,7 @@ export const AddAPIKeyForm = forwardRef(({ onSuccess, type }, ref) => {
               {isSubmitting ? (
                 <CircledProgressIcon size={38} className="text-palette-300 animate-[spin_3s_linear_infinite]" />
               ) : (
-                <Button type="submit" className="px-2.5">
+                <Button type="submit" className="px-2.5" aria-label="Create general API key">
                   <PlusIcon size={14} />
                 </Button>
               )}

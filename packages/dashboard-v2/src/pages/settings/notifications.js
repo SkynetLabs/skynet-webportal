@@ -1,13 +1,17 @@
 import * as React from "react";
+import { StaticImage } from "gatsby-plugin-image";
 
 import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 
 import { Switch } from "../../components/Switch";
-import { StaticImage } from "gatsby-plugin-image";
+import { Metadata } from "../../components/Metadata";
 
 const NotificationsPage = () => {
   return (
     <>
+      <Metadata>
+        <title>Notifications</title>
+      </Metadata>
       <div className="flex">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
           <h4>Notifications</h4>

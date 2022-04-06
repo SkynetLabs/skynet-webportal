@@ -13,6 +13,7 @@ import { Button } from "../components/Button";
 import { usePortalSettings } from "../contexts/portal-settings";
 import { Alert } from "../components/Alert";
 import HighlightedLink from "../components/HighlightedLink";
+import { Metadata } from "../components/Metadata";
 
 const PAID_PORTAL_BREAKPOINTS = [
   {
@@ -88,6 +89,9 @@ const PlansSlider = () => {
 
   return (
     <div className="w-full mb-24">
+      <Metadata>
+        <title>Upgrade</title>
+      </Metadata>
       {settings.isSubscriptionRequired && !activePlan && (
         <Alert $variant="info" className="mb-6">
           <p className="font-semibold mt-0">This Skynet portal requires a paid subscription.</p>
