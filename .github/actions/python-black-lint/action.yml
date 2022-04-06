@@ -13,5 +13,7 @@ runs:
 
     - run: |
         pip install black
+      shell: bash
+    - run: |
         black --check .
       shell: bash
