@@ -101,7 +101,6 @@ export default function CurrentUsage() {
             >
               UPGRADE
             </Link>{" "}
-            {/* TODO: proper URL */}
             <span>{usage.filesLimit}</span>
           </span>
         </div>

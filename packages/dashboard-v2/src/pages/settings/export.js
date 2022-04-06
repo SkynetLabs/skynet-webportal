@@ -4,6 +4,7 @@ import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 
 import { Switch } from "../../components/Switch";
 import { Button } from "../../components/Button";
+import { Metadata } from "../../components/Metadata";
 
 const useExportOptions = () => {
   const [pinnedFiles, setPinnedFiles] = useState(false);
@@ -29,6 +30,9 @@ const ExportPage = () => {
 
   return (
     <>
+      <Metadata>
+        <title>Export</title>
+      </Metadata>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
           <section>

@@ -59,7 +59,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
             <code className="p-2 rounded border border-palette-200 text-xs selection:bg-primary/30 truncate">
               {generatedKey}
             </code>
-            <CopyButton value={generatedKey} className="whitespace-nowrap" />
+            <CopyButton value={generatedKey} className="whitespace-nowrap" aria-label="Copy the new public API key" />
           </div>
         </Alert>
       )}
@@ -137,7 +137,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                             touched={skylinksTouched[index]}
                           />
                           <span className="w-[24px] shrink-0 mt-3">
-                            <button type="button" onClick={() => remove(index)}>
+                            <button type="button" onClick={() => remove(index)} aria-label="Remove this skylink">
                               <TrashIcon size={16} />
                             </button>
                           </span>
@@ -160,6 +160,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                         />
                         <button
                           type="button"
+                          aria-label="Add this skylink"
                           onClick={() => appendSkylink(values.nextSkylink)}
                           className={cn("shrink-0 mt-1.5 w-[24px] h-[24px]", {
                             "text-palette-300 cursor-not-allowed": isNextSkylinkInvalid,

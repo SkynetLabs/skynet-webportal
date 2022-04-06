@@ -84,19 +84,19 @@ export default function FileTable({ items }) {
               <TableCell className="w-[180px]">{date}</TableCell>
               <TableCell className="hidden lg:table-cell pr-6 !overflow-visible">
                 <div className="flex items-center">
-                  <CopyButton value={skylink} className="mr-2" />
+                  <CopyButton value={skylink} className="mr-2" aria-label="Copy skylink" />
                   <span className="w-full inline-block truncate">{skylink}</span>
                 </div>
               </TableCell>
               <TableCell className="w-[100px] !overflow-visible">
                 <div className="flex text-palette-600 gap-4">
                   <PopoverMenu options={buildShareMenu(item)} openClassName="text-primary">
-                    <button>
+                    <button aria-label="Share this skylink">
                       <ShareIcon size={22} />
                     </button>
                   </PopoverMenu>
                   <PopoverMenu options={buildOptionsMenu(item)} openClassName="text-primary">
-                    <button>
+                    <button aria-label="Manage this skylink">
                       <CogIcon />
                     </button>
                   </PopoverMenu>

@@ -105,7 +105,11 @@ const Uploader = ({ mode }) => {
           </div>
         ) : (
           <div className="p-5">
-            <Button $primary className="w-[40px] h-[40px] !p-0 inline-flex justify-center items-center">
+            <Button
+              $primary
+              className="w-[40px] h-[40px] !p-0 inline-flex justify-center items-center"
+              aria-label="Upload new file"
+            >
               <PlusIcon size={12} />
             </Button>
             <span className="ml-4">Add, or drop your files here</span>
