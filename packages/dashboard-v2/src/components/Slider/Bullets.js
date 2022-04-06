@@ -12,6 +12,7 @@ export default function Bullets({ visibleSlides, activeIndex, allSlides, changeS
         .map((_, index) => (
           <button
             key={index}
+            aria-label={`Slide ${index + 1}`}
             type="button"
             className={`rounded-full w-3 h-3 ${activeIndex === index ? "bg-primary" : "border-2 cursor-pointer"}`}
             onClick={(event) => changeSlide(event, index)}

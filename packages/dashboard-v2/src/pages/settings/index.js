@@ -7,6 +7,7 @@ import { AccountSettingsForm } from "../../components/forms/AccountSettingsForm"
 import { Modal } from "../../components/Modal/Modal";
 import { AccountRemovalForm } from "../../components/forms/AccountRemovalForm";
 import { Alert } from "../../components/Alert";
+import { Metadata } from "../../components/Metadata";
 
 const State = {
   Pure: "PURE",
@@ -39,6 +40,9 @@ const AccountPage = () => {
 
   return (
     <>
+      <Metadata>
+        <title>Settings</title>
+      </Metadata>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
           <section>

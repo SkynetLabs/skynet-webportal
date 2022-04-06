@@ -48,7 +48,7 @@ export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
           {isSubmitting ? (
             <CircledProgressIcon size={38} className="text-palette-300 animate-[spin_3s_linear_infinite]" />
           ) : (
-            <Button type="submit" className="px-2.5">
+            <Button type="submit" className="px-2.5" aria-label="Add this skylink">
               <PlusIcon size={14} />
             </Button>
           )}

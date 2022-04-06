@@ -83,13 +83,19 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
         {isPublic && (
           <button
             title="Add or remove skylinks"
+            aria-label="Add or remove skylinks"
             className="p-1 transition-colors hover:text-primary"
             onClick={promptEdit}
           >
             <CogIcon size={22} />
           </button>
         )}
-        <button title="Delete this API key" className="p-1 transition-colors hover:text-error" onClick={promptRemoval}>
+        <button
+          title="Delete this API key"
+          aria-label="Delete this API key"
+          className="p-1 transition-colors hover:text-error"
+          onClick={promptRemoval}
+        >
           <TrashIcon size={16} />
         </button>
       </span>
@@ -121,7 +127,11 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
                   <code className="whitespace-nowrap select-all truncate bg-palette-100 odd:bg-white p-1">
                     {skylink}
                   </code>
-                  <button className="p-1 transition-colors hover:text-error" onClick={() => removeSkylink(skylink)}>
+                  <button
+                    className="p-1 transition-colors hover:text-error"
+                    onClick={() => removeSkylink(skylink)}
+                    aria-label="Remove skylink"
+                  >
                     <TrashIcon size={16} />
                   </button>
                 </li>

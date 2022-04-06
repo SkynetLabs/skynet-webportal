@@ -2,8 +2,8 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = {
   siteMetadata: {
-    title: `Accounts Dashboard`,
-    siteUrl: `https://www.yourdomain.tld`,
+    title: "Skynet Account",
+    siteUrl: `https://account.${process.env.GATSBY_PORTAL_DOMAIN}/`,
   },
   trailingSlash: "never",
   plugins: [

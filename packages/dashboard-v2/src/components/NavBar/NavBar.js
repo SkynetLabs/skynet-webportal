@@ -94,6 +94,7 @@ export const NavBar = () => {
                 partiallyActive
               />
               <DropdownMenuLink
+                as="button"
                 onClick={onLogout}
                 activeClassName="text-primary"
                 className="cursor-pointer"

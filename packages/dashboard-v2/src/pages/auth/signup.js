@@ -9,6 +9,7 @@ import HighlightedLink from "../../components/HighlightedLink";
 import { SignUpForm } from "../../components/forms/SignUpForm";
 import { usePortalSettings } from "../../contexts/portal-settings";
 import { PlansProvider, usePlans } from "../../contexts/plans";
+import { Metadata } from "../../components/Metadata";
 
 const FreePortalHeader = () => {
   const { plans } = usePlans();
@@ -57,6 +58,9 @@ const SignUpPage = () => {
 
   return (
     <PlansProvider>
+      <Metadata>
+        <title>Sign Up</title>
+      </Metadata>
       <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
         <div className="mb-4 md:mb-16">
           <img src="/images/logo-black-text.svg" alt="Skynet" />

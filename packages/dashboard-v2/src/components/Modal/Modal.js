@@ -11,7 +11,7 @@ export const Modal = ({ children, className, onClose }) => (
   <ModalPortal>
     <Overlay onClick={onClose}>
       <div className={cn("relative w-modal max-w-modal shadow-sm rounded")}>
-        <button onClick={onClose} className="absolute top-[20px] right-[20px]">
+        <button onClick={onClose} className="absolute top-[20px] right-[20px]" aria-label="Close">
           <PlusIcon size={14} className="rotate-45" />
         </button>
         <Panel className={cn("px-8 py-6 sm:px-12 sm:py-10", className)}>{children}</Panel>
