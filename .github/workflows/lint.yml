@@ -82,12 +82,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       # Check if the changed status of py is true
-      updates: steps.changes.outputs.py == 'true'
+      updates: steps.filter.outputs.py == 'true'
     steps:
       # Use paths-filter to determine which paths have changes
       # https://github.com/dorny/paths-filter
       - uses: dorny/paths-filter@v2
-        id: changes
+        id: filter
         with:
           filters: |
             py: "**.py"
