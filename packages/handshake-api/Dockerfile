@@ -2,11 +2,11 @@ FROM node:16.14.2-alpine
 
 WORKDIR /usr/app
 
-COPY package.json yarn.lock ./
+COPY packages/handshake-api/package.json packages/handshake-api/yarn.lock ./
 
 RUN yarn --frozen-lockfile
 
-COPY src/* src/
+COPY packages/handshake-api/src/* src/
 
 ENV HSD_NETWORK="main"
 ENV HSD_HOST="0.0.0.0"
