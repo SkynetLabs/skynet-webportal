@@ -11,13 +11,13 @@ ENV PATH="/usr/app/bin:${PATH}"
 RUN echo '*/5 * * * * source /etc/environment ; /usr/app/bin/cli run critical >> /proc/1/fd/1' >> /etc/crontabs/root && \
     echo '0 * * * * source /etc/environment ; /usr/app/bin/cli run extended >> /proc/1/fd/1' >> /etc/crontabs/root
 
-COPY package.json yarn.lock ./
+COPY packages/health-check/package.json packages/health-check/yarn.lock ./
 
 RUN yarn --frozen-lockfile
 
-COPY src src
-COPY cli cli
-COPY bin bin
+COPY packages/health-check/src src
+COPY packages/health-check/cli cli
+COPY packages/health-check/bin bin
 
 EXPOSE 3100
 ENV NODE_ENV production
