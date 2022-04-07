@@ -5,7 +5,7 @@ import { SWRConfig } from "swr";
 import { authenticatedOnly } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
-import { NavBar } from "../components/Navbar";
+import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { UserProvider, useUser } from "../contexts/user";
 import { FullScreenLoadingIndicator } from "../components/LoadingIndicator";
