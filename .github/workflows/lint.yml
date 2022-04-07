@@ -47,8 +47,8 @@ jobs:
             packages/health-check/Dockerfile: packages/health-check/Dockerfile
             packages/website/Dockerfile: packages/website/Dockerfile
 
-  # Run the js lint if there are changes to any of the js packages
-  js-lint:
+  # Run the prettier lint if there are changes to any of the js packages
+  prettier:
     needs: js-changes
     runs-on: ubuntu-latest
     strategy:
@@ -58,9 +58,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run JS-Lint Action
-        uses: ./.github/actions/js-lint
+        uses: SkynetLabs/.github/.github/actions/prettier@master
         with:
           working-directory: ${{ matrix.working-directory }}
+
+  # Run the eslint if there were changes to the dashboard packages
+  eslint:
+    needs: js-changes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        working-directory: ${{ fromJSON(needs.js-changes.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run yarn next lint on packages/dashboard
+        uses: ./.github/actions/node-action
+        if: ${{ matrix.working-directory == packages/dashboard }}
+        with:
+          working-directory: ${{ matrix.working-directory }}
+          node-action: yarn next lint
+      - name: Run yarn lint on packages/dashboard-v2
+        uses: ./.github/actions/node-action
+        if: ${{ matrix.working-directory == packages/dashboard-v2 }}
+        with:
+          working-directory: ${{ matrix.working-directory }}
+          node-action: yarn lint
 
   # Run the hadolint dockefile lint if there are changes to any of the
   # dockerfiles

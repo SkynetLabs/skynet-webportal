@@ -1,0 +1,22 @@
+# Define action name, description, and inputs
+name: "Node Action"
+description: "Execute a node action"
+inputs:
+  working-directory:
+    required: false
+    description: "Working directory"
+    default: "."
+  node-action:
+    required: true
+    description: "The action to be run"
+
+# Define action steps
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - run: $inputs.node-action
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

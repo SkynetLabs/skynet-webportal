@@ -241,8 +241,8 @@ location /skynet/tus {
     limit_conn upload_conn 5;
     limit_conn upload_conn_rl 1;
 
-    # TUS chunks size is 40M + leaving 10M of breathing room
-    client_max_body_size 50M;
+    # Do not limit body size in nginx, skyd will reject early on too large upload
+    client_max_body_size 0;
 
     # Those timeouts need to be elevated since skyd can stall reading
     # data for a while when overloaded which would terminate connection
