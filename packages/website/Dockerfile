@@ -4,7 +4,9 @@ RUN apk add --no-cache autoconf=2.71-r0 automake=1.16.4-r1 build-base=0.5-r2 lib
 
 WORKDIR /usr/app
 
-COPY packages/website/package.json packages/website/yarn.lock ./
+COPY packages/website/package.json \
+     packages/website/yarn.lock \
+     ./
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV CYPRESS_INSTALL_BINARY 0
@@ -13,10 +15,7 @@ RUN yarn --frozen-lockfile
 COPY packages/website/data ./data
 COPY packages/website/src ./src
 COPY packages/website/static ./static
-COPY packages/website/gatsby-browser.js \
-     packages/website/gatsby-config.js \
-     packages/website/gatsby-node.js \
-     packages/website/gatsby-ssr.js \
+COPY packages/website/gatsby-*.js \
      packages/website/postcss.config.js \
      packages/website/tailwind.config.js \
      ./

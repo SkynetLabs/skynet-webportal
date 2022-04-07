@@ -2,7 +2,9 @@ FROM node:16.14.2-alpine
 
 WORKDIR /usr/app
 
-COPY packages/handshake-api/package.json packages/handshake-api/yarn.lock ./
+COPY packages/handshake-api/package.json \
+     packages/handshake-api/yarn.lock \
+     ./
 
 RUN yarn --frozen-lockfile
 

@@ -2,7 +2,9 @@ FROM node:16.14.2-alpine
 
 WORKDIR /usr/app
 
-COPY packages/dashboard/package.json packages/dashboard/yarn.lock ./
+COPY packages/dashboard/package.json \
+     packages/dashboard/yarn.lock \
+     ./
 
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn --frozen-lockfile
