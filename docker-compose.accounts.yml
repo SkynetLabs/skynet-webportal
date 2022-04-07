@@ -92,7 +92,7 @@ services:
       - ./docker/data/dashboard-v2/public:/usr/app/public
     networks:
       shared:
-        ipv4_address: 10.10.10.90
+        ipv4_address: 10.10.10.86
     expose:
       - 9000
     depends_on:
