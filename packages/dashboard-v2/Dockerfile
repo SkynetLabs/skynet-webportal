@@ -8,11 +8,11 @@ COPY packages/dashboard-v2/package.json \
 
 RUN yarn --frozen-lockfile
 
-COPY packages/dashboard/static ./static
-COPY packages/dashboard/src ./src
-COPY packages/dashboard/gatsby*.js \
-     packages/dashboard/postcss.config.js \
-     packages/dashboard/tailwind.config.js \
+COPY packages/dashboard-v2/static ./static
+COPY packages/dashboard-v2/src ./src
+COPY packages/dashboard-v2/gatsby*.js \
+     packages/dashboard-v2/postcss.config.js \
+     packages/dashboard-v2/tailwind.config.js \
      ./
 
 CMD ["sh", "-c", "yarn build && yarn serve --host 0.0.0.0 -p 9000"]
