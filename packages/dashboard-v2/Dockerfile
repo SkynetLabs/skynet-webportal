@@ -15,4 +15,8 @@ COPY packages/dashboard-v2/gatsby*.js \
      packages/dashboard-v2/tailwind.config.js \
      ./
 
-CMD ["sh", "-c", "yarn build && yarn serve --host 0.0.0.0 -p 9000"]
+RUN yarn build
+
+EXPOSE 9000
+
+CMD ["sh", "-c", "yarn serve --host 0.0.0.0 -p 9000"]
