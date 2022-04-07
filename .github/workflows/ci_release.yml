@@ -1,7 +1,23 @@
-name: Lint
+name: CI and Release
 
 on:
-  pull_request:
+  push:
+  schedule:
+    # Run daily at 1:15am
+    - cron: "15 1 * * *"
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      version:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: "Semver type of new version (major / minor / patch)"
+        # Input has to be provided for the workflow to run
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   # Determine what the js changes are
@@ -24,28 +40,6 @@ jobs:
             packages/handshake-api: packages/handshake-api/**
             packages/health-check: packages/health-check/**
             packages/website: packages/website/**
-
-  # Determine what the dockerfile changes are
-  dockerfile-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.filter.outputs.changes }}
-    steps:
-      # Use paths-filter to determine which paths have changes
-      # https://github.com/dorny/paths-filter
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          # Format of key: value. When there is a change detected in value, the
-          # key will be returned in the output.
-          filters: |
-            docker/nginx/Dockerfile: docker/nginx/Dockerfile
-            docker/sia/Dockerfile: docker/sia/Dockerfile
-            packages/dashboard/Dockerfile: packages/dashboard/Dockerfile
-            packages/dnslink-api/Dockerfile: packages/dnslink-api/Dockerfile
-            packages/handshake-api/Dockerfile: packages/handshake-api/Dockerfile
-            packages/health-check/Dockerfile: packages/health-check/Dockerfile
-            packages/website/Dockerfile: packages/website/Dockerfile
 
   # Run the prettier lint if there are changes to any of the js packages
   prettier:
@@ -84,6 +78,28 @@ jobs:
         with:
           working-directory: ${{ matrix.working-directory }}
           node-action: yarn lint
+
+  # Determine what the dockerfile changes are
+  dockerfile-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+    steps:
+      # Use paths-filter to determine which paths have changes
+      # https://github.com/dorny/paths-filter
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Format of key: value. When there is a change detected in value, the
+          # key will be returned in the output.
+          filters: |
+            docker/nginx/Dockerfile: docker/nginx/Dockerfile
+            docker/sia/Dockerfile: docker/sia/Dockerfile
+            packages/dashboard/Dockerfile: packages/dashboard/Dockerfile
+            packages/dnslink-api/Dockerfile: packages/dnslink-api/Dockerfile
+            packages/handshake-api/Dockerfile: packages/handshake-api/Dockerfile
+            packages/health-check/Dockerfile: packages/health-check/Dockerfile
+            packages/website/Dockerfile: packages/website/Dockerfile
 
   # Run the hadolint dockefile lint if there are changes to any of the
   # dockerfiles
@@ -124,7 +140,35 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run Black python linter
         if: ${{ needs.python-changes.outputs.updates }}
-        uses: ./.github/actions/python-black-lint
+        uses: SkynetLabs/.github/.github/actions/python-black-lint@master
       - name: Run Flake8 python linter
         if: ${{ needs.python-changes.outputs.updates }}
-        uses: ./.github/actions/python-flake8-lint
+        uses: SkynetLabs/.github/.github/actions/python-flake8-lint@master
+
+  # Check if there were any changes since the last tag if this is not a push
+  # event
+  changes:
+    needs: [prettier, eslint, hadolint, python-lint]
+    runs-on: ubuntu-latest
+    outputs:
+      updates: ${{steps.changes.outputs.any == 'true'}}
+    if: ${{ github.event_name != 'push' }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required due to the weg Git works, without it this action won't be able to find any or the correct tags
+      - uses: SkynetLabs/.github/.github/actions/changes-since-last-tag@master
+
+  # Make a release if
+  # - there were changes and this is a scheduled job
+  # - This is a manually trigger job, i.e. workflow_dispatch
+  release:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: ${{ (needs.changes.outputs.updates == 'true' && github.event_name == 'schedule') || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Version Release
+        uses: SkynetLabs/.github/.github/actions/version-release@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
