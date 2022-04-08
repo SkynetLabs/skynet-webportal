@@ -61,11 +61,11 @@ function _M.getenv(name, parse)
 
     -- try to parse as boolean
     if parse == "boolean" then
-        if value == "true" or value == "1" then
+        if string.lower(value) == "true" or value == "1" then
             return true
         end
 
-        if value == "false" or value == "0" then
+        if string.lower(value) == "false" or value == "0" then
             return false
         end
 

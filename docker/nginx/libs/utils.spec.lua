@@ -135,6 +135,12 @@ describe("getenv", function()
                 assert.is_true(utils.getenv("foo", "boolean"))
             end)
 
+            it("should parse 'True' string as true", function()
+                os.getenv.on_call_with("foo").returns("True")
+
+                assert.is_true(utils.getenv("foo", "boolean"))
+            end)
+
             it("should parse '1' string as true", function()
                 os.getenv.on_call_with("foo").returns("1")
 
@@ -143,6 +149,12 @@ describe("getenv", function()
 
             it("should parse 'false' string as false", function()
                 os.getenv.on_call_with("foo").returns("false")
+
+                assert.is_false(utils.getenv("foo", "boolean"))
+            end)
+
+            it("should parse 'False' string as false", function()
+                os.getenv.on_call_with("foo").returns("False")
 
                 assert.is_false(utils.getenv("foo", "boolean"))
             end)
