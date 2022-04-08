@@ -75,3 +75,25 @@ services:
       - 3000
     depends_on:
       - mongo
+
+  dashboard-v2:
+    build:
+      context: ./packages/dashboard-v2
+      dockerfile: Dockerfile
+    container_name: dashboard-v2
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
+    volumes:
+      - ./docker/data/dashboard-v2/.cache:/usr/app/.cache
+      - ./docker/data/dashboard-v2/public:/usr/app/public
+    networks:
+      shared:
+        ipv4_address: 10.10.10.86
+    expose:
+      - 9000
+    depends_on:
+      - mongo
