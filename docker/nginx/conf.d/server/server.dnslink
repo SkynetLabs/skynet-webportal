@@ -5,6 +5,7 @@ location / {
     set $path $uri;
 
     rewrite_by_lua_block {
+        local cjson = require("cjson")
         local cache = ngx.shared.dnslink
         local cache_value = cache:get(ngx.var.host)
 
@@ -28,13 +29,23 @@ location / {
                     ngx.exit(ngx.status)
                 end
             else
-                ngx.var.skylink = res.body
+                local resolved = cjson.decode(res.body)
+
+                ngx.var.skylink = resolved.skylink
+                if resolved.sponsor then
+                    ngx.req.set_header("Skynet-Api-Key", resolved.sponsor)
+                end
 
                 local cache_ttl = 300 -- 5 minutes cache expire time
-                cache:set(ngx.var.host, ngx.var.skylink, cache_ttl)
+                cache:set(ngx.var.host, res.body, cache_ttl)
             end
         else
-            ngx.var.skylink = cache_value
+            local resolved = cjson.decode(cache_value)
+
+            ngx.var.skylink = resolved.skylink
+            if resolved.sponsor then
+                ngx.req.set_header("Skynet-Api-Key", resolved.sponsor)
+            end
         end
 
         ngx.var.skylink = require("skynet.skylink").parse(ngx.var.skylink)
