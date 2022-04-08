@@ -199,7 +199,7 @@ describe("getenv", function()
                 assert.equals(utils.getenv("foo", "integer"), 1)
             end)
 
-            it("should parse '-1' string as 1", function()
+            it("should parse '-1' string as -1", function()
                 os.getenv.on_call_with("foo").returns("-1")
 
                 assert.equals(utils.getenv("foo", "integer"), -1)
