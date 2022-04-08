@@ -54,9 +54,7 @@ describe("scan_skylink_timer", function()
 
     it("should exit early on premature", function()
         local resty_http = require("resty.http")
-        local request_uri = spy.new(function()
-            return { status = 200 } -- return 200 success
-        end)
+        local request_uri = spy.new()
         local httpc = mock({ request_uri = request_uri })
         stub(resty_http, "new").returns(httpc)
 
