@@ -21,18 +21,6 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: docker
-    directory: "/docker/accounts"
-    schedule:
-      interval: weekly
-  - package-ecosystem: docker
-    directory: "/docker/caddy"
-    schedule:
-      interval: weekly
-  - package-ecosystem: docker
-    directory: "/docker/handshake"
-    schedule:
-      interval: weekly
-  - package-ecosystem: docker
     directory: "/docker/nginx"
     schedule:
       interval: weekly

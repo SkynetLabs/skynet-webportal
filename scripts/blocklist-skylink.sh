@@ -34,18 +34,16 @@ else
     skylinks=("$1") # just single skylink passed as input argument
 fi
 
-# get local nginx ip adress
-nginx_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
+# get local skyd ip adress
+ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
+
+# get sia api password either from env variable if exists or from apipassword file in sia-data directory
+apipassword=$(docker exec sia sh -c '[ ! -z "${SIA_API_PASSWORD}" ] && echo ${SIA_API_PASSWORD} || $(cat /sia-data/apipassword | tr -d '\n')')
 
 # iterate over provided skylinks and block them one by one
 for skylink in "${skylinks[@]}"; do
-    printf "Blocking ${skylink} ... "
-    status_code=$(curl --write-out '%{http_code}' --silent --output /dev/null --data "{\"add\":[\"$skylink\"]}" "http://${nginx_ip}:8000/skynet/blocklist")
+    echo "> Blocking ${skylink} ... "
 
-    # print blocklist response status code
-    if [ $status_code = "204" ]; then
-        echo "done"
-    else
-        echo "error $status_code"
-    fi
+    # POST /skynet/blocklist always returns 200 and in case of failure print error message
+    curl -A Sia-Agent -u "":${apipassword} --data "{\"add\":[\"$skylink\"]}" "http://${ipaddress}:9980/skynet/blocklist"
 done

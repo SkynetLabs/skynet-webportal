@@ -1,1 +1,0 @@
-- Add `/serverload` endpoint for CPU usage and free disk space

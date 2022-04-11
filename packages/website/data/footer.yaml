@@ -1,23 +1,23 @@
 - header: Skynet Labs
   links:
     - title: About us
-      to: /about
+      href: https://skynetlabs.com/about
     - title: Brand Guidelines
-      href: https://support.siasky.net/key-concepts/skynet-brand-guidelines
+      href: https://support.skynetlabs.com/key-concepts/skynet-brand-guidelines
     - title: Careers
       href: https://jobs.lever.co/SkynetLabs
     - title: Terms of Use
-      href: /terms.pdf
+      href: /terms
     - title: Privacy Policy
-      href: /privacy.pdf
+      href: /privacy
 - header: Developers
   links:
     - title: Developer Guide
-      href: https://docs.siasky.net
+      href: https://docs.skynetlabs.com
     - title: API & SDK Documentation
-      href: https://siasky.net/docs/
+      href: https://sdk.skynetlabs.com
     - title: Portal Setup
-      href: https://support.siasky.net/the-technology/running-a-web-portal
+      href: https://support.skynetlabs.com/the-technology/running-a-web-portal
     - title: Github
       href: https://github.com/SkynetLabs
     - title: Gitlab
@@ -25,13 +25,13 @@
 - header: Technology
   links:
     - title: What is Skynet?
-      href: https://support.siasky.net
+      href: https://support.skynetlabs.com
     - title: Frequent Questions
-      href: https://support.siasky.net/key-concepts/faqs
+      href: https://support.skynetlabs.com/key-concepts/faqs
     - title: Skynet Wiki
       href: https://skynet.guide/
     - title: Support
-      href: https://support.siasky.net
+      href: https://support.skynetlabs.com
 - header: Ecosystem
   links:
     - title: Sia Foundation
@@ -45,8 +45,10 @@
 - header: Skynet Webportals
   links:
     - title: Siasky.net
-      href: https://siasky.net
-    - title: SkyPortal.xyz
-      href: https://skyportal.xyz
-    - title: Skydrain.net
-      href: https://skydrain.net
+      href: https://siasky.net/
+    - title: SkynetFree.net
+      href: https://skynetfree.net/
+    - title: SkynetPro.net
+      href: https://skynetpro.net/
+    - title: FilePortal.org
+      href: https://fileportal.org/

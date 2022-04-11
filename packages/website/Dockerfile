@@ -1,19 +1,24 @@
-FROM node:16.13.2-alpine
+FROM node:16.14.2-alpine
 
-RUN apk update && apk add autoconf automake build-base libtool nasm pkgconfig
+RUN apk add --no-cache autoconf=2.71-r0 automake=1.16.4-r1 build-base=0.5-r2 libtool=2.4.6-r7 nasm=2.15.05-r0 pkgconf=1.8.0-r0
 
 WORKDIR /usr/app
 
-COPY package.json yarn.lock ./
+COPY packages/website/package.json \
+     packages/website/yarn.lock \
+     ./
 
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV CYPRESS_INSTALL_BINARY 0
 RUN yarn --frozen-lockfile
 
-COPY data ./data
-COPY src ./src
-COPY static ./static
-COPY gatsby-browser.js gatsby-config.js gatsby-node.js gatsby-ssr.js postcss.config.js tailwind.config.js ./
+COPY packages/website/data ./data
+COPY packages/website/src ./src
+COPY packages/website/static ./static
+COPY packages/website/gatsby-*.js \
+     packages/website/postcss.config.js \
+     packages/website/tailwind.config.js \
+     ./
 
 RUN yarn build
 

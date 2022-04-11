@@ -1,35 +1,12 @@
 import * as React from "react";
-import { useStaticQuery, graphql } from "gatsby";
 import Link from "../Link";
 import { ArrowRight, DiscordSmall } from "../Icons";
 
 const NewsHeader = () => {
-  const { allMarkdownRemark } = useStaticQuery(graphql`
-    query LatestNewsQuery {
-      allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }, limit: 1) {
-        edges {
-          node {
-            id
-            frontmatter {
-              title
-              external
-            }
-            fields {
-              slug
-            }
-          }
-        }
-      }
-    }
-  `);
+  const link = null;
+  const title = null;
 
-  const [latestNews] = allMarkdownRemark.edges;
-
-  if (!latestNews) return null; // no news
-
-  const { frontmatter, fields } = latestNews.node;
-  const { title, external } = frontmatter;
-  const link = external ? { href: external } : { to: fields.slug };
+  if (!link) return null;
 
   return (
     <div className="bg-palette-500 px-8 p-3">
@@ -49,7 +26,7 @@ const NewsHeader = () => {
               className="text-palette-300 leading-8 font-content flex items-center flex-shrink-0 whitespace-nowrap hover:text-palette-200 transition-colors duration-200 space-x-2"
             >
               <DiscordSmall className="fill-current" />
-              <span>Join our Discord</span>
+              <span>Join Skynet Discord</span>
             </Link>
           </div>
         </div>

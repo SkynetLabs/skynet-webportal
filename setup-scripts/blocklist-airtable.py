@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 
-from bot_utils import setup, send_msg
+from bot_utils import get_api_password, setup, send_msg
 from random import randint
 from time import sleep
 
 import traceback
 import os
 import sys
-import re
 import asyncio
 import requests
 import json
+
+from requests.auth import HTTPBasicAuth
 
 setup()
 
@@ -39,6 +40,16 @@ def exec(command):
 
 
 async def block_skylinks_from_airtable():
+    # Get sia IP before doing anything else. If this step fails we don't
+    # need to continue with the execution of the script.
+    ipaddress = exec(
+        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia"
+    )
+
+    if ipaddress == "":
+        print("Skyd IP could not be detected. Exiting.")
+        return
+
     print("Pulling blocked skylinks from Airtable via api integration")
     headers = {"Authorization": "Bearer " + AIRTABLE_API_KEY}
     skylinks = []
@@ -105,36 +116,19 @@ async def block_skylinks_from_airtable():
 
         offset = data.get("offset")
 
-    print("Airtable returned total " + str(len(skylinks)) + " skylinks to block")
-
-    skylinks_returned = skylinks
-    skylinks = [
-        skylink for skylink in skylinks if re.search("^[a-zA-Z0-9_-]{46}$", skylink)
-    ]
-
-    if len(skylinks_returned) != len(skylinks):
-        invalid_skylinks = [
-            str(skylink) for skylink in list(set(skylinks_returned) - set(skylinks))
-        ]
-        message = (
-            str(len(invalid_skylinks))
-            + " of the skylinks returned from Airtable are not valid"
-        )
-        await send_msg(message, file=("\n".join(invalid_skylinks)))
-
-    ipaddress = exec(
-        "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx"
+    print(
+        "Sending /skynet/blocklist request with "
+        + str(len(skylinks))
+        + " skylinks to siad"
     )
-
-    print("Sending blocklist request to siad through nginx")
     response = requests.post(
-        "http://" + ipaddress + ":8000/skynet/blocklist",
+        "http://" + ipaddress + ":9980/skynet/blocklist",
         data=json.dumps({"add": skylinks}),
+        headers={"User-Agent": "Sia-Agent"},
+        auth=HTTPBasicAuth("", get_api_password()),
     )
 
-    print(json.dumps({"add": skylinks}))
-
-    if response.status_code != 204:
+    if response.status_code != 200:
         status_code = str(response.status_code)
         response_text = response.text or "empty response"
         message = (
@@ -145,7 +139,17 @@ async def block_skylinks_from_airtable():
         )
         return await send_msg(message, force_notify=False)
 
-    return await send_msg("Siad blocklist successfully updated with provided skylink")
+    response_json = json.loads(response.text)
+    invalid_skylinks = response_json["invalids"]
+
+    if invalid_skylinks is None:
+        return await send_msg("Blocklist successfully updated all skylinks")
+    return await send_msg(
+        "Blocklist responded ok but failed to update "
+        + str(len(invalid_skylinks))
+        + " skylinks: "
+        + json.dumps(invalid_skylinks)
+    )
 
 
 loop = asyncio.get_event_loop()
@@ -153,5 +157,5 @@ loop.run_until_complete(run_checks())
 
 # --- BASH EQUIVALENT
 # skylinks=$(curl "https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?fields%5B%5D=${AIRTABLE_FIELD}" -H "Authorization: Bearer ${AIRTABLE_KEY}" | python3 -c "import sys, json; print('[\"' + '\",\"'.join([entry['fields']['Link'] for entry in json.load(sys.stdin)['records']]) + '\"]')")
-# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx)
+# ipaddress=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sia)
 # curl --data "{\"add\" : ${skylinks}}" "${ipaddress}:8000/skynet/blocklist"

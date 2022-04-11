@@ -27,7 +27,7 @@ function _M.hash(skylink)
 
     -- parse with blake2b with key length of 32
     local blake2bHashed = hasher.blake2b(rawMerkleRoot, 32)
-    
+
     -- hex encode the blake hash
     local hexHashed = basexx.to_hex(blake2bHashed)
 

@@ -33,6 +33,13 @@ sc_precision = 10**24
 setup_done = False
 
 
+# get docker container id and return None if container not found
+def get_docker_container_id(container_name):
+    docker_cmd = "docker ps -q -f name=" + container_name
+    output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
+    return None if output == "" else output
+
+
 # find out local siad ip by inspecting its docker container
 def get_docker_container_ip(container_name):
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
@@ -52,6 +59,9 @@ api_endpoint = "http://{}:{}".format(
 
 # find siad api password by getting it out of the docker container
 def get_api_password():
+    if os.getenv("SIA_API_PASSWORD"):
+        return os.getenv("SIA_API_PASSWORD")
+
     api_password_regex = re.compile(r"^\w+$")
     docker_cmd = "docker exec {} cat /sia-data/apipassword".format(CONTAINER_NAME)
     output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
@@ -75,7 +85,7 @@ async def send_msg(msg, force_notify=False, file=None):
         webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 
         # Add the portal name.
-        msg = "**{}**: {}".format(os.getenv("SKYNET_SERVER_API"), msg)
+        msg = "**{}**: {}".format(os.getenv("SERVER_DOMAIN"), msg)
 
         if file and isinstance(file, str):
             is_json = is_json_string(file)

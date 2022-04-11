@@ -20,11 +20,9 @@ services:
       - ACCOUNTS_LIMIT_ACCESS=${ACCOUNTS_LIMIT_ACCESS:-authenticated} # default to authenticated access only
 
   accounts:
-    build:
-      context: ./docker/accounts
-      dockerfile: Dockerfile
-      args:
-        branch: main
+    # uncomment "build" and comment out "image" to build from sources
+    # build: https://github.com/SkynetLabs/skynet-accounts.git#main
+    image: skynetlabs/skynet-accounts
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
@@ -66,8 +64,7 @@ services:
     env_file:
       - .env
     environment:
-      - NEXT_PUBLIC_SKYNET_PORTAL_API=${SKYNET_PORTAL_API}
-      - NEXT_PUBLIC_SKYNET_DASHBOARD_URL=${SKYNET_DASHBOARD_URL}
+      - NEXT_PUBLIC_PORTAL_DOMAIN=${PORTAL_DOMAIN}
       - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.next:/usr/app/.next
@@ -76,5 +73,27 @@ services:
         ipv4_address: 10.10.10.85
     expose:
       - 3000
+    depends_on:
+      - mongo
+
+  dashboard-v2:
+    build:
+      context: ./packages/dashboard-v2
+      dockerfile: Dockerfile
+    container_name: dashboard-v2
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
+    volumes:
+      - ./docker/data/dashboard-v2/.cache:/usr/app/.cache
+      - ./docker/data/dashboard-v2/public:/usr/app/public
+    networks:
+      shared:
+        ipv4_address: 10.10.10.86
+    expose:
+      - 9000
     depends_on:
       - mongo

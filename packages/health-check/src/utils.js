@@ -45,6 +45,23 @@ function ensureValidJSON(object) {
 }
 
 /**
+ * Get variable value from environment (process.env)
+ * Exit with code 1 if variable is not set or empty
+ * @param {string} name variable name
+ * @returns {string}
+ */
+function getRequiredEnvironmentVariable(name) {
+  const value = process.env[name];
+
+  if (!value) {
+    console.log(`${name} cannot be empty`);
+    process.exit(1);
+  }
+
+  return value;
+}
+
+/**
  * Authenticate with given credentials and return auth cookie
  * Creates new account if username does not exist
  * Only authenticates when portal is set to authenticated users only mode
@@ -60,25 +77,17 @@ function getAuthCookie(forceAuth = false) {
   // do not authenticate if it is not required by portal limit access rule
   if (!forceAuth && !["authenticated", "subscription"].includes(process.env.ACCOUNTS_LIMIT_ACCESS)) return "";
 
-  const portalDomain = process.env.PORTAL_DOMAIN;
-  const email = process.env.ACCOUNTS_TEST_USER_EMAIL;
-  const password = process.env.ACCOUNTS_TEST_USER_PASSWORD;
-
-  try {
-    if (!portalDomain) throw new Error("PORTAL_DOMAIN cannot be empty");
-    if (!email) throw new Error("ACCOUNTS_TEST_USER_EMAIL cannot be empty");
-    if (!password) throw new Error("ACCOUNTS_TEST_USER_PASSWORD cannot be empty");
-  } catch (error) {
-    console.log(error.message);
-    process.exit(1);
-  }
+  // assign all required environment variables
+  const portalDomain = getRequiredEnvironmentVariable("PORTAL_DOMAIN");
+  const email = getRequiredEnvironmentVariable("ACCOUNTS_TEST_USER_EMAIL");
+  const password = getRequiredEnvironmentVariable("ACCOUNTS_TEST_USER_PASSWORD");
 
   async function authenticate() {
     const got = require("got");
 
     try {
       // authenticate with given test user credentials
-      const response = await got.post(`https://account.${process.env.PORTAL_DOMAIN}/api/login`, {
+      const response = await got.post(`https://account.${portalDomain}/api/login`, {
         json: { email, password },
       });
 
@@ -100,7 +109,7 @@ function getAuthCookie(forceAuth = false) {
       // 401 means that service worked but user could not have been authenticated
       if (error.response && error.response.statusCode === 401) {
         // sign up with the given credentials
-        await got.post(`https://account.${process.env.PORTAL_DOMAIN}/api/user`, {
+        await got.post(`https://account.${portalDomain}/api/user`, {
           json: { email, password },
         });
 
