@@ -12,11 +12,13 @@ const BarTip = styled.span.attrs({
 })``;
 
 const BarLabel = styled.span.attrs({
-  className: "bg-white rounded border-2 border-palette-200 px-3 whitespace-nowrap absolute shadow",
+  className: "usage-label bg-white rounded border-2 border-palette-200 px-3 whitespace-nowrap absolute shadow",
 })`
-  right: max(0%, ${({ $percentage }) => 100 - $percentage}%);
-  top: -0.5rem;
-  transform: translateX(50%);
+  ${({ $percentage }) => `
+    left: max(0%, ${$percentage}%);
+    top: -0.5rem;
+    transform: translateX(-${$percentage}%);
+  `}
 `;
 
 export const GraphBar = ({ value, limit, label }) => {
