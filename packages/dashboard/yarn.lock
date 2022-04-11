@@ -175,10 +175,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.0.8.tgz#be3e914e84eacf16dbebd311c0d0b44aa1174c64"
   integrity sha512-ZK5v4bJwgXldAUA8r3q9YKfCwOqoHTK/ZqRjSeRXQrBXWouoPnS4MQtgC4AXGiiBuUu5wxrRgTlv0ktmM4P1Aw==
 
-"@stripe/react-stripe-js@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.7.0.tgz#83c993a09a903703205d556617f9729784a896c3"
-  integrity sha512-L20v8Jq0TDZFL2+y+uXD751t6q9SalSFkSYZpmZ2VWrGZGK7HAGfRQ804dzYSSr5fGenW6iz6y7U0YKfC/TK3g==
+"@stripe/react-stripe-js@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.7.1.tgz#6e1db8f4a0eaf2193b153173d4aa7c38b681310d"
+  integrity sha512-GiUPoMo0xVvmpRD6JR9JAhAZ0W3ZpnYZNi0KE+91+tzrSFVpChKZbeSsJ5InlZhHFk9NckJCt1wOYBTqNsvt3A==
   dependencies:
     prop-types "^15.7.2"
 
@@ -1965,16 +1965,7 @@ pretty-bytes@6.0.0:
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-6.0.0.tgz#928be2ad1f51a2e336add8ba764739f9776a8140"
   integrity sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==
 
-prop-types@^15.7.2:
-  version "15.7.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
-  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
-  dependencies:
-    loose-envify "^1.4.0"
-    object-assign "^4.1.1"
-    react-is "^16.8.1"
-
-prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2036,7 +2027,7 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
