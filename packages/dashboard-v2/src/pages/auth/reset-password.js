@@ -20,30 +20,25 @@ const ResetPasswordPage = () => {
       <Metadata>
         <title>Reset Password</title>
       </Metadata>
-      <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
-        <div className="mb-4 md:mb-16">
-          <img src="/images/logo-black-text.svg" alt="Skynet" />
-        </div>
-        {state !== State.Success && (
-          <RecoveryForm onSuccess={() => setState(State.Success)} onFailure={() => setState(State.Failure)} />
-        )}
+      {state !== State.Success && (
+        <RecoveryForm onSuccess={() => setState(State.Success)} onFailure={() => setState(State.Failure)} />
+      )}
 
-        {state === State.Success && (
-          <p className="text-primary text-center font-semibold">Please check your inbox for further instructions.</p>
-        )}
+      {state === State.Success && (
+        <p className="text-primary text-center font-semibold">Please check your inbox for further instructions.</p>
+      )}
 
-        {state === State.Failure && (
-          <p className="text-error text-center">Something went wrong, please try again later.</p>
-        )}
+      {state === State.Failure && (
+        <p className="text-error text-center">Something went wrong, please try again later.</p>
+      )}
 
-        <div className="text-sm text-center mt-8">
-          <p>
-            Suddenly remembered your password? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
-          </p>
-          <p>
-            Don't actually have an account? <HighlightedLink to="/auth/signup">Create one!</HighlightedLink>
-          </p>
-        </div>
+      <div className="text-sm text-center mt-8">
+        <p>
+          Suddenly remembered your password? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
+        </p>
+        <p>
+          Don't actually have an account? <HighlightedLink to="/auth/registration">Create one!</HighlightedLink>
+        </p>
       </div>
     </>
   );

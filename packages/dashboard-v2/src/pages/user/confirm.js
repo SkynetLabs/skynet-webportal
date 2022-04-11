@@ -57,23 +57,18 @@ const EmailConfirmationPage = ({ location }) => {
       <Metadata>
         <title>Confirm E-mail Address</title>
       </Metadata>
-      <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
-        <div className="mb-4 md:mb-16">
-          <img src="/images/logo-black-text.svg" alt="Skynet" />
-        </div>
-        <div className="text-center">
-          {state === State.Pure && <p>Please wait while we verify your account...</p>}
+      <div className="text-center">
+        {state === State.Pure && <p>Please wait while we verify your account...</p>}
 
-          {state === State.Success && (
-            <>
-              <p className="text-primary font-semibold">All done!</p>
-              <p>You will be redirected to your dashboard shortly.</p>
-              <HighlightedLink to="/">Redirect now.</HighlightedLink>
-            </>
-          )}
+        {state === State.Success && (
+          <>
+            <p className="text-primary font-semibold">All done!</p>
+            <p>You will be redirected to your dashboard shortly.</p>
+            <HighlightedLink to="/">Redirect now.</HighlightedLink>
+          </>
+        )}
 
-          {state === State.Failure && <p className="text-error">Something went wrong, please try again later.</p>}
-        </div>
+        {state === State.Failure && <p className="text-error">Something went wrong, please try again later.</p>}
       </div>
     </>
   );

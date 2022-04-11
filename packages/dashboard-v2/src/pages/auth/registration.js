@@ -61,11 +61,7 @@ const SignUpPage = () => {
       <Metadata>
         <title>Sign Up</title>
       </Metadata>
-      <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
-        <div className="mb-4 md:mb-16">
-          <img src="/images/logo-black-text.svg" alt="Skynet" />
-        </div>
-
+      <div className="flex flex-col">
         {!settings.areAccountsEnabled && <Alert $variant="info">Accounts are not enabled on this portal.</Alert>}
 
         {settings.areAccountsEnabled && (
