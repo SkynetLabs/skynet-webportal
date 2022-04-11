@@ -73,11 +73,17 @@ const SignUpPage = () => {
             {settings.isSubscriptionRequired ? <PaidPortalHeader /> : <FreePortalHeader />}
 
             {state !== State.Success && (
-              <SignUpForm onSuccess={() => setState(State.Success)} onFailure={() => setState(State.Failure)} />
+              <>
+                <SignUpForm onSuccess={() => setState(State.Success)} onFailure={() => setState(State.Failure)} />
+
+                <p className="text-sm text-center mt-8">
+                  Already have an account? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
+                </p>
+              </>
             )}
 
             {state === State.Success && (
-              <div className="text-center">
+              <div>
                 <p className="text-primary font-semibold">Please check your inbox and confirm your email address.</p>
                 <p>You will be redirected to your dashboard shortly.</p>
                 <HighlightedLink to="/">Click here to go there now.</HighlightedLink>
@@ -89,10 +95,6 @@ const SignUpPage = () => {
             )}
           </>
         )}
-
-        <p className="text-sm text-center mt-8">
-          Already have an account? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
-        </p>
       </div>
     </PlansProvider>
   );
