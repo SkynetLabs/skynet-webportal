@@ -7,13 +7,10 @@ import { ChevronDownIcon } from "../Icons";
 
 const dropDown = keyframes`
   0% {
-    transform: scaleY(0);
-  }
-  80% {
-    transform: scaleY(1.1);
+    transform: rotateX(-90deg);
   }
   100% {
-    transform: scaleY(1);
+    transform: rotateX(0deg);
   }
 `;
 
@@ -35,10 +32,11 @@ const Flyout = styled.div.attrs(({ open }) => ({
               bg-white shadow-md shadow-palette-200/50
               ${open ? "visible" : "invisible"}`,
 }))`
+  transform-origin: top center;
   animation: ${({ open }) =>
     open
       ? css`
-          ${dropDown} 0.1s ease-in-out
+          ${dropDown} .15s ease-in-out forwards;
         `
       : "none"};
 `;
