@@ -3,7 +3,14 @@ import { useFormik, getIn, setIn } from "formik";
 import classnames from "classnames";
 import SelfServiceMessages from "./SelfServiceMessages";
 
-export default function SelfServiceForm({ fieldsConfig, onSubmit, title, validationSchema = null, button = "Submit" }) {
+export default function SelfServiceForm({
+  fieldsConfig,
+  onSubmit,
+  title,
+  onError,
+  validationSchema = null,
+  button = "Submit",
+}) {
   const [messages, setMessages] = React.useState([]);
   const fields = fieldsConfig.sort((a, b) => (a.position < b.position ? -1 : 1));
   const formik = useFormik({
@@ -21,6 +28,9 @@ export default function SelfServiceForm({ fieldsConfig, onSubmit, title, validat
           const data = await error.response.json();
 
           if (data.message) {
+            if (typeof onError === "function") {
+              onError(data.message);
+            }
             setMessages((messages) => [...messages, { type: "error", text: data.message }]);
           }
         } else {
