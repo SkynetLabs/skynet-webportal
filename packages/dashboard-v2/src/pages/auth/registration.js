@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { navigate } from "gatsby";
+import { useCallback, useState } from "react";
 import bytes from "pretty-bytes";
 
 import AuthLayout from "../../layouts/AuthLayout";
@@ -10,6 +9,7 @@ import { SignUpForm } from "../../components/forms/SignUpForm";
 import { usePortalSettings } from "../../contexts/portal-settings";
 import { PlansProvider, usePlans } from "../../contexts/plans";
 import { Metadata } from "../../components/Metadata";
+import { useUser } from "../../contexts/user";
 
 const FreePortalHeader = () => {
   const { plans } = usePlans();
@@ -47,14 +47,14 @@ const State = {
 const SignUpPage = () => {
   const [state, setState] = useState(State.Pure);
   const { settings } = usePortalSettings();
+  const { mutate: refreshUserState } = useUser();
 
-  useEffect(() => {
-    if (state === State.Success) {
-      const timer = setTimeout(() => navigate(settings.isSubscriptionRequired ? "/upgrade" : "/"), 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [state, settings.isSubscriptionRequired]);
+  const onUserCreated = useCallback(
+    (newUser) => {
+      refreshUserState(newUser);
+    },
+    [refreshUserState]
+  );
 
   return (
     <PlansProvider>
@@ -70,20 +70,12 @@ const SignUpPage = () => {
 
             {state !== State.Success && (
               <>
-                <SignUpForm onSuccess={() => setState(State.Success)} onFailure={() => setState(State.Failure)} />
+                <SignUpForm onSuccess={onUserCreated} onFailure={() => setState(State.Failure)} />
 
                 <p className="text-sm text-center mt-8">
                   Already have an account? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
                 </p>
               </>
-            )}
-
-            {state === State.Success && (
-              <div>
-                <p className="text-primary font-semibold">Please check your inbox and confirm your email address.</p>
-                <p>You will be redirected to your dashboard shortly.</p>
-                <HighlightedLink to="/">Click here to go there now.</HighlightedLink>
-              </div>
             )}
 
             {state === State.Failure && (
