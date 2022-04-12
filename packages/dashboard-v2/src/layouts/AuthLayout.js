@@ -33,7 +33,14 @@ const AuthLayout =
                 </h1>
               </div>
             </SloganContainer>
-            <Content>{children}</Content>
+            <Content>
+              <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
+                <div className="mb-4 md:mb-16">
+                  <img src="/images/logo-black-text.svg" alt="Skynet" className="-ml-2" />
+                </div>
+                {children}
+              </div>
+            </Content>
           </Layout>
         </UserProvider>
       </>
