@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { Table, TableBody, TableCell, TableRow } from "../Table";
 import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
+import { ViewAllLink } from "./ViewAllLink";
 import useFormattedActivityData from "./useFormattedActivityData";
 
 export default function ActivityTable({ type }) {
@@ -22,20 +23,23 @@ export default function ActivityTable({ type }) {
   }
 
   return (
-    <Table style={{ tableLayout: "fixed" }}>
-      <TableBody>
-        {items.map(({ id, name, type, size, date, skylink }) => (
-          <TableRow key={id}>
-            <TableCell>{name}</TableCell>
-            <TableCell className="w-[80px]">{type}</TableCell>
-            <TableCell className="w-[80px]" align="right">
-              {size}
-            </TableCell>
-            <TableCell className="w-[180px]">{date}</TableCell>
-            <TableCell>{skylink}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <>
+      <Table style={{ tableLayout: "fixed" }}>
+        <TableBody>
+          {items.map(({ id, name, type, size, date, skylink }) => (
+            <TableRow key={id}>
+              <TableCell>{name}</TableCell>
+              <TableCell className="w-[80px]">{type}</TableCell>
+              <TableCell className="w-[80px]" align="right">
+                {size}
+              </TableCell>
+              <TableCell className="w-[180px]">{date}</TableCell>
+              <TableCell>{skylink}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <ViewAllLink to={`/files?tab=${type}`} />
+    </>
   );
 }
