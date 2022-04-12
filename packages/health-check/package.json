@@ -15,7 +15,7 @@
     "lowdb": "^1.0.0",
     "skynet-js": "^4.0.19-beta",
     "write-file-atomic": "^4.0.1",
-    "yargs": "^17.4.0"
+    "yargs": "^17.4.1"
   },
   "devDependencies": {
     "jest": "^27.5.1",
