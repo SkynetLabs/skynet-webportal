@@ -41,7 +41,7 @@ const CurrentPlan = () => {
           ) : (
             <p className="first-letter:uppercase">{dayjs(user.subscribedUntil).fromNow(true)} until the next payment</p>
           ))}
-        
+
         {user.subscriptionStatus && <LatestPayment user={user} />}
         <SuggestedPlan plans={plans} activePlan={activePlan} />
       </div>
