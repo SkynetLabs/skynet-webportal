@@ -10,7 +10,7 @@ const parseFileName = (fileName) => {
 
 const formatItem = ({ size, name: rawFileName, uploadedOn, downloadedOn, ...rest }) => {
   const [name, type] = parseFileName(rawFileName);
-  const date = dayjs(uploadedOn || downloadedOn).format("MM/DD/YYYY; HH:MM");
+  const date = dayjs(uploadedOn || downloadedOn).format("MM/DD/YYYY HH:MM");
 
   return {
     ...rest,
