@@ -8,11 +8,12 @@ import { APIKeyList } from "../../components/APIKeyList/APIKeyList";
 import { Alert } from "../../components/Alert";
 import { AddPublicAPIKeyForm } from "../../components/forms/AddPublicAPIKeyForm";
 import { Metadata } from "../../components/Metadata";
+import HighlightedLink from "../../components/HighlightedLink";
 
-const APIKeysPage = () => {
-  const { data: apiKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
-  const generalKeys = apiKeys.filter(({ public: isPublic }) => isPublic === "false");
-  const publicKeys = apiKeys.filter(({ public: isPublic }) => isPublic === "true");
+const DeveloperSettingsPage = () => {
+  const { data: allKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
+  const apiKeys = allKeys.filter(({ public: isPublic }) => isPublic === "false");
+  const sponsorKeys = allKeys.filter(({ public: isPublic }) => isPublic === "true");
 
   const publicFormRef = useRef();
   const generalFormRef = useRef();
@@ -31,53 +32,60 @@ const APIKeysPage = () => {
   return (
     <>
       <Metadata>
-        <title>API Keys</title>
+        <title>Developer settings</title>
       </Metadata>
       <div className="flex flex-col xl:flex-row">
-        <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
+        <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px] leading-relaxed">
           <div>
-            <h4>API Keys</h4>
-            <p className="leading-relaxed">There are two types of API keys that you can generate for your account.</p>
-            <p>Make sure to use the appropriate type.</p>
+            <h4>Developer settings</h4>
+            <p>API keys allow developers and applications to extend the functionality of your portal account.</p>
+            <p>Skynet uses two types of API keys, explained below.</p>
           </div>
 
           <hr />
 
           <section className="flex flex-col gap-2">
-            <h5>Public keys</h5>
-            <p className="text-palette-500">
-              Public keys provide read access to a selected list of skylinks. You can share them publicly.
+            <h5>Sponsor keys</h5>
+            <div className="text-palette-500"></div>
+            <p>
+              Sponsor keys allow users without an account on this portal to download skylinks covered by the API key.
             </p>
-
+            <p>
+              Learn more about sponsoring content with Sponsor API Keys{" "}
+              <HighlightedLink as="a" href="#">
+                here
+              </HighlightedLink>
+              .
+            </p>{" "}
+            {/* TODO: missing documentation link */}
             <div className="mt-4">
               <AddPublicAPIKeyForm ref={publicFormRef} onSuccess={refreshState} />
             </div>
-
             {error ? (
               <Alert $variant="error" className="mt-4">
-                An error occurred while loading your API keys. Please try again later.
+                An error occurred while loading your sponsor keys. Please try again later.
               </Alert>
             ) : (
               <div className="mt-4">
-                {publicKeys?.length > 0 ? (
-                  <APIKeyList title="Your public keys" keys={publicKeys} reloadKeys={() => refreshState(true)} />
+                {sponsorKeys?.length > 0 ? (
+                  <APIKeyList title="Your public keys" keys={sponsorKeys} reloadKeys={() => refreshState(true)} />
                 ) : (
-                  <Alert $variant="info">No public API keys found.</Alert>
+                  <Alert $variant="info">No sponsor keys found.</Alert>
                 )}
               </div>
             )}
           </section>
+
           <hr />
 
           <section className="flex flex-col gap-2">
-            <h5>General keys</h5>
+            <h5>API keys</h5>
             <p className="text-palette-500">
               These keys provide full access to <b>Accounts</b> service and are equivalent to using a JWT token.
             </p>
-            <p className="underline">
+            <p className="font-bold">
               This type of API keys needs to be kept secret and should never be shared with anyone.
             </p>
-
             <div className="mt-4">
               <AddAPIKeyForm ref={generalFormRef} onSuccess={refreshState} type={APIKeyType.General} />
             </div>
@@ -88,10 +96,10 @@ const APIKeysPage = () => {
               </Alert>
             ) : (
               <div className="mt-4">
-                {generalKeys?.length > 0 ? (
-                  <APIKeyList title="Your general keys" keys={generalKeys} reloadKeys={() => refreshState(true)} />
+                {apiKeys?.length > 0 ? (
+                  <APIKeyList title="Your API keys" keys={apiKeys} reloadKeys={() => refreshState(true)} />
                 ) : (
-                  <Alert $variant="info">No general API keys found.</Alert>
+                  <Alert $variant="info">No API keys found.</Alert>
                 )}
               </div>
             )}
@@ -105,6 +113,6 @@ const APIKeysPage = () => {
   );
 };
 
-APIKeysPage.Layout = UserSettingsLayout;
+DeveloperSettingsPage.Layout = UserSettingsLayout;
 
-export default APIKeysPage;
+export default DeveloperSettingsPage;
