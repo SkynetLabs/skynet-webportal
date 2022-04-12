@@ -34,8 +34,9 @@ export const AccountRemovalForm = ({ abort, onSuccess }) => {
         <Form className="flex flex-col gap-4">
           <div>
             <h4>Delete account</h4>
+            <p>This will completely delete your account.</p>
             <p>
-              This will completely delete your account. <strong>This process can't be undone.</strong>
+              <strong>This process cannot be undone.</strong>
             </p>
           </div>
 
