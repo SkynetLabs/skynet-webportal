@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "develop": "gatsby develop",
-    "develop:secure": "gatsby develop --https --host=local.skynetpro.net -p=443",
+    "develop:secure": "dotenv -e .env.development -- gatsby develop --https -p=443",
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
@@ -60,6 +60,8 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-preval": "^5.1.0",
     "babel-plugin-styled-components": "^2.0.2",
+    "dotenv": "^16.0.0",
+    "dotenv-cli": "^5.1.0",
     "eslint": "^8.9.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-storybook": "^0.5.6",
