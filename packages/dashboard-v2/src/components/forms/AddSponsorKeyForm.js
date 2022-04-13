@@ -25,7 +25,7 @@ const skylinkValidator = (optional) => (value) => {
   }
 };
 
-const newPublicAPIKeySchema = Yup.object().shape({
+const newSponsorKeySchema = Yup.object().shape({
   name: Yup.string(),
   skylinks: Yup.array().of(Yup.string().test("skylink", "Provide a valid Skylink", skylinkValidator(false))),
   nextSkylink: Yup.string().when("skylinks", {
@@ -41,7 +41,7 @@ const State = {
   Failure: "FAILURE",
 };
 
-export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
+export const AddSponsorKeyForm = forwardRef(({ onSuccess }, ref) => {
   const [state, setState] = useState(State.Pure);
   const [generatedKey, setGeneratedKey] = useState(null);
 
@@ -72,7 +72,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
           skylinks: [],
           nextSkylink: "",
         }}
-        validationSchema={newPublicAPIKeySchema}
+        validationSchema={newSponsorKeySchema}
         onSubmit={async ({ name, skylinks, nextSkylink }, { resetForm }) => {
           try {
             const { key } = await accountsService
@@ -192,8 +192,8 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
   );
 });
 
-AddPublicAPIKeyForm.displayName = "AddPublicAPIKeyForm";
+AddSponsorKeyForm.displayName = "AddSponsorKeyForm";
 
-AddPublicAPIKeyForm.propTypes = {
+AddSponsorKeyForm.propTypes = {
   onSuccess: PropTypes.func.isRequired,
 };

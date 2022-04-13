@@ -8,7 +8,7 @@ const { GATSBY_PORTAL_DOMAIN } = process.env;
 
 module.exports = {
   siteMetadata: {
-    title: `Accounts Dashboard`,
+    title: `Account Dashboard`,
     siteUrl: `https://account.${GATSBY_PORTAL_DOMAIN}`,
   },
   trailingSlash: "never",

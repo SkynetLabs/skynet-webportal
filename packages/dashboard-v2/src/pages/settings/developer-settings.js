@@ -6,7 +6,7 @@ import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 import { AddAPIKeyForm, APIKeyType } from "../../components/forms/AddAPIKeyForm";
 import { APIKeyList } from "../../components/APIKeyList/APIKeyList";
 import { Alert } from "../../components/Alert";
-import { AddPublicAPIKeyForm } from "../../components/forms/AddPublicAPIKeyForm";
+import { AddSponsorKeyForm } from "../../components/forms/AddSponsorKeyForm";
 import { Metadata } from "../../components/Metadata";
 import HighlightedLink from "../../components/HighlightedLink";
 
@@ -59,7 +59,7 @@ const DeveloperSettingsPage = () => {
             </p>{" "}
             {/* TODO: missing documentation link */}
             <div className="mt-4">
-              <AddPublicAPIKeyForm ref={publicFormRef} onSuccess={refreshState} />
+              <AddSponsorKeyForm ref={publicFormRef} onSuccess={refreshState} />
             </div>
             {error ? (
               <Alert $variant="error" className="mt-4">
@@ -81,10 +81,7 @@ const DeveloperSettingsPage = () => {
           <section className="flex flex-col gap-2">
             <h5>API keys</h5>
             <p className="text-palette-500">
-              These keys provide full access to <b>Accounts</b> service and are equivalent to using a JWT token.
-            </p>
-            <p className="font-bold">
-              This type of API keys needs to be kept secret and should never be shared with anyone.
+              These keys allow uploading and downloading skyfiles, as well as reading and writing to the registry.
             </p>
             <div className="mt-4">
               <AddAPIKeyForm ref={generalFormRef} onSuccess={refreshState} type={APIKeyType.General} />

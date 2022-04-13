@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 
 import { Alert } from "../Alert";
 import { Button } from "../Button";
-import { AddSkylinkToAPIKeyForm } from "../forms/AddSkylinkToAPIKeyForm";
+import { AddSkylinkToSponsorKeyForm } from "../forms/AddSkylinkToSponsorKeyForm";
 import { CogIcon, TrashIcon } from "../Icons";
 import { Modal } from "../Modal";
 
@@ -145,7 +145,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
 
           <div className="flex flex-col gap-4">
             {error && <Alert $variant="error">{error}</Alert>}
-            <AddSkylinkToAPIKeyForm addSkylink={addSkylink} />
+            <AddSkylinkToSponsorKeyForm addSkylink={addSkylink} />
           </div>
           <div className="flex gap-4 justify-center mt-4">
             <Button onClick={closeEditModal}>Close</Button>
