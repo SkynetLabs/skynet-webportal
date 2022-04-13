@@ -1,9 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-import { SWRConfig } from "swr";
 
 import { UserProvider } from "../contexts/user";
-import { guestsOnly, allUsers } from "../lib/swrConfig";
 
 const Layout = styled.div.attrs({
   className: "min-h-screen w-screen bg-black flex",
@@ -22,29 +20,39 @@ const Content = styled.div.attrs({
 })``;
 
 const AuthLayout =
-  (swrConfig) =>
-  ({ children }) => {
-    return (
+  (userProviderProps) =>
+  ({ children }) =>
+    (
       <>
-        <SWRConfig value={swrConfig}>
-          <UserProvider>
-            <Layout>
-              <SloganContainer className="pl-20 pr-20 lg:pr-30 xl:pr-40">
-                <div className="">
-                  <h1 className="text-4xl lg:text-5xl xl:text-6xl text-white">
-                    The decentralized <span className="text-primary">revolution</span> starts with decentralized storage
-                  </h1>
+        <UserProvider {...userProviderProps}>
+          <Layout>
+            <SloganContainer className="pl-20 pr-20 lg:pr-30 xl:pr-40">
+              <div className="">
+                <h1 className="text-4xl lg:text-5xl xl:text-6xl text-white">
+                  The decentralized <span className="text-primary">revolution</span> starts with decentralized storage
+                </h1>
+              </div>
+            </SloganContainer>
+            <Content>
+              <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
+                <div className="mb-4 md:mb-16">
+                  <img src="/images/logo-black-text.svg" alt="Skynet" className="-ml-2" />
                 </div>
-              </SloganContainer>
-              <Content>{children}</Content>
-            </Layout>
-          </UserProvider>
-        </SWRConfig>
+                {children}
+              </div>
+            </Content>
+          </Layout>
+        </UserProvider>
       </>
     );
-  };
 
 // Some pages (e.g. email confirmation) need to be accessible to both logged-in and guest users.
-export const AllUsersAuthLayout = AuthLayout(allUsers);
+export const AllUsersAuthLayout = AuthLayout({
+  allowGuests: true,
+  allowAuthenticated: true,
+});
 
-export default AuthLayout(guestsOnly);
+export default AuthLayout({
+  allowGuests: true,
+  allowAuthenticated: false,
+});

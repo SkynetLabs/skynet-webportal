@@ -16,7 +16,7 @@ const fetcher = async (path) => {
 };
 
 export const PortalSettingsProvider = ({ children }) => {
-  const { data, error } = useSWRImmutable("/__internal/do/not/use/accounts", fetcher);
+  const { data, error } = useSWRImmutable("__internal/do/not/use/accounts", fetcher);
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState(defaultSettings);
 

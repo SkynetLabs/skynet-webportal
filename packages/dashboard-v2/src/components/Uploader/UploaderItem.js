@@ -109,7 +109,6 @@ export default function UploaderItem({ onUploadStateChange, upload }) {
           {upload.status === "uploading" && (
             <span className="uppercase tabular-nums">{Math.floor(upload.progress * 100)}%</span>
           )}
-          {upload.status === "processing" && <span className="uppercase text-palette-300">Wait</span>}
           {upload.status === "complete" && (
             <button
               className="uppercase hover:text-primary transition-colors duration-200"

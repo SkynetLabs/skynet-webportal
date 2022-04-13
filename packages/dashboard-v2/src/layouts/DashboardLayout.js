@@ -1,8 +1,5 @@
 import * as React from "react";
 import styled from "styled-components";
-import { SWRConfig } from "swr";
-
-import { authenticatedOnly } from "../lib/swrConfig";
 
 import { PageContainer } from "../components/PageContainer";
 import { NavBar } from "../components/NavBar";
@@ -30,22 +27,16 @@ const Layout = ({ children }) => {
   );
 };
 
-const DashboardLayout = ({ children }) => {
-  return (
-    <>
-      <SWRConfig value={authenticatedOnly}>
-        <UserProvider>
-          <Layout>
-            <NavBar />
-            <PageContainer>
-              <main className="mt-14">{children}</main>
-            </PageContainer>
-            <Footer />
-          </Layout>
-        </UserProvider>
-      </SWRConfig>
-    </>
-  );
-};
+const DashboardLayout = ({ children }) => (
+  <>
+    <UserProvider>
+      <Layout>
+        <NavBar />
+        <PageContainer className="mt-2 md:mt-14">{children}</PageContainer>
+        <Footer />
+      </Layout>
+    </UserProvider>
+  </>
+);
 
 export default DashboardLayout;

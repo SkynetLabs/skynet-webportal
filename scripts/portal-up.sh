@@ -3,4 +3,4 @@
 set -e # exit on first error
 
 # start the health-checks service
-docker exec health-check cli/enable
+docker exec health-check cli enable
