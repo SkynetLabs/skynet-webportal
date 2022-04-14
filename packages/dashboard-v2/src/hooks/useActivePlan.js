@@ -10,6 +10,7 @@ export default function useActivePlan(user) {
 
   useEffect(() => {
     if (user) {
+      console.log("setActivePlan");
       setActivePlan(plans.find((plan) => plan.tier === user.tier));
     }
   }, [plans, user]);
