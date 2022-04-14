@@ -11,15 +11,20 @@ This is a Gatsby application. To run it locally, all you need is:
 
 ## Accessing remote APIs
 
-To be able to log in on a local environment with your production credentials, you'll need to make the browser believe you're actually on the same domain, otherwise the browser will block the session cookie.
+To have a fully functioning local environment, you'll need to make the browser believe you're actually on the same domain as a working API (i.e. a remote dev or production server) -- otherwise the browser will block the session cookie.
+To do the trick, configure proper environment variables in the `.env.development` file.
+This file allows to easily control which domain name you want to use locally and which API you'd like to access.
 
-To do the trick, edit your `/etc/hosts` file and add a record like this:
+Example:
 
+```env
+GATSBY_PORTAL_DOMAIN=skynetfree.net # Use skynetfree.net APIs
+GATSBY_HOST=local.skynetfree.net # Address of your local build
 ```
-127.0.0.1 local.skynetpro.net
-```
 
-then run `yarn develop:secure` -- it will run `gatsby develop` with `--https --host=local.skynetpro.net -p=443` options.
-If you're on macOS, you may need to `sudo` the command to successfully bind to port `443`.
+> It's recommended to keep the 2LD the same, so any cookies dispatched by the API work without issues.
 
-> **NOTE:** This should become easier once we have a docker image for the new dashboard.
+With the file configured, run `yarn develop:secure` -- it will run `gatsby develop` with `--https -p=443` options.
+If you're on macOS, you may need to `sudo` the command to successfully bind to port `443` (https).
+
+Gatsby will automatically add a proper entry to your `/etc/hosts` file and clean it up when process exits.

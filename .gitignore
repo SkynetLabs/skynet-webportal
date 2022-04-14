@@ -86,6 +86,10 @@ __pycache__
 /.idea/
 /venv*
 
+# Luacov file
+luacov.stats.out
+luacov.report.out
+
 # Setup-script log files
 setup-scripts/serverload.log
 setup-scripts/serverload.json

@@ -8,6 +8,10 @@ import { Modal } from "../../components/Modal/Modal";
 import { AccountRemovalForm } from "../../components/forms/AccountRemovalForm";
 import { Alert } from "../../components/Alert";
 import { Metadata } from "../../components/Metadata";
+import HighlightedLink from "../../components/HighlightedLink";
+import { AvatarUploader } from "../../components/AvatarUploader/AvatarUploader";
+import { useMedia } from "react-use";
+import theme from "../../lib/theme";
 
 const State = {
   Pure: "PURE",
@@ -19,9 +23,15 @@ const AccountPage = () => {
   const { user, mutate: reloadUser } = useUser();
   const [state, setState] = useState(State.Pure);
   const [removalInitiated, setRemovalInitiated] = useState(false);
+  const isLargeScreen = useMedia(`(min-width: ${theme.screens.xl})`);
 
   const prompt = () => setRemovalInitiated(true);
   const abort = () => setRemovalInitiated(false);
+
+  const onAccountRemoved = useCallback(async () => {
+    await reloadUser(null);
+    await navigate("/auth/login");
+  }, [reloadUser]);
 
   const onSettingsUpdated = useCallback(
     async (updatedState) => {
@@ -45,14 +55,7 @@ const AccountPage = () => {
       </Metadata>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
-          <section>
-            <h4>Account</h4>
-            <p>
-              Tum dicere exorsus est laborum et quasi involuta aperiri, altera prompta et expedita. Primum igitur,
-              inquit, modo ista sis aequitate.
-            </p>
-          </section>
-          <hr />
+          <h4>Account</h4>
           <section className="flex flex-col gap-8">
             {state === State.Failure && (
               <Alert $variant="error">There was an error processing your request. Please try again later.</Alert>
@@ -63,7 +66,23 @@ const AccountPage = () => {
           <hr />
           <section>
             <h6 className="text-palette-400">Delete account</h6>
-            <p>This will completely delete your account. This process can't be undone.</p>
+            <div className="my-4">
+              <p>
+                This action will delete your account and <strong>cannot be undone</strong>.
+              </p>
+              <p>
+                Your uploaded files will remain accessible while any portal continues to{" "}
+                <HighlightedLink
+                  as="a"
+                  href="https://support.skynetlabs.com/key-concepts/faqs#what-is-pinning"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  pin
+                </HighlightedLink>{" "}
+                them to Skynet.
+              </p>
+            </div>
             <button
               type="button"
               onClick={prompt}
@@ -73,9 +92,12 @@ const AccountPage = () => {
             </button>
           </section>
         </div>
+        <div className="flex w-full justify-start xl:justify-end">
+          {isLargeScreen && <AvatarUploader className="flex flex-col gap-4" />}
+        </div>
         {removalInitiated && (
           <Modal onClose={abort} className="text-center">
-            <AccountRemovalForm abort={abort} onSuccess={() => navigate("/auth/login")} />
+            <AccountRemovalForm abort={abort} onSuccess={onAccountRemoved} />
           </Modal>
         )}
       </div>
