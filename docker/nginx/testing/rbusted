@@ -1,0 +1,8 @@
+#!/usr/bin/env resty
+
+setmetatable(_G, nil)
+
+pcall(require, "luarocks.loader")
+
+-- Busted command-line runner
+require "busted.runner"({ standalone = false })
