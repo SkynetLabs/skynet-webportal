@@ -3,6 +3,10 @@ listen 443 ssl http2;
 include /etc/nginx/conf.d/include/ssl-settings;
 include /etc/nginx/conf.d/include/init-optional-variables;
 
+location /v2 {
+    proxy_pass http://dashboard-v2:9000;
+}
+
 location / {
     proxy_pass http://dashboard:3000;
 }

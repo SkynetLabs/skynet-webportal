@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/user";
 // import { SimpleUploadIcon } from "../Icons";
 
-const AVATAR_PLACEHOLDER = "/images/avatar-placeholder.svg";
+import avatarPlaceholder from "../../../static/images/avatar-placeholder.svg";
 
 export const AvatarUploader = (props) => {
   const { user } = useUser();
-  const [imageUrl, setImageUrl] = useState(AVATAR_PLACEHOLDER);
+  const [imageUrl, setImageUrl] = useState(avatarPlaceholder);
 
   useEffect(() => {
-    setImageUrl(user.avatarUrl ?? AVATAR_PLACEHOLDER);
+    setImageUrl(user.avatarUrl ?? avatarPlaceholder);
   }, [user]);
 
   return (
