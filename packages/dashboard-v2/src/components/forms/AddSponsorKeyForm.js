@@ -80,7 +80,7 @@ export const AddSponsorKeyForm = forwardRef(({ onSuccess }, ref) => {
                 json: {
                   name,
                   public: "true",
-                  skylinks: [...skylinks, nextSkylink].filter(Boolean).map(parseSkylink),
+                  skylinks: [...skylinks, nextSkylink].filter(Boolean).map((skylink) => parseSkylink(skylink)),
                 },
               })
               .json();
