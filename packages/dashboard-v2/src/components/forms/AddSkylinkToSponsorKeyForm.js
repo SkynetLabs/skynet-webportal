@@ -19,7 +19,7 @@ const newSkylinkSchema = Yup.object().shape({
     }),
 });
 
-export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
+export const AddSkylinkToSponsorKeyForm = ({ addSkylink }) => (
   <Formik
     initialValues={{
       skylink: "",
@@ -58,6 +58,6 @@ export const AddSkylinkToAPIKeyForm = ({ addSkylink }) => (
   </Formik>
 );
 
-AddSkylinkToAPIKeyForm.propTypes = {
+AddSkylinkToSponsorKeyForm.propTypes = {
   addSkylink: PropTypes.func.isRequired,
 };

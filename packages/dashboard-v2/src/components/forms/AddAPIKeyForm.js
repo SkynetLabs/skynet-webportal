@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
+import cn from "classnames";
 
 import accountsService from "../../services/accountsService";
 
@@ -9,7 +10,6 @@ import { Alert } from "../Alert";
 import { Button } from "../Button";
 import { CopyButton } from "../CopyButton";
 import { TextField } from "../Form/TextField";
-import { CircledProgressIcon, PlusIcon } from "../Icons";
 
 const newAPIKeySchema = Yup.object().shape({
   name: Yup.string(),
@@ -22,7 +22,7 @@ const State = {
 };
 
 export const APIKeyType = {
-  Public: "public",
+  Sponsor: "sponsor",
   General: "general",
 };
 
@@ -37,10 +37,10 @@ export const AddAPIKeyForm = forwardRef(({ onSuccess, type }, ref) => {
   return (
     <div ref={ref} className="flex flex-col gap-4">
       {state === State.Success && (
-        <Alert $variant="success" className="text-center">
+        <Alert $variant="success">
           <strong>Success!</strong>
           <p>Please copy your new API key below. We'll never show it again!</p>
-          <div className="flex items-center gap-2 mt-4 justify-center">
+          <div className="flex items-center gap-2 mt-4">
             <code className="p-2 rounded border border-palette-200 text-xs selection:bg-primary/30 truncate">
               {generatedKey}
             </code>
@@ -62,8 +62,8 @@ export const AddAPIKeyForm = forwardRef(({ onSuccess, type }, ref) => {
               .post("user/apikeys", {
                 json: {
                   name,
-                  public: type === APIKeyType.Public ? "true" : "false",
-                  skylinks: type === APIKeyType.Public ? [] : null,
+                  public: type === APIKeyType.Sponsor ? "true" : "false",
+                  skylinks: type === APIKeyType.Sponsor ? [] : null,
                 },
               })
               .json();
@@ -78,26 +78,20 @@ export const AddAPIKeyForm = forwardRef(({ onSuccess, type }, ref) => {
         }}
       >
         {({ errors, touched, isSubmitting }) => (
-          <Form className="grid grid-cols-[1fr_min-content] w-full gap-y-2 gap-x-4 items-start">
-            <div className="flex items-center">
-              <TextField
-                type="text"
-                id="name"
-                name="name"
-                label="New API Key Name"
-                placeholder="my_applications_statistics"
-                error={errors.name}
-                touched={touched.name}
-              />
-            </div>
-            <div className="flex mt-5 justify-center">
-              {isSubmitting ? (
-                <CircledProgressIcon size={38} className="text-palette-300 animate-[spin_3s_linear_infinite]" />
-              ) : (
-                <Button type="submit" className="px-2.5" aria-label="Create general API key">
-                  <PlusIcon size={14} />
-                </Button>
-              )}
+          <Form className="flex flex-col gap-4">
+            <TextField
+              type="text"
+              id="name"
+              name="name"
+              label="New API Key Label"
+              placeholder="my_applications_statistics"
+              error={errors.name}
+              touched={touched.name}
+            />
+            <div className="flex justify-center">
+              <Button type="submit" disabled={isSubmitting} className={cn({ "cursor-wait": isSubmitting })}>
+                {isSubmitting ? "Generating your API key..." : "Generate your API key"}
+              </Button>
             </div>
           </Form>
         )}
@@ -110,5 +104,5 @@ AddAPIKeyForm.displayName = "AddAPIKeyForm";
 
 AddAPIKeyForm.propTypes = {
   onSuccess: PropTypes.func.isRequired,
-  type: PropTypes.oneOf([APIKeyType.Public, APIKeyType.General]).isRequired,
+  type: PropTypes.oneOf([APIKeyType.Sponsor, APIKeyType.General]).isRequired,
 };

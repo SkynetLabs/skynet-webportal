@@ -118,7 +118,7 @@ const Uploader = ({ mode }) => {
       </div>
 
       {uploads.length > 0 && (
-        <div className="flex flex-col space-y-4 py-10">
+        <div className="flex flex-col space-y-4 pt-6 pb-10">
           {uploads.map((upload) => (
             <UploaderItem key={upload.id} onUploadStateChange={onUploadStateChange} upload={upload} />
           ))}

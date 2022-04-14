@@ -16,8 +16,8 @@ const Sidebar = () => (
       <SidebarLink activeClassName="!border-l-primary" to="/settings/export">
         Export
       </SidebarLink>
-      <SidebarLink activeClassName="!border-l-primary" to="/settings/api-keys">
-        API Keys
+      <SidebarLink activeClassName="!border-l-primary" to="/settings/developer-settings">
+        Developer settings
       </SidebarLink>
     </nav>
   </aside>

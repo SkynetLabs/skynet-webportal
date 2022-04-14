@@ -25,7 +25,7 @@ const skylinkValidator = (optional) => (value) => {
   }
 };
 
-const newPublicAPIKeySchema = Yup.object().shape({
+const newSponsorKeySchema = Yup.object().shape({
   name: Yup.string(),
   skylinks: Yup.array().of(Yup.string().test("skylink", "Provide a valid Skylink", skylinkValidator(false))),
   nextSkylink: Yup.string().when("skylinks", {
@@ -41,7 +41,7 @@ const State = {
   Failure: "FAILURE",
 };
 
-export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
+export const AddSponsorKeyForm = forwardRef(({ onSuccess }, ref) => {
   const [state, setState] = useState(State.Pure);
   const [generatedKey, setGeneratedKey] = useState(null);
 
@@ -52,10 +52,10 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
   return (
     <div ref={ref} className="flex flex-col gap-4">
       {state === State.Success && (
-        <Alert $variant="success" className="text-center">
+        <Alert $variant="success">
           <strong>Success!</strong>
           <p>Please copy your new API key below. We'll never show it again!</p>
-          <div className="flex items-center gap-2 mt-4 justify-center">
+          <div className="flex items-center gap-2 mt-4">
             <code className="p-2 rounded border border-palette-200 text-xs selection:bg-primary/30 truncate">
               {generatedKey}
             </code>
@@ -72,7 +72,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
           skylinks: [],
           nextSkylink: "",
         }}
-        validationSchema={newPublicAPIKeySchema}
+        validationSchema={newSponsorKeySchema}
         onSubmit={async ({ name, skylinks, nextSkylink }, { resetForm }) => {
           try {
             const { key } = await accountsService
@@ -101,14 +101,14 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                 type="text"
                 id="name"
                 name="name"
-                label="Public API Key Name"
+                label="Sponsor API Key Name"
                 placeholder="my_applications_statistics"
                 error={errors.name}
                 touched={touched.name}
               />
             </div>
             <div>
-              <h6 className="text-palette-300 mb-2">Skylinks accessible with the new key</h6>
+              <h6 className="text-palette-300 mb-2">Skylinks sponsored by the new key</h6>
               <FieldArray
                 name="skylinks"
                 render={({ push, remove }) => {
@@ -182,7 +182,7 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
                 className={cn("px-2.5", { "cursor-wait": isSubmitting })}
                 disabled={!isValid || isSubmitting}
               >
-                {isSubmitting ? "Generating" : "Generate"} your public key
+                {isSubmitting ? "Generating your sponsor key..." : "Generate your sponsor key"}
               </Button>
             </div>
           </Form>
@@ -192,8 +192,8 @@ export const AddPublicAPIKeyForm = forwardRef(({ onSuccess }, ref) => {
   );
 });
 
-AddPublicAPIKeyForm.displayName = "AddAPIKeyForm";
+AddSponsorKeyForm.displayName = "AddSponsorKeyForm";
 
-AddPublicAPIKeyForm.propTypes = {
+AddSponsorKeyForm.propTypes = {
   onSuccess: PropTypes.func.isRequired,
 };

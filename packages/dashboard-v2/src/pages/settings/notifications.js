@@ -18,18 +18,13 @@ const NotificationsPage = () => {
           <section>
             {/* TODO: saves on change */}
             <Switch onChange={console.info.bind(console)} labelClassName="!items-start flex-col md:flex-row">
-              I agreee to get the latest news, updates and special offers delivered to my email inbox.
+              I agree to receive emails of the latest news, updates and offers.
             </Switch>
           </section>
           <hr />
           <section>
             <h6 className="text-palette-300">Statistics</h6>
-            {/* TODO: proper content :) */}
-            <p>
-              Si sine causa, nollem me tamen laudandis maioribus meis corrupisti nec in malis. Si sine causa, mox
-              videro.
-            </p>
-
+            <p>Check below to be notified by email when your usage approaches your plan's limits.</p>
             <ul className="mt-7 flex flex-col gap-2">
               <li>
                 {/* TODO: saves on change */}
@@ -37,7 +32,7 @@ const NotificationsPage = () => {
               </li>
               <li>
                 {/* TODO: saves on change */}
-                <Switch onChange={console.info.bind(console)}>File limit</Switch>
+                <Switch onChange={console.info.bind(console)}>Files limit</Switch>
               </li>
             </ul>
           </section>

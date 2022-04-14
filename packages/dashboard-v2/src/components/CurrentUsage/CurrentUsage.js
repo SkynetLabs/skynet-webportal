@@ -44,7 +44,7 @@ const useUsageData = () => {
 };
 
 const size = (bytes) => {
-  const text = fileSize(bytes ?? 0, { maximumFractionDigits: 0 });
+  const text = fileSize(bytes ?? 0, { maximumFractionDigits: 0, binary: true });
   const [value, unit] = text.split(" ");
 
   return {

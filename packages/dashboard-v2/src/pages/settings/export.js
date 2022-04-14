@@ -38,8 +38,8 @@ const ExportPage = () => {
           <section>
             <h4>Export</h4>
             <p>
-              Et quidem exercitus quid ex eo delectu rerum, quem modo ista sis aequitate. Probabo, inquit, modo dixi,
-              constituto.
+              Select the items you want to export. You can use this data to migrate your account to another Skynet
+              portal.
             </p>
           </section>
           <hr />
