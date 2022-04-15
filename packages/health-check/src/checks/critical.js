@@ -61,8 +61,12 @@ async function uploadCheck(done) {
     try {
       await skylinkHealthCheck(skylink, 30, authCookie);
     } catch (error) {
+      // Reset the up status as the previous successful file upload would have
+      // set this to true.
       data.up = false;
       data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+      // Default to the error itself if the message or response are null since
+      // the error can be a simple error string.
       data.errorMessage = error.message || error;
       data.errorResponseContent = getResponseContent(error.response) || error;
     }
