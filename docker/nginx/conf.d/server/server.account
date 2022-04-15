@@ -4,9 +4,9 @@ include /etc/nginx/conf.d/include/ssl-settings;
 include /etc/nginx/conf.d/include/init-optional-variables;
 
 # Uncomment to launch new Dashboard under /v2 path 
-# location /v2 {
-#   proxy_pass http://dashboard-v2:9000;
-# }
+location /v2 {
+    proxy_pass http://dashboard-v2:9000;
+}
 
 location / {
     proxy_pass http://dashboard:3000;
