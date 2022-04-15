@@ -99,7 +99,7 @@ export default function CurrentUsage() {
           <span>Files</span>
           <span className="inline-flex place-content-between w-[37%]">
             <Link
-              to="/upgrade"
+              to="/payments"
               className={cn(
                 "text-primary underline-offset-3 decoration-dotted hover:text-primary-light hover:underline",
                 { invisible: !nextPlan }
