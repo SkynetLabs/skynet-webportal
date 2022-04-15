@@ -19,14 +19,16 @@ const aggregatePlansAndLimits = (plans, limits, { includeFreePlan }) => {
 
   // Decorate each plan with its corresponding limits data, if available.
   if (limits?.length) {
-    return limits.map((limitsDescriptor, index) => {
-      const asssociatedPlan = sortedPlans.find((plan) => plan.tier === index) || {};
+    return limits
+      .map((limitsDescriptor, index) => {
+        const asssociatedPlan = sortedPlans.find((plan) => plan.tier === index) || {};
 
-      return {
-        ...asssociatedPlan,
-        limits: limitsDescriptor || null,
-      };
-    });
+        return {
+          ...asssociatedPlan,
+          limits: limitsDescriptor || null,
+        };
+      })
+      .slice(includeFreePlan ? 1 : 2);
   }
 
   // If we don't have the limits data yet, set just return the plans.
