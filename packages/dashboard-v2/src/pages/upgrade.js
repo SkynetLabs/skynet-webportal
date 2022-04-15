@@ -1,5 +1,4 @@
 import * as React from "react";
-import bytes from "pretty-bytes";
 import styled from "styled-components";
 
 import { useUser } from "../contexts/user";
@@ -14,6 +13,7 @@ import { usePortalSettings } from "../contexts/portal-settings";
 import { Alert } from "../components/Alert";
 import HighlightedLink from "../components/HighlightedLink";
 import { Metadata } from "../components/Metadata";
+import humanBytes from "../lib/humanBytes";
 
 const PAID_PORTAL_BREAKPOINTS = [
   {
@@ -67,9 +67,9 @@ const Price = ({ price }) => (
   </div>
 );
 
-const bandwidth = (value) => `${bytes(value, { bits: true })}/s`;
+const bandwidth = (value) => `${humanBytes(value, { bits: true })}/s`;
 
-const storage = (value) => bytes(value, { binary: true });
+const storage = (value) => humanBytes(value, { binary: true });
 
 const localizedNumber = (value) => value.toLocaleString();
 

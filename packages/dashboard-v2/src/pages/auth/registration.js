@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import bytes from "pretty-bytes";
 
 import AuthLayout from "../../layouts/AuthLayout";
 
@@ -10,12 +9,13 @@ import { usePortalSettings } from "../../contexts/portal-settings";
 import { PlansProvider, usePlans } from "../../contexts/plans";
 import { Metadata } from "../../components/Metadata";
 import { useUser } from "../../contexts/user";
+import humanBytes from "../../lib/humanBytes";
 
 const FreePortalHeader = () => {
   const { plans } = usePlans();
 
   const freePlan = plans.find(({ price }) => price === 0);
-  const freeStorage = freePlan?.limits ? bytes(freePlan.limits?.storageLimit, { binary: true }) : null;
+  const freeStorage = freePlan?.limits ? humanBytes(freePlan.limits?.storageLimit, { binary: true }) : null;
 
   return (
     <div className="mt-4 mb-8 font-sans">

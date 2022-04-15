@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import fileSize from "pretty-bytes";
 import { Link } from "gatsby";
 import cn from "classnames";
 import useSWR from "swr";
@@ -10,6 +9,7 @@ import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import { GraphBar } from "./GraphBar";
 import { UsageGraph } from "./UsageGraph";
+import humanBytes from "../../lib/humanBytes";
 
 const useUsageData = () => {
   const { user } = useUser();
@@ -45,7 +45,7 @@ const useUsageData = () => {
 };
 
 const size = (bytes) => {
-  const text = fileSize(bytes ?? 0, { maximumFractionDigits: 0, binary: true });
+  const text = humanBytes(bytes ?? 0, { precision: 0 });
   const [value, unit] = text.split(" ");
 
   return {
