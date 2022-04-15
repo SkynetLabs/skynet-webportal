@@ -62,7 +62,7 @@ const Slider = ({ slides, breakpoints, scrollerClassName, className }) => {
           const isVisible = index >= activeIndex && index < activeIndex + visibleSlides;
 
           return (
-            <div key={`slide-${index}`}>
+            <div key={`slide-${index}`} className="h-full">
               <Slide
                 isVisible={isVisible || !scrollable}
                 onClickCapture={
