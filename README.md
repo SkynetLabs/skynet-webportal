@@ -3,7 +3,7 @@
 ## Latest Setup Documentation
 
 Latest Skynet Webportal setup documentation and the setup process Skynet Labs
-supports is located at https://docs.siasky.net/webportal-management/overview.
+supports is located at https://portal-docs.skynetlabs.com/.
 
 Some scripts and setup documentation contained in this repository
 (`skynet-webportal`) may be outdated and generally should not be used.
