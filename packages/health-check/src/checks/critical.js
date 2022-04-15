@@ -45,6 +45,7 @@ async function uploadCheck(done) {
   form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
 
   try {
+    // Upload file
     const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, {
       body: form,
       headers: { cookie: authCookie },
@@ -53,6 +54,18 @@ async function uploadCheck(done) {
     data.statusCode = response.statusCode;
     data.up = true;
     data.ip = response.ip;
+
+    // Check file health
+    const responseContent = getResponseContent(response);
+    const skylink = responseContent.skylink;
+    try {
+      await skylinkHealthCheck(skylink, 30, authCookie);
+    } catch (error) {
+      data.up = false;
+      data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+      data.errorMessage = error.message || error;
+      data.errorResponseContent = getResponseContent(error.response) || error;
+    }
   } catch (error) {
     data.statusCode = error.response?.statusCode || error.statusCode || error.status;
     data.errorMessage = error.message;
@@ -61,6 +74,25 @@ async function uploadCheck(done) {
   }
 
   done({ name: "upload_file", time: calculateElapsedTime(time), ...data });
+}
+
+// skylinkHealthCheck checks if the skylink has reached full redundancy
+async function skylinkHealthCheck(skylink, numRetries, authCookie) {
+  try {
+    const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
+      headers: { cookie: authCookie },
+    });
+    const healthData = getResponseContent(response);
+    if (healthData.basesectorredundancy !== 10 && numRetries > 0) {
+      return skylinkHealthCheck(skylink, numRetries - 1);
+    }
+    if (healthData.basesectorredundancy !== 10 && numRetries === 0) {
+      throw "Skylink did not reach full redundancy";
+    }
+    return response;
+  } catch (error) {
+    throw error;
+  }
 }
 
 // websiteCheck checks whether the main website is working
