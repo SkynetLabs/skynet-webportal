@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
@@ -8,6 +9,8 @@ const MODULE_BLOCKER = "b";
 
 const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
+
+const sectorSize = 1 << 22;
 
 // check that any relevant configuration is properly set in skyd
 async function skydConfigCheck(done) {
@@ -36,13 +39,29 @@ async function skydConfigCheck(done) {
 
 // uploadCheck returns the result of uploading a sample file
 async function uploadCheck(done) {
-  const authCookie = await getAuthCookie();
-  const time = process.hrtime();
-  const form = new FormData();
   const payload = Buffer.from(new Date()); // current date to ensure data uniqueness
-  const data = { up: false };
 
-  form.append("file", payload, { filename: "time.txt", contentType: "text/plain" });
+  return uploadFunc(done, payload, "upload_file");
+}
+
+// uploadLargeFileCheck returns the result of uploading a large file
+async function uploadLargeFileCheck(done) {
+  const payload = Buffer.from(crypto.randomBytes(sectorSize));
+
+  return uploadFunc(done, payload, "upload_large_file", true);
+}
+
+// uploadFunc handles the upload and health check for the upload checks
+async function uploadFunc(done, payload, name, isLarge = false) {
+  // Get time for calculating the elapsed time for the check
+  const time = process.hrtime();
+
+  // Initialize check params
+  const authCookie = await getAuthCookie();
+  const data = { up: false };
+  const form = new FormData();
+
+  form.append("file", payload, { filename: `${name}.txt`, contentType: "text/plain" });
 
   try {
     // Upload file
@@ -51,25 +70,15 @@ async function uploadCheck(done) {
       headers: { cookie: authCookie },
     });
 
-    data.statusCode = response.statusCode;
-    data.up = true;
-    data.ip = response.ip;
-
     // Check file health
     const responseContent = getResponseContent(response);
     const skylink = responseContent.skylink;
-    try {
-      await skylinkHealthCheck(skylink, 30, authCookie);
-    } catch (error) {
-      // Reset the up status as the previous successful file upload would have
-      // set this to true.
-      data.up = false;
-      data.statusCode = error.response?.statusCode || error.statusCode || error.status;
-      // Default to the error itself if the message or response are null since
-      // the error can be a simple error string.
-      data.errorMessage = error.message || error;
-      data.errorResponseContent = getResponseContent(error.response) || error;
-    }
+    await skylinkHealthCheck(skylink, 60, authCookie, isLarge);
+
+    // Update data response
+    data.statusCode = response.statusCode;
+    data.up = true;
+    data.ip = response.ip;
   } catch (error) {
     data.statusCode = error.response?.statusCode || error.statusCode || error.status;
     data.errorMessage = error.message;
@@ -77,26 +86,44 @@ async function uploadCheck(done) {
     data.ip = error?.response?.ip ?? null;
   }
 
-  done({ name: "upload_file", time: calculateElapsedTime(time), ...data });
+  done({ name, time: calculateElapsedTime(time), ...data });
 }
 
 // skylinkHealthCheck checks if the skylink has reached full redundancy
-async function skylinkHealthCheck(skylink, numRetries, authCookie) {
-  try {
-    const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
-      headers: { cookie: authCookie },
-    });
-    const healthData = getResponseContent(response);
-    if (healthData.basesectorredundancy !== 10 && numRetries > 0) {
-      return skylinkHealthCheck(skylink, numRetries - 1);
-    }
-    if (healthData.basesectorredundancy !== 10 && numRetries === 0) {
-      throw "Skylink did not reach full redundancy";
-    }
-    return response;
-  } catch (error) {
-    throw error;
+async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge = false) {
+  // Get the health of the skylink
+  const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
+    headers: { cookie: authCookie },
+  });
+  const healthData = getResponseContent(response);
+
+  // Check Basesectorredundancy first
+  if (healthData.basesectorredundancy !== 10 && numRetries > 0) {
+    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
+    // lower.
+    await new Promise((r) => setTimeout(r, (10 - healthData.basesectorredundancy) * 1000));
+    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
   }
+
+  // Check the Fanout redundancy if it is a large file
+  if (isLarge && healthData.fanoutredundancy != 3 && numRetries > 0) {
+    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
+    // lower.
+    await new Promise((r) => setTimeout(r, (3 - healthData.fanoutredundancy) * 10000));
+    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
+  }
+
+  // Throw error if the basesectorredundancy never reached 10x
+  if (healthData.basesectorredundancy !== 10 && numRetries === 0) {
+    throw new Error(`Basesector did not reach full redundancy: ${healthData.basesectorredundancy}`);
+  }
+
+  // Throw error if the fanoutredundancy never reached 3x
+  if (isLarge && healthData.fanoutredundancy !== 3 && numRetries === 0) {
+    throw new Error(`Fanout did not reach full redundancy: ${healthData.fanoutredundancy}`);
+  }
+
+  return response;
 }
 
 // websiteCheck checks whether the main website is working
@@ -255,6 +282,7 @@ async function genericAccessCheck(name, url) {
 const checks = [
   skydConfigCheck,
   uploadCheck,
+  uploadLargeFileCheck,
   websiteCheck,
   downloadCheck,
   skylinkSubdomainCheck,
