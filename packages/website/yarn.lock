@@ -6209,7 +6209,7 @@ gatsby-cli@^4.12.1:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^3.10.1, gatsby-core-utils@^3.11.1, gatsby-core-utils@^3.12.1, gatsby-core-utils@^3.8.2:
+gatsby-core-utils@^3.10.1, gatsby-core-utils@^3.12.1, gatsby-core-utils@^3.8.2:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.12.1.tgz#590ec08de7168b086b7d49128732b9ada95b985f"
   integrity sha512-jBG1MfR6t2MZNIl8LQ3Cwc92F6uFNcEC091IK+qKVy9FNT0+WzcKQ6Olip6u1NSvCatfrg1FqrH0K78a6lmnLQ==
@@ -6311,16 +6311,16 @@ gatsby-plugin-image@2.12.1:
     objectFitPolyfill "^2.3.5"
     prop-types "^15.8.1"
 
-gatsby-plugin-manifest@4.11.1:
-  version "4.11.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-4.11.1.tgz#fb3061c2e989acb2634719c1e8645fd1388f4b3b"
-  integrity sha512-m5cdi6KBc8+zmnlIfEh92sXpFEUfjuCrjM5BKc8e6v0jxJS0CqVrZOyT12mT2yq9H12UrkzFx1qaI8e2/IJiGA==
+gatsby-plugin-manifest@4.12.1:
+  version "4.12.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-4.12.1.tgz#25342272c03fdce95901eb42a3ece09f12e4be4a"
+  integrity sha512-AZ0vtO/+khtpum4VUX/Gj/oRer6ckcEfVU/DNd3QlpG7ucHSzHKSwSLP6F5kevCHo7DS4hCMV8RixPlcv0ePWA==
   dependencies:
     "@babel/runtime" "^7.15.4"
-    gatsby-core-utils "^3.11.1"
-    gatsby-plugin-utils "^3.5.1"
+    gatsby-core-utils "^3.12.1"
+    gatsby-plugin-utils "^3.6.1"
     semver "^7.3.5"
-    sharp "^0.30.1"
+    sharp "^0.30.3"
 
 gatsby-plugin-page-creator@^4.12.1:
   version "4.12.1"
@@ -6415,7 +6415,7 @@ gatsby-plugin-typescript@^4.12.1:
     "@babel/runtime" "^7.15.4"
     babel-plugin-remove-graphql-queries "^4.12.1"
 
-gatsby-plugin-utils@^3.5.1, gatsby-plugin-utils@^3.6.1:
+gatsby-plugin-utils@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-utils/-/gatsby-plugin-utils-3.6.1.tgz#31d742e1aded08439ad42959880821e1fc9740cd"
   integrity sha512-Ebk98v4mxaDWjGFl6VBeNv1zjeJ7UCQ29UTabzY2BpztvUCBHfLVQdMmuaAgzPRn+A3SFVOGpcl++CF0IEl+7A==
