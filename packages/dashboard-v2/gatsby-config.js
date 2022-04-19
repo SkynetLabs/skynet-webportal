@@ -11,6 +11,7 @@ module.exports = {
     title: `Account Dashboard`,
     siteUrl: `https://account.${GATSBY_PORTAL_DOMAIN}`,
   },
+  pathPrefix: "/v2",
   trailingSlash: "never",
   plugins: [
     "gatsby-plugin-image",

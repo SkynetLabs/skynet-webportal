@@ -1,10 +1,11 @@
 import * as React from "react";
-import { StaticImage } from "gatsby-plugin-image";
 
 import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 
 import { Switch } from "../../components/Switch";
 import { Metadata } from "../../components/Metadata";
+
+import inboxImg from "../../../static/images/inbox.svg";
 
 const NotificationsPage = () => {
   return (
@@ -37,8 +38,8 @@ const NotificationsPage = () => {
             </ul>
           </section>
         </div>
-        <div className="hidden xl:block text-right w-full pr-14 pt-20">
-          <StaticImage src="../../../static/images/inbox.svg" alt="" placeholder="none" />
+        <div className="hidden xl:block text-right w-full pl-12 pt-20">
+          <img src={inboxImg} alt="" className="w-[200px]" />
         </div>
       </div>
     </>

@@ -3,10 +3,13 @@ import styled from "styled-components";
 
 import { UserProvider } from "../contexts/user";
 
+import skynetLogo from "../../static/images/logo-black-text.svg";
+import authBg from "../../static/images/auth-bg.svg";
+
 const Layout = styled.div.attrs({
   className: "min-h-screen w-screen bg-black flex",
 })`
-  background-image: url(/images/auth-bg.svg);
+  background-image: url(${authBg});
   background-repeat: no-repeat;
   background-position: center center;
 `;
@@ -36,7 +39,7 @@ const AuthLayout =
             <Content>
               <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
                 <div className="mb-4 md:mb-16">
-                  <img src="/images/logo-black-text.svg" alt="Skynet" className="-ml-2" />
+                  <img src={skynetLogo} alt="Skynet" className="-ml-2" />
                 </div>
                 {children}
               </div>

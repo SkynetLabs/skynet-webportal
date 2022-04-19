@@ -10,6 +10,8 @@ import { AddSponsorKeyForm } from "../../components/forms/AddSponsorKeyForm";
 import { Metadata } from "../../components/Metadata";
 import HighlightedLink from "../../components/HighlightedLink";
 
+import apiKeysImg from "../../../static/images/api-keys.svg";
+
 const DeveloperSettingsPage = () => {
   const { data: allKeys = [], mutate: reloadKeys, error } = useSWR("user/apikeys");
   const apiKeys = allKeys.filter(({ public: isPublic }) => isPublic === "false");
@@ -103,7 +105,7 @@ const DeveloperSettingsPage = () => {
           </section>
         </div>
         <div className="hidden xl:block w-full text-right pt-16 pr-5">
-          <img src="/images/api-keys.svg" alt="" className="inline-block h-[150px]" />
+          <img src={apiKeysImg} alt="" className="inline-block h-[150px]" />
         </div>
       </div>
     </>

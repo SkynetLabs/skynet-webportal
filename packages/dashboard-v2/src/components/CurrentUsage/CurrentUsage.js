@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import fileSize from "pretty-bytes";
 import { Link } from "gatsby";
+import cn from "classnames";
 import useSWR from "swr";
 
 import { useUser } from "../../contexts/user";
@@ -62,7 +63,9 @@ const ErrorMessage = () => (
 );
 
 export default function CurrentUsage() {
+  const { activePlan, plans } = useActivePlan();
   const { usage, error, loading } = useUsageData();
+  const nextPlan = useMemo(() => plans.find(({ tier }) => tier > activePlan?.tier), [plans, activePlan]);
   const storageUsage = size(usage.storageUsed);
   const storageLimit = size(usage.storageLimit);
   const filesUsedLabel = useMemo(() => ({ value: usage.filesUsed, unit: "files" }), [usage.filesUsed]);
@@ -89,7 +92,7 @@ export default function CurrentUsage() {
           <span>{storageLimit.text}</span>
         </div>
         <UsageGraph>
-          <GraphBar value={usage.storageUsed} limit={usage.storageLimit} label={storageUsage} />
+          <GraphBar value={usage.storageUsed} limit={usage.storageLimit} label={storageUsage} className="normal-case" />
           <GraphBar value={usage.filesUsed} limit={usage.filesLimit} label={filesUsedLabel} />
         </UsageGraph>
         <div className="flex place-content-between">
@@ -97,7 +100,10 @@ export default function CurrentUsage() {
           <span className="inline-flex place-content-between w-[37%]">
             <Link
               to="/upgrade"
-              className="text-primary underline-offset-3 decoration-dotted hover:text-primary-light hover:underline"
+              className={cn(
+                "text-primary underline-offset-3 decoration-dotted hover:text-primary-light hover:underline",
+                { invisible: !nextPlan }
+              )}
             >
               UPGRADE
             </Link>{" "}
