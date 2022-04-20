@@ -3,48 +3,48 @@ updates:
   - package-ecosystem: npm
     directory: "/packages/dashboard"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: npm
     directory: "/packages/dnslink-api"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: npm
     directory: "/packages/handshake-api"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: npm
     directory: "/packages/health-check"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: npm
     directory: "/packages/website"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/docker/nginx"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/docker/sia"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/packages/dashboard"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/packages/dnslink-api"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/packages/handshake-api"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/packages/health-check"
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: docker
     directory: "/packages/website"
     schedule:
-      interval: weekly
+      interval: monthly
