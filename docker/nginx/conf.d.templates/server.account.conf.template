@@ -1,0 +1,39 @@
+server {
+	server_name account.${PORTAL_DOMAIN}; # example: account.siasky.net
+	
+	include /etc/nginx/conf.d/server/server.http;
+}
+
+server {
+	server_name account.${PORTAL_DOMAIN}; # example: account.siasky.net
+
+	set_by_lua_block $skynet_portal_domain { return "${PORTAL_DOMAIN}" }
+	set_by_lua_block $skynet_server_domain {
+		-- fall back to portal domain if server domain is not defined
+		if "${SERVER_DOMAIN}" == "" then
+			return "${PORTAL_DOMAIN}"
+		end
+		return "${SERVER_DOMAIN}"
+	}
+
+	include /etc/nginx/conf.d/server/server.account;
+}
+
+server {
+	server_name account.${SERVER_DOMAIN}; # example: account.eu-ger-1.siasky.net
+
+	include /etc/nginx/conf.d/server/server.http;
+
+	set_by_lua_block $server_alias { return string.match("${SERVER_DOMAIN}", "^([^.]+)") }
+}
+
+server {
+	server_name account.${SERVER_DOMAIN}; # example: account.eu-ger-1.siasky.net
+
+	set_by_lua_block $skynet_portal_domain { return "${SERVER_DOMAIN}" }
+	set_by_lua_block $skynet_server_domain { return "${SERVER_DOMAIN}" }
+
+	include /etc/nginx/conf.d/server/server.account;
+	
+	set_by_lua_block $server_alias { return string.match("${SERVER_DOMAIN}", "^([^.]+)") }
+}
