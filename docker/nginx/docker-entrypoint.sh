@@ -2,6 +2,7 @@
 # vim:sw=4:ts=4:et
 
 # https://github.com/nginxinc/docker-nginx/blob/master/entrypoint/docker-entrypoint.sh
+# https://github.com/nginxinc/docker-nginx/blob/master/LICENSE
 # Copyright (C) 2011-2016 Nginx, Inc.
 # All rights reserved.
 

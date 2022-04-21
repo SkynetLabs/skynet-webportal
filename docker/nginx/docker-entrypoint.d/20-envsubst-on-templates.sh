@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # https://github.com/nginxinc/docker-nginx/blob/master/entrypoint/20-envsubst-on-templates.sh
+# https://github.com/nginxinc/docker-nginx/blob/master/LICENSE
 # Copyright (C) 2011-2016 Nginx, Inc.
 # All rights reserved.
 
