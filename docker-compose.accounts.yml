@@ -79,7 +79,9 @@ services:
       - mongo
 
   dashboard-v2:
-    build: packages/dashboard-v2/Dockerfile
+    build:
+      context: .
+      dockerfile: packages/dashboard-v2/Dockerfile
     container_name: dashboard-v2
     restart: unless-stopped
     logging: *default-logging
