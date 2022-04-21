@@ -2,7 +2,7 @@ FROM openresty/openresty:1.19.9.1-focal
 
 WORKDIR /
 
-RUN apt-get update && apt-get --no-install-recommends install bc=1.07.1-2build1 && \
+RUN apt-get update && apt-get --no-install-recommends -y install bc=1.07.1-2build1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     luarocks install lua-resty-http && \
     luarocks install hasher
