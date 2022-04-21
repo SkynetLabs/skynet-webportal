@@ -14,12 +14,6 @@ ENV NGINX_ENTRYPOINT_RELOAD_EVERY_X_HOURS 6
 COPY docker/nginx/docker-entrypoint.sh /
 COPY docker/nginx/docker-entrypoint.d /docker-entrypoint.d
 
-# copy nginx configuration files and libraries
-COPY docker/nginx/libs /etc/nginx/libs
-COPY docker/nginx/conf.d /etc/nginx/conf.d
-COPY docker/nginx/conf.d.templates /etc/nginx/templates
-COPY docker/nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 STOPSIGNAL SIGQUIT

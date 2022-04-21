@@ -7,7 +7,7 @@ set -e
 
 ME=$(basename $0)
 
-generate_local_certificate() {  
+generate_local_certificate() {
   echo >&3 "$ME: Generating locally signed ssl certificate"
   openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
     -subj '/CN=local-certificate' \
