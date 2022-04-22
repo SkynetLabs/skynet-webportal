@@ -48,7 +48,6 @@ function _M.track_upload_timer(premature, skylink, auth_headers)
 end
 
 function _M.track_upload(skylink, status_code, auth_headers)
-    local has_auth_headers = not utils.is_table_empty(auth_headers)
     local status_success = status_code >= 200 and status_code <= 299
 
     if skylink and status_success then
