@@ -1,6 +1,5 @@
 local _M = {}
 
-local cjson = require("cjson")
 local utils = require("utils")
 
 function _M.track_download_timer(premature, skylink, status, auth_headers, body_bytes_sent)
@@ -36,10 +35,18 @@ function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
 
     local httpc = require("resty.http").new()
 
+    -- set correct content type header and include auth headers
+    local headers = {
+        ["Content-Type"] = "application/x-www-form-urlencoded",
+    }
+    for key, value in ipairs(auth_headers) do
+        headers[key] = value
+    end 
+
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
         method = "POST",
-        headers = auth_headers,
+        headers = headers,
         body = "ip=" .. uploader_ip,
     })
 
