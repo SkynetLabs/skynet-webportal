@@ -235,7 +235,12 @@ location /skynet/skyfile {
         local skynet_tracker = require("skynet.tracker")
 
         if skynet_modules.is_enabled("a") then
-            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+            skynet_tracker.track_upload(
+                ngx.header["Skynet-Skylink"],
+                ngx.status,
+                skynet_account.get_auth_headers(),
+                ngx.var.remote_addr
+            )
         end
 
         if skynet_modules.is_enabled("s") then
@@ -315,7 +320,12 @@ location /skynet/tus {
         local skynet_tracker = require("skynet.tracker")
 
         if skynet_modules.is_enabled("a") then
-            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+            skynet_tracker.track_upload(
+                ngx.header["Skynet-Skylink"],
+                ngx.status,
+                skynet_account.get_auth_headers(),
+                ngx.var.remote_addr
+            )
         end
 
         if skynet_modules.is_enabled("s") then
@@ -346,7 +356,12 @@ location /skynet/pin {
         local skynet_tracker = require("skynet.tracker")
 
         if skynet_modules.is_enabled("a") then
-            skynet_tracker.track_upload(ngx.header["Skynet-Skylink"], ngx.status, skynet_account.get_auth_headers())
+            skynet_tracker.track_upload(
+                ngx.header["Skynet-Skylink"],
+                ngx.status,
+                skynet_account.get_auth_headers(),
+                ngx.var.remote_addr
+            )
         end
 
         if skynet_modules.is_enabled("s") then
