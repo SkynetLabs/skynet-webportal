@@ -231,12 +231,17 @@ describe("track_upload", function()
         assert.stub(ngx.timer.at).was_not_called()
     end)
 
-    it("should not schedule a timer if auth headers are empty", function()
+    it("should schedule a timer if auth headers are empty", function()
         ngx.timer.at.invokes(function() return true, nil end)
 
         skynet_tracker.track_upload(valid_skylink, valid_status_code, {})
 
-        assert.stub(ngx.timer.at).was_not_called()
+        assert.stub(ngx.timer.at).was_called_with(
+            0,
+            skynet_tracker.track_upload_timer,
+            valid_skylink,
+            {}
+        )
     end)
 
     it("should log an error if timer failed to create", function()
