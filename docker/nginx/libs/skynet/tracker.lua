@@ -1,5 +1,6 @@
 local _M = {}
 
+local cjson = require("cjson")
 local utils = require("utils")
 
 function _M.track_download_timer(premature, skylink, status, auth_headers, body_bytes_sent)
@@ -30,7 +31,7 @@ function _M.track_download(skylink, status_code, auth_headers, body_bytes_sent)
     end
 end
 
-function _M.track_upload_timer(premature, skylink, auth_headers)
+function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     if premature then return end
 
     local httpc = require("resty.http").new()
@@ -39,6 +40,7 @@ function _M.track_upload_timer(premature, skylink, auth_headers)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
         method = "POST",
         headers = auth_headers,
+        body = cjson.encode({ ip = uploader_ip })
     })
 
     if err or (res and res.status ~= 204) then
@@ -49,9 +51,10 @@ end
 
 function _M.track_upload(skylink, status_code, auth_headers)
     local status_success = status_code >= 200 and status_code <= 299
+    local uploader_ip = ngx.var.remote_addr
 
     if skylink and status_success then
-        local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers)
+        local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers, uploader_ip)
         if not ok then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
 end
