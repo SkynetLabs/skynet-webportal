@@ -30,15 +30,24 @@ function _M.track_download(skylink, status_code, auth_headers, body_bytes_sent)
     end
 end
 
-function _M.track_upload_timer(premature, skylink, auth_headers)
+function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     if premature then return end
 
     local httpc = require("resty.http").new()
 
+    -- set correct content type header and include auth headers
+    local headers = {
+        ["Content-Type"] = "application/x-www-form-urlencoded",
+    }
+    for key, value in pairs(auth_headers) do
+        headers[key] = value
+    end
+
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
         method = "POST",
-        headers = auth_headers,
+        headers = headers,
+        body = "ip=" .. uploader_ip,
     })
 
     if err or (res and res.status ~= 204) then
@@ -47,11 +56,11 @@ function _M.track_upload_timer(premature, skylink, auth_headers)
     end
 end
 
-function _M.track_upload(skylink, status_code, auth_headers)
+function _M.track_upload(skylink, status_code, auth_headers, uploader_ip)
     local status_success = status_code >= 200 and status_code <= 299
 
     if skylink and status_success then
-        local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers)
+        local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers, uploader_ip)
         if not ok then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
 end
