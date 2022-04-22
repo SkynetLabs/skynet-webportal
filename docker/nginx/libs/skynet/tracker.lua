@@ -51,7 +51,7 @@ function _M.track_upload(skylink, status_code, auth_headers)
     local has_auth_headers = not utils.is_table_empty(auth_headers)
     local status_success = status_code >= 200 and status_code <= 299
 
-    if skylink and status_success and has_auth_headers then
+    if skylink and status_success then
         local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers)
         if not ok then ngx.log(ngx.ERR, "Failed to create timer: ", err) end
     end
