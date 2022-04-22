@@ -39,10 +39,8 @@ function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
         method = "POST",
+        headers = auth_headers,
         body = "ip=" .. uploader_ip,
-        headers = {
-            ["Content-Type"] = "application/x-www-form-urlencoded"
-        }
     })
 
     if err or (res and res.status ~= 204) then
