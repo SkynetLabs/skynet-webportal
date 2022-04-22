@@ -30,7 +30,12 @@ server {
 server {
 	server_name ${SERVER_DOMAIN}; # example: eu-ger-1.siasky.net
 
-	set_by_lua_block $skynet_portal_domain { return "${SERVER_DOMAIN}" }
+	set_by_lua_block $skynet_portal_domain {
+		-- when accessing portal directly through server domain, portal domain should be set to server domain
+		-- motivation: skynet-js uses Skynet-Portal-Api header (that is set to $skynet_portal_domain) to detect current
+		-- portal address and it should be server domain when accessing specific server by its domain address
+		return "${SERVER_DOMAIN}"
+	}
 	set_by_lua_block $skynet_server_domain { return "${SERVER_DOMAIN}" }
 
 	include /etc/nginx/conf.d/server/server.api;
