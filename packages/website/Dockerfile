@@ -34,4 +34,4 @@ COPY --from=builder /usr/app/public /usr/app/public
 
 EXPOSE 9000
 
-CMD http-server /usr/app/public -s -p 9000
+CMD ["http-server", "/usr/app/public", "-s -p 9000"]
