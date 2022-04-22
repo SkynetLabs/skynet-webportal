@@ -39,7 +39,7 @@ function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     local headers = {
         ["Content-Type"] = "application/x-www-form-urlencoded",
     }
-    for key, value in ipairs(auth_headers) do
+    for key, value in pairs(auth_headers) do
         headers[key] = value
     end
 
