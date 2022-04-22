@@ -41,7 +41,7 @@ function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     }
     for key, value in ipairs(auth_headers) do
         headers[key] = value
-    end 
+    end
 
     -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
     local res, err = httpc:request_uri("http://10.10.10.70:3000/track/upload/" .. skylink, {
@@ -56,9 +56,8 @@ function _M.track_upload_timer(premature, skylink, auth_headers, uploader_ip)
     end
 end
 
-function _M.track_upload(skylink, status_code, auth_headers)
+function _M.track_upload(skylink, status_code, auth_headers, uploader_ip)
     local status_success = status_code >= 200 and status_code <= 299
-    local uploader_ip = ngx.var.remote_addr
 
     if skylink and status_success then
         local ok, err = ngx.timer.at(0, _M.track_upload_timer, skylink, auth_headers, uploader_ip)
