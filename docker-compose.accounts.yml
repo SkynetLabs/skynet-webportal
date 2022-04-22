@@ -20,9 +20,11 @@ services:
       - ACCOUNTS_LIMIT_ACCESS=${ACCOUNTS_LIMIT_ACCESS:-authenticated} # default to authenticated access only
 
   accounts:
-    # uncomment "build" and comment out "image" to build from sources
-    # build: https://github.com/SkynetLabs/skynet-accounts.git#main
-    image: skynetlabs/skynet-accounts
+    build:
+      context: ./docker/accounts
+      dockerfile: Dockerfile
+      args:
+        branch: main
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
@@ -55,9 +57,11 @@ services:
       - mongo
 
   dashboard:
-    build:
-      context: ./packages/dashboard
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./packages/dashboard/Dockerfile
+    image: skynetlabs/dashboard
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
@@ -78,8 +82,8 @@ services:
 
   dashboard-v2:
     build:
-      context: ./packages/dashboard-v2
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: packages/dashboard-v2/Dockerfile
     container_name: dashboard-v2
     restart: unless-stopped
     logging: *default-logging

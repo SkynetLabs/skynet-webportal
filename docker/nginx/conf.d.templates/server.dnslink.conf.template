@@ -12,13 +12,13 @@ server {
     ssl_certificate     /etc/ssl/local-certificate.crt;
     ssl_certificate_key /etc/ssl/local-certificate.key;
 
-    set_by_lua_block $skynet_portal_domain { return "{{PORTAL_DOMAIN}}" }
+    set_by_lua_block $skynet_portal_domain { return "${PORTAL_DOMAIN}" }
     set_by_lua_block $skynet_server_domain {
         -- fall back to portal domain if server domain is not defined
-        if "{{SERVER_DOMAIN}}" == "" then
-            return "{{PORTAL_DOMAIN}}"
+        if "${SERVER_DOMAIN}" == "" then
+            return "${PORTAL_DOMAIN}"
         end
-        return "{{SERVER_DOMAIN}}"
+        return "${SERVER_DOMAIN}"
     }
 
     include /etc/nginx/conf.d/server/server.dnslink;

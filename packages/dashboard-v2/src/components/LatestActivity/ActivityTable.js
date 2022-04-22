@@ -3,13 +3,13 @@ import useSWR from "swr";
 
 import { Table, TableBody, TableCell, TableRow } from "../Table";
 import { ContainerLoadingIndicator } from "../LoadingIndicator";
+import useFormattedFilesData from "../FileList/useFormattedFilesData";
 
 import { ViewAllLink } from "./ViewAllLink";
-import useFormattedActivityData from "./useFormattedActivityData";
 
 export default function ActivityTable({ type }) {
   const { data, error } = useSWR(`user/${type}?pageSize=3`);
-  const items = useFormattedActivityData(data?.items || []);
+  const items = useFormattedFilesData(data?.items || []);
 
   if (!items.length) {
     return (

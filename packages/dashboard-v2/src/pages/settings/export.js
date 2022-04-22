@@ -6,6 +6,8 @@ import { Switch } from "../../components/Switch";
 import { Button } from "../../components/Button";
 import { Metadata } from "../../components/Metadata";
 
+import exportImg from "../../../static/images/import-export.svg";
+
 const useExportOptions = () => {
   const [pinnedFiles, setPinnedFiles] = useState(false);
   const [uploadHistory, setUploadHistory] = useState(false);
@@ -38,8 +40,8 @@ const ExportPage = () => {
           <section>
             <h4>Export</h4>
             <p>
-              Et quidem exercitus quid ex eo delectu rerum, quem modo ista sis aequitate. Probabo, inquit, modo dixi,
-              constituto.
+              Select the items you want to export. You can use this data to migrate your account to another Skynet
+              portal.
             </p>
           </section>
           <hr />
@@ -65,7 +67,7 @@ const ExportPage = () => {
           </section>
         </div>
         <div className="hidden xl:block w-full text-right pt-20 pr-6">
-          <img src="/images/import-export.svg" alt="" className="inline-block w-[200px]" />
+          <img src={exportImg} alt="" className="inline-block w-[200px]" />
         </div>
       </div>
     </>

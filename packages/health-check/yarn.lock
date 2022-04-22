@@ -515,6 +515,19 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@skynetlabs/tus-js-client@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@skynetlabs/tus-js-client/-/tus-js-client-2.3.0.tgz#a14fd4197e2bc4ce8be724967a0e4c17d937cb64"
+  integrity sha512-piGvPlJh+Bu3Qf08bDlc/TnFLXE81KnFoPgvnsddNwTSLyyspxPFxJmHO5ki6SYyOl3HmUtGPoix+r2M2UpFEA==
+  dependencies:
+    buffer-from "^0.1.1"
+    combine-errors "^3.0.3"
+    is-stream "^2.0.0"
+    js-base64 "^2.6.1"
+    lodash.throttle "^4.1.1"
+    proper-lockfile "^2.0.1"
+    url-parse "^1.4.3"
+
 "@szmarczak/http-timer@^4.0.5":
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@szmarczak/http-timer/-/http-timer-4.0.6.tgz#b4a914bb62e7c272d4e5989fe4440f812ab1d807"
@@ -736,17 +749,24 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
 
+async-mutex@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/async-mutex/-/async-mutex-0.3.2.tgz#1485eda5bda1b0ec7c8df1ac2e815757ad1831df"
+  integrity sha512-HuTK7E7MT7jZEh1P9GtRW9+aTWiDWWi9InbZ5hjxrnRa39KS4BW04+xLBhYNS2aXhHUIKZSw3gj4Pn1pj+qGAA==
+  dependencies:
+    tslib "^2.3.1"
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-axios@^0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
-  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+axios@^0.26.0:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
+  integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
   dependencies:
-    follow-redirects "^1.14.4"
+    follow-redirects "^1.14.8"
 
 babel-jest@^27.5.1:
   version "27.5.1"
@@ -1407,10 +1427,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-follow-redirects@^1.14.4:
-  version "1.14.8"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
-  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
+follow-redirects@^1.14.8:
+  version "1.14.9"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
+  integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
 
 form-data@^3.0.0:
   version "3.0.1"
@@ -2410,10 +2430,10 @@ mime@1.6.0:
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
   integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
 
-mime@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-2.5.2.tgz#6e3dc6cc2b9510643830e5f19d5cb753da5eeabe"
-  integrity sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==
+mime@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
+  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
 mimic-fn@^2.1.0:
   version "2.1.0"
@@ -2896,24 +2916,25 @@ sjcl@^1.0.8:
   resolved "https://registry.yarnpkg.com/sjcl/-/sjcl-1.0.8.tgz#f2ec8d7dc1f0f21b069b8914a41a8f236b0e252a"
   integrity sha512-LzIjEQ0S0DpIgnxMEayM1rq9aGwGRG4OnZhCdjx7glTaJtf4zRfpg87ImfjSJjoW9vKpagd82McDOwbRT5kQKQ==
 
-skynet-js@^4.0.19-beta:
-  version "4.0.19-beta"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.19-beta.tgz#d4c640898c79cf69e45aa1c3c1ed5c80aa1aeced"
-  integrity sha512-d8/q3E3OjUxgCCAW28gNFvbahj0ks8ym122XTopbRyvAZKk9+/Z4ians9v8Tov36Z4k/un+Ilw/0i6DtM8c8Dw==
+skynet-js@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.1.0.tgz#eccb84d04e9f42aa4f86ecb24fb4d59ed21e44cc"
+  integrity sha512-VmUjJ9QnLpfuQA2j7vzFh8JvukjQlX4QLGw1HY3VyslFPj92vPpyO8gqjPfzgbkR05TXL7CbdqZoLZr/RBDZPw==
   dependencies:
-    axios "^0.24.0"
+    "@skynetlabs/tus-js-client" "^2.3.0"
+    async-mutex "^0.3.2"
+    axios "^0.26.0"
     base32-decode "^1.0.0"
     base32-encode "^1.1.1"
     base64-js "^1.3.1"
     blakejs "^1.1.0"
     buffer "^6.0.1"
-    mime "^2.5.2"
+    mime "^3.0.0"
     path-browserify "^1.0.1"
     post-me "^0.4.5"
     randombytes "^2.1.0"
     sjcl "^1.0.8"
     skynet-mysky-utils "^0.3.0"
-    tus-js-client "^2.2.0"
     tweetnacl "^1.0.3"
     url-join "^4.0.1"
     url-parse "^1.5.1"
@@ -3120,18 +3141,10 @@ tr46@^2.1.0:
   dependencies:
     punycode "^2.1.1"
 
-tus-js-client@^2.2.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/tus-js-client/-/tus-js-client-2.3.0.tgz#5d76145476cea46a4e7c045a0054637cddf8dc39"
-  integrity sha512-I4cSwm6N5qxqCmBqenvutwSHe9ntf81lLrtf6BmLpG2v4wTl89atCQKqGgqvkodE6Lx+iKIjMbaXmfvStTg01g==
-  dependencies:
-    buffer-from "^0.1.1"
-    combine-errors "^3.0.3"
-    is-stream "^2.0.0"
-    js-base64 "^2.6.1"
-    lodash.throttle "^4.1.1"
-    proper-lockfile "^2.0.1"
-    url-parse "^1.4.3"
+tslib@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
+  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tweetnacl@^1.0.3:
   version "1.0.3"

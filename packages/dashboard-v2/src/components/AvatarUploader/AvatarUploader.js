@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
 import { useUser } from "../../contexts/user";
-import { SimpleUploadIcon } from "../Icons";
+// import { SimpleUploadIcon } from "../Icons";
 
-const AVATAR_PLACEHOLDER = "/images/avatar-placeholder.svg";
+import avatarPlaceholder from "../../../static/images/avatar-placeholder.svg";
 
 export const AvatarUploader = (props) => {
   const { user } = useUser();
-  const [imageUrl, setImageUrl] = useState(AVATAR_PLACEHOLDER);
+  const [imageUrl, setImageUrl] = useState(avatarPlaceholder);
 
   useEffect(() => {
-    setImageUrl(user.avatarUrl ?? AVATAR_PLACEHOLDER);
+    setImageUrl(user.avatarUrl ?? avatarPlaceholder);
   }, [user]);
 
   return (
@@ -20,6 +20,7 @@ export const AvatarUploader = (props) => {
       >
         <img src={imageUrl} className="w-[160px]" alt="" />
       </div>
+      {/* TODO: uncomment when avatar uploads work
       <div className="flex justify-center">
         <button
           className="flex items-center gap-4 hover:underline decoration-1 decoration-dashed underline-offset-2 decoration-gray-400"
@@ -28,8 +29,8 @@ export const AvatarUploader = (props) => {
         >
           <SimpleUploadIcon size={20} className="shrink-0" /> Upload profile picture
         </button>
-        {/* TODO: actual uploading */}
       </div>
+      */}
     </div>
   );
 };

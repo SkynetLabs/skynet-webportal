@@ -7,10 +7,12 @@ import { Footer } from "../components/Footer";
 import { UserProvider, useUser } from "../contexts/user";
 import { FullScreenLoadingIndicator } from "../components/LoadingIndicator";
 
+import dashboardBg from "../../static/images/dashboard-bg.svg";
+
 const Wrapper = styled.div.attrs({
   className: "min-h-screen overflow-hidden",
 })`
-  background-image: url(/images/dashboard-bg.svg);
+  background-image: url(${dashboardBg});
   background-position: center -280px;
   background-repeat: no-repeat;
 `;
