@@ -15,7 +15,7 @@ services:
 
   mongo:
     image: mongo:4.4.1
-    command: --keyFile=/data/mgkey --replSet=${SKYNET_DB_REPLICASET:-skynet}
+    command: --keyFile=/data/mgkey --replSet=${SKYNET_DB_REPLICASET:-skynet} --setParameter ShardingTaskExecutorPoolMinSize=10
     container_name: mongo
     restart: unless-stopped
     logging: *default-logging
