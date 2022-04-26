@@ -21,11 +21,11 @@ const BarLabel = styled.span.attrs({
   `}
 `;
 
-export const GraphBar = ({ value, limit, label }) => {
+export const GraphBar = ({ value, limit, label, className }) => {
   const percentage = typeof limit !== "number" || limit === 0 ? 0 : (value / limit) * 100;
 
   return (
-    <div className="relative flex items-center">
+    <div className={`relative flex items-center ${className}`}>
       <Bar $percentage={percentage}>
         <BarTip />
       </Bar>

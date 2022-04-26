@@ -8,4 +8,4 @@ RUN luarocks install lua-resty-http && \
 
 COPY rbusted /etc/nginx/
 
-CMD /etc/nginx/rbusted --verbose --pattern=spec /usr/local/openresty/site/lualib
+CMD ["/etc/nginx/rbusted", "--verbose", "--pattern=spec", "/usr/local/openresty/site/lualib"]
