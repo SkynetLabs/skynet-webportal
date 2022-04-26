@@ -80,8 +80,8 @@ services:
 
   dashboard-v2:
     build:
-      context: .
-      dockerfile: packages/dashboard-v2/Dockerfile
+      context: ./packages/dashboard-v2
+      dockerfile: Dockerfile
     container_name: dashboard-v2
     restart: unless-stopped
     logging: *default-logging
