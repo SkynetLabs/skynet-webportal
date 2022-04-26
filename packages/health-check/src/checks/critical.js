@@ -10,7 +10,7 @@ const MODULE_BLOCKER = "b";
 const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
 
-const sectorSize = 1 << 22;
+const sectorSize = 1 << 22; // 40 MiB
 
 // check that any relevant configuration is properly set in skyd
 async function skydConfigCheck(done) {
@@ -115,12 +115,12 @@ async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge 
 
   // Throw error if the basesectorredundancy never reached 10x
   if (healthData.basesectorredundancy !== 10 && numRetries === 0) {
-    throw new Error(`Basesector did not reach full redundancy: ${healthData.basesectorredundancy}`);
+    throw new Error(`File uploaded but basesector did not reach full redundancy: ${healthData.basesectorredundancy}`);
   }
 
   // Throw error if the fanoutredundancy never reached 3x
   if (isLarge && healthData.fanoutredundancy !== 3 && numRetries === 0) {
-    throw new Error(`Fanout did not reach full redundancy: ${healthData.fanoutredundancy}`);
+    throw new Error(`File uploaded but fanout did not reach full redundancy: ${healthData.fanoutredundancy}`);
   }
 
   return response;
