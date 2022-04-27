@@ -2,15 +2,20 @@ const crypto = require("crypto");
 const got = require("got");
 const FormData = require("form-data");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, getResponseContent, getAuthCookie, isPortalModuleEnabled } = require("../utils");
+const {
+  calculateElapsedTime,
+  getResponseContent,
+  getAuthCookie,
+  isPortalModuleEnabled,
+  uploadFunc,
+  sectorSize,
+} = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
 const MODULE_BLOCKER = "b";
 
 const skynetClient = new SkynetClient(`https://${process.env.PORTAL_DOMAIN}`);
 const exampleSkylink = "AACogzrAimYPG42tDOKhS3lXZD8YvlF8Q8R17afe95iV2Q";
-
-const sectorSize = 1 << 22; // 40 MiB
 
 // check that any relevant configuration is properly set in skyd
 async function skydConfigCheck(done) {
@@ -49,81 +54,6 @@ async function uploadLargeFileCheck(done) {
   const payload = Buffer.from(crypto.randomBytes(sectorSize));
 
   return uploadFunc(done, payload, "upload_large_file", true);
-}
-
-// uploadFunc handles the upload and health check for the upload checks
-async function uploadFunc(done, payload, name, isLarge = false) {
-  // Get time for calculating the elapsed time for the check
-  const time = process.hrtime();
-
-  // Initialize check params
-  const authCookie = await getAuthCookie();
-  const data = { up: false };
-  const form = new FormData();
-
-  form.append("file", payload, { filename: `${name}.txt`, contentType: "text/plain" });
-
-  try {
-    // Upload file
-    const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, {
-      body: form,
-      headers: { cookie: authCookie },
-    });
-
-    // Check file health
-    const responseContent = getResponseContent(response);
-    const skylink = responseContent.skylink;
-    await skylinkHealthCheck(skylink, 60, authCookie, isLarge);
-
-    // Update data response
-    data.statusCode = response.statusCode;
-    data.up = true;
-    data.ip = response.ip;
-  } catch (error) {
-    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
-    data.errorMessage = error.message;
-    data.errorResponseContent = getResponseContent(error.response);
-    data.ip = error?.response?.ip ?? null;
-  }
-
-  done({ name, time: calculateElapsedTime(time), ...data });
-}
-
-// skylinkHealthCheck checks if the skylink has reached full redundancy
-async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge = false) {
-  // Get the health of the skylink
-  const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
-    headers: { cookie: authCookie },
-  });
-  const healthData = getResponseContent(response);
-
-  // Check Basesectorredundancy first
-  if (healthData.basesectorredundancy !== 10 && numRetries > 0) {
-    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
-    // lower.
-    await new Promise((r) => setTimeout(r, (10 - healthData.basesectorredundancy) * 1000));
-    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
-  }
-
-  // Check the Fanout redundancy if it is a large file
-  if (isLarge && healthData.fanoutredundancy != 3 && numRetries > 0) {
-    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
-    // lower.
-    await new Promise((r) => setTimeout(r, (3 - healthData.fanoutredundancy) * 10000));
-    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
-  }
-
-  // Throw error if the basesectorredundancy never reached 10x
-  if (healthData.basesectorredundancy !== 10 && numRetries === 0) {
-    throw new Error(`File uploaded but basesector did not reach full redundancy: ${healthData.basesectorredundancy}`);
-  }
-
-  // Throw error if the fanoutredundancy never reached 3x
-  if (isLarge && healthData.fanoutredundancy !== 3 && numRetries === 0) {
-    throw new Error(`File uploaded but fanout did not reach full redundancy: ${healthData.fanoutredundancy}`);
-  }
-
-  return response;
 }
 
 // websiteCheck checks whether the main website is working

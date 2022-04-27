@@ -2,7 +2,7 @@ const got = require("got");
 const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, ensureValidJSON, getResponseContent, getAuthCookie } = require("../utils");
+const { calculateElapsedTime, ensureValidJSON, getResponseContent, getAuthCookie, uploadFunc } = require("../utils");
 const { parseSkylink } = require("skynet-js");
 
 // audioExampleCheck returns the result of trying to download the skylink
@@ -1206,6 +1206,13 @@ async function skylinkVerification(done, expected, { followRedirect = true, meth
   }
 }
 
+// uploadLargeFileCheck returns the result of uploading a large file
+async function uploadLargeFileCheck(done) {
+  const payload = Buffer.from(crypto.randomBytes(sectorSize));
+
+  return uploadFunc(done, payload, "upload_large_file", true);
+}
+
 module.exports = [
   audioExampleCheck,
   covid19PaperCheck,
@@ -1244,4 +1251,5 @@ module.exports = [
   skappHackerPaste,
   skappHowAboutSkapp,
   skappSkyDeploy,
+  uploadLargeFileCheck,
 ];

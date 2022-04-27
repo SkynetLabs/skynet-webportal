@@ -3,6 +3,20 @@ const ipRegex = new RegExp(
   `^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$`
 );
 
+// sectorSize is the skyd sector size
+const sectorSize = 1 << 22; // 40 MiB
+
+// SECOND is a helper constant for defining the number of milliseconds in a
+// second
+const SECOND = 1000;
+
+// defaultBaseSectorRedundancy is the default baseSectorRedundancy defined by
+// skyd
+const defaultBaseSectorRedundancy = 10;
+
+// defaultFanoutRedundancy is the default fanout redundancy defined by skyd
+const defaultFanoutRedundancy = 3;
+
 /**
  * Get the time between start and now in milliseconds
  */
@@ -132,6 +146,89 @@ function isPortalModuleEnabled(module) {
   return process.env.PORTAL_MODULES && process.env.PORTAL_MODULES.indexOf(module) !== -1;
 }
 
+// sleep is a helper method of sleeping for for given time. The input time is
+// expected in seconds
+async function sleep(seconds) {
+  return new Promise((r) => setTimeout(r, seconds * SECOND));
+}
+
+// skylinkHealthCheck checks if the skylink has reached full redundancy
+async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge = false) {
+  // Get the health of the skylink
+  const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
+    headers: { cookie: authCookie },
+  });
+  const healthData = getResponseContent(response);
+
+  // Check Basesectorredundancy first
+  if (healthData.basesectorredundancy !== defaultBaseSectorRedundancy && numRetries > 0) {
+    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
+    // lower.
+    await sleep(10 - healthData.basesectorredundancy);
+    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
+  }
+
+  // Check the Fanout redundancy if it is a large file
+  if (isLarge && healthData.fanoutredundancy != defaultFanoutRedundancy && numRetries > 0) {
+    // Semi-smart sleep before retrying. Sleep longer if the redundancy is
+    // lower.
+    await sleep((defaultFanoutRedundancy - healthData.fanoutredundancy) * 10);
+    return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
+  }
+
+  // Throw error if the basesectorredundancy never reached 10x
+  if (healthData.basesectorredundancy !== defaultBaseSectorRedundancy && numRetries === 0) {
+    throw new Error(`File uploaded but basesector did not reach full redundancy: ${healthData.basesectorredundancy}`);
+  }
+
+  // Throw error if the fanoutredundancy never reached 3x
+  if (isLarge && healthData.fanoutredundancy !== defaultFanoutRedundancy && numRetries === 0) {
+    throw new Error(`File uploaded but fanout did not reach full redundancy: ${healthData.fanoutredundancy}`);
+  }
+
+  return response;
+}
+
+// uploadFunc handles the upload and health check for the upload checks
+async function uploadFunc(done, payload, name, isLarge = false) {
+  // Get time for calculating the elapsed time for the check
+  const time = process.hrtime();
+
+  // Initialize check params
+  const authCookie = await getAuthCookie();
+  const data = { up: false };
+  const form = new FormData();
+
+  form.append("file", payload, { filename: `${name}.txt`, contentType: "text/plain" });
+
+  try {
+    // Upload file
+    const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, {
+      body: form,
+      headers: { cookie: authCookie },
+    });
+
+    // Check file health
+    const responseContent = getResponseContent(response);
+    const skylink = responseContent.skylink;
+    await skylinkHealthCheck(skylink, 60, authCookie, isLarge);
+
+    // Update data response
+    data.statusCode = response.statusCode;
+    data.up = true;
+    data.ip = response.ip;
+    data.skylink = skylink;
+  } catch (error) {
+    data.statusCode = error.response?.statusCode || error.statusCode || error.status;
+    data.errorMessage = error.message;
+    data.errorResponseContent = getResponseContent(error.response);
+    data.ip = error?.response?.ip ?? null;
+    data.skylink = skylink;
+  }
+
+  done({ name, time: calculateElapsedTime(time), ...data });
+}
+
 module.exports = {
   calculateElapsedTime,
   getYesterdayISOString,
@@ -141,4 +238,6 @@ module.exports = {
   isPortalModuleEnabled,
   ipCheckService,
   ipRegex,
+  sectorSize,
+  uploadFunc,
 };
