@@ -173,7 +173,6 @@ async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge 
     // Semi-smart sleep before retrying. Sleep longer if the redundancy is
     // lower.
     let sleepTime = defaultBaseSectorRedundancy - healthData.basesectorredundancy;
-    console.log(`sleeping ${sleepTime}s for basesectorredundancy ${healthData.basesectorredundancy}`);
     await sleep(sleepTime);
     return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
   }
@@ -183,7 +182,6 @@ async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge 
     // Semi-smart sleep before retrying. Sleep longer if the redundancy is
     // lower.
     let sleepTime = (defaultFanoutRedundancy - healthData.fanoutredundancy) * 10;
-    console.log(`sleeping ${sleepTime}s for fanout redundancy ${healthData.fanoutredundancy}`);
     await sleep(sleepTime);
     return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
   }
