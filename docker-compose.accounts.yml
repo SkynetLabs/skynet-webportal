@@ -89,6 +89,7 @@ services:
       - .env
     environment:
       - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
+      - GATSBY_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard-v2/.cache:/usr/app/.cache
       - ./docker/data/dashboard-v2/public:/usr/app/public

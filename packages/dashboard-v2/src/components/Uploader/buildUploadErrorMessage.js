@@ -1,5 +1,5 @@
 import { getReasonPhrase } from "http-status-codes";
-import bytes from "pretty-bytes";
+import humanBytes from "../../lib/humanBytes";
 
 export default function buildUploadErrorMessage(error) {
   // The request was made and the server responded with a status code that falls out of the range of 2xx
@@ -29,7 +29,7 @@ export default function buildUploadErrorMessage(error) {
   const matchTusMaxFileSizeError = error.message.match(/upload exceeds maximum size: \d+ > (?<limit>\d+)/);
 
   if (matchTusMaxFileSizeError) {
-    return `File exceeds size limit of ${bytes(parseInt(matchTusMaxFileSizeError.groups.limit, 10))}`;
+    return `File exceeds size limit of ${humanBytes(matchTusMaxFileSizeError.groups.limit, { precision: 0 })}`;
   }
 
   // TODO: We should add a note "our team has been notified" and have some kind of notification with this error.
