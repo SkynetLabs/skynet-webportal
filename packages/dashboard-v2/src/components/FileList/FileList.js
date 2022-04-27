@@ -1,29 +1,40 @@
-import * as React from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { useMedia } from "react-use";
 
 import theme from "../../lib/theme";
 
 import { ContainerLoadingIndicator } from "../LoadingIndicator";
-import { Select, SelectOption } from "../Select";
-import { Switch } from "../Switch";
-import { TextInputIcon } from "../TextInputIcon/TextInputIcon";
-import { SearchIcon } from "../Icons";
 
 import FileTable from "./FileTable";
 import useFormattedFilesData from "./useFormattedFilesData";
+import { MobileFileList } from "./MobileFileList";
+import { Pagination } from "./Pagination";
+
+const PAGE_SIZE = 10;
 
 const FileList = ({ type }) => {
   const isMediumScreenOrLarger = useMedia(`(min-width: ${theme.screens.md})`);
-  const { data, error } = useSWR(`user/${type}?pageSize=10`);
+  const [offset, setOffset] = useState(0);
+  const baseUrl = `user/${type}?pageSize=${PAGE_SIZE}`;
+  const {
+    data,
+    error,
+    mutate: refreshList,
+  } = useSWR(`${baseUrl}&offset=${offset}`, {
+    revalidateOnMount: true,
+  });
   const items = useFormattedFilesData(data?.items || []);
+  const count = data?.count || 0;
 
-  const setFilter = (name, value) => console.log("filter", name, "set to", value);
+  // Next page preloading
+  const hasMoreRecords = data ? data.offset + data.pageSize < data.count : false;
+  const nextPageOffset = hasMoreRecords ? data.offset + data.pageSize : offset;
+  useSWR(`${baseUrl}&offset=${nextPageOffset}`);
 
   if (!items.length) {
     return (
       <div className="flex w-full h-full justify-center items-center text-palette-400">
-        {/* TODO: proper error message */}
         {!data && !error && <ContainerLoadingIndicator />}
         {!data && error && <p>An error occurred while loading this data.</p>}
         {data && <p>No {type} found.</p>}
@@ -32,42 +43,14 @@ const FileList = ({ type }) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 pt-4">
-      <div className="flex flex-col gap-4 lg:flex-row justify-between items-center">
-        <TextInputIcon
-          className="w-full lg:w-[280px] xl:w-[420px]"
-          placeholder="Search"
-          icon={<SearchIcon size={20} />}
-          onChange={console.log.bind(console)}
-        />
-        <div className="flex flex-row items-center uppercase font-light text-sm gap-4">
-          <Switch onChange={(value) => setFilter("showSmallFiles", value)} className="mr-8">
-            <span className="underline decoration-dashed underline-offset-2 decoration-2 decoration-gray-300">
-              Show small files
-            </span>
-          </Switch>
-          <div>
-            <span className="pr-2">File type:</span>
-            <Select onChange={(value) => setFilter("type", value)}>
-              <SelectOption value="all" label="All" />
-              <SelectOption value="mp4" label=".mp4" />
-              <SelectOption value="pdf" label=".pdf" />
-            </Select>
-          </div>
-          <div>
-            <span className="pr-2">Sort:</span>
-            <Select onChange={(value) => setFilter("type", value)}>
-              <SelectOption value="size-desc" label="Biggest size" />
-              <SelectOption value="size-asc" label="Smallest size" />
-              <SelectOption value="date-desc" label="Latest" />
-              <SelectOption value="date-asc" label="Oldest" />
-            </Select>
-          </div>
-        </div>
-      </div>
-      {/* TODO: mobile view (it's not tabular) */}
-      {isMediumScreenOrLarger ? <FileTable items={items} /> : "Mobile view"}
-    </div>
+    <>
+      {isMediumScreenOrLarger ? (
+        <FileTable onUpdated={refreshList} items={items} />
+      ) : (
+        <MobileFileList items={items} onUpdated={refreshList} />
+      )}
+      <Pagination count={count} offset={offset} setOffset={setOffset} pageSize={PAGE_SIZE} />
+    </>
   );
 };
 

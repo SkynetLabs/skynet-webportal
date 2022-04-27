@@ -1,6 +1,5 @@
 import * as React from "react";
 import cn from "classnames";
-import bytes from "pretty-bytes";
 import { StatusCodes } from "http-status-codes";
 import copy from "copy-text-to-clipboard";
 import path from "path-browserify";
@@ -9,6 +8,7 @@ import { ProgressBar } from "./ProgressBar";
 import UploaderItemIcon from "./UploaderItemIcon";
 import buildUploadErrorMessage from "./buildUploadErrorMessage";
 import skynetClient from "../../services/skynetClient";
+import humanBytes from "../../lib/humanBytes";
 
 const getFilePath = (file) => file.webkitRelativePath || file.path || file.name;
 
@@ -88,7 +88,7 @@ export default function UploaderItem({ onUploadStateChange, upload }) {
             <div className="font-content truncate">
               {upload.status === "uploading" && (
                 <span className="tabular-nums">
-                  Uploading {bytes(upload.file.size * upload.progress)} of {bytes(upload.file.size)}
+                  Uploading {humanBytes(upload.file.size * upload.progress)} of {humanBytes(upload.file.size)}
                 </span>
               )}
               {upload.status === "enqueued" && <span className="text-palette-300">Upload in queue, please wait</span>}

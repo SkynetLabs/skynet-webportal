@@ -12,7 +12,7 @@ const FilesPage = () => {
       <Metadata>
         <title>Files</title>
       </Metadata>
-      <Panel title="Files">
+      <Panel title="Uploads">
         <FileList type="uploads" />
       </Panel>
     </>

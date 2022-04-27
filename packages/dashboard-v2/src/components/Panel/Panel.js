@@ -14,8 +14,8 @@ const PanelTitle = styled.h6.attrs({
  *
  * These additional props will be rendered onto the panel's body element.
  */
-export const Panel = ({ title, ...props }) => (
-  <div>
+export const Panel = ({ title, wrapperClassName, ...props }) => (
+  <div className={wrapperClassName}>
     {title && <PanelTitle>{title}</PanelTitle>}
     <PanelBody {...props} />
   </div>
@@ -26,8 +26,13 @@ Panel.propTypes = {
    * Label of the panel
    */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * CSS class to be applied to the external container
+   */
+  wrapperClassName: PropTypes.string,
 };
 
 Panel.defaultProps = {
   title: "",
+  wrapperClassName: "",
 };
