@@ -59,7 +59,9 @@ function _M.exit_access_forbidden(message)
 end
 
 function _M.accounts_enabled()
-    return os.getenv("PORTAL_MODULES"):match("a") ~= nil
+    local skynet_modules = require("skynet.modules")
+
+    return skynet_modules.is_enabled("a")
 end
 
 function _M.get_account_limits()
@@ -74,15 +76,23 @@ function _M.get_account_limits()
 
     if ngx.var.account_limits == "" then
         local httpc = require("resty.http").new()
+        local uri = "http://10.10.10.70:3000/user/limits"
+
+        -- include skylink if it is available in the context of request
+        -- todo: this should not rely on skylink variable to be defined
+        if ngx.var.skylink ~= nil and ngx.var.skylink ~= "" then
+            uri = uri .. "/" .. ngx.var.skylink
+        end
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits?unit=byte", {
+        local res, err = httpc:request_uri(uri .. "?unit=byte", {
             headers = auth_headers,
         })
 
         -- fail gracefully in case /user/limits failed
         if err or (res and res.status ~= ngx.HTTP_OK) then
-            ngx.log(ngx.ERR, "Failed accounts service request /user/limits?unit=byte: ", err or ("[HTTP " .. res.status .. "] " .. res.body))
+            local error_response = err or ("[HTTP " .. res.status .. "] " .. res.body)
+            ngx.log(ngx.ERR, "Failed accounts service request /user/limits?unit=byte: ", error_response)
             ngx.var.account_limits = cjson.encode(anon_limits)
         elseif res and res.status == ngx.HTTP_OK then
             ngx.var.account_limits = res.body
@@ -109,7 +119,7 @@ function _M.has_subscription()
 end
 
 function _M.is_auth_required()
-    -- authentication is required if mode is set to "authenticated" 
+    -- authentication is required if mode is set to "authenticated"
     -- or "subscription" (require active subscription to a premium plan)
     return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "authenticated" or _M.is_subscription_required()
 end
@@ -118,7 +128,7 @@ function _M.is_subscription_required()
     return os.getenv("ACCOUNTS_LIMIT_ACCESS") == "subscription"
 end
 
-function is_access_always_allowed()
+local is_access_always_allowed = function ()
     -- options requests do not attach cookies - should always be available
     -- requests should not be limited based on accounts if accounts are not enabled
     return ngx.req.get_method() == "OPTIONS" or not _M.accounts_enabled()

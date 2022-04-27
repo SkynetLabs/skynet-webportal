@@ -1,17 +1,41 @@
+import { navigate } from "gatsby";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
+import { UnauthorizedError } from "../../lib/swrConfig";
+import { FullScreenLoadingIndicator } from "../../components/LoadingIndicator";
 import { UserContext } from "./UserContext";
 
-export const UserProvider = ({ children }) => {
-  const { data: user, error, mutate } = useSWR("user");
+export const UserProvider = ({ children, allowGuests = false, allowAuthenticated = true }) => {
+  const { data: user, error, mutate } = useSWRImmutable("user");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user || error) {
-      setLoading(false);
-    }
-  }, [user, error]);
+    const guard = async () => {
+      if (user) {
+        if (!allowAuthenticated) {
+          navigate("/");
+        } else {
+          setLoading(false);
+        }
+      } else if (error) {
+        if (error instanceof UnauthorizedError && !allowGuests) {
+          await navigate(`/auth/login?return_to=${encodeURIComponent(window.location.href)}`);
+        } else {
+          setLoading(false);
+        }
+      } else if (user === null) {
+        setLoading(false);
+      }
+    };
 
-  return <UserContext.Provider value={{ user, error, loading, mutate }}>{children}</UserContext.Provider>;
+    guard();
+  }, [user, error, allowGuests, allowAuthenticated]);
+
+  return (
+    <UserContext.Provider value={{ user, error, loading, mutate }}>
+      {loading && <FullScreenLoadingIndicator />}
+      {!loading && children}
+    </UserContext.Provider>
+  );
 };

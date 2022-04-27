@@ -23,6 +23,8 @@ export default function Recovery() {
   useAnonRoute(); // ensure user is not logged in
 
   const [success, setSuccess] = React.useState(false);
+  const [skynetFreeInviteVisible, setSkynetFreeInviteVisible] = React.useState(false);
+  const isSiaskyNet = typeof window !== "undefined" && window.location.hostname === "account.siasky.net";
 
   const onSubmit = async (values) => {
     await accountsApi.post("user/recover/request", {
@@ -64,6 +66,16 @@ export default function Recovery() {
           </Link>{" "}
           for a new account
         </p>
+        {skynetFreeInviteVisible && isSiaskyNet && (
+          <div className="font-content rounded border border-blue-200 mt-6 p-4 bg-blue-100">
+            <p>
+              All Siasky.net accounts have been moved to{" "}
+              <a className="text-primary" href="https://skynetfree.net">
+                SkynetFree.net
+              </a>
+            </p>
+          </div>
+        )}
       </div>
 
       {!success && (
@@ -72,6 +84,9 @@ export default function Recovery() {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
           button="Send recovery link"
+          onError={(errorMessage) =>
+            setSkynetFreeInviteVisible(errorMessage === "registrations are currently disabled")
+          }
         />
       )}
 

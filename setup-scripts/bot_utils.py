@@ -33,6 +33,13 @@ sc_precision = 10**24
 setup_done = False
 
 
+# get docker container id and return None if container not found
+def get_docker_container_id(container_name):
+    docker_cmd = "docker ps -q -f name=" + container_name
+    output = subprocess.check_output(docker_cmd, shell=True).decode("utf-8")
+    return None if output == "" else output
+
+
 # find out local siad ip by inspecting its docker container
 def get_docker_container_ip(container_name):
     ip_regex = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")

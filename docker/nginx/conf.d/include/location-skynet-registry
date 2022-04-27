@@ -1,6 +1,5 @@
 include /etc/nginx/conf.d/include/cors;
 include /etc/nginx/conf.d/include/sia-auth;
-include /etc/nginx/conf.d/include/track-registry;
 
 limit_req zone=registry_access_by_ip burst=600 nodelay;
 limit_req zone=registry_access_by_ip_throttled burst=200 nodelay;
@@ -29,4 +28,11 @@ access_by_lua_block {
             ngx.sleep(limits.registry / 1000)
         end
     end
+}
+
+log_by_lua_block {
+    local skynet_account = require("skynet.account")
+    local skynet_tracker = require("skynet.tracker")
+
+    skynet_tracker.track_registry(ngx.status, skynet_account.get_auth_headers(), ngx.req.get_method())
 }

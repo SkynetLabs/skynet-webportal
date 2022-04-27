@@ -1,22 +1,37 @@
-FROM node:16.14.2-alpine
-
-RUN apk update && apk add autoconf automake build-base libtool nasm pkgconfig
+# builder stage - use debian base image to avoid needing to install missing packages
+FROM node:16.14.2-bullseye as builder
 
 WORKDIR /usr/app
 
-COPY package.json yarn.lock ./
-
+# disable gatsby telemetry and installing cypress binary
 ENV GATSBY_TELEMETRY_DISABLED 1
 ENV CYPRESS_INSTALL_BINARY 0
+
+COPY packages/website/package.json \
+     packages/website/yarn.lock \
+     ./
 RUN yarn --frozen-lockfile
 
-COPY data ./data
-COPY src ./src
-COPY static ./static
-COPY gatsby-browser.js gatsby-config.js gatsby-node.js gatsby-ssr.js postcss.config.js tailwind.config.js ./
+COPY packages/website/data ./data
+COPY packages/website/src ./src
+COPY packages/website/static ./static
+COPY packages/website/gatsby-*.js \
+     packages/website/postcss.config.js \
+     packages/website/tailwind.config.js \
+     ./
 
 RUN yarn build
 
+# main stage - use alpine base image to minimise the resulting image footprint
+FROM node:16.14.2-alpine
+
+WORKDIR /usr/app
+
+# install http server for serving website files
+RUN npm install --global http-server@14.1.0
+
+COPY --from=builder /usr/app/public /usr/app/public
+
 EXPOSE 9000
 
-CMD ["sh", "-c", "yarn serve --host 0.0.0.0"]
+CMD ["http-server", "/usr/app/public", "-s -p 9000"]

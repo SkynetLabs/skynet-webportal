@@ -1,32 +1,22 @@
-import { navigate } from "gatsby";
 import { StatusCodes } from "http-status-codes";
 
-// TODO: portal-aware URL
-const baseUrl = process.env.NODE_ENV !== "production" ? "/api" : "https://account.skynetpro.net/api";
+export class UnauthorizedError extends Error {}
 
-const redirectUnauthenticated = (key) =>
-  fetch(`${baseUrl}/${key}`).then((response) => {
-    if (response.status === StatusCodes.UNAUTHORIZED) {
-      navigate(`/auth/login?return_to=${encodeURIComponent(window.location.href)}`);
-      return null;
-    }
+const config = {
+  fetcher: (key) =>
+    fetch(`/api/${key}`).then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
 
-    return response.json();
-  });
+      const data = await response.json();
 
-const redirectAuthenticated = (key) =>
-  fetch(`${baseUrl}/${key}`).then((response) => {
-    if (response.status === StatusCodes.OK) {
-      navigate(`/`);
-    }
+      if (response.status === StatusCodes.UNAUTHORIZED) {
+        throw new UnauthorizedError(data?.message || "Unauthorized");
+      }
 
-    return response.json();
-  });
-
-export const authenticatedOnly = {
-  fetcher: redirectUnauthenticated,
+      throw new Error(data?.message || `Error occurred when trying to fetch: ${key}`);
+    }),
 };
 
-export const guestsOnly = {
-  fetcher: redirectAuthenticated,
-};
+export default config;

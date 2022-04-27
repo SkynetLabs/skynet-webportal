@@ -105,7 +105,11 @@ const Uploader = ({ mode }) => {
           </div>
         ) : (
           <div className="p-5">
-            <Button $primary className="w-[40px] h-[40px] !p-0 inline-flex justify-center items-center">
+            <Button
+              $primary
+              className="w-[40px] h-[40px] !p-0 inline-flex justify-center items-center"
+              aria-label="Upload new file"
+            >
               <PlusIcon size={12} />
             </Button>
             <span className="ml-4">Add, or drop your files here</span>
@@ -114,7 +118,7 @@ const Uploader = ({ mode }) => {
       </div>
 
       {uploads.length > 0 && (
-        <div className="flex flex-col space-y-4 py-10">
+        <div className="flex flex-col space-y-4 pt-6 pb-10">
           {uploads.map((upload) => (
             <UploaderItem key={upload.id} onUploadStateChange={onUploadStateChange} upload={upload} />
           ))}
