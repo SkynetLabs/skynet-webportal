@@ -14,7 +14,7 @@ const SuggestedPlan = ({ plans, activePlan }) => {
     <div className="mt-7">
       <p className="font-sans font-semibold text-xs uppercase text-primary">Discover {nextPlan.name}</p>
       <p className="pt-1 text-xs sm:text-base">{nextPlan.description}</p>
-      <Button $primary as={Link} to={`/upgrade?selectedPlan=${nextPlan.id}`} className="mt-6">
+      <Button $primary as={Link} to="/payments" className="mt-6">
         Upgrade
       </Button>
     </div>

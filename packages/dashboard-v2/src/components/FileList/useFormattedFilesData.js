@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import prettyBytes from "pretty-bytes";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "../../lib/config";
+import humanBytes from "../../lib/humanBytes";
 
 const parseFileName = (fileName) => {
   const lastDotIndex = Math.max(0, fileName.lastIndexOf(".")) || Infinity;
@@ -16,7 +16,7 @@ const formatItem = ({ size, name: rawFileName, uploadedOn, downloadedOn, ...rest
   return {
     ...rest,
     date,
-    size: prettyBytes(size),
+    size: humanBytes(size, { precision: 2 }),
     type,
     name,
   };

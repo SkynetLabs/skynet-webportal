@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import prettyBytes from "pretty-bytes";
 
 import { useUser } from "../../contexts/user";
 import useActivePlan from "../../hooks/useActivePlan";
+import humanBytes from "../../lib/humanBytes";
 import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import LatestPayment from "./LatestPayment";
@@ -33,7 +33,7 @@ const CurrentPlan = () => {
       <h4>{activePlan.name}</h4>
       <div className="text-palette-400 justify-between flex flex-col grow">
         {activePlan.price === 0 && activePlan.limits && (
-          <p>{prettyBytes(activePlan.limits.storageLimit, { binary: true })} without paying a dime! 🎉</p>
+          <p>{humanBytes(activePlan.limits.storageLimit)} without paying a dime! 🎉</p>
         )}
         {activePlan.price !== 0 &&
           (user.subscriptionCancelAtPeriodEnd ? (

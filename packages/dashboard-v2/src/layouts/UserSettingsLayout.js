@@ -10,12 +10,14 @@ const Sidebar = () => (
       <SidebarLink activeClassName="!border-l-primary" to="/settings">
         Account
       </SidebarLink>
+      {/*       
       <SidebarLink activeClassName="!border-l-primary" to="/settings/notifications">
         Notifications
       </SidebarLink>
       <SidebarLink activeClassName="!border-l-primary" to="/settings/export">
         Export
       </SidebarLink>
+       */}
       <SidebarLink activeClassName="!border-l-primary" to="/settings/developer-settings">
         Developer settings
       </SidebarLink>
