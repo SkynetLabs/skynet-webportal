@@ -1,6 +1,5 @@
 const crypto = require("crypto");
 const got = require("got");
-const FormData = require("form-data");
 const { isEqual } = require("lodash");
 const {
   calculateElapsedTime,

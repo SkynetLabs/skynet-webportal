@@ -1,3 +1,4 @@
+const FormData = require("form-data");
 const ipCheckService = "whatismyip.akamai.com";
 const ipRegex = new RegExp(
   `^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$`
@@ -16,6 +17,9 @@ const defaultBaseSectorRedundancy = 10;
 
 // defaultFanoutRedundancy is the default fanout redundancy defined by skyd
 const defaultFanoutRedundancy = 3;
+
+// siaDockerContainerIP is the local IP of the sia docker container
+const siaDockerContainerIP = "10.10.10.10";
 
 /**
  * Get the time between start and now in milliseconds
@@ -155,8 +159,8 @@ async function sleep(seconds) {
 // skylinkHealthCheck checks if the skylink has reached full redundancy
 async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge = false) {
   // Get the health of the skylink
-  const response = await got(`https://${process.env.PORTAL_DOMAIN}/skynet/health/skylink/${skylink}`, {
-    headers: { cookie: authCookie },
+  const response = await got(`http://${siaDockerContainerIP}/skynet/health/skylink/${skylink}`, {
+    headers: { "user-agent": "Sia-Agent", cookie: authCookie },
   });
   const healthData = getResponseContent(response);
 
