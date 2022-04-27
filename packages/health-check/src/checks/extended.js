@@ -1,8 +1,16 @@
+const crypto = require("crypto");
 const got = require("got");
 const hasha = require("hasha");
 const { detailedDiff } = require("deep-object-diff");
 const { isEqual } = require("lodash");
-const { calculateElapsedTime, ensureValidJSON, getResponseContent, getAuthCookie, uploadFunc } = require("../utils");
+const {
+  calculateElapsedTime,
+  ensureValidJSON,
+  getResponseContent,
+  getAuthCookie,
+  sectorSize,
+  uploadFunc,
+} = require("../utils");
 const { parseSkylink } = require("skynet-js");
 
 // audioExampleCheck returns the result of trying to download the skylink

@@ -1,4 +1,3 @@
-const crypto = require("crypto");
 const got = require("got");
 const { isEqual } = require("lodash");
 const {
@@ -7,7 +6,8 @@ const {
   getAuthCookie,
   isPortalModuleEnabled,
   uploadFunc,
-  sectorSize,
+  siaDockerContainerIP,
+  defaultSiaPort,
 } = require("../utils");
 const { SkynetClient, stringToUint8ArrayUtf8, genKeyPairAndSeed } = require("skynet-js");
 
@@ -22,7 +22,9 @@ async function skydConfigCheck(done) {
   const data = { up: false };
 
   try {
-    const response = await got(`http://10.10.10.10:9980/renter`, { headers: { "User-Agent": "Sia-Agent" } }).json();
+    const response = await got(`http://${siaDockerContainerIP}:${defaultSiaPort}/renter`, {
+      headers: { "User-Agent": "Sia-Agent" },
+    }).json();
 
     // make sure initial funding is set to 10SC
     if (response.settings.allowance.paymentcontractinitialfunding !== "10000000000000000000000000") {
@@ -46,13 +48,6 @@ async function uploadCheck(done) {
   const payload = Buffer.from(new Date()); // current date to ensure data uniqueness
 
   return uploadFunc(done, payload, "upload_file");
-}
-
-// uploadLargeFileCheck returns the result of uploading a large file
-async function uploadLargeFileCheck(done) {
-  const payload = Buffer.from(crypto.randomBytes(sectorSize));
-
-  return uploadFunc(done, payload, "upload_large_file", true);
 }
 
 // websiteCheck checks whether the main website is working
@@ -211,7 +206,6 @@ async function genericAccessCheck(name, url) {
 const checks = [
   skydConfigCheck,
   uploadCheck,
-  uploadLargeFileCheck,
   websiteCheck,
   downloadCheck,
   skylinkSubdomainCheck,

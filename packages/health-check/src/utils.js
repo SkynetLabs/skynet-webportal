@@ -1,4 +1,5 @@
 const FormData = require("form-data");
+const got = require("got");
 const ipCheckService = "whatismyip.akamai.com";
 const ipRegex = new RegExp(
   `^(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}$`
@@ -20,6 +21,9 @@ const defaultFanoutRedundancy = 3;
 
 // siaDockerContainerIP is the local IP of the sia docker container
 const siaDockerContainerIP = "10.10.10.10";
+
+// defaultSiaPort is the default port the sia runs on.
+const defaultSiaPort = "9980";
 
 /**
  * Get the time between start and now in milliseconds
@@ -159,8 +163,8 @@ async function sleep(seconds) {
 // skylinkHealthCheck checks if the skylink has reached full redundancy
 async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge = false) {
   // Get the health of the skylink
-  const response = await got(`http://${siaDockerContainerIP}/skynet/health/skylink/${skylink}`, {
-    headers: { "user-agent": "Sia-Agent", cookie: authCookie },
+  const response = await got(`http://${siaDockerContainerIP}:${defaultSiaPort}/skynet/health/skylink/${skylink}`, {
+    headers: { "User-Agent": "Sia-Agent", cookie: authCookie },
   });
   const healthData = getResponseContent(response);
 
@@ -168,7 +172,9 @@ async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge 
   if (healthData.basesectorredundancy !== defaultBaseSectorRedundancy && numRetries > 0) {
     // Semi-smart sleep before retrying. Sleep longer if the redundancy is
     // lower.
-    await sleep(10 - healthData.basesectorredundancy);
+    let sleepTime = defaultBaseSectorRedundancy - healthData.basesectorredundancy;
+    console.log(`sleeping ${sleepTime}s for basesectorredundancy ${healthData.basesectorredundancy}`);
+    await sleep(sleepTime);
     return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
   }
 
@@ -176,7 +182,9 @@ async function skylinkHealthCheck(skylink, numRetries = 30, authCookie, isLarge 
   if (isLarge && healthData.fanoutredundancy != defaultFanoutRedundancy && numRetries > 0) {
     // Semi-smart sleep before retrying. Sleep longer if the redundancy is
     // lower.
-    await sleep((defaultFanoutRedundancy - healthData.fanoutredundancy) * 10);
+    let sleepTime = (defaultFanoutRedundancy - healthData.fanoutredundancy) * 10;
+    console.log(`sleeping ${sleepTime}s for fanout redundancy ${healthData.fanoutredundancy}`);
+    await sleep(sleepTime);
     return skylinkHealthCheck(skylink, numRetries - 1, authCookie, isLarge);
   }
 
@@ -205,6 +213,7 @@ async function uploadFunc(done, payload, name, isLarge = false) {
 
   form.append("file", payload, { filename: `${name}.txt`, contentType: "text/plain" });
 
+  let skylink;
   try {
     // Upload file
     const response = await got.post(`https://${process.env.PORTAL_DOMAIN}/skynet/skyfile`, {
@@ -214,7 +223,7 @@ async function uploadFunc(done, payload, name, isLarge = false) {
 
     // Check file health
     const responseContent = getResponseContent(response);
-    const skylink = responseContent.skylink;
+    skylink = responseContent.skylink;
     await skylinkHealthCheck(skylink, 60, authCookie, isLarge);
 
     // Update data response
@@ -243,5 +252,7 @@ module.exports = {
   ipCheckService,
   ipRegex,
   sectorSize,
+  siaDockerContainerIP,
+  defaultSiaPort,
   uploadFunc,
 };
