@@ -2,6 +2,9 @@ import { Children, cloneElement, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useClickAway } from "react-use";
 import styled, { css, keyframes } from "styled-components";
+import cn from "classnames";
+
+import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 const dropDown = keyframes`
   0% {
@@ -41,15 +44,15 @@ const Option = styled.li.attrs({
               hover:before:content-['']`,
 })``;
 
-export const PopoverMenu = ({ options, children, openClassName, ...props }) => {
+export const PopoverMenu = ({ options, children, openClassName, inProgress, ...props }) => {
   const containerRef = useRef();
   const [open, setOpen] = useState(false);
 
   useClickAway(containerRef, () => setOpen(false));
 
-  const handleChoice = (callback) => () => {
+  const handleChoice = (callback) => async () => {
+    await callback();
     setOpen(false);
-    callback();
   };
 
   return (
@@ -62,11 +65,16 @@ export const PopoverMenu = ({ options, children, openClassName, ...props }) => {
       )}
       {open && (
         <Flyout>
-          {options.map(({ label, callback }) => (
-            <Option key={label} onClick={handleChoice(callback)}>
-              {label}
-            </Option>
-          ))}
+          <div className={cn("relative", { "opacity-50": inProgress })}>
+            {options.map(({ label, callback }) => (
+              <Option key={label} onClick={handleChoice(callback)}>
+                {label}
+              </Option>
+            ))}
+            {inProgress && (
+              <ContainerLoadingIndicator className="absolute inset-0 !p-0 z-50 bg-white !text-palette-300" />
+            )}
+          </div>
         </Flyout>
       )}
     </Container>
@@ -87,4 +95,9 @@ PopoverMenu.propTypes = {
       callback: PropTypes.func.isRequired,
     })
   ).isRequired,
+
+  /**
+   * If true, a loading icon will be displayed to signal an async action is taking place.
+   */
+  inProgress: PropTypes.bool,
 };

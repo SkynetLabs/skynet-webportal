@@ -17,7 +17,7 @@ export default function useUpgradeRedirect() {
 
     if (isDataLoaded) {
       if (settings.isSubscriptionRequired && !hasPaidSubscription) {
-        navigate("/upgrade");
+        navigate("/payments");
       } else {
         setVerifyingSubscription(false);
       }
