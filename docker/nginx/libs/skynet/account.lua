@@ -59,7 +59,9 @@ function _M.exit_access_forbidden(message)
 end
 
 function _M.accounts_enabled()
-    return os.getenv("PORTAL_MODULES"):match("a") ~= nil
+    local skynet_modules = require("skynet.modules")
+
+    return skynet_modules.is_enabled("a")
 end
 
 function _M.get_account_limits()
@@ -74,9 +76,16 @@ function _M.get_account_limits()
 
     if ngx.var.account_limits == "" then
         local httpc = require("resty.http").new()
+        local uri = "http://10.10.10.70:3000/user/limits"
+
+        -- include skylink if it is available in the context of request
+        -- todo: this should not rely on skylink variable to be defined
+        if ngx.var.skylink ~= nil and ngx.var.skylink ~= "" then
+            uri = uri .. "/" .. ngx.var.skylink
+        end
 
         -- 10.10.10.70 points to accounts service (alias not available when using resty-http)
-        local res, err = httpc:request_uri("http://10.10.10.70:3000/user/limits?unit=byte", {
+        local res, err = httpc:request_uri(uri .. "?unit=byte", {
             headers = auth_headers,
         })
 

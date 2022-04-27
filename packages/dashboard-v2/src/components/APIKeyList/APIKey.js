@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 
 import { Alert } from "../Alert";
 import { Button } from "../Button";
-import { AddSkylinkToAPIKeyForm } from "../forms/AddSkylinkToAPIKeyForm";
+import { AddSkylinkToSponsorKeyForm } from "../forms/AddSkylinkToSponsorKeyForm";
 import { CogIcon, TrashIcon } from "../Icons";
 import { Modal } from "../Modal";
 
@@ -13,7 +13,7 @@ import { useAPIKeyRemoval } from "./useAPIKeyRemoval";
 
 export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
   const { id, name, createdAt, skylinks } = apiKey;
-  const isPublic = apiKey.public === "true";
+  const isSponsorKey = apiKey.public === "true";
   const [error, setError] = useState(null);
 
   const onSkylinkListEdited = useCallback(() => {
@@ -53,9 +53,9 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
   }, [abortEdit]);
 
   const skylinksNumber = skylinks?.length ?? 0;
-  const isNotConfigured = isPublic && skylinksNumber === 0;
+  const isNotConfigured = isSponsorKey && skylinksNumber === 0;
   const skylinksPhrasePrefix = skylinksNumber === 0 ? "No" : skylinksNumber;
-  const skylinksPhrase = `${skylinksPhrasePrefix} ${skylinksNumber === 1 ? "skylink" : "skylinks"} configured`;
+  const skylinksPhrase = `${skylinksPhrasePrefix} ${skylinksNumber === 1 ? "skylink" : "skylinks"} sponsored`;
 
   return (
     <li
@@ -66,30 +66,38 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
       <span className="col-span-2 sm:col-span-1 flex items-center">
         <span className="flex flex-col">
           <span className={cn("truncate", { "text-palette-300": !name })}>{name || "unnamed key"}</span>
-          <button
-            onClick={promptEdit}
-            className={cn("text-xs hover:underline decoration-dotted", {
-              "text-error": isNotConfigured,
-              "text-palette-400": !isNotConfigured,
-            })}
-          >
-            {skylinksPhrase}
-          </button>
+          {isSponsorKey && (
+            <button
+              onClick={promptEdit}
+              className={cn("text-xs hover:underline decoration-dotted", {
+                "text-error": isNotConfigured,
+                "text-palette-400": !isNotConfigured,
+              })}
+            >
+              {skylinksPhrase}
+            </button>
+          )}
         </span>
       </span>
       <span className="col-span-2 my-4 border-t border-t-palette-200/50 sm:hidden" />
       <span className="text-palette-400">{dayjs(createdAt).format("MMM DD, YYYY")}</span>
       <span className="flex items-center justify-end">
-        {isPublic && (
+        {isSponsorKey && (
           <button
             title="Add or remove skylinks"
+            aria-label="Add or remove skylinks"
             className="p-1 transition-colors hover:text-primary"
             onClick={promptEdit}
           >
             <CogIcon size={22} />
           </button>
         )}
-        <button title="Delete this API key" className="p-1 transition-colors hover:text-error" onClick={promptRemoval}>
+        <button
+          title="Delete this API key"
+          aria-label="Delete this API key"
+          className="p-1 transition-colors hover:text-error"
+          onClick={promptRemoval}
+        >
           <TrashIcon size={16} />
         </button>
       </span>
@@ -113,7 +121,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
       )}
       {editInitiated && (
         <Modal onClose={closeEditModal} className="flex flex-col gap-4 text-center sm:px-8 sm:py-6">
-          <h4>Covered skylinks</h4>
+          <h4>Sponsored skylinks</h4>
           {skylinks?.length > 0 ? (
             <ul className="text-xs flex flex-col gap-2">
               {skylinks.map((skylink) => (
@@ -121,7 +129,11 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
                   <code className="whitespace-nowrap select-all truncate bg-palette-100 odd:bg-white p-1">
                     {skylink}
                   </code>
-                  <button className="p-1 transition-colors hover:text-error" onClick={() => removeSkylink(skylink)}>
+                  <button
+                    className="p-1 transition-colors hover:text-error"
+                    onClick={() => removeSkylink(skylink)}
+                    aria-label="Remove skylink"
+                  >
                     <TrashIcon size={16} />
                   </button>
                 </li>
@@ -133,7 +145,7 @@ export const APIKey = ({ apiKey, onRemoved, onEdited, onRemovalError }) => {
 
           <div className="flex flex-col gap-4">
             {error && <Alert $variant="error">{error}</Alert>}
-            <AddSkylinkToAPIKeyForm addSkylink={addSkylink} />
+            <AddSkylinkToSponsorKeyForm addSkylink={addSkylink} />
           </div>
           <div className="flex gap-4 justify-center mt-4">
             <Button onClick={closeEditModal}>Close</Button>

@@ -10,7 +10,7 @@ services:
   abuse-scanner:
     # uncomment "build" and comment out "image" to build from sources
     # build: https://github.com/SkynetLabs/abuse-scanner.git#main
-    image: skynetlabs/abuse-scanner
+    image: skynetlabs/abuse-scanner:0.1.1
     container_name: abuse-scanner
     restart: unless-stopped
     logging: *default-logging

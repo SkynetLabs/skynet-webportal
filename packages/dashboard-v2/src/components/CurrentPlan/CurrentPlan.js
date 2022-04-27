@@ -3,6 +3,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import { useUser } from "../../contexts/user";
 import useActivePlan from "../../hooks/useActivePlan";
+import humanBytes from "../../lib/humanBytes";
 import { ContainerLoadingIndicator } from "../LoadingIndicator";
 
 import LatestPayment from "./LatestPayment";
@@ -28,17 +29,20 @@ const CurrentPlan = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <h4>{activePlan.name}</h4>
-      <div className="text-palette-400">
-        {activePlan.price === 0 && <p>100GB without paying a dime! 🎉</p>}
+      <div className="text-palette-400 justify-between flex flex-col grow">
+        {activePlan.price === 0 && activePlan.limits && (
+          <p>{humanBytes(activePlan.limits.storageLimit)} without paying a dime! 🎉</p>
+        )}
         {activePlan.price !== 0 &&
           (user.subscriptionCancelAtPeriodEnd ? (
             <p>Your subscription expires {dayjs(user.subscribedUntil).fromNow()}</p>
           ) : (
             <p className="first-letter:uppercase">{dayjs(user.subscribedUntil).fromNow(true)} until the next payment</p>
           ))}
-        <LatestPayment user={user} />
+
+        {user.subscriptionStatus && <LatestPayment user={user} />}
         <SuggestedPlan plans={plans} activePlan={activePlan} />
       </div>
     </div>

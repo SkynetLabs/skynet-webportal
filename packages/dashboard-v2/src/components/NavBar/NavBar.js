@@ -94,9 +94,10 @@ export const NavBar = () => {
                 partiallyActive
               />
               <DropdownMenuLink
+                as="button"
                 onClick={onLogout}
                 activeClassName="text-primary"
-                className="cursor-pointer"
+                className="cursor-pointer w-full"
                 icon={LockClosedIcon}
                 label="Log out"
               />

@@ -22,7 +22,7 @@ const TooltipContent = styled.div.attrs({
   className: "bg-primary-light/10 text-palette-600 py-2 px-4 ",
 })``;
 
-export const CopyButton = ({ value, className }) => {
+export const CopyButton = ({ value, className, ariaLabel = "Copy" }) => {
   const containerRef = useRef();
   const [copied, setCopied] = useState(false);
   const [timer, setTimer] = useState(null);
@@ -39,7 +39,7 @@ export const CopyButton = ({ value, className }) => {
 
   return (
     <div ref={containerRef} className={`inline-flex relative overflow-visible pr-2 ${className ?? ""}`}>
-      <Button onClick={handleCopy} className={copied ? "text-primary" : ""}>
+      <Button onClick={handleCopy} className={copied ? "text-primary" : ""} aria-label={ariaLabel}>
         <CopyIcon size={16} />
       </Button>
       <TooltipContainer $visible={copied}>

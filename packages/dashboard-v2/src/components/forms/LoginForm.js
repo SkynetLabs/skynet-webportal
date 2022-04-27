@@ -82,7 +82,7 @@ export const LoginForm = ({ onSuccess }) => {
           </div>
 
           <p className="text-sm text-center mt-8">
-            Don't have an account? <HighlightedLink to="/auth/signup">Sign up</HighlightedLink>
+            Don't have an account? <HighlightedLink to="/auth/registration">Sign up</HighlightedLink>
           </p>
         </Form>
       )}

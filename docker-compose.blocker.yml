@@ -15,7 +15,7 @@ services:
   blocker:
     # uncomment "build" and comment out "image" to build from sources
     # build: https://github.com/SkynetLabs/blocker.git#main
-    image: skynetlabs/blocker
+    image: skynetlabs/blocker:0.1.1
     container_name: blocker
     restart: unless-stopped
     logging: *default-logging

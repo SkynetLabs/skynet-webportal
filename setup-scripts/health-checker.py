@@ -10,7 +10,7 @@ import traceback
 from datetime import datetime, timedelta
 
 import requests
-from bot_utils import setup, send_msg, get_docker_container_ip
+from bot_utils import setup, send_msg, get_docker_container_id, get_docker_container_ip
 
 """
 health-checker reads the /health-check endpoint of the portal and dispatches
@@ -134,6 +134,12 @@ async def check_disk():
 # check_health checks /health-check endpoint and reports recent issues
 async def check_health():
     print("\nChecking portal health status...")
+
+    # do not try to run health checks if health-check container does not exist
+    # possible use case is fresh or taken down server that has only skyd running
+    if not get_docker_container_id("health-check"):
+        print("Container health-check not found - skipping health checks")
+        return
 
     try:
         endpoint = "http://{}:{}".format(get_docker_container_ip("health-check"), 3100)

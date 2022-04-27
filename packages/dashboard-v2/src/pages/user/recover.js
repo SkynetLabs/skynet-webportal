@@ -5,6 +5,7 @@ import AuthLayout from "../../layouts/AuthLayout";
 
 import { ResetPasswordForm } from "../../components/forms/ResetPasswordForm";
 import HighlightedLink from "../../components/HighlightedLink";
+import { Metadata } from "../../components/Metadata";
 
 const State = {
   Pure: "PURE",
@@ -19,10 +20,10 @@ const RecoverPage = ({ location }) => {
   const [state, setState] = useState(State.Pure);
 
   return (
-    <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
-      <div className="mb-4 md:mb-16">
-        <img src="/images/logo-black-text.svg" alt="Skynet" />
-      </div>
+    <>
+      <Metadata>
+        <title>Recover Your Account</title>
+      </Metadata>
       {state !== State.Success && (
         <ResetPasswordForm
           token={token}
@@ -47,7 +48,7 @@ const RecoverPage = ({ location }) => {
       <p className="text-sm text-center mt-8">
         Suddenly remembered your old password? <HighlightedLink to="/auth/login">Sign in</HighlightedLink>
       </p>
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,9 @@ import UserSettingsLayout from "../../layouts/UserSettingsLayout";
 
 import { Switch } from "../../components/Switch";
 import { Button } from "../../components/Button";
+import { Metadata } from "../../components/Metadata";
+
+import exportImg from "../../../static/images/import-export.svg";
 
 const useExportOptions = () => {
   const [pinnedFiles, setPinnedFiles] = useState(false);
@@ -29,13 +32,16 @@ const ExportPage = () => {
 
   return (
     <>
+      <Metadata>
+        <title>Export</title>
+      </Metadata>
       <div className="flex flex-col xl:flex-row">
         <div className="flex flex-col gap-10 lg:shrink-0 lg:max-w-[576px] xl:max-w-[524px]">
           <section>
             <h4>Export</h4>
             <p>
-              Et quidem exercitus quid ex eo delectu rerum, quem modo ista sis aequitate. Probabo, inquit, modo dixi,
-              constituto.
+              Select the items you want to export. You can use this data to migrate your account to another Skynet
+              portal.
             </p>
           </section>
           <hr />
@@ -61,7 +67,7 @@ const ExportPage = () => {
           </section>
         </div>
         <div className="hidden xl:block w-full text-right pt-20 pr-6">
-          <img src="/images/import-export.svg" alt="" className="inline-block w-[200px]" />
+          <img src={exportImg} alt="" className="inline-block w-[200px]" />
         </div>
       </div>
     </>

@@ -5,6 +5,7 @@ import { AllUsersAuthLayout } from "../../layouts/AuthLayout";
 
 import HighlightedLink from "../../components/HighlightedLink";
 import accountsService from "../../services/accountsService";
+import { Metadata } from "../../components/Metadata";
 
 const State = {
   Pure: "PURE",
@@ -52,10 +53,10 @@ const EmailConfirmationPage = ({ location }) => {
   }, [token]);
 
   return (
-    <div className="bg-white px-8 py-10 md:py-32 lg:px-16 xl:px-28 min-h-screen">
-      <div className="mb-4 md:mb-16">
-        <img src="/images/logo-black-text.svg" alt="Skynet" />
-      </div>
+    <>
+      <Metadata>
+        <title>Confirm E-mail Address</title>
+      </Metadata>
       <div className="text-center">
         {state === State.Pure && <p>Please wait while we verify your account...</p>}
 
@@ -69,7 +70,7 @@ const EmailConfirmationPage = ({ location }) => {
 
         {state === State.Failure && <p className="text-error">Something went wrong, please try again later.</p>}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,29 @@
+name: Dockerfile Lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  hadolint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dockerfile:
+          - docker/nginx/Dockerfile
+          - docker/nginx/testing/Dockerfile
+          - docker/sia/Dockerfile
+          - packages/dashboard/Dockerfile
+          - packages/dashboard-v2/Dockerfile
+          - packages/dnslink-api/Dockerfile
+          - packages/handshake-api/Dockerfile
+          - packages/health-check/Dockerfile
+          - packages/website/Dockerfile
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ${{ matrix.dockerfile }}

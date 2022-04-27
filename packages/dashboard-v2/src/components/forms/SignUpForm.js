@@ -32,14 +32,16 @@ export const SignUpForm = ({ onSuccess, onFailure }) => (
     validationSchema={registrationSchema}
     onSubmit={async ({ email, password }, { setErrors }) => {
       try {
-        await accountsService.post("user", {
-          json: {
-            email,
-            password,
-          },
-        });
+        const user = await accountsService
+          .post("user", {
+            json: {
+              email,
+              password,
+            },
+          })
+          .json();
 
-        onSuccess();
+        onSuccess(user);
       } catch (err) {
         let isFormErrorSet = false;
 

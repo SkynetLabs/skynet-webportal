@@ -54,9 +54,11 @@ services:
       - ./docker/data/certbot:/etc/letsencrypt
 
   nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./docker/nginx/Dockerfile
+    image: skynetlabs/nginx
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -69,6 +71,10 @@ services:
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - ./docker/data/certbot:/etc/letsencrypt
+      - ./docker/nginx/libs:/etc/nginx/libs
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/conf.d.templates:/etc/nginx/templates
+      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -82,9 +88,11 @@ services:
       - website
 
   website:
-    build:
-      context: ./packages/website
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./packages/website/Dockerfile
+    image: skynetlabs/website
     container_name: website
     restart: unless-stopped
     logging: *default-logging
@@ -118,9 +126,11 @@ services:
       - 12037
 
   handshake-api:
-    build:
-      context: ./packages/handshake-api
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./packages/handshake-api/Dockerfile
+    image: skynetlabs/handshake-api
     container_name: handshake-api
     restart: unless-stopped
     logging: *default-logging
@@ -140,9 +150,11 @@ services:
       - handshake
 
   dnslink-api:
-    build:
-      context: ./packages/dnslink-api
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./packages/dnslink-api/Dockerfile
+    image: skynetlabs/dnslink-api
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
@@ -153,9 +165,11 @@ services:
       - 3100
 
   health-check:
-    build:
-      context: ./packages/health-check
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./packages/health-check/Dockerfile
+    image: skynetlabs/health-check
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging

@@ -19,7 +19,14 @@ const aggregatePlansAndLimits = (plans, limits, { includeFreePlan }) => {
 
   // Decorate each plan with its corresponding limits data, if available.
   if (limits?.length) {
-    return sortedPlans.map((plan) => ({ ...plan, limits: limits[plan.tier] || null }));
+    return limits.map((limitsDescriptor, index) => {
+      const asssociatedPlan = sortedPlans.find((plan) => plan.tier === index) || {};
+
+      return {
+        ...asssociatedPlan,
+        limits: limitsDescriptor || null,
+      };
+    });
   }
 
   // If we don't have the limits data yet, set just return the plans.
@@ -40,10 +47,12 @@ export const PlansProvider = ({ children }) => {
     if (plansError || limitsError) {
       setLoading(false);
       setError(plansError || limitsError);
-    } else if (rawPlans) {
+    } else if (rawPlans || limits) {
       setLoading(false);
       setPlans(
-        aggregatePlansAndLimits(rawPlans, limits?.userLimits, { includeFreePlan: !settings.isSubscriptionRequired })
+        aggregatePlansAndLimits(rawPlans || [], limits?.userLimits, {
+          includeFreePlan: !settings.isSubscriptionRequired,
+        })
       );
     }
   }, [rawPlans, limits, plansError, limitsError, settings.isSubscriptionRequired]);
