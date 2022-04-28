@@ -22,7 +22,7 @@ services:
   accounts:
     # uncomment "build" and comment out "image" to build from sources
     # build: https://github.com/SkynetLabs/skynet-accounts.git#main
-    image: skynetlabs/skynet-accounts
+    image: skynetlabs/skynet-accounts:deploy-2022-04-27
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
@@ -59,7 +59,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/dashboard/Dockerfile
-    image: skynetlabs/dashboard
+    image: skynetlabs/dashboard:deploy-2022-04-27
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
