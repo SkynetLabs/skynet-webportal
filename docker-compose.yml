@@ -22,6 +22,7 @@ services:
         branch: portal-latest
     container_name: sia
     restart: unless-stopped
+    stop_grace_period: 5m
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
