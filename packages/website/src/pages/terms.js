@@ -2,6 +2,7 @@ import * as React from "react";
 import { DomainName } from "../components/DomainName";
 import { Section } from "../components/Layout";
 import Seo from "../components/seo";
+import emails from "../services/emails";
 
 const P = ({ className, ...props }) => <p className={`my-4 leading-relaxed ${className}`} {...props} />;
 
@@ -77,8 +78,8 @@ const TermsPage = () => (
       </P>
       <P>
         <strong>Contact.</strong> Any misuse of the Services may be reported to{" "}
-        <a className="text-primary" href="mailto:report@siasky.net">
-          report@siasky.net
+        <a className="text-primary" href={`mailto:${emails.report}`}>
+          {emails.report}
         </a>
       </P>
 
@@ -222,8 +223,8 @@ const TermsPage = () => (
       <P>
         <strong>Questions.</strong> If you have any questions regarding the Terms of Use or wish to report any issue
         relating to the Website, its content or the Services you were provided, please contact us by email at{" "}
-        <a className="text-primary" href="mailto:hello@siasky.net">
-          hello@siasky.net
+        <a className="text-primary" href={`mailto:${emails.contact}`}>
+          {emails.contact}
         </a>
         .
       </P>
