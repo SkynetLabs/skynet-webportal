@@ -22,6 +22,7 @@ services:
         branch: portal-latest
     container_name: sia
     restart: unless-stopped
+    stop_grace_period: 5m
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
@@ -54,9 +55,11 @@ services:
       - ./docker/data/certbot:/etc/letsencrypt
 
   nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
+    #   dockerfile: ./docker/nginx/Dockerfile
+    image: skynetlabs/nginx
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -69,6 +72,10 @@ services:
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - ./docker/data/certbot:/etc/letsencrypt
+      - ./docker/nginx/libs:/etc/nginx/libs
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/conf.d.templates:/etc/nginx/templates
+      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
     networks:
       shared:
         ipv4_address: 10.10.10.30

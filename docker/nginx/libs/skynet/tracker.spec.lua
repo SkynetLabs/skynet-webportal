@@ -5,6 +5,7 @@ local skynet_tracker = require("skynet.tracker")
 local valid_skylink = "AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA"
 local valid_status_code = 200
 local valid_auth_headers = { ["Skynet-Api-Key"] = "foo" }
+local valid_ip = "12.34.56.78"
 
 describe("track_download", function()
     local valid_body_bytes_sent = 12345
@@ -200,20 +201,21 @@ describe("track_upload", function()
     it("should schedule a timer when conditions are met", function()
         ngx.timer.at.invokes(function() return true, nil end)
 
-        skynet_tracker.track_upload(valid_skylink, valid_status_code, valid_auth_headers)
+        skynet_tracker.track_upload(valid_skylink, valid_status_code, valid_auth_headers, valid_ip)
 
         assert.stub(ngx.timer.at).was_called_with(
             0,
             skynet_tracker.track_upload_timer,
             valid_skylink,
-            valid_auth_headers
+            valid_auth_headers,
+            valid_ip
         )
     end)
 
     it("should not schedule a timer if skylink is empty", function()
         ngx.timer.at.invokes(function() return true, nil end)
 
-        skynet_tracker.track_upload(nil, valid_status_code, valid_auth_headers)
+        skynet_tracker.track_upload(nil, valid_status_code, valid_auth_headers, valid_ip)
 
         assert.stub(ngx.timer.at).was_not_called()
     end)
@@ -222,34 +224,41 @@ describe("track_upload", function()
         ngx.timer.at.invokes(function() return true, nil end)
 
         -- couple of example of 4XX and 5XX codes
-        skynet_tracker.track_upload(valid_skylink, 401, valid_auth_headers)
-        skynet_tracker.track_upload(valid_skylink, 403, valid_auth_headers)
-        skynet_tracker.track_upload(valid_skylink, 490, valid_auth_headers)
-        skynet_tracker.track_upload(valid_skylink, 500, valid_auth_headers)
-        skynet_tracker.track_upload(valid_skylink, 502, valid_auth_headers)
+        skynet_tracker.track_upload(valid_skylink, 401, valid_auth_headers, valid_ip)
+        skynet_tracker.track_upload(valid_skylink, 403, valid_auth_headers, valid_ip)
+        skynet_tracker.track_upload(valid_skylink, 490, valid_auth_headers, valid_ip)
+        skynet_tracker.track_upload(valid_skylink, 500, valid_auth_headers, valid_ip)
+        skynet_tracker.track_upload(valid_skylink, 502, valid_auth_headers, valid_ip)
 
         assert.stub(ngx.timer.at).was_not_called()
     end)
 
-    it("should not schedule a timer if auth headers are empty", function()
+    it("should schedule a timer if auth headers are empty", function()
         ngx.timer.at.invokes(function() return true, nil end)
 
-        skynet_tracker.track_upload(valid_skylink, valid_status_code, {})
+        skynet_tracker.track_upload(valid_skylink, valid_status_code, {}, valid_ip)
 
-        assert.stub(ngx.timer.at).was_not_called()
+        assert.stub(ngx.timer.at).was_called_with(
+            0,
+            skynet_tracker.track_upload_timer,
+            valid_skylink,
+            {},
+            valid_ip
+        )
     end)
 
     it("should log an error if timer failed to create", function()
         stub(ngx, "log")
         ngx.timer.at.invokes(function() return false, "such a failure" end)
 
-        skynet_tracker.track_upload(valid_skylink, valid_status_code, valid_auth_headers)
+        skynet_tracker.track_upload(valid_skylink, valid_status_code, valid_auth_headers, valid_ip)
 
         assert.stub(ngx.timer.at).was_called_with(
             0,
             skynet_tracker.track_upload_timer,
             valid_skylink,
-            valid_auth_headers
+            valid_auth_headers,
+            valid_ip
         )
         assert.stub(ngx.log).was_called_with(ngx.ERR, "Failed to create timer: ", "such a failure")
 
@@ -279,7 +288,8 @@ describe("track_upload", function()
             skynet_tracker.track_upload_timer(
                 true,
                 valid_skylink,
-                valid_auth_headers
+                valid_auth_headers,
+                valid_ip
             )
 
             assert.stub(request_uri).was_not_called()
@@ -297,11 +307,19 @@ describe("track_upload", function()
             skynet_tracker.track_upload_timer(
                 false,
                 valid_skylink,
-                valid_auth_headers
+                valid_auth_headers,
+                valid_ip
             )
 
             local uri = "http://10.10.10.70:3000/track/upload/" .. valid_skylink
-            assert.stub(request_uri).was_called_with(httpc, uri, { method = "POST", headers = valid_auth_headers })
+            assert.stub(request_uri).was_called_with(httpc, uri, {
+                method = "POST",
+                headers = {
+                    ["Content-Type"] = "application/x-www-form-urlencoded",
+                    ["Skynet-Api-Key"] = "foo",
+                },
+                body = "ip=" .. valid_ip
+            })
             assert.stub(ngx.log).was_not_called()
         end)
 
@@ -316,11 +334,19 @@ describe("track_upload", function()
             skynet_tracker.track_upload_timer(
                 false,
                 valid_skylink,
-                valid_auth_headers
+                valid_auth_headers,
+                valid_ip
             )
 
             local uri = "http://10.10.10.70:3000/track/upload/" .. valid_skylink
-            assert.stub(request_uri).was_called_with(httpc, uri, { method = "POST", headers = valid_auth_headers })
+            assert.stub(request_uri).was_called_with(httpc, uri, {
+                method = "POST",
+                headers = {
+                    ["Content-Type"] = "application/x-www-form-urlencoded",
+                    ["Skynet-Api-Key"] = "foo",
+                },
+                body = "ip=" .. valid_ip
+            })
             assert.stub(ngx.log).was_called_with(
                 ngx.ERR,
                 "Failed accounts service request /track/upload/" .. valid_skylink .. ": ",
@@ -339,11 +365,19 @@ describe("track_upload", function()
             skynet_tracker.track_upload_timer(
                 false,
                 valid_skylink,
-                valid_auth_headers
+                valid_auth_headers,
+                valid_ip
             )
 
             local uri = "http://10.10.10.70:3000/track/upload/" .. valid_skylink
-            assert.stub(request_uri).was_called_with(httpc, uri, { method = "POST", headers = valid_auth_headers })
+            assert.stub(request_uri).was_called_with(httpc, uri, {
+                method = "POST",
+                headers = {
+                    ["Content-Type"] = "application/x-www-form-urlencoded",
+                    ["Skynet-Api-Key"] = "foo",
+                },
+                body = "ip=" .. valid_ip
+            })
             assert.stub(ngx.log).was_called_with(
                 ngx.ERR,
                 "Failed accounts service request /track/upload/" .. valid_skylink .. ": ",
