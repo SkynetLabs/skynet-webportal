@@ -15,7 +15,7 @@
     "classnames": "2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
     "dayjs": "1.11.1",
-    "express-jwt": "7.5.2",
+    "express-jwt": "7.6.2",
     "fast-levenshtein": "3.0.0",
     "formik": "2.2.9",
     "http-status-codes": "2.2.0",
