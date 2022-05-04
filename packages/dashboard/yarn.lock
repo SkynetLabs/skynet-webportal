@@ -32,10 +32,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/sora@4.5.5":
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.5.tgz#25e8e0a11d0a2a861ccce23a94383448c5beaa50"
-  integrity sha512-SeePOM5pvXaa2a1c9VuGPJGmHNcFSUBzVxfHMuQ/FrVeiXvF3XXyPbt68N6QmHK2rAH844BN1Y5zImxqa5ok6g==
+"@fontsource/sora@4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.8.tgz#6bf3889ff735fb7da969cee8b2720640f1bc398d"
+  integrity sha512-WUSB/Kk4EosszcnzsdMqK4wUMtb3uqKmIvVPilcCGQzPTSL/iZJahjZSOlPKamxnYd2NinnFboBVSmciTF0iWQ==
 
 "@fontsource/source-sans-pro@4.5.9":
   version "4.5.9"
@@ -915,10 +915,10 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-express-jwt@7.5.2:
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/express-jwt/-/express-jwt-7.5.2.tgz#9260d5f16db6b1b96c967560f42b7e4b7b353b3e"
-  integrity sha512-EHxPT8mNMT32dLlCrL98KZlKbSuP6Uc3s4PczoUtjxJoS7tfuXjz2/VOryAaVR59C2FhuOMCSFUW3hadkwEuZw==
+express-jwt@7.6.2:
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/express-jwt/-/express-jwt-7.6.2.tgz#fb82d46ab58c14be65efb9df3629b6b6472b7e9a"
+  integrity sha512-qvsvbr4oMhBAuSq/0I/CVzQWcXGuGZAxBGEI++kq4PaxEMgYCjYfHhUFtJQQlekiAL9CJtGgMFTEVIZegaKgEA==
   dependencies:
     express-unless "^1.0.0"
     jsonwebtoken "^8.5.1"
