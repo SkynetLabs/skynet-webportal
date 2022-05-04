@@ -1098,10 +1098,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/sora@4.5.5":
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.5.tgz#25e8e0a11d0a2a861ccce23a94383448c5beaa50"
-  integrity sha512-SeePOM5pvXaa2a1c9VuGPJGmHNcFSUBzVxfHMuQ/FrVeiXvF3XXyPbt68N6QmHK2rAH844BN1Y5zImxqa5ok6g==
+"@fontsource/sora@4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.8.tgz#6bf3889ff735fb7da969cee8b2720640f1bc398d"
+  integrity sha512-WUSB/Kk4EosszcnzsdMqK4wUMtb3uqKmIvVPilcCGQzPTSL/iZJahjZSOlPKamxnYd2NinnFboBVSmciTF0iWQ==
 
 "@fontsource/source-sans-pro@4.5.6":
   version "4.5.6"
