@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "0.5.2",
-    "autoprefixer": "10.4.4",
+    "autoprefixer": "10.4.5",
     "cross-env": "7.0.3",
     "cypress": "9.5.4",
     "prettier": "2.6.2",
