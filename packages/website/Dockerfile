@@ -1,5 +1,6 @@
-# builder stage - use debian base image to avoid needing to install missing packages
-FROM node:16.14.2-bullseye as builder
+FROM node:18.1.0-alpine
+
+RUN apk add --no-cache build-base~=0.5 python3~=3.9
 
 WORKDIR /usr/app
 
@@ -20,18 +21,6 @@ COPY packages/website/gatsby-*.js \
      packages/website/tailwind.config.js \
      ./
 
-RUN yarn build
-
-# main stage - use alpine base image to minimise the resulting image footprint
-FROM node:16.14.2-alpine
-
-WORKDIR /usr/app
-
-# install http server for serving website files
-RUN npm install --global http-server@14.1.0
-
-COPY --from=builder /usr/app/public /usr/app/public
-
 EXPOSE 9000
 
-CMD ["http-server", "/usr/app/public", "-s", "-p 9000"]
+CMD ["sh", "-c", "yarn build && yarn serve --host 0.0.0.0"]

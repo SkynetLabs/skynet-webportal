@@ -60,7 +60,6 @@ module.exports = {
           },
         ],
         description: `Skynet portal homepage and upload widget`,
-        skylink: `AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA`,
       },
     },
     {
