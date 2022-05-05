@@ -5,7 +5,7 @@ module.exports = {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,
     author: `Skynet Labs`,
-    siteUrl: `https://siasky.net`,
+    siteUrl: process.env.PORTAL_DOMAIN,
     image: `/icons/icon-512x512.png`,
   },
   plugins: [
