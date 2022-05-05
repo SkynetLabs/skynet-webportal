@@ -1,11 +1,15 @@
 const { defaultIcons } = require("gatsby-plugin-manifest/common");
 
+if (!process.env.PORTAL_DOMAIN) {
+  throw new Error("PORTAL_DOMAIN cannot be empty");
+}
+
 module.exports = {
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,
     author: `Skynet Labs`,
-    siteUrl: process.env.PORTAL_DOMAIN,
+    siteUrl: `https://${process.env.PORTAL_DOMAIN}`,
     image: `/icons/icon-512x512.png`,
   },
   plugins: [
