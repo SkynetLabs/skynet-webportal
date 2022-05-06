@@ -45,7 +45,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-env-variables`,
       options: {
-        allowList: ["WEBSITE_CONTACT_EMAIL", "WEBSITE_ABUSE_EMAIL"],
+        allowList: ["PORTAL_DOMAIN", "WEBSITE_CONTACT_EMAIL", "WEBSITE_ABUSE_EMAIL"],
       },
     },
     {
