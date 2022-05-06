@@ -43,6 +43,12 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-transformer-yaml`,
     {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        allowList: ["WEBSITE_CONTACT_EMAIL", "WEBSITE_ABUSE_EMAIL"],
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Skynet`,

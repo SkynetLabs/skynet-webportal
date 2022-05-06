@@ -15,6 +15,7 @@
     "framer-motion": "6.3.3",
     "gatsby": "4.13.1",
     "gatsby-background-image": "1.6.0",
+    "gatsby-plugin-env-variables": "2.2.0",
     "gatsby-plugin-image": "2.13.0",
     "gatsby-plugin-manifest": "4.13.0",
     "gatsby-plugin-postcss": "5.13.0",
