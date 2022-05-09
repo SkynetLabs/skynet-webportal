@@ -1,14 +1,7 @@
 import * as React from "react";
 import { LogoWhiteText } from "../Icons";
 import Link from "../Link";
-
-// const hostname = typeof window !== "undefined" ? window.location.hostname : "";
-// const domain = hostname.substring(hostname.lastIndexOf(".", hostname.lastIndexOf(".") - 1) + 1);
-// const emails = domain ? [`hello@${domain}`, `report@${domain}`] : [];
-
-// temporary hardcode siasky.net emails until we have environment
-// variables for them and we can reflect that in the terms of service
-const emails = ["hello@siasky.net", "report@siasky.net"];
+import emails from "../../services/emails";
 
 const Footer = () => {
   return (
@@ -22,19 +15,27 @@ const Footer = () => {
             </span>
           </div>
 
-          {emails.length > 0 && (
-            <div className="flex flex-col text-right space-y-2">
-              {emails.map((email) => (
-                <Link
-                  key={email}
-                  href={`mailto:${email}`}
-                  className="font-content text-palette-300 text-base underline-primary hover:text-primary transition-colors duration-200"
-                >
-                  {email}
-                </Link>
-              ))}
+          <div className="flex flex-col text-right space-y-2">
+            <div>
+              <span className="font-content text-palette-300 text-base mr-2">contact us at</span>
+              <Link
+                href={`mailto:${emails.contact}`}
+                className="font-content text-palette-300 text-base underline-primary hover:text-primary transition-colors duration-200"
+              >
+                {emails.contact}
+              </Link>
             </div>
-          )}
+
+            <div>
+              <span className="font-content text-palette-300 text-base mr-2">report abuse at</span>
+              <Link
+                href={`mailto:${emails.report}`}
+                className="font-content text-palette-300 text-base underline-primary hover:text-primary transition-colors duration-200"
+              >
+                {emails.report}
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

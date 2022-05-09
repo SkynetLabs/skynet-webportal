@@ -97,6 +97,9 @@ services:
     container_name: website
     restart: unless-stopped
     logging: *default-logging
+    volumes:
+      - ./docker/data/website/.cache:/usr/app/.cache
+      - ./docker/data/website/.public:/usr/app/public
     env_file:
       - .env
     networks:

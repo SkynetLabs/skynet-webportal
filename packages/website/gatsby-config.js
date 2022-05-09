@@ -1,12 +1,16 @@
 const { defaultIcons } = require("gatsby-plugin-manifest/common");
 
+if (!process.env.PORTAL_DOMAIN) {
+  throw new Error("PORTAL_DOMAIN cannot be empty");
+}
+
 module.exports = {
   siteMetadata: {
     title: `Skynet`,
     description: `Skynet is a decentralized file sharing and content distribution protocol`,
     author: `Skynet Labs`,
-    siteUrl: `https://siasky.net`,
-    image: `https://siasky.net/icons/icon-512x512.png`,
+    siteUrl: `https://${process.env.PORTAL_DOMAIN}`,
+    image: `/icons/icon-512x512.png`,
   },
   plugins: [
     {
@@ -39,6 +43,12 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-transformer-yaml`,
     {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        allowList: ["PORTAL_DOMAIN", "WEBSITE_CONTACT_EMAIL", "WEBSITE_ABUSE_EMAIL"],
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Skynet`,
@@ -60,7 +70,6 @@ module.exports = {
           },
         ],
         description: `Skynet portal homepage and upload widget`,
-        skylink: `AQBG8n_sgEM_nlEp3G0w3vLjmdvSZ46ln8ZXHn-eObZNjA`,
       },
     },
     {
