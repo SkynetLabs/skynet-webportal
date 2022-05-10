@@ -7,12 +7,7 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  health-check:
-    environment:
-      - PINNER_HOST=10.10.10.130
-      - PINNER_PORT=4000
-
-  blocker:
+  pinner:
     # uncomment "build" and comment out "image" to build from sources
     # build: https://github.com/SkynetLabs/pinner.git#main
     image: skynetlabs/pinner
