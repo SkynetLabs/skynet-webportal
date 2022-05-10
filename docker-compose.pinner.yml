@@ -1,0 +1,31 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  health-check:
+    environment:
+      - BLOCKER_HOST=10.10.10.110
+      - BLOCKER_PORT=4000
+
+  blocker:
+    # uncomment "build" and comment out "image" to build from sources
+    # build: https://github.com/SkynetLabs/pinner.git#main
+    image: skynetlabs/pinner
+    container_name: pinner
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    expose:
+      - 4000
+    networks:
+      shared:
+        ipv4_address: 10.10.10.130
+    depends_on:
+      - mongo
+      - sia
