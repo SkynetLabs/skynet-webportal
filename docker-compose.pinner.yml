@@ -9,8 +9,8 @@ x-logging: &default-logging
 services:
   health-check:
     environment:
-      - BLOCKER_HOST=10.10.10.110
-      - BLOCKER_PORT=4000
+      - PINNER_HOST=10.10.10.130
+      - PINNER_PORT=4000
 
   blocker:
     # uncomment "build" and comment out "image" to build from sources
