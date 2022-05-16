@@ -41,7 +41,7 @@
     "react-dropzone": "14.2.0",
     "react-helmet": "6.1.0",
     "react-use": "17.3.2",
-    "skynet-js": "4.1.0",
+    "skynet-js": "4.2.0-beta",
     "stream-browserify": "3.0.0",
     "swr": "1.3.0"
   },
