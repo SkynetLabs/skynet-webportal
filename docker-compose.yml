@@ -76,6 +76,7 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/nginx/conf.d.templates:/etc/nginx/templates
       - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./docker/data/website/public/errors:/etc/nginx/errors
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -99,7 +100,7 @@ services:
     logging: *default-logging
     volumes:
       - ./docker/data/website/.cache:/usr/app/.cache
-      - ./docker/data/website/.public:/usr/app/public
+      - ./docker/data/website/public:/usr/app/public
     env_file:
       - .env
     networks:

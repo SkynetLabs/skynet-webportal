@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#___gatsby,
+#gatsby-focus-wrapper {
+  @apply h-full;
+}
+
 .newsletter-message a {
   @apply text-primary;
 }
