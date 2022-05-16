@@ -1,0 +1,92 @@
+name: Health Check CI and Release
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    paths:
+      - packages/health-check/**
+    # Nightly schedule pending full e2e testing with other repos
+    #schedule:
+    # Run daily at 1:15am
+    #- cron: "15 1 * * *"
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      version:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: "Semver type of new version (major / minor / patch)"
+        # Input has to be provided for the workflow to run
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+defaults:
+  run:
+    working-directory: packages/health-check
+
+jobs:
+  # Lint Dockerfile
+  hadolint:
+    uses: SkynetLabs/.github/.github/workflows/reusable_dockerfile_lint.yml@master
+
+  # Run basic yarn checks
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Run Yarn Basic Checks"
+        uses: SkynetLabs/.github/.github/actions/yarn-basic-checks@master
+        with:
+          node-version: 16.x
+
+  # Check if there were any changes since the last tag if this is not a push
+  # event
+  changes:
+    needs: [hadolint, test]
+    runs-on: ubuntu-latest
+    outputs:
+      updates: ${{steps.changes.outputs.any == 'true'}}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - uses: SkynetLabs/.github/.github/actions/changes-since-last-tag@master
+        with:
+          working-directory: ${{ defaults.working-directory }}
+
+  # Make a release if
+  # - there were changes and this is a scheduled job
+  # - This is a manually trigger job, i.e. workflow_dispatch
+  release:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: ${{ (needs.changes.outputs.updates == 'true' && github.event_name == 'schedule') || github.event_name == 'workflow_dispatch' }}
+    outputs:
+      new_version: ${{ steps.version.outputs.new-version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Version Release
+        id: version
+        uses: SkynetLabs/.github/.github/actions/version-release@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          version-bump: ${{github.event.inputs.version}}
+
+  docker:
+    needs: release
+    name: Build and Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - uses: SkynetLabs/.github/.github/actions/docker-publish@master
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME}}
+          docker_password: ${{ secrets.DOCKER_PASSWORD}}
+          docker_repository: skynetlabs/health-check
+          semver_version: ${{ needs.release.outputs.new_version }}
