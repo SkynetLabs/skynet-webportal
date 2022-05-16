@@ -55,8 +55,6 @@ jobs:
         with:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - uses: SkynetLabs/.github/.github/actions/changes-since-last-tag@master
-        with:
-          working-directory: ${{ defaults.working-directory }}
 
   # Make a release if
   # - there were changes and this is a scheduled job

@@ -20,5 +20,9 @@
   "devDependencies": {
     "jest": "^28.0.3",
     "prettier": "^2.6.2"
+  },
+  "scripts": {
+    "lint": "echo 'Warning: no lint script specified'",
+    "test": "echo 'Warning: no test script specified'"
   }
 }
