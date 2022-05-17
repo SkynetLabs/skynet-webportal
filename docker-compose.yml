@@ -59,7 +59,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./docker/nginx/Dockerfile
-    image: skynetlabs/nginx
+    image: skynetlabs/nginx:deploy-2022-05-17
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -93,7 +93,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/website/Dockerfile
-    image: skynetlabs/website
+    image: skynetlabs/website:deploy-2022-05-17
     container_name: website
     restart: unless-stopped
     logging: *default-logging
@@ -134,7 +134,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/handshake-api/Dockerfile
-    image: skynetlabs/handshake-api
+    image: skynetlabs/handshake-api:deploy-2022-05-17
     container_name: handshake-api
     restart: unless-stopped
     logging: *default-logging
@@ -158,7 +158,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/dnslink-api/Dockerfile
-    image: skynetlabs/dnslink-api
+    image: skynetlabs/dnslink-api:deploy-2022-05-17
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
@@ -173,7 +173,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/health-check/Dockerfile
-    image: skynetlabs/health-check
+    image: skynetlabs/health-check:deploy-2022-05-17
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging

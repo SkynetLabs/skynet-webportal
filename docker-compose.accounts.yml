@@ -59,7 +59,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
     #   dockerfile: ./packages/dashboard/Dockerfile
-    image: skynetlabs/dashboard
+    image: skynetlabs/dashboard:deploy-2022-05-17
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
