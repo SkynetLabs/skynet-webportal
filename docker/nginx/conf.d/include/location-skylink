@@ -36,6 +36,7 @@ proxy_read_timeout 600;
 proxy_set_header User-Agent: Sia-Agent;
 
 proxy_pass http://sia:9980/skynet/skylink/$skylink$path$is_args$args;
+proxy_intercept_errors on;
 
 error_page 400 /etc/nginx/public/errors/400/index.html;
 error_page 401 /etc/nginx/public/errors/401/index.html;
