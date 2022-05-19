@@ -36,6 +36,19 @@ else
     exec 3>/dev/null
 fi
 
+# Really dirty backwards compatible workaround for single server portals:
+# =======================================================================
+# in the past we used to require single server portals not to include
+# server domain env variable because it messed up with caddy; we switched
+# to certbot and that is not the case any more but we also switched to
+# using built in envsubst instead of custom mustache script for nginx
+# templating and now when server domain is not defined, it messes up whole
+# nginx config and nginx will not start; this workaround assigns portal
+# domain as a server domain if server domain is not defined
+if [ -z "${SERVER_DOMAIN}" ]; then
+    export SERVER_DOMAIN=${PORTAL_DOMAIN}
+fi
+
 if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
     if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -maxdepth 1 -type f -print -quit 2>/dev/null | read v; then
         echo >&3 "$0: /docker-entrypoint.d/ is not empty, will attempt to perform configuration"
