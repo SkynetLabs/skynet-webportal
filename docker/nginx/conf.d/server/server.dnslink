@@ -23,10 +23,10 @@ location / {
                     ngx.var.skylink = match_skylink[1]
                     ngx.var.path = match_skylink[2] or "/"
                 else
-                    ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
-                    ngx.header["content-type"] = "text/plain"
-                    ngx.say(err or res.body)
-                    ngx.exit(ngx.status)
+                    -- ngx.status = (err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status
+                    -- ngx.header["content-type"] = "text/plain"
+                    -- ngx.say(err or res.body)
+                    ngx.exit((err and ngx.HTTP_INTERNAL_SERVER_ERROR) or res.status)
                 end
             else
                 local resolved = cjson.decode(res.body)
