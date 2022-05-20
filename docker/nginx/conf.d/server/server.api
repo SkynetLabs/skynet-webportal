@@ -25,8 +25,7 @@ rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 
 error_page 401 = @http_401;
 location @http_401 {
-    root /etc/nginx/conf.d/pages;
-    alias 401.txt;
+    alias /etc/nginx/conf.d/pages/401.txt;
 }
 
 #location / {
