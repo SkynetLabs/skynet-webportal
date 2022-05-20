@@ -74,9 +74,8 @@ services:
       - ./docker/data/certbot:/etc/letsencrypt
       - ./docker/nginx/libs:/etc/nginx/libs
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/nginx/conf.d.templates:/etc/nginx/templates
+      - ./docker/nginx/templates:/etc/nginx/templates
       - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
-      - ./docker/data/website/public:/etc/nginx/public
     networks:
       shared:
         ipv4_address: 10.10.10.30
