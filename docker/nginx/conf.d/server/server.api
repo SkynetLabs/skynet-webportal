@@ -30,11 +30,11 @@ error_page 401 /etc/nginx/public/etc/nginx/conf.d/pages/401.html;
 # error_page 451 /etc/nginx/public/etc/nginx/conf.d/pages/451.html;
 # error_page 500 501 502 503 /etc/nginx/public/etc/nginx/conf.d/pages/5xx.html;
 
-location / {
-    include /etc/nginx/conf.d/include/cors;
-
-    proxy_pass http://website:9000;
-}
+#location / {
+#    include /etc/nginx/conf.d/include/cors;
+#
+#    proxy_pass http://website:9000;
+#}
 
 location /skynet/blocklist {
     include /etc/nginx/conf.d/include/cors;
