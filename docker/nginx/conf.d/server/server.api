@@ -23,13 +23,6 @@ rewrite ^/stats /skynet/stats permanent;
 rewrite ^/skynet/blacklist /skynet/blocklist permanent;
 rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 
-# error_page 400 /etc/nginx/public/etc/nginx/conf.d/pages/400.html;
-# error_page 401 /etc/nginx/public/etc/nginx/conf.d/pages/401.html;
-# error_page 403 /etc/nginx/public/etc/nginx/conf.d/pages/403.html;
-# error_page 404 /etc/nginx/public/etc/nginx/conf.d/pages/404.html;
-# error_page 451 /etc/nginx/public/etc/nginx/conf.d/pages/451.html;
-# error_page 500 501 502 503 /etc/nginx/public/etc/nginx/conf.d/pages/5xx.html;
-
 #location / {
 #    include /etc/nginx/conf.d/include/cors;
 #

@@ -38,12 +38,13 @@ proxy_set_header User-Agent: Sia-Agent;
 proxy_pass http://sia:9980/skynet/skylink/$skylink$path$is_args$args;
 proxy_intercept_errors on;
 
-# error_page 400 /etc/nginx/conf.d/pages/400.html;
-error_page 401 /etc/nginx/conf.d/pages/401.html;
-# error_page 403 /etc/nginx/conf.d/pages/403.html;
-# error_page 404 /etc/nginx/conf.d/pages/404.html;
-# error_page 451 /etc/nginx/conf.d/pages/451.html;
-# error_page 500 501 502 503 /etc/nginx/conf.d/pages/5xx.html;
+root /etc/nginx/conf.d/pages;
+# error_page 400 /400.html;
+error_page 401 /401.html;
+# error_page 403 /403.html;
+# error_page 404 /404.html;
+# error_page 451 /451.html;
+# error_page 500 501 502 503 /5xx.html;
 
 log_by_lua_block {
     local skynet_account = require("skynet.account")
