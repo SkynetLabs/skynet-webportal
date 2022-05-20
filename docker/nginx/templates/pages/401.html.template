@@ -81,7 +81,8 @@
       // prevent auto redirect if not on portal domain to allow local development
       if (window.location.hostname.endsWith("${PORTAL_DOMAIN}")) {
         setTimeout(function redirect() {
-          window.location.href = "https://account.${PORTAL_DOMAIN}/auth/login";
+          const encodedReturnTo = encodeURIComponent(window.location.href);
+          window.location.href = `https://account.${PORTAL_DOMAIN}/auth/login?return_to=${encodedReturnTo}`;
         }, 5000); // redirect after 5 secons
       }
     </script>
