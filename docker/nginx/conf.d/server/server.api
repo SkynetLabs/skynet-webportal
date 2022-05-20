@@ -23,6 +23,12 @@ rewrite ^/stats /skynet/stats permanent;
 rewrite ^/skynet/blacklist /skynet/blocklist permanent;
 rewrite ^/docs(?:/(.*))?$ https://sdk.skynetlabs.com/$1 permanent;
 
+error_page 401 = @http_401;
+location @http_401 {
+    root /etc/nginx/conf.d/pages;
+    alias 401.txt;
+}
+
 #location / {
 #    include /etc/nginx/conf.d/include/cors;
 #
