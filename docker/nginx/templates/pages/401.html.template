@@ -82,7 +82,7 @@
       if (window.location.hostname.endsWith("${PORTAL_DOMAIN}")) {
         setTimeout(function redirect() {
           window.location.href = "https://account.${PORTAL_DOMAIN}/auth/login";
-        }, 3000);
+        }, 5000); // redirect after 5 secons
       }
     </script>
   </body>
