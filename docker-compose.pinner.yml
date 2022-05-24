@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     environment:
-      - PINNER_LOG_LEVEL=${PINNER_LOG_LEVEL:-trace}
+      - PINNER_LOG_LEVEL=${PINNER_LOG_LEVEL:-info}
     expose:
       - 4000
     networks:
