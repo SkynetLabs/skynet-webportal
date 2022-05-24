@@ -1,0 +1,1 @@
+- Fix missing `logs` dir that is required for backup scripts (cron jobs).
