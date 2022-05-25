@@ -112,17 +112,6 @@ const PlansSlider = () => {
     }
   };
 
-  const manageSubscription = async () => {
-    try {
-      const response = await accountsService.post("stripe/billing", { throwHttpErrors: false, redirect: "manual" });
-      console.log(response.headers.location);
-      debugger;
-    } catch (error) {
-      setShowPaymentError(true);
-      console.error(error);
-    }
-  };
-
   return (
     <div className="w-full mb-24">
       <Metadata>
@@ -173,7 +162,7 @@ const PlansSlider = () => {
                 <div className="text-center my-6">
                   {(!hasActivePlan || isHigherThanCurrent) &&
                     (isCurrentPlanPaid ? (
-                      <Button $primary onClick={manageSubscription}>
+                      <Button $primary as="a" href="/api/stripe/billing">
                         Upgrade
                       </Button>
                     ) : (
@@ -183,7 +172,7 @@ const PlansSlider = () => {
                     ))}
                   {isCurrent && <Button disabled>Current</Button>}
                   {isLower && (
-                    <Button $primary onClick={manageSubscription}>
+                    <Button as="a" href="/api/stripe/billing">
                       Choose
                     </Button>
                   )}
