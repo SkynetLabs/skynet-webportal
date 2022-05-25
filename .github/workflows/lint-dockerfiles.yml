@@ -19,7 +19,6 @@ jobs:
           - packages/dashboard/Dockerfile
           - packages/dashboard-v2/Dockerfile
           - packages/dnslink-api/Dockerfile
-          - packages/handshake-api/Dockerfile
           - packages/health-check/Dockerfile
           - packages/website/Dockerfile
     steps:
