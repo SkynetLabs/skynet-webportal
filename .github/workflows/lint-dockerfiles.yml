@@ -16,7 +16,6 @@ jobs:
           - docker/nginx/Dockerfile
           - docker/nginx/testing/Dockerfile
           - docker/sia/Dockerfile
-          - packages/dashboard/Dockerfile
           - packages/dashboard-v2/Dockerfile
           - packages/dnslink-api/Dockerfile
           - packages/handshake-api/Dockerfile
