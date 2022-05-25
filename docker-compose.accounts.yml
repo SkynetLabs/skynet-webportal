@@ -21,7 +21,7 @@ services:
 
   accounts:
     # uncomment "build" and comment out "image" to build from sources
-    build: https://github.com/SkynetLabs/skynet-accounts.git#dashboard-v2-tests
+    build: https://github.com/SkynetLabs/skynet-accounts.git#main
     # image: skynetlabs/skynet-accounts:1.1.0
     container_name: accounts
     restart: unless-stopped

@@ -16,17 +16,17 @@ location /health {
     proxy_pass http://accounts:3000;
 }
 
-location /stripe/webhook {
-    proxy_pass http://accounts:3000;
-}
+#location /stripe/webhook {
+#    proxy_pass http://accounts:3000;
+#}
 
-location /api/stripe/billing {
-    proxy_pass http://dashboard:3000;
-}
+#location /api/stripe/billing {
+#    proxy_pass http://dashboard:3000;
+#}
 
-location /api/stripe/checkout {
-    proxy_pass http://dashboard:3000;
-}
+#location /api/stripe/checkout {
+#    proxy_pass http://dashboard:3000;
+#}
 
 location /api {
     rewrite /api/(.*) /$1 break;
