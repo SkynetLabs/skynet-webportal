@@ -1,7 +1,0 @@
-listen 80;
-
-include /etc/nginx/conf.d/include/init-optional-variables;
-
-location / {
-    return 301 https://$host$request_uri;
-}
