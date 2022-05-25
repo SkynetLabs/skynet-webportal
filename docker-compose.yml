@@ -156,9 +156,9 @@ services:
   dnslink-api:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./packages/dnslink-api/Dockerfile
-    image: skynetlabs/dnslink-api
+    #   context: https://github.com/SkynetLabs/webportal-dnslink-api.git#master
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-dnslink-api:0.1.0
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
