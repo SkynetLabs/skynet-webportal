@@ -162,9 +162,11 @@ const PlansSlider = () => {
                 <div className="text-center my-6">
                   {(!hasActivePlan || isHigherThanCurrent) &&
                     (isCurrentPlanPaid ? (
-                      <Button $primary as="a" href="/api/stripe/billing">
-                        Upgrade
-                      </Button>
+                      <form method="post" action="/api/stripe/billing">
+                        <Button type="submit">
+                          Upgrade
+                        </Button>
+                      </form>
                     ) : (
                       <Button $primary onClick={() => handleSubscribe(plan)}>
                         Upgrade
@@ -172,9 +174,11 @@ const PlansSlider = () => {
                     ))}
                   {isCurrent && <Button disabled>Current</Button>}
                   {isLower && (
-                    <Button as="a" href="/api/stripe/billing">
-                      Choose
-                    </Button>
+                    <form method="post" action="/api/stripe/billing">
+                      <Button type="submit">
+                        Choose
+                      </Button>
+                    </form>
                   )}
                 </div>
                 {plan.limits && (
