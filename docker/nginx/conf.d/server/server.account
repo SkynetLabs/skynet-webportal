@@ -8,10 +8,6 @@ location / {
   proxy_pass http://dashboard-v2:9000;
 }
 
-#location / {
-#    proxy_pass http://dashboard:3000;
-#}
-
 location /health {
     proxy_pass http://accounts:3000;
 }
