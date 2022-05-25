@@ -114,7 +114,7 @@ const PlansSlider = () => {
 
   const manageSubscription = async () => {
     try {
-      const response = await accountsService.post("stripe/billing", { redirect: "manual" });
+      const response = await accountsService.post("stripe/billing", { throwHttpErrors: false, redirect: "manual" });
       console.log(response);
       debugger;
     } catch (error) {
