@@ -82,9 +82,9 @@ services:
   # ============================================================
   # dashboard-v2:
   #   build:
-  #     context: https://github.com/SkynetLabs/webportal-accounts-dashboard.git#master
+  #     context: https://github.com/SkynetLabs/webportal-accounts-dashboard.git#main
   #     dockerfile: Dockerfile
-  #   image: skynetlabs/webportal-accounts-dashboard@1.0.0
+  #   image: skynetlabs/webportal-accounts-dashboard@1.0.1
   #   container_name: dashboard-v2
   #   restart: unless-stopped
   #   logging: *default-logging
