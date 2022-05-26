@@ -134,7 +134,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-handshake-api.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-handshake-api:0.1.0
+    image: skynetlabs/webportal-handshake-api:0.1.1
     container_name: handshake-api
     restart: unless-stopped
     logging: *default-logging
