@@ -173,7 +173,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-health-check.git#master
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-health-check:0.1.2
+    image: skynetlabs/webportal-health-check:0.1.3
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging
