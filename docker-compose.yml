@@ -91,9 +91,9 @@ services:
   website:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/webportal-website-skynetlabs.git#main
+    #   context: https://github.com/SkynetLabs/webportal-website.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-website-skynetlabs:0.1.0
+    image: skynetlabs/webportal-website:0.1.0
     container_name: website
     restart: unless-stopped
     logging: *default-logging
