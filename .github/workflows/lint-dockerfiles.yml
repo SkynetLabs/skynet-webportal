@@ -18,7 +18,6 @@ jobs:
           - docker/sia/Dockerfile
           - packages/dashboard/Dockerfile
           - packages/dnslink-api/Dockerfile
-          - packages/handshake-api/Dockerfile
           - packages/health-check/Dockerfile
     steps:
       - uses: actions/checkout@v3
