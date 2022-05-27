@@ -13,14 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile:
-          - docker/nginx/Dockerfile
-          - docker/nginx/testing/Dockerfile
           - docker/sia/Dockerfile
           - packages/dashboard/Dockerfile
           - packages/dashboard-v2/Dockerfile
-          - packages/dnslink-api/Dockerfile
           - packages/handshake-api/Dockerfile
-          - packages/website/Dockerfile
     steps:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v2.0.0
