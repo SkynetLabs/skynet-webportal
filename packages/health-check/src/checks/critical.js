@@ -122,8 +122,9 @@ async function registryWriteAndReadCheck(done) {
 
 // directServerApiAccessCheck returns the basic server api check on direct server address
 async function directServerApiAccessCheck(done) {
-  if (!process.env.SERVER_DOMAIN) {
-    return done({ up: false, errors: [{ message: "SERVER_DOMAIN env variable not configured" }] });
+  // skip if SERVER_DOMAIN is not set or it equals PORTAL_DOMAIN (single server portals)
+  if (!process.env.SERVER_DOMAIN || process.env.SERVER_DOMAIN === process.env.PORTAL_DOMAIN) {
+    return done();
   }
 
   const [portalAccessCheck, serverAccessCheck] = await Promise.all([
