@@ -72,10 +72,6 @@ services:
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - ./docker/data/certbot:/etc/letsencrypt
-      - ./docker/nginx/libs:/etc/nginx/libs
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/nginx/conf.d.templates:/etc/nginx/templates
-      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
     networks:
       shared:
         ipv4_address: 10.10.10.30
