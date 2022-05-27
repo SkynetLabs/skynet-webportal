@@ -14,8 +14,6 @@ jobs:
       matrix:
         dockerfile:
           - docker/sia/Dockerfile
-          - packages/dashboard-v2/Dockerfile
-          - packages/handshake-api/Dockerfile
           - packages/health-check/Dockerfile
     steps:
       - uses: actions/checkout@v3
