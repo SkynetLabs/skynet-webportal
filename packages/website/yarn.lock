@@ -2202,10 +2202,10 @@
     escape-string-regexp "^2.0.0"
     lodash.deburr "^4.1.0"
 
-"@skynetlabs/tus-js-client@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@skynetlabs/tus-js-client/-/tus-js-client-2.4.0.tgz#1950ff74d531ee049d2e03a78cda393d644712b2"
-  integrity sha512-UnlUYoG4FHPafuFPaqgqZbPOi3TX8wymvZG03QbFo9y5ifKi8xckZZuv8ehcDOmmLoS4PBO4XgRkgPxtk602zw==
+"@skynetlabs/tus-js-client@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@skynetlabs/tus-js-client/-/tus-js-client-2.4.1.tgz#01e70e8c92fb3ec043b0c7da5206d7b96149c162"
+  integrity sha512-cc//2XeIqfZQ7rC182MbMwx/xTh1Cw1mQb2BmeHh6rO+coioyUSX71znPCsvijdKM+3NYXbhg5r/ZV5028OXfg==
   dependencies:
     buffer-from "^1.1.2"
     combine-errors "^3.0.3"
@@ -11026,12 +11026,12 @@ sjcl@^1.0.8:
   resolved "https://registry.yarnpkg.com/sjcl/-/sjcl-1.0.8.tgz#f2ec8d7dc1f0f21b069b8914a41a8f236b0e252a"
   integrity sha512-LzIjEQ0S0DpIgnxMEayM1rq9aGwGRG4OnZhCdjx7glTaJtf4zRfpg87ImfjSJjoW9vKpagd82McDOwbRT5kQKQ==
 
-skynet-js@4.2.2-beta:
-  version "4.2.2-beta"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.2.2-beta.tgz#0ebfed7a2f5ce7e5193a3b2e0f8e85c33f28000d"
-  integrity sha512-OmHDC9OgW99Y2CS/zs/Htk/sCEhCkU3eAsvXpzZSMOjV+prm7txsbPWXs2yLpSQbkyJK7Q4jJEybTguq2PK0cw==
+skynet-js@4.2.3-beta:
+  version "4.2.3-beta"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.2.3-beta.tgz#61310f061a5bcf47bd6ba1168739e88581ee7b00"
+  integrity sha512-5CHpA5FIgir+xuLCqCttb2gdbp69ctcYmV+4Th1rwSXoDNNyq3Q/SvdBaArceKUvQaMlbLVWhCZFRoxgPknY7A==
   dependencies:
-    "@skynetlabs/tus-js-client" "^2.4.0"
+    "@skynetlabs/tus-js-client" "^2.4.1"
     async-mutex "^0.3.2"
     axios "^0.27.2"
     base32-decode "^1.0.0"
