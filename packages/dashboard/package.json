@@ -10,7 +10,7 @@
   "dependencies": {
     "@fontsource/sora": "4.5.8",
     "@fontsource/source-sans-pro": "4.5.9",
-    "@stripe/react-stripe-js": "1.7.2",
+    "@stripe/react-stripe-js": "1.8.1",
     "@stripe/stripe-js": "1.29.0",
     "classnames": "2.3.1",
     "copy-text-to-clipboard": "^3.0.1",
