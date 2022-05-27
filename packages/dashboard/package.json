@@ -27,7 +27,7 @@
     "react-dom": "17.0.2",
     "react-toastify": "9.0.0",
     "skynet-js": "3.0.2",
-    "stripe": "8.220.0",
+    "stripe": "9.5.0",
     "swr": "1.3.0",
     "yup": "0.32.11"
   },
