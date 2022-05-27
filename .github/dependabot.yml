@@ -4,7 +4,7 @@ updates:
     directory: "/packages/dashboard"
     schedule:
       interval: monthly
-  - package-ecosystem: docker
+ - package-ecosystem: docker
     directory: "/docker/sia"
     schedule:
       interval: monthly
