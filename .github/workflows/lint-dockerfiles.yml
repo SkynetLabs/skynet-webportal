@@ -13,8 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         dockerfile:
-          - docker/nginx/Dockerfile
-          - docker/nginx/testing/Dockerfile
           - docker/sia/Dockerfile
           - packages/dashboard/Dockerfile
           - packages/dnslink-api/Dockerfile
