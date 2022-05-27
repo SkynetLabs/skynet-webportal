@@ -22,6 +22,7 @@ services:
         branch: portal-latest
     container_name: sia
     restart: unless-stopped
+    stop_grace_period: 5m
     logging: *default-logging
     environment:
       - SIA_MODULES=gctwra
@@ -56,9 +57,9 @@ services:
   nginx:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./docker/nginx/Dockerfile
-    image: skynetlabs/nginx
+    #   context: https://github.com/SkynetLabs/webportal-nginx.git#main
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-nginx:0.1.1
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -71,10 +72,6 @@ services:
       - ./docker/data/nginx/skynet:/data/nginx/skynet:ro
       - ./docker/data/sia/apipassword:/data/sia/apipassword:ro
       - ./docker/data/certbot:/etc/letsencrypt
-      - ./docker/nginx/libs:/etc/nginx/libs
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/nginx/conf.d.templates:/etc/nginx/templates
-      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
     networks:
       shared:
         ipv4_address: 10.10.10.30
@@ -90,12 +87,15 @@ services:
   website:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./packages/website/Dockerfile
-    image: skynetlabs/website
+    #   context: https://github.com/SkynetLabs/webportal-website.git#main
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-website:0.1.0
     container_name: website
     restart: unless-stopped
     logging: *default-logging
+    volumes:
+      - ./docker/data/website/.cache:/usr/app/.cache
+      - ./docker/data/website/.public:/usr/app/public
     env_file:
       - .env
     networks:
@@ -128,9 +128,9 @@ services:
   handshake-api:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./packages/handshake-api/Dockerfile
-    image: skynetlabs/handshake-api
+    #   context: https://github.com/SkynetLabs/webportal-handshake-api.git#main
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-handshake-api:0.1.1
     container_name: handshake-api
     restart: unless-stopped
     logging: *default-logging
@@ -152,9 +152,9 @@ services:
   dnslink-api:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./packages/dnslink-api/Dockerfile
-    image: skynetlabs/dnslink-api
+    #   context: https://github.com/SkynetLabs/webportal-dnslink-api.git#main
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-dnslink-api:0.1.1
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
@@ -167,9 +167,9 @@ services:
   health-check:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/skynet-webportal.git#master
-    #   dockerfile: ./packages/health-check/Dockerfile
-    image: skynetlabs/health-check
+    #   context: https://github.com/SkynetLabs/webportal-health-check.git#main
+    #   dockerfile: Dockerfile
+    image: skynetlabs/webportal-health-check:0.1.3
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging

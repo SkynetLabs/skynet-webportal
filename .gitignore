@@ -67,10 +67,6 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-# Cypress
-packages/website/cypress/screenshots
-packages/website/cypress/videos
-
 # Docker data
 docker/data
 

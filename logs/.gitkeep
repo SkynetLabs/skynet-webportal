@@ -1,0 +1,2 @@
+Purpose of this file is that `logs` dir can be commited to git and it will be
+present on portal servers. The rest of files in `logs` dir are git ignored.

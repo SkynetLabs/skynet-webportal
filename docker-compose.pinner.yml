@@ -1,0 +1,28 @@
+version: "3.7"
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  pinner:
+    # uncomment "build" and comment out "image" to build from sources
+    # build: https://github.com/SkynetLabs/pinner.git#main
+    image: skynetlabs/pinner:0.1.0
+    container_name: pinner
+    restart: unless-stopped
+    logging: *default-logging
+    env_file:
+      - .env
+    environment:
+      - PINNER_LOG_LEVEL=${PINNER_LOG_LEVEL:-info}
+    expose:
+      - 4000
+    networks:
+      shared:
+        ipv4_address: 10.10.10.130
+    depends_on:
+      - mongo
+      - sia
