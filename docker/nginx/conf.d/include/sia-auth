@@ -1,4 +1,0 @@
-rewrite_by_lua_block {
-    -- set basic authorization header with base64 encoded apipassword
-    ngx.req.set_header("Authorization", require("skynet.utils").authorization_header())
-}

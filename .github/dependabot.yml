@@ -1,23 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: "/packages/dnslink-api"
-    schedule:
-      interval: monthly
-  - package-ecosystem: npm
-    directory: "/packages/handshake-api"
-    schedule:
-      interval: monthly
-  - package-ecosystem: npm
     directory: "/packages/health-check"
-    schedule:
-      interval: monthly
-  - package-ecosystem: npm
-    directory: "/packages/website"
-    schedule:
-      interval: monthly
-  - package-ecosystem: docker
-    directory: "/docker/nginx"
     schedule:
       interval: monthly
   - package-ecosystem: docker
@@ -25,18 +9,6 @@ updates:
     schedule:
       interval: monthly
   - package-ecosystem: docker
-    directory: "/packages/dnslink-api"
-    schedule:
-      interval: monthly
-  - package-ecosystem: docker
-    directory: "/packages/handshake-api"
-    schedule:
-      interval: monthly
-  - package-ecosystem: docker
     directory: "/packages/health-check"
-    schedule:
-      interval: monthly
-  - package-ecosystem: docker
-    directory: "/packages/website"
     schedule:
       interval: monthly
