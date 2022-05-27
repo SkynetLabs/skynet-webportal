@@ -5,10 +5,6 @@ updates:
     schedule:
       interval: monthly
   - package-ecosystem: npm
-    directory: "/packages/dnslink-api"
-    schedule:
-      interval: monthly
-  - package-ecosystem: npm
     directory: "/packages/handshake-api"
     schedule:
       interval: monthly
@@ -26,10 +22,6 @@ updates:
       interval: monthly
   - package-ecosystem: docker
     directory: "/packages/dashboard"
-    schedule:
-      interval: monthly
-  - package-ecosystem: docker
-    directory: "/packages/dnslink-api"
     schedule:
       interval: monthly
   - package-ecosystem: docker

@@ -1,9 +1,0 @@
-if ($request_method = 'OPTIONS') {
-    include /etc/nginx/conf.d/include/cors-headers;
-    more_set_headers 'Access-Control-Max-Age: 1728000';
-    more_set_headers 'Content-Type: text/plain; charset=utf-8';
-    more_set_headers 'Content-Length: 0';
-    return 204;
-}
-
-include /etc/nginx/conf.d/include/cors-headers;
