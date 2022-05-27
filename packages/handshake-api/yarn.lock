@@ -22,10 +22,10 @@ bcfg@~0.1.7:
   dependencies:
     bsert "~0.0.10"
 
-bcurl@~0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/bcurl/-/bcurl-0.1.9.tgz#0bde2fe7cf90211fbad55487c4c6b3d9163e91ac"
-  integrity sha512-WV9LKCqFPtmGwIOqHexJx3Mm/9H/G5bwSCZxJXq9WRrnVQmd58L+Ltxgp/2QicveDG6AgTfepP6JtNiYWbbeHQ==
+bcurl@~0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/bcurl/-/bcurl-0.2.0.tgz#042e6d3075b88258955efdf68749131175ce5dfa"
+  integrity sha512-uBWc/w3AqjAfo6/+ODoRSoY/w/C7UaU/9AYcXjxgObTyUf3lvV5jCuAU/dSZyWysDyWBQkPzllOd7KZkwJHnwg==
   dependencies:
     brq "~0.1.8"
     bsert "~0.0.10"
@@ -231,13 +231,13 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hs-client@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/hs-client/-/hs-client-0.0.10.tgz#b2801441613fbb255cbeacbc764085a36c42ee5e"
-  integrity sha512-15tfeQEMRS1FZA0q9gFbQ1jYs8v4z9oKw9xFwVEyRuckn72hoVAglN4IrFxkOCDMYV7TWCY/nO/yNZp5njYFBw==
+hs-client@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/hs-client/-/hs-client-0.0.11.tgz#6ee3e8cc997d94911884bd8b3c73e7fee34321c1"
+  integrity sha512-DunENysXNxADDs6YvTjIgFG38U+mGnlDpfEhUzHOAOnkHyYwAIm0PwYJEmJqsbLnpY31xg0lPfRV8t+Ugz+Dew==
   dependencies:
     bcfg "~0.1.7"
-    bcurl "~0.1.9"
+    bcurl "~0.2.0"
     bsert "~0.0.10"
 
 http-errors@2.0.0:
