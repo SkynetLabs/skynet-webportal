@@ -20,7 +20,6 @@ jobs:
           - packages/dnslink-api/Dockerfile
           - packages/handshake-api/Dockerfile
           - packages/health-check/Dockerfile
-          - packages/website/Dockerfile
     steps:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v2.0.0
