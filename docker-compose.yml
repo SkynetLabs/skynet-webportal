@@ -171,7 +171,7 @@ services:
   health-check:
     # uncomment "build" and comment out "image" to build from sources
     # build:
-    #   context: https://github.com/SkynetLabs/webportal-health-check.git#master
+    #   context: https://github.com/SkynetLabs/webportal-health-check.git#main
     #   dockerfile: Dockerfile
     image: skynetlabs/webportal-health-check:0.1.3
     container_name: health-check
