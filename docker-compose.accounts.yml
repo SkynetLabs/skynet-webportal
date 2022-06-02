@@ -59,47 +59,22 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-accounts-dashboard.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-accounts-dashboard:0.1.0
+    image: skynetlabs/webportal-accounts-dashboard:1.1.0
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
     env_file:
       - .env
     environment:
-      - NEXT_PUBLIC_PORTAL_DOMAIN=${PORTAL_DOMAIN}
-      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
+      - GATSBY_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
-      - ./docker/data/dashboard/.next:/usr/app/.next
+      - ./docker/data/dashboard/.cache:/usr/app/.cache
+      - ./docker/data/dashboard/public:/usr/app/public
     networks:
       shared:
         ipv4_address: 10.10.10.85
     expose:
-      - 3000
+      - 9000
     depends_on:
       - mongo
-
-  # Do not build dashboard-v2 until we're ready to make a switch
-  # ============================================================
-  # dashboard-v2:
-  #   build:
-  #     context: https://github.com/SkynetLabs/webportal-accounts-dashboard.git#main
-  #     dockerfile: Dockerfile
-  #   image: skynetlabs/webportal-accounts-dashboard@1.0.1
-  #   container_name: dashboard-v2
-  #   restart: unless-stopped
-  #   logging: *default-logging
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
-  #     - GATSBY_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
-  #   volumes:
-  #     - ./docker/data/dashboard-v2/.cache:/usr/app/.cache
-  #     - ./docker/data/dashboard-v2/public:/usr/app/public
-  #   networks:
-  #     shared:
-  #       ipv4_address: 10.10.10.86
-  #   expose:
-  #     - 9000
-  #   depends_on:
-  #     - mongo
