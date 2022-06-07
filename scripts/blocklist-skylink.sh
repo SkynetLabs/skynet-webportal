@@ -28,8 +28,8 @@ if test -f "$1"; then
         else
             echo "Incorrect skylink at line ${line_number}: $line" && exit 1
         fi
-        let line_number+=1
-    done < $1;
+        (( line_number++ ))
+    done < "$1";
 else
     skylinks=("$1") # just single skylink passed as input argument
 fi
