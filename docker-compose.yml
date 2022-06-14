@@ -20,6 +20,7 @@ services:
       dockerfile: scratch/Dockerfile
       args:
         branch: portal-latest
+    command: --disable-api-security --api-addr :9980 --modules gtcwra
     container_name: sia
     restart: unless-stopped
     stop_grace_period: 5m
