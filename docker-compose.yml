@@ -16,8 +16,8 @@ networks:
 services:
   sia:
     build:
-      context: ./docker/sia
-      dockerfile: Dockerfile
+      context: https://github.com/SkynetLabs/docker-skyd.git#main
+      dockerfile: scratch/Dockerfile
       args:
         branch: portal-latest
     container_name: sia
