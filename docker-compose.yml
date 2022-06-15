@@ -17,7 +17,7 @@ services:
   sia:
     build:
       context: https://github.com/SkynetLabs/docker-skyd.git#main
-      dockerfile: scratch/Dockerfile
+      dockerfile: bullseye-slim/Dockerfile
       args:
         branch: portal-latest
     command: --disable-api-security --api-addr :9980 --modules gtcwra
