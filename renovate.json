@@ -1,5 +1,4 @@
 {
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["config:base", ":prHourlyLimitNone"],
+  "enabledManagers": ["docker-compose"]
 }
