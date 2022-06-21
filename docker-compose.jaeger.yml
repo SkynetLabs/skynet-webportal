@@ -21,7 +21,7 @@ services:
       - JAEGER_REPORTER_LOG_SPANS=false
 
   jaeger-agent:
-    image: jaegertracing/jaeger-agent:1.32.0
+    image: jaegertracing/jaeger-agent:1.35.2
     command:
       [
         "--reporter.grpc.host-port=jaeger-collector:14250",
