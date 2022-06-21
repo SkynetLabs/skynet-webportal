@@ -68,7 +68,7 @@ services:
       - elasticsearch
 
   jaeger-query:
-    image: jaegertracing/jaeger-query:1.32.0
+    image: jaegertracing/jaeger-query:1.35.2
     entrypoint: /wait_to_start.sh
     container_name: jaeger-query
     restart: on-failure
