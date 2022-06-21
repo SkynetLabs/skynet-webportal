@@ -41,7 +41,7 @@ services:
       - 9980
 
   certbot:
-    image: certbot/dns-route53:v1.25.0
+    image: certbot/dns-route53:v1.28.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
     restart: unless-stopped
