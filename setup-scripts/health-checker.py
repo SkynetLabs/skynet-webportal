@@ -34,8 +34,8 @@ DISCORD_MAX_MESSAGE_LENGTH = 1900
 GB = 1 << 30  # 1 GiB in bytes
 
 # Free disk space threshold used for notices and shutting down siad.
-FREE_DISK_SPACE_THRESHOLD = 100 * GB
-FREE_DISK_SPACE_THRESHOLD_CRITICAL = 60 * GB
+FREE_DISK_SPACE_THRESHOLD = 60 * GB
+FREE_DISK_SPACE_THRESHOLD_CRITICAL = 30 * GB
 
 # Disk usage dump log file (relative to this .py script).
 DISK_USAGE_DUMP_LOG = "../../devops/disk-monitor/disk-usage-dump.log"
