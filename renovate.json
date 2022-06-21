@@ -1,4 +1,7 @@
 {
   "extends": ["config:base", ":prHourlyLimitNone"],
-  "enabledManagers": ["docker-compose"]
+  "enabledManagers": ["docker-compose"],
+  "packageRules": [
+    { "groupName": "jaegertracing", "matchPackagePatterns": ["jaegertracing"] }
+  ]
 }
