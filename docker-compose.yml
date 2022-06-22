@@ -41,7 +41,7 @@ services:
       - 9980
 
   certbot:
-    image: certbot/dns-route53:v1.25.0
+    image: certbot/dns-route53:v1.28.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
     restart: unless-stopped
@@ -59,7 +59,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-nginx.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-nginx:0.3.0
+    image: skynetlabs/webportal-nginx:0.3.1
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -89,7 +89,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-website.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-website:0.1.0
+    image: skynetlabs/webportal-website:0.2.0
     container_name: website
     restart: unless-stopped
     logging: *default-logging
