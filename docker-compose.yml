@@ -89,7 +89,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-website.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-website:0.2.0
+    image: skynetlabs/webportal-website:0.2.1
     container_name: website
     restart: unless-stopped
     logging: *default-logging
