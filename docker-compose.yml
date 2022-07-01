@@ -41,6 +41,10 @@ services:
       - 9980
 
   certbot:
+    # replace this image with the image supporting your dns provider from
+    # https://hub.docker.com/r/certbot/certbot and adjust CERTBOT_ARGS env variable
+    # note: you will need to authenticate your dns request so consult the plugin docs
+    # configuration https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins
     image: certbot/dns-route53:v1.28.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
