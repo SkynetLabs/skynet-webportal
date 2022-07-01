@@ -65,9 +65,6 @@ services:
     logging: *default-logging
     env_file:
       - .env
-    environment:
-      - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
-      - GATSBY_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.cache:/usr/app/.cache
       - ./docker/data/dashboard/public:/usr/app/public
