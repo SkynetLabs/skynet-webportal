@@ -20,13 +20,12 @@ services:
       dockerfile: scratch/Dockerfile
       args:
         branch: portal-latest
-    command: --disable-api-security --api-addr :9980 --modules gtcwra
+    command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
     stop_grace_period: 5m
     logging: *default-logging
     environment:
-      - SIA_MODULES=gctwra
       - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
       - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
       - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
