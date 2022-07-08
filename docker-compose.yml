@@ -45,6 +45,19 @@ services:
     # https://hub.docker.com/r/certbot/certbot and adjust CERTBOT_ARGS env variable
     # note: you will need to authenticate your dns request so consult the plugin docs
     # configuration https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins
+    #
+    # =================================================================================
+    # example docker-compose.yml changes required for Cloudflare dns provider:
+    #
+    # image: certbot/dns-cloudflare
+    # environment:
+    #   - CERTBOT_ARGS=--dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
+    #
+    # create ./docker/data/certbot/cloudflare.ini file with the following content:
+    # dns_cloudflare_api_token = <api key generated at https://dash.cloudflare.com/profile/api-tokens>
+    #
+    # make sure that the file has 0400 permissions with:
+    # chmod 0400 ./docker/data/certbot/cloudflare.ini
     image: certbot/dns-route53:v1.28.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
