@@ -16,6 +16,8 @@ services:
     logging: *default-logging
     env_file:
       - .env
+    volumes:
+      - ./docker/data/pinner/logs:/logs
     environment:
       - PINNER_LOG_LEVEL=${PINNER_LOG_LEVEL:-info}
     expose:
