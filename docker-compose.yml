@@ -59,7 +59,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-nginx.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-nginx:0.3.3
+    image: skynetlabs/webportal-nginx:0.4.0
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
