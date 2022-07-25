@@ -128,7 +128,7 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      - HSD_LOG_CONSOLE=false
+      - HSD_LOG_CONSOLE=true
       - HSD_HTTP_HOST=0.0.0.0
       - HSD_NETWORK=main
       - HSD_PORT=12037
