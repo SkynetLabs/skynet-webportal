@@ -16,16 +16,16 @@ networks:
 services:
   sia:
     build:
-      context: ./docker/sia
-      dockerfile: Dockerfile
+      context: https://github.com/SkynetLabs/docker-skyd.git#main
+      dockerfile: scratch/Dockerfile
       args:
         branch: portal-latest
+    command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
     stop_grace_period: 5m
     logging: *default-logging
     environment:
-      - SIA_MODULES=gctwra
       - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
       - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
       - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
@@ -41,7 +41,24 @@ services:
       - 9980
 
   certbot:
-    image: certbot/dns-route53:v1.28.0
+    # replace this image with the image supporting your dns provider from
+    # https://hub.docker.com/r/certbot/certbot and adjust CERTBOT_ARGS env variable
+    # note: you will need to authenticate your dns request so consult the plugin docs
+    # configuration https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins
+    #
+    # =================================================================================
+    # example docker-compose.yml changes required for Cloudflare dns provider:
+    #
+    # image: certbot/dns-cloudflare
+    # environment:
+    #   - CERTBOT_ARGS=--dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
+    #
+    # create ./docker/data/certbot/cloudflare.ini file with the following content:
+    # dns_cloudflare_api_token = <api key generated at https://dash.cloudflare.com/profile/api-tokens>
+    #
+    # make sure that the file has 0400 permissions with:
+    # chmod 0400 ./docker/data/certbot/cloudflare.ini
+    image: certbot/dns-route53:v1.29.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
     restart: unless-stopped
@@ -59,7 +76,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-nginx.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-nginx:0.3.3
+    image: skynetlabs/webportal-nginx:0.4.0
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -169,7 +186,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-health-check.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-health-check:0.2.0
+    image: skynetlabs/webportal-health-check:0.3.0
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging
