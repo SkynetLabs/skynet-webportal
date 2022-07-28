@@ -123,7 +123,7 @@ services:
 
   handshake:
     image: handshakeorg/hsd:4.0.2
-    command: --chain-migrate=3 --no-wallet --compact-tree-on-init --network=main --http-host=0.0.0.0
+    command: --chain-migrate=3 --no-wallet --no-auth --compact-tree-on-init --network=main --http-host=0.0.0.0
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging
