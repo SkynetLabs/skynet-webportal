@@ -122,17 +122,11 @@ services:
       - 9000
 
   handshake:
-    image: skynetlabs/hsd:3.0.1
-    command: --chain-migrate=2 --wallet-migrate=1
+    image: handshakeorg/hsd:4.0.2
+    command: --chain-migrate=3 --no-wallet --compact-tree-on-init --network=main --http-host=0.0.0.0
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging
-    environment:
-      - HSD_HTTP_HOST=0.0.0.0
-      - HSD_NETWORK=main
-      - HSD_PORT=12037
-    env_file:
-      - .env
     volumes:
       - ./docker/data/handshake/.hsd:/root/.hsd
     networks:
