@@ -19,7 +19,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/docker-skyd.git#main
     #   dockerfile: scratch/Dockerfile
-    image: skynetlabs/skyd:1.6.2
+    image: skynetlabs/skyd:1.6.3
     command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
