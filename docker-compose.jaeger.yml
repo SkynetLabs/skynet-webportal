@@ -21,7 +21,7 @@ services:
       - JAEGER_REPORTER_LOG_SPANS=false
 
   jaeger-agent:
-    image: jaegertracing/jaeger-agent:1.36.0
+    image: jaegertracing/jaeger-agent:1.37.0
     command:
       [
         "--reporter.grpc.host-port=jaeger-collector:14250",
@@ -43,7 +43,7 @@ services:
       - jaeger-collector
 
   jaeger-collector:
-    image: jaegertracing/jaeger-collector:1.36.0
+    image: jaegertracing/jaeger-collector:1.37.0
     entrypoint: /wait_to_start.sh
     container_name: jaeger-collector
     restart: on-failure
@@ -68,7 +68,7 @@ services:
       - elasticsearch
 
   jaeger-query:
-    image: jaegertracing/jaeger-query:1.36.0
+    image: jaegertracing/jaeger-query:1.37.0
     entrypoint: /wait_to_start.sh
     container_name: jaeger-query
     restart: on-failure
