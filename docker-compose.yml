@@ -15,11 +15,11 @@ networks:
 
 services:
   sia:
-    build:
-      context: https://github.com/SkynetLabs/docker-skyd.git#main
-      dockerfile: scratch/Dockerfile
-      args:
-        branch: portal-latest
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/docker-skyd.git#main
+    #   dockerfile: scratch/Dockerfile
+    image: skynetlabs/skyd:1.6.4
     command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
