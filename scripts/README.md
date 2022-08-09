@@ -4,6 +4,10 @@ This package contains useful scripts for managing a Skynet Webportal.
 
 ## Available Scripts
 
+**blocklist-skylink.sh**\
+The `blocklist-skylink.sh` script adds a skylink to the blocklist on all
+servers.
+
 **maintenance-upgrade.sh**\
 The `maintenance-upgrade.sh` script upgrades the docker images for nodes on
 a maintenance server.
