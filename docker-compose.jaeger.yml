@@ -93,7 +93,7 @@ services:
       - elasticsearch
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
     container_name: elasticsearch
     restart: on-failure
     logging: *default-logging
