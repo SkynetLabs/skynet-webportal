@@ -5,15 +5,13 @@
 # would use docker-compose with the only difference being that you don't need to specify compose files. For more
 # information you can run `./dc` or `./dc help`.
 
-# get current working directory of this script
+# get current working directory of this script and prefix all files with it to
+# be able to call this script from anywhere and not only root directory of
+# skynet-webportal project
 cwd="$(dirname -- "$0";)";
 
-if [ -f ${cwd}/.env ]; then
-  OLD_IFS=$IFS
-  IFS=$'\n'
-  for x in $(grep -v '^#.*' ${cwd}/.env); do export $x; done
-  IFS=$OLD_IFS
-fi
+# get portal modules configuration from .env file (if defined more than once, the last one is used)
+PORTAL_MODULES=$(grep -e "^PORTAL_MODULES=" ${cwd}.env | tail -1 | sed "s/PORTAL_MODULES=//")
 
 # include base docker compose file
 COMPOSE_FILES="-f ${cwd}/docker-compose.yml"
