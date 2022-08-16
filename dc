@@ -11,7 +11,7 @@
 cwd="$(dirname -- "$0";)";
 
 # get portal modules configuration from .env file (if defined more than once, the last one is used)
-PORTAL_MODULES=$(grep -e "^PORTAL_MODULES=" ${cwd}.env | tail -1 | sed "s/PORTAL_MODULES=//")
+PORTAL_MODULES=$(grep -e "^PORTAL_MODULES=" ${cwd}/.env | tail -1 | sed "s/PORTAL_MODULES=//")
 
 # include base docker compose file
 COMPOSE_FILES="-f ${cwd}/docker-compose.yml"
