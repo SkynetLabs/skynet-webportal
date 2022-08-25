@@ -14,7 +14,7 @@ services:
       - MONGODB_PASSWORD=${SKYNET_DB_PASS}
 
   mongo:
-    image: mongo:4.4.16
+    image: mongo:6.0.1
     command: --keyFile=/data/mgkey --replSet=${SKYNET_DB_REPLICASET:-skynet} --setParameter ShardingTaskExecutorPoolMinSize=10
     container_name: mongo
     restart: unless-stopped
