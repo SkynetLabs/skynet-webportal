@@ -38,4 +38,4 @@ services:
       - blocker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/abuse-scanner:/tmp
+      - /tmp:/tmp
