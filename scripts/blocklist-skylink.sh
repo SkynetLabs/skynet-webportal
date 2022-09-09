@@ -3,8 +3,6 @@
 # This script is for manual skylink blocking. It accepts either a single 
 # skylink or a file containing list of skylinks. The script is intented
 # for manual use and it should be run locally on each skynet webportal server. 
-# The automatic script that is used to continuously sync an Airtable sheet 
-# list with the blocklist on the web portals is /setup-scripts/blocklist-airtable.py 
 
 set -e # exit on first error
 

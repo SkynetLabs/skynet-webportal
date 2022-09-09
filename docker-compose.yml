@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 x-logging: &default-logging
   driver: json-file
@@ -15,17 +15,19 @@ networks:
 
 services:
   sia:
-    build:
-      context: ./docker/sia
-      dockerfile: Dockerfile
-      args:
-        branch: portal-latest
+    # uncomment "build" and comment out "image" to build from sources
+    # build:
+    #   context: https://github.com/SkynetLabs/docker-skyd.git#main
+    #   dockerfile: scratch/Dockerfile
+    #   args:
+    #     branch: master
+    image: skynetlabs/skyd:1.6.8
+    command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
     stop_grace_period: 5m
     logging: *default-logging
     environment:
-      - SIA_MODULES=gctwra
       - SKYD_DISK_CACHE_ENABLED=${SKYD_DISK_CACHE_ENABLED:-true}
       - SKYD_DISK_CACHE_SIZE=${SKYD_DISK_CACHE_SIZE:-53690000000} # 50GB
       - SKYD_DISK_CACHE_MIN_HITS=${SKYD_DISK_CACHE_MIN_HITS:-3}
@@ -41,7 +43,24 @@ services:
       - 9980
 
   certbot:
-    image: certbot/dns-route53:v1.25.0
+    # replace this image with the image supporting your dns provider from
+    # https://hub.docker.com/r/certbot/certbot and adjust CERTBOT_ARGS env variable
+    # note: you will need to authenticate your dns request so consult the plugin docs
+    # configuration https://eff-certbot.readthedocs.io/en/stable/using.html#dns-plugins
+    #
+    # =================================================================================
+    # example docker-compose.yml changes required for Cloudflare dns provider:
+    #
+    # image: certbot/dns-cloudflare
+    # environment:
+    #   - CERTBOT_ARGS=--dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
+    #
+    # create ./docker/data/certbot/cloudflare.ini file with the following content:
+    # dns_cloudflare_api_token = <api key generated at https://dash.cloudflare.com/profile/api-tokens>
+    #
+    # make sure that the file has 0400 permissions with:
+    # chmod 0400 ./docker/data/certbot/cloudflare.ini
+    image: certbot/dns-route53:v1.30.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
     restart: unless-stopped
@@ -59,7 +78,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-nginx.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-nginx:0.2.0
+    image: skynetlabs/webportal-nginx:0.5.2
     container_name: nginx
     restart: unless-stopped
     logging: *default-logging
@@ -89,7 +108,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-website.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-website:0.1.0
+    image: skynetlabs/webportal-website:0.2.2
     container_name: website
     restart: unless-stopped
     logging: *default-logging
@@ -105,18 +124,11 @@ services:
       - 9000
 
   handshake:
-    image: skynetlabs/hsd:3.0.1
-    command: --chain-migrate=2 --wallet-migrate=1
+    image: handshakeorg/hsd:4.0.2
+    command: --chain-migrate=3 --no-wallet --no-auth --compact-tree-on-init --network=main --http-host=0.0.0.0
     container_name: handshake
     restart: unless-stopped
     logging: *default-logging
-    environment:
-      - HSD_LOG_CONSOLE=false
-      - HSD_HTTP_HOST=0.0.0.0
-      - HSD_NETWORK=main
-      - HSD_PORT=12037
-    env_file:
-      - .env
     volumes:
       - ./docker/data/handshake/.hsd:/root/.hsd
     networks:
@@ -130,7 +142,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-handshake-api.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-handshake-api:0.1.1
+    image: skynetlabs/webportal-handshake-api:0.1.2
     container_name: handshake-api
     restart: unless-stopped
     logging: *default-logging
@@ -154,7 +166,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-dnslink-api.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-dnslink-api:0.1.1
+    image: skynetlabs/webportal-dnslink-api:0.1.2
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
@@ -169,7 +181,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-health-check.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-health-check:0.1.3
+    image: skynetlabs/webportal-health-check:0.5.0
     container_name: health-check
     restart: unless-stopped
     logging: *default-logging

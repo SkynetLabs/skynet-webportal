@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 x-logging: &default-logging
   driver: json-file
@@ -22,7 +22,7 @@ services:
   accounts:
     # uncomment "build" and comment out "image" to build from sources
     # build: https://github.com/SkynetLabs/skynet-accounts.git#main
-    image: skynetlabs/skynet-accounts:1.2.0
+    image: skynetlabs/skynet-accounts:1.3.0
     container_name: accounts
     restart: unless-stopped
     logging: *default-logging
@@ -59,15 +59,12 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-accounts-dashboard.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-accounts-dashboard:1.1.1
+    image: skynetlabs/webportal-accounts-dashboard:2.1.0
     container_name: dashboard
     restart: unless-stopped
     logging: *default-logging
     env_file:
       - .env
-    environment:
-      - GATSBY_PORTAL_DOMAIN=${PORTAL_DOMAIN}
-      - GATSBY_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     volumes:
       - ./docker/data/dashboard/.cache:/usr/app/.cache
       - ./docker/data/dashboard/public:/usr/app/public
