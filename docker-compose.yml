@@ -21,7 +21,7 @@ services:
     #   dockerfile: scratch/Dockerfile
     #   args:
     #     branch: master
-    image: skynetlabs/skyd:1.6.8
+    image: skynetlabs/skyd:1.6.9
     command: --disable-api-security --api-addr :9980 --modules gctwra
     container_name: sia
     restart: unless-stopped
