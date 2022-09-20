@@ -1,0 +1,15 @@
+/home/user/skynet-webportal/docker/data/nginx/logs/*.log {
+    daily
+    rotate 3650
+    minsize 500M
+    create 644 root root
+    notifempty
+    dateext
+    missingok
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        docker exec nginx nginx -s reopen
+    endscript
+}
