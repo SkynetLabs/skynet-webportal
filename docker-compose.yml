@@ -166,7 +166,7 @@ services:
     # build:
     #   context: https://github.com/SkynetLabs/webportal-dnslink-api.git#main
     #   dockerfile: Dockerfile
-    image: skynetlabs/webportal-dnslink-api:0.2.0
+    image: skynetlabs/webportal-dnslink-api:0.2.1
     container_name: dnslink-api
     restart: unless-stopped
     logging: *default-logging
