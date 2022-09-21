@@ -232,8 +232,7 @@ async def check_health():
         message += "{}/{} CRITICAL checks failed over the last {} hours! ".format(
             critical_checks_failed, critical_checks_total, CHECK_HOURS
         )
-        # Disabling as it creates notification fatigue.
-        # force_notify = True
+        force_notify = True
     else:
         message += "All {} critical checks passed. ".format(critical_checks_total)
 
@@ -241,8 +240,7 @@ async def check_health():
         message += "{}/{} extended checks failed over the last {} hours! ".format(
             extended_checks_failed, extended_checks_total, CHECK_HOURS
         )
-        # Disabling as it creates notification fatigue.
-        # force_notify = True
+        force_notify = True
     else:
         message += "All {} extended checks passed. ".format(extended_checks_total)
 
