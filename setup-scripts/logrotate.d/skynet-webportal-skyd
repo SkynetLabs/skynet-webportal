@@ -8,5 +8,6 @@
     dateext
     missingok
     compress
+    compressoptions --best
     delaycompress
 }
