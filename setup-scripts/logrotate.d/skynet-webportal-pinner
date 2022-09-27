@@ -1,5 +1,4 @@
-/home/user/skynet-webportal/docker/data/sia/*.log 
-/home/user/skynet-webportal/docker/data/sia/*/*.log {
+/home/user/skynet-webportal/docker/data/pinner/*.log {
     daily
     rotate 10
     minsize 100M
