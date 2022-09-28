@@ -1,7 +1,7 @@
 /home/user/skynet-webportal/docker/data/nginx/logs/*.log {
     daily
     rotate 3650
-    minsize 500M
+    minsize 5M
     create 644 root root
     notifempty
     dateext
