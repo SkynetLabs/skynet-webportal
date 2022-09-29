@@ -50,6 +50,7 @@ aws s3 sync --no-progress /home/user/skynet-webportal/docker/data/nginx/logs s3:
 # generate and sync skylinks dump
 SKYLINKS_PATH=logs/skylinks/$(date +"%Y-%m-%d").log
 mkdir -p /home/user/skynet-webportal/logs/skylinks # ensure path exists
+find /home/user/skynet-webportal/logs/skylinks -type f -mtime +7 -delete # delete skylink dumps older than 7 days
 docker exec sia siac skynet ls --recursive --alert-suppress > /home/user/skynet-webportal/${SKYLINKS_PATH}
 aws s3 cp --no-progress /home/user/skynet-webportal/${SKYLINKS_PATH} s3://${BUCKET_NAME}/${SERVER_PREFIX}/${SKYLINKS_PATH}
 
