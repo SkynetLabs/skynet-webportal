@@ -60,7 +60,7 @@ services:
     #
     # make sure that the file has 0400 permissions with:
     # chmod 0400 ./docker/data/certbot/cloudflare.ini
-    image: certbot/dns-route53:v1.30.0
+    image: certbot/dns-route53:v1.31.0
     entrypoint: sh /entrypoint.sh
     container_name: certbot
     restart: unless-stopped
